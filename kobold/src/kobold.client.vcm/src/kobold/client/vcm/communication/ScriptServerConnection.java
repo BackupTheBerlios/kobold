@@ -31,7 +31,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import kobold.client.vcm.KoboldVCMPlugin;
+
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.internal.ccvs.core.IServerConnection;
 import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException;
 import org.eclipse.team.internal.ccvs.core.util.Util;
@@ -58,14 +62,17 @@ public class ScriptServerConnection implements IServerConnection
 	private static boolean connected = false;
 
 	// cvs format for the repository without connection detail information(e.g. host:/home/cvs/repo)
-	private String repositoryLocation = "";
+	private String repositoryPath = "";
+	
 	private String localPath = "";
 	// The user name for the VCM
 	private String user;
+	//	 The password for the VCM
 	private String password;
-
+	//	 The server for the VCM
+	private String vcmServerLocation;
 	// The buffer for reading the InputStreams
-	private byte[] readLineBuffer = new byte[512];
+	private byte[] readLineBuffer = new byte[256];
 	
 	
 	// incoming from remote host
@@ -92,12 +99,13 @@ public class ScriptServerConnection implements IServerConnection
 	 *
 	 * The protected default constructor for this class
 	 * @param location the location of the cvs repository @see ICVSRepositoryLocation
-	 * @param password the password of the current user
 	 */
-	public ScriptServerConnection(String location, String user, String password) {
-		this.repositoryLocation = location;
-		this.password = password;
-		this.user = user;
+	public ScriptServerConnection(String repositoryPath) {
+		this.repositoryPath = repositoryPath;
+		this.password = getUserPassword();
+		this.user = getUserName();
+
+	
 	}
 	
 	
@@ -118,7 +126,7 @@ public class ScriptServerConnection implements IServerConnection
 			process = Util.createProcess(command, monitor);
 
 			inputStream = new PollingInputStream(new TimeoutInputStream(process.getInputStream(),
-				8192 /*bufferSize*/, 2900 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
+				8192 /*bufferSize*/, 2900 /*readTimeout*/, 1000 /* "was -1"closeTimeout*/), 60, monitor);
 			outputStream = new PollingOutputStream(new TimeoutOutputStream(process.getOutputStream(),
 				8192 /*buffersize*/, 1000 /*writeTimeout*/, 1000 /*closeTimeout*/), 60, monitor);
 
@@ -196,10 +204,23 @@ public class ScriptServerConnection implements IServerConnection
 	public void open(IProgressMonitor monitor,String[] command) throws IOException,
 			CVSAuthenticationException
 	{
+		String[] actualCommand = new String[command.length + 2];
+		actualCommand[0] = command[0];
+		actualCommand[1] = this.user;
+		actualCommand[2] = this.password;
+		for (int i = 1; i < command.length; i++) {
+			actualCommand[i + 2] = command[i];
+			
+		}
+		for (int i = 0; i < actualCommand.length; i++) {
+			System.out.print(actualCommand[i]);
+			System.out.print(" ** ");
+		}
+		System.out.println("endegelände");
 //		String[] command = ((CVSRepositoryLocation)location).getExtCommand(password);
 //		String[] command = {"C:\\Temp\\test","marvin"};
 		try {
-			process = Util.createProcess(command, monitor);
+			process = Util.createProcess(actualCommand, monitor);
 
 			inputStream = new PollingInputStream(new TimeoutInputStream(process.getInputStream(),
 				8192 /*bufferSize*/, 1000 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
@@ -267,29 +288,18 @@ public class ScriptServerConnection implements IServerConnection
 	{
 		return outputStream;
 	}
-	
-	/*
-	 * prints the inputStream as string to the console
-	 */
-	public void readInputStreamsToConsole()
-	{
-		ConsolePlugin.getDefault();
-		MessageConsole console= new MessageConsole("Kobold VCM Console",null);
-		ConsolePlugin.getDefault().getConsoleManager().addConsoles(
-			new IConsole[] {console});
-		MessageConsoleStream stream = console.newMessageStream();
-
-		
-		stream.print(readInputStream());
-	}
-	
-	/*
-	 * Returns the input stream as string
-	 */
-	public String readInputStream ()
+/*
+ * Deprecated , currently not in Use
+ * 
+ 	public void readInputStreamsToConsole()
 	{
 		if (this.connected) 
 		{
+			ConsolePlugin.getDefault();
+			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
+			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
+				new IConsole[] {console});
+			MessageConsoleStream stream = console.newMessageStream();
 			InputStream err = this.errStream;// (InputStream)process.getErrorStream();
 			InputStream pis = this.inputStream; //(InputStream)process.getInputStream();
 //			OutputStream os1 = this.outputStream;//process.getOutputStream();
@@ -309,18 +319,15 @@ public class ScriptServerConnection implements IServerConnection
 					}
 				}
 
-				return new String(readLineBuffer, 0, index);
-
+				
+				stream.print(new String(readLineBuffer, 0, index));
 			}
 			catch(Exception e)
 			{
 				// problem reading the inputStreams of the process
 				e.printStackTrace();
 			}
-		}
-		return null;
-
-		
+		}		
 	}
 	
 	private static byte[] append(byte[] buffer, int index, byte b) {
@@ -332,6 +339,7 @@ public class ScriptServerConnection implements IServerConnection
 		buffer[index]= b;
 		return buffer;
 	}
+*/
 	
 	// XXX need to do something more useful with stderr
 	// discard the input to prevent the process from hanging due to a full pipe
@@ -390,5 +398,75 @@ public class ScriptServerConnection implements IServerConnection
 	 */
 	public void setLocalPath(String localPath) {
 		this.localPath = localPath;
+	}
+	
+	/**
+	 * Gets the userName
+	 * @return the username
+	 */
+	private String getUserName ()
+	{
+		//gets the userName
+		String uN = KoboldVCMPlugin.getDefault().getPreferenceStore().getString("Repository User Name");
+ 
+		if (uN.equals(""))
+		{
+			uN = getPreference ("Repository User Name");
+			setUserName(uN);
+			return uN;
+		}
+		return uN;
+
+
+	}
+
+	/**
+	 * Sets the userName to the preferences
+	 * @param userName, the userName to store
+	 */
+	protected void setUserName (String userName)
+	{
+		//set the default userName (initial)
+		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("User Name", userName);
+	}
+
+	/**
+	 * gets the stored userName
+	 * @return the stored userName
+	 */
+	private String getUserPassword ()
+	{
+		//gets the userPassword
+		String uP = KoboldVCMPlugin.getDefault().getPluginPreferences().getString("userPassword");
+ 
+		if (uP.equals(""))
+		{
+			uP = getPreference ("User Password");
+			setUserPassword(uP);
+			return uP;
+		}
+		return uP;
+	}
+
+	/**
+	 * Sets the new userName
+	 * @param userPassword, the userPassword to store
+	 */
+	private void setUserPassword (String userPassword)
+	{
+		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("userPassword",userPassword);
+	}
+
+	/**
+	 * Opens a input Dialog to enter the user-data
+	 * @param type, the variableName to get of the user
+	 * @return the input-value of the dialog
+	 */
+	private String getPreference (String type)
+	{
+		InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
+		//open the dialog
+		in.open();
+		return in.getValue ();
 	}
 }
