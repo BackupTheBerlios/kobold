@@ -30,7 +30,6 @@ ab.\par Gegenstand der Spezifikation I ist somit, die Grundlage
 für solide Teilkomponenten zu spezifizieren, die diesen
 Anforderungen an das Gesamtsystem gerecht werden.
 \newpage
-
 \subsection{Rollenprinzip}
 
 Zur Etablierung eines Produktlinien-Entwicklungsprozesses werden
@@ -47,6 +46,7 @@ Einem Benutzer des Kobold-Systems können mehrere dieser Rollen zugeteilt
 werden. Die Benutzer- und Rollenverwaltung wird durch den
 Kobold-Serverdienst gespeichert. Informationen zur genauen Persistierung
 können aus dem Kapitel zum Kobold-Serverdienst entnommen werden.
+\newpage
 
 \section{Kobold Client}
 Der Client basiert grundlegend auf der Eclipse Plattform und deren
@@ -58,6 +58,10 @@ eigene Eclipse-Perspektive mit eigenen Fensternamen und
 Produktsymbolen, sowie einer Willkommensseite, die einen kurzen
 Überblick über Funktionalität und Zweck von \product gibt.
 \par
+\begin{figure}[h!]
+\includegraphics[width=15cm]{../angebot/screenshot.png}
+   \caption{Screenshot des Client-Prototypen}
+\end{figure}
 Das 'Feature-Set' wird als Menge von internationalisierbaren Eclipse Plugins
 implementiert. Die Ausgangsperspektive dieses Sets besteht aus folgenden
 Komponenten:
@@ -67,14 +71,6 @@ Komponenten:
     \item Worklflow/Task View
     \item Die Minimap
 \end{itemize}
-Diese werden in den jeweiligen Unterkapiteln näher beschrieben.
-Die Oberfläche des Kobold-Clients wird in der nachfolgenden Abbildung prototypisch dargestellt.
-\newpage
-\begin{figure}[h!]
-\includegraphics[width=15cm]{../angebot/screenshot.png}
-   \caption{Screenshot des Client-Prototypen}
-\end{figure}
-
 \subsection{Authentifizierung}
 Um mit der Kobold-Perspektive in Eclipse zu arbeiten, ist eine
 zentrale Authentifizierung am Kobold-Serverdienst nötig. Diese
@@ -165,6 +161,14 @@ Näheres zu Metainformationen ist im Abschnitt zur
 Metainformationskomponente beschrieben.
 \newpage
 
+\subsection{Die Minimap}
+Am linken unteren Rand der Ausgangsperspektive wird eine sogenannte
+Minimap dargestellt, in der ein Überblick über die ganze Architekturansicht
+der aktuellen Rolle gegeben wird.\par
+Über die Minimap lässt sich im Architektureditor navigieren.
+Klickt man auf einen Bereich der Minimap,
+so wird dieser automatisch im Produktlinienarchtiktureditor zentriert.
+
 \subsection{Rollen View}
 Auf der linken Seite der Ausgangsperspektive wird ein
 hierarchischer Baum angezeigt, der die momentan aktive Rolle und
@@ -231,16 +235,4 @@ noch zu erfüllenden Aufgaben, die aktuellen Nachrichten sowie
 etwaige Workflows angezeigt.\par Durch Doppelklick auf einen
 Workflow, öffnet sich die jeweilige Detailansicht. Es
 können Detailansichten zu mehreren Workflows gleichzeitig geöffnet
-sein.\par Die Detailansicht wird in der Iteration I durch den
-von Eclipse zur Verfügung gestellten XHTML-Rendering Editor
-realisiert, der Workflows im XHTML-Format. In einer
-späteren Iteration wird auch die Erstellung von angepassten
-Workflows (siehe Abschnitt zu Workflows) unterstützt.
-
-\subsection{Die Minimap}
-Am linken unteren Rand der Ausgangsperspektive wird eine sogenannte
-Minimap dargestellt, in der ein Überblick über die ganze Architekturansicht
-der aktuellen Rolle gegeben wird.\par
-Über die Minimap lässt sich im Architektureditor navigieren.
-Klickt man auf einen Bereich der Minimap,
-so wird dieser automatisch im Produktlinienarchtiktureditor zentriert.
+sein.

@@ -144,24 +144,23 @@ Serverdienst zur Verfügung gestellt werden.
 Es soll möglich sein, vor und nach jeder VCM-Aktion auf einer
 beliebigen Architekturebene für alle betroffenen Architekturelemente
 sog. Skripte auszuführen. Skripte sind externe Aufrufe von
-ausführbaren Dateien. Die Reihenfolge dieser Skripte kann vom Benutzer
+ausführbaren Dateien, die mit beliebigen Argumenten versehen werden
+können. Die Reihenfolge dieser Skripte kann vom Benutzer
 beliebig bestimmt werden.\par
 Es gibt drei Argumentklassen, die sich wie folgt unterscheiden:\par
 \begin{supertabular}{ll}
-    {\bf statische Argumente} & haben immer einen festen Wert, der dem Script
-    übergeben \\
-    & wird.\\
-    {\bf dynamische Argumente} & werden als Platzhalter für eine Variable 
-    eingesetzt und direkt \\
-    & vor der Ausführung des Scripts von Kobold durch den aktuellen\\
-    & Wert ersetzt. Diese Variablen können z.B. der Modulname,\\
-    & Name des Verantwortlichen etc. sein. Diese Variablen werden in\\
-    & einer späteren Spezifikation detailiert angegeben. \\
-    {\bf interaktive Argumente} & werden gesammelt, und der Benutzer wird vor 
-    der Ausführung \\
-    & des Scripts in einem Dialog nach den Werten für diese \\
-    & Argumente abgefragt. Hier hat er auch die Möglichkeit,\\
-    & die Ausführung des Scripts zu abzubrechen.\\
+    {\bf statische Argumente} & haben immer einen festen Wert, der dem Skript\\
+                              & übergeben wird.\\
+    {\bf dynamische Argumente} & werden als Platzhalter für eine Variable eingesetzt\\
+                               & und direkt vor der Ausführung des Skripts von Kobold\\
+                               & durch den aktuellen Wert ersetzt. Diese Variablen\\
+                               & können z.B. der Modulname, der Name des Verantwortlichen\\
+                               & etc. sein. Diese Variablen werden in einer späteren\\
+                               & Spezifikation detailiert angegeben. \\
+    {\bf interaktive Argumente} & werden gesammelt, und der Benutzer wird vor der Ausführung\\
+                               & des Skripts in einem Dialog nach den Werten für diese\\
+                               & Argumente abgefragt. Hier hat er auch die Möglichkeit,\\
+                               & die Ausführung des Scripts zu abzubrechen.\\
 \end{supertabular}
 \par
 Die Skriptausführung wird durch eine spezielle Schnittstelle im VCM
