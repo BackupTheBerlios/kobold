@@ -353,7 +353,7 @@ your message (see \ref{answermail}).
 \end{center}
 \end{figure}\par
 
-\section{Deleting a message}
+\subsection{Deleting a message}
 
 Right-click on the message and choose "Delete message" in the context menu.
 
@@ -425,9 +425,67 @@ the export is finished. If you decide not to do the export, simply press the
 %TODO: Screenshot einfügen
 
 
-%\section{Creating a Workflow}
+\section{Creating a Workflow}
+
+Workflows are triggered by specific rules which you can find in the ruleset.drl file.
+Here you can find some existing rules as an example. \par
+
+A rule consists of the following parts:
+\begin{itemize}
+	\item name
+	\item parameters
+	\item conditions
+	\item one consequence
+\end{itemize}
+Rules are a mixture of XML and Java.\par
+
+This is what a sample rule looks like: \\
+
+$<$rule name = "Name of the rule"$>$\\
+\begin{quote}
+$<$parameter identifier = "spy"$>$\\
+\begin{quote}
+$<$java:class$>$ kobold.common.data.RPCSpy $<$/java:class$>$\\
+\end{quote}
+$<$/parameter$>$\par
+$<$java:condition$>$ spy.getMethodName().equals("login") $<$/java:condition$>$\par
+$<$java:consequence$>$ System.out.println("Rule fired."); $<$/java:consequence$>$\\
+\end{quote}
+$<$/rule$>$\par
 
 
+The rule will only be fired when its conditions are true. If there are several conditions,
+all of the have to be true. Conditions and consequence are written in Java.\par
+
+For your own rules, the rule's parameter will always be an RPCSpy object of the package
+kobold.common.data. Such an object is created whenever an action is being executed by the server.
+These are in detail (using their actual method names):
+\begin{itemize}
+	\item login
+	\item logout
+	\item addUser
+	\item getAllUsers
+	\item removeUser
+	\item updateUserPassword
+	\item updateUserFullName
+	\item getProductlineNames
+	\item getProductline
+	\item updateProductline
+	\item updateProduct
+	\item updateComponent
+	\item sendMessage
+	\item fetchMessage
+	\item invalidateMessage
+	\item checkAdministrability
+	\item newProductline
+	\item invalidateProductline
+	\item assignPle
+	\item unassignPle
+\end{itemize}
+The parameter RPCSpy will contain the methodName which you can get with the "getMethodName()" method. 
+This returns one of the above Strings. An RPCSpy object also contains a vector of
+arguments that were transmitted to the server for the execution. You have access to this vector through
+the "getArguments()" method.
 
 
 \section{Filtering the Architecture View}
