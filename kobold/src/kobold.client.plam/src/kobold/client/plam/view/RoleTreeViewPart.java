@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.15 2004/08/04 16:26:06 grosseml Exp $
+ * $Id: RoleTreeViewPart.java,v 1.16 2004/08/04 17:52:58 vanto Exp $
  *
  */
 package kobold.client.plam.view;
@@ -32,10 +32,9 @@ import kobold.client.plam.controller.roletree.RoleTreeContentProvider;
 import kobold.client.plam.controller.roletree.RoleTreeLabelProvider;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
 import kobold.client.plam.editor.ArchitectureEditorInput;
+import kobold.client.plam.editor.dialog.EditUserManager;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
-import kobold.client.plam.useractions.UINewUser;
-import kobold.client.plam.editor.dialog.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

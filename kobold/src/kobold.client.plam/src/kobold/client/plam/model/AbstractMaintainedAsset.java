@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractMaintainedAsset.java,v 1.7 2004/08/03 22:11:46 vanto Exp $
+ * $Id: AbstractMaintainedAsset.java,v 1.8 2004/08/04 17:52:58 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -63,6 +63,7 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
 	        logger.warn("User not in UserPool -> User has not been added.");
 	    } else {
 	        maintainers.add(listedUser);
+	        firePropertyChange(ID_DATA, null, user);
 	    }
 	}
 	
@@ -72,10 +73,7 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
 	public void removeMaintainer(User user)
 	{
 	    maintainers.remove(user);
-	}
-	
-	public void clearMaintainer() {
-	    maintainers.clear();
+	    firePropertyChange(ID_DATA, null, user);
 	}
 	
 	/**

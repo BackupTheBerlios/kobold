@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EditMaintainerDialog.java,v 1.3 2004/08/04 16:21:05 garbeam Exp $
+ * $Id: EditMaintainerDialog.java,v 1.4 2004/08/04 17:52:58 vanto Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
 import java.util.Map;
 
+import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.common.data.User;
 
@@ -36,10 +37,13 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.TableLayout;
 
 import org.eclipse.jface.viewers.LabelProvider;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -106,17 +110,29 @@ public class EditMaintainerDialog extends TitleAreaDialog
 		
 		allUser = new Table(panel, SWT.CHECK | SWT.BORDER | SWT.LEAD | SWT.WRAP 
 		        				   | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
-		allUser.setLinesVisible(true);
+		allUser.setLinesVisible(false);
 		TableColumn colUserNames = new TableColumn(allUser, SWT.NONE);
 		colUserNames.setText("User");
-	
+		TableLayout tableLayout = new TableLayout();
+		allUser.setLayout(tableLayout);
+		tableLayout.addColumnData(new ColumnWeightData(100));
+		
 	    colUserNames.pack();
 		
 		allUserViewer = new CheckboxTableViewer(allUser);
+		//allUserViewer.getTable().getLayoutData().
 		allUserViewer.setLabelProvider(new LabelProvider() {
-            public String getText(Object element) {
+		    private Image image;
+		    public String getText(Object element) {
                 User user = (User)element;     
                 return user.getUsername() + " (" + user.getFullname() + ")";
+            }
+            
+            public Image getImage(Object element) {
+                if (image == null) {
+        			image = KoboldPLAMPlugin.getImageDescriptor("icons/user.gif").createImage();
+        		}
+        		return image;
             }
         });
 		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
@@ -132,7 +148,7 @@ public class EditMaintainerDialog extends TitleAreaDialog
  
     protected void okPressed()
     {
-        asset.clearMaintainer();
+        asset.getMaintainers().clear();
         Object[] checkedElems = allUserViewer.getCheckedElements();
         for (int i = 0; i < checkedElems.length; i++) {
             asset.addMaintainer((User)checkedElems[i]);

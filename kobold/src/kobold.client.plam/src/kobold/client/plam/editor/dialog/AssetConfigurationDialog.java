@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.3 2004/08/04 16:21:05 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.4 2004/08/04 17:52:58 vanto Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -30,7 +30,6 @@ import java.util.Iterator;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
-import kobold.client.plam.wizard.NewCertificateDialog;
 import kobold.common.data.User;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
