@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.45 2004/10/18 16:26:32 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.46 2004/10/20 21:57:04 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -33,11 +33,8 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
@@ -69,6 +66,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.ide.dialogs.UpdateProjectCapabilityWizard;
 import org.eclipse.ui.progress.IProgressService;
 
 
@@ -633,7 +631,7 @@ public class ModelStorage
         }
     }
     
-    public static Product retrieveProject(Productline pl, String productId)
+    public static Product retrieveProduct(Productline pl, String productId)
     {
         kobold.common.data.Product product = ServerHelper.fetchProduct(pl.getKoboldProject(), productId);
         
@@ -641,7 +639,11 @@ public class ModelStorage
             return null;
         }
         
-        IProject project = pl.getKoboldProject().getProject();
+        KoboldProject kp = pl.getKoboldProject();
+        IProject project = kp.getProject();
+        
+        // VCM trigger
+        kp.updateProduct(product, project);
         
         IFolder productFolder = project.getFolder(product.getResource());
         if (productFolder.exists()) {

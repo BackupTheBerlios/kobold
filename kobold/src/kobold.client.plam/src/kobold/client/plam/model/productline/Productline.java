@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.29 2004/09/01 01:07:37 vanto Exp $
+ * $Id: Productline.java,v 1.30 2004/10/20 21:57:04 garbeam Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -202,7 +202,7 @@ public class Productline extends AbstractRootAsset
 		    Element pEl = (Element)it.next();
 		    String refId = pEl.attributeValue("refid");
 		   
-			Product p = ModelStorage.retrieveProject(this, refId); 
+			Product p = ModelStorage.retrieveProduct(this, refId); 
 		    if (p != null) {
 		        addProduct(p);
 		    }
