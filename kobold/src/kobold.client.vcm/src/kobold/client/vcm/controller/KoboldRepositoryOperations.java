@@ -27,58 +27,84 @@
 package kobold.client.vcm.controller;
 
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.Release;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.team.core.TeamException;
-import org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations;
 
 /**
  * @author schneipk
  ** This interface extends the eclipse simple Access operations and implements
  *	the changes needed to perform operations before and after the normal VCM operations
  */
-public interface KoboldRepositoryOperations extends SimpleAccessOperations {
+public interface KoboldRepositoryOperations {
 	
-	public void preCheckin(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+    /**
+     * Adds all assets to version control.
+     * @param assets
+     * @param progress
+     * @throws TeamException
+     */
+	public void add(AbstractAsset[] assets, IProgressMonitor progress)
+		throws TeamException;
 	
-	public void add(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	/**
+	 * Commits all changes of assets.
+	 * @param resources
+	 * @param progress
+	 * @throws TeamException
+	 */
+	public void commit(AbstractAsset[] assets, IProgressMonitor progress)
+		throws TeamException; 
 	
-	public void preAdd(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
-	
-	public void postAdd(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
-	
-	public void postCheckin(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
-	
-	public void preCheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
-	
-	public void postcheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	/**
+	 * Checks out several assets.
+	 * @param resources
+	 * @param progress
+	 * @param tag if <code>null</code> no revision is used.
+	 * @param isPl
+	 * @throws TeamException
+	 */
+	public void checkout(AbstractAsset[] assets, IProgressMonitor progress,
+	        			 String tag, boolean isPl) throws TeamException;
 
-	public void preImport(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	/**
+	 * Imports all assets.
+	 * @param resources
+	 * @param progress
+	 * @param isPl
+	 * @throws TeamException
+	 */
+	public void importing(AbstractAsset[] resources, IProgressMonitor progress,
+	        			  boolean isPl) throws TeamException;
 	
-	public void postImport(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	/**
+	 * Updates all assets.
+	 * @param assets
+	 * @param progress
+	 * @param tag if <code>null</code> no revision is used.
+	 * @throws TeamException
+	 */
+	public void update(AbstractAsset[] assets, IProgressMonitor progress, String tag)
+		throws TeamException;
 	
-	public void checkin(AbstractAsset[] resources, int depth, IProgressMonitor progress)throws TeamException; 
+	/**
+	 * Removes the assets from version control, does not remove them physically.
+	 * @param assets
+	 * @param progress
+	 * @throws TeamException
+	 */
+	public void remove(AbstractAsset[] assets, IProgressMonitor progress)
+		throws TeamException;
 	
-	public void checkout(AbstractAsset[] resources, int depth, IProgressMonitor progress) throws TeamException;
-	
-	public void importing(AbstractAsset[] resources, int depth, IProgressMonitor progress)
-			throws TeamException;
-	
-	public void update(AbstractAsset[] resources, int depth, IProgressMonitor progress)
-	throws TeamException;
-	
-	public void preUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation)
-	throws TeamException;
-	
-	public void postUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation)
-	throws TeamException;
-	
-	public void rm(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
-	
-	public void preRm(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
-	
-	public void postRm(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
-	
-	public void tag(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	/**
+	 * Tags all file revisions with tag of the release.
+	 * @param asset
+	 * @param progress
+	 * @param tag
+	 * @throws TeamException
+	 */
+	public void tag(Release release, IProgressMonitor progress,
+	        		String tag) throws TeamException;
 	
 }
