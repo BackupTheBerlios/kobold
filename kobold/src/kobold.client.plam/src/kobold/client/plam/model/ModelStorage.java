@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.31 2004/08/27 17:08:38 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.32 2004/08/27 17:47:21 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -164,33 +165,7 @@ public class ModelStorage
         }
     }
     
-    /**
-     * deletes the variant directory
-     * @param variant
-     */
-    public static void deleteVariantDirectory (Variant variant)
-    {
-    	/**
-    	ScriptServerConnection sc = new ScriptServerConnection("noUser");
-    	
-    	StatusUpdater su = new StatusUpdater();
-		//command line command with the stats script to the changed part of the meta-data containing FD(s)
-		String[] command = {"perl", su.getScriptPath() + 
-							"cleanvcmdata.pl", variant.getLocalPath().toOSString()};
-    	
-		try 
-		{
-			String iString="";
-			iString = sc.open(command,"");
-			System.out.println(iString);
-			sc.close();			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-    	
-    	System.out.println ("deleted variant "+variant.getName()+" directory!");
-    **/}
-    
+
     
     /**
      *	Stores the complete model of the pl to the metainfo-files 
@@ -561,5 +536,29 @@ public class ModelStorage
         
         return null;
     }
+    
+    public static void deleteVariantDirectory (Variant variant)
+    {
+    	String path = variant.getLocalPath().toOSString();
+    	deleteTree(path);
+    	System.out.println("Delete: "+path);
+    }
+    
+    public static void deleteTree( File path )
+    {
+      File files[] = path.listFiles();
+      for ( int i = 0; i < files.length; i++ )
+      {
+        if ( files[i].isDirectory() )
+          deleteTree( files[i] );
+        files[i].delete();
+      }
+      path.delete();
+    }
+    public static void deleteTree( String path )
+    {
+      deleteTree( new File(path) );
+    }
+    
 }
 

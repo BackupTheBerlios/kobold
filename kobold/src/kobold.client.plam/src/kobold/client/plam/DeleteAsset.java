@@ -28,6 +28,7 @@ import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Variant;
 
 
+
 /**
  * @author pliesmn, Tammo
  *
@@ -94,6 +95,10 @@ public class DeleteAsset {
         	//delete the variant directory
         	ModelStorage ms = new ModelStorage();
         	ms.deleteVariantDirectory((Variant)asset);
+        	
+        	//remove VCM-dir stuff
+        	//TODO: acces to the vcm-plugin:
+        	//StatusUpdater:deleteVariantVCMDirectory((Variant)asset);
         	
             IVariantContainer vc = (IVariantContainer)parent;
             index = vc.getVariants().indexOf(asset);
