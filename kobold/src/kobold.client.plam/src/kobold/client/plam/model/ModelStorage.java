@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.5 2004/08/01 14:26:40 memyselfandi Exp $
+ * $Id: ModelStorage.java,v 1.6 2004/08/02 14:32:52 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -34,6 +34,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
+import java.util.List;
 
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Component;
@@ -71,7 +73,6 @@ public class ModelStorage
     public static final String PRODUCTS_FOLDER_NAME = "PRODUCTS";
     public static final String PRODUCTLINE_META_FILE = ".productlinemetainfo";
     public static final String PRODUCT_META_FILE = ".productmetainfo";
-    public static final String COREASSET_META_FILE = ".coreassetmetainfo";
     
     public static final Logger logger = Logger.getLogger(ModelStorage.class);
     
@@ -81,7 +82,7 @@ public class ModelStorage
         Productline pl = null;
         IFolder plmeta = project.getFolder(".plmeta");
         if (plmeta.exists()) {
-            IFile modelFile = plmeta.getFile("model.pl.xml");
+            IFile modelFile = plmeta.getFile(PRODUCTLINE_META_FILE);
             if (modelFile.exists()) {
                 InputStream in;
                 try {
@@ -104,6 +105,70 @@ public class ModelStorage
         return pl;        
     }
     
+    /**
+     * Creates the PL directory
+     * @param pl, the pl for creating the dirs
+     * @return the PL-IFolder
+     */
+	public static void createPlDirectory (Productline pl, IProgressMonitor monitor) {
+		//create directory for the PL
+		
+		//the PL directory
+        IProject project = pl.getProject().getIProject();
+        
+        //getFolder: runtime-workbench-workspace/assasasasa/
+       	//create dir: runtime-workbench-workspace/assasasasa/New\ product\ line/
+    	IFolder plFolder = project.getFolder(pl.getName());
+    	createDirectory (plFolder, monitor);
+
+        
+    	//CAS
+        plFolder = plFolder.getFolder(COREASSETS_FOLDER_NAME);
+        createDirectory (plFolder, monitor);
+
+
+        //PRODUCTS
+        plFolder = plFolder.getFolder(PRODUCTS_FOLDER_NAME);
+        createDirectory (plFolder, monitor);
+        
+	}	
+
+    /**
+     * Default action for ceating directories
+     * @param plFolder, the dir to create
+     * @param monitor
+     */
+	private static void createDirectory (IFolder plFolder, IProgressMonitor monitor)
+	{
+        if (!plFolder.exists()) {
+            try {
+                plFolder.create(true, true, monitor);
+            } catch (CoreException e1) {
+                e1.printStackTrace();
+            }    
+        }
+	}
+    private static void createFile (IFile modelFile, IProgressMonitor monitor, ByteArrayOutputStream out)
+	{
+		try{
+		    if (modelFile.exists()) {
+		        modelFile.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, monitor);
+		    } else {
+		        modelFile.create(new ByteArrayInputStream(out.toByteArray()), 
+		            true, monitor);
+		    }
+		    
+	    } catch (CoreException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }
+	}
+    
+    
+    /**
+     *	Stores the complete model of the pl to the metainfo-files 
+     * @param pl, the pl to store
+     */
     public static void storeModel(final Productline pl)
     {
         logger.debug("Storing model...");
@@ -111,17 +176,17 @@ public class ModelStorage
         try {
             progressService.busyCursorWhile(new IRunnableWithProgress(){
                 public void run(IProgressMonitor monitor) {
+                	
+                	
+            		//get the PL directory
                     IProject project = pl.getProject().getIProject();
-                	IFolder plmeta = project.getFolder(".plmeta");
-                    
-                    if (!plmeta.exists()) {
-                        try {
-                            plmeta.create(true, true, monitor);
-                        } catch (CoreException e1) {
-                            e1.printStackTrace();
-                        }    
-                    }
-                    IFile modelFile = plmeta.getFile("model.pl.xml");
+                 	IFolder plmeta = project.getFolder(pl.getName());
+                	
+                	//create the PL,PRODUCTS,CAS directories
+                	createPlDirectory(pl, monitor);
+                	
+                	//create the metafiles
+                    IFile modelFile = plmeta.getFile(PRODUCTLINE_META_FILE);
                     
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     XMLWriter writer;
@@ -130,12 +195,9 @@ public class ModelStorage
                         writer.write(pl.serialize());
                         writer.close();
                         
-                        if (modelFile.exists()) {
-                            modelFile.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, monitor);
-                        } else {
-                            modelFile.create(new ByteArrayInputStream(out.toByteArray()), 
-                                true, monitor);
-                        }
+                        //write the metafile
+                        createFile(modelFile, monitor, out);
+                        
                         out.close();   
                         
                     } catch (UnsupportedEncodingException e) {
@@ -144,10 +206,10 @@ public class ModelStorage
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
-                    } catch (CoreException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+   
                     }
+                    
+                    //write the products metafile
                     
                 }
             });
@@ -208,123 +270,80 @@ public class ModelStorage
             if (asset.getType() == AbstractAsset.COMPONENT) {
                 if (asset.getParent().getType() != AbstractAsset.VARIANT) {
                     thePath = COREASSETS_FOLDER_NAME + File.separator +
-                    		  asset.getName() + File.separator + thePath;
+                    		  asset.getName() + IPath.SEPARATOR + thePath;
                 }
                 else {
-                    thePath = asset.getName() + File.separator + thePath;
+                    thePath = asset.getName() + IPath.SEPARATOR + thePath;
                 }
             }
             else if ((asset.getType() == AbstractAsset.SPECIFIC_COMPONENT) ||
                      (asset.getType() == AbstractAsset.RELATED_COMPONENT)) {
-                thePath = PRODUCTS_FOLDER_NAME + File.separator +
-                		  asset.getName() + File.separator + thePath;
+                thePath = PRODUCTS_FOLDER_NAME + IPath.SEPARATOR +
+                		  asset.getName() + IPath.SEPARATOR + thePath;
             }
             else {
-                thePath = asset.getName() + File.separator + thePath;
+                thePath = asset.getName() + IPath.SEPARATOR + thePath;
             }
             
             asset = asset.getParent();
         }
         
         return new Path(root.getProject().getIProject().getLocation()
-                        + File.separator + thePath);
+                        + "" + IPath.SEPARATOR + thePath);
     }
     
-  
-	/**
-	 * Serializes the productline, products and cas and write it to the xml-files
-	 */
-	public void serializeProductline (Productline pl)
-	{
-		//creates the PL directories
-		createPlDirectory (pl);
-		
-	}
 	
-	private void createPlDirectory (Productline pl) {
-		//create directory for the PL
-		String name = pl.getLocalPath().toOSString() /*+ File.separatorChar + getName()*/;
-		File newDir = new File (name);
-
-		if (newDir.mkdir()==true)
-			System.out.println("Project Directory was created");
-			else
-			System.out.println("Project Directory already existed");
-
-		
-		newDir = new File (pl.getLocalPath().toOSString()/*+ File.separatorChar + getName() */+ File.separatorChar + "PL");
-		
-		if (newDir.mkdir()==true)
-			System.out.println("Project-PL Directory was created");
-			else
-			System.out.println("Project-PL Directory already existed");
-		
-		newDir = new File (pl.getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
-				+ "PRODUCTS");
-		if (newDir.mkdir()==true)
-			System.out.println("Project-PL-Product Directory was created");
-			else
-			System.out.println("Project-PL-Product Directory already existed");
-
-		newDir = new File (pl.getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
-				+ "CAS");
-		if (newDir.mkdir()==true)
-			System.out.println("Project-PL-CAS Directory was created");
-			else
-			System.out.println("Project-PL-CAS Directory already existed");
-
-	}	
 	
-	public static void serializeProduct (Product product)
+	public static void serializeProduct (Productline pl, IProgressMonitor monitor)
 	{
-		//creates a document
-		Document document = DocumentHelper.createDocument();
-		
-		//get the abstractAsset information
-		Element root = document.addElement("productmetainfo");
-		
-		//add the serialized element
-		root.add (product.serialize());
+		//get the PRODUCTS-directory
+		//the PL directory
+        IProject project = pl.getProject().getIProject();
+       	IFolder productsFolder = project.getFolder(pl.getName());
+        //PRODUCTS-dir
+        productsFolder = productsFolder.getFolder(PRODUCTS_FOLDER_NAME);
+        
+        
+        
+		//get all products
+    	List products = pl.getProducts();
+    	
+        ////////////////////////////
+        //for each product
+		for (Iterator it = products.iterator(); it.hasNext();) {
+			Product product = (Product) it.next();
+		       
+	        //create the dir
+	        IFolder specialProductFolder = productsFolder.getFolder(product.getName());
+	        createDirectory (specialProductFolder, monitor);
+	    	
+	    	//create the metafiles
+	        IFile modelFile = specialProductFolder.getFile(PRODUCT_META_FILE);
+	        
+	        ByteArrayOutputStream out = new ByteArrayOutputStream();
+	        XMLWriter writer;
+			
+	        try {
+	            writer = new XMLWriter(out, OutputFormat.createPrettyPrint());
+	            writer.write(product.serialize());
+	            writer.close();
+	            
+	            //write the metafile
+	            createFile(modelFile, monitor, out);
+	            
+	            out.close();   
+	            
+	        } catch (UnsupportedEncodingException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
 
-		//write it to an xml-file
-			 XMLWriter writer;
-			try {
-				writer = new XMLWriter(new FileWriter(product.getLocalPath().toOSString()/*+ File.separatorChar + ((AbstractAsset)getParent()).getName() */
-													/*+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() */
-													+ File.separatorChar + ".productmetainfo.xml"));
-				writer.write(document);
-				writer.close();
-			} catch (IOException e) {
-				Log log = LogFactory.getLog("kobold....");
-				log.error(e);
-			}	
+	        }
+			//////////////////////////////////
+
+		}
+
 	}
-
-	public void serializeComponent (Component component)
-	{
-		//creates a document
-		Document document = DocumentHelper.createDocument();
-		
-		//get the abstractAsset information
-		Element root = document.addElement("coreassetmetainfo");
-		
-		//add the serialized element
-		root.add (component.serialize ());
-		
-		//write it to an xml-file
-			 XMLWriter writer;
-			try {
-				writer = new XMLWriter(new FileWriter (component.getLocalPath().toOSString()/*+ File.separatorChar + ((AbstractAsset)getParent()).getName() */
-													/*+ File.separatorChar + "CAS" 
-													+ File.separatorChar + getName () */+ File.separatorChar 
-													+ ".coreassetmetainfo.xml"));
-				writer.write(document);
-				writer.close();
-			} catch (IOException e) {
-				Log log = LogFactory.getLog("kobold....");
-				log.error(e);
-			}	
-	}
-
-	
 }

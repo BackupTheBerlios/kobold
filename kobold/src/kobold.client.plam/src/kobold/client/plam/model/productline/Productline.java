@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.15 2004/08/01 14:26:40 memyselfandi Exp $
+ * $Id: Productline.java,v 1.16 2004/08/02 14:32:52 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -176,10 +176,6 @@ public class Productline extends AbstractRootAsset
 			Element pEl = productsEl.addElement("product");
 			pEl.addAttribute("refid", product.getId());
 			
-			//create product dirs
-			// TODO createProductDirectory(product);
-			
-
 				//TODO ms.serializeProduct(product);
 
 		}
