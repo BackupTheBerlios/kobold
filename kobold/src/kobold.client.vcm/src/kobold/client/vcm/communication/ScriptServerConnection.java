@@ -35,6 +35,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
 import kobold.client.vcm.KoboldVCMPlugin;
+import kobold.client.vcm.dialog.PasswordDialog;
 import kobold.client.vcm.preferences.VCMPreferencePage;
 import kobold.common.io.RepositoryDescriptor;
 
@@ -703,16 +704,24 @@ public class ScriptServerConnection implements IServerConnection
         {
 	        preferenceName = type;
             type = "VCM User Password"; 
+            PasswordDialog pd = new PasswordDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
+            //open the dialog
+            pd.open();
+            return pd.getValue();
         } 
-	    if (type.equals(VCMPreferencePage.KOBOLD_VCM_USER_STR))
+	    else if (type.equals(VCMPreferencePage.KOBOLD_VCM_USER_STR))
 	    {
 	        preferenceName = type;
 	        type = "VCM User Name";
+			InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
+			//open the dialog
+			in.open();
+			return in.getValue ();
 	    }
-		InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
-		//open the dialog
-		in.open();
-		return in.getValue ();
+	    else 
+	    {
+	    	return "";
+	    }
 	}
 	/**
 	 * @param repositoryDescriptor The repositoryDescriptor to set.
