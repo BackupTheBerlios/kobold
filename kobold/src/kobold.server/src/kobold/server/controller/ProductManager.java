@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductManager.java,v 1.6 2004/06/24 00:39:15 garbeam Exp $
+ * $Id: ProductManager.java,v 1.7 2004/06/24 07:47:50 grosseml Exp $
  *
  */
 package kobold.server.controller;
@@ -86,7 +86,7 @@ public class ProductManager {
 	 *
 	 * @param product String containing the new productname
 	 */
-	public void addProduct(Product product) {
+	public void addProduct(kobold.common.model.product.Product product) {
 		products.put(product.getName(), product);
 	}
 	
