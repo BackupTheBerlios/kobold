@@ -11,11 +11,11 @@ rem %9 userdef
 
 cd /d %1
 
-if %2 == CVS goto CVS endif
+if %2 == CVS goto CVS
 goto END
 
 :CVS
-if %3 == local goto LOCAL endif
+if %3 == local goto LOCAL
 
 cvs -z3 -d :%3:%4:%5@%6:%7 rm %8
 
