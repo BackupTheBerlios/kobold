@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.29 2004/06/23 13:39:40 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.30 2004/06/23 14:13:05 neccaino Exp $
  *
  */
 package kobold.server;
@@ -194,6 +194,10 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			}
 			else if (methodName.equals("validateSATAccessibility")){
 				return validateSATAccessibility((String)arguments.elementAt(0));
+			}
+			else if (methodName.equals("satCreateNewProductline")){
+				return satCreateNewProductline((String)arguments.elementAt(0),
+														               (String)arguments.elementAt(1));
 			}
 		} catch (Exception e) {
 			logger.info("Exception during execute()", e);
@@ -462,7 +466,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * @return true, if the passed password is valid, false otherwise
 	 */
 	public String validateSATAccessibility(String adminPassword){
-		return this.NO_RESULT; // until fully implemented
+		return IKoboldServer.NO_RESULT; // until fully implemented
 	}
 	
 	/**
@@ -478,6 +482,6 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 *				   accessible that way, "" otherwise 
 	 */
 	public String satCreateNewProductline(String adminPassword, String plname){
-		return this.NO_RESULT; // until fully implemented
+		return IKoboldServer.NO_RESULT; // until fully implemented
 	}
 }
