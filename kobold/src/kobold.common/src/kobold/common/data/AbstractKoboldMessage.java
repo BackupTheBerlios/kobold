@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractKoboldMessage.java,v 1.5 2004/08/01 11:53:11 garbeam Exp $
+ * $Id: AbstractKoboldMessage.java,v 1.6 2004/08/24 16:53:54 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -62,6 +62,8 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 	private String subject;
 	private String id;
 	private String state = STATE_UN_FETCHED;
+	private String productline = "";
+	private String role = "";
 
 	/**
 	 * Creates a new Kobold Message.
@@ -73,6 +75,18 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 		id = IdManager.nextId(idtype);
 	}
 
+    public String getProductline() {
+        return productline;
+    }
+    public void setProductline(String productline) {
+        this.productline = productline;
+    }
+    public String getRole() {
+        return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
 	/**
 	 * Returns the state.
 	 * @return state.
@@ -191,6 +205,8 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 		xmsg.addAttribute("id", id);
 		xmsg.addAttribute("priority", priority);
 		xmsg.addAttribute("state", state);
+		xmsg.addAttribute("productline", productline);
+		xmsg.addAttribute("role", role);
 		
 		if (sender != null) {
 		    xmsg.addElement("sender").setText(sender);
@@ -220,7 +236,9 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 		id = data.attributeValue("id");
 		priority = data.attributeValue("priority");
 		state = data.attributeValue("state");
-				
+		productline = data.attributeValue("productline");
+		role = data.attributeValue("role");
+		
 		sender = data.elementTextTrim("sender");
 		receiver = data.elementTextTrim("receiver");
 		

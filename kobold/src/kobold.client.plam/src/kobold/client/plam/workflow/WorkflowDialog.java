@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.19 2004/08/24 16:15:30 garbeam Exp $
+ * $Id: WorkflowDialog.java,v 1.20 2004/08/24 16:53:54 garbeam Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -53,7 +53,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * @author scheglov_ke
+ * Renders a workflow.
  */
 public class WorkflowDialog extends TitleAreaDialog {
 	String description;
@@ -91,9 +91,18 @@ public class WorkflowDialog extends TitleAreaDialog {
 		header.setLayout(gridLayout);
 		
 		new Label(header, SWT.NONE).setText("Sender:");
-		new Label(header, SWT.NONE).setText(msg.getSender());
+		if (msg instanceof WorkflowMessage) {
+    		new Label(header, SWT.NONE).setText(msg.getSender() + " (" + msg.getRole() + ")");
+		}
+		else {
+    		new Label(header, SWT.NONE).setText(msg.getSender());
+		}
 		new Label(header, SWT.NONE).setText("Receiver:");
 		new Label(header, SWT.NONE).setText(msg.getReceiver());
+		if (msg instanceof WorkflowMessage) {
+    		new Label(header, SWT.NONE).setText("Referring to:");
+    		new Label(header, SWT.NONE).setText(msg.getProductline());
+		}
 		new Label(header, SWT.NONE).setText("Subject:");
 		new Label(header, SWT.NONE).setText(msg.getSubject());
 		

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.21 2004/08/17 13:55:16 bettina Exp $
+ * $Id: WorkflowView.java,v 1.22 2004/08/24 16:53:54 garbeam Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -85,12 +85,12 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private Action doubleClickAction;
 	private Action deleteAction;
 	
-	private String[] titles = {null, null, "Subject", "Sender", "Date" };
+	private String[] titles = {null, null, "Referring to", "Subject", "Sender", "Date" };
 	private ColumnLayoutData columnLayouts[] =	{
 			new ColumnPixelData(19, false),
 			new ColumnPixelData(19, false),
-			new ColumnWeightData(200),
 			new ColumnWeightData(75),
+			new ColumnWeightData(200),
 			new ColumnWeightData(150),
 			new ColumnWeightData(60)};
 	
@@ -310,9 +310,11 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 
 		public String getColumnText(Object obj, int index) {
 			switch (index) {
-				case 2: return ((AbstractKoboldMessage)obj).getSubject();
-				case 3: return ((AbstractKoboldMessage)obj).getSender();
-				case 4: return df.format(((AbstractKoboldMessage)obj).getDate());				
+				case 2: return ((AbstractKoboldMessage)obj).getProductline();
+				case 3: return ((AbstractKoboldMessage)obj).getSubject();
+				case 4: return ((AbstractKoboldMessage)obj).getSender() + " (" +
+				               ((AbstractKoboldMessage)obj).getRole() + ")";
+				case 5: return df.format(((AbstractKoboldMessage)obj).getDate());				
 			}
 			return "";
 		}
