@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.12 2004/07/22 11:22:44 neccaino Exp $
+ * $Id: UserManager.java,v 1.13 2004/07/22 11:55:05 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -199,11 +199,7 @@ public class UserManager {
 	    List result = new ArrayList();
 	    
 	    for (Iterator iterator = users.values().iterator(); iterator.hasNext(); ) {
-            // covert the kobold.server.data.User to kobold.common.data.User and 
-            // add it
-            User user = (User) iterator.next();
-            kobold.common.data.User secureUser = new kobold.common.data.User(user.getUserName(), user.getFullName()); 
-	        result.add(secureUser);
+            result.add(((User)iterator.next()).getSecureRepresentation());
 	    }
 	    
 	    return result;
