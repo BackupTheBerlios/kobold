@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentRelated.java,v 1.2 2004/06/16 11:27:35 rendgeor Exp $
+ * $Id: ComponentRelated.java,v 1.3 2004/06/16 15:54:22 rendgeor Exp $
  *
  */
 
@@ -37,6 +37,8 @@ import java.util.Iterator;
  */
 public class ComponentRelated extends AbstractComponent {
 
+	private CoreAsset parent;
+	
 	//the variants
 	private HashMap variants;
 
@@ -99,5 +101,15 @@ public class ComponentRelated extends AbstractComponent {
 	public void deserialize(Element element) {
 		setName(element.getText());
 	}
+	
+	/**
+	 * @param parent The parent to set.
+	 */
+
+	public void setParent (CoreAsset parentAsset)
+	{
+		parent = parentAsset;
+	}
+
 	
 }

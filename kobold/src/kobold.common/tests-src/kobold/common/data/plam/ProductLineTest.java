@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.3 2004/06/09 14:45:16 rendgeor Exp $
+ * $Id: ProductLineTest.java,v 1.4 2004/06/16 15:54:22 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -49,9 +49,8 @@ public class ProductLineTest extends TestCase {
 	
 	public void testSerialize() {
 		
-		Productline productline = new Productline("windows");
 		
-		Productline pl = Productline.getInstance();
+		Productline pl = new Productline("windows");
 		
 		//------------------------
 		//add a product
@@ -60,7 +59,7 @@ public class ProductLineTest extends TestCase {
 		
 		pl.addProduct(productA);
 		pl.addProduct(productB);
-		
+
 		//--
 		ComponentRelated componentA = new ComponentRelated ("compA");
 		ComponentRelated componentB = new ComponentRelated ("compB");
@@ -80,6 +79,7 @@ public class ProductLineTest extends TestCase {
 		//--
 		Version versionA = new Version ("versA");
 		Version versionB = new Version ("versB");
+
 
 		componentC.addVersion(versionA);
 		componentC.addVersion(versionB);
@@ -115,5 +115,6 @@ public class ProductLineTest extends TestCase {
 		//...
 		//productline = manager.getProductLine("office");
 		//assertTrue (productline.getName() == "office");
+	
 	}
 }

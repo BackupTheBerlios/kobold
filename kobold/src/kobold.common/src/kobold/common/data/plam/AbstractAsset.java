@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.3 2004/06/16 11:27:35 rendgeor Exp $
+ * $Id: AbstractAsset.java,v 1.4 2004/06/16 15:54:22 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
 
 import kobold.common.data.IdManager;
+import kobold.common.exceptions.BogusProductlineException;
 
 /**
  * @author Tammo
@@ -44,9 +45,9 @@ public abstract class AbstractAsset implements ISerializable {
 	
 	private String name;
 	private String id;
+	private AbstractAsset parent;
 
-	private int parent;
-	
+
 	public AbstractAsset() {
 
 	}
@@ -54,8 +55,9 @@ public abstract class AbstractAsset implements ISerializable {
 	public AbstractAsset(String name) {
 		this.name = name;
 		this.id = IdManager.getInstance().getModelId(getType());
+		this.parent = null;
 		//sets the parent
-		setParent ();
+		//setParent ();
 	}
 	
 	public String getName() {
@@ -83,27 +85,31 @@ public abstract class AbstractAsset implements ISerializable {
 	/**
 	 * @return Returns the parent.
 	 */
-	public int getParent() {
-		return parent;
+
+	
+	public Productline getRoot() throws BogusProductlineException {
+		AbstractAsset asset = this;
+		while (asset.getParent() != null) {
+			asset = asset.getParent();
+		}
+		if (asset instanceof Productline) {
+			return (Productline) asset;
+		}
+		else {
+			throw new BogusProductlineException("Root of data model is no Productline.");
+		}
 	}
-	/**
-	 * @param parent The parent to set.
-	 */
-	public void setParent() {
-		/*
-		 * TODO: setze this pointer
-		 this.parent = this;
-		 */
+
+	protected void setParent(AbstractAsset parent) {
+		this.parent = parent;
 	}
 	
-	public /*int*/void getRoot(){
-		while (getParent() != 0)
-		{
-			//TODO: pointer in java??
-			/*
-			int root = root.getParent();
-		}
-		return root*/;
-		}
+	/**
+	 * @return Returns the parent.
+	 */
+	protected AbstractAsset getParent() {
+		return parent;
 	}
 }
+
+	

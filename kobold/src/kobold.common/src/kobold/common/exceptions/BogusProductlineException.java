@@ -21,10 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMIOException.java,v 1.2 2004/04/16 12:39:46 garbeam Exp $
+ * $Id: BogusProductlineException.java,v 1.1 2004/06/16 15:54:22 rendgeor Exp $
  *
  */
-package kobold.common.exception;
+package kobold.common.exceptions;
 
 import java.lang.Exception;
 import java.lang.String;
@@ -36,17 +36,17 @@ import java.lang.Throwable;
  *
  * @author garbeam
  */
-public class VCMIOException extends Exception {
-
-    public VCMIOException() {
+public class BogusProductlineException extends Exception {
+	
+	public BogusProductlineException() {
         super();
     }
 
-    public VCMIOException(String message) {
+    public BogusProductlineException(String message) {
         super(message);
     }
 
-    public VCMIOException(String message, Throwable cause) {
+    public BogusProductlineException(String message, Throwable cause) {
         super(message, cause);
     }
 }

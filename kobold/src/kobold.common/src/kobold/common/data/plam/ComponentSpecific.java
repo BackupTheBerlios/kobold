@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentSpecific.java,v 1.2 2004/06/16 11:27:35 rendgeor Exp $
+ * $Id: ComponentSpecific.java,v 1.3 2004/06/16 15:54:22 rendgeor Exp $
  *
  */
 
@@ -37,8 +37,10 @@ import java.util.Iterator;
  */
 public class ComponentSpecific extends AbstractComponent {
 
-	//the variants and versions
+	//the parent
+	private Product parent;
 
+	//the versions
 	private HashMap versions;
 	/**
 	 * Basic constructor.
@@ -71,6 +73,7 @@ public class ComponentSpecific extends AbstractComponent {
 	 */
 	public void addVersion(Version version) {
 		versions.put(version.getName(), version);
+		version.setParent(this);
 	}
 
 	
@@ -102,6 +105,15 @@ public class ComponentSpecific extends AbstractComponent {
 	public void deserialize(Element element) {
 		setName(element.getText());
 	}
+	
+	/**
+	 * @param parent The parent to set.
+	 */
+
+	/*public void setParent (Product parentProduct)
+	{
+		parent = parentProduct;
+	}*/
 	
 }
 

@@ -21,32 +21,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMScriptInvocationException.java,v 1.2 2004/04/16 12:39:46 garbeam Exp $
+ * $Id: VCMIOException.java,v 1.1 2004/06/16 15:54:22 rendgeor Exp $
  *
  */
-package kobold.common.exception;
+package kobold.common.exceptions;
 
 import java.lang.Exception;
 import java.lang.String;
 import java.lang.Throwable;
 
 /**
- * Exception which should be thrown if a script could not
- * be invoced before or after an VCM action.
+ * Exception which should be thrown if a VCM action throws
+ * an IOException or fails for some other reason.
  *
  * @author garbeam
  */
-public class VCMScriptInvocationException extends Exception {
+public class VCMIOException extends Exception {
 
-    public VCMScriptInvocationException() {
+    public VCMIOException() {
         super();
     }
 
-    public VCMScriptInvocationException(String message) {
+    public VCMIOException(String message) {
         super(message);
     }
 
-    public VCMScriptInvocationException(String message, Throwable cause) {
+    public VCMIOException(String message, Throwable cause) {
         super(message, cause);
     }
 }

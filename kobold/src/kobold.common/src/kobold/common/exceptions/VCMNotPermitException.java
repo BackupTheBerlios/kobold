@@ -21,10 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMNotPermitException.java,v 1.2 2004/04/16 12:39:46 garbeam Exp $
+ * $Id: VCMNotPermitException.java,v 1.1 2004/06/16 15:54:22 rendgeor Exp $
  *
  */
-package kobold.common.exception;
+package kobold.common.exceptions;
 
 import java.lang.Exception;
 import java.lang.String;

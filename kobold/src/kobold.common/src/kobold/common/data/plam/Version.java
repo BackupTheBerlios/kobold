@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Version.java,v 1.4 2004/06/16 11:27:35 rendgeor Exp $
+ * $Id: Version.java,v 1.5 2004/06/16 15:54:22 rendgeor Exp $
  *
  */
 
@@ -100,14 +100,6 @@ public class Version extends AbstractAsset {
 		return AbstractAsset.VERSION;
 	}
 
-    /**
-     * @see kobold.common.data.IAsset#getName()
-     */
-    public String getName()
-    {
-        return getName();
-    }
-    
 	/**
 	 * Adds a new fileDescriptor.
 	 *
