@@ -140,7 +140,7 @@
                class="kobold.client.plam.action.GXLExportAction"
                id="kobold.client.plam.action1"/>
          <action
-               label="%action.Metainfo"
+               label="Generate AssetInfo Document"
                class="kobold.client.plam.action.MetaInfoAction"
                id="kobold.client.plam.action2"/>
       </objectContribution>
@@ -149,7 +149,7 @@
             id="kobold.client.plam.roletreecontribution2">
             <action
                enablesFor="1"
-               label="%action.GraphImport"
+               label="GXL Import..."
                class="kobold.client.plam.action.GraphImportAction"
                id="kobold.client.plam.action3"/>
             </objectContribution>
@@ -173,7 +173,7 @@
             objectClass="kobold.client.plam.model.AbstractAsset"
             id="kobold.client.plam.roletreecontribution4">
          <action
-               label="%DeleteAsset"
+               label="Delete Asset"
                class="kobold.client.plam.action.DeleteAssetAction"
                id="kobold.client.plam.DeleteAssetAction"/>
       </objectContribution>
