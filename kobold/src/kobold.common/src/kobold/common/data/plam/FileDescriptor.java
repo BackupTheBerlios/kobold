@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptor.java,v 1.6 2004/06/17 12:23:02 rendgeor Exp $
+ * $Id: FileDescriptor.java,v 1.7 2004/06/17 13:30:31 rendgeor Exp $
  *
  */
 
@@ -72,11 +72,22 @@ public class FileDescriptor extends AbstractAsset {
 		Element fdElement = DocumentHelper.createElement("fd");
 		fdElement.addText(getName ());
 		
-		if  (this.path != null) fdElement.addElement("path").addText(this.path);
-		if (this.version != null) fdElement.addElement("version").addText(this.version);
-		if (this.lastChangeDate != null) fdElement.addElement("lastChangeDate").addText(this.lastChangeDate);
-		if (this.lastAuthor != null) fdElement.addElement("lastAuthor").addText(this.lastAuthor);
+		if (fileDescriptor != null)
+		{
+			//now all fd'S
+			//Element fdElement2 = fdElement.addElement ("fds");
 		
+			//serialize the fd
+			if  (this.path != null) fdElement.addElement("path").addText(this.path);
+			fdElement.add (fileDescriptor.serialize ());
+		}
+		else
+		{
+			if (this.path != null) fdElement.addElement("path").addText(this.path);
+			if (this.version != null) fdElement.addElement("version").addText(this.version);
+			if (this.lastChangeDate != null) fdElement.addElement("lastChangeDate").addText(this.lastChangeDate);
+			if (this.lastAuthor != null) fdElement.addElement("lastAuthor").addText(this.lastAuthor);
+		}		
 		return fdElement;
 	}
 
@@ -114,6 +125,9 @@ public class FileDescriptor extends AbstractAsset {
 	 */
 	public void addFileDescriptor(FileDescriptor fileDescriptor) {
 		this.fileDescriptor = fileDescriptor;
+		//set parent
+		fileDescriptor.setParent(this);
+
 	}
 
     

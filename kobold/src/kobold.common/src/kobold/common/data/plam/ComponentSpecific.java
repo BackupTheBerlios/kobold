@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentSpecific.java,v 1.5 2004/06/17 12:23:02 rendgeor Exp $
+ * $Id: ComponentSpecific.java,v 1.6 2004/06/17 13:30:31 rendgeor Exp $
  *
  */
 
@@ -73,6 +73,7 @@ public class ComponentSpecific extends AbstractComponent {
 	 */
 	public void addVersion(Version version) {
 		versions.put(version.getName(), version);
+		//set parent
 		version.setParent(this);
 	}
 
@@ -86,15 +87,19 @@ public class ComponentSpecific extends AbstractComponent {
 		componentElement.addText(getName());
 
 		//now all versions
-		Element versionElement = componentElement.addElement ("versions");
-		
-		//serialize each component
-		for (Iterator it = this.versions.values().iterator(); it.hasNext();)
+		//if (versions != null) doesn't work?? why?? (mailto: rendgeor)
+		//but this work
+		if (this.versions.values().iterator().hasNext())
 		{
-			Version version = (Version) it.next ();
-			versionElement.add (version.serialize ());
+			Element versionElement = componentElement.addElement ("versions");
+			
+			//serialize each component
+			for (Iterator it = this.versions.values().iterator(); it.hasNext();)
+			{
+				Version version = (Version) it.next ();
+				versionElement.add (version.serialize ());
+			}
 		}
-	
 		return componentElement;
 	}
 

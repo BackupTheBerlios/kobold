@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.5 2004/06/17 12:23:02 rendgeor Exp $
+ * $Id: Variant.java,v 1.6 2004/06/17 13:30:31 rendgeor Exp $
  *
  */
 
@@ -68,26 +68,30 @@ public class Variant extends AbstractAsset {
 		Element variantElement = DocumentHelper.createElement("variant");
 		variantElement.addText(getName());
 
-		//now all components
-		Element versionElement = variantElement.addElement ("versions");
-		
-
-		//serialize each version
-		for (Iterator it = this.versions.values().iterator(); it.hasNext();)
+		//now all versions
+		if (this.versions.values().iterator().hasNext())
 		{
-			Version version = (Version) it.next ();
-			versionElement.add (version.serialize ());
+			Element versionElement = variantElement.addElement ("versions");
+			
+			//serialize each version
+			for (Iterator it = this.versions.values().iterator(); it.hasNext();)
+			{
+				Version version = (Version) it.next ();
+				versionElement.add (version.serialize ());
+			}
 		}
-
+			
 		//now all components
-		Element componentElement = variantElement.addElement ("components");
-
-		
-		//serialize each component
-		for (Iterator it = this.components.values().iterator(); it.hasNext();)
+		if (this.components.values().iterator().hasNext())
 		{
-			ComponentRelated component = (ComponentRelated) it.next ();
-			componentElement.add (component.serialize ());
+			Element componentElement = variantElement.addElement ("components");
+				
+			//serialize each component
+			for (Iterator it = this.components.values().iterator(); it.hasNext();)
+			{
+				ComponentRelated component = (ComponentRelated) it.next ();
+				componentElement.add (component.serialize ());
+			}
 		}
 		
 		return variantElement;
@@ -126,6 +130,9 @@ public class Variant extends AbstractAsset {
 	 */
 	public void addComponent(ComponentRelated component) {
 		components.put(component.getName(), component);
+		//set parent
+		component.setParent(this);
+
 	}
 
 	
@@ -136,6 +143,9 @@ public class Variant extends AbstractAsset {
 	 */
 	public void addVersion(Version version) {
 		versions.put(version.getName(), version);
+		//set parent
+		version.setParent(this);
+
 	}
 
     

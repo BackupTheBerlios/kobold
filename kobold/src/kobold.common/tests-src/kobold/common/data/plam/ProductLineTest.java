@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.6 2004/06/17 12:23:02 rendgeor Exp $
+ * $Id: ProductLineTest.java,v 1.7 2004/06/17 13:30:31 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
 import junit.framework.TestCase;
+import kobold.common.exceptions.BogusProductlineException;
 
 
 
@@ -74,7 +75,21 @@ public class ProductLineTest extends TestCase {
 
 		//--add FD
 		FileDescriptor fd1 = new FileDescriptor ("fd1");
+		fd1.setPath("/tmp/");
 		versionA.addFileDescriptor(fd1);
+		
+		//--add a second FD
+		FileDescriptor fd1_1 = new FileDescriptor ("fd1_1");
+		FileDescriptor fd1_2 = new FileDescriptor ("fd1_2");
+		fd1_2.setLastAuthor("garbeam");
+		fd1_2.setLastChangeDate("11.12.2323");
+		fd1_2.setVersion("1.2.3");
+		fd1_2.setPath("hallo.dat");
+		
+		fd1.addFileDescriptor(fd1_1);
+		fd1.addFileDescriptor(fd1_2);
+		
+		
 
 		//versionB has no FD!
 		
@@ -106,8 +121,8 @@ public class ProductLineTest extends TestCase {
 		Version versionC = new Version ("versC");
 		Version versionD = new Version ("versD");
 
-		variantA.addVersion(versionA);
-		variantA.addVersion(versionB);
+		variantA.addVersion(versionC);
+		variantA.addVersion(versionD);
 
 		//--add FD
 		FileDescriptor fd2 = new FileDescriptor ("fd2");
@@ -119,8 +134,17 @@ public class ProductLineTest extends TestCase {
 		//\\--add component to a variant
 		ComponentRelated componentD = new ComponentRelated ("compC");
 		variantA.addComponent(componentD);
-
 		
+		//getParents and Roots
+		Version versionGet = (Version) fd2.getParent();
+		try
+		{
+		Productline plGet = (Productline) fd2.getRoot ();
+		}
+		catch (BogusProductlineException e)
+		{
+		System.out.print("ERROR_WHILE_GET_ROOT");	
+		}
 		
 		//------------------------------
 		//serialize the whole product-line (all included)

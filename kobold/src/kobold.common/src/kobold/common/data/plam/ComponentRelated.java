@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentRelated.java,v 1.3 2004/06/16 15:54:22 rendgeor Exp $
+ * $Id: ComponentRelated.java,v 1.4 2004/06/17 13:30:31 rendgeor Exp $
  *
  */
 
@@ -71,6 +71,9 @@ public class ComponentRelated extends AbstractComponent {
 	 */
 	public void addVariant(Variant variant) {
 		variants.put(variant.getName(), variant);
+		//set parent
+		variant.setParent(this);
+
 	}
 
 	/**
@@ -82,15 +85,17 @@ public class ComponentRelated extends AbstractComponent {
 		componentElement.addText(getName());
 
 		//now all variants
-		Element variantElement = componentElement.addElement ("variants");
-		
-		//serialize each variant
-		for (Iterator it = this.variants.values().iterator(); it.hasNext();)
+		if (this.variants.values().iterator().hasNext())
 		{
-			Variant variant = (Variant) it.next ();
-			variantElement.add (variant.serialize ());
+			Element variantElement = componentElement.addElement ("variants");
+			
+			//serialize each variant
+			for (Iterator it = this.variants.values().iterator(); it.hasNext();)
+			{
+				Variant variant = (Variant) it.next ();
+				variantElement.add (variant.serialize ());
+			}
 		}
-		
 		return componentElement;
 	}
 

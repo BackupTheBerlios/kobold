@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CoreAsset.java,v 1.5 2004/06/17 12:23:02 rendgeor Exp $
+ * $Id: CoreAsset.java,v 1.6 2004/06/17 13:30:31 rendgeor Exp $
  *
  */
 
@@ -72,14 +72,17 @@ public class CoreAsset extends AbstractAsset {
 
 		
 		//now all components
-		Element componentElement = coreAssetElement.addElement ("components");
-		
-		//serialize each component
-		
-		for (Iterator it = this.components.values().iterator(); it.hasNext();)
+		if (this.components.values().iterator().hasNext())
 		{
-			ComponentRelated component = (ComponentRelated) it.next ();
-			componentElement.add (component.serialize ());
+			Element componentElement = coreAssetElement.addElement ("components");
+		
+			//serialize each component
+		
+			for (Iterator it = this.components.values().iterator(); it.hasNext();)
+			{
+				ComponentRelated component = (ComponentRelated) it.next ();
+				componentElement.add (component.serialize ());
+			}
 		}
 		if (getRepositoryPath() != null)
 		{
@@ -124,6 +127,9 @@ public class CoreAsset extends AbstractAsset {
 	 */
 	public void addComponent(ComponentRelated component) {
 		components.put(component.getName(), component);
+		//set parent
+		component.setParent(this);
+
 	}
     
 	/**

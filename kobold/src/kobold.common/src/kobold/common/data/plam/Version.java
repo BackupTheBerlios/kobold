@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Version.java,v 1.7 2004/06/17 12:23:02 rendgeor Exp $
+ * $Id: Version.java,v 1.8 2004/06/17 13:30:31 rendgeor Exp $
  *
  */
 
@@ -72,10 +72,10 @@ public class Version extends AbstractAsset {
 		if (fileDescriptor != null)
 		{
 			//now all fd'S
-			Element fdElement = versionElement.addElement ("fds");
+			//Element fdElement = versionElement.addElement ("fds");
 		
 			//serialize the fd
-			fdElement.add (fileDescriptor.serialize ());
+			versionElement.add (fileDescriptor.serialize ());
 		}
 		return versionElement;
 
@@ -114,6 +114,9 @@ public class Version extends AbstractAsset {
 	 */
 	public void addFileDescriptor(FileDescriptor fileDescriptor) {
 		this.fileDescriptor = fileDescriptor;
+		//set parent
+		fileDescriptor.setParent(this);
+
 	}
     
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.10 2004/06/17 12:23:02 rendgeor Exp $
+ * $Id: Productline.java,v 1.11 2004/06/17 13:30:31 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -73,6 +73,9 @@ public class Productline extends AbstractAsset{
 		
 		products = new HashMap ();
 		coreAssets = new HashMap ();
+		
+		//no other parents
+		setParent(null);
 	
 	}
 
@@ -85,6 +88,8 @@ public class Productline extends AbstractAsset{
 	 */
 	public void addProduct(Product product) {
 		products.put(product.getName(), product);
+		//set parent
+		product.setParent(this);
 	}
 
 	/**
@@ -104,6 +109,9 @@ public class Productline extends AbstractAsset{
 	 */
 	public void addCoreAsset(CoreAsset coreAsset) {
 		coreAssets.put(coreAsset.getName(), coreAsset);
+		//set parent
+		coreAsset.setParent(this);
+
 	}
 
 	/**
@@ -130,26 +138,32 @@ public class Productline extends AbstractAsset{
 		//serialize all products and coreAssets
 		
 		//now all products
-		Element productsElement = root.addElement("products");
-
-		//serialize each product
-		for (Iterator it = this.products.values().iterator(); it.hasNext();) {
-			Product product = (Product) it.next();
-			productsElement.add(product.serialize());
+		if (this.products.values().iterator().hasNext())
+		{
+			Element productsElement = root.addElement("products");
+	
+			//serialize each product
+			for (Iterator it = this.products.values().iterator(); it.hasNext();) {
+				Product product = (Product) it.next();
+				productsElement.add(product.serialize());
+			}
 		}
-
-		//now all coreAssets
-		Element coreAssetElement = root.addElement("coreAssets");		
 		
-		for (Iterator it = this.coreAssets.values().iterator(); it.hasNext();) {
-			CoreAsset product = (CoreAsset) it.next();
-			coreAssetElement.add(product.serialize());
+		//now all coreAssets
+		if (this.coreAssets.values().iterator().hasNext())
+		{
+			Element coreAssetElement = root.addElement("coreAssets");		
+			
+			for (Iterator it = this.coreAssets.values().iterator(); it.hasNext();) {
+				CoreAsset product = (CoreAsset) it.next();
+				coreAssetElement.add(product.serialize());
+			}
 		}
 		
 		if (getRepositoryPath() != null)
 		{
-			Element repositoryPathElement = coreAssetElement.addElement ("repositoryPath");
-			repositoryPathElement.addText (getRepositoryPath());
+			Element repositoryPathElement = root.addElement ("repositoryPath");
+			root.addText (getRepositoryPath());
 		}
 
 		
