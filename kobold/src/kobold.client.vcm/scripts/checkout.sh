@@ -13,7 +13,6 @@ cd $1
 #$5 module: kobold
 
 #LOGIN wird vorrausgestzt-->erzeugt .cvspass
-#cvs -d :pserver:anonymous@cvs.berlios.de:/cvsroot/kobold login
-#or use $2:password 
+#cvs -d :pserver:anonymous@cvs.berlios.de:/cvsroot/kobold login 
 cvs -z3 -d :pserver:$2@$3:$4 co $5
 
