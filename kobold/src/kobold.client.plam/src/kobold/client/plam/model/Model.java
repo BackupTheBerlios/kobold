@@ -21,12 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Model.java,v 1.3 2004/04/28 16:23:56 vanto Exp $
+ * $Id: Model.java,v 1.4 2004/05/06 16:58:21 vanto Exp $
  *
  */
 package kobold.client.plam.model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import kobold.client.plam.model.pline.graph.ComponentNode;
 import kobold.client.plam.model.pline.graph.VariantNode;
@@ -43,64 +48,45 @@ import net.sourceforge.gxl.GXLGraph;
  * 
  */
 public class Model {
-
-	/**
-	 * This Constructor creates a new Model
-	 */
-	public Model(AbstractAsset type) {
-		
-		if (type instanceof ProductLine)
-		{
-			buildProductLine((ProductLine)type);
-		}
-		if ( type instanceof Product)
-		{
-			buildProduct((Product)type);
-		}
-		if( type instanceof CoreAsset)
-		{
-			buildCoreAsset((CoreAsset)type );
-		}
-			
-
-//		switch (type) {
-//			case 0 :
-//				buildProductLine(name);
-//				break;
-//				
-//			case 1 : 
-//				buildProduct(name);
-//				break;
-//				
-//			case 2 :
-//				buildComponent(name);
-//				break;
-//
-//			default :
-//			buildProductLine(name);
-//			/* @TODO Errorhandling 
-//			 * 
-//			 */
-//			}
-
-
-	}
-
-	private void buildProductLine(ProductLine pline)
+	private AbstractAsset asset;
+	private List components = new ArrayList();
+	protected transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
+	
+	public Model(AbstractAsset asset)
 	{
-		
-	}
-		
-	private void buildProduct(Product prod)
-	{
-		
+		this.asset = asset;
 	}
 	
-	private void buildCoreAsset(CoreAsset ca)
+	public AbstractAsset getAsset()
 	{
-		
+		return asset;
 	}
 	
+	public List getComponents()
+	{
+		return Collections.unmodifiableList(components);
+	}
+	
+	void addComponent(ComponentNode comp)
+	{
+		components.add(comp);
+	}
+	
+	void removeComponent(ComponentNode comp)
+	{
+		components.remove(comp);
+	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener l) 
+	{
+		listeners.addPropertyChangeListener(l);
+	}
+	
+	public void removePropertyChangeListener(PropertyChangeListener l)
+	{
+		listeners.removePropertyChangeListener(l);
+	}
+
 	// test stuff
 	public static void main(String[] args) 
 	{
@@ -138,5 +124,5 @@ public class Model {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentNode.java,v 1.7 2004/04/28 16:23:56 vanto Exp $
+ * $Id: ComponentNode.java,v 1.8 2004/05/06 16:58:21 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -50,9 +51,9 @@ public class ComponentNode extends AbstractNode
 
 	/**
 	 */
-	public VariantNode[] getVariants() 
+	public List getVariants() 
 	{
-		return (VariantNode[]) variants.toArray(new VariantNode[0]);
+		return Collections.unmodifiableList(variants);
 	}
 
 	/**

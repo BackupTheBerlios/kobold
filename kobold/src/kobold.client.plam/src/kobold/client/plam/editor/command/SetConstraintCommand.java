@@ -21,47 +21,58 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalPartFactory.java,v 1.2 2004/05/06 16:58:21 vanto Exp $
+ * $Id: SetConstraintCommand.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
  *
  */
-package kobold.client.plam.editor;
+package kobold.client.plam.editor.command;
 
-import kobold.client.plam.editor.editpart.ComponentEditPart;
-import kobold.client.plam.editor.editpart.ModelEditPart;
-import kobold.client.plam.editor.editpart.VariantEditPart;
-import kobold.client.plam.model.Model;
-import kobold.client.plam.model.pline.graph.ComponentNode;
-import kobold.client.plam.model.pline.graph.VariantNode;
-
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPartFactory;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.commands.Command;
 
 /**
- * GraphicalPartFactory
+ * SetConstraintCommand
  * 
- * @author Tammo
+ * @author Tammo van Lessen
+ * @version $Id: SetConstraintCommand.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
  */
-public class GraphicalPartFactory implements EditPartFactory {
+public class SetConstraintCommand extends Command {
 
-	/** 
-	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
-	 */
-	public EditPart createEditPart(EditPart context, Object model) {
-		EditPart editPart = null;
+    private EditPart editpart;
+    private Rectangle oldRect;
+    private Rectangle newRect;
 
-		if (model instanceof Model) {
-			editPart = new ModelEditPart();
-		} else if (model instanceof ComponentNode) {
-			editPart = new ComponentEditPart();
-		} else if (model instanceof VariantNode) {
-			editPart = new VariantEditPart();
-		}
+    //~ Methods ----------------------------------------------------------------
 
-		if (editPart != null) {
-			editPart.setModel(model);
-		}
 
-		return editPart;
-	}
+    public void setRect(Rectangle r)
+    {
+        newRect = r ;
+    }
+
+    public void setEditPart(EditPart editpart)
+    {
+        this.editpart = editpart;
+    }
+
+    public void execute()
+    {
+        ((GraphicalEditPart) editpart.getParent()).setLayoutConstraint(editpart,
+           ((GraphicalEditPart)editpart).getFigure(), newRect);
+
+    }
+
+    public void redo()
+    {
+        //model.setSize(newSize);
+        //model.setLocation(newPos);
+    }
+
+    public void undo()
+    {
+        //model.setSize(oldSize);
+        //model.setLocation(oldPos);
+    }
 
 }

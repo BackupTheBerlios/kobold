@@ -15,6 +15,8 @@
       <import plugin="org.eclipse.draw2d"/>
       <import plugin="org.eclipse.gef"/>
       <import plugin="org.eclipse.swt"/>
+      <import plugin="kobold.commons"/>
+      <import plugin="KoboldVCM"/>
    </requires>
 
 
@@ -22,8 +24,8 @@
          point="org.eclipse.ui.editors">
       <editor
             name="Architecture Editor"
-            extensions="kae"
             icon="icons/sample.gif"
+            extensions="kae"
             class="kobold.client.plam.editor.ArchitectureEditor"
             id="KoboldPLAM.editors.ArchitectureEditor">
       </editor>

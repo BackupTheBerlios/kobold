@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNode.java,v 1.7 2004/04/28 16:23:56 vanto Exp $
+ * $Id: AbstractNode.java,v 1.8 2004/05/06 16:58:21 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.net.URI;
 
 import kobold.common.data.IdManager;
@@ -50,11 +52,12 @@ import org.eclipse.draw2d.geometry.Point;
  */
 public abstract class AbstractNode extends GXLNode
  {
-
 	protected static final Log logger = LogFactory.getLog(AbstractNode.class);
-	private Dimension dimension;
-	private Point x, y;
+	private Dimension dimension = new Dimension(100,50);
+	private Point location = new Point(5,5);
 
+	protected transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
+	
 	private GXLGraph graph = new GXLGraph(IdManager.getInstance().getModelId("container"));
 
 	/**
@@ -64,6 +67,7 @@ public abstract class AbstractNode extends GXLNode
 	{
 		super(IdManager.getInstance().getModelId(name));
 		add(graph);
+		setName(name);
 		try {
 			setType(new URI(type));
 		} catch (Exception e) {
@@ -135,21 +139,12 @@ public abstract class AbstractNode extends GXLNode
 	}
 
 	/**
-	 * This method returns the x-Axis point of the graphical object, or null if it is not set
+	 * This method returns the location of the graphical object, or null if it is not set
 	 * @return
 	 */
-	public Point getX() 
+	public Point getLocation() 
 	{
-		return x;
-	}
-
-	/**
-	 * This method returns the y-Axis point of the graphical object, or null if it is not set
-	 * @return
-	 */
-	public Point getY() 
-	{
-		return y;
+		return location;
 	}
 
 	/**
@@ -193,17 +188,19 @@ public abstract class AbstractNode extends GXLNode
 	 * This method sets the x-Axis point of the graphical object
 	 * @param point
 	 */
-	public void setX(Point point) 
+	public void setLocation(Point point) 
 	{
-		x = point;
+		location = point;
 	}
 
-	/**
-	 * This method sets the y-Axis point of the graphical object
-	 * @param point
-	 */
-	public void setY(Point point) 
+	public void addPropertyChangeListener(PropertyChangeListener l)
 	{
-		y = point;
+		listeners.addPropertyChangeListener(l);
 	}
+
+	public void removePropertyChangeListener(PropertyChangeListener l)
+	{
+		listeners.removePropertyChangeListener(l);
+	}
+
 }

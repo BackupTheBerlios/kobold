@@ -21,47 +21,58 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalPartFactory.java,v 1.2 2004/05/06 16:58:21 vanto Exp $
+ * $Id: ModelFactory.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
  *
  */
-package kobold.client.plam.editor;
+package kobold.client.plam.model;
 
-import kobold.client.plam.editor.editpart.ComponentEditPart;
-import kobold.client.plam.editor.editpart.ModelEditPart;
-import kobold.client.plam.editor.editpart.VariantEditPart;
-import kobold.client.plam.model.Model;
 import kobold.client.plam.model.pline.graph.ComponentNode;
 import kobold.client.plam.model.pline.graph.VariantNode;
-
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPartFactory;
+import kobold.client.plam.model.pline.graph.VersionNode;
+import kobold.common.io.ScriptDescriptor;
 
 /**
- * GraphicalPartFactory
+ * ModelFactory
  * 
- * @author Tammo
+ * @author Tammo van Lessen
  */
-public class GraphicalPartFactory implements EditPartFactory {
+public class ModelFactory {
 
-	/** 
-	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
-	 */
-	public EditPart createEditPart(EditPart context, Object model) {
-		EditPart editPart = null;
-
-		if (model instanceof Model) {
-			editPart = new ModelEditPart();
-		} else if (model instanceof ComponentNode) {
-			editPart = new ComponentEditPart();
-		} else if (model instanceof VariantNode) {
-			editPart = new VariantEditPart();
-		}
-
-		if (editPart != null) {
-			editPart.setModel(model);
-		}
-
-		return editPart;
+	public static Model createProductLineModel(ProductLine line)
+	{
+		return null;
 	}
-
+	
+	public static Model createProductModel(Product product)
+	{
+		return null;
+	}
+	
+	public static Model createTestModel()
+	{
+		Model model = new Model(new ProductLine());
+		ComponentNode componentNode = new ComponentNode("Compiler");
+		ComponentNode c2 = new ComponentNode("Compiler");
+		c2.setDescription("Testdescription");
+		c2.setOwner("Tammo");
+		
+		VariantNode var1 = new VariantNode("V1");
+		VariantNode var2 = new VariantNode("V2");
+		
+		ComponentNode c2c = new ComponentNode("Something");
+		VariantNode var3 = new VariantNode("V1");
+		c2.addVariant(var1);
+		c2.addVariant(var2);
+		var2.addComponent(c2c);
+		c2c.addVariant(var3);
+	
+		VersionNode version = new VersionNode("1.0");
+		var2.addVersion(version);
+		version.setScriptDescriptor(new ScriptDescriptor("MyScript"));
+		
+		model.addComponent(componentNode);
+		model.addComponent(c2);
+		
+		return model;
+	}
 }
