@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.16 2004/05/16 21:27:35 garbeam Exp $
+ * $Id: WorkflowMessage.java,v 1.17 2004/05/17 02:15:09 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -51,6 +51,7 @@ public class WorkflowMessage extends KoboldMessage {
 	public WorkflowMessage(Element data)
 	{
 		super(data);
+		deserialize(data);
 	}
 	
 	public void addParentId(String id)
@@ -126,19 +127,24 @@ public class WorkflowMessage extends KoboldMessage {
 	public void deserialize(Element data) 
 	{
 		super.deserialize(data);
+		// TODO check why those slutty variables dont get initialized.
+		parents = new HashSet();
+		controlItems = new LinkedList();
+		
 		workflowId = data.elementTextTrim("workflow-id");
 		comment = data.elementTextTrim("comment");
 
 		Element history = data.element("history");
 		Iterator it = history.elementIterator("parent");
+		
 		while (it.hasNext()) {
 			Element p = (Element)it.next();
 			parents.add(p.getTextTrim());
 		}
 		
 		Element controls = data.element("controls");
-		it = history.elementIterator("control");
-		
+		it = controls.elementIterator("control");
+
 		while (it.hasNext()) {
 			Element c = (Element)it.next();
 			controlItems.add(new WorkflowItem(c));
@@ -180,6 +186,14 @@ public class WorkflowMessage extends KoboldMessage {
 		return el;
 	}
 
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("\t[wf-id:    " + getWorkflowId() + "]\n");
+		sb.append("\t[parents:  " + getParentIds().length + "]\n");
+		sb.append("\t[controls: " + getWorkflowControls().length + "]\n");
+
+		return super.toString() + sb.toString(); 
+	}
 }   
    
 
