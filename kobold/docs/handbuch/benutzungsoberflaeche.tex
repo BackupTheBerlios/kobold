@@ -1,0 +1,82 @@
+\chapter{User Interface}
+
+\section{Architecture Editor}
+
+The Architecture Editor displays the architecture of the product,
+or product line respectively, that is selected in the Role View. \par
+
+Architectures are directed graphs that consist of nodes and edges. 
+Nodes represent components, variants and files. Directed edges represent
+any relationship between nodes.\par
+
+Through drag and drop you can move the elements of the architecture.
+
+\section{Role View}
+
+The Role View shows the current projects that are checked out in your workspace 
+(see \ref{roletree}).
+A project can either be a product or a product line. You can navigate between the 
+different projects by selecting them. The open tree in the Role View displays the
+role of the current user in the project. You can also see the architecture and its 
+elements.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{roletree.png}
+   \caption{Role View}
+\label{roletree}
+\end{center}
+\end{figure}\par
+
+When you right-click on a project, a context menu will open where you can choose 
+between different actions (see \ref{rolekontext}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{rolekontext.png}
+   \caption{Project Context Menu}
+\label{rolekontext}
+\end{center}
+\end{figure}\par
+
+\section{Workflow/Task View}
+
+In the bottom of the window you can see the Workflow/Task View which displays all 
+the messages (K) and workflows (W) for the current user (see \ref{workflow}). 
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=15cm]{workflow.png}
+   \caption{Workflow/Task View}
+\label{workflow}
+\end{center}
+\end{figure}\par
+
+Double-click on an entry and a 
+separate dialog will be opened where you can read the details of that message or
+workflow (see \ref{workflowdialog}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=5cm]{workflowdialog.png}
+   \caption{Message Dialog}
+\label{workflowdialog}
+\end{center}
+\end{figure}\par
+
+When you right-click on a message, a context menu will open where you can choose 
+between different actions (see \ref{workflowkontext}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{workflowkontext.png}
+   \caption{Message Context Menu}
+\label{workflowkontext}
+\end{center}
+\end{figure}\par
+
+\section{Minimap}
+
+The Minimap is on the left side beneath the Role View. It shows the whole architecture.
+By clicking at one spot on the map, the Architecture Editor automatically centers on that
+spot. 

@@ -1,0 +1,76 @@
+\documentclass[a4paper,titlepage,12pt,ngerman]{scrbook}
+\usepackage{../common/header}
+\usepackage{supertabular}
+
+
+\RCSdef $Revision: 1.18 $
+\RCSdef $Date: 2004/02/24 15:41:15 $
+
+%\newcommand\version{Version \today \xspace}
+\newcommand\version{Version 1.0\xspace}
+
+\title {\huge \product\\[0.5cm]\large User Manual \\[0.5cm] \version
+  \\[1cm] \Large \company}
+
+
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Deckblatt
+
+\begin{titlepage}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+{\Huge
+\raggedright
+\textbf{\bf Kobold} \\
+\huge Product Line Management System
+\rule{\textwidth}{0.75pt}
+\par
+}
+\begin{flushleft}
+\normalsize
+\version
+\end{flushleft}
+
+
+\vfill
+\includegraphics[width=15cm]{../common/logo-color.png}
+\vfill
+{\parindent=0cm
+\Huge User Manual
+}
+
+
+\setcounter{footnote}{0}
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Versionsgeschichte
+
+\section*{Versionsgeschichte}
+
+\begin{itemize}
+
+\item Version 1.0 (18.05.2004)
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Inhaltsverzeichnis
+\tableofcontents
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\include{einleitung}
+\include{technischedaten}
+\include{installationsanleitung}
+\include{tutorial}
+\include{benutzungsoberflaeche}
+
+
+
+
+
+\end{document}
+
