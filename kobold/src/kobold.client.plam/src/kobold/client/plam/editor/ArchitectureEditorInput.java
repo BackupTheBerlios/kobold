@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditorInput.java,v 1.4 2004/08/04 23:03:02 vanto Exp $
+ * $Id: ArchitectureEditorInput.java,v 1.5 2004/09/01 02:58:22 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -47,7 +47,7 @@ public class ArchitectureEditorInput implements IEditorInput, IPersistableElemen
         this.asset = asset;
     }
     
-    public AbstractRootAsset getAsset()
+    public AbstractRootAsset getRootAsset()
     {
         return asset;
     }

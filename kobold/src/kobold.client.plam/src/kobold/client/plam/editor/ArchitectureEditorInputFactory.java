@@ -21,13 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditorInputFactory.java,v 1.2 2004/08/05 09:13:01 vanto Exp $
+ * $Id: ArchitectureEditorInputFactory.java,v 1.3 2004/09/01 02:58:22 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
 
 import kobold.client.plam.KoboldProject;
-import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.AbstractRootAsset;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -50,10 +50,8 @@ public class ArchitectureEditorInputFactory implements IElementFactory
 	 */
 	private static final String ID_FACTORY = "kobold.client.plam.editor.ArchitectureEditorInputFactory"; //$NON-NLS-1$
 
-	/**
-	 * Tag for the IProject.name of the file resource.
-	 */
 	private static final String TAG_PROJECT = "project"; //$NON-NLS-1$
+	private static final String TAG_ROOT_ID = "rootid";
 	
 	/**
 	 * Creates a new factory.
@@ -66,18 +64,18 @@ public class ArchitectureEditorInputFactory implements IElementFactory
 	 */
 	public IAdaptable createElement(IMemento memento) {
 		String name = memento.getString(TAG_PROJECT);
-		if (name == null)
+		String rootid = memento.getString(TAG_ROOT_ID);
+		if (name == null || rootid == null)
 			return null;
 
-		// Get a handle to the IFile...which can be a handle
-		// to a resource that does not exist in workspace
 		IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 		if (p.isAccessible() && KoboldProject.hasKoboldNature(p)) {
 			KoboldProject kp;
             try {
                 kp = (KoboldProject)p.getNature(KoboldProject.NATURE_ID);
-                Productline pl = kp.getProductline();
-                return (pl != null) ? new ArchitectureEditorInput(pl) : null;
+                //Productline pl = kp.getProductline();
+                AbstractRootAsset ara = (AbstractRootAsset)kp.getProductline().getAssetById(rootid);
+                return (ara != null) ? new ArchitectureEditorInput(ara) : null;
             } catch (CoreException e) {}
             
             return null;
@@ -104,7 +102,8 @@ public class ArchitectureEditorInputFactory implements IElementFactory
 	 */
 	public static void saveState(IMemento memento, ArchitectureEditorInput input) 
 	{
-	    memento.putString(TAG_PROJECT, input.getAsset().getKoboldProject().getProject().getName());
+	    memento.putString(TAG_PROJECT, input.getRootAsset().getKoboldProject().getProject().getName());
+	    memento.putString(TAG_ROOT_ID, input.getRootAsset().getId());
 	}
 
 }

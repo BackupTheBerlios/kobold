@@ -21,11 +21,13 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.20 2004/09/01 01:07:36 vanto Exp $
+ * $Id: FileDescriptor.java,v 1.21 2004/09/01 02:58:22 vanto Exp $
  *
  */
 package kobold.client.plam.model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -62,6 +64,8 @@ public class FileDescriptor implements IFileDescriptorContainer,
     private Date lastChange;
     private boolean isBinary = false;
     private boolean isDirectory = false;
+    
+    protected transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     
     public FileDescriptor() {
     }
@@ -316,7 +320,6 @@ public class FileDescriptor implements IFileDescriptorContainer,
         return null;
     }
 
-
     /* (non-Javadoc)
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
@@ -327,4 +330,28 @@ public class FileDescriptor implements IFileDescriptorContainer,
         }
         return null;
     }
+    
+    public void addPropertyChangeListener(PropertyChangeListener l)
+	{
+		listeners.addPropertyChangeListener(l);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener l)
+	{
+		listeners.removePropertyChangeListener(l);
+	}
+
+	protected final void fireStructureChange(String prop, Object child){
+		listeners.firePropertyChange(prop, null, child);
+
+		AbstractRootAsset root = getRoot();
+		if (root != null) {
+		    root.fireModelChange();
+		    if (root.getParent() instanceof AbstractRootAsset) {
+		        ((AbstractRootAsset)root.getParent()).fireModelChange();
+		    }
+		}
+
+	}
+
 }

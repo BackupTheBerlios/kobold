@@ -21,18 +21,37 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorEditPart.java,v 1.1 2004/09/01 01:08:29 vanto Exp $
+ * $Id: FileDescriptorEditPart.java,v 1.2 2004/09/01 02:58:22 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
-import kobold.client.plam.editor.figure.ReleaseFigure;
-import kobold.client.plam.editor.policy.FlowLayoutEditPolicyImpl;
-import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.FileDescriptor;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.List;
 
+import kobold.client.plam.editor.figure.AbstractNodeFigure;
+import kobold.client.plam.editor.figure.ReleaseFigure;
+import kobold.client.plam.editor.model.ViewModel;
+import kobold.client.plam.editor.policy.FlowLayoutEditPolicyImpl;
+import kobold.client.plam.editor.policy.GraphicalNodeEditPolicyImpl;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.FileDescriptor;
+import kobold.client.plam.model.edges.EdgeContainer;
+
+import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.NodeEditPart;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 
 /**
@@ -40,33 +59,145 @@ import org.eclipse.gef.EditPolicy;
  * 
  * @author Tammo
  */
-public class FileDescriptorEditPart extends AbstractComposableEditPart
-{
+public class FileDescriptorEditPart extends AbstractGraphicalEditPart
+									implements PropertyChangeListener, NodeEditPart {
 
     private ReleaseFigure figure;
+    private ChopboxAnchor anchor;
+    private AbstractRootAsset root;
     
-    /**
-     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-     */
-    protected IFigure createNodeFigure()
-    {
-        figure = new ReleaseFigure();
-        figure.setTitle(((FileDescriptor)getModel()).getFilename());
-        return figure;
-    }
-
     /**
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies()
     {
-        super.createEditPolicies();
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
+			new GraphicalNodeEditPolicyImpl());
+
+		//installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicyImpl());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new FlowLayoutEditPolicyImpl());
     }
     
-    protected void refreshVisuals()
+    /**
+     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+     */
+    protected IFigure createFigure()
     {
-        super.refreshVisuals();
-        figure.setTitle((((FileDescriptor)getModel()).getFilename() == null) ? "" : getAsset().getName());
+        figure = new ReleaseFigure();
+        figure.setTitle(((FileDescriptor)getModel()).getFilename());
+        anchor = new ChopboxAnchor(figure);
+        return figure;
+    }
+
+	/**
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	public void propertyChange(PropertyChangeEvent evt) {
+		String prop = evt.getPropertyName();
+
+		if (AbstractAsset.ID_CHILDREN.equals(prop) 
+		        || AbstractAsset.ID_FILE_DESCRIPTORS.equals(prop)) {
+			refreshChildren();
+		} else if (EdgeContainer.ID_SOURCE_CHANGED.equals(prop)) {
+			refreshSourceConnections();
+		} else if (EdgeContainer.ID_TARGET_CHANGED.equals(prop)) {
+			refreshTargetConnections();
+		} else /*if (prop.equals(ViewModel.ID_SIZE) || prop.equals(ViewModel.ID_LOCATION) 
+		        || prop.equals(AbstractAsset.ID_DATA))*/ {
+			refreshVisuals();
+		}
+	}
+
+    /**
+     * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+     */
+    public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection)
+    {
+        return anchor;
+    }
+
+    /**
+     * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+     */
+    public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection)
+    {
+        return anchor;
+    }
+
+    /**
+     * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
+     */
+    public ConnectionAnchor getSourceConnectionAnchor(Request request)
+    {
+        return anchor;
+    }
+
+    /**
+     * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
+     */
+    public ConnectionAnchor getTargetConnectionAnchor(Request request)
+    {
+        return anchor;
+    }
+    
+	public FileDescriptor getFileDescriptor()
+	{
+	    return (FileDescriptor)getModel();
+	}
+	
+    /**
+	 * Updates the visuals. 
+	 */
+	protected void refreshVisuals() 
+	{
+		
+		figure.setTitle((((FileDescriptor)getModel()).getFilename() == null) ? "" : getFileDescriptor().getFilename());
+	}
+
+	/**
+     * @see org.eclipse.gef.EditPart#activate()
+     */
+    public void activate()
+    {
+        if (isActive() == false) {
+            super.activate();
+            getFileDescriptor().addPropertyChangeListener(this);
+            root = getFileDescriptor().getParentAsset().getRoot();
+            root.getEdgeContainer().addPropertyChangeListener(this);
+        }
+    }
+
+	/**
+     * @see org.eclipse.gef.EditPart#deactivate()
+     */
+    public void deactivate()
+    {
+        if (isActive()) {
+            super.deactivate();
+            getFileDescriptor().removePropertyChangeListener(this);
+            if (root != null) {
+                root.getEdgeContainer().removePropertyChangeListener(this);
+            }
+        }
+    }
+    
+    /**
+     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
+     */
+    protected List getModelSourceConnections()
+    {
+        AbstractRootAsset root = getFileDescriptor().getRoot();
+        EdgeContainer ec = root.getEdgeContainer();
+        return root.getEdgeContainer().getEdgesFrom(getFileDescriptor());
+    }
+    
+    /**
+     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
+     */
+    protected List getModelTargetConnections()
+    {
+        AbstractRootAsset root = getFileDescriptor().getRoot();
+        EdgeContainer ec = root.getEdgeContainer();
+        return root.getEdgeContainer().getEdgesTo(getFileDescriptor());
     }
 }

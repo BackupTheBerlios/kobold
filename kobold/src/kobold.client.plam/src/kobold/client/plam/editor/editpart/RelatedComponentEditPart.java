@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponentEditPart.java,v 1.6 2004/09/01 01:08:29 vanto Exp $
+ * $Id: RelatedComponentEditPart.java,v 1.7 2004/09/01 02:58:22 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -39,6 +39,7 @@ import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.LayoutManager;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
@@ -107,7 +108,7 @@ public class RelatedComponentEditPart extends AbstractAssetEditPart
     {
         List children = new ArrayList(); 
         children.addAll(((RelatedComponent)getModel()).getProductComponents());
-        children.addAll(((RelatedComponent)getModel()).getFileDescriptors());
+        //children.addAll(((RelatedComponent)getModel()).getFileDescriptors());
         return children;
     }
     
@@ -118,8 +119,9 @@ public class RelatedComponentEditPart extends AbstractAssetEditPart
     {
     	IFigure child = ((GraphicalEditPart)childEditPart).getFigure();
         if (childEditPart instanceof FileDescriptorEditPart) {
-            int i = ((ProductComponent)getAsset()).getFileDescriptors().indexOf(((FileDescriptorEditPart)childEditPart).getAsset());
-            getFileDescriptorPane().add(child, i);
+            //int i = ((ProductComponent)getAsset()).getFileDescriptors().indexOf(((FileDescriptorEditPart)childEditPart).getModel());
+            //getFileDescriptorPane().add(child, i);
+            getFileDescriptorPane().add(child);
     	} else {
     	    getContentPane().add(child, index);
     	}
@@ -151,6 +153,28 @@ public class RelatedComponentEditPart extends AbstractAssetEditPart
     	}
     }
 
+    protected void reorderChild(EditPart child, int index)
+    {
+    	IFigure childFigure = ((GraphicalEditPart) child).getFigure();
+    	LayoutManager layout = null;
+    	if (child instanceof FileDescriptorEditPart) {
+    	    layout = getFileDescriptorPane().getLayoutManager();
+        } else {
+            layout = getContentPane().getLayoutManager();
+        }
+    	Object constraint = null;
+    	if (layout != null)
+    		constraint = layout.getConstraint(childFigure);
+    	
+    	removeChildVisual(child);
+    	List children = getChildren();
+    	children.remove(child);
+    	children.add(index, child);
+    	addChildVisual(child, index);
+    	
+    	setLayoutConstraint(child, childFigure, constraint);
+    }
+    
     private class RelatedStatus extends AbstractStatus 
     {
 

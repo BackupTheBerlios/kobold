@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponentFigure.java,v 1.1 2004/09/01 01:08:29 vanto Exp $
+ * $Id: ProductComponentFigure.java,v 1.2 2004/09/01 02:58:22 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
 
+import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FlowLayout;
@@ -48,6 +49,7 @@ public abstract class ProductComponentFigure extends AbstractNodeFigure
      */
     public ProductComponentFigure() 
     {
+        super();
         fdPane = new Figure();
         FlowLayout tbl = new FlowLayout();
         tbl.setStretchMinorAxis(false);
@@ -55,6 +57,8 @@ public abstract class ProductComponentFigure extends AbstractNodeFigure
         tbl.setMinorSpacing(2);
         fdPane.setLayoutManager(tbl);
         fdPane.setBackgroundColor(ColorConstants.gray);
+        add(fdPane);
+        getLayoutManager().setConstraint(fdPane, BorderLayout.BOTTOM);
     }
     
     /**
