@@ -21,7 +21,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 * DEALINGS IN THE SOFTWARE.
 *
-* $Id: CoreGroupDialog.java,v 1.6 2004/08/24 18:46:24 garbeam Exp $
+* $Id: CoreGroupDialog.java,v 1.7 2004/08/24 20:04:26 garbeam Exp $
 *
 */
 
@@ -73,8 +73,8 @@ public class CoreGroupDialog extends TitleAreaDialog {
 	protected Control createDialogArea(Composite parent) {
 	
 	    getShell().setText("Core Group Suggestion");
-	    setTitle("&Core Group Suggestion");
-	    setMessage("Suggest Asset To Core Group. Choose the kind of recipient of your suggestion.");
+	    setTitle("Core Group Suggestion...");
+	    setMessage("Suggest asset to Core Group. Choose the kind of recipient of your suggestion.");
 		
 		Composite panel = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(1, false);
@@ -114,8 +114,10 @@ public class CoreGroupDialog extends TitleAreaDialog {
 		    					
 			msg.setSender(ctx.getUserName());	
 			msg.setStep(1);
-			AbstractRootAsset rootAsset = selection.getRoot();
-			msg.setProductline(rootAsset.getName());
+			if (selection != null) {
+    			AbstractRootAsset rootAsset = selection.getRoot();
+    			msg.setProductline(rootAsset.getName());
+			}
 			msg.setReceiver("PE");
 			msg.setRole("Product Engineer");
 			msg.putWorkflowData("P", ctx.getUserName());
@@ -145,8 +147,10 @@ public class CoreGroupDialog extends TitleAreaDialog {
 		    					
 			msg.setSender(ctx.getUserName());	
 			msg.setStep(2);
-			AbstractRootAsset rootAsset = selection.getRoot();
-			msg.setProductline(rootAsset.getName());
+			if (selection != null) {
+    			AbstractRootAsset rootAsset = selection.getRoot();
+    			msg.setProductline(rootAsset.getName());
+			}
 			msg.setReceiver("PLE");
 			msg.setRole("PLE");
 			msg.putWorkflowData("PE", ctx.getUserName());

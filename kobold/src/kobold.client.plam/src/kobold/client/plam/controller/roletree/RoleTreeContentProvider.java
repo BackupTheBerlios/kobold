@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.33 2004/08/24 17:13:49 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.34 2004/08/24 20:04:26 garbeam Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -41,6 +41,8 @@ import kobold.client.plam.KoboldProject;
 import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.FileDescriptor;
+import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Component;
@@ -214,6 +216,11 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     	    list.addAll(((Product)parentElement).getProductReleases());
     	    list.addAll(((Product)parentElement).getMaintainers());
     	    return list.toArray();
+    	} else if (parentElement instanceof IFileDescriptorContainer) {
+    	    FileDescriptor fd = (FileDescriptor) parentElement;
+    	    if (fd.isDirectory()) {
+    	        return fd.getFileDescriptors().toArray();
+    	    }
     	}
     	     
         return new Object[0];

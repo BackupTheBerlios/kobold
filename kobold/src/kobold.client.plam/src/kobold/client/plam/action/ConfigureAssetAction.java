@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ConfigureAssetAction.java,v 1.2 2004/08/24 18:46:24 garbeam Exp $
+ * $Id: ConfigureAssetAction.java,v 1.3 2004/08/24 20:04:26 garbeam Exp $
  *
  */
 package kobold.client.plam.action;
@@ -50,7 +50,7 @@ public class ConfigureAssetAction extends Action
     public ConfigureAssetAction(Shell shell)
     {
         this.shell = shell;
-		setText("Configure &Asset...");
+		setText("Configure Asset...");
 		setToolTipText("Show asset configuration dialog.");
 		setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"));
 
