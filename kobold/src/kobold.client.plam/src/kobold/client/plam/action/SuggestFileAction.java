@@ -31,8 +31,8 @@ public class SuggestFileAction extends Action{
     public SuggestFileAction(Shell shell) 
     {
         this.shell = shell;
-		setText("Suggest file for core group");
-		setToolTipText("Suggest a file to be added to a core group");
+		setText("Suggest asset for core group");
+		setToolTipText("Suggest an asset to be added to a core group");
 		setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/wflow.gif"));
 
     }
