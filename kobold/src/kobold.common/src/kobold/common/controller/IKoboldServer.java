@@ -21,13 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.13 2004/07/07 15:40:32 garbeam Exp $
+ * $Id: IKoboldServer.java,v 1.14 2004/07/21 17:07:36 garbeam Exp $
  *
  */
 
 package kobold.common.controller;
 
-import java.util.List;
+import java.util.Vector;
 
 import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Component;
@@ -78,7 +78,7 @@ public interface IKoboldServer {
      * Get list of all users.
      * @param userContext
      */
-    public List getAllUsers(UserContext userContext);
+    public Vector getAllUsers(UserContext userContext);
     
 	/**
      * Applies modifications to the specified user fullname.
@@ -120,7 +120,7 @@ public interface IKoboldServer {
      * @param userContext the user context.
      * @return {@see java.util.List} of the productline names.
      */
-    public List getProductlineNames(UserContext userContext);
+    public Vector getProductlineNames(UserContext userContext);
 
     /**
 	 * Applies modifications to the given Productline.

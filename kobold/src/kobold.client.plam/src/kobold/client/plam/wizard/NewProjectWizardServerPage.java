@@ -21,14 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.9 2004/07/07 01:55:43 vanto Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.10 2004/07/21 17:07:07 garbeam Exp $
  *
  */
 package kobold.client.plam.wizard;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
+import java.util.Vector;
 
 import kobold.client.plam.controller.SecureKoboldClient;
 import kobold.common.data.UserContext;
@@ -160,7 +160,7 @@ public class NewProjectWizardServerPage extends WizardPage {
                     UserContext context = client.login(getUsername(), getPassword());
                     if (context != null) {
                         //Vector roles = client.getRoles(context);
-                        List productlines = client.getProductlineNames(context);
+                        Vector productlines = client.getProductlineNames(context);
                         client.logout(context);
                         client = null;
                         serverOk = true;

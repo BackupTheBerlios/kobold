@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.55 2004/07/20 12:51:28 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.56 2004/07/21 17:07:36 garbeam Exp $
  *
  */
 package kobold.server;
@@ -379,9 +379,9 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	/**
 	 * @see kobold.common.controller.IKoboldServer#getAllUsers(kobold.common.data.UserContext)
 	 */
-	public List getAllUsers(UserContext userContext) {
+	public Vector getAllUsers(UserContext userContext) {
 	    List users = UserManager.getInstance().getAllUsers();
-	    List result = new ArrayList();
+	    Vector result = new Vector();
 	    
 	    for (Iterator iterator = users.iterator(); iterator.hasNext(); ) {
 	        kobold.server.data.User user = (kobold.server.data.User) iterator.next();
@@ -460,7 +460,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	/**
 	 * @see kobold.common.controller.IKoboldServer#getProductlineNames(kobold.common.data.UserContext)
 	 */
-	public List getProductlineNames(UserContext userContext) {
+	public Vector getProductlineNames(UserContext userContext) {
 	    ProductlineManager productlineManager = ProductlineManager.getInstance();
 	    return productlineManager.getProductlineNames();
 	}

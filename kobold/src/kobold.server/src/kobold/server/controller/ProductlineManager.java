@@ -21,17 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.5 2004/07/20 12:50:16 neccaino Exp $
+ * $Id: ProductlineManager.java,v 1.6 2004/07/21 17:07:36 garbeam Exp $
  *
  */
 package kobold.server.controller;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -201,8 +200,8 @@ public class ProductlineManager {
      * 
      * @return List of String-Objects with all productline's names
 	 */
-	public List getProductlineNames() {
-	    List result = new ArrayList();
+	public Vector getProductlineNames() {
+	    Vector result = new Vector();
 	    
 	    for (Iterator iterator = productlines.values().iterator(); iterator.hasNext(); )
 	    {

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.27 2004/07/12 08:27:47 grosseml Exp $
+ * $Id: SecureKoboldClient.java,v 1.28 2004/07/21 17:07:07 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -30,9 +30,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
 
 import kobold.common.controller.IKoboldServer;
@@ -43,7 +41,6 @@ import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.User;
 import kobold.common.data.UserContext;
-import kobold.common.io.RepositoryDescriptor;	
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -211,41 +208,81 @@ public class SecureKoboldClient implements IKoboldServer {
 	/**
 	 * @see kobold.common.controller.IKoboldServer#getProductlineNames(kobold.common.data.UserContext)
 	 */
-	public List getProductlineNames(UserContext userContext) {
-		List result = new ArrayList();
+	public Vector getProductlineNames(UserContext userContext) {
+	    Vector result = null;
+		Vector v = new Vector();
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		try {
+			result = (Vector) client.execute("getProductlineNames", v);
+			log.info(result);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 		return result;
 	}
 	
 	/**
 	 * @see kobold.common.controller.IKoboldServer#getAllUsers(kobold.common.data.UserContext)
 	 */
-	public List getAllUsers(UserContext userContext) {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector getAllUsers(UserContext userContext) {
+	    Vector result = new Vector();
+		Vector v = new Vector();
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		try {
+			Vector vector = (Vector) client.execute("getAllUser", v);
+			
+			for (Iterator iterator = vector.iterator(); iterator.hasNext();) {
+			    User user = new User(RPCMessageTransformer.decode((String) iterator.next()));
+			    result.add(user);
+			}
+		    log.info(result);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
+		return result;
 	}
 
 	/**
 	 * @see kobold.common.controller.IKoboldServer#removeUser(kobold.common.data.UserContext, kobold.common.data.User)
 	 */
 	public void removeUser(UserContext userContext, User user) {
-		// TODO Auto-generated method stub
-		
+		Vector v = new Vector();
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(RPCMessageTransformer.encode(user.serialize()));
+		try {
+			Object result = (Object) client.execute("removeUser", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
 
 	/**
 	 * @see kobold.common.controller.IKoboldServer#updateProductline(kobold.common.data.UserContext, kobold.common.data.Productline)
 	 */
 	public void updateProductline(UserContext userContext, Productline productline) {
-		// TODO Auto-generated method stub
-		
+		Vector v = new Vector();
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(RPCMessageTransformer.encode(productline.serialize()));
+		try {
+			Object result = (Object) client.execute("updateProductline", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
 
 	/**
 	 * @see kobold.common.controller.IKoboldServer#updateProduct(kobold.common.data.UserContext, java.lang.String, kobold.common.data.Product)
 	 */
 	public void updateProduct(UserContext userContext, String productlineName, Product product) {
-		// TODO Auto-generated method stub
-		
+		Vector v = new Vector();
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(productlineName);
+		v.add(RPCMessageTransformer.encode(product.serialize()));
+		try {
+			Object result = (Object) client.execute("updateProduct", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
 
 	/**
@@ -254,7 +291,16 @@ public class SecureKoboldClient implements IKoboldServer {
 	public void updateComponent(UserContext userContext, String productlineName,
 	        					String productName, Component component)
 	{
-		// TODO Auto-generated method stub
+		Vector v = new Vector();
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(productlineName);
+		v.add(productName);
+		v.add(RPCMessageTransformer.encode(component.serialize()));
+		try {
+			Object result = (Object) client.execute("updateComponent", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
 
 	private class AdaptedSecureXmlRpcClient extends SecureXmlRpcClient {
@@ -312,8 +358,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		} catch (Exception exception) {
 			log.error(exception);
 		}
-        
-    }
+     }
 
 }
 
