@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.1 2004/05/04 22:30:20 garbeam Exp $
+ * $Id: UserManager.java,v 1.2 2004/05/05 17:50:05 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -38,6 +38,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
@@ -58,7 +59,7 @@ public class UserManager {
 	 
 	static public UserManager getInstance() {
 		 if (instance == null ) {
-		 	 instance = new UserManager("users.xml");
+		 	 instance = new UserManager();
 		 }
 		 return instance;
 	}
@@ -67,8 +68,8 @@ public class UserManager {
 	 * Basic constructor of this singleton.
 	 * @param path
 	 */
-	private UserManager(String path) {
-		deserialize(path);
+	private UserManager() {
+		users = new HashMap();
 	}
 	
 	/**
@@ -130,7 +131,7 @@ public class UserManager {
 	 * 
 	 * @param path - file where to read from.
 	 */
-	protected void deserialize(String path) {
+	public void deserialize(String path) {
 		
 		SAXReader reader = new SAXReader();
 		Document document = null;

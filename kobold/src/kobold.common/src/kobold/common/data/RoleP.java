@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleP.java,v 1.3 2004/05/04 22:29:46 garbeam Exp $
+ * $Id: RoleP.java,v 1.4 2004/05/05 17:49:54 garbeam Exp $
  *
  */
 package kobold.common.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.dom4j.Element;
@@ -41,9 +42,17 @@ public class RoleP extends Role {
 	private List products;
 
 	/**
+	 * Basic constructor.
+	 */
+	public RoleP() {
+		products = new ArrayList();	
+	}
+
+	/**
 	 * @param element
 	 */
 	public RoleP(Element element) {
+		products = new ArrayList();
 		deserialize(element);
 	}
 

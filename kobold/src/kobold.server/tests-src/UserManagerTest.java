@@ -21,59 +21,49 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RolePLE.java,v 1.4 2004/05/05 17:49:54 garbeam Exp $
+ * $Id: UserManagerTest.java,v 1.1 2004/05/05 17:50:14 garbeam Exp $
  *
  */
-package kobold.common.data;
 
-import java.util.List;
-
-import org.dom4j.Element;
+import junit.framework.TestCase;
+import kobold.common.data.RoleP;
+import kobold.common.data.RolePE;
+import kobold.common.data.RolePLE;
+import kobold.common.data.User;
+import kobold.server.controller.UserManager;
 
 /**
- * this class stores the data necessary to link a user to a product line
- * as product line engineer
- * 
- * @author Armin Cont
+ * @author garbeam
+ *
+ * TestCase for UserManager.
  */
-public class RolePLE extends Role {
-
-	private List productLines;
+public class UserManagerTest extends TestCase {
 
 	/**
-	 * Basic constructor.
+	 * Constructor for UserManagerTest.
+	 * @param arg0
 	 */
-	public RolePLE() {
+	public UserManagerTest(String arg0) {
 		
-	}
-
-	/**
-	 * @param element
-	 */
-	public RolePLE(Element element) {
-		deserialize(element);
-	}
-
-	/**
-	 * @param element
-	 */
-	private void deserialize(Element element) {
-		
-	}
-
-	/**
-	 * Serializes this role.
-	 * @see kobold.common.data.Role#serialize(org.dom4j.Element)
-	 */
-	public void serialize(Element roles) {
-		Element role = roles.addElement("role").addText("PE");
+		super(arg0);
 	}
 	
-	/**
-	 * @return
-	 */
-	public List getProductLines() {
-		return productLines;
+	public void testSerialize() {
+		
+		User user = new User();
+		user.setUserName("garbeam");
+		user.setRealName("Anselm Garbe");
+		user.setPassword("halloballo");
+		user.addRole(new RoleP());
+		user.addRole(new RolePE());
+		user.addRole(new RolePLE());
+		
+		UserManager manager = UserManager.getInstance();
+		
+		manager.addUser(user);
+		manager.serialize("/home/garbeam/test.xml");
+		
+		
 	}
 
 }

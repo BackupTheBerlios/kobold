@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RolePE.java,v 1.3 2004/05/04 22:29:46 garbeam Exp $
+ * $Id: RolePE.java,v 1.4 2004/05/05 17:49:54 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -39,6 +39,13 @@ import org.dom4j.Element;
 public class RolePE extends Role {
 
 	private List products;
+
+	/**
+	 * Basic constructor.
+	 */
+	public RolePE() {
+		
+	}
 	
 	/**
 	 * @param element

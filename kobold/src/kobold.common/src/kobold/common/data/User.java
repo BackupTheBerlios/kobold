@@ -21,13 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.1 2004/05/04 22:29:46 garbeam Exp $
+ * $Id: User.java,v 1.2 2004/05/05 17:49:54 garbeam Exp $
  *
  */
 
 package kobold.common.data;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -52,12 +54,20 @@ public class User {
 	private String realName;
 
 	/**
+	 * Basic constructor.
+	 */
+	public User() {
+		roles = new ArrayList();
+	}
+	
+	/**
 	 * Basic DOM constructor.
 	 * 
 	 * @param element DOM element which represents
 	 * this user.
 	 */
 	public User(Element element) {
+		roles = new ArrayList();
 		deserialize(element);
 	}
 
@@ -108,12 +118,9 @@ public class User {
 				new BASE64Encoder().encode(this.password.getBytes()));
 
 		Element roles = users.addElement("roles");
-		for (ListIterator it = (ListIterator) this.roles.iterator();
-			it.hasNext();
-			) {
+		for (Iterator it = (Iterator) this.roles.iterator();	it.hasNext(); ) {
 			Role role = (Role) it.next();
 			role.serialize(roles);
-
 		}
 	}
 
