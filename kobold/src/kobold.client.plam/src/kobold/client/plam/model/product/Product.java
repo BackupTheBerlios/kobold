@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.6 2004/07/25 21:26:34 garbeam Exp $
+ * $Id: Product.java,v 1.7 2004/07/29 14:39:19 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -123,7 +123,7 @@ public class Product extends AbstractRootAsset
 		
 		//add the serialized element
 		root.add (serialize ());
-		
+
 		//write it to an xml-file
 			 XMLWriter writer;
 			try {
@@ -137,7 +137,6 @@ public class Product extends AbstractRootAsset
 				log.error(e);
 			}	
 	}
-
 
 	/**
 	 * Deserializes this product.
