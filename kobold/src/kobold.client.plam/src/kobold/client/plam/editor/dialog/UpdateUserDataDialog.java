@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateUserDataDialog.java,v 1.8 2004/09/22 13:33:59 grosseml Exp $
+ * $Id: UpdateUserDataDialog.java,v 1.9 2004/09/22 14:28:50 neco Exp $
  */
 package kobold.client.plam.editor.dialog;
 
@@ -78,7 +78,13 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
     {
         getShell().setText("Update " + userName + "'s user data");
         setTitle("Update " + userName + "'s user data");
-        setMessage("Change your password or full name in this dialog.");
+        if(isEditFullName){
+        	setMessage("Change your full name in this dialog.");
+        }
+        else{
+        	setMessage("Change your password in this dialog.");
+        }
+        
         Composite composite = (Composite) super.createDialogArea(parent);
         
         createContent(composite);
