@@ -1,0 +1,25 @@
+\section{Delegater-Schicht}
+\subsection{Ablauf}
+
+Der Delegater meldet sich mit Benutzernamen und Passwort am Server an und
+erhält vom Server eine spezifische Session-ID. Danach werden vom
+Server alle Konfigurationsdaten geladen und diese automatisch in
+Eclipse gespeichert.
+
+\subsection{Automatischer Login bei wiederholtem Zugriff}
+Beim ersten Login am Server wird von diesem eine eindeutige Session-ID
+vergeben, die bei erneutem Zugriff auf den Server zur
+Authentifizierung genutzt wird. Damit ist gemeint, dass dadurch das
+erneute eingeben des Benutzernamens und des Passwort nicht notwendig
+ist.\par
+Falls der Server bemerkt, dass die selbe Session-ID zur
+Authentifizierung von 2 verschiedenen Clients verwendet wird, wird
+diese ungültig. Als folge dessen muss sich der Benutzer erneut mit
+Benutzernamen und Passwort authentifizieren und erhält eine neue
+Session-ID. Daher sollte beim Arbeiten eines Benutzers von verschieden
+Client-Rechner unbedingt für jeden Arbeitsplatz eine eigene Session-ID
+benutzt werden.
+
+\subsection{Rückgabewerte des Servers}
+Durch die Auswertung der Rückgabewerte kann die Delegater-Schicht
+entscheiden, ob die Server-Aktion erfolgreich ausgeführt wurde.

@@ -15,10 +15,8 @@ Kommunikations-Komponente sowie das Architekturmodel.
 %\includegraphics[width=15cm]{client.jpg}
 
 \subsection{Manueller Import der Einstellungen}
-Der Client meldet sich mit Benutzernamen und Passwort am Server an un
-erhält vom Server eine spezifische Session-ID. Danach werden vom
-Server alle Konfigurationsdaten geladen und diese automatisch in
-Eclipse gespeichert. 
+Der Client stöß die Delegater-Schicht an. Als positives Ergebnis sind
+alle Konfigurationsdaten in Eclipse gespeichert. 
 \par 
 Durch diese Konfigurationsdaten kann Eclipse entscheiden welche
 Repositories, zugehörige Rollen und Zugriffsrechte benutzt werden
@@ -31,24 +29,10 @@ geschaffen.
 
 \subsection{Automatischer Import der Einstellungen}
 Falls der Benutzer das erste Mal Eclipse startet, d.h. noch keine
-Konfigurationsdaten zu Rollen und Repositories vorliegen, findet ein
-automatisches Login am Server statt, und seine Konfigurationsdaten
-werden vom Server geladen und in Eclipsae gepeichert, wie im manuellen
+Konfigurationsdaten zu Rollen und Repositories vorliegen, wird die
+delegater-Schicht automatisch angestoßen, und die Konfigurationsdaten
+vom Server geladen und in Eclipsae gepeichert, wie im manuellen
 Import näher beschrieben.
-
-\subsection{Automatischer Login bei wiederholtem Zugriff}
-Beim ersten Login am Server wird von diesem eine eindeutige Session-ID
-vergeben, die bei erneutem Zugriff auf den Server zur
-Authentifizierung genutzt wird. Damit ist gemeint, dass dadurch das
-erneute eingeben des Benutzernamens und des Passwort nicht notwendig
-ist.\par
-Falls der Server bemerkt, dass die selbe Session-ID zur
-Authentifizierung von 2 verschiedenen Clients verwendet wird, wird
-diese ungültig. Als folge dessen muss sich der Benutzer erneut mit
-Benutzernamen und Passwort authentifizieren und erhält eine neue
-Session-ID. Daher sollte beim Arbeiten eines Benutzers von verschieden
-Client-Rechner unbedingt für jeden Arbeitsplatz eine eigene Session-ID
-benutzt werden.
 
 \subsection{Ablaufschritte beim Zugriff auf das Repository}
 
@@ -63,21 +47,55 @@ Die Ablaufschritte:\par
     Repository
 \end{itemize}\par
 
-\section{Mögliche Wrapper-Aktionen}
+\subsection{Mögliche Wrapper-Aktionen}
+
+Alle möglichen Wrapper-Aktionen lassen sich in zwei verschiedene
+Gruppen einteilen. Aktionen die keine Berechtigung erfordern, d.h. für
+alle Benutzer möglich sind und Aktionen die eine Berechtigung
+erfordern, d.h. nur für bestimmte möglich sind.\par
 
 Die sichtbaren Aktionen:\par
 
 \bf Alle Benutzer:
 \begin{itemize}
-  \item check out: 
-  \item update:
+  \item check out: immer möglich, ggf. nur Leserechte.
+  \item update: Vorbedingung: check out
 \end{itemize}
 
 \bf Nur bestimmte Benutzer:
 
 \begin{itemize}
-  \item commit:
-  \item import:
-  \item delete:
-  \item add:
+  \item commit: Vorbedingung: check out
+  \item import: in der ersten Iteration nicht möglich!
+  \item delete: -
+  \item add: -
 \end{itemize}
+
+Falls eine Aktion der zweiten Gruppe nicht erfolgreich ausgeführt
+werden kann, entweder weil der Client feststellt dass der Benutzer
+nicht die passende Rolle besitzt, d.h. eine unerlaubte Aktion
+angestoßen wurde oder weil der Repository-Server beim durchführen der
+Aktion eine Fehlermeldung zurück gibt wird auf dem Server ein
+passender Workflow der zu dem speziellen Feedback passt, angestossen.
+
+
+\subsection{Skriptausführung}
+Allen möglichen Wrapper-Aktionen kann zusätzlich eine bestimmte
+Matainfo-Datei übergeben werden, das eine georndete Liste von Skripten
+enthält, die vor und nach einem ``commit'' ausgeführt werden. Diese
+möglichen Metainfo-Dateien werden an anderer Stelle festgelegt.
+
+\subsection{Konsistenzcheck bei der Produktzusammenstellung}
+Als Konsistenzcheck wird die Anfrage an die Datenbasis genannt, die
+als Eingabeparameter die Revision oder den Autor einer bestimmten
+Datei xy erhält und zurückgibt ob die Datei vorhanden (match=syncron)
+ist (oder nicht) und ob die Revision übereinstimmt. Ggf. wird ein
+passender Workflow angestoßen.\par
+Zur Überprüfung des gesamten Produktes werden oben genannte Schritte
+angewandt, wobei die Eingabemenge aus Dateinamen und deren Revisionen
+besteht.
+
+\subsubsection{der initial Metadaten-Abgleich}
+Vorbedingung:...
+
+\subsubsection{Einschränkungen bei der Implementierung}
