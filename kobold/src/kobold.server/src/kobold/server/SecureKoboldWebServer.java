@@ -21,13 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.18 2004/05/20 00:38:58 vanto Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.19 2004/05/20 19:31:14 memyselfandi Exp $
  *
  */
 package kobold.server;
 
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
