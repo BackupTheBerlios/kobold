@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: GraphImportDialog.java,v 1.6 2004/08/25 04:06:46 martinplies Exp $
+ * $Id: GraphImportDialog.java,v 1.7 2004/09/01 01:08:04 vanto Exp $
  *
  *
  */
@@ -29,7 +29,6 @@ package kobold.client.plam.graphimport;
 
 import java.io.File;
 
-import kobold.client.plam.editor.tool.ProductComposer;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.wizard.Messages;
 
@@ -77,7 +76,7 @@ public class GraphImportDialog  extends TitleAreaDialog {
     
     
     protected Control createDialogArea(Composite parent) {
-          this.setMessage("select a GXL File", SWT.NONE);            
+          this.setMessage("Please select a GXL file to import", SWT.NONE);            
           this.getShell().setText("GXL Import");
           
           Composite  comp = new Composite(parent, SWT.NONE);
@@ -136,7 +135,7 @@ public class GraphImportDialog  extends TitleAreaDialog {
        switch (buttonid) {
         case IDialogConstants.CLOSE_ID: this.close(); break;
         case IDialogConstants.PROCEED_ID:
-            this.setMessage( "Import ist started", MessageDialog.INFORMATION);
+            this.setMessage( "Import is started", MessageDialog.INFORMATION);
             try {
               GraphFactory gf = new GraphFactory();
               gf.importGraph(GXLFile, product);
