@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.20 2004/08/24 16:53:54 garbeam Exp $
+ * $Id: WorkflowDialog.java,v 1.21 2004/08/24 17:10:44 garbeam Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -81,33 +81,38 @@ public class WorkflowDialog extends TitleAreaDialog {
 		    setMessage("This is a message for you.");
 		}
 		
-		Composite area = (Composite) super.createDialogArea(parent);
-		area.setLayout(new GridLayout());		
-
-		Composite header = new Composite(area, SWT.NONE);
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 2;
-
-		header.setLayout(gridLayout);
+		Composite panel = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout(2, false);
+		layout.marginHeight =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+		layout.marginWidth =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+		layout.verticalSpacing =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
+		layout.horizontalSpacing =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+		panel.setLayout(layout);
+		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
+		panel.setFont(parent.getFont());
 		
-		new Label(header, SWT.NONE).setText("Sender:");
+		new Label(panel, SWT.NONE).setText("Sender:");
 		if (msg instanceof WorkflowMessage) {
-    		new Label(header, SWT.NONE).setText(msg.getSender() + " (" + msg.getRole() + ")");
+    		new Label(panel, SWT.NONE).setText(msg.getSender() + " (" + msg.getRole() + ")");
 		}
 		else {
-    		new Label(header, SWT.NONE).setText(msg.getSender());
+    		new Label(panel, SWT.NONE).setText(msg.getSender());
 		}
-		new Label(header, SWT.NONE).setText("Receiver:");
-		new Label(header, SWT.NONE).setText(msg.getReceiver());
+		new Label(panel, SWT.NONE).setText("Receiver:");
+		new Label(panel, SWT.NONE).setText(msg.getReceiver());
 		if (msg instanceof WorkflowMessage) {
-    		new Label(header, SWT.NONE).setText("Referring to:");
-    		new Label(header, SWT.NONE).setText(msg.getProductline());
+    		new Label(panel, SWT.NONE).setText("Referring to:");
+    		new Label(panel, SWT.NONE).setText(msg.getProductline());
 		}
-		new Label(header, SWT.NONE).setText("Subject:");
-		new Label(header, SWT.NONE).setText(msg.getSubject());
+		new Label(panel, SWT.NONE).setText("Subject:");
+		new Label(panel, SWT.NONE).setText(msg.getSubject());
 		
 		// add Mesagetext
-		Text mt = new Text(area, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		Text mt = new Text(panel, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		mt.setText(msg.getMessageText());
 	
 		if (msg instanceof WorkflowMessage) {
@@ -116,17 +121,17 @@ public class WorkflowDialog extends TitleAreaDialog {
 			WorkflowItem wi = new WorkflowItem("","",WorkflowItem.CONTAINER);
 			wi.addChildren(items);
 		    containerItem = new ContainerViewItem(wi);		 
-		    containerItem.createViewControl(area);
+		    containerItem.createViewControl(panel);
 		   
 		   // add comment item 	     
-		   comment = new Text(area, SWT.WRAP |SWT.MULTI |SWT.V_SCROLL|SWT.VERTICAL);
+		   comment = new Text(panel, SWT.WRAP |SWT.MULTI |SWT.V_SCROLL|SWT.VERTICAL);
 		   GridData gd = new GridData();
            gd.heightHint = 150;
            gd.widthHint = 350;           
            comment.setLayoutData(gd);  			 
            comment.setFocus();
     	}
-      	return area;
+      	return panel;
 	}
 
 	protected void createButtonsForButtonBar(Composite parent) {

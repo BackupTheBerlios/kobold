@@ -21,7 +21,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 * DEALINGS IN THE SOFTWARE.
 *
-* $Id: CoreGroupDialog.java,v 1.4 2004/08/24 16:53:54 garbeam Exp $
+* $Id: CoreGroupDialog.java,v 1.5 2004/08/24 17:10:44 garbeam Exp $
 *
 */
 
@@ -40,6 +40,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -74,22 +75,33 @@ public class CoreGroupDialog extends TitleAreaDialog {
 	    getShell().setText("Core Group Suggestion");
 	    setTitle("Core Group Suggestion");
 	    setMessage("Suggest Asset To Core Group. Choose the kind of recipient of your suggestion.");
-		Composite area = (Composite) super.createDialogArea(parent);
-		area.setLayout(new GridLayout());		
-
-		Composite header = new Composite(area, SWT.NONE);
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 2;
-
-		header.setLayout(gridLayout);
 		
+		Composite panel = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout(2, false);
+		layout.marginHeight =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+		layout.marginWidth =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+		layout.verticalSpacing =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
+		layout.horizontalSpacing =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+		panel.setLayout(layout);
+		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
+		panel.setFont(parent.getFont());
+
 		// add radiobuttons
-		pe = new Button(area, SWT.RADIO);
+		pe = new Button(panel, SWT.RADIO);
 		pe.setText("Send to a PE");
-		ple = new Button(area, SWT.RADIO);
+		ple = new Button(panel, SWT.RADIO);
 		ple.setText("Send to a PLE");
    	   	
-  	  	return area;
+  	  	return panel;
+	}
+	
+	protected void createButtonsForButtonBar(Composite parent) {
+        createButton(parent, IDialogConstants.OK_ID, "&Next", true);
+        createButton(parent, IDialogConstants.CANCEL_ID, "&Cancel", true);
 	}
 	
 	public void okPressed(){
