@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.25 2004/08/31 20:14:07 vanto Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.26 2004/08/31 20:50:25 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -334,7 +334,6 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin
             if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
                 // update vcm
                 if (asset != null && asset instanceof IFileDescriptorContainer) {
-
                             getVCMListener().refreshFiledescriptors((IFileDescriptorContainer)asset);
                 }
             } else if (event.getType() == IResourceChangeEvent.PRE_DELETE) {
@@ -342,6 +341,10 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin
                 if (asset != null && asset instanceof Variant) {
                     ((IVariantContainer)asset.getParent()).removeVariant((Variant)asset);
                 }
+                // FIXME
+                /*if (asset != null && asset instanceof FileDescriptor) {
+                    ((IVariantContainer)asset.getParent()).removeVariant((Variant)asset);
+                }*/
             }
         }
         }

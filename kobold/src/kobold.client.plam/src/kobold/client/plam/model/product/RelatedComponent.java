@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.10 2004/08/23 13:00:42 vanto Exp $
+ * $Id: RelatedComponent.java,v 1.11 2004/08/31 20:50:25 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -46,7 +46,7 @@ public class RelatedComponent extends ProductComponent
                               implements IGXLExport {
 
 	private Variant  relatedVariant;
-	private Release plCompRelease;
+	private Release relatedRelease;
 	
 	/**
 	 * Basic constructor.
@@ -54,10 +54,10 @@ public class RelatedComponent extends ProductComponent
 	 * @param plCompRelease the release of the corresponding component in the productline.
 	 **/
 	public RelatedComponent (Variant variant,
-							 Release plCompRelease) {
+							 Release release) {
 		super(variant.getParent().getName());
 		relatedVariant = variant;
-		this.plCompRelease = plCompRelease;
+		this.relatedRelease = release;
 	}
 	
 	
@@ -68,8 +68,7 @@ public class RelatedComponent extends ProductComponent
 	 */
 	public Element serialize() {
 		Element element = super.serialize();
-
-		element.addElement("ref").addAttribute("ref-id", plCompRelease.getId());
+		element.addElement("ref").addAttribute("release-id", relatedRelease.getId());
 		
 		return element;
 	}
@@ -81,8 +80,9 @@ public class RelatedComponent extends ProductComponent
 	 */
 	public void deserialize(Element element) {
 		super.deserialize(element);
-		String variantId = element.element("ref").attributeValue("ref-id");
-	    this.relatedVariant = (Variant) this.getRoot().getProductline().getAssetById(variantId);
+		String releaseId = element.element("ref").attributeValue("release-id");
+	    relatedRelease = (Release)getRoot().getProductline().getAssetById(releaseId);
+		this.relatedVariant = (Variant)relatedRelease.getParent();
 	}
 
 	/**

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.18 2004/08/31 20:14:07 vanto Exp $
+ * $Id: FileDescriptor.java,v 1.19 2004/08/31 20:50:25 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -322,12 +322,7 @@ public class FileDescriptor implements IFileDescriptorContainer,
     public Object getAdapter(Class adapter)
     {
         if (adapter == IResource.class) {
-            if (isDirectory()) {
-                //FIXME
-                return getParentAsset().getRoot().getProductline().getKoboldProject().getProject().getFolder(getLocalPath());
-            } else {
-                return getParentAsset().getRoot().getProductline().getKoboldProject().getProject().getFile(getLocalPath());
-            }
+            return ModelStorage.getResourceForFD(this);
         }
         return null;
     }

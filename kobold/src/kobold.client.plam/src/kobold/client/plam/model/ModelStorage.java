@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.34 2004/08/30 13:31:57 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.35 2004/08/31 20:50:25 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -45,10 +45,6 @@ import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
-
-//import kobold.client.vcm.communication.ScriptServerConnection;
-//import kobold.client.vcm.controller.StatusUpdater;
-
 import kobold.common.io.RepositoryDescriptor;
 
 import org.apache.log4j.Logger;
@@ -60,6 +56,7 @@ import org.dom4j.io.XMLWriter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -298,6 +295,20 @@ public class ModelStorage
         
         return new Path(root.getKoboldProject().getProject().getLocation()
                 + "" + IPath.SEPARATOR + thePath);
+    }
+    
+
+    public static IResource getResourceForFD(FileDescriptor fd) 
+    {
+        AbstractAsset asset = (AbstractAsset)fd.getParentAsset();
+        IFolder folder = getFolderForAsset(asset);
+        String relP = fd.getFilename();
+        fd = fd.getParent();
+        while (fd != null) {
+            relP = fd.getFilename() + IPath.SEPARATOR + relP ;
+            
+        }
+        return folder.findMember(relP);
     }
     
     public static IFolder getFolderForAsset(AbstractAsset asset) {
