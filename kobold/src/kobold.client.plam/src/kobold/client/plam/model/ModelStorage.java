@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.18 2004/08/05 12:57:04 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.19 2004/08/05 14:19:36 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -432,8 +432,5 @@ public class ModelStorage
 
 	        }
 		}
-
-	
-	
 	}
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.6 2004/08/05 11:00:20 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.7 2004/08/05 14:19:36 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -29,11 +29,14 @@ package kobold.client.plam.editor.dialog;
 import java.io.File;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Iterator;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
+import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.Release;
+import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -156,6 +159,115 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		else if (asset instanceof Release) {
 		    createReleaseArea(panel);
 		}
+		else if (asset instanceof Variant) {
+    		createVariantArea(panel);
+		}
+    }
+    
+    private void createVariantArea(Composite composite) {
+        
+        final Variant variant = (Variant) asset;
+        
+        for (Iterator iterator = variant.getFileDescriptors().iterator();
+        	 iterator.hasNext(); )
+        {
+            FileDescriptor fd = (FileDescriptor)iterator.next();
+            System.out.println("fd: " + fd.getFilename() + ", rev=" + fd.getRevision());
+        }
+        
+  	    Label label = new Label(composite, SWT.NONE);
+	    label.setText("Select resources:");
+        Table table = new Table(composite, SWT.CHECK | SWT.BORDER | SWT.MULTI
+                				| SWT.FULL_SELECTION | SWT.LEAD | SWT.WRAP
+                				| SWT.V_SCROLL | SWT.VERTICAL);
+        table.setHeaderVisible(true);
+        table.setLinesVisible(true);
+        TableColumn col1 = new TableColumn(table, SWT.NONE);
+        col1.setText("Name");
+        TableColumn col2 = new TableColumn(table, SWT.NONE);
+        col2.setText("Size");
+        TableColumn col3 = new TableColumn(table, SWT.NONE);
+        col3.setText("Date");
+		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
+		        				   | GridData.FILL_HORIZONTAL);
+		gd.heightHint = 200;
+	    table.setLayoutData(gd);
+	    TableLayout layout = new TableLayout();
+	    layout.addColumnData(new ColumnWeightData(33));
+	    layout.addColumnData(new ColumnWeightData(33));
+	    layout.addColumnData(new ColumnWeightData(33));
+	    table.setLayout(layout);
+        final CheckboxTableViewer viewer = new CheckboxTableViewer(table);
+        viewer.setContentProvider(new IStructuredContentProvider() {
+            public Object[] getElements(Object input) {
+                if (input instanceof File) {
+                    File dir = (File) input;
+                    String[] names = dir.list();
+                    if (names != null) {
+                        File[] files = new File[names.length];
+                        for (int i = 0; i < names.length; i++)
+                            files[i] = new File(dir, names[i]);
+                        return files;
+                    }
+                }
+                return new File[0];
+            }
+            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+//                 don't need to hang onto input for this example, so do nothing
+            }
+            public void dispose() {
+            }
+        });
+        viewer.setLabelProvider(new ITableLabelProvider() {
+            DateFormat dateFormat = DateFormat.getInstance();
+            public String getColumnText(Object element, int columnIndex) {
+                File file = (File) element;
+                switch (columnIndex) {
+                case 0 :
+                    return file.getName();
+                case 1 :
+                    return file.isDirectory() ? ""
+                            : ((file.length() + 1023) / 1024) + " KB ";
+                case 2 :
+                    Date date = new Date(file.lastModified());
+                    return dateFormat.format(date);
+                default :
+                    return "";
+                }
+            }
+            public Image getColumnImage(Object element, int columnIndex) {
+                return null;
+            }
+            public void addListener(ILabelProviderListener listener) {
+                // TODO Auto-generated method stub
+                
+            }
+            public void dispose() {
+                // TODO Auto-generated method stub
+                
+            }
+            public boolean isLabelProperty(Object element, String property) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+            public void removeListener(ILabelProviderListener listener) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+        viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            public void selectionChanged(SelectionChangedEvent event) {
+                IStructuredSelection sel =
+                    (IStructuredSelection) event.getSelection();
+                System.out.println(
+                    sel.size()
+                    + " items selected, "
+                    + viewer.getCheckedElements().length
+                    + " items checked");
+            }
+        });
+        
+        viewer.setInput(new File(variant.getLocalPath().toOSString()));    
     }
     
     private void createReleaseArea(Composite composite) {

@@ -76,23 +76,19 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		Plugin plugin = KoboldPLAMPlugin.getDefault();
-		IProject projects[] = KoboldPLAMPlugin.getDefault().getWorkspace().getRoot().getProjects();
+		IProject projects[] = KoboldPLAMPlugin.getWorkspace().getRoot().getProjects();
 		if (projects != null) {
 			for (int i = 0; i < projects.length; i++) {
 				IProjectNature nature = projects[i].getNature(KoboldProject.NATURE_ID);
 				if (nature != null) {
-//					()
-//					((KoboldProject)nature.getProject()).addVCMActionListener(new IVCMActionListener() {
-//						/* (non-Javadoc)
-//						 * @see kobold.client.plam.listeners.IVCMActionListener#refreshFiledescriptors(kobold.client.plam.model.IFileDescriptorContainer)
-//						 */
-//						public void refreshFiledescriptors(
-//								IFileDescriptorContainer container) {
-//							StatusUpdater st = new StatusUpdater();
-//							st.updateFileDescriptors(container);
-//							System.out.println("TEST STATUS");
-//						}
-//					});
+					((KoboldProject)nature).addVCMActionListener(new IVCMActionListener() {
+						public void refreshFiledescriptors(
+								IFileDescriptorContainer container) {
+							StatusUpdater st = new StatusUpdater();
+							st.updateFileDescriptors(container);
+							System.out.println("TEST STATUS");
+						}
+					});
 				}
 			}
 			
