@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Asset.java,v 1.6 2004/08/05 09:12:58 vanto Exp $
+ * $Id: Asset.java,v 1.7 2004/08/10 10:31:19 neccaino Exp $
  *
  */
 package kobold.common.data;
@@ -173,6 +173,23 @@ public class Asset implements ISerializable {
 	public void removeMaintainer(User user) {
 		maintainer.remove(user);
 	}
+    
+    /**
+     * @param username username to check for being assigned maintainer 
+     * @return true if a user with the passed username is a maintainer of this
+     *         asset, false otherwise
+     */
+    public boolean isMaintainer(String username){
+        Iterator it = maintainer.iterator();
+        
+        while(it.hasNext()){
+            if (((User)it.next()).getUsername().equals(username)){
+                return true;
+            }
+        }
+        
+        return false;
+    }
 	
 	/**
 	 * Returns the name of this asset.
