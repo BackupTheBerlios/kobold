@@ -150,7 +150,7 @@
                id="kobold.client.plam.action3"/>
             </objectContribution>
       <objectContribution
-            objectClass="kobold.client.plam.action.MetaInfoAction"
+            objectClass="kobold.client.plam.model.AbstractAsset"
             id="kobold.client.plam.roletreecontribution3">
          <action
                label="%action.Metainfo"

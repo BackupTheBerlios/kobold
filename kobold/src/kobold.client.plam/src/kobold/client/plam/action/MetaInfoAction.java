@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaInfoAction.java,v 1.1 2004/08/05 19:09:21 neco Exp $
+ * $Id: MetaInfoAction.java,v 1.2 2004/08/05 21:19:17 garbeam Exp $
  *
  */
 package kobold.client.plam.action;
@@ -30,39 +30,56 @@ import kobold.client.plam.MetaInformation;
 import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.actions.ActionDelegate;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 
 
 /**
  * @author Necati Aydin
  */
-public class MetaInfoAction extends Action
+public class MetaInfoAction extends ActionDelegate
 {
     private Shell shell;
-    private AbstractAsset selection;
+    private AbstractAsset selectedAsset;
     
     public MetaInfoAction(Shell shell) 
     {
         this.shell = shell;
-		setText("Create Metainformation");
-		setToolTipText("Creates metainformation as PDF file.");
-		
     }
     
-    public void run()
+    public void run(IAction action)
     {
-    	if (selection != null) {
+        if (selectedAsset != null) {
     		SaveAsDialog saveAsDialog = new SaveAsDialog(shell);
     		saveAsDialog.setOriginalName("metainfo.pdf");
     		if (saveAsDialog.open() == SaveAsDialog.OK) {
     			IPath filePath = saveAsDialog.getResult();
     			MetaInformation metaInformation = new MetaInformation(filePath);
-    			metaInformation.getMetaData(selection);
-    			
+    			metaInformation.getMetaData(selectedAsset);
     		}
-    		
-		}
+    	}
+    }
+
+    /**
+     * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+     */
+    public void selectionChanged(IAction action, ISelection selection) {
+       IStructuredSelection structSel = (StructuredSelection)selection;
+       
+       boolean enable = false;
+       selectedAsset = null;
+       if (structSel.getFirstElement() instanceof AbstractAsset) {
+           selectedAsset = (AbstractAsset)structSel.getFirstElement();
+           enable = true;
+       }
+       
+       if (action != null) {
+           action.setEnabled(enable);
+       }
     }
 }
