@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.22 2004/08/05 19:09:16 grosseml Exp $
+ * $Id: Productline.java,v 1.23 2004/08/06 03:42:45 martinplies Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -79,9 +79,9 @@ public class Productline extends AbstractRootAsset
 	 *
 	 */
 	public void addProduct(Product product) {
-		addToPool();
 		products.add(product);
 		product.setParent(this);
+		addToPool(product);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, product);
 	}
 
@@ -107,7 +107,6 @@ public class Productline extends AbstractRootAsset
 	
 	public void addComponent(Component coreAsset)
 	{
-		addToPool();
 	    addComponent(coreAsset, -1);
 	}
 	
@@ -115,15 +114,17 @@ public class Productline extends AbstractRootAsset
 	 * Adds a CoreAsset (Component) and sets its parent to this.
 	 *
 	 */
-	public void addComponent(Component coreAsset, int index) {
-		addToPool();
+	public void addComponent(Component coreAsset, int index) {		
 		if (index >= 0) {
 			coreAssets.add(index, coreAsset);
 		} else {
 			coreAssets.add(coreAsset);
 		}
-
+		
 		coreAsset.setParent(this);
+		addToPool(coreAsset);
+
+		;
 		fireStructureChange(AbstractAsset.ID_CHILDREN, coreAsset);
 	}
 
@@ -165,6 +166,7 @@ public class Productline extends AbstractRootAsset
 			Element pEl = productsEl.addElement("product");
 			pEl.addAttribute("refid", product.getId());
 			
+			
 				//TODO ms.serializeProduct(product);
 
 		}
@@ -183,6 +185,11 @@ public class Productline extends AbstractRootAsset
 
 
 		}
+		
+		// serialize EdgeContainer
+		//Element edgeContElem = root.addElement("edgeconatainer");
+		//edgeContElem.add(this.getEdgeContainer().serialize());
+		root.add(getEdgeContainer().serialize());
 		
 //		if (repositoryPath != null) {
 //			root.addAttribute("repositoryPath", repositoryPath);
@@ -244,6 +251,10 @@ public class Productline extends AbstractRootAsset
 		    Element compEl = (Element)it.next();
 		    addComponent(new Component(compEl));
 		}
+		
+		// edges must deserialize at last. Otherwise the other nodes are missing in the ie pool. 
+		Element edges = element.element("edges");
+		this.getEdgeContainer().deserialize(edges);		
 		
 	}
 	
