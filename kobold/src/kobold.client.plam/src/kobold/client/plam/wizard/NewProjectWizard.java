@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.1 2004/05/13 14:39:18 vanto Exp $
+ * $Id: NewProjectWizard.java,v 1.2 2004/05/13 15:04:37 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -38,6 +38,8 @@ import org.eclipse.core.resources.IResourceStatus;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -53,11 +55,12 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
+import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
 /**
  * Wizard for creating new Kobold Productlines Projects
  */
-public class NewProjectWizard extends Wizard implements INewWizard {
+public class NewProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
 	private IWorkbench workbench;
 	private IStructuredSelection selection;
 
@@ -66,6 +69,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 
 	// cache of newly-created project
 	private IProject newProject;
+	private IConfigurationElement config;
 	
 	
 	/**
@@ -121,6 +125,15 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		this.addPage(projectWizardServerPage);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
+	 */
+	public void setInitializationData(IConfigurationElement config,
+			String propertyName, Object data) throws CoreException {
+		this.config = config;
+		System.out.println(config);
+	}
+	
 	/**
 	 * Creates a new project resource with the selected name.
 	 * <p>
@@ -172,6 +185,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 			}
 		};
 		
+		BasicNewProjectResourceWizard.updatePerspective(config);
 		// create project
 		try {
 			getContainer().run(true, true, op);

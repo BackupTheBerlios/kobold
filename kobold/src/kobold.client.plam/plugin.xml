@@ -101,8 +101,7 @@
             descriptionImage="icons/kprojectwiz.gif"
             icon="icons/kobold_persp.gif"
             finalPerspective="kobold.client.plam.KoboldPerspective"
-            project="true"
-            preferredPerspectives="kobold.client.plam.KoboldPerspective">
+            project="true">
          <description>
             %newwizard.KoboldProjectDescription
          </description>
