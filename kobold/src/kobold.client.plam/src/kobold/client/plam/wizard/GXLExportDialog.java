@@ -1,51 +1,57 @@
 /*
- * Created on 22.06.2004
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: GXLExportDialog.java,v 1.3 2004/06/27 18:41:26 vanto Exp $
+ *
  */
 package kobold.client.plam.wizard;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URI;
-import java.net.URISyntaxException;
 
-import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.common.data.UserContext;
-import kobold.common.data.WorkflowMessage;
+import kobold.common.exception.GXLException;
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.productline.Component;
 import kobold.common.model.productline.Variant;
-
 import net.sourceforge.gxl.GXLDocument;
 import net.sourceforge.gxl.GXLGraph;
 
-import org.eclipse.core.runtime.IStatus;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.internal.ide.dialogs.FileFolderSelectionDialog;
-import org.eclipse.ui.wizards.newresource.BasicNewFolderResourceWizard;
 
 /**
  * @author meiner
@@ -55,7 +61,9 @@ import org.eclipse.ui.wizards.newresource.BasicNewFolderResourceWizard;
  */
 public class GXLExportDialog extends Dialog{
     
-	private Text JARFileUri;
+    private static final Log logger = LogFactory.getLog(GXLExportDialog.class);
+	
+    private Text JARFileUri;
 	private Text GXLFileUri;
 	private AbstractAsset exportAsset; // asset that should be exportet
 	/**
@@ -168,21 +176,15 @@ public class GXLExportDialog extends Dialog{
 	public void exportGraph(AbstractAsset asset,File gxlFile)  {
 		GXLGraph graph = new GXLGraph("koboldgraph");
 		GXLDocument doc = new GXLDocument();
-		graph.add(asset.getGXLGraph());
-		doc.getDocumentElement().add(graph);
 		try {
-			doc.write(gxlFile);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			 
-			// doc.(new OutputStream()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            graph.add(asset.getGXLGraph());
+    		doc.getDocumentElement().add(graph);
+        	doc.write(gxlFile);
+        } catch (GXLException e) {
+            logger.debug(e.getLocalizedMessage(), e);
+        } catch (IOException e) {
+            logger.warn(e.getLocalizedMessage(), e);
+        }
 	}
   
 }

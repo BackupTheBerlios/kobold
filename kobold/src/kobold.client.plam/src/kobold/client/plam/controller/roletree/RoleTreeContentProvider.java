@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.14 2004/06/24 11:06:21 grosseml Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.15 2004/06/27 18:41:26 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -34,10 +34,6 @@ import java.util.List;
 import java.util.Set;
 
 import kobold.client.plam.KoboldProjectNature;
-import kobold.common.data.RoleP;
-import kobold.common.data.RolePE;
-import kobold.common.data.RolePLE;
-import kobold.common.data.User;
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.productline.Component;
 import kobold.common.model.productline.Productline;
@@ -135,14 +131,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
      */
     public Object[] getChildren(Object parentElement) {
-    	
-    	Productline testPL = new Productline("PLine_A");
-    	//Product testP = new Product("PLine_A","ProductA");
-    	User testUser = new User();
- 		testUser.setUserName("neco");
- 		testUser.setRealName("Necati Aydin");
- 		testUser.addRole(new RolePLE("test"));
- 		
+		
     	if (parentElement instanceof IProject) {
     	 	try {
                 KoboldProjectNature nature = (KoboldProjectNature)((IProject)parentElement).getNature(KoboldProjectNature.NATURE_ID);
@@ -172,26 +161,10 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     	    list.addAll(((Variant)parentElement).getReleases());
     	    return list.toArray();
 
-    	} else if(parentElement instanceof User) {
-    		
-    		User aUser = (User)parentElement;
-    		for(int i = 0; i < aUser.getRoles().toArray().length; i++){
-    			aUser.getRoles();
-    			if(parentElement instanceof RoleP) {
-    	    		RoleP programmer = (RoleP)parentElement;
-    	    		return new Object[] {programmer.getProductName()};
-    	    	}
-    	    	else if(parentElement instanceof RolePE) {
-    	    		RolePE productEngineer = (RolePE)parentElement;
-    	    		return new Object[] {productEngineer.getProductName()};
-    	    	}
-    	    	else if(parentElement instanceof RolePLE) {
-    	    		RolePLE productLineEngineer = (RolePLE)parentElement;
-    	    		return new Object[] {productLineEngineer.getProductlineName()};
-    	    	}
-    		}
-    	    	
-    		return aUser.getRoles().toArray();
+    	} else if ((parentElement instanceof TreeContainer) 
+    	        && ((TreeContainer)parentElement).id.equals("users")) {
+
+    	    return new Object[0];
     	}
     	     
         return new Object[0];

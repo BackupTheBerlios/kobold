@@ -41,7 +41,8 @@ public class GXLExportAction extends SelectionAction {
 	protected boolean calculateEnabled() {
 		if ((getSelectedObjects().size() == 1) 
 			&& (getSelectedObjects().get(0) instanceof AbstractAsset)) {
-			return true;
+			// FIXME
+		    return true;
 		}
 		return true;
 	}
