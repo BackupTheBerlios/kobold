@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.18 2004/07/25 21:26:34 garbeam Exp $
+ * $Id: PLAMProject.java,v 1.19 2004/07/28 16:57:12 memyselfandi Exp $
  *
  */
 package kobold.client.plam;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -271,7 +272,7 @@ public class PLAMProject
      */
     public IFolder getPath() 
     {
-        return project.getFolder("/");
+        return project.getFolder(project.getLocation());// getFolder(  File.separator)
     }
     
     /**

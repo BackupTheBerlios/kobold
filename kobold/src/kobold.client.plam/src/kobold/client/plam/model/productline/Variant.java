@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.12 2004/07/26 16:27:52 martinplies Exp $
+ * $Id: Variant.java,v 1.13 2004/07/28 16:57:12 memyselfandi Exp $
  *
  */
 
 package kobold.client.plam.model.productline;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -44,6 +45,7 @@ import kobold.client.plam.model.Release;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.Element;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 
@@ -289,9 +291,16 @@ public class Variant extends AbstractAsset
 		AbstractAsset asset = this;
 		String path = "";
 		while (asset != root) {
-			path = asset.getName() + "/" + path;
+			path = asset.getName() + File.separator + path;
 			asset = asset.getParent();
 	    }
+		if (root.getType() == AbstractAsset.COMPONENT) {
+			path = asset.getParent().getName() + File.separator + "CAS" + File.separator + path;
+		}
+		else if (root.getType() == AbstractAsset.PRODUCT) {
+			path = asset.getParent().getName() + File.separator + "PRODUCTS" + File.separator + path;
+		}
+		System.out.println("***********MyPath: "+ path);
 		return path;
 	}
 	
@@ -302,7 +311,8 @@ public class Variant extends AbstractAsset
 		
 		AbstractRootAsset root = getRoot();
 		IProject project = root.getProject().getIProject();
-		return project.getFolder(root.getProject().getPath().toString() + myPath());
+		return project.getFolder(myPath());//"/jh/Component 1/Variant 2"); //root.getProject().getPath().toString() + File.separator + myPath());
+		
 	}
 
   
