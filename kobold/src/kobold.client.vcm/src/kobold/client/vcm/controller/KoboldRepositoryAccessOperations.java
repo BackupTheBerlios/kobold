@@ -203,7 +203,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 					repositoryModulePath = currentVCMProvider.getPath();
 					repositoryHost = currentVCMProvider.getHost();
 				} else {
-					MessageDialog.openError(new Shell(), "Hoooonk", "Du nix hast gesetzt den RepositoryProvider Alder");
+					MessageDialog.openError(new Shell(), "Error", "The Repository Provider has not been set, please check Configuration");
 
 				}
 			}
@@ -378,7 +378,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				argString[0] = localPath;
 				argString[1] = currentVCMProvider.getHost();//repositoryHost;
 				argString[2] = currentVCMProvider.getRoot();//repositoryRootPath;
-				argString[3] = "kobold"; //currentVCMProvider.getHost(); @ FIXME repositoryModulePath;
+				argString[3] = currentVCMProvider.getPath(); // @ FIXME repositoryModulePath;
 			} else {
 				MessageDialog.openError(new Shell(), "Hoooonk", "Du nix hast gesetzt den RepositoryProvider Alder");
 			}

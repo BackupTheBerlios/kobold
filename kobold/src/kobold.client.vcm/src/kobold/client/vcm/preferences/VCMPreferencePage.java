@@ -25,15 +25,30 @@
  */
 package kobold.client.vcm.preferences;
 
+import java.awt.TextField;
+
+import javax.swing.text.Element;
+import javax.swing.text.PasswordView;
+
 import kobold.client.vcm.KoboldVCMPlugin;
 
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
+import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
+import sun.misc.MessageUtils;
 
 /**
  * This class represents a preference page that
@@ -83,25 +98,89 @@ public class VCMPreferencePage
  */
 
 	public void createFieldEditors() {
-//		addField(new DirectoryFieldEditor(P_PATH, 
-//				"&Directory preference:", getFieldEditorParent()));
+
 		addField(
 			new BooleanFieldEditor(
 				KOBOLD_VCM_ASK_PWD,
 				"&Ask for Password everytime",
 				getFieldEditorParent()));
 
-//		addField(new RadioGroupFieldEditor(
-//			P_CHOICE,
-//			"An example of a multiple-choice preference",
-//			1,
-//			new String[][] { { "&Choice 1", "choice1" }, {
-//				"C&hoice 2", "choice2" }
-//		}, getFieldEditorParent()));
 		addField(new StringFieldEditor(KOBOLD_VCM_USER_STR, "User name:", getFieldEditorParent()));
-		addField(new StringFieldEditor(KOBOLD_VCM_PWD_STR, "Password:", getFieldEditorParent()));	
-	    addField(new DirectoryFieldEditor(KOBOLD_VCM_SCRIPT_LOCATION, "Script location:", getFieldEditorParent()));
+		addField(new DirectoryFieldEditor(KOBOLD_VCM_SCRIPT_LOCATION, "Script location:", getFieldEditorParent()));
+		addField(new StringFieldEditor(KOBOLD_VCM_PWD_STR, "User Password:", getFieldEditorParent()));
+//		new (KOBOLD_VCM_PWD_STR, "Password:", getFieldEditorParent());
+//		addField();
+//		class PasswordFieldEditor extends FieldEditor{
+
 	}
+            /* (non-Javadoc)
+             * @see org.eclipse.jface.preference.FieldEditor#adjustForNumColumns(int)
+             */
+            protected void adjustForNumColumns(int numColumns)
+            {
+                
+            }
+
+            /* (non-Javadoc)
+             * @see org.eclipse.jface.preference.FieldEditor#doFillIntoGrid(org.eclipse.swt.widgets.Composite, int)
+             */
+//            protected void doFillIntoGrid(Composite parent, int numColumns)
+//            {
+//        		GridLayout layout = new GridLayout(2, false);
+//        		layout.marginHeight = convertVerticalDLUsToPixels(parent,IDialogConstants.VERTICAL_MARGIN);
+//        		layout.marginWidth = convertHorizontalDLUsToPixels(parent,IDialogConstants.HORIZONTAL_MARGIN);
+//        		layout.verticalSpacing = convertVerticalDLUsToPixels(parent,IDialogConstants.VERTICAL_SPACING);
+//        		layout.horizontalSpacing = convertHorizontalDLUsToPixels(parent,IDialogConstants.HORIZONTAL_SPACING);
+//        		Label passwordLabel = new Label(parent,SWT.DEFAULT  );
+//        		passwordLabel.setText("VCM Password");
+//        		Text passwordField = new Text(parent,SWT.BORDER | SWT.LEAD);
+//        		passwordField.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
+//        				| GridData.FILL_HORIZONTAL));
+//        		passwordField.setEchoChar('*');
+//                
+//            }
+//
+//            /* (non-Javadoc)
+//             * @see org.eclipse.jface.preference.FieldEditor#doLoad()
+//             */
+//            protected void doLoad()
+//            {
+//
+////        		addField(new StringFieldEditor())
+//        	                    // TODO Auto-generated method stub
+//                
+//            }
+//
+//            /* (non-Javadoc)
+//             * @see org.eclipse.jface.preference.FieldEditor#doLoadDefault()
+//             */
+//            protected void doLoadDefault()
+//            {
+//                getPreferenceStore().getString(KOBOLD_VCM_PWD_STR);
+//                
+//            }
+//
+//            /* (non-Javadoc)
+//             * @see org.eclipse.jface.preference.FieldEditor#doStore()
+//             */
+//            protected void doStore()
+//            {
+//               getPreferenceStore().setValue(KOBOLD_VCM_PWD_STR,"test");
+//                
+//            }
+//
+//            /* (non-Javadoc)
+//             * @see org.eclipse.jface.preference.FieldEditor#getNumberOfControls()
+//             */
+//            public int getNumberOfControls()
+//            {
+//                // TODO Auto-generated method stub
+//                return 2;
+//            }
+//		    
+//		}
+//		addField(new PasswordFieldEditor());
+	
 	
 	
 	public void init(IWorkbench workbench) {
