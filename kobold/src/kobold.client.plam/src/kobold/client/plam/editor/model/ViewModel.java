@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ViewModel.java,v 1.3 2004/06/24 03:06:01 vanto Exp $
+ * $Id: ViewModel.java,v 1.4 2004/06/28 01:24:24 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -116,7 +116,6 @@ public class ViewModel implements ISerializable
      */
     public void deserialize(Element element)
     {
-        System.out.println(element);
         location.setLocation(Integer.parseInt(element.attributeValue("x")),
             Integer.parseInt(element.attributeValue("y")));
         size.height = Integer.parseInt(element.attributeValue("h"));
