@@ -102,29 +102,29 @@ public class NewUserDialog extends TitleAreaDialog{
         labelUserName = new Label(panel,SWT.NONE);
         labelUserName.setText("User name:");
         textUserName = new Text(panel, SWT.BORDER);		
-        textUserName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL |
-                					 GridData.GRAB_HORIZONTAL));
+//        textUserName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL |
+//                					 GridData.GRAB_HORIZONTAL));
             
         labelRealName = new Label(panel,SWT.NONE);
         labelRealName.setText("Full name:");
         textRealName = new Text(panel, SWT.BORDER);		
-        textUserName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL |
-                					 GridData.GRAB_HORIZONTAL));
+//        textUserName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL |
+//                					 GridData.GRAB_HORIZONTAL));
             
         labelPassword = new Label(panel,SWT.NONE);
         labelPassword.setText("Password:");
         textPassword = new Text(panel, SWT.BORDER);
         textPassword.setEchoChar('*');
-        textUserName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL |
-                					 GridData.GRAB_HORIZONTAL));
+//        textUserName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL |
+//                					 GridData.GRAB_HORIZONTAL));
             
         //confirmpassword
         labelConfPass = new Label(panel,SWT.NONE);
         labelConfPass.setText("Confirm password:");
         textConfPass = new Text(panel, SWT.BORDER);
         textConfPass.setEchoChar('*');
-        textUserName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL |
-                					 GridData.GRAB_HORIZONTAL));
+//        textUserName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL |
+//                					 GridData.GRAB_HORIZONTAL));
 }
     
     protected void okPressed()
