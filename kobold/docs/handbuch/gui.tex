@@ -127,3 +127,46 @@ Look up the explanations in the "Tutorial" section.
 The Minimap is on the left side beneath the Role View. It shows the whole architecture.
 By clicking at one spot on the map, the Architecture Editor automatically centers on that
 spot. 
+
+
+\section{Server Administration Tool}
+
+The Server Administration Tool provides you with an interface to your server. \par
+During the starting process you have to enter the URL and password of the server 
+you want to administrate. Once the tool is started, you have the following 
+possibilities:
+
+\begin{itemize}
+	\item create a product line
+	\item delete a product line
+	\item upgrade an existing user to PLE status
+	\item remove PLE rights
+	\item get a list of all existing commands
+	\item exit the tool
+\end{itemize}
+
+\subsection{Creating a product line}
+Enter the command "createpl". You are asked to enter the name of the new product
+line. Once you confirmed your entry, the product line is created.
+
+\subsection{Deleting a product line}
+Enter the command "removepl". You are then asked to enter the name of the product
+line you want to remove. Once you confirmed your entry, the product line is deleted.
+
+\subsection{Upgrading an existing user to PLE status}
+Enter the command "addple". You are asked to enter the name of the person you want
+to upgrade as PLE. Finally, enter the name of the product line you want to assign
+the new PLE to. Once you confirmed your entry, the user has PLE rights.
+
+\subsection{Removing PLE rights}
+Enter the command "removeple". You are asked to enter the name of the user who shall 
+no longer have PLE rights. Also, enter the name of the product line you want to
+remove the PLE from. Once you confirmed your entry, the user is no longer PLE of
+the entered product line.
+
+\subsection{Getting a list of all existing commands}
+Enter the command "help" and you get a list of all the commands of this tool and
+their meanings.
+
+\subsection{Exiting the tool}
+Enter the command "exit".
