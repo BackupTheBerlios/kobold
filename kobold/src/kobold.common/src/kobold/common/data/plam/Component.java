@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.1 2004/06/03 12:01:50 rendgeor Exp $
+ * $Id: Component.java,v 1.2 2004/06/09 11:47:47 rendgeor Exp $
  *
  */
 
@@ -39,16 +39,29 @@ public class Component implements IAsset {
 
 	private String componentName;
 
-	//the variants
+	//the variants and versions
 	private HashMap variants;
+	private HashMap versions;
 	/**
 	 * Basic constructor.
-	 * @param productName
+	 * @param componentName
 	 * @param productLineName
 	 */
-	public Component (String productName) {
+	public Component (String componentName, boolean relatedType) {
 		super();
-		this.componentName = productName;
+		this.componentName = componentName;
+		
+		//related type
+		if (relatedType)
+		{
+			variants = new HashMap ();
+		}
+		//p-spec type
+		else
+		{
+			versions = new HashMap ();
+		}
+		
 	}
 	
 	/**
@@ -80,14 +93,6 @@ public class Component implements IAsset {
 		//this.productLineName = element.elementText("productline");
 	}
 
-	/**
-	 * @return name of the dependent productline.
-
-	public String getDependsName() {
-		return productLineName;
-	}
-	 */
-
 
 	/**
 	 * @see kobold.common.data.AbstractProduct#getType()
@@ -104,6 +109,7 @@ public class Component implements IAsset {
         return componentName;
     }
     
+
 	/**
 	 * Adds a new variant.
 	 *
@@ -112,5 +118,15 @@ public class Component implements IAsset {
 	public void addVariant(Variant variant) {
 		variants.put(variant.getName(), variant);
 	}
-    
+
+	/**
+	 * Adds a new version.
+	 *
+	 * @param version contains the new vversion
+	 */
+	public void addVersion(Version version) {
+		versions.put(version.getName(), version);
+	}
+
+	
 }

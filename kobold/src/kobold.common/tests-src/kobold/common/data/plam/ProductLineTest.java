@@ -21,13 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.1 2004/06/03 12:01:50 rendgeor Exp $
+ * $Id: ProductLineTest.java,v 1.2 2004/06/09 11:47:47 rendgeor Exp $
  *
  */
-
+package kobold.common.data.plam;
 import junit.framework.TestCase;
 
 import kobold.common.data.plam.*;
+
+
 
 /**
  * @author garbeam
@@ -47,23 +49,68 @@ public class ProductLineTest extends TestCase {
 	
 	public void testSerialize() {
 		
-		Product product = new Product("windows", "office");
-		Productline productline = new Productline("office");
+		Productline productline = new Productline("windows");
 		
 		Productline pl = Productline.getInstance();
 		
-		manager.addProduct(product);
-		manager.addProductLine(productline);
-		manager.serialize("test-product.xml");
+		//------------------------
+		//add a product
+		Product productA = new Product ("me");
+		Product productB = new Product ("xp");
 		
-		manager.removeProduct(product);
-		manager.removeProductLine(productline);
-		manager.deserialize("test-product.xml");
+		pl.addProduct(productA);
+		pl.addProduct(productB);
 		
-		product = manager.getProduct("windows");
-		assertTrue (product.getName() == "windows");
+		//--
+		Component componentA = new Component ("compA", false);
+		Component componentB = new Component ("compB", false);
+		
+		productA.addComponent(componentA);
+		productA.addComponent(componentB);
+		
+		//--
+		/*Variant variantA = new Variant ("varA");
+		Variant variantB = new Variant ("varB");
+		
+		componentA.addVariant(variantA);
+		componentA.addVariant(variantB);
+		*/
+		//--
+		Version versionA = new Version ("versA");
+		Version versionB = new Version ("versB");
+
+		componentA.addVersion(versionA);
+		componentA.addVersion(versionB);
+		
+		//--
+		FileDescriptor fd1 = new FileDescriptor ("fd1");
+		versionA.addFileDescriptor(fd1);
+		
+		//------------------------------
+		//add a coreAsset
+		CoreAsset coreAssetA = new CoreAsset ("caBla");
+		CoreAsset coreAssetB = new CoreAsset ("caBlubber");
+		
+		pl.addCoreAsset(coreAssetA);
+		pl.addCoreAsset(coreAssetB);
+
+		//serialize the whole product-line (all included)
+		// .productlinemetainfo 
+		pl.serialize("test-productlinemetainfo.xml", 0);
+		//.productmetainfo 
+		pl.serialize("test-productmetainfo.xml", 1);
+		//.coreassetmetainfo 
+		pl.serialize("test-coreassetmetainfo.xml", 2);
+		
+		//pl.removeProduct();
+		//...	
+
+		//pl.deserialize("test-product.xml");
+		
+		//product = manager.getProduct("windows");
+		//assertTrue (product.getName() == "windows");
 		//...
-		productline = manager.getProductLine("office");
-		assertTrue (productline.getName() == "office");
+		//productline = manager.getProductLine("office");
+		//assertTrue (productline.getName() == "office");
 	}
 }

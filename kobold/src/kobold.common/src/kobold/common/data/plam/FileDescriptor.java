@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptor.java,v 1.2 2004/06/03 13:44:17 rendgeor Exp $
+ * $Id: FileDescriptor.java,v 1.3 2004/06/09 11:47:47 rendgeor Exp $
  *
  */
 
@@ -52,9 +52,9 @@ public class FileDescriptor implements IAsset {
 	 * @param productName
 	 * @param productLineName
 	 */
-	public FileDescriptor (String productName) {
+	public FileDescriptor (String fileDescriptorName) {
 		super();
-		this.fileDescriptorName = productName;
+		this.fileDescriptorName = fileDescriptorName;
 	}
 	
 	/**

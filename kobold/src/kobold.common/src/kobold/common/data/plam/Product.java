@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.1 2004/06/03 12:01:50 rendgeor Exp $
+ * $Id: Product.java,v 1.2 2004/06/09 11:47:47 rendgeor Exp $
  *
  */
 
@@ -53,6 +53,8 @@ public class Product implements IAsset {
 	public Product (String productName) {
 		super();
 		this.productName = productName;
+		
+		components = new HashMap();
 	}
 	
 	/**

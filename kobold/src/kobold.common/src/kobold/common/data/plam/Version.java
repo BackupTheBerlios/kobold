@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Version.java,v 1.1 2004/06/03 12:01:50 rendgeor Exp $
+ * $Id: Version.java,v 1.2 2004/06/09 11:47:47 rendgeor Exp $
  *
  */
 
@@ -45,6 +45,7 @@ public class Version implements IAsset {
 	public Version (String productName) {
 		super();
 		this.versionName = productName;
+
 	}
 	
 	/**
