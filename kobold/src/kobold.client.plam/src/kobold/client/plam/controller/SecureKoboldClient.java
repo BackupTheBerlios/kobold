@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.19 2004/06/24 00:34:35 grosseml Exp $
+ * $Id: SecureKoboldClient.java,v 1.20 2004/06/24 06:40:53 neccaino Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -430,8 +430,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	 * on the KoboldServer
 	 * @param adminPassword server administartion password
 	 * @param plname name of the new productline
-	 * @return IKoboldServer::NO_RESULT if the server is not
-	 *				   accessible that way, "" otherwise 
+	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
 	 */
 	public String satCreateNewProductline(String adminPassword, String plname){
 		Vector v = new Vector();
@@ -443,6 +442,40 @@ public class SecureKoboldClient implements IKoboldServer {
 		catch(Exception e){
 			return IKoboldServer.NO_RESULT;
 		}
+	}
+	
+	/**
+	 * this method is used by SAT-Clients to remove a new productline
+	 * on the KoboldServer
+	 * @param adminPassword server administartion password
+	 * @param plname name of the new productline
+	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 */
+	public String satRemoveProductline(String adminPassword, String plname){
+		return IKoboldServer.NO_RESULT;
+	}
+		
+	/**
+	 * this method is used by SAT-Clients to set a productline's new PLE
+	 * @param adminPassword server administartion password
+	 * @param plname name of the new productline
+	 * @param username name of the user who should become plsname's
+	 *                 new PLE
+	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 */
+	public String satAddPLE(String adminPassword, String plname, String username){
+		return IKoboldServer.NO_RESULT;
+	}
+	
+	/**
+	 * this method is used by SAT-Clients to invalidate a productline's 
+	 * PLE
+	 * @param adminPassword server administartion password
+	 * @param plname name of the new productline
+	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 */
+	public String satRemovePLE(String adminPassword, String plname){
+		return IKoboldServer.NO_RESULT;
 	}
 	
 		private class AdaptedSecureXmlRpcClient extends SecureXmlRpcClient {
