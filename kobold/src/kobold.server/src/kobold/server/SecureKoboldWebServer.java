@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.78 2004/08/24 09:58:55 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.79 2004/08/25 10:58:35 vanto Exp $
  *
  */
 package kobold.server;
@@ -85,13 +85,19 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	 * main method
 	 */
 	public static void main(String args[]) throws Exception {
-		if (args.length < 1) {
-			System.err.println("Usage: java SecureKoboldWebServer port [administrator password]");
+		String configFile = null;
+	    if (args.length < 1) {
+			System.err.println("Usage: java SecureKoboldWebServer port [administrator password] [configfile]");
 			System.exit(1);
 		}
 		if (args.length > 1) {
 		    adminPassword = args[1];
 		}
+
+		if (args.length > 2) {
+		    configFile = args[2];
+		}
+
 		int port = 0;
 		try {
 			port = Integer.parseInt(args[0]);
@@ -104,9 +110,19 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		
         // set UUID node manager class
         System.setProperty("org.apache.commons.id.uuid.state.State", InMemoryStateImpl.class.getName());
+        
+        if (configFile == null) {
+            configFile = System.getProperty("kobold.server.configFile");
+        }
+        
+        if (configFile == null) {
+            System.err.println("No config file found. Exiting.");
+            System.exit(1);
+        }
+        
 		try {
 		    Properties props = new Properties(System.getProperties());
-		    props.load(new FileInputStream(System.getProperty("kobold.server.configFile")));
+		    props.load(new FileInputStream(configFile));
 		    System.setProperties(props);
         } catch (Exception e) {
 			logger.error("Could not find client configuration",e);
