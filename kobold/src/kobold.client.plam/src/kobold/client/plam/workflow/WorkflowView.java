@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.25 2004/09/18 12:25:25 bettina Exp $
+ * $Id: WorkflowView.java,v 1.26 2004/09/22 15:27:36 grosseml Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -66,6 +66,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.ViewPart;
 
 /**
@@ -93,11 +94,12 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 			new ColumnWeightData(200),
 			new ColumnWeightData(150),
 			new ColumnWeightData(60)};
+	Table table;
 	
 	
 	public void createPartControl(Composite parent) 
 	{
-		Table table = new Table (parent, SWT.MULTI | SWT.BORDER | SWT.SINGLE);
+		table = new Table (parent, SWT.MULTI | SWT.BORDER | SWT.SINGLE |SWT.FULL_SELECTION);
 		table.setLinesVisible (true);
 		table.setHeaderVisible (true);
 		TableLayout layout = new TableLayout();
