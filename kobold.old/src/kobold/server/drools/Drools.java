@@ -21,10 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Drools.java,v 1.2 2004/03/30 23:36:08 vanto Exp $
+ * $Id: Drools.java,v 1.3 2004/03/30 23:52:26 vanto Exp $
  *
  */
-package drools;
+package kobold.server.drools;
 import org.drools.*;
 
 /**
