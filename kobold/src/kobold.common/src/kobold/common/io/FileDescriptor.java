@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.2 2004/04/16 12:39:46 garbeam Exp $
+ * $Id: FileDescriptor.java,v 1.3 2004/06/24 00:38:52 garbeam Exp $
  *
  */
 package kobold.common.io;
@@ -35,7 +35,9 @@ package kobold.common.io;
  */
 public class FileDescriptor {
 
+
     public FileDescriptor() {
+    	
 
     }
 }

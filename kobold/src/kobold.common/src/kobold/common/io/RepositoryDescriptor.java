@@ -21,10 +21,15 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: RepositoryDescriptor.java,v 1.2 2004/04/16 12:39:46 garbeam Exp $
+ * $Id: RepositoryDescriptor.java,v 1.3 2004/06/24 00:38:52 garbeam Exp $
  */
 
 package kobold.common.io;
+
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
+import kobold.common.data.ISerializable;
 
 /**
  * Base class for locating repositories.
@@ -33,9 +38,101 @@ package kobold.common.io;
  *
  * @author garbeam
  */
-public class RepositoryDescriptor {
+public class RepositoryDescriptor implements ISerializable {
+	
+	private String protocol = null;
+	private String host = null;
+	private String path = null;
 
-    public RepositoryDescriptor() {
 
+	/**
+	 * Basic default constructor.
+	 */
+	public RepositoryDescriptor() {
+	}
+
+	/**
+	 * Convenient (initial) constructor.
+	 */
+	public RepositoryDescriptor(String protocol,
+								String host,
+								String path)
+	{
+		this.protocol = protocol;
+		this.host = host;
+		this.path = path;
+	}
+
+	/**
+	 * DOM constructor.
+	 * @param element the DOM element.
+	 */
+    public RepositoryDescriptor(Element element) {
+    	deserialize(element);
     }
+    
+	/**
+	 * @see kobold.common.data.ISerializable#serialize()
+	 */
+	public Element serialize() {
+		Element element = DocumentHelper.createElement("repository-descriptor");
+		element.addAttribute("host", host);
+		element.addAttribute("protocol", protocol);
+		element.addAttribute("path", path);
+		
+		return element;
+	}
+	
+	/**
+	 * @see kobold.common.data.ISerializable#deserialize(org.dom4j.Element)
+	 */
+	public void deserialize(Element element) {
+		host = element.attributeValue("host");
+		protocol = element.attributeValue("protocol");
+		path = element.attributeValue("path");
+	}
+	
+	/**
+	 * @return host name where the repository is located.
+	 */
+	public String getHost() {
+		return host;
+	}
+
+	/**
+	 * @return path where the repository (module) is located
+	 * 		   at the specific host.
+	 */
+	public String getPath() {
+		return path;
+	}
+
+	/**
+	 * @return protocol, only for convenience.
+	 */
+	public String getProtocol() {
+		return protocol;
+	}
+
+	/**
+	 * @param host the host name.
+	 */
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	/**
+	 * @param path the module/file path.
+	 */
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	/**
+	 * @param protocol, the protocol type (userdefined).
+	 */
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
+
 }

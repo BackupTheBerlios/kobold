@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.11 2004/06/02 18:36:56 rendgeor Exp $
+ * $Id: Productline.java,v 1.12 2004/06/24 00:38:52 garbeam Exp $
  *
  */
 package kobold.common.data;
+
+import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -35,11 +37,15 @@ import org.dom4j.Element;
 public class Productline implements IAsset {
 
 	private String name;
+	private RepositoryDescriptor repositoryDescriptor;
 	
 	/**
 	 */
-	public Productline(String name) {
+	public Productline(String name,
+					   RepositoryDescriptor repDescr)
+	{
 		this.name = name;
+		this.repositoryDescriptor = repDescr;
 	}
 
 	/**
@@ -53,15 +59,20 @@ public class Productline implements IAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		return DocumentHelper.createElement("productline").addText(this.name);
+		Element element = DocumentHelper.createElement("productline");
+		element.addAttribute("name", name);
+		element.add(repositoryDescriptor.serialize());
+		
+		return element;
 	}
 
 	/**
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		//this.name = element.elementText("productline");
-	    this.name = element.getTextTrim();
+		this.name = element.attributeValue("name");
+		this.repositoryDescriptor =
+			new RepositoryDescriptor(element.element("repository-descriptor"));
 	}
 
 	/**
