@@ -31,15 +31,18 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.preferences.VCMPreferencePage;
 import kobold.common.io.RepositoryDescriptor;
 
+import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.internal.ccvs.core.IServerConnection;
 import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException;
@@ -53,6 +56,7 @@ import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
+import org.eclipse.ui.internal.Workbench;
 
 
 
@@ -204,12 +208,14 @@ public class ScriptServerConnection implements IServerConnection
 //			errorThread = new InputThreadToConsole(errStream,null);
 			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, null);
 			((InputThreadToConsole)inputThread).setReturnString(returnStr);
-//			((InputThreadToConsole)errorThread).setReturnString(returnStr);
-			inputThread.run();
-			while(inputThread.isAlive())
-			{
-			    System.out.println(((InputThreadToConsole)inputThread).getReturnString());
-			}
+
+			try
+            {
+			    Workbench.getInstance().getProgressService().run(true,false,(InputThreadToConsole)inputThread) ;
+            } catch (Exception e)
+            {
+                // TODO: handle exception
+            }
 //			errorThread.run();
 			return ((InputThreadToConsole)inputThread).getReturnString();
 		} finally {
@@ -265,12 +271,18 @@ public class ScriptServerConnection implements IServerConnection
 				new IConsole[] {console});
 			stream2 = console.newMessageStream();
 			connected = true;
-			ProgressDialogRunnableContext pc = new ProgressDialogRunnableContext(new Shell());
 			
 			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
+			try
+            {
+			    Workbench.getInstance().getProgressService().run(true,false,(InputThreadToConsole)inputThread) ;
+            } catch (Exception e)
+            {
+                // TODO: handle exception
+            }
 			
-			monitor.beginTask("VCM work...",6000);
-			inputThread.run();
+
+			//
 		} finally {
 			if (! connected) {
 				try {
@@ -386,9 +398,10 @@ public class ScriptServerConnection implements IServerConnection
 	// 
 	// discard the input to prevent the process from hanging due to a full pipe
 
-	private static class InputThreadToConsole extends Thread {
+	private static class InputThreadToConsole extends Thread implements IRunnableWithProgress{
 		private BufferedInputStream in, errStream;
 		private byte[] readLineBuffer = new byte[512];
+		IProgressMonitor monitor = null;
 		private Process proc = null;
 		private MessageConsoleStream stream = null;
 		String returnString = null;
@@ -402,6 +415,7 @@ public class ScriptServerConnection implements IServerConnection
 		    int index = 0, r = 0, s = 0, i = 0, lineCount = 250;
             try
             {
+                if(monitor != null)monitor.beginTask("VCM Action....",100000);
                 
                 while (in.available() == 0 & errStream.available() == 0)
                 {
@@ -410,6 +424,7 @@ public class ScriptServerConnection implements IServerConnection
                 lineCount=50000;
                 while ( lineCount == 50000 || i < 1000)
                 {
+                    monitor.worked(2);
                     try
                     {
                         lineCount =  proc.exitValue();
@@ -421,6 +436,7 @@ public class ScriptServerConnection implements IServerConnection
                     {
                         while ((r = in.read()) != -1)
                         {
+                            monitor.worked(10);
                             if (r == NEWLINE)break;
                             readLineBuffer = append(readLineBuffer, index++,
                                     (byte) r);
@@ -432,6 +448,7 @@ public class ScriptServerConnection implements IServerConnection
                     {
                         while ((s = errStream.read()) != -1)
                         {
+                            monitor.worked(10);
                             if (s == NEWLINE) break;
                             readLineBuffer = append(readLineBuffer, index++,
                                     (byte) s);
@@ -446,10 +463,13 @@ public class ScriptServerConnection implements IServerConnection
                         else
                             returnString = returnString.concat(new String(
                                     readLineBuffer, 0, index));
+                        returnString = returnString.concat("\n");
                         readLineBuffer = new byte[512];
                         index = 0;
+                        monitor.worked(10);
                     } else
                     {
+                        monitor.worked(10);
                         stream.print(new String(readLineBuffer, 0, index));
                         System.out
                                 .print(new String(readLineBuffer, 0, index));
@@ -459,10 +479,11 @@ public class ScriptServerConnection implements IServerConnection
                     }
                     if (in.available() == 0 && errStream.available() == 0 && lineCount != 50000)
                     {
+                        monitor.worked(10);
                         i++;
                     }
                 }
-
+                monitor.done();
             } catch (Exception e)
             {
                 e.printStackTrace();
@@ -581,6 +602,14 @@ public class ScriptServerConnection implements IServerConnection
 		public void setReturnString(String returnString) {
 			this.returnString = returnString;
 		}
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+         */
+        public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
+        {
+            this.monitor = monitor;
+            run();
+        }
 	}
 	/**
 	 * @return Returns the errStream.
