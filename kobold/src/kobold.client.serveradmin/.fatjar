@@ -1,8 +1,8 @@
 #Fat Jar Configuration File
-#Fri Oct 08 11:16:31 CEST 2004
+#Mon Nov 08 13:24:08 CET 2004
 jarname=kobold.client.serveradmin_fat.jar
 manifest.mergeall=true
 includes=
 manifest.mainclass=kobold.client.serveradmin.ServerAdministrationTool
-manifest.file=<createnew>
 excludes=<jar|gxl.jar>;<jar|itext-1.02b.jar>
+manifest.file=<createnew>
