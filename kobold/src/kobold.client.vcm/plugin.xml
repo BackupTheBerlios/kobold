@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin
-   id="kobold.vcm"
+   id="kobold.client.vcm"
    name="Kobold VCM Plug-in"
    version="1.0.0"
    provider-name="Werkbold"
@@ -17,8 +17,75 @@
       <import plugin="org.eclipse.ui.externaltools"/>
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.workbench"/>
+      <import plugin="org.eclipse.team.cvs.core"/>
+      <import plugin="kobold.commons"/>
+      <import plugin="org.eclipse.team.ui"/>
       <import plugin="kobold.commons"/>
    </requires>
 
+
+   <extension
+         point="org.eclipse.team.core.repository">
+      <repository
+            class="kobold.client.vcm.controller.WrapperProvider"
+            id="kobold.client.vcm.controller.WrapperProvider">
+      </repository>
+   </extension>
+   <extension
+         point="org.eclipse.core.resources.teamHook">
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            adaptable="true"
+            id="kobold.client.vcm.contribution1">
+         <action
+               label="Commit"
+               class="kobold.client.vcm.popup.actions.CommitAction"
+               menubarPath="team.main/group1"
+               enablesFor="1"
+               id="kobold.client.vcm.commitaction">
+         </action>
+         <action
+               label="Synchronize"
+               class="kobold.client.vcm.popup.actions.SynchronizeAction"
+               menubarPath="team.main/group1"
+               enablesFor="1"
+               id="kobold.client.vcm.synchronizeaction">
+         </action>
+         <action
+               label="Update"
+               class="kobold.client.vcm.popup.actions.UpdateAction"
+               menubarPath="team.main/group1"
+               enablesFor="1"
+               id="kobold.client.vcm.updateaction">
+         </action>
+         <filter
+               value="org.eclipse.team.core.repository=kobold.client.vcm.controller.WrapperProvider"
+               name="projectPersistentProperty">
+         </filter>
+      </objectContribution>
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IProject"
+            id="kobold.client.vcm.ProjectContributions"
+            adaptable="true">
+         <action
+               class="kobold.client.vcm.popup.actions.DisconnectAction"
+               label="Unmanage Kobold Project"
+               menubarPath="team.main/group2"
+               id="kobold.client.vcm.unmanage">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.team.ui.configurationWizards">
+      <wizard
+            name="KOBOLD Versioning"
+            icon="icons/full/wizards/fsicon_wiz.gif"
+            class="kobold.client.vcm.controller.VCMConfigurationWizard"
+            id="kobold.client.vcm.wizard">
+      </wizard>
+   </extension>
 
 </plugin>

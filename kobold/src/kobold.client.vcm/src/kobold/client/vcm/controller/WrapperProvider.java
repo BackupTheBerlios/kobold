@@ -21,10 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: WrapperProvider.java,v 1.2 2004/04/18 15:13:50 garbeam Exp $
+ * $Id: WrapperProvider.java,v 1.3 2004/05/13 15:18:33 memyselfandi Exp $
  */
 
 package kobold.client.vcm.controller;
+
+import kobold.client.vcm.KoboldVCMPlugin;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.team.core.RepositoryProvider;
@@ -51,14 +53,14 @@ public class WrapperProvider extends RepositoryProvider {
      * Configures the provider for the given project.
      */
     public void configureProject() {
-
+    	
     }
 
     /**
      * Answer the id of this provider instance.
      */
     public String getID() {
-		return null;
+		return KoboldVCMPlugin.getPROVIDER_ID();
 
     }
 

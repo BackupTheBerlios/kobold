@@ -14,6 +14,11 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	//Resource bundle.
 	private ResourceBundle resourceBundle;
 	
+	//The Plugin ID as set in the plugin.xml
+	public static final String ID = "kobold.client.vcm";
+	//The Provider ID as set in the plugin.xml
+	public static final String PROVIDER_ID = "kobold.client.vcm.controller.WrapperProvider";
+	
 	/**
 	 * The constructor.
 	 */
@@ -59,5 +64,17 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	 */
 	public ResourceBundle getResourceBundle() {
 		return resourceBundle;
+	}
+	/**
+	 * @return Returns the iD.
+	 */
+	public static String getID() {
+		return ID;
+	}
+	/**
+	 * @return Returns the PROVIDER_ID.
+	 */
+	public static String getPROVIDER_ID() {
+		return PROVIDER_ID;
 	}
 }
