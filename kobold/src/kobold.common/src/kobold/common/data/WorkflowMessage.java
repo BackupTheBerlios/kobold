@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class WorkflowMessage extends KoboldMessage {
 	private int workflowID;
-	private string comment;
+	private String comment;
 	private List history;
 	private List items;
 	private int step;
@@ -27,7 +27,7 @@ public class WorkflowMessage extends KoboldMessage {
 		items.add(nWflowItem);
 	}
 	
-	public WorkflowMessage(int wfid, string ncomm, int nstep, List nhist, List nitems){
+	public WorkflowMessage(int wfid, String ncomm, int nstep, List nhist, List nitems){
 		workflowID = wfid;
 		comment = ncomm;
 		step = nstep;
@@ -47,7 +47,7 @@ public class WorkflowMessage extends KoboldMessage {
 	/**
 	 * @return
 	 */
-	public string getComment() {
+	public String getComment() {
 		return comment;
 	}
 
@@ -82,7 +82,7 @@ public class WorkflowMessage extends KoboldMessage {
 	/**
 	 * @param string
 	 */
-	public void setComment(string string) {
+	public void setComment(String string) {
 		comment = string;
 	}
 
@@ -116,17 +116,4 @@ public class WorkflowMessage extends KoboldMessage {
 
 }   
    
-/*
-public HashMap getResult() {
-	return result;
-}
 
-public String getXmlMessage() {
-	return xmlMessage;
-}
-
-public void setXmlMessage(String string) {
-	xmlMessage = string;
-}
-
-*/
