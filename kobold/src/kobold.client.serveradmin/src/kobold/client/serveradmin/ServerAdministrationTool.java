@@ -17,7 +17,7 @@ import java.net.URL;import java.util.Properties;import java.io.FileInputStream
                getProductlines();                stdOut("Productline name: ");        String plsname = readInput();        stdOut("Resource name of new productline: ");        String resname = readInput();       
         stdOut("Repository type (cvs, svn, arch, ...): ");        String type = readInput();
         stdOut("Protocol (ssh, pserver, svn, WebDAV, ...): ");        String protocol = readInput();
-        stdOut("Hostname (cvs.wm-i.org): ");        String host = readInput();
+        stdOut("Hostname (cvs.werkbold.org): ");        String host = readInput();
         stdOut("Repository root (/cvsroot/myrep/): ");        String root = readInput();
         stdOut("Module path (myrep): ");        String path = readInput();
         RepositoryDescriptor rd = new RepositoryDescriptor(type,                                                           protocol,                                                           host,                                                           root,                                                           path);                               
