@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.11 2004/08/31 13:25:38 garbeam Exp $
+ * $Id: WorkflowEngine.java,v 1.12 2004/09/18 10:16:04 bettina Exp $
  *
  */
 package kobold.server.workflow;
@@ -78,7 +78,7 @@ public class WorkflowEngine {
 			theInstance = new WorkflowEngine();
 			theInstance.loadRuleBase();
 			RuleBase base = theInstance.getRuleBase();
-			if (!(base == null)) {
+			if ((base != null)) {
 				theInstance.setWorkingMemory(base.newWorkingMemory());
 			}
 		}
@@ -90,7 +90,7 @@ public class WorkflowEngine {
 	 * @return the rulebase
 	 */
 	private RuleBase getRuleBase() {
-		return ruleBase;
+		return this.ruleBase;
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class WorkflowEngine {
 	 */
 	private void loadRuleBase() {
 		try {
-			URL url = new File(System.getProperty("kobold.server.ruleset")).toURL();
+			URL url = new File("ruleset.drl").toURL();
 			RuleBase ruleBase =  org.drools.io.RuleBaseBuilder.buildFromUrl( url );
 			this.setRuleBase(ruleBase);
 		}
