@@ -149,6 +149,14 @@
                class="kobold.client.plam.action.GraphImportAction"
                id="kobold.client.plam.action3"/>
             </objectContribution>
+      <objectContribution
+            objectClass="kobold.client.plam.action.MetaInfoAction"
+            id="kobold.client.plam.roletreecontribution3">
+         <action
+               label="%action.Metainfo"
+               class="kobold.client.plam.action.MetaInfoAction"
+               id="kobold.client.plam.action1"/>
+      </objectContribution>
    </extension>
    <extension
          id="ccc"

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.8 2004/08/05 20:42:31 vanto Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.9 2004/08/05 20:51:49 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -197,7 +197,8 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         	 iterator.hasNext(); )
         {
             FileDescriptor fd = (FileDescriptor)iterator.next();
-            System.out.println("fd: " + fd.getFilename() + ", rev=" + fd.getRevision());
+            System.out.println("fd: " + fd.getFilename() + ", rev=" + fd.getRevision()   
+                                 + ((fd.getLastChange() != null) ? " date=" + fd.getLastChange() : ""));
         }
         
   	    Label label = new Label(composite, SWT.NONE);
