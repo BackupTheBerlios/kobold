@@ -344,6 +344,27 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			System.out.println(message);
 			tempString[tempString.length-1] = message; 
 			argString = tempString;
+			if (productLine != null)
+            {
+                String tmpString[] = new String[argString.length+1];
+                for (int i = 0; i < argString.length; i++)
+                {
+                    tmpString[i] = argString[i];
+                }
+                java.io.File metainfo = productLine.getLocalPath().append(".productlinemetainfo.xml").toFile();
+                java.io.File viewdata = productLine.getLocalPath().append(productLine.getName()+".vm").toFile();
+                if (viewdata.exists())
+                {
+                    tmpString[tmpString.length-1] = viewdata.getName();
+                    connection.open(progress, tmpString);
+                }
+                argString = tmpString;
+                if (metainfo.exists())
+                {
+                    tmpString[tmpString.length-1] = metainfo.getName();
+                }
+                System.out.println("lalal");
+            }
 			connection.open(progress,argString);
 			connection.close();	
 			progress.done();
@@ -366,23 +387,22 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
     			initConnection(connection,resources);
     			if (productLine != null)
                 {
-                    String tmpString[] = new String[argString.length+1];
-                    for (int i = 0; i < argString.length; i++)
-                    {
-                        tmpString[i] = argString[i];
-                    }
+//                    String tmpString[] = new String[argString.length+1];
+//                    for (int i = 0; i < argString.length; i++)
+//                    {
+//                        tmpString[i] = argString[i];
+//                    }
                     java.io.File metainfo = productLine.getLocalPath().append(".productlinemetainfo.xml").toFile();
                     java.io.File viewdata = productLine.getLocalPath().append(productLine.getName()+".vm").toFile();
-                    
                     if (viewdata.exists())
                     {
-                        tmpString[tmpString.length-1] = viewdata.getName();
-                        connection.open(progress, tmpString);
+                        argString[argString.length-1] = viewdata.getName();
+                        connection.open(progress, argString);
                     }
-                    argString = tmpString;
+//                    argString = tmpString;
                     if (metainfo.exists())
                     {
-                        tmpString[tmpString.length-1] = metainfo.getName();
+                        argString[argString.length-1] = metainfo.getName();
                     }
                     System.out.println("lalal");
                 }
