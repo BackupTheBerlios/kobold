@@ -464,9 +464,9 @@ public class ScriptServerConnection implements IServerConnection
                         else {
                             returnString = returnString.concat(new String(
                                     readLineBuffer, 0, index));
-                        }
-                        if(index > -1) {
-                        	returnString = returnString.concat("\n");
+                            if(index != 0) {
+                            	returnString = returnString.concat("\n");
+                            }
                         }
                         readLineBuffer = new byte[512];
                         index = 0;
