@@ -13,7 +13,6 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.dom4j.CDATA;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 /**
@@ -26,6 +25,9 @@ public class KoboldMessage {
 
 	private static final Log logger = LogFactory.getLog(KoboldMessage.class);
 	private DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSZ");
+	
+	/** this field must be changed if you subclass this class */
+	protected static final String TYPE = "kobold";
 
 	private String sender;
 	private String receiver;
@@ -175,9 +177,7 @@ public class KoboldMessage {
 		xmsg.addElement("date").setText(dateFormat.format(date));
 
 		xmsg.addElement("subject").setText(subject);
-
-		CDATA msg = DocumentHelper.createCDATA(messageText);
-		xmsg.add(msg);
+		xmsg.addCDATA(messageText);
 		
 		return xmsg;
 	}
@@ -185,7 +185,7 @@ public class KoboldMessage {
 	/**
 	 * Deserializes message 
 	 */
-	private void deserialize(Element data) {
+	protected void deserialize(Element data) {
 		id = data.attributeValue("id");
 		priority = data.attributeValue("priority");
 				
@@ -209,7 +209,8 @@ public class KoboldMessage {
 	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) 
+	{
 		if (!(obj instanceof KoboldMessage)) 
 			return false;
 		return ((KoboldMessage)obj).getId().equals(getId());
@@ -218,20 +219,44 @@ public class KoboldMessage {
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode() {
+	public int hashCode() 
+	{
 		return getId().hashCode();
 	}
 
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() {
+	public String toString() 
+	{
 		StringBuffer sb = new StringBuffer(getClass().getName());
-		sb.append("\t[id:       " + getId() + "]\n");
+		sb.append("\n\t[id:       " + getId() + "]\n");
 		sb.append("\t[sender:   " + getSender() + "]\n");
 		sb.append("\t[receiver: " + getReceiver() + "]\n");
 		sb.append("\t[subject:  " + getSubject() + "]\n");
 		return sb.toString();
 	}
 
+	/**
+	 * Factorymethod to create a Kobold-/Workflow-instance from an dom4j element.
+	 * Checks the type attribute to select the right class, returns null if type
+	 * attribute is not set or has wrong data.
+	 * 
+	 * @param el
+	 * @return
+	 */
+	public static KoboldMessage createMessage(Element el)
+	{
+		String type = el.attributeValue("type");
+		if (type == null)
+			return null;
+		
+		if (type.equals(KoboldMessage.TYPE)) {
+			return new KoboldMessage(el);
+		}
+		else if (type.equals(WorkflowMessage.TYPE)) {
+			return new WorkflowMessage(el);
+		}
+		else return null;	
+	}
 }

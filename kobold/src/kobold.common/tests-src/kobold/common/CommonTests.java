@@ -9,6 +9,7 @@ package kobold.common;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import kobold.common.data.KoboldMessageTest;
+import kobold.common.data.WorkflowItemTest;
 
 /**
  * @author Tammo
@@ -22,6 +23,7 @@ public class CommonTests {
 		TestSuite suite = new TestSuite("Test for kobold.common.data");
 		//$JUnit-BEGIN$
 		suite.addTest(new TestSuite(KoboldMessageTest.class));
+		suite.addTest(new TestSuite(WorkflowItemTest.class));
 		//$JUnit-END$
 		return suite;
 	}

@@ -6,6 +6,8 @@
  */
 package kobold.common.data;
 import java.util.*;
+
+import org.dom4j.Element;
 /**
  * @author garbeam
  *
@@ -13,38 +15,45 @@ import java.util.*;
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class WorkflowMessage extends KoboldMessage {
-	private int workflowID;
+	
+	protected static final String TYPE = "workflow";
+	private String workflowId;
 	private String comment;
-	private List history;
-	private WorkflowItemGroup itemGroup;
-	private int step;
+	private Set parents = new HashSet();
+	private List controlItems = new LinkedList();
 	private HashMap answer; 
 
-	public void addHistoryObject(WorkflowMessage newWflowMessage){
-			history.add(newWflowMessage);
-	}
-	
-	public void addItem(WorkflowItemGroup itemGroup){
-		this.itemGroup = itemGroup;
-	}
-	
-	public WorkflowMessage(int wfid, String ncomm, int nstep, List nhist,WorkflowItemGroup itemGroup){
-		workflowID = wfid;
-		comment = ncomm;
-		step = nstep;
-		history = nhist;
-		this.itemGroup = itemGroup;
-		
-	}
-	
-	public WorkflowMessage(){
-		workflowID = 0;
-		comment = "";
-		step = 0;
-		history = new ArrayList();
-		itemGroup = null;		
-	}
 
+	public WorkflowMessage()
+	{
+		super("wmesg");
+	}
+	
+	public WorkflowMessage(Element data)
+	{
+		super(data);
+	}
+	
+	public void addParentId(String id)
+	{
+		parents.add(id);
+	}
+	
+	public String[] getParentIds()
+	{
+		return (String[])parents.toArray(new String[0]);	
+	}
+	
+	public void addWorkflowControl(WorkflowItem item)
+	{
+		controlItems.add(item);
+	}
+	
+	public WorkflowItem[] getWorkflowControl()
+	{
+		return (WorkflowItem[])controlItems.toArray(new WorkflowItem[0]);
+	}
+	
 	/**
 	 * @return
 	 */
@@ -52,26 +61,15 @@ public class WorkflowMessage extends KoboldMessage {
 		return comment;
 	}
 
-	/**
-	 * @return
-	 */
-	public List getHistory() {
-		return history;
-	}
-
-	
-	/**
-	 * @return
-	 */
-	public int getStep() {
-		return step;
-	}
 
 	/**
-	 * @return
+	 * Sets the Workflow ID. 
+	 * This ID describes, which Workflow should be applied by Drools
+
+	 * @return workflow id
 	 */
-	public int getWorkflowID() {
-		return workflowID;
+	public String getWorkflowId() {
+		return workflowId;
 	}
 
 	/**
@@ -82,38 +80,11 @@ public class WorkflowMessage extends KoboldMessage {
 	}
 
 	/**
-	 * @param list
+	 * Sets the Workflow ID. 
+	 * This ID describes, which Workflow should be applied by Drools
 	 */
-	public void setHistory(List list) {
-		history = list;
-	}
-
-	/**
-	 * @param i
-	 */
-	public void setStep(int i) {
-		step = i;
-	}
-
-	/**
-	 * @param i
-	 */
-	public void setWorkflowID(int i) {
-		workflowID = i;
-	}
-
-	/**
-	 * @return
-	 */
-	public WorkflowItemGroup getWorkflowItemGroup() {
-		return itemGroup;
-	}
-
-	/**
-	 * @param group
-	 */
-	public void setWorkflowItemGroup(WorkflowItemGroup itemGroup) {
-		this.itemGroup = itemGroup;
+	public void setWorkflowId(String id) {
+		workflowId = id;
 	}
 
 	/**
@@ -128,6 +99,43 @@ public class WorkflowMessage extends KoboldMessage {
 	 */
 	public void setAnswer(HashMap map) {
 		answer = map;
+	}
+
+	/**
+	 * @see kobold.common.data.KoboldMessage#deserialize(org.dom4j.Element)
+	 */
+	protected void deserialize(Element data) 
+	{
+		super.deserialize(data);
+	}
+
+	/**
+	 * @see kobold.common.data.KoboldMessage#serialize()
+	 */
+	public Element serialize() 
+	{
+		Element el = super.serialize();
+		el.addElement("workflow-id").setText(workflowId);
+		el.addElement("comment").addCDATA(comment);
+		
+		Element hist = el.addElement("history");
+		Iterator it = parents.iterator();
+		while (it.hasNext()) {
+			String id = (String)it.next();
+			hist.addElement("parent").setText(id);
+		}
+		
+		Element controls = el.addElement("controls");
+		it = controlItems.iterator();
+		while (it.hasNext()) {
+			WorkflowItem control = (WorkflowItem)it.next();
+			controls.add(control.serialize());
+		}
+		
+		// TODO store answers
+		/*Element answers = el.addElement("results");
+		it = answer.*/
+		return el;
 	}
 
 }   
