@@ -133,11 +133,10 @@ sub read_phys {
             #print ("$File::Find::name \n");
             
             #to avoid that the currDir is printed too!
-            if ("$File::Find::name" ne $currDir)
+            if ("$File::Find::name" ne $currDir."\tD*\n")
             {
 
                 my $newFile = "$File::Find::name";
-
                 my $currDirLength = length ($currDir);
 
 
