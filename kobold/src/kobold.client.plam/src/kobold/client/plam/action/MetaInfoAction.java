@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaInfoAction.java,v 1.4 2004/08/06 09:21:43 garbeam Exp $
+ * $Id: MetaInfoAction.java,v 1.5 2004/08/31 17:50:51 neco Exp $
  *
  */
 package kobold.client.plam.action;
@@ -57,7 +57,7 @@ public class MetaInfoAction extends ActionDelegate
             Shell shell = Display.getDefault().getActiveShell(); 
             
             FileDialog saveDialog = new FileDialog(shell, SWT.SAVE);
-    		saveDialog.setFileName("metainfo.pdf");
+    		saveDialog.setFileName("assetinfo.pdf");
     		String filePath = saveDialog.open();
     		if (filePath != null) {
     			MetaInformation metaInformation = new MetaInformation(new Path(filePath));

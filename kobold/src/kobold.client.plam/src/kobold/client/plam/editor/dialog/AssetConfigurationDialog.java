@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.25 2004/08/31 11:03:45 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.26 2004/08/31 17:50:40 neco Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -34,6 +34,7 @@ import java.util.List;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.AbstractStatus;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IComponentContainer;
@@ -217,26 +218,67 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     		createVariantArea(panel);
 		}
 		
-		Button scripts = new Button(panel, SWT.NONE);
-		scripts.setText("&Scripts...");
-		scripts.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-			    ScriptChooserDialog dlg =
-			        new ScriptChooserDialog(panel.getShell(), asset);
-			    dlg.open();
-			}
-		});
-        
-		if (asset instanceof Product) {
-    		Button repDesc = new Button(panel, SWT.NONE);
-    		repDesc.setText("&Repository...");
-    		repDesc.addSelectionListener(new SelectionAdapter() {
-    			public void widgetSelected(SelectionEvent event) {
-    			    EditRepositoryDescriptorDialog erdd =
-    			        new EditRepositoryDescriptorDialog(panel.getShell(), asset);
-    			    erdd.open();
-    			}
-    		});
+		if (asset instanceof AbstractRootAsset){
+
+			Composite buttonPanel = new Composite(panel, SWT.NONE);
+	    	layout = new GridLayout(2, false);
+			layout.marginHeight =
+			    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+			layout.marginWidth =
+			    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+			layout.verticalSpacing =
+			    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
+			layout.horizontalSpacing =
+			    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+			buttonPanel.setLayout(layout);
+			buttonPanel.setLayoutData(new GridData(GridData.FILL_BOTH));
+			buttonPanel.setFont(parent.getFont());
+
+			Button scripts = new Button(buttonPanel, SWT.NONE);
+			scripts.setText("&VCM Scripts");
+			scripts.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent event) {
+				    ScriptChooserDialog dlg =
+				        new ScriptChooserDialog(panel.getShell(), asset);
+				    dlg.open();
+				}
+			});
+	        
+			if (asset instanceof Product) {
+	    		Button repDesc = new Button(buttonPanel, SWT.NONE);
+	    		repDesc.setText("&Repository...");
+	    		repDesc.addSelectionListener(new SelectionAdapter() {
+	    			public void widgetSelected(SelectionEvent event) {
+	    			    EditRepositoryDescriptorDialog erdd =
+	    			        new EditRepositoryDescriptorDialog(panel.getShell(), asset);
+	    			    erdd.open();
+	    			}
+	    		});
+	   		}
+			
+		}
+		else{
+			Button scripts = new Button(panel, SWT.NONE);
+			scripts.setText("&VCM Scripts");
+			scripts.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent event) {
+				    ScriptChooserDialog dlg =
+				        new ScriptChooserDialog(panel.getShell(), asset);
+				    dlg.open();
+				}
+			});
+	        
+			if (asset instanceof Product) {
+	    		Button repDesc = new Button(panel, SWT.NONE);
+	    		repDesc.setText("&Repository...");
+	    		repDesc.addSelectionListener(new SelectionAdapter() {
+	    			public void widgetSelected(SelectionEvent event) {
+	    			    EditRepositoryDescriptorDialog erdd =
+	    			        new EditRepositoryDescriptorDialog(panel.getShell(), asset);
+	    			    erdd.open();
+	    			}
+	    		});
+	   		}
 		}
     }
     
@@ -482,7 +524,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		refreshMaintainers(maintainedAsset);
 		
 		Button edit = new Button(composite, SWT.NONE);
-		edit.setText("&Edit...");
+		edit.setText("&Edit Maintainer");
 		edit.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 			    EditMaintainerDialog dlg =
