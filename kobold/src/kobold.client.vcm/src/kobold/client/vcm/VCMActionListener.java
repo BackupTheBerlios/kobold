@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
  * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
  * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.10 2004/10/13 14:09:28 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.11 2004/10/15 02:58:26 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -34,6 +34,7 @@ import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.Release;
+import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.communication.KoboldPolicy;
@@ -256,7 +257,7 @@ public class VCMActionListener implements IVCMActionListener
 		    command[5] = password; 
 			command[6] = rd.getHost();
 			command[7] = rd.getRoot();
-			command[9] = "\"" + release.getName() + "\"";
+			command[9] = release.getName();
 			for (Iterator it = release.getFileRevisions().iterator(); it.hasNext();) {
     			    
 			    Release.FileRevision fr = (Release.FileRevision) it.next();
@@ -278,5 +279,13 @@ public class VCMActionListener implements IVCMActionListener
     			}
 			}
 		}
+    }
+
+    /**
+     * @see kobold.client.plam.listeners.IVCMActionListener#updateRelease(kobold.client.plam.model.product.RelatedComponent, kobold.client.plam.model.Release)
+     */
+    public void updateRelease(RelatedComponent rc, Release newRelase) {
+        // TODO Auto-generated method stub
+        
     }
 }
