@@ -21,26 +21,35 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaNode.java,v 1.3 2004/07/15 02:55:53 martinplies Exp $
+ * $Id: MetaNode.java,v 1.4 2004/07/22 16:13:45 martinplies Exp $
  *
  */ 
 package kobold.client.plam.model.edges;
 
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.AbstractRootAsset;
+
 /**
  * @author pliesmn
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
  */
-public class MetaNode  implements INode {
-   public static final String OR = "OR";
-   public static final String XOR = "XOR";
+public class MetaNode  extends AbstractAsset {
+   public static final String OR = "OR"; // a logic xor
    public static final String AND = "AND";
    
    private String type;
    private String id;
    
-   public MetaNode(String type){
+   public MetaNode(String type ){
        this.type = type;
    }
+
+
+/**
+ * returns node type. 
+ */
+public String getType() {
+    return type;
+}
 }
