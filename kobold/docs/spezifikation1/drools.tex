@@ -1,0 +1,9 @@
+\chapter{Drools}
+
+Zur Realisierung des Workflow-Mechanismus wird die Rule Engine Drools\footnote{siehe auch http://www.drools.org} verwendet.\par
+Dafür wird eine Regelbasis in XML für drool erzeugt, die im Wesentlichen aus Regeln besteht, die sich in drei Teile gliedern lassen: Parameter, Bedingung und Konsequenz. Diese Regelbasis wird sich auf dem Server befinden. \par
+Wenn ein Client eine Aktion dem Server meldet, so wird dieses Ereignis auf die Regelbasis angewendet. Es werden dabei alle Regeln durchlaufen. Stimmt das Ereignis mit der Bedingung einer Regel überein, so wird die Konsequenz dieser ausgeführt. Die Ergebnisse dieser Regelkonsequenzen werden zu einem Workflow-Objekt zusammengefügt (zum Beispiel eine Reihe von Anweisungen). Diese Workflow-Objekt wird dann auf die Message-Queues der Clients gelegt, für die das Workflow-Objekt relevant ist. Beim nächsten Login des Clients, wird diese Objekt dann gepollt und in die Workflow-View des Benutzers gefügt.\newline
+\newline
+\includegraphics[width=15cm]{drools.png}\newline
+Ein Workflow-Objekt ist dabei eine Art XML-Struktur, die einen Titel und eine Liste aller Regelresultate besitzt.\par
+Kobold wird eine Anfangsregelbasis zur Verfügung stellen, die vom Anwender jederzeit erweitert werden kann. Dafür muss dieser nur eine neue Regel erstellen. Dafür wird ihm ein Editor zur Verfügung stehen, der in einer der kommenden Iterationen entstehen wird. Diese Regeln müssen dann nicht unbedingt zum Workflow-Objekt hinzugefügt werden sondern können in ihrem Konsequenzteil auch andere Aktionen ausführen. Dies bleibt dem Anwender überlassen.
