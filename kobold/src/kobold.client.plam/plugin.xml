@@ -38,7 +38,7 @@
             default="true"
             contributorClass="kobold.client.plam.editor.KoboldActionBarContributor"
             name="%editor.Architecture"
-            id="ArchitectureEditor"
+            id="kobold.client.plam.editor.ArchitectureEditor"
             extensions="kae">
       </editor>
    </extension>

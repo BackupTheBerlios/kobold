@@ -21,14 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.5 2004/05/19 16:15:39 neco Exp $
+ * $Id: RoleTreeViewPart.java,v 1.6 2004/06/24 03:06:01 vanto Exp $
  *
  */
 package kobold.client.plam.view;
 
+import kobold.client.plam.KoboldConstants;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider;
 import kobold.client.plam.controller.roletree.RoleTreeLabelProvider;
+import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
+import kobold.client.plam.editor.ArchitectureEditorInput;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,6 +57,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
@@ -161,11 +167,27 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 		action2.setText("Action 2");
 		action2.setToolTipText("Action 2 tooltip");
 		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_OBJS_TASK_TSK));
+			getImageDescriptor(org.eclipse.ui.ide.IDE.SharedImages.IMG_OBJS_TASK_TSK));
+
 		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
+				
+				if (obj instanceof ArchitectureItem) {
+				    try {
+				        final IWorkbenchWindow activeWorkbenchWindow =
+				            PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+				            IWorkbenchPage page = activeWorkbenchWindow.getActivePage();
+				            
+				            ArchitectureItem ai = (ArchitectureItem)obj; 
+				            final ArchitectureEditorInput editorInput =
+				                new ArchitectureEditorInput(ai.getAsset());
+				            page.openEditor(editorInput, KoboldConstants.ID_ARCH_EDITOR, true);
+				    } catch (PartInitException e) {
+				        e.printStackTrace();
+				    }
+				} else
 				showMessage("Double-click detected on "+obj.toString());
 			}
 		};

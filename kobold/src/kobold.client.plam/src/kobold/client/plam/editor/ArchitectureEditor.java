@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.11 2004/06/24 01:26:42 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.12 2004/06/24 03:06:01 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -113,6 +113,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	private PaletteRoot root;
 	private KeyHandler keyHandler;
 	private boolean isSaving = false;
+	private OutlinePage outlinePage;
 	
 	private AbstractAsset model = new Productline("");
 	
@@ -253,8 +254,10 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	    try {
 			isSaving = true;
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			if (model.getRoot().getParent() instanceof PLAMProject) {
-			    PLAMProject pp = (PLAMProject)model.getRoot().getParent();
+			System.out.println(model);
+			System.out.println(model.getParent());
+			if (model.getParent() instanceof PLAMProject) {
+			    PLAMProject pp = (PLAMProject)model.getParent();
 			    pp.storeViewModelContainer(viewModel, monitor);
 				getCommandStack().markSaveLocation();
 			}
@@ -356,7 +359,10 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     	return root;
     }
 
-	
+    private ArchitectureEditorInput getArchEditorInput() {
+        return (ArchitectureEditorInput)getEditorInput();
+    }
+    
 	/**
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
@@ -366,7 +372,8 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 		}
 
 		if (type == IContentOutlinePage.class) {
-			return new OutlinePage(new TreeViewer());
+			outlinePage = new OutlinePage(new TreeViewer());
+		    return outlinePage;
 		}
 
 		if (type == ZoomManager.class) {
@@ -467,7 +474,23 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	
     protected void setInput(IEditorInput input)
     {
-        super.setInput(input);
-        //model = KoboldPLAMPlugin.getCurrentProjectNature().getPLAMProject().getProductline();
+    	super.setInput(input);
+		model = getArchEditorInput().getAsset();
+		if (model.getParent() instanceof PLAMProject) {
+		    PLAMProject pp = (PLAMProject)model.getParent();
+		    try {
+                viewModel = pp.restoreViewModelContainer();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+		}
+ 
+		setPartName(getArchEditorInput().getName());
+
+    	if (!isSaving) {
+    		if (getGraphicalViewer() != null) {
+    			getGraphicalViewer().setContents(model);
+    		}
+    	}  
     }
 }

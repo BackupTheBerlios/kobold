@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.8 2004/06/24 01:22:37 vanto Exp $
+ * $Id: PLAMProject.java,v 1.9 2004/06/24 03:06:01 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -244,16 +244,31 @@ public class PLAMProject
     public void storeViewModelContainer(ViewModelContainer viewModel, IProgressMonitor monitor) 
     		throws Exception
     {
-        IFile vmFile = project.getFile("viewdata");
+        
+        
         ByteArrayOutputStream out = new ByteArrayOutputStream();
    		XMLWriter writer;
    		writer = new XMLWriter(out, OutputFormat.createPrettyPrint());
    		writer.write(viewModel.serialize());
    		writer.close();
-   		vmFile.setContents(new ByteArrayInputStream(out.toByteArray()), 
-    			true, false, monitor);
+   		IFile vmFile = project.getFile("viewdata");
+   		if (vmFile.exists()) {
+   		    vmFile.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, monitor);
+   		} else {
+   		    vmFile.create(new ByteArrayInputStream(out.toByteArray()), 
+    			true, monitor);
+   		}
     	out.close();
     }
 
+    public ViewModelContainer restoreViewModelContainer() throws Exception 
+    {
+        IFile vmFile = project.getFile("viewdata");
+        InputStream is = vmFile.getContents(false);
+		SAXReader reader = new SAXReader();
+	    Document document = reader.read(is);
+	    ViewModelContainer vmc = new ViewModelContainer(document.getRootElement());        
+        return vmc;
+    }
 
 }

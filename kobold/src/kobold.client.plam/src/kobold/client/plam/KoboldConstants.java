@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldConstants.java,v 1.3 2004/05/16 23:41:46 vanto Exp $
+ * $Id: KoboldConstants.java,v 1.4 2004/06/24 03:06:01 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -47,5 +47,5 @@ public class KoboldConstants {
 	
 	/** New Wizard ID */
 	public static final String ID_NEW_WIZARD = "kobold.client.plam.newwizard";
-
+	public static final String ID_ARCH_EDITOR = "kobold.client.plam.editor.ArchitectureEditor";
 }
