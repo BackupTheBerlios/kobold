@@ -2,7 +2,7 @@
 %% StuPro A, Produktlinien (Kobold)
 %% Team Werkbold
 %% Projektplan
-%% $Id: iteration1.tex,v 1.7 2004/02/05 11:41:36 garbeam Exp $
+%% $Id: iteration1.tex,v 1.8 2004/02/05 12:56:47 garbeam Exp $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Iteration I}
@@ -41,6 +41,7 @@ Darüber hinaus werden in der ersten Iterationen folgende Dokumente erstellt:
 \item Testfälle, Testplan und Testresultate zu
 Basiskomponenten\footnote{Blackbox-Tests des Rahmensystems werden in Absprache
 mit dem Auftraggeber vom AssetDevel-Team durchgeführt.}
+\item Teil-Handbuch zur den implementierten Basiskomponenten
 \end{itemize}
 
 \subsection {Zeitplan}
@@ -71,22 +72,22 @@ nachverhandelt.\par
 5  & Anpassung des Projektplans & 50 & KW6 & \\
 6  & Auslieferung des Projektplans & & KW6 & M3 \\
 7  & Anforderungsdokument & 50 & KW6 & \\
-8  & Erstellung Spezifikation I & 125 & KW7 & \\
+8  & Erstellung Spezifikation I & 100 & KW7 & \\
 9  & Review Spezifikation & 50 & KW7 & \\
 10 & Korrektur Spezifikation & 20 & KW8 & \\
 11 & Auslieferung Spezifikation & & KW8 & M4\\
-12 & Erstellung Grob-Entwurf & 75 & KW9 & \\
+12 & Erstellung Grob-Entwurf & 60 & KW9 & \\
 13 & Erstellung Fein-Entwurf & 250 & KW14 & \\
 14 & Review Fein-Entwurf & 100 & KW14 & \\
-15 & Korrektur Fein-Entwurf & 75 & KW15 & \\
+15 & Korrektur Fein-Entwurf & 70 & KW15 & \\
 16 & Auslieferung Fein-Entwurf & & KW15 & M5\\
 17 & Implementierung & 250 & KW19 & \\
 18 & Teil-Handbuch & 70 & KW19 & \\
-19 & Test Implementierung & 75 & KW19 & \\
+19 & Test Implementierung & 60 & KW19 & \\
 20 & Review Teil-Handbuch & 20 & KW20 & \\
 21 & Korrektur Implementierung & 80 & KW19 & \\
 22 & Korrektur Teil-Handbuch & 40 & KW20 & \\
-23 & Projektplan für Iteration II & & KW 20 &\\
+23 & Projektplan für Iteration II & & KW20 &\\
 24 & Auslieferung Rahmensystem & & 14.05. & M6 \\ \hline
    & \bf Gesamt & \bf 1600 & 16 Wochen &\\
 \end{tabular}
@@ -116,16 +117,24 @@ umfangreicher OpenSource Projekte im C++ und J2SE-Umfeld.\par
 Nach Abzug der Aufwände für das Vorprojekt und unter Zugrundelegung eines
 Gesamtaufwands für die Projektdurchführung von {\bf 500 Stunden} pro
 Team-Mitglied (entspricht {\bf 4500 Stunden} Gesamtaufwand) verbleiben für das
-Hauptprojekt {\bf XXXX Stunden}.\par
+Hauptprojekt {\bf 2481,25 Stunden}.\par
 Der ersten Iteration wird nach Anpassung der Detailplanung ein Aufwand von
 {\bf 1600 Stunden} zugrundegelegt, dies entspricht einem prozentualem Anteil
-von ca. {\bf 37\%} vom Gesamtaufwand, wenn {\bf 4500 Stunden} für den
+von ca. {\bf 36\%} vom Gesamtaufwand, wenn {\bf 4500 Stunden} für den
 Gesamtaufwand angesetzt werden. Legt man einer Arbeitsstunde
 einen Preis von {\bf 100 EUR} zugrunde, entspricht dies {\bf 160.000 EUR}.
-Dies Kosten für die einzelnen Arbeitspakete ergeben sich aus dem Produkt des
+Die Kosten für die einzelnen Arbeitspakete ergeben sich aus dem Produkt des
 Aufwands (siehe Zeitplan) multipliziert mit dem Preis einer Arbeitsstunde.
 
 \subsection{Meilensteine}
+Das Projekt ist in mehrere Iterationen
+unterteilt, die sich wiederum in kleinere Phasen aufteilen. Phasen
+werden im Rahmen dieses Projektplans durch (externe) Meilensteine
+abgeschlossen. Meilensteine gelten erst als erreicht, wenn die für die
+jeweilige Phase geplanten Arbeitspakete zur vollständigen Zufriedenheit
+des Auftraggebers erfolgreich erstellt und ausgeliefert wurden.\par
+Erst nach dem erreichen eines Meilensteins wird die Folgephase
+begonnen.\par
 
 In der ersten Iteration werden folgende Meilensteine verwirklicht:
 
@@ -133,7 +142,7 @@ In der ersten Iteration werden folgende Meilensteine verwirklicht:
 
 {\bf Ergebnis:} Angepasster Projektplan\par
 Das vorliegende Dokument.
-Im Rahmen der Neuformierung im Hauptprojekt wurd der Projektplan
+Im Rahmen der Neuformierung im Hauptprojekt wurde der Projektplan
 für die Iteration I verfeinert und an die neue Team-Zusammensetzung angepasst.\par
 
 \subsubsection{M4: Spezifikation}
@@ -190,6 +199,7 @@ und Software-Pakete ausgeliefert:
 \item Source- und Bytecode des Clients und Servers
 \item Source- und Bytecode notwendiger Komponenten von Drittanbietern
 \item Testfälle, Testplan und Testresultate des Clients und Servers
+\item Teil-Handbuch der Basisfunktionalität
 \item Installations-Howto
 \end{itemize}
 
