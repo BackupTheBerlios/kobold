@@ -23,8 +23,8 @@
 			java.util.HashMap map = msg.getWorkflowData();
 			answer.setReceiver(map.get("recipient"));
 			answer.setMessageText("Programmer "+msg.getSender() + " would like to suggest " +
-					"committing the file " + map.get("file") + " in component " + map.get("component") + 
-					" to a Core Group. He added the following comment: " +
+					"committing the asset " + map.get("asset") +  
+					" to a Core Group. (S)He added the following comment: " +
 					msg.getComment());
 			// adds decision possibilities for the pe
 			kobold.common.data.WorkflowItem recipient = new kobold.common.data.WorkflowItem("recipient","Recipient (PLE)",kobold.common.data.WorkflowItem.TEXT);
@@ -35,8 +35,7 @@
 			cont.addChild(rb2);
 			answer.addWorkflowControl(recipient);
 			answer.putWorkflowData("P", map.get("P"));
-			answer.putWorkflowData("file", map.get("file"));
-			answer.putWorkflowData("component", map.get("component"));
+			answer.putWorkflowData("asset", map.get("asset"));
 			answer.addWorkflowControl(cont);
 			kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
         </java:consequence>
@@ -69,7 +68,7 @@
 				answer.setStep(msg.getStep()+1);
 				answer.setReceiver(map.get("recipient"));
 				answer.setSubject("New Request for a Core Group Commit");
-				answer.setMessageText("Product Engineer " + msg.getSender() + " got a suggestion from one of his programmers to commit the file " + map.get("file") + " in component " + map.get("component") + " to a Core Group. He added the following comment: " + msg.getComment());
+				answer.setMessageText("Product Engineer " + msg.getSender() + " got a suggestion from one of his programmers to commit the asset " + map.get("asset") + " to a Core Group. He added the following comment: " + msg.getComment());
 				//add decision possibilities for the ple
 				kobold.common.data.WorkflowItem radio1 = new kobold.common.data.WorkflowItem("true","Assent",kobold.common.data.WorkflowItem.RADIO);
 				kobold.common.data.WorkflowItem radio2 = new kobold.common.data.WorkflowItem("false","Dissent",kobold.common.data.WorkflowItem.RADIO);
@@ -79,8 +78,7 @@
 				answer.addWorkflowControl(container);
 				answer.putWorkflowData("P", map.get("P"));
 				answer.putWorkflowData("PE", answer.getSender());
-				answer.putWorkflowData("file", map.get("file"));
-				answer.putWorkflowData("component", map.get("component")); 				
+				answer.putWorkflowData("asset", map.get("asset"));			
             }
 			if (decision.equals("false")) {							
 				answer = new kobold.common.data.KoboldMessage();

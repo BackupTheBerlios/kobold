@@ -8,6 +8,7 @@ package kobold.client.plam.workflow;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.controller.ServerHelper;
+import kobold.client.plam.model.AbstractAsset;
 import kobold.common.data.UserContext;
 import kobold.common.data.WorkflowItem;
 import kobold.common.data.WorkflowMessage;
@@ -26,19 +27,22 @@ import org.eclipse.swt.widgets.Button;
 /**
  * @author bettina
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * This dialog helps to determine the recipient of the core group suggestion.
+ * This can either be a PE or a PLE. If the user decides to send his suggestion
+ * to a PE, the PE can forward the suggestion to his PLE if he supports the suggestion.
  */
 public class CoreGroupDialog extends Dialog{
 
 	private Button pe;
 	private Button ple;
 	private Shell shell;
+	private AbstractAsset selection;
 	
-	public CoreGroupDialog(Shell parentShell)
+	public CoreGroupDialog(Shell parentShell, AbstractAsset asset)
 	{
 	    super(parentShell);
 	    shell = parentShell;
+	    selection = asset;
 	}
 
 	
@@ -86,13 +90,20 @@ public class CoreGroupDialog extends Dialog{
 				msg.putWorkflowData("P", ctx.getUserName());
 			
 				msg.setSubject("Core Group Suggestion");
-				msg.setMessageText("Enter the data of the file you want to suggest:");
+				
 				WorkflowItem recipient = new WorkflowItem ("recipient", "Recipient: ", WorkflowItem.TEXT);
-				WorkflowItem file = new WorkflowItem("file", "File: ", WorkflowItem.TEXT);
-				WorkflowItem component = new WorkflowItem ("component", "Component: ", WorkflowItem.TEXT);
+	
 				msg.addWorkflowControl(recipient);
-				msg.addWorkflowControl(file);
-				msg.addWorkflowControl(component);
+								
+				if (selection == null) {
+					WorkflowItem asset = new WorkflowItem("asset", "Asset: ", WorkflowItem.TEXT);
+					msg.addWorkflowControl(asset);
+					msg.setMessageText("Enter the name of the data you want to suggest:");
+				} else {
+					msg.putWorkflowData("asset", selection.getName());
+					msg.setMessageText("Suggesting the asset: " + selection.getName());
+				}
+				
 				WorkflowDialog wfDialog = new WorkflowDialog(shell, msg);
 				wfDialog.open();
 
@@ -114,13 +125,19 @@ public class CoreGroupDialog extends Dialog{
 				msg.putWorkflowData("decision", "true");
 			
 				msg.setSubject("Core Group Suggestion");
-				msg.setMessageText("Enter the data of the file you want to suggest:");
+
 				WorkflowItem recipient = new WorkflowItem ("recipient", "Recipient: ", WorkflowItem.TEXT);
-				WorkflowItem file = new WorkflowItem("file", "File: ", WorkflowItem.TEXT);
-				WorkflowItem component = new WorkflowItem ("component", "Component: ", WorkflowItem.TEXT);
 				msg.addWorkflowControl(recipient);
-				msg.addWorkflowControl(file);
-				msg.addWorkflowControl(component);
+
+				if (selection == null) {
+					WorkflowItem asset = new WorkflowItem("asset", "Asset: ", WorkflowItem.TEXT);
+					msg.addWorkflowControl(asset);
+					msg.setMessageText("Enter the name of the data you want to suggest:");
+				} else {
+					msg.putWorkflowData("asset", selection.getName());
+					msg.setMessageText("Suggesting the asset: " + selection.getName());
+				}
+
 				WorkflowDialog wfDialog = new WorkflowDialog(shell, msg);
 				wfDialog.open();
 

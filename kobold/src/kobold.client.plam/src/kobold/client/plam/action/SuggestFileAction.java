@@ -7,10 +7,14 @@
 package kobold.client.plam.action;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.workflow.CoreGroupDialog;
 import kobold.common.data.WorkflowMessage;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -22,6 +26,7 @@ import org.eclipse.swt.widgets.Shell;
 public class SuggestFileAction extends Action{
 	
 	private Shell shell;
+    private AbstractAsset selection;
     
     public SuggestFileAction(Shell shell) 
     {
@@ -36,7 +41,7 @@ public class SuggestFileAction extends Action{
     {
     	WorkflowMessage msg = new WorkflowMessage("Core Group Suggestion");
 		try {
-			CoreGroupDialog cgDialog = new CoreGroupDialog(shell);
+			CoreGroupDialog cgDialog = new CoreGroupDialog(shell, selection);
 			cgDialog.open();
 
 		} catch (Exception e) {
@@ -44,4 +49,18 @@ public class SuggestFileAction extends Action{
 		}
     }
 
+    
+    
+    public void handleSelectionChanged(SelectionChangedEvent event)
+    {
+        IStructuredSelection sel = (IStructuredSelection)event.getSelection();
+        if (sel.size() == 1 && sel.getFirstElement() instanceof AbstractAsset
+                && !(sel.getFirstElement() instanceof MetaNode)) {
+            setEnabled(true);
+            selection = (AbstractAsset)sel.getFirstElement();
+        } else {
+            setEnabled(false);
+            selection = null;
+        }
+    }
 }

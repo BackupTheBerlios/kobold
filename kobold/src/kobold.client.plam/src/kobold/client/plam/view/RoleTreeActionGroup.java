@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.6 2004/08/17 13:55:45 bettina Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.7 2004/08/17 14:29:53 bettina Exp $
  *
  */
 package kobold.client.plam.view;
@@ -164,6 +164,7 @@ public class RoleTreeActionGroup extends ActionGroup
         refreshFDAction.handleSelectionChanged(event);
         configureAssetAction.handleSelectionChanged(event);
         deleteAction.selectionChanged(((IStructuredSelection)event.getSelection()));
+        suggestFileAction.handleSelectionChanged(event);
     }
     
     public void handleDoubleClick(DoubleClickEvent event)
