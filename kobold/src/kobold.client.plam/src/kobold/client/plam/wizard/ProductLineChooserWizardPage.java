@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ProductLineChooserWizardPage.java,v 1.8 2004/07/02 12:33:58 vanto Exp $
+ * $Id: ProductLineChooserWizardPage.java,v 1.9 2004/07/07 01:55:43 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -29,8 +29,6 @@ package kobold.client.plam.wizard;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import kobold.common.data.RolePLE;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -51,19 +49,8 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class ProductLineChooserWizardPage extends WizardPage implements ISelectionChangedListener {
 
-    public static final String PAGE_ID
-	= "KOBOLD_WIZARD_ROLES"; 
-    
+    public static final String PAGE_ID = "KOBOLD_WIZARD_ROLES"; 
     private Combo combo;
-    //private TableViewer viewer;
-	//private RoleContentProvider provider;
-	
-	/*private String[] titles = {"Rolle", "Produktlinie", "Produkt"};
-	private ColumnLayoutData columnLayouts[] =	{
-			new ColumnWeightData(75),
-			new ColumnWeightData(150),
-			new ColumnWeightData(150)};*/
-    
 	
 	/**
 	 */
@@ -76,36 +63,6 @@ public class ProductLineChooserWizardPage extends WizardPage implements ISelecti
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createControl(Composite parent) {
-		/*Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayout(new FillLayout());
-
-		setControl(composite);
-		
-
-		Table table = new Table (composite, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);	
-		table.setLinesVisible (true);
-		table.setHeaderVisible (true);
-		TableLayout tableLayout = new TableLayout();
-		table.setLayout(tableLayout);
-
-		for (int i=0; i<titles.length; i++) {
-			TableColumn column = new TableColumn(table, SWT.NULL);
-			column.setText (titles [i]);	
-			
-			tableLayout.addColumnData(columnLayouts[i]);
-		}	
-
-		for (int i=0; i<titles.length; i++) {
-			table.getColumn (i).pack ();
-		}	
-
-		provider = new RoleContentProvider();
-		
-		viewer = new TableViewer(table);
-		viewer.setContentProvider(provider);
-		viewer.setLabelProvider(new RoleLabelProvider());
-
-		viewer.addSelectionChangedListener(this);*/
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout());
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));		
@@ -152,17 +109,11 @@ public class ProductLineChooserWizardPage extends WizardPage implements ISelecti
 		return true;
 	}
 	
-	void setRoles(List roles)
+	void setProductlines(List pls)
 	{
-	    List pls = new ArrayList();
-	    pls.add("");
-	    Iterator it = roles.iterator();
-	    while (it.hasNext()) {
-	        Object role = it.next();
-	        if (role instanceof RolePLE) {
-	            pls.add(((RolePLE)role).getProductlineName());
-	        }
-	    }
+		//FIXME:
+		pls.add("");
+		pls.add("dummy");
 	    combo.setItems((String[])pls.toArray(new String[0]));
 	}
 	
@@ -170,81 +121,6 @@ public class ProductLineChooserWizardPage extends WizardPage implements ISelecti
 	{
 		return combo.getText();
 	}
-
-	
-	/*private class RoleContentProvider implements IStructuredContentProvider {
-
-        private List roles;
-        
-        public Object[] getElements(Object inputElement)
-        {
-            if (roles == null) {
-                return null;
-            }
-            return roles.toArray();
-        }
-
-        public void dispose()
-        {
-        }
-
-        public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-        {
-            this.roles = (List)newInput;
-        }
-	}*/
-	
-    /**
-     * @author Tammo
-     *
-     * TODO To change the template for this generated type comment go to
-     * Window - Preferences - Java - Code Generation - Code and Comments
-     */
-    /*public class RoleLabelProvider extends LabelProvider implements ITableLabelProvider
-    {
-
-        public Image getColumnImage(Object element, int columnIndex)
-        {
-            return null;
-        }
-
-        public String getColumnText(Object element, int columnIndex)
-        {
-            if (element == null) {
-                return null;
-            }
-            
-            if (element instanceof RoleP) {
-                RoleP p = (RoleP) element;
-                switch (columnIndex) {
-                    case 0: return "P";
-                    case 1: return "-";
-                    case 2: return p.getProductName();
-                }
-            }
-            
-            if (element instanceof RolePE) {
-                RolePE p = (RolePE) element;
-                switch (columnIndex) {
-                    case 0: return "PE";
-                    case 1: return "-";
-                    case 2: return p.getProductName();
-                }
-            }
-
-            if (element instanceof RolePLE) {
-                RolePLE p = (RolePLE) element;
-                switch (columnIndex) {
-                    case 0: return "PLE";
-                    case 1: return p.getProductlineName();
-                    case 2: return "-";
-                }
-            }
-            
-            return element.toString();
-        }
-        
-    }*/
 
     /**
      * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
