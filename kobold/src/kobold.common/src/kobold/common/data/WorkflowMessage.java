@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.14 2004/05/15 02:11:01 vanto Exp $
+ * $Id: WorkflowMessage.java,v 1.15 2004/05/16 02:28:17 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -35,7 +35,7 @@ import org.dom4j.Element;
  */
 public class WorkflowMessage extends KoboldMessage {
 	
-	protected static final String TYPE = "workflow";
+	public static final String TYPE = "workflow";
 	private String workflowId;
 	private String comment = "";
 	private Set parents = new HashSet();
@@ -126,9 +126,27 @@ public class WorkflowMessage extends KoboldMessage {
 	protected void deserialize(Element data) 
 	{
 		super.deserialize(data);
+		workflowId = data.elementTextTrim("workflow-id");
+		comment = data.elementTextTrim("comment");
+
+		Element history = data.element("history");
+		Iterator it = history.elementIterator("parent");
+		while (it.hasNext()) {
+			Element p = (Element)it.next();
+			parents.add(p.getTextTrim());
+		}
+		
+		Element controls = data.element("controls");
+		it = history.elementIterator("control");
+		
+		while (it.hasNext()) {
+			Element c = (Element)it.next();
+			controlItems.add(new WorkflowItem(c));
+		}
+
 	}
 
-	protected String getType() 
+	public String getType() 
 	{
 		return WorkflowMessage.TYPE;
 	}

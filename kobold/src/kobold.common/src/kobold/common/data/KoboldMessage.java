@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldMessage.java,v 1.8 2004/05/15 01:23:40 garbeam Exp $
+ * $Id: KoboldMessage.java,v 1.9 2004/05/16 02:28:17 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -45,10 +45,14 @@ public class KoboldMessage {
 	private DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSZ");
 	
 	/** this field must be changed if you subclass this class */
-	protected static final String TYPE = "kobold";
+	public static final String TYPE = "kobold";
 	public static final String STATE_UN_FETCHED = "UN_FETCHED"; 
 	public static final String STATE_FETCHED = "FETCHED";
 	public static final String STATE_INVALID = "INVALID";
+	
+	public static final String PRIORITY_HIGH = "high";
+	public static final String PRIORITY_NORMAL = "normal";
+	public static final String PRIORITY_LOW = "low";
 	
 	private String sender;
 	private String receiver;
@@ -79,11 +83,11 @@ public class KoboldMessage {
 	/**
 	 * Creates a new Kobold Message.
 	 * Use this constructor to use a seperate id pool for the given type.
-	 * @param type
+	 * @param idtype
 	 */
-	protected KoboldMessage(String type)
+	protected KoboldMessage(String idtype)
 	{
-		id = IdManager.getInstance().getMessageId(type);
+		id = IdManager.getInstance().getMessageId(idtype);
 	}
 
 	/**
@@ -108,7 +112,7 @@ public class KoboldMessage {
 		return id;
 	}
 
-	protected String getType() 
+	public String getType() 
 	{
 		return KoboldMessage.TYPE;
 	}
