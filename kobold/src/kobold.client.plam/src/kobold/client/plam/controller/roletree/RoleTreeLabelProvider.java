@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.2 2004/04/16 12:20:00 garbeam Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.3 2004/05/12 15:04:14 neco Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
 
 import org.eclipse.jface.viewers.LabelProvider;
+import kobold.common.data.*;
 
 /**
  * RoleTreeLabelProvider
@@ -39,4 +40,25 @@ import org.eclipse.jface.viewers.LabelProvider;
 public class RoleTreeLabelProvider extends LabelProvider
 {
 
+	public String getText(Object element) {
+		if (element instanceof User) {
+			return ((User)element).getUserName();
+		} else if (element instanceof RolePLE) {
+			return "PLE";
+		} else if (element instanceof RolePE) {
+			return "PE";
+		} else if (element instanceof RoleP) {
+			return "P";
+		} else if (element instanceof Productline) {
+			return ((Productline)element).getName();
+		} else if (element instanceof Product) {
+			return ((Product)element).getName();
+		} else {
+			throw unknownElement(element);
+		}
+	}
+	protected RuntimeException unknownElement(Object element) {
+		return new RuntimeException("Unknown type of element in tree of type " 
+				+ element.getClass().getName());
+	}
 }

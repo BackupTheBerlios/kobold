@@ -21,15 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.2 2004/04/16 12:20:00 garbeam Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.3 2004/05/12 15:05:32 neco Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-
+import kobold.common.data.*;
 /**
  * RoleTreeContentProvider
  *
@@ -40,13 +41,16 @@ import org.eclipse.jface.viewers.Viewer;
 public class RoleTreeContentProvider implements IStructuredContentProvider, 
 					ITreeContentProvider 
 {
-
+	private static Object[] EMPTY_ARRAY = new Object[0];
+	protected TreeViewer viewer;
+	
+	
     /**
      * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
      */
     public Object[] getElements(Object inputElement) {
-        // TODO
-        return null;
+
+    	return getChildren(inputElement);
     }
 
     /**
@@ -61,15 +65,35 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
      * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
      */
     public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-        // TODO
-        
-    }
+/*    	this.viewer = (TreeViewer)viewer;
+        if(oldInput != null) {
+            removeListenerFrom((TreeObject)oldInput);
+        }
+        if(newInput != null) {
+           addListenerTo((TreeObject)newInput);
+        }
+*/    }
 
     /**
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
      */
     public Object[] getChildren(Object parentElement) {
-        // TODO
+    	if(parentElement instanceof User) {
+    		User aUser = (User)parentElement;
+    		return aUser.getRoles().toArray();
+    	}
+    	else if(parentElement instanceof RoleP) {
+    		RoleP programmer = (RoleP)parentElement;
+    		return programmer.getProducts().toArray();
+    	}
+    	else if(parentElement instanceof RolePE) {
+    		RolePE productEngineer = (RolePE)parentElement;
+    		return productEngineer.getProducts().toArray();
+    	}
+    	else if(parentElement instanceof RolePLE) {
+    		RolePLE productLineEngineer = (RolePLE)parentElement;
+    		return productLineEngineer.getProductLines().toArray();
+    	}
         return null;
     }
 
@@ -77,7 +101,11 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
      */
     public Object getParent(Object element) {
-        // TODO
+    /*
+     * if (element instanceof TreeObject) {
+		  return ((TreeObject)element).getParent();
+		  }
+	*/	  
         return null;
     }
 
@@ -85,8 +113,9 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
      * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
      */
     public boolean hasChildren(Object element) {
-        // TODO
-        return false;
+    	
+    	return getChildren(element).length > 0;
+
     }
 
 }
