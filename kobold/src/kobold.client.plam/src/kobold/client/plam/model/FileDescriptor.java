@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.13 2004/08/05 18:17:07 garbeam Exp $
+ * $Id: FileDescriptor.java,v 1.14 2004/08/06 11:07:18 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -182,7 +182,9 @@ public class FileDescriptor implements IFileDescriptorContainer, INode {
     {
         children.add(fd);
         fd.setParent(this);
-        fd.setParentAsset(parentAsset);
+        if (parentAsset != null) {
+            fd.setParentAsset(parentAsset);
+        }
     }
 
 

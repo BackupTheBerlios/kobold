@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptorHelper.java,v 1.6 2004/08/06 09:21:43 garbeam Exp $
+ * $Id: FileDescriptorHelper.java,v 1.7 2004/08/06 11:07:18 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -50,6 +50,9 @@ public class FileDescriptorHelper
 								  Date lastChange,  boolean isBinary, 
 								  IFileDescriptorContainer root) 
     {
+        if (filename.equals(".")) {
+            return;
+        }
         IFileDescriptorContainer fd = root;
         StringTokenizer tz = new StringTokenizer(filename, ""+IPath.SEPARATOR);
         int toks = tz.countTokens();
@@ -65,7 +68,6 @@ public class FileDescriptorHelper
              }
              fd = tmp;
         }
-        String resource = filename.substring(filename.lastIndexOf(IPath.SEPARATOR));
         FileDescriptor fileDescriptor = new FileDescriptor();
         if (tz.hasMoreTokens()) {
         	fileDescriptor.setFilename(tz.nextToken());
@@ -88,6 +90,9 @@ public class FileDescriptorHelper
     {
     // garbeam: fixed a bug which created all resources at childs of root
     //
+        if (dirName.equals(".")) {
+            return;
+        }
         IFileDescriptorContainer fd = root;
         StringTokenizer tz = new StringTokenizer(dirName, ""+IPath.SEPARATOR);
         while (tz.hasMoreTokens()) {

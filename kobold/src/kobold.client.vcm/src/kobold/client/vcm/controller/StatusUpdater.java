@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.23 2004/08/06 10:38:07 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.24 2004/08/06 11:07:19 garbeam Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -122,7 +122,7 @@ public class StatusUpdater {
 	 * @param inputString, the inputString(all files and directories) to parse
 	 * @param fileDescriptorContainer, a reference to the part who has FD(s) to update
 	 */
-	private void parseInputString (IFileDescriptorContainer fileDescriptorContainer, 
+	public void parseInputString (IFileDescriptorContainer fileDescriptorContainer, 
 									String inputString)
 	{
 		System.out.println (inputString);
@@ -172,17 +172,21 @@ public class StatusUpdater {
 		            else {
 		            	Date date = null;
 		            	if(localLine.hasMoreTokens())
-		            	{   	
-		            		java.util.StringTokenizer localDate = new java.util.StringTokenizer(localLine.nextToken(), ",");
+		            	{   		            
+		            		try {
+		            		    
+ 	            		java.util.StringTokenizer localDate = new java.util.StringTokenizer(localLine.nextToken(), ",");
 		            		date = new Date(Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
 		            						Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
 		            						Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()));
+		            		}
+		            		catch (NumberFormatException ex) {
+		            		    date = null;
+		            		}
     		            	/*3*/
     		            	//date = df.parse(localLine.nextToken());
 		            	}
     		  
-		            	
-		            	//binary?
     		            boolean isBinary = false;
     		            if (localLine.hasMoreTokens()) {
                         /*4*/isBinary = localLine.nextToken().equals("binary");                    
