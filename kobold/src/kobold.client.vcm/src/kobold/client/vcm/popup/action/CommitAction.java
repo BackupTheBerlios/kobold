@@ -25,9 +25,11 @@
 
 package kobold.client.vcm.popup.action;
 
+import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -59,9 +61,10 @@ public class CommitAction extends KoboldAction {
 	 */
 		public void run(IAction action) {
 			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
+			IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 			try
 			{
-//				repoAccess.precheckin(currentSelection,IResource.DEPTH_INFINITE,null);
+				repoAccess.checkin(testAssets,IResource.DEPTH_INFINITE,progress);
 			}
 			catch (Exception e)
 			{

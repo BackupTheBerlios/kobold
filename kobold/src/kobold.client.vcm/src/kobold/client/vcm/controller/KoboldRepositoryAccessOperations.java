@@ -266,7 +266,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			throws TeamException {
 		try {
 			progress = KoboldPolicy.monitorFor(progress);
-			progress.beginTask("update working", 2);
+			progress.beginTask("import working", 2);
 			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 			// @  FIXME this needs to be changes to the given skript not the usual!
 			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
@@ -305,9 +305,10 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			IProgressMonitor progress) throws TeamException {
 		try {
 			progress = KoboldPolicy.monitorFor(progress);
-			progress.beginTask("checkin working", 2);
+			progress.beginTask("checkin/commit working", 2);
 			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 			connection.setSkriptName(skriptPath.toOSString().concat(COMMIT).concat(skriptExtension));
+			initConnection(connection,resources);
 			connection.open(progress);
 			connection.close();	
 			progress.done();

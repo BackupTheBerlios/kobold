@@ -115,7 +115,6 @@ public class AddAction extends KoboldAction {
 	 */
 	protected boolean isEnabled() throws TeamException
 	{
-		
 		return true;
 	}
 }

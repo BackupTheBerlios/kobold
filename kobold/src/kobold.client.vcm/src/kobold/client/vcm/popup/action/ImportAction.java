@@ -69,15 +69,17 @@ public class ImportAction extends KoboldAction {
 //			ModelStorage.storeModel(((Productline)testAssets[0]));
 			StatusUpdater st = new StatusUpdater();
 			
-			st.updateFileDescriptors(((Variant)testAssets[0]));
+			
+			
+//			st.updateFileDescriptors(((Variant)testAssets[0]));
 //			RepositoryDescriptor rdsc = ((Productline)testAssets[0]).getRepositoryDescriptor();
-			boolean test = testAssets[0] instanceof AbstractRootAsset;
+//			boolean test = testAssets[0] instanceof AbstractRootAsset;
 			
 
 			
 			try
 			{
-//				repoAccess.precheckin(testAssets,IResource.DEPTH_INFINITE,progress,true);
+				repoAccess.importing(testAssets,IResource.DEPTH_INFINITE,progress);
 			}
 			catch (Exception e)
 			{
