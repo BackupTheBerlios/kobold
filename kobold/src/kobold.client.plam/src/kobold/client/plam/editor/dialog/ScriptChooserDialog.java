@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptChooserDialog.java,v 1.9 2004/09/20 16:42:02 garbeam Exp $
+ * $Id: ScriptChooserDialog.java,v 1.10 2004/11/08 12:17:55 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -242,19 +242,13 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		SDTreeItem item = new SDTreeItem(ScriptDescriptor.VCM_ADD, ScriptDescriptor.VCM_ADD, null);
 		fillItemWithSDs(item, asset.getBeforeScripts());
 		befRoot.addSDItem(item);
-        item = new SDTreeItem(ScriptDescriptor.VCM_CHECKOUT, ScriptDescriptor.VCM_CHECKOUT, null);
-		fillItemWithSDs(item, asset.getBeforeScripts());
-		befRoot.addSDItem(item);
         item = new SDTreeItem(ScriptDescriptor.VCM_COMMIT, ScriptDescriptor.VCM_COMMIT, null);
 		fillItemWithSDs(item, asset.getBeforeScripts());
 		befRoot.addSDItem(item);
-        item = new SDTreeItem(ScriptDescriptor.VCM_DELETE, ScriptDescriptor.VCM_DELETE, null);
+        item = new SDTreeItem(ScriptDescriptor.VCM_REMOVE, ScriptDescriptor.VCM_REMOVE, null);
 		fillItemWithSDs(item, asset.getBeforeScripts());
 		befRoot.addSDItem(item);
         item = new SDTreeItem(ScriptDescriptor.VCM_IMPORT, ScriptDescriptor.VCM_IMPORT, null);
-		fillItemWithSDs(item, asset.getBeforeScripts());
-		befRoot.addSDItem(item);
-        item = new SDTreeItem(ScriptDescriptor.VCM_UPDATE, ScriptDescriptor.VCM_UPDATE, null);
 		fillItemWithSDs(item, asset.getBeforeScripts());
 		befRoot.addSDItem(item);
 		root.addSDItem(befRoot);
@@ -263,19 +257,13 @@ public class ScriptChooserDialog extends TitleAreaDialog
         item = new SDTreeItem(ScriptDescriptor.VCM_ADD, ScriptDescriptor.VCM_ADD, null);
 		fillItemWithSDs(item, asset.getAfterScripts());
 		afRoot.addSDItem(item);
-        item = new SDTreeItem(ScriptDescriptor.VCM_CHECKOUT, ScriptDescriptor.VCM_CHECKOUT, null);
-		fillItemWithSDs(item, asset.getAfterScripts());
-		afRoot.addSDItem(item);
         item = new SDTreeItem(ScriptDescriptor.VCM_COMMIT, ScriptDescriptor.VCM_COMMIT, null);
 		fillItemWithSDs(item, asset.getAfterScripts());
 		afRoot.addSDItem(item);
-        item = new SDTreeItem(ScriptDescriptor.VCM_DELETE, ScriptDescriptor.VCM_DELETE, null);
+        item = new SDTreeItem(ScriptDescriptor.VCM_REMOVE, ScriptDescriptor.VCM_REMOVE, null);
 		fillItemWithSDs(item, asset.getAfterScripts());
 		afRoot.addSDItem(item);
         item = new SDTreeItem(ScriptDescriptor.VCM_IMPORT, ScriptDescriptor.VCM_IMPORT, null);
-		fillItemWithSDs(item, asset.getAfterScripts());
-		afRoot.addSDItem(item);
-        item = new SDTreeItem(ScriptDescriptor.VCM_UPDATE, ScriptDescriptor.VCM_UPDATE, null);
 		fillItemWithSDs(item, asset.getAfterScripts());
 		afRoot.addSDItem(item);
 		root.addSDItem(afRoot);
