@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.13 2004/06/24 09:58:58 grosseml Exp $
+ * $Id: ArchitectureEditor.java,v 1.14 2004/06/24 11:06:21 grosseml Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -259,6 +259,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 			if (model.getParent() instanceof PLAMProject) {
 			    PLAMProject pp = (PLAMProject)model.getParent();
 			    pp.storeViewModelContainer(viewModel, monitor);
+			    pp.getProductline().serializeAll();
 				getCommandStack().markSaveLocation();
 			}
 		} 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.9 2004/06/24 03:06:01 vanto Exp $
+ * $Id: PLAMProject.java,v 1.10 2004/06/24 11:06:21 grosseml Exp $
  *
  */
 package kobold.client.plam;
@@ -218,6 +218,10 @@ public class PLAMProject
 		
 		ca2.addVariant(va4);
 		ca2.addVariant(va5);
+		//model.serializeAll(project.getLocation().toOSString());*/
+		//Productline model = new Productline(getProductlineName());
+		//System.out.println(project.getLocation().toOSString());
+		//model.deserialize(project.getLocation().toOSString());
 
 	    return model;
 	}

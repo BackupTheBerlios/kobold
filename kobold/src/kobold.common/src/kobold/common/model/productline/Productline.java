@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.16 2004/06/24 11:01:14 martinplies Exp $
+ * $Id: Productline.java,v 1.17 2004/06/24 11:06:20 grosseml Exp $
  *
  */
 package kobold.common.model.productline;
@@ -61,6 +61,8 @@ public class Productline extends AbstractAsset
 	
 	//the repository-path
 	String repositoryPath;
+	
+	String localPath;
 	
 	public Productline(String name) {
 		super(name);
@@ -243,13 +245,23 @@ public class Productline extends AbstractAsset
 			}	
 	}
 	
-	public void serializeAll (String path)
+	public void serializeAll()
 	{
-		serializeProductline(path, 1);
+		if (localPath != null) {
+			serializeProductline(localPath, 1);
+		} else {
+			System.err.println("localPath not set");
+		}
 		
 	}
 
-		public void deserialize(Element element, String path) {
+	public void serializeAll(String path)
+	{
+		localPath = path;
+		serializeAll();
+	}
+	
+	public void deserialize(Element element, String path) {
 		System.out.println ("start deserializing!");
 	    super.deserialize(element);
 	    repositoryPath = element.attributeValue("repositoryPath");
@@ -289,11 +301,14 @@ public class Productline extends AbstractAsset
 	 */
 	public void deserialize(String path) {
 		
+		localPath = path;
 		SAXReader reader = new SAXReader();
 		Document document = null;
 		try {
 			document = reader.read(path+ File.separatorChar + getName() 
 			+ File.separatorChar + "PL" + File.separatorChar + ".productlinemetainfo.xml");
+			
+			deserialize(document.getRootElement().element(AbstractAsset.PRODUCT_LINE), path);
 		} catch (DocumentException e) {
 			System.out.print( ".productlinemetainfo read error");
 			//Log log = LogFactory.getLog("kobold.server.controller.ProductManager");
@@ -301,7 +316,7 @@ public class Productline extends AbstractAsset
 		}
 
 		//give the result to the deserializer
-		deserialize(document.getRootElement().element(AbstractAsset.PRODUCT_LINE), path);
+		
 	}
 
 	/**

@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.13 2004/06/24 03:06:01 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.14 2004/06/24 11:06:21 grosseml Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -60,7 +62,7 @@ import org.eclipse.jface.viewers.Viewer;
  * @author Tammo van Lessen
  */
 public class RoleTreeContentProvider implements IStructuredContentProvider, 
-					ITreeContentProvider, IResourceChangeListener 
+					ITreeContentProvider, IResourceChangeListener, PropertyChangeListener 
 {
 	private static Object[] EMPTY_ARRAY = new Object[0];
 	private IWorkspace input;
@@ -259,5 +261,16 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
         {
             return asset;
         }
+	}
+
+	/**
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	public void propertyChange(PropertyChangeEvent event) {
+		viewer.getControl().getDisplay().syncExec(new Runnable() {		
+			public void run() {		
+				viewer.refresh();
+			}
+		});
 	}
 }
