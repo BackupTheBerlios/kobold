@@ -21,14 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.19 2004/05/20 19:31:14 memyselfandi Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.20 2004/06/09 13:57:08 garbeam Exp $
  *
  */
 package kobold.server;
 
 import java.io.FileInputStream;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -111,8 +110,8 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			    logout(uc);
 			}
 			else if (methodName.equals("getRoles")) {
-				List result = new Vector();
-				List roles = getRoles(new UserContext(
+				Vector result = new Vector();
+				Vector roles = getRoles(new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0))));
 				if (roles.size() > 0) {
 					for (Iterator it = roles.iterator(); it.hasNext(); ) {
@@ -219,7 +218,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * @param userContext the user context.
 	 * @return List of Roles.
 	 */
-	public List getRoles(UserContext userContext) {
+	public Vector getRoles(UserContext userContext) {
 		UserManager manager = UserManager.getInstance();
 		return manager.getUser(userContext.getUserName()).getRoles(); 
 	}

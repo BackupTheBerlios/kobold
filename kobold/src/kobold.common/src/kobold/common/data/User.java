@@ -21,17 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.5 2004/05/17 09:17:11 garbeam Exp $
+ * $Id: User.java,v 1.6 2004/06/09 13:56:09 garbeam Exp $
  *
  */
 
 package kobold.common.data;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,7 +48,7 @@ import sun.misc.BASE64Encoder;
  */
 public class User {
 
-	private List roles;
+	private Vector roles;
 	private String userName;
 	private String password;
 	private String realName;
@@ -57,7 +57,7 @@ public class User {
 	 * Basic constructor.
 	 */
 	public User() {
-		roles = new ArrayList();
+		roles = new Vector();
 	}
 	
 	/**
@@ -67,7 +67,7 @@ public class User {
 	 * this user.
 	 */
 	public User(Element element) {
-		roles = new ArrayList();
+		roles = new Vector();
 		deserialize(element);
 	}
 
@@ -171,7 +171,7 @@ public class User {
 	/**
 	 * @return
 	 */
-	public List getRoles() {
+	public Vector getRoles() {
 		return roles;
 	}
 

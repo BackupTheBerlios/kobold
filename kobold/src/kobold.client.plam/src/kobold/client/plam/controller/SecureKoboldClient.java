@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.13 2004/05/20 00:39:00 vanto Exp $
+ * $Id: SecureKoboldClient.java,v 1.14 2004/06/09 13:55:36 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -30,9 +30,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
 
 import kobold.common.controller.IKoboldServer;
@@ -113,16 +111,16 @@ public class SecureKoboldClient implements IKoboldServer {
 	 * @param userContext the user context.
 	 * @return List of Roles.
 	 */
-	public List getRoles(UserContext userContext) {
+	public Vector getRoles(UserContext userContext) {
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
 			Object object = client.execute("getRoles", v);
 			
 			if (object instanceof Vector) {//&& !((String)object).equals(IKoboldServer.NO_RESULT)) {
-			    List list = (Vector)object;
-				List result = new ArrayList();
-				for (Iterator it = list.iterator(); it.hasNext(); ) {
+			    Vector vector = (Vector)object;
+				Vector result = new Vector();
+				for (Iterator it = vector.iterator(); it.hasNext(); ) {
 					Element element = RPCMessageTransformer.decode((String) it.next());
 					result.add(Role.createRole(element));
 				}

@@ -21,13 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.3 2004/05/19 13:46:27 garbeam Exp $
+ * $Id: IKoboldServer.java,v 1.4 2004/06/09 13:56:00 garbeam Exp $
  *
  */
 
 package kobold.common.controller;
 
-import java.util.List;
+import java.util.Vector;
 
 import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Product;
@@ -64,7 +64,7 @@ public interface IKoboldServer {
 	 * @param userContext the user context.
 	 * @return List of Roles.
 	 */
-	public List getRoles(UserContext userContext);
+	public Vector getRoles(UserContext userContext);
 	
 	/**
 	 * Adds an new user to the server.
