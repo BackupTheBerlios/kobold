@@ -13,35 +13,6 @@ implementiert und ist SSL-basiert.
 Alle Informationen, die der Server bereitstellt sind persistent.
 
 
-\section{Gespeicherte Daten auf dem Kobold Server}
-Für jeden Benutzer werden auf dem Kobold Server folgende Daten gespeichert:
-\begin{itemize}
-\item Benutzername
-\item Passwort
-\item eMail
-\item Name
-\item Liste von Rollen
-\end{itemize}
-
-Jeder Benutzer kann mehrere Rollen einnehmen, wie zum Beispiel Produktingenieur für Produkt X oder 
-Produktlinieningenieur für Produktlinie YZ. Diese Rollen werden in einer Liste unter dem Benutzernamen 
-gespeichert. Dabei besteht jedes Listenelement aus folgenden Daten:
-\begin{itemize}
-\item Liste von Produkten und Produktlinien
-\end{itemize}
-
-Für jedes Produkt und jede Produktlinie in dieser Liste wird außerdem noch eine Liste der zugehörigen 
-Repositories angehängt. 
-Ist das Element ein Produkt, so werden auch die Daten der dazugehörigen Produktlinie erfasst.\par
-
-Für ein Repository werden dabei folgende Daten gespeichert:
-\begin{itemize}
-\item Pfad
-\item Passwort
-\item Benutzername
-\item Schreibrecht (ja/nein)
-\end{itemize}
-
 \section{Berechtigungskonzept}
 
 Zur Realisierung des produktlinien\-übergreifenden Berechtigungskonzepts
@@ -73,6 +44,36 @@ In der XML-Struktur werden hierbei die folgenden Elemente persistiert:
 \item Relationen
 \end{itemize}
 
+Für jeden Benutzer werden auf dem Kobold Server folgende Daten gespeichert:
+\begin{itemize}
+\item Benutzername
+\item Passwort
+\item eMail
+\item Name
+\item Liste von Rollen
+\end{itemize}
+
+Jeder Benutzer kann mehrere Rollen einnehmen, wie zum Beispiel Produktingenieur für Produkt X oder 
+Produktlinieningenieur für Produktlinie YZ. Diese Rollen werden in einer Liste unter dem Benutzernamen 
+gespeichert. Dabei besteht jedes Listenelement aus folgenden Daten:
+\begin{itemize}
+\item Liste von Produkten und Produktlinien
+\end{itemize}
+
+Für jedes Produkt und jede Produktlinie in dieser Liste wird außerdem noch eine Liste der zugehörigen 
+Repositories angehängt. 
+Ist das Element ein Produkt, so werden auch die Daten der dazugehörigen Produktlinie erfasst.\par
+
+Für ein Repository werden dabei folgende Daten gespeichert:
+\begin{itemize}
+\item Pfad
+\item Passwort
+\item Benutzername
+\item Schreibrecht (ja/nein)
+\end{itemize}
+
+
+
 \section{Nachrichten-Queue}
 
 Der Kobold Server bildet für jeden Kobold-Benutzer eine Nachrichten-Queue. Werden Nachrichten oder 
@@ -103,3 +104,4 @@ eine Art XML-Struktur, die einen Titel und eine Liste aller Regelresultate
 besitzt. Diese Workflow-Objekt wird 
 dann auf die Message-Queues der Clients gelegt, für die das Workflow-Objekt relevant ist. \par
 Siehe auch Kapitel 4 - Drools.
+
