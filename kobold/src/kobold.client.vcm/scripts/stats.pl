@@ -33,6 +33,7 @@ my $currDir = $ARGV[0];
 sub read_entries {
 
     my $root = shift; # shifted at next argument in @_
+
     my $filename = "$root/CVS/Entries";
     my @temp;
 
@@ -59,7 +60,7 @@ sub read_entries {
         #my $time = str2time($date);
         #$date = $time;
 
-        #or instead:
+        #or instead: (works)
         my ($ss,$mm,$hh,$day,$month,$year,$zone) = strptime($date);
         
         #year minus 1900
@@ -72,7 +73,8 @@ sub read_entries {
         $date = "$year,$month,$day,$hh,$mm,$ss";
         #print "HALLO: $ss,$mm,$hh,$day,$month,$year\n";
 
-        #if the actual line ($_) represent a file
+        #if the actual line ($_) represent 
+        #a file
         if ($type ne "D") {
             #empty lines
             if (length($path) > 0) {
@@ -81,6 +83,8 @@ sub read_entries {
 
                 #!print "$root/$path\t$rev\t$date\t$tag\n";
                 #store all in the hash map instead
+
+                # absolut path:
                 $data {"$root/$path"} = "$rev\t$date\t$tag";
             }
         }
@@ -94,7 +98,11 @@ sub read_entries {
             #handling for error-lines only consist of "D"
             if (length($path) > 0)
             {
-                push (@temp, "$root/$path");
+                #absloute path:
+                #push (@temp, "$root/$path");
+
+                #local path:
+                push (@temp, "$path");
                 #doesn't work recursive: read_entries("$root/$path");
             }
        }
@@ -125,19 +133,36 @@ sub read_phys {
             #to avoid that the currDir is printed too!
             if ("$File::Find::name" ne $currDir)
             {
-                #store all in the hash map instead
+
+                my $newFile = "$File::Find::name";
+
+                my $currDirLength = length ($currDir);
+
+
+                #erase the currDir
+                #$newFile =~ s/\$currDir/g;
+
+                #or:
+                #cut off the prefix
+                #$teilstring = substr(STRING,STARTPOS[,LAENGE])
+                $newFile = substr ($newFile, $currDirLength+1);
+
+                #directory?
                 if ( -d "$File::Find::name" ) {
-                    $data {"$File::Find::name"} = "D*";
+
+                    #store all in the hash map instead
+                    $data {"$newFile"} = "D*";
                 }
                 elsif ( -T "$File::Fine::name" ) {
-                    $data {"$File::Find::name"} = "T*";
+                    $data {"$newFile"} = "T*";
                 }
+                #file?
                 else {
-                    $data {"$File::Find::name"} = "*";
+                    $data {"$newFile"} = "*";
                 }
             }
         }
-        find (\&show,$currDir);
+        find ((\&show),$currDir);
 }
 
 ###MAIN###
@@ -149,6 +174,10 @@ sub read_phys {
 
 if ($#ARGV == 0)
 {
+    #set the directory to work into
+    #print "HALLO, working in: $currDir";
+    chdir "$currDir" or die "Can't cd to $currDir: $!\n";
+
     my $root = shift; # shifted at next argument in @_
     #print "beginning with: $currDir\n";
     read_phys;
