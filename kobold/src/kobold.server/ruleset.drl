@@ -38,8 +38,20 @@
 			answer.putWorkflowData("asset", map.get("asset"));
 			answer.addWorkflowControl(cont);
 			kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
-        </java:consequence>
-        
+        //This is just the confirmation message for the sender
+            kobold.common.data.KoboldMessage confirm = new kobold.common.data.KoboldMessage();	
+			confirm.setSender(msg.getSender());	
+			confirm.setSubject("New Request for a Core Group Commit");
+			// gets the sender's inputs
+			java.util.HashMap map = msg.getWorkflowData();
+			confirm.setReceiver(msg.getSender());
+			confirm.setMessageText("Programmer "+msg.getSender() + " would like to suggest " +
+					"committing the asset " + map.get("asset") +  
+					" to a Core Group. (S)He added the following comment: " +
+					msg.getComment() +
+					" Please note: This is just a confirmation message!");
+        			kobold.server.controller.MessageManager.getInstance().sendMessage(confirm);
+        </java:consequence>       
     </rule>
 
 
@@ -90,6 +102,17 @@
 					 msg.getComment());
 			}			
 			kobold.server.controller.MessageManager.getInstance().sendMessage(answer);			
+			
+			//This is just the confirmation message for the sender
+            kobold.common.data.KoboldMessage confirm = new kobold.common.data.KoboldMessage();	
+			confirm.setSender(msg.getSender());	
+			confirm.setSubject("New Request for a Core Group Commit");
+			// gets the sender's inputs
+			java.util.HashMap map = msg.getWorkflowData();
+			confirm.setReceiver(msg.getSender());
+			confirm.setMessageText("Product Engineer " + msg.getSender() + " got a suggestion from one of his programmers to commit the asset " + map.get("asset") + " to a Core Group. He added the following comment: " + msg.getComment() +
+					" Please note: This is just a confirmation message!");
+        			kobold.server.controller.MessageManager.getInstance().sendMessage(confirm);
         </java:consequence>
     </rule>
 
