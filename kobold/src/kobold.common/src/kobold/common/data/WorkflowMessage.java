@@ -16,23 +16,23 @@ public class WorkflowMessage extends KoboldMessage {
 	private int workflowID;
 	private String comment;
 	private List history;
-	private List items;
+	private WorkflowItemGroup itemGroup;
 	private int step;
 
 	public void addHistoryObject(WorkflowMessage newWflowMessage){
 			history.add(newWflowMessage);
 	}
 	
-	public void addItem(WorkflowItem nWflowItem){
-		items.add(nWflowItem);
+	public void addItem(WorkflowItemGroup itemGroup){
+		this.itemGroup = itemGroup;
 	}
 	
-	public WorkflowMessage(int wfid, String ncomm, int nstep, List nhist, List nitems){
+	public WorkflowMessage(int wfid, String ncomm, int nstep, List nhist,WorkflowItemGroup itemGroup){
 		workflowID = wfid;
 		comment = ncomm;
 		step = nstep;
 		history = nhist;
-		items = nitems;
+		this.itemGroup = itemGroup;
 		
 	}
 	
@@ -41,7 +41,7 @@ public class WorkflowMessage extends KoboldMessage {
 		comment = "";
 		step = 0;
 		history = new ArrayList();
-		items = new ArrayList();		
+		itemGroup = null;		
 	}
 
 	/**
@@ -58,13 +58,7 @@ public class WorkflowMessage extends KoboldMessage {
 		return history;
 	}
 
-	/**
-	 * @return
-	 */
-	public List getItems() {
-		return items;
-	}
-
+	
 	/**
 	 * @return
 	 */
@@ -96,10 +90,7 @@ public class WorkflowMessage extends KoboldMessage {
 	/**
 	 * @param list
 	 */
-	public void setItems(List list) {
-		items = list;
-	}
-
+	
 	/**
 	 * @param i
 	 */
