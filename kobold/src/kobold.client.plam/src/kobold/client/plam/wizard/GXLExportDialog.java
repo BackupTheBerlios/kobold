@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.16 2004/08/24 19:13:06 martinplies Exp $
+ * $Id: GXLExportDialog.java,v 1.17 2004/08/24 20:05:21 garbeam Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -331,7 +331,7 @@ public class GXLExportDialog extends TitleAreaDialog {
             GXLGraphElement to = (GXLGraphElement) nodeMap.get(edge
                     .getTargetNode());
             GXLEdge gxlEdge = new GXLEdge(form, to);
-            gxlEdge.setType(URI.create(edge.getGXLType()));
+//FIXME:            gxlEdge.setType(URI.create(edge.getGXLType()));
             graph.add(gxlEdge);
             addedEdges.add(edge); 
         }
