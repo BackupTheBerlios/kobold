@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.20 2004/06/09 13:57:08 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.21 2004/06/13 19:58:04 bettina Exp $
  *
  */
 package kobold.server;
@@ -41,10 +41,12 @@ import kobold.common.data.RoleP;
 import kobold.common.data.RolePE;
 import kobold.common.data.User;
 import kobold.common.data.UserContext;
+import kobold.common.data.WorkflowMessage;
 import kobold.server.controller.MessageManager;
 import kobold.server.controller.ProductManager;
 import kobold.server.controller.SessionManager;
 import kobold.server.controller.UserManager;
+import kobold.server.workflow.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -379,9 +381,14 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * @param koboldMessage the message.
 	 */
 	public void sendMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
-		MessageManager.getInstance().sendMessage(userContext,
-																			koboldMessage);
+		if (koboldMessage instanceof WorkflowMessage) {
+		WorkflowEngine.applWorkflow((WorkflowMessage)koboldMessage);
+		}
+		else {
+			MessageManager.getInstance().sendMessage(userContext, koboldMessage);
+		}
 	}
+
 
 	/**
 	 * Fetches a single KoboldMessage. Should be put to a queue.
