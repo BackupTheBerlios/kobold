@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.1 2004/05/13 19:29:25 vanto Exp $
+ * $Id: PLAMProject.java,v 1.2 2004/05/13 20:15:47 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -36,6 +36,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.Node;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
@@ -56,10 +57,11 @@ public class PLAMProject
 	private String serverUrl;
 	private String username;
 	private String password;
+	private String productline;
 	
 	
 	/**
-	 * Creates a PLAM Project
+	 * Creates a PLAM Project.
 	 * 
 	 * @param plamFile the plam config file
 	 * @param updateFromFile load data from file?
@@ -69,6 +71,9 @@ public class PLAMProject
 		this.plamFile = plamFile;
 	}
 	
+	/**
+	 * Loads the configuration data from the config file.
+	 */
 	public void update()
 	{
 		if (!plamFile.exists())
@@ -78,12 +83,23 @@ public class PLAMProject
 			InputStream in = plamFile.getContents();
 			SAXReader reader = new SAXReader();
 		    Document document = reader.read(in);
-		    serverUrl = document.getRootElement().selectSingleNode("server-url").getText();
-		    username = document.getRootElement().selectSingleNode("username").getText();
-		    password = document.getRootElement().selectSingleNode("password").getText();
+		    
+		    Node node = document.getRootElement().selectSingleNode("server-url"); 
+		    serverUrl = (node != null)?node.getText():null;
+		    
+			node = document.getRootElement().selectSingleNode("username"); 
+			username = (node != null)?node.getText():null;
+
+			node = document.getRootElement().selectSingleNode("password"); 
+			password = (node != null)?node.getText():null;
+
+			node = document.getRootElement().selectSingleNode("productline"); 
+			productline = (node != null)?node.getText():null;
+
 		    logger.debug("server-uri: " + serverUrl);
 		    logger.debug("username: " + username);
 		    logger.debug("password: " + password);
+			logger.debug("productline: " + productline);
 		    in.close();
 		} catch (CoreException e) {
 			logger.debug("Error while reading PLAM config.", e);
@@ -103,6 +119,7 @@ public class PLAMProject
 			root.addElement("server-uri").setText(serverUrl);
 			root.addElement("username").setText(username);
 			root.addElement("password").setText(password);
+			root.addElement("password").setText(productline);
 			
 			writer = new XMLWriter(new FileWriter(plamFile.getLocation().toOSString()),
 						format);
@@ -117,40 +134,66 @@ public class PLAMProject
 	}
 	
 	/**
-	 * @return Returns the password.
+	 * @return Returns the password or null if not stored.
 	 */
-	public String getPassword() {
+	public String getPassword() 
+	{
 		return password;
 	}
 	
 	/**
 	 * @param password The password to set.
 	 */
-	public void setPassword(String password) {
+	public void setPassword(String password) 
+	{
 		this.password = password;
 	}
+	
 	/**
-	 * @return Returns the serverUrl.
+	 * @return Returns the serverUrl or null if not stored.
 	 */
-	public String getServerUrl() {
+	public String getServerUrl() 
+	{
 		return serverUrl;
 	}
+	
 	/**
 	 * @param serverUrl The serverUrl to set.
 	 */
-	public void setServerUrl(String serverUrl) {
+	public void setServerUrl(String serverUrl) 
+	{
 		this.serverUrl = serverUrl;
 	}
+	
 	/**
-	 * @return Returns the username.
+	 * @return Returns the username or null if not stored.
 	 */
-	public String getUsername() {
+	public String getUsername() 
+	{
 		return username;
 	}
+	
 	/**
 	 * @param username The username to set.
 	 */
-	public void setUsername(String username) {
+	public void setUsername(String username) 
+	{
 		this.username = username;
 	}
+	
+	/**
+	 * @return Returns the productline or null if not stored.
+	 */
+	public String getProductline() {
+		return productline;
+	}
+	
+	/**
+	 * @param productline The productline to set.
+	 */
+	public void setProductline(String productline) 
+	{
+		this.productline = productline;
+	}
+
 }

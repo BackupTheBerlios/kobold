@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.3 2004/05/13 19:29:25 vanto Exp $
+ * $Id: NewProjectWizard.java,v 1.4 2004/05/13 20:15:47 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -214,6 +214,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			p.setServerUrl(serverPage.getServerURL());
 			p.setUsername(serverPage.getUsername());
 			p.setPassword(serverPage.getPassword());
+			p.setProductline(chooserPage.getProductLineName());
 			p.store();
 		}
 	}
