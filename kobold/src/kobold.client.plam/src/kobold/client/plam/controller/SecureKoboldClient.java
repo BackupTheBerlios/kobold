@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.14 2004/06/09 13:55:36 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.15 2004/06/23 09:52:26 grosseml Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -155,7 +155,28 @@ public class SecureKoboldClient implements IKoboldServer {
 			log.error(exception);
 		}
 	}
-
+	
+	/**
+	 * Triggers a change in the usercontext.
+	 * @param userContext
+	 * @param userName
+	 * @param realName
+	 */
+	
+	public void changeUser(UserContext userContext, String userName, String realName)
+	{
+		Vector v = new Vector();
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(userName);
+		v.add(realName);
+		try {
+			Object result = client.execute("changeUser",v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
+	}
+	
+	
 	/**
 	 * Fetches a productline by its name.
 	 * @param userContext the user context.
