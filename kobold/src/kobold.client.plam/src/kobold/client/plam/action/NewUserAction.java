@@ -21,14 +21,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewUserAction.java,v 1.4 2004/08/24 13:17:57 garbeam Exp $
+ * $Id: NewUserAction.java,v 1.5 2004/10/06 15:08:23 garbeam Exp $
  *
  */
 package kobold.client.plam.action;
 
+import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.editor.dialog.UserManagerDialog;
+import kobold.client.plam.model.productline.Productline;
+import kobold.common.data.User;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.actions.ActionDelegate;
@@ -41,7 +46,14 @@ public class NewUserAction extends ActionDelegate
 {
     public void run(IAction action)
     {
+        KoboldProject proj = KoboldPLAMPlugin.getCurrentKoboldProject();
+        User user = (User)proj.getUserPool().get(proj.getUserName());
+        Productline pl = proj.getProductline();
         Shell shell = Display.getDefault().getActiveShell();
+        if (!pl.getMaintainers().contains(user)) {
+            MessageDialog.openError(shell, "Permission denied", "You don't have permission to perform this action.");
+            return;
+        }
 		UserManagerDialog eum = new UserManagerDialog(shell);
 		eum.open();
     }

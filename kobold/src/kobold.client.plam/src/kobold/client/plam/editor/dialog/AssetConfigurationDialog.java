@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.34 2004/09/23 10:39:45 vanto Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.35 2004/10/06 15:08:23 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.plam.model.AbstractRootAsset;
@@ -52,6 +53,7 @@ import kobold.common.data.User;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -75,6 +77,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -558,6 +561,26 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		edit.setText("&Edit Maintainer");
 		edit.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+		        KoboldProject proj = KoboldPLAMPlugin.getCurrentKoboldProject();
+		        User user = (User)proj.getUserPool().get(proj.getUserName());
+		        Shell shell = Display.getDefault().getActiveShell();
+		        boolean isAllowed = false;
+		        AbstractAsset a = asset;
+		        while (a != null) {
+		            if (a instanceof AbstractMaintainedAsset) {
+		                AbstractMaintainedAsset ama = (AbstractMaintainedAsset)a;
+    		            if (ama.getMaintainers().contains(user)) {
+    		                isAllowed = true;
+    		                break;
+    		            }
+		            }
+		            a = a.getParent();
+		        }
+		        if (!isAllowed) {
+		            MessageDialog.openError(shell, "Permission denied",
+		                    "You don't have permission to perform this action.");
+		            return;
+		        }
 			    EditMaintainerDialog dlg =
 			        new EditMaintainerDialog(composite.getShell(), maintainedAsset);
 			    dlg.open();
