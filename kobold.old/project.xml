@@ -79,7 +79,7 @@
     </developer>
     <developer>
       <name>Armin Cont</name>
-      <id></id>
+      <id>neccaino</id>
       <roles>
         <role>Developer</role>
       </roles>
@@ -126,6 +126,14 @@
         <role>Developer</role>
       </roles>
     </developer>
+    <developer>
+      <name>Patrick Schneider</name>
+      <id>memyselfandi</id>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+
   </developers>
 
 <!-- jar files the project is dependent on -->
