@@ -4,7 +4,7 @@
    name="Kobold PLAM Plug-in"
    version="1.0.0"
    provider-name="Werkbold"
-   class="KoboldPLAM.KoboldPLAMPlugin">
+   class="kobold.client.plam.KoboldPLAMPlugin">
 
    <runtime>
       <library name="KoboldPLAM.jar"/>

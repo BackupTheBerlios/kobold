@@ -21,7 +21,7 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 		super(descriptor);
 		plugin = this;
 		try {
-			resourceBundle= ResourceBundle.getBundle("KoboldPLAM.KoboldPLAMPluginResources");
+			resourceBundle= ResourceBundle.getBundle("kobold.client.plam.KoboldPLAMPluginResources");
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}
