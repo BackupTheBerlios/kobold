@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.8 2004/08/24 10:43:19 garbeam Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.9 2004/08/24 11:42:13 garbeam Exp $
  *
  */
 package kobold.client.plam.view;
@@ -73,8 +73,6 @@ public class RoleTreeActionGroup extends ActionGroup
     private RefreshFileDescriptorsAction refreshFDAction;
     private ConfigureAssetAction configureAssetAction;
     private DeleteResourceAction deleteAction;
-    private ChangePasswordAction changePasswordAction;
-    private UpdateFullNameAction updateFullNameAction;
     private SuggestFileAction suggestFileAction;
     
     public RoleTreeActionGroup(RoleTreeViewPart part) 
@@ -82,8 +80,6 @@ public class RoleTreeActionGroup extends ActionGroup
 		this.part = part;
         this.window = part.getSite().getWorkbenchWindow();
 		newUserAction = new NewUserAction(part.getSite().getShell());
-		changePasswordAction = new ChangePasswordAction(part.getSite().getShell());
-		updateFullNameAction = new UpdateFullNameAction(part.getSite().getShell());
 		
 		refreshFDAction = new RefreshFileDescriptorsAction(part.getSite().getShell());
 		configureAssetAction = new ConfigureAssetAction(part.getSite().getShell());
@@ -127,8 +123,6 @@ public class RoleTreeActionGroup extends ActionGroup
 		manager.add(deleteAction);
 		manager.add(new Separator());
 		manager.add(newUserAction);
-		manager.add(changePasswordAction);
-		manager.add(updateFullNameAction);
 		manager.add(refreshFDAction);
 		manager.add(new Separator());
 		manager.add(configureAssetAction);

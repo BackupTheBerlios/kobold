@@ -139,6 +139,10 @@
                label="%action.GXLExport"
                class="kobold.client.plam.action.GXLExportAction"
                id="kobold.client.plam.action1"/>
+         <action
+               label="%action.Metainfo"
+               class="kobold.client.plam.action.MetaInfoAction"
+               id="kobold.client.plam.action2"/>
       </objectContribution>
       <objectContribution
             objectClass="kobold.client.plam.model.product.Product"
@@ -150,12 +154,20 @@
                id="kobold.client.plam.action3"/>
             </objectContribution>
       <objectContribution
-            objectClass="kobold.client.plam.model.AbstractAsset"
+            objectClass="org.eclipse.core.internal.resources.Project"
             id="kobold.client.plam.roletreecontribution3">
          <action
-               label="%action.Metainfo"
-               class="kobold.client.plam.action.MetaInfoAction"
+               label="Update fullname"
+               tooltip="Change your fullname here"
+               icon="icons/user.gif"
+               class="kobold.client.plam.action.UpdateFullNameAction"
                id="kobold.client.plam.action1"/>
+         <action
+               label="Update password"
+               tooltip="Change your current password here"
+               icon="icons/user.gif"
+               class="kobold.client.plam.action.ChangePasswordAction"
+               id="kobold.client.plam.action2"/>
       </objectContribution>
    </extension>
    <extension

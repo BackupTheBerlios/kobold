@@ -25,34 +25,24 @@
  */
 package kobold.client.plam.action;
 
-import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.editor.dialog.ChangePasswordDialog;
 import kobold.client.plam.editor.dialog.UpdateUserDataDialog;
 
-import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.actions.ActionDelegate;
 
 /**
  * @author MiG
  * 
  * Action for updating the Full Name of an user
  */
-public class UpdateFullNameAction extends Action{
-	private Shell shell;
-	
-	public UpdateFullNameAction(Shell shell2){
-		shell = shell2;
-		setText("Update Full Name");
-		setToolTipText("Change your full name");
-		setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/user.gif"));
+public class UpdateFullNameAction extends ActionDelegate {
 
-	}
-	
-    public void run()
+    public void run(IAction action)
     {
+        Shell shell = Display.getDefault().getActiveShell();
 		UpdateUserDataDialog ufnd = new UpdateUserDataDialog(shell, true);
 		ufnd.open();
     }
-
-
 }

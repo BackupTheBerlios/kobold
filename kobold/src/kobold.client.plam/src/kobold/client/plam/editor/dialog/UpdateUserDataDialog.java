@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateUserDataDialog.java,v 1.1 2004/08/24 11:06:13 garbeam Exp $
+ * $Id: UpdateUserDataDialog.java,v 1.2 2004/08/24 11:42:13 garbeam Exp $
  */
 package kobold.client.plam.editor.dialog;
 
@@ -84,7 +84,7 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
     private void createContent(Composite parent){
 		Composite panel = new Composite(parent, SWT.NONE);
 
-		GridLayout layout = new GridLayout(1, false);
+		GridLayout layout = new GridLayout(2, false);
 		layout.marginHeight =
 		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
 		layout.marginWidth =
@@ -97,38 +97,32 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
 		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
 		panel.setFont(parent.getFont());
 		
-        Composite control = new Composite(parent, SWT.NONE);
-        GridLayout gridLayout = new GridLayout();
-        gridLayout.numColumns = 2;
-        control.setLayout(gridLayout);
-            
-                        
         if (isEditFullName) {
             //RealName
-            labelRealName = new Label(control,SWT.NONE);
+            labelRealName = new Label(panel,SWT.NONE);
             labelRealName.setText("Full Name:");
-            textRealName = new Text(control, SWT.BORDER);		
+            textRealName = new Text(panel, SWT.BORDER);		
             textRealName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
                 
             //password
-            labelPassword = new Label(control,SWT.NONE);
+            labelPassword = new Label(panel,SWT.NONE);
             labelPassword.setText("Password:");
-            textPassword = new Text(control, SWT.BORDER);
+            textPassword = new Text(panel, SWT.BORDER);
             textPassword.setEchoChar('*');
             textPassword.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         }
         else {
             // old password
-            labelOldPassword = new Label(control,SWT.NONE);
+            labelOldPassword = new Label(panel,SWT.NONE);
             labelOldPassword.setText("Old password:");
-            textOldPassword = new Text(control, SWT.BORDER);		
+            textOldPassword = new Text(panel, SWT.BORDER);		
             textOldPassword.setEchoChar('*');
             textOldPassword.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
                 
             //password
-            labelNewPassword = new Label(control,SWT.NONE);
+            labelNewPassword = new Label(panel,SWT.NONE);
             labelNewPassword.setText("Password:");
-            textNewPassword = new Text(control, SWT.BORDER);
+            textNewPassword = new Text(panel, SWT.BORDER);
             textNewPassword.setEchoChar('*');
             textNewPassword.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         }

@@ -25,34 +25,26 @@
  */
 package kobold.client.plam.action;
 
-import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.editor.dialog.ChangePasswordDialog;
 import kobold.client.plam.editor.dialog.UpdateUserDataDialog;
-import kobold.client.plam.editor.dialog.UserManagerDialog;
 
-import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.actions.ActionDelegate;
 
 /**
  * @author grosseml
  *
  * Provides the opportunity to change the current user's password
  */
-public class ChangePasswordAction extends Action{
+public class ChangePasswordAction extends ActionDelegate {
 	
 	private Shell shell;
 	
-	public ChangePasswordAction(Shell shell2){
-		shell = shell2;
-		setText("Change password");
-		setToolTipText("Changes your password");
-		setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/user.gif"));
-
-	}
-	
-    public void run()
+    public void run(IAction action)
     {
-		UpdateUserDataDialog ufnd = new UpdateUserDataDialog(shell, false);
+        Shell shell = Display.getDefault().getActiveShell();
+        UpdateUserDataDialog ufnd = new UpdateUserDataDialog(shell, false);
 		ufnd.open();
     }
 
