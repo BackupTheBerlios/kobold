@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.22 2004/06/16 14:56:14 grosseml Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.23 2004/06/16 15:08:06 garbeam Exp $
  *
  */
 package kobold.server;
@@ -398,7 +398,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 */
 	public void sendMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
 		if (koboldMessage instanceof WorkflowMessage) {
-		WorkflowEngine.applWorkflow((WorkflowMessage)koboldMessage);
+			WorkflowEngine.applWorkflow((WorkflowMessage)koboldMessage);
 		}
 		else {
 			MessageManager.getInstance().sendMessage(userContext, koboldMessage);
