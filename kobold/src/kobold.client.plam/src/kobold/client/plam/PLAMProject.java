@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.3 2004/05/14 18:45:20 vanto Exp $
+ * $Id: PLAMProject.java,v 1.4 2004/05/15 16:18:16 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -29,6 +29,7 @@ package kobold.client.plam;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,7 +55,7 @@ public class PLAMProject
 	
 	private IFile plamFile;
 	
-	private String serverUrl;
+	private URL serverUrl;
 	private String username;
 	private String password;
 	private String productline;
@@ -85,7 +86,7 @@ public class PLAMProject
 		    Document document = reader.read(in);
 		    
 		    Node node = document.getRootElement().selectSingleNode("server-url"); 
-		    serverUrl = (node != null)?node.getText():null;
+		    serverUrl = (node != null)?new URL(node.getText()):null;
 		    
 			node = document.getRootElement().selectSingleNode("username"); 
 			username = (node != null)?node.getText():null;
@@ -116,7 +117,7 @@ public class PLAMProject
 		try {
 			Document document = DocumentHelper.createDocument();
 			Element root = document.addElement("kobold-config");
-			root.addElement("server-url").setText(serverUrl);
+			root.addElement("server-url").setText(serverUrl.toString());
 			root.addElement("username").setText(username);
 			root.addElement("password").setText(password);
 			root.addElement("productline").setText(productline);
@@ -152,7 +153,7 @@ public class PLAMProject
 	/**
 	 * @return Returns the serverUrl or null if not stored.
 	 */
-	public String getServerUrl() 
+	public URL getServerUrl() 
 	{
 		return serverUrl;
 	}
@@ -160,7 +161,7 @@ public class PLAMProject
 	/**
 	 * @param serverUrl The serverUrl to set.
 	 */
-	public void setServerUrl(String serverUrl) 
+	public void setServerUrl(URL serverUrl) 
 	{
 		this.serverUrl = serverUrl;
 	}

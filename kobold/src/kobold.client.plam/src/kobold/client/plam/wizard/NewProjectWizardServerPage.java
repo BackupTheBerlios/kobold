@@ -21,10 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.2 2004/05/13 19:29:25 vanto Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.3 2004/05/15 16:18:16 vanto Exp $
  *
  */
 package kobold.client.plam.wizard;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -134,8 +137,14 @@ public class NewProjectWizardServerPage extends WizardPage {
 	
 	private boolean validatePage()
 	{
-		if (!serverUrlField.getText().matches("^(http|https)://[a-zA-Z.]+(:\\d+)?(/\\S*)*/*")) { //$NON-NLS-1$
-			setErrorMessage(Messages.getString("NewProjectWizardServerPage.InvalidUrlMsg")); //$NON-NLS-1$
+		//if (!serverUrlField.getText().matches("^(http|https)://[a-zA-Z.]+(:\\d+)?(/\\S*)*/*")) { //$NON-NLS-1$
+		//	setErrorMessage(Messages.getString("NewProjectWizardServerPage.InvalidUrlMsg")); //$NON-NLS-1$
+		//	return false;
+		//}
+		try {
+			new URL(serverUrlField.getText());
+		} catch (MalformedURLException e) {
+			// malformed url -> page not valid
 			return false;
 		}
 
@@ -158,8 +167,13 @@ public class NewProjectWizardServerPage extends WizardPage {
 	/**
 	 * Returns the server url
 	 */	
-	public String getServerURL() {	
-		return serverUrlField.getText();
+	public URL getServerURL() {	
+		try {
+			return new URL(serverUrlField.getText());
+		} catch (MalformedURLException e) {
+			// should not happen because url-string gets always validated in validatePage() 
+		}
+		return null;
 	}
 
 	/**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProjectNature.java,v 1.6 2004/05/15 15:03:29 vanto Exp $
+ * $Id: KoboldProjectNature.java,v 1.7 2004/05/15 16:18:16 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -113,9 +113,10 @@ public class KoboldProjectNature implements IProjectNature {
 	}
 
 	/**
-	 * Returns the PLAM project for this Project. (singleton)
+	 * Returns the PLAM project for this Project. (lazy)
 	 */	
-	public PLAMProject getPLAMProject() {
+	public PLAMProject getPLAMProject() 
+	{
 		// lazy
 		if (plamProject == null) {
 			IFile pFile = getPLAMProjectFile();
@@ -127,15 +128,18 @@ public class KoboldProjectNature implements IProjectNature {
 		return plamProject;
 	}			
 
-	public SecureKoboldClient getClient() {
+	public SecureKoboldClient getClient() 
+	{
+		// lazy
+		if (client == null) {
+			PLAMProject p = getPLAMProject();
+			try {
+				client = new SecureKoboldClient(p.getServerUrl());
+			} catch (Exception e) {
+				logger.error("An error has occured during connecting to server "+p.getServerUrl(), e);
+			}
+		}
 		return client;
 	}
 
-	/**
-	 * Sets the SecureKoboldClient.
-	 * @param client
-	 */
-	public void setSecureKoboldClient(SecureKoboldClient client) {
-		this.client = client;
-	}
 }

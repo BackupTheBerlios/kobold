@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.5 2004/05/15 01:22:34 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.6 2004/05/15 16:18:16 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
 
+import java.net.URL;
 import java.util.List;
 import java.util.Vector;
 
@@ -54,7 +55,7 @@ public class SecureKoboldClient implements ServerInterface {
 	/**
 	 *  Constructor
 	 */
-	public SecureKoboldClient(String url) throws Exception {
+	public SecureKoboldClient(URL url) {
 		client = new SecureXmlRpcClient(url);
 	}
 
