@@ -21,14 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: Productline.java,v 1.2 2004/07/02 12:33:58 vanto Exp $
  *
  */
 package kobold.client.plam.model.productline;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -41,14 +38,7 @@ import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.product.Product;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
 
 /**
  * @author rendgeor
@@ -72,8 +62,9 @@ public class Productline extends AbstractRootAsset
 	    super();
 	}
 	
-	public Productline(String name) {
-		super(name);
+	public Productline(Element element) {
+		super();
+		deserialize(element);
 	}
 
 
@@ -145,84 +136,29 @@ public class Productline extends AbstractRootAsset
 	
 	/**
 	 * Serializes the productline.
-	 * @see kobold.common.data.plam.Product#serialize(org.dom4j.Element)
-	 * @param path : path-prefix to save the serialized files
-	 * @param level: 0=serialize only the .productlinemetainfo, 1=additionally all product and coreAsset metaInfos
 	 */
-	private Element serialize(String path, boolean level) {
+	public Element serialize() {
 		
 		//get the AbstractAsset info
 		Element root = super.serialize();
 		
-		//create directory for the PL
-		File newDir = new File(path+ File.separatorChar + getName());
-		newDir.mkdir();
-		newDir = new File(path+ File.separatorChar + getName() + File.separatorChar + "PL");
-		
-		if (newDir.mkdir()==true)
-		System.out.println("Directory was created");
-		else
-		System.out.println("Directory already existed");
-		 
 		//serialize all products and coreAssets
 		Element productsEl = root.addElement("products");
 		for (Iterator it = products.iterator(); it.hasNext();) {
 			Product product = (Product) it.next();
+			//product.serializeProduct(path);
 
-			//create directory for every product			
-			newDir = new File(path+ File.separatorChar +getName() + File.separator 
-											+ "PRODUCTS");
-			newDir.mkdir();
-			newDir = new File(path+ File.separatorChar +getName() + File.separator 
-											+ "PRODUCTS" + File.separator + product.getName());
-
-
-			if (newDir.mkdir()==true)
-			{
-				System.out.println("Directory was created");
-			}
-			else
-			System.out.println("Directory already existed");
-
-			if (level)
-			product.serializeProduct(path);
-
-			
 			// Store only a file reference to the product here. 
 			Element pEl = productsEl.addElement("product");
-			pEl.addAttribute("name", product.getName());
+			pEl.addAttribute("refid", product.getId());
 
 		}
 		
-		Element coreAssetsEl = root.addElement("coreassets");		
-		for (Iterator it = coreAssets.iterator(); it.hasNext();) {
-			
-			Component component = (Component) it.next();
-			
-			//create directory for every product			
-			newDir = new File(path+ File.separatorChar +getName() + File.separator 
-											+ "CAS");
-			newDir.mkdir();
-			newDir = new File(path+ File.separatorChar +getName() + File.separator 
-											+ "CAS" + File.separator + component.getName());
-
-			if (newDir.mkdir()==true)
-			{
-				System.out.println("Directory was created");
-			}
-
-			else
-			System.out.println("Directory already existed");
-
-			if (level)
-				component.serializeComponent(path);
-			
-			
-			// Store only a file reference to the product here.
-			Element cAElement = coreAssetsEl.addElement("component");
-			cAElement.addAttribute("name", component.getName());			
-
-			
+		//now all components
+		Element componentsEl = root.addElement("components");
+		for (Iterator it = coreAssets.iterator(); it.hasNext();)	{
+				Component component = (Component)it.next();
+				componentsEl.add(component.serialize());
 		}
 		
 		if (repositoryPath != null) {
@@ -232,48 +168,7 @@ public class Productline extends AbstractRootAsset
 		return root;
 	}
 	
-	public void serializeProductline (String path, boolean level)
-	{
-		//creates a document
-		Document document = DocumentHelper.createDocument();
-		
-		//get the abstractAsset information
-		Element root = document.addElement("productlinemetainfo");
-		
-		//add the serialized element
-		root.add (serialize (path, level));
-		
-		//write it to an xml-file
-			 XMLWriter writer;
-			try {
-				writer = new XMLWriter(new FileWriter(path+ File.separatorChar + getName() 
-													+ File.separatorChar + "PL" + File.separatorChar + ".productlinemetainfo.xml"));
-				writer.write(document);
-				writer.close();
-			} catch (IOException e) {
-				Log log = LogFactory.getLog("kobold....");
-				log.error(e);
-			}	
-	}
-	
-	public void serializeAll()
-	{
-		if (localPath != null) {
-			serializeProductline(localPath, true);
-		} else {
-			System.err.println("localPath not set");
-		}
-		
-	}
-
-	public void serializeAll(String path)
-	{
-		localPath = path;
-		serializeAll();
-	}
-	
-	public void deserialize(Element element, String path) {
-		System.out.println ("start deserializing!");
+	public void deserialize(Element element) {
 	    super.deserialize(element);
 	    repositoryPath = element.attributeValue("repositoryPath");
 	    
@@ -284,52 +179,17 @@ public class Productline extends AbstractRootAsset
 		     		  deserializing it from there.
 		    */
 		   
-			addProduct(new Product (pEl, this,  path));
-		    System.out.println ("Product "+ pEl.attributeValue("name") + " created!");
-		    
-		    
+			//TODO addProduct(new Product (pEl, this,  path));
 		}
 		
-		//Same here with coreassets.
-		it = element.element("coreassets").elementIterator(AbstractAsset.COMPONENT);
+		it = element.element("components").elementIterator(AbstractAsset.COMPONENT);
 		while (it.hasNext()) {
-			Element pEl = (Element)it.next();
-			/*load and create the coreAsset by finding its local path and 
-					  deserializing it from there.
-			*/
-			addComponent(new Component (pEl, this, path));
-			System.out.println ("Component "+ pEl.attributeValue("name") + " created!");
-			
-			
+		    Element compEl = (Element)it.next();
+		    addComponent(new Component(compEl));
 		}
 		
 	}
 	
-	/**
-	 * Deserializes all products and coreAssets from the specified file.
-	 * 
-	 * @param path - file where to read from.
-	 */
-	public void deserialize(String path) {
-		
-		localPath = path;
-		SAXReader reader = new SAXReader();
-		Document document = null;
-		try {
-			document = reader.read(path+ File.separatorChar + getName() 
-			+ File.separatorChar + "PL" + File.separatorChar + ".productlinemetainfo.xml");
-			
-			deserialize(document.getRootElement().element(AbstractAsset.PRODUCT_LINE), path);
-		} catch (DocumentException e) {
-			System.out.print( ".productlinemetainfo read error");
-			//Log log = LogFactory.getLog("kobold.server.controller.ProductManager");
-			//log.error(e);
-		}
-
-		//give the result to the deserializer
-		
-	}
-
 	/**
 	 * @see kobold.common.data.IAsset#getType()
 	 */

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: Variant.java,v 1.2 2004/07/02 12:33:58 vanto Exp $
  *
  */
 
@@ -107,7 +107,7 @@ public class Variant extends AbstractAsset
 		Iterator it = element.element("components").elementIterator(AbstractAsset.COMPONENT);
 		while (it.hasNext()) {
 		    Element varEl = (Element)it.next();
-		    addComponent(new Component(varEl, this, path));
+		    addComponent(new Component(varEl));
 		}
 		
 		it = element.element("releases").elementIterator(AbstractAsset.RELEASE);

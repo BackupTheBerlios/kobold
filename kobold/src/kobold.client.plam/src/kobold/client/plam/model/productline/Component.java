@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: Component.java,v 1.2 2004/07/02 12:33:58 vanto Exp $
  *
  */
 
@@ -44,10 +44,8 @@ import kobold.client.plam.model.IVariantContainer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 /**
  * @author garbeam
@@ -58,30 +56,21 @@ public class Component extends AbstractMaintainedAsset
 	public static final String GXL_TYPE = "http://kobold.berlios.de/types#component";
 	//the variants
 	private List variants = new ArrayList();
-
-	
-	//the repository-path
-	private String repositoryPath;
 	
 	/**
 	 * Basic constructor.
-	 * @param productName
-	 * @param productLineName
 	 */
-	public Component(String productName) {
-		super(productName);
+	public Component() {
+		super();
 	}
 	
 	/**
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Component(Element element, AbstractAsset parent, String path) {
-		//FIXME
-		setName(element.attributeValue("name"));
-		System.out.println ("set name to " + element.attributeValue("name"));
-		setParent(parent);
-		deserialize(path);
+	public Component(Element element) {
+		super();
+	    deserialize(element);
 	}
 	
 	/**
@@ -97,8 +86,6 @@ public class Component extends AbstractMaintainedAsset
 				variantsEl.add(variant.serialize ());
 		}
 
-		element.addAttribute("repositoryPath", repositoryPath);
-		
 		return element;
 	}
 
@@ -136,46 +123,13 @@ public class Component extends AbstractMaintainedAsset
 	public void deserialize(Element element) {
 		super.deserialize(element);
 		
-		Iterator it = element.element("variants").elementIterator("asset");
+		Iterator it = element.element("variants").elementIterator(AbstractAsset.VARIANT);
 		while (it.hasNext()) {
 		    Element varEl = (Element)it.next();
 		    addVariant(new Variant(varEl));
 		}
-		
-		repositoryPath = element.attributeValue("repositoryPath");
 	}
 
-	public void deserialize(String path) {
-		
-		SAXReader reader = new SAXReader();
-		Document document = null;
-		try {
-			document = reader.read(path+ File.separatorChar + ((AbstractAsset)getParent()).getName() 
-			+ File.separatorChar + "CAS" + File.separatorChar + getName() 
-			+ File.separatorChar + ".coreassetmetainfo.xml");
-			
-			//give the result to the deserializer
-			deserialize(document.getRootElement().element(AbstractAsset.COMPONENT));
-		} catch (DocumentException e) {
-			System.out.print(path+ File.separatorChar + ((AbstractAsset)getParent()).getName()
-			+ File.separatorChar + "CAS" + File.separatorChar + getName() 
-			+ File.separatorChar + ".coreassetmetainfo.xml" +  " read error");
-			//Log log = LogFactory.getLog("kobold.server.controller.ProductManager");
-			//log.error(e);
-		}
-
-	}
-
-
-	/**
-	 * @return name of the dependent productline.
-
-	public String getDependsName() {
-		return productLineName;
-	}
-	 */
-	
-	
 	/**
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
@@ -225,21 +179,6 @@ public class Component extends AbstractMaintainedAsset
 	public List getVariants()
 	{
 	    return Collections.unmodifiableList(variants);
-	}
-	
-	/**
-	 * @return Returns the repositoryPath.
-	 */
-	public String getRepositoryPath() {
-		return repositoryPath;
-	}
-	
-	/**
-	 * @param repositoryPath The repositoryPath to set.
-	 */
-	public void setRepositoryPath(String repositoryPath) {
-		this.repositoryPath = repositoryPath;
-		firePropertyChange(ID_DATA, null, repositoryPath);
 	}
 	
 /*	public GXLNode getGXLNode() throws URISyntaxException {

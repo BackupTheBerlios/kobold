@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.10 2004/07/01 14:37:02 vanto Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.11 2004/07/02 12:33:58 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -197,11 +197,14 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 				currentProject = p;
 				// (de)activate msgqueues and update markers
 				if (old != null) {
-					((KoboldProjectNature)old.getNature(KoboldProjectNature.NATURE_ID))
-						.getMessageQueue().deactivate();
+					KoboldProjectNature kpn = ((KoboldProjectNature)old.getNature(KoboldProjectNature.NATURE_ID));
+				    kpn.getMessageQueue().deactivate();
+					kpn.getPLAMProject().store();
 				}
 				
-				((KoboldProjectNature)p.getNature(KoboldProjectNature.NATURE_ID)).getMessageQueue().activate();					
+				KoboldProjectNature kpn = ((KoboldProjectNature)p.getNature(KoboldProjectNature.NATURE_ID));
+				kpn.getPLAMProject().update();
+				kpn.getMessageQueue().activate();
 			} else {
     			throw new ResourceException(IResourceStatus.RESOURCE_WRONG_TYPE, p.getFullPath(), "Project has wrong nature", null);		
 			}

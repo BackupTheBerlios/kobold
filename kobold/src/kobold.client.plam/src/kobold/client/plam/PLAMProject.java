@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.14 2004/07/01 15:52:17 vanto Exp $
+ * $Id: PLAMProject.java,v 1.15 2004/07/02 12:33:58 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -34,9 +34,8 @@ import java.io.InputStream;
 import java.net.URL;
 
 import kobold.client.plam.editor.model.ViewModelContainer;
-import kobold.client.plam.model.productline.Component;
+import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.productline.Productline;
-import kobold.client.plam.model.productline.Variant;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -89,35 +88,34 @@ public class PLAMProject
 	 */
 	public void update()
 	{
-		if (!plamFile.exists())
-			return;
-		
 		try {
-			InputStream in = plamFile.getContents();
-			SAXReader reader = new SAXReader();
-		    Document document = reader.read(in);
-		    
-		    Node node = document.getRootElement().selectSingleNode("server-url"); 
-		    serverUrl = (node != null)?new URL(node.getText()):null;
-		    
-			node = document.getRootElement().selectSingleNode("username"); 
-			username = (node != null)?node.getText():null;
-
-			node = document.getRootElement().selectSingleNode("password"); 
-			password = (node != null)?node.getText():null;
-
-			node = document.getRootElement().selectSingleNode("productline"); 
-			productline = (node != null)?node.getText():null;
-
-		    logger.debug("server-uri: " + serverUrl);
-		    logger.debug("username: " + username);
-		    logger.debug("password: " + password);
-			logger.debug("productline: " + productline);
-		    in.close();
+			if (plamFile.exists()) {
+			    InputStream in = plamFile.getContents(true);
+			    SAXReader reader = new SAXReader();
+			    Document document = reader.read(in);
+			    
+			    Node node = document.getRootElement().selectSingleNode("server-url"); 
+			    serverUrl = (node != null)?new URL(node.getText()):null;
+			    
+			    node = document.getRootElement().selectSingleNode("username"); 
+			    username = (node != null)?node.getText():null;
+			    
+			    node = document.getRootElement().selectSingleNode("password"); 
+			    password = (node != null)?node.getText():null;
+			    
+			    node = document.getRootElement().selectSingleNode("productline"); 
+			    productline = (node != null)?node.getText():null;
+			    
+			    logger.debug("server-uri: " + serverUrl);
+			    logger.debug("username: " + username);
+			    logger.debug("password: " + password);
+			    logger.debug("productline: " + productline);
+			    in.close();
+			}
 		} catch (CoreException e) {
-			logger.debug("Error while reading PLAM config.", e);
+			logger.info("Error while reading PLAM config.", e);
 		} catch (DocumentException e) {
-			logger.debug("Error while parsing PLAM config.", e);
+			logger.info("Error while parsing PLAM config.", e);
 		} catch (IOException e) {
 		}
 	}
@@ -129,6 +127,7 @@ public class PLAMProject
 		try {
 			Document document = DocumentHelper.createDocument();
 			Element root = document.addElement("kobold-config");
+			// FIXME
 			root.addElement("server-url").setText(serverUrl.toString());
 			root.addElement("username").setText(username);
 			root.addElement("password").setText(password);
@@ -139,6 +138,9 @@ public class PLAMProject
 			writer.write(document);
 			writer.close();
 			
+			if (pl != null) {
+			    ModelStorage.storeModel(pl, plamFile.getProject());
+			}
 		} catch (IOException e) {
 			logger.debug("Error while writing PLAM config.", e);
 		}
@@ -199,34 +201,15 @@ public class PLAMProject
 	 */
 	public Productline getProductline() {
 	    if (pl == null) {
-		
-	    	pl = new Productline("PL Compiler");
-	    	pl.setDescription("Bauhaus Compiler Suite");
-	    	pl.setProject(this);
-	    
-	    	Component ca1 = new Component("CA Frontend");
-	    	Component ca2 = new Component("CA Backend");
-	    	pl.addComponent(ca1);
-	    	pl.addComponent(ca2);
-		
-	    	Variant va1 = new Variant("VA Java");
-	    	Variant va2 = new Variant("VA C++");
-	    	Variant va3 = new Variant("VA ADA");
-		
-	    	Variant va4 = new Variant("VA x86");
-	    	Variant va5 = new Variant("VA PPC");
-		
-	    	ca1.addVariant(va1);
-	    	ca1.addVariant(va2);
-	    	ca1.addVariant(va3);
-		
-	    	ca2.addVariant(va4);
-	    	ca2.addVariant(va5);
+		    pl = ModelStorage.loadModel(plamFile.getProject());
+	        
+		    if (pl == null) {
+		        pl = new Productline();
+		        pl.setName("New product line");
+		        pl.setDescription("(Please configure your product line properly)");
+		    }
+		    pl.setProject(this);
 	    }
-		//model.serializeAll(project.getLocation().toOSString());*/
-		//Productline model = new Productline(getProductlineName());
-		//System.out.println(project.getLocation().toOSString());
-		//model.deserialize(project.getLocation().toOSString());
 
 	    return pl;
 	}
@@ -279,5 +262,4 @@ public class PLAMProject
 	    ViewModelContainer vmc = new ViewModelContainer(document.getRootElement());        
         return vmc;
     }
-
 }

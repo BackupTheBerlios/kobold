@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.18 2004/07/01 11:27:25 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.19 2004/07/02 12:33:58 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -125,7 +125,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 		while (it.hasNext()) {
 		    ((Productline)it.next()).removeModelChangeListener(this);
 		}
-}
+    }
 
     /**
      * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
@@ -135,6 +135,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 			this.input.removeResourceChangeListener(this);
 		}
 
+		System.out.println(newInput);
 		this.input = (IWorkspace) newInput;
 
 		if (this.input != null) {
@@ -260,7 +261,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	public void propertyChange(PropertyChangeEvent event) {
 	    viewer.getControl().getDisplay().syncExec(new Runnable() {		
 			public void run() {		
-				viewer.refresh();
+			    viewer.refresh();
 				// FIXME: restore expanded nodes.
 				//viewer.expandAll();
 			}

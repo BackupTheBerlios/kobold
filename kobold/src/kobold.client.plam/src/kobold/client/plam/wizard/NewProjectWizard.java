@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.15 2004/05/20 00:39:00 vanto Exp $
+ * $Id: NewProjectWizard.java,v 1.16 2004/07/02 12:33:58 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -76,6 +76,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 	 */
 	public NewProjectWizard() 
 	{
+	    super();
 	}
 	
 	/**
@@ -98,6 +99,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 	{
 		this.workbench = workbench;
 		this.selection = selection;
+		setNeedsProgressMonitor(true);
 		setWindowTitle(Messages.getString("NewProjectWizard.WindowTitle")); //$NON-NLS-1$
 		setDefaultPageImageDescriptor(KoboldPLAMPlugin
 				.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
@@ -221,7 +223,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			p.setServerUrl(serverPage.getServerURL());
 			p.setUsername(serverPage.getUsername());
 			p.setPassword(serverPage.getPassword());
-			//p.setProductline(chooserPage.getProductLineName());
+			p.setProductlineName(chooserPage.getProductLineName());
 			p.store();
 			
 			// create secure client
@@ -242,7 +244,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			msg.setSender("vanto");
 			msg.setReceiver("vanto");
 			msg.setSubject("Test workflow");
-			msg.setMessageText("Das ist die Erklï¿½rung");
+			msg.setMessageText("Das ist die Erklärung");
 			msg.addWorkflowControl(new WorkflowItem("false", "Kobold ist doof", WorkflowItem.CHECK));
 			msg.addWorkflowControl(new WorkflowItem("true", "Kobold ist toll", WorkflowItem.CHECK));
 			mq.addMessage(msg);
@@ -253,7 +255,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			msg1.setSender("pliesmn");
 			msg1.setReceiver("server");
 			msg1.setSubject("Test workflow");
-			msg1.setMessageText("Das ist die Erklï¿½rung");
+			msg1.setMessageText("Das ist die Erklärung");
 			msg1.addWorkflowControl(new WorkflowItem("koboldDoof", "Kobold ist doof", WorkflowItem.CHECK));
 			msg1.addWorkflowControl(new WorkflowItem("koboldToll", "Kobold ist toll", WorkflowItem.CHECK));	
 			msg1.addWorkflowControl(new WorkflowItem("koboldDoof", "Kobold ist doof", WorkflowItem.CHECK));

@@ -21,34 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ProductLineChooserWizardPage.java,v 1.7 2004/05/20 00:39:00 vanto Exp $
+ * $Id: ProductLineChooserWizardPage.java,v 1.8 2004/07/02 12:33:58 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import kobold.common.data.RoleP;
-import kobold.common.data.RolePE;
 import kobold.common.data.RolePLE;
 
-import org.eclipse.jface.viewers.ColumnLayoutData;
-import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TableLayout;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 
 /**
  * Wizard Page for choosing a product line out of the server list.
@@ -60,14 +54,15 @@ public class ProductLineChooserWizardPage extends WizardPage implements ISelecti
     public static final String PAGE_ID
 	= "KOBOLD_WIZARD_ROLES"; 
     
-	private TableViewer viewer;
-	private RoleContentProvider provider;
+    private Combo combo;
+    //private TableViewer viewer;
+	//private RoleContentProvider provider;
 	
-	private String[] titles = {"Rolle", "Produktlinie", "Produkt"};
+	/*private String[] titles = {"Rolle", "Produktlinie", "Produkt"};
 	private ColumnLayoutData columnLayouts[] =	{
 			new ColumnWeightData(75),
 			new ColumnWeightData(150),
-			new ColumnWeightData(150)};
+			new ColumnWeightData(150)};*/
     
 	
 	/**
@@ -81,7 +76,7 @@ public class ProductLineChooserWizardPage extends WizardPage implements ISelecti
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createControl(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
+		/*Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new FillLayout());
 
 		setControl(composite);
@@ -110,22 +105,74 @@ public class ProductLineChooserWizardPage extends WizardPage implements ISelecti
 		viewer.setContentProvider(provider);
 		viewer.setLabelProvider(new RoleLabelProvider());
 
-		viewer.addSelectionChangedListener(this);		
+		viewer.addSelectionChangedListener(this);*/
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setLayout(new GridLayout());
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));		
+
+		setControl(composite);
+		
+		Composite projectGroup = new Composite(composite, SWT.NONE);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		projectGroup.setLayout(layout);
+		projectGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		// new server label
+		Label projectLabel = new Label(projectGroup, SWT.NONE);
+		projectLabel.setText("Product Line");
+		projectLabel.setFont(parent.getFont());
+
+		combo = new Combo (projectGroup, SWT.READ_ONLY);
+		
+		//combo.setItems (new String [] {pline, "A-1", "B-1", "C-1"});
+		
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = 250;
+		combo.setLayoutData(data);
+		combo.setFont(parent.getFont());
+
+		combo.addListener (SWT.Selection, new Listener () {
+			public void handleEvent (Event e) {
+				setPageComplete(validatePage());
+			}
+		});
+
+	}
+	
+	private boolean validatePage()
+	{
+		if (combo.getSelectionIndex() == 0) {
+			setErrorMessage("You have to select a product line.");
+			return false;
+		}
+
+		setErrorMessage(null);
+		setMessage(null);
+
+		return true;
 	}
 	
 	void setRoles(List roles)
 	{
-	    viewer.setInput(roles);
-	    System.err.println(roles);
+	    List pls = new ArrayList();
+	    pls.add("");
+	    Iterator it = roles.iterator();
+	    while (it.hasNext()) {
+	        Object role = it.next();
+	        if (role instanceof RolePLE) {
+	            pls.add(((RolePLE)role).getProductlineName());
+	        }
+	    }
+	    combo.setItems((String[])pls.toArray(new String[0]));
 	}
 	
-	/*public String getProductLineName()
+	public String getProductLineName()
 	{
 		return combo.getText();
-	}*/
+	}
 
 	
-	private class RoleContentProvider implements IStructuredContentProvider {
+	/*private class RoleContentProvider implements IStructuredContentProvider {
 
         private List roles;
         
@@ -145,7 +192,7 @@ public class ProductLineChooserWizardPage extends WizardPage implements ISelecti
         {
             this.roles = (List)newInput;
         }
-	}
+	}*/
 	
     /**
      * @author Tammo
@@ -153,7 +200,7 @@ public class ProductLineChooserWizardPage extends WizardPage implements ISelecti
      * TODO To change the template for this generated type comment go to
      * Window - Preferences - Java - Code Generation - Code and Comments
      */
-    public class RoleLabelProvider extends LabelProvider implements ITableLabelProvider
+    /*public class RoleLabelProvider extends LabelProvider implements ITableLabelProvider
     {
 
         public Image getColumnImage(Object element, int columnIndex)
@@ -197,7 +244,7 @@ public class ProductLineChooserWizardPage extends WizardPage implements ISelecti
             return element.toString();
         }
         
-    }
+    }*/
 
     /**
      * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
