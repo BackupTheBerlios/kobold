@@ -34,12 +34,15 @@ import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.internal.ccvs.core.IServerConnection;
 import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException;
 import org.eclipse.team.internal.ccvs.core.util.Util;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleManager;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.internal.Workbench;
@@ -190,8 +193,7 @@ public class ScriptServerConnection implements IServerConnection
 //				} finally {
 //					// Ignore any exceptions during close
 //				}
-//			}
-//		}
+//			//		}
 //}	
 
 	/* (non-Javadoc)
@@ -206,9 +208,26 @@ public class ScriptServerConnection implements IServerConnection
 
 			MessageConsoleStream stream1,stream2 = null;
 			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
-			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
-				new IConsole[] {console});
-			stream2 = console.newMessageStream();
+			IConsoleManager conMgr = ConsolePlugin.getDefault().getConsoleManager();
+			IConsole cons[] = conMgr.getConsoles();
+			for (int i = 0; i < cons.length; i++)
+            {
+			    IConsole currentConsole = cons[i];
+			    if (currentConsole.getName().equals("Kobold VCM Console"))
+                {
+                    console = (MessageConsole)cons[i];
+                    stream2 = console.newMessageStream();
+                    stream2.println("******************new Action********************");
+                    
+                } else
+                {
+                    conMgr.addConsoles(
+            				new IConsole[] {console});
+                    stream2 = console.newMessageStream();
+                }
+            }
+
+			
 			connected = true;
 			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
 			errorThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
@@ -219,6 +238,8 @@ public class ScriptServerConnection implements IServerConnection
 			    Workbench.getInstance().getProgressService().run(true,false,(InputThreadToConsole)inputThread) ;
 				process.waitFor();
 				returnValue =  process.exitValue();
+				MessageDialog.openError(new Shell(),"Error excecuting VCM Script","an Error occured while excecuting a VCM Script, \n +" +
+						"please check the Message Console for further Details!");
 				System.out.println(returnValue);
             } catch (Exception e)
             {
@@ -397,29 +418,12 @@ public class ScriptServerConnection implements IServerConnection
                             if(in.available() == 0) break;
                         }
                     }
+                    monitor.worked(1);
+                    stream.println(new String(readLineBuffer, 0, index));
+                    System.out.println(new String(readLineBuffer, 0, index));
+                    this.readLineBuffer = new byte[512];
+                    index = 0;
                     
-                    if (returnString != null)
-                    {
-                        if (returnString.equals(""))
-                            returnString = new String(readLineBuffer, 0, index);
-                        else{
-                            if(index != 0)returnString = returnString.concat("\n");
-                            returnString = returnString.concat(new String(
-                                    readLineBuffer, 0, index));
-                        }
-                        readLineBuffer = new byte[512];
-                        index = 0;
-                        monitor.worked(1);
-                    } else
-                    {
-                        monitor.worked(1);
-                        stream.print(new String(readLineBuffer, 0, index));
-                        System.out
-                                .print(new String(readLineBuffer, 0, index));
-
-                        this.readLineBuffer = new byte[512];
-                        index = 0;
-                    }
                     if (in.available() == 0  && lineCount != 50)
                     {
                         monitor.worked(3);
