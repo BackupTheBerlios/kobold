@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.14 2004/08/24 14:51:04 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.15 2004/08/24 15:00:56 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -274,7 +274,11 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         final CheckboxTableViewer viewer = new CheckboxTableViewer(table);
         viewer.setContentProvider(new IStructuredContentProvider() {
             public Object[] getElements(Object input) {
-                if (input instanceof IFileDescriptorContainer) {
+                if (input instanceof Variant) {
+                    Variant variant = (Variant) input;
+                    return variant.getFileDescriptors().toArray();
+                }
+                else if (input instanceof IFileDescriptorContainer) {
                     IFileDescriptorContainer fd = (IFileDescriptorContainer) input;
                     return fd.getFileDescriptors().toArray();
                 }
@@ -325,6 +329,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
             public void selectionChanged(SelectionChangedEvent event) {
             }
         });
+        viewer.setInput(variant);
     }
     
     private void createMaintainerArea (final Composite composite) {
