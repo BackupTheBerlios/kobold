@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowItem.java,v 1.5 2004/05/17 01:04:36 martinplies Exp $
+ * $Id: WorkflowItem.java,v 1.6 2004/05/18 18:05:57 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -116,6 +116,7 @@ public class WorkflowItem {
 		Element element = DocumentHelper.createElement("control");
 		element.addElement("type").setText(type);
 		element.addElement("description").setText(description);
+		element.addElement("value").setText(value);
 		
 		if (type.equals(WorkflowItem.CONTAINER)) {
 			Element childrenEl = element.addElement("children");
@@ -123,11 +124,8 @@ public class WorkflowItem {
 			while (it.hasNext()) {
 				WorkflowItem wfi = (WorkflowItem)it.next();
 				childrenEl.add(wfi.serialize());
-			}
-		} else {
-			element.addElement("value").setText(value);			
-		}
-		
+			}			
+		}		
 		return element;
 	}
 	
