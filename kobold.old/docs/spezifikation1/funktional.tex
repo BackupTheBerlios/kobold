@@ -1,0 +1,91 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% StuPro A, Produktlinien (Kobold)
+%% Team Werkbold
+%% Anforderungsdokument
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Funktionale Anforderungen}
+\section{Architekturanforderungen}
+Diese Items müssen noch so nummeriert werden, dass die sich " tracken " und referenzieren lassen.
+Eine Möglichkeit wäre Schema  
+  XYY.Z
+  X  = Priorität der Anforderung (Noch zu Definieren)
+  Y = Lfde Nummer
+  Z = Vorraussichtliche Umsetzung in Iteration Z
+  Leider brauch ich für ne gute Umsetzung Hilfe in LAtex :-)
+\begin{enumerate}
+    \item Es kann mehrere Produktlinien geben
+    \item Pro Programminstanz kann von einem Benutzer biliebiege Produktlinien bearbeitet werden
+    \item Es muss möglich sein, Skripte an jede VCM  Aktion. Werden mehrere Skripte bei einer Aktion ausgeführt. Die Reihenfolge ist durch Kobold vorgegeben. Skripte können an jede, Komponente, Variante, Produkt und Poduktlinie gehängt werden.
+    \item Als VCM Aktionen muss es checkin, checkout, commit und update geben
+    \item Es muss möglich sein, die Architekturen verschiedener Produkte zu überlappen und damit gleichzeitig anzuzeigen, um die Unterschiede und Gemeinsamkeiten dieser zu sehen. z.B.als Schnittgraph.
+    \item Beim Anlegen und Bearbeiten von Architekturen soll das System überprüfen, ob diese korrekkonsistent sind. Wenn nicht, soll zwar eine Warnung gegeben werden, die Aktion soll aber trotzdem ausführbar sein.
+    \item Für jede Komponente muss die Möglichkeit gegeben werden, Zuständigkeiten vergeben zu können, um bei Fragen oder Anregungen einen Ansprechpartner zu haben
+    \item Auf der Produktlinienebene werden die explizit Varianten versioniert
+    \item Es muss die Möglichkeit geben Produkte abzuschließen.Zusätlich
+    wird das Projekt beim Server als deprecated.
+    \item Es darf nicht möglich sein, Produktlinien oder Varianten jemals zu Löschen.
+    \item Produktlinien Komponenten und Varianten dürfen nur auf "deprecated" gesetzt werden. Danach werden diese objekte für ein neues Produkt nicht mehr sichtbar und werden nur von den davor erstellten Produkten verwendet und weiter bearbeitet.
+    \item Die Sicht Und Möglichkeiten Im System Sollen Für Unterschiedliche Benutzerrollen Unterschiedlich Sein
+    \item Es soll Product Line Engineers geben.
+    \item Der Product Engineer der Vorgesetzte der Programmierer in der Produktlinienhirachie.
+    \item Aus den Metadaten und den Abhängigkeiten wird ein Produkt- bzw. Produktlinien-Überblick als Dokument wahlweise Im Html, rtf oder pdf-Format erzeugt.
+    \item Der Architekturgraph stellt Die grundlegende Produktlinien- Architektur graphisch dar.
+    \item Die Beziehungen werden durch Kanten in dem Graph visualisiert und lassen sich über Filter ein und ausblenden.
+    \item Knoten/Komponenten sind in sich verschachtelt und können bis auf die Dateiebene geöffnet angezeigt und versioniert werden.
+    \item Es gibt Marker für Beziehungen. Ein Marker besagt Z.B., ob ein Produktentwickler diese Komponente verändern darf, oder ob sie von einer neuen Core-Asset-Version vorbehaltlos überschrieben werden kann.
+    \item Dem Benutzer steht es frei, die Komponenten visuell zu verschieben. Diese Veränderung wird gespeichert, ist jedoch nur für diesen Benutzer relevant.
+    \item Die Anzeige des Architekturgraphen basiert auf den Informationen aus den Repositories. Diese werden beim öffnen der Ansicht einmal erzeugt und nicht laufend aktualisiert.
+    \item Strukturelle Änderungen an der Architektur müssen explizit mit den Repositories synchronisiert werden.
+    \item Bei Konsistenzproblemen werden Workflows angeboten.
+\end{enumerate}
+
+\section{Anforderungen an den Product Line Engineer (PLE)}
+\begin{enumerate}
+    \item Der PLE kann eine neue Architektur erstellen
+    \item Der PLE kann eine neue Architektur bearbeiten
+    \item Der PLE muss sich per Passwort authentifizieren
+    \item Der PLE kann eine neue Komponenten und Vartianten erstellen
+    \item Der PLE kann ein neues Produkt anlegen und danach einem PE zuweisen.
+    \item Der PLE hat Zugriff auf alle Produkte, Komponenten, Varianten, Benutzer, Rollen.
+    \item Der PLE hat die Möglichkeit, Rechte zu vergeben: welcher PE bekommt welche Variante und was kann er damit machen bzw. welche Core Group bearbeitet welche Variante
+    \item Der PLE kann auf die Dateien des PE zugreifen und in das eigene Repository laden. Dadurch wird automatisch eine neue Variante / Komponente erstellt.
+    \item Es muss die Möglichkeit gegeben sein, Nachrichten an andere Benutzer zu senden.
+    \item Ändert sich eine Architektur oder gibt es eine neue Version, so kann der PLE Änderungsnachrichten an die betroffenen PEs und Core Groups schicken, die daraufhin ein Update durchführen können.
+    \item Ein PLE kann auch die Architekturen seiner PEs einsehen.
+    \item Marker können von dem Produktlinien-Ingenieur graphisch hinzugefügt, gelöscht oder bearbeitet werden.
+    \item Komponentenbeziehungen können von dem Produktlinien-Ingenieur graphisch hinzugefügt, gelöscht oder bearbeitet werden.
+    \item Wie bei der Produktlinie kann man auch die Architektur der Produkte ändern. Hier ist es neben Ergänzungen durch oder dem Austauschen von neuen Core-Asset-Varianten auch möglich, Komponenten aus der Architektur zu entfernen. Hierbei muss der Produkt-Ingenieur kosultiert werden.
+    \item Zusammen mit dem Projekt-Ingenieur kann ein Produkt aus der Produktlinie als deprecated markieren.
+    \item Der PLE kann einen Produktlinienüberblick anhand der Metadaten erzeugen. Dies kann in mehreren Formaten geschehen.
+    \item Der PLE kann die Produkte deployen.
+\end{enumerate}
+
+\section{Anforderungen an den Product Engineer (PE)}
+\begin{enumerate}
+    \item Änderungsnachrichten werden automatisch an die betroffenen PE geschickt; diese können ohne eine Bestätigung des PLE ihre Varianten updaten
+    \item Der PE muss sich per Passwort authentifizieren
+    \item Der PE kann Nachrichten an alle Benutzer des Systems schicken
+    \item Der PE kann dem PLE "pending requests" schicken, die dem PLE bei jedem Start des Systems erscheinen; pending requests sind z.B. Aufforderungen, eine gewisse Variante hochzuladen;
+    \item Der PE committed nicht; stattdessen benachrichtigt er den PLE, der dann auf die Dateien des PE zugreift und diese hochlädt; dabei gibt er auch an, um was es sich handelt (neue Version, neue Variante, Bugfix, etc.)
+    \item Hat der PE bei einer Variante nur Lesestatus, kann er nach einer Warnung trotzdem einen "Hot Fix" durchführen; die Variante bekommt daraufhin einen neuen Status;
+    \item Updates werden niemals automatisch durchgeführt; die Entscheidung liegt immer beim PE
+    \item PE darf auch neue Komponenten/Varianten anlegen.
+    \item  Der Produkt-Ingenieur kann sein Produkt beliebig verändern und erweitern. Er kann das Produkt um produktspezifische Komponente erweitern.
+    \item Der PE kann neue Programmierer hinzufügen, ändern, löschen.    
+    \item Der PE kann Dateiversionen als releasefähig markieren.
+\end{enumerate}
+
+\section{Anforderungen an den Programmer  (P)}
+\begin{enumerate}
+    \item Der P kann dem PE "pending requests" schicken, die dem PE bei jedem Start des Systems erscheinen; pending requests sind z.B. Aufforderungen, eine gewisse Variante hochzuladen
+    \item Der P authentifiziert sich mit Passwort
+    \item Ein P kann Nachrichten an alle Benutzer schicken
+    \item Der Programmierer kann lesend auf alle Architekturen zugreifen.
+    \item Der P bekommt immer die aktuellste Version, die im Repository des PE zu finden ist. Die Programmierer erstellen dann weitere Versionen. Dabei sollen z.B. P2 und P3 ein Update bekommen, sobald P1 eine neue Version erstellt hat, damit alle Programmierer auf dem gleichen Wissenstand arbeiten.
+    \item Programmierer bekommen die aktuellste Version, es sei denn sie möchten explizit eine ältere.
+    \item Ein Programmierer darf auch die ursprüngliche PL-Architektur einsehen.
+    \item Der P kann direkt alle Produkt-Repositories in sein Arbeitsverzeichnis auschecken um dort mit seiner Arbeit zu beginnen.
+    \item Der P kann sein Arbeitsverzeichnis aktualisieren /synchroniesieren.
+    \item Der P kann seine Arbeit über das Grafiktool und über die Commandozeile einchecken.
+\end{enumerate}
