@@ -21,25 +21,25 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.39 2004/06/27 16:48:02 vanto Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.40 2004/07/05 15:59:53 garbeam Exp $
  *
  */
 package kobold.server;
 
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 
 import kobold.common.controller.IKoboldServer;
 import kobold.common.controller.RPCMessageTransformer;
 import kobold.common.data.AbstractKoboldMessage;
+import kobold.common.data.Component;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.RPCSpy;
-import kobold.common.data.Role;
-import kobold.common.data.RoleP;
-import kobold.common.data.RolePE;
 import kobold.common.data.UserContext;
 import kobold.common.data.WorkflowMessage;
 import kobold.common.io.RepositoryDescriptor;
@@ -54,7 +54,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlrpc.XmlRpcHandler;
 import org.apache.xmlrpc.secure.SecureWebServer;
-import org.dom4j.Element;
 
 /**
  * @author garbeam, contan
@@ -114,102 +113,134 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 				}
 			}
 			else if (methodName.equals("logout")) {
-				sniffArgs.add(RPCMessageTransformer.decode((String)arguments.elementAt(0)));
-			    UserContext uc = new UserContext((Element)sniffArgs.elementAt(0));
-			    logout(uc);
-			}
-			else if (methodName.equals("getRoles")) {
-				Vector result = new Vector();
-				Vector roles = getRoles(new UserContext(
-						RPCMessageTransformer.decode((String)arguments.elementAt(0))));
-				if (roles.size() > 0) {
-					for (Iterator it = roles.iterator(); it.hasNext(); ) {
-						Role role = (Role) it.next();
-						result.add(RPCMessageTransformer.encode(role.serialize()));
-					}
-					return result;
-				}
-				
-			}
-			else if (methodName.equals("getProductRole")){			
-				Role resultRole;
-				UserContext userContext = (UserContext)arguments.elementAt(0);
-				String userName = (String)arguments.elementAt(1);
-				String productName = (String)arguments.elementAt(2);
-				resultRole = getProductRole(userContext,userName,productName);
-				
-				return RPCMessageTransformer.encode(resultRole.serialize());									
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				sniffArgs.add(uc);
+				logout(uc);
 			}
 			else if (methodName.equals("addUser")) {
-				addUser(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-						  (String)arguments.elementAt(1),
-						  (String)arguments.elementAt(2),
-						  (String)arguments.elementAt(3));
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				sniffArgs.add(uc);
+				sniffArgs.add(arguments.elementAt(1));
+				sniffArgs.add(arguments.elementAt(2));
+				sniffArgs.add(arguments.elementAt(3));
+				
+				addUser(uc, (String)arguments.elementAt(1),
+						    (String)arguments.elementAt(2),
+						    (String)arguments.elementAt(3));
 			}
-			else if (methodName.equals("getProductline")) {
-				UserContext uc = new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0)));
-				if (uc != null) {
-					return RPCMessageTransformer.encode(getProductline(uc,
-											  (String)arguments.elementAt(1)).serialize());
+			else if (methodName.equals("getAllUsers")) {
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				sniffArgs.add(uc);
+				
+				List users = getAllUsers(uc);
+				List result = new ArrayList();
+				for (Iterator iterator = users.iterator(); iterator.hasNext(); ) {
+					User user = (User) iterator.next();
+					result.add(RPCMessageTransformer.encode(user.serialize()));
 				}
-			}
-			else if (methodName.equals("getProduct")) {
-				Product product = getProduct(
-					new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-					(String)arguments.elementAt(1));
-					
-				if (product != null) {
-					return RPCMessageTransformer.encode(product.serialize());
-				}
-			}
-			else if (methodName.equals("addProduct")) {
-				addProduct(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-							  new Product(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
-			}
-			else if (methodName.equals("addRole")) {
-				addRole(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-						 (String)arguments.elementAt(1), 
-						 Role.createRole(RPCMessageTransformer.decode((String)arguments.elementAt(2))));
-			}
-			else if (methodName.equals("removeRole")) {
-				removeRole(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-							   (String)arguments.elementAt(1),
-								Role.createRole(RPCMessageTransformer.decode((String)arguments.elementAt(2))));
-			}
-			else if (methodName.equals("applyProductlineModifications")) {
-				applyProductlineModifications(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-														new Productline(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
-			}
-			else if (methodName.equals("applyProductModifications")) {
-				applyProductModifications(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-													new Product(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
+				return result;
 			}
 			else if (methodName.equals("removeUser")) {
-				removeUser(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-								(String)arguments.elementAt(1));
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				kobold.common.data.User user = new kobold.common.data.User(
+						RPCMessageTransformer.decode((String)arguments.elementAt(1)));
+				sniffArgs.add(uc);
+				sniffArgs.add(user);
+				
+				removeUser(uc, user);
+			}
+			else if (methodName.equals("getProductlineNames")) {			
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				sniffArgs.add(uc);
+
+				// no need to serialize string lists
+				return getProductlineNames(uc);
+			}
+			else if (methodName.equals("getProductline")) {
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				sniffArgs.add(uc);
+				sniffArgs.add(arguments.elementAt(1));
+				
+				return RPCMessageTransformer.encode(
+						getProductline(uc, (String)arguments.elementAt(1)).serialize());
+			}
+			else if (methodName.equals("updateProductline")) {
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				Productline productline = new Productline(
+						RPCMessageTransformer.decode((String)arguments.elementAt(1)));
+				
+				sniffArgs.add(uc);
+				sniffArgs.add(productline);
+
+				updateProductline(uc, productline);
+			}
+			else if (methodName.equals("updateProduct")) {
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				String productlineName = (String)arguments.elementAt(1);
+				Productline productline = ProductManager.getInstance().getProductLine(productlineName);
+				Product product = new Product(productline,
+						RPCMessageTransformer.decode((String)arguments.elementAt(2)));
+				
+				sniffArgs.add(uc);
+				sniffArgs.add(product);
+
+				updateProduct(uc, productlineName, product);
+			}
+			else if (methodName.equals("updateComponent")) {
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				String productName = (String)arguments.elementAt(1);
+				Product product = ProductManager.getInstance().getProduct(productName);
+				Component component = new Component(product,
+						RPCMessageTransformer.decode((String)arguments.elementAt(2)));
+				
+				sniffArgs.add(uc);
+				sniffArgs.add(component);
+
+				updateComponent(uc, productName, component);
 			}
 			else if (methodName.equals("sendMessage")) {
-				sendMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-								 AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				AbstractKoboldMessage msg =
+					AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1)));
+
+				sniffArgs.add(uc);
+				sniffArgs.add(msg);
+				sendMessage(uc, msg);
 			}
 			else if (methodName.equals("fetchMessage")) {
-				AbstractKoboldMessage abstractKoboldMessage =
-					fetchMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))));
-				if (abstractKoboldMessage != null) {
-					return RPCMessageTransformer.encode(abstractKoboldMessage.serialize());
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				sniffArgs.add(uc);
+				AbstractKoboldMessage msg = fetchMessage(uc);
+				if (msg != null) {
+					return RPCMessageTransformer.encode(msg.serialize());
 				}
 			}
 			else if (methodName.equals("invalidateMessage")) {
-				invalidateMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-										AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				AbstractKoboldMessage msg =
+					AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1)));
+
+				sniffArgs.add(uc);
+				sniffArgs.add(msg);
+				
+				invalidateMessage(uc, msg);
+			
 			}
+			// TODO: separate to special interface
 			else if (methodName.equals("validateSATAccessibility")){
 				return validateSATAccessibility((String)arguments.elementAt(0));
-			}
-
-			else if (methodName.equals("changeUserPassword")){
-				changeUserPassword((UserContext)arguments.get(0), (String)arguments.get(1));
-	
 			}
 			else if (methodName.equals("satCreateNewProductline")){
 				return satCreateNewProductline((String)arguments.elementAt(0),
@@ -237,83 +268,46 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 		WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 		return IKoboldServer.NO_RESULT;
 	}
-	
 
 	/**
-	 * Login handler.
-	 * @param userName the username.
-	 * @param password the plain text password.
-	 * @return UserContext, if the userName and password
-	 * 			  is valid. 
+	 * {@see kobold.common.controller.IKoboldServer#login(String, String)}
 	 */
 	public UserContext login(String userName, String password) {
 		return SessionManager.getInstance().login(userName, password);
 	}
 
-
 	/**
-	 * Logout handler.
-	 * Invalidates the given user context.
-	 * @param userContext the user context.
+	 * {@see kobold.common.controller.IKoboldServer#logout(UserContext)}
 	 */
 	public void logout(UserContext userContext) {
 		SessionManager.getInstance().logout(userContext);
 	}
 
 	/**
-	 * Fetches all roles for the given user context from the server.
-	 * @param userContext the user context.
-	 * @return List of Roles.
+	 * @see kobold.common.controller.IKoboldServer#getAllUsers(kobold.common.data.UserContext)
 	 */
-	public Vector getRoles(UserContext userContext) {
-		UserManager manager = UserManager.getInstance();
-		return manager.getUser(userContext.getUserName()).getRoles(); 
-	}
-	
-	
-	/**
-	 * Finds out which role a user has in a specific product
-	 * @param userContext
-	 * @param userName
-	 * @param productName
-	 * @return
-	 */
-	public Role getProductRole(UserContext userContext, String userName, String productName){
-		UserManager manager = UserManager.getInstance();
-		Vector v = manager.getUser(userName).getRoles();
-		
-		Role productRole;
-		
-		for (int i=0; i < v.size(); i++){
-			productRole = (Role) v.get(i);
-			if (productRole instanceof RoleP){
-				RoleP tmpRole = (RoleP) productRole;
-				if(tmpRole.getProductName().equals(productName)){
-					return tmpRole;
-				}
-			}
-			else if (productRole instanceof RolePE){
-				RolePE tmpRole = (RolePE) productRole;
-				if(tmpRole.getProductName().equals(productName)){
-					return tmpRole;
-				}	
-			}
-		}
-		
+	public List getAllUsers(UserContext userContext) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/**
-	 * Adds an new user to the server.
-	 * @param userContext the user context of the valid creator of the
-	 * 			  new user (if the new user is a P, than the userContext
-	 * 			  must be at least a PE).
-	 * @param userName the user name.
-	 * @param password the password.
-	 * @param realName the real name.
+	 * @see kobold.common.controller.IKoboldServer#updateUser(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String)
+	 */
+	public void updateUser(UserContext userContext, kobold.common.data.User user, String password) {
+	}
+
+	/**
+	 * @see kobold.common.controller.IKoboldServer#removeUser(kobold.common.data.UserContext, kobold.common.data.User)
+	 */
+	public void removeUser(UserContext userContext, kobold.common.data.User user) {
+	}
+
+	/**
+	 * {@see kobold.common.controller.IKoboldServer#addUser(UserContext, String, String, String)}
 	 */
 	public void addUser(UserContext userContext, String userName,
-									String password, String realName)
+						String password, String realName)
 	{
 		User user = new User();
 		user.setUserName(userName);
@@ -324,37 +318,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	}
 	
 	/**
-	 * This method changes all userdate from a given user except his password
-	 * for changing the password see method changepassword
-	 * @param userContext	the user context
-	 * @param userName		the user name
-	 * @param realName		the real name
-	 */
-	public void changeUser(UserContext userContext, String userName,
-		 String realName)
-	{
-		UserManager manager = UserManager.getInstance();
-		User user = manager.getUser(userName);
-		user.setUserName(userName);
-		user.setRealName(realName);
-	}
-	
-	/**
-	 * This method changes the password of an user
-	 * @param userContext
-	 * @param password
-	 */
-	public void changeUserPassword(UserContext userContext, String password){
-		UserManager manager = UserManager.getInstance();
-		User user = manager.getUser(userContext.getUserName());
-		user.setPassword(password);
-	}
-
-	/**
-	 * Fetches a productline by its name.
-	 * @param userContext the user context.
-	 * @param plName the name of the productline.
-	 * @return the product line.
+	 * {@see kobold.common.controller.IKoboldServer#getProductline(UserContext, String)}
 	 */
 	public Productline getProductline(UserContext userContext, String plName) {
 		ProductManager productManager = ProductManager.getInstance();
@@ -362,128 +326,33 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	}
 
 	/**
-	 * Fetches a product by its name.
-	 * @param userContext the user context.
-	 * @param productName the name of the productline.
-	 * @return the product line.
+	 * {@see kobold.common.controller.IKoboldServer#updateProductline(UserContext, Productline)}
 	 */
-	public Product getProduct(UserContext userContext, String productName) {
-		ProductManager productManager = ProductManager.getInstance(); 
-		return productManager.getProduct(productName);
+	public void updateProductline(UserContext userContext, Productline productline) {
 	}
 
 	/**
-	 * Adds a new product.
-	 * @param userContext the user context.
-	 * @param product the product.
+	 * @see kobold.common.controller.IKoboldServer#getProductlineNames(kobold.common.data.UserContext)
 	 */
-	public void addProduct(UserContext userContext, Product product) {
-		ProductManager productManager = ProductManager.getInstance();
-		UserManager userManager = UserManager.getInstance();
-		if (userManager.isPLE(userContext.getUserName())) {
-			productManager.addProduct(product);
-		}
+	public List getProductlineNames(UserContext userContext) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
-	* Adds a new role.
-	* @ param userContext the user context.
-	* @ param userName the specified user.
-	* @ param role the new role.
-	*/
-	public void addRole(UserContext userContext, String userName, Role role) {
-		ProductManager productManager = ProductManager.getInstance();
-		UserManager userManager = UserManager.getInstance();
-		String name = userContext.getUserName();
-
-		if (((role instanceof RolePE) && userManager.isPLE(name))
-			|| ((role instanceof RoleP) && userManager.isPE(name))) {
-			User user = userManager.getUser(userName);
-			if (user != null) {
-				user.addRole(role);
-			}
-		}
-
-	}
-
-	/**
-	 * Removes the role from the user.
-	 * @param userContext the user context.
-	 * @param userName the specified user.
-	 * @param role the new role.
+	 * {@see kobold.common.controller.IKoboldServer#updateProduct(UserContext, String, Product)}
 	 */
-	public void removeRole(UserContext userContext, String userName, Role role) {
-		ProductManager productManager = ProductManager.getInstance();
-		UserManager userManager = UserManager.getInstance();
-		String name = userContext.getUserName();
-
-		if (((role instanceof RolePE) && userManager.isPLE(name))
-			|| ((role instanceof RoleP) && userManager.isPE(name))) {
-			User user = userManager.getUser(userName);
-			if (user != null) {
-				user.removeRole(role);
-			}
-		}
+	public void updateProduct(UserContext userContext, String productlineName, Product product) {
 	}
 
 	/**
-	 * Applies modifications to the given Productline.
-	 * @param userContext the user context.
-	 * @param productline the productline. 
+	 * {@see kobold.common.controller.IKoboldServer#updateProduct(UserContext, String, Product)}
 	 */
-	public void applyProductlineModifications(UserContext userContext, Productline productline) {
-		UserManager userManager = UserManager.getInstance();
-		if (userManager.isPLE(userContext.getUserName())) {
-		 		ProductManager productManager = ProductManager.getInstance();
-		  		Productline pline = productManager.getProductLine(productline.getName());
-		  		productManager.removeProductLine(pline);
-		  		productManager.addProductLine(productline);
-		}
+	public void updateComponent(UserContext userContext, String productName, Component component) {
 	}
 
 	/**
-	 * Applies modifications to the given Product.
-	 * @param userContext the user context.
-	 * @param product the product. 
-	 */
-	public void applyProductModifications(UserContext userContext, Product product) {
-		UserManager userManager = UserManager.getInstance();
-		if (userManager.isPLE(userContext.getUserName()) ||
-		    userManager.isPE(userContext.getUserName()))
-		{
-				ProductManager productManager = ProductManager.getInstance();
-				Product p = productManager.getProduct(product.getName());
-				productManager.removeProduct(p);
-				productManager.addProduct(product);
-		}
-	}
-
-	/**
-	 * Removes the specified user.
-	 * @param userContext the user context.
-	 * @param userName the user to remove.
-	 */
-	public void removeUser(UserContext userContext, String userName) {
-		
-		if (userContext.getUserName() != userName) {
-			UserManager manager = UserManager.getInstance();
-			if (manager.isPLE(userName)) {
-				return;
-			}
-			else if ((manager.isPE(userName) && manager.isPLE(userContext.getUserName())) ||
-						(!manager.isPE(userName) && manager.isPE(userContext.getUserName())))
-			{
-				User user = manager.getUser(userName);
-				manager.removeUser(user);
-			}
-		}
-	}
-
-	/**
-	 * Sends a KoboldMessage or WorkflowMessage.
-	 * 
-	 * @param userContext the user context.
-	 * @param koboldMessage the message.
+	 * {@see kobold.common.controller.IKoboldServer#sendMessage(UserContext, AbstractKoboldMessage)}
 	 */
 	public void sendMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
 		if (koboldMessage instanceof WorkflowMessage) {
@@ -494,28 +363,18 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 		}
 	}
 
-
 	/**
-	 * Fetches a single KoboldMessage. Should be put to a queue.
-	 * Note: to remove the message from Servers message queue,
-	 * it has to be invalidated using invalidateMessage!
-	 * 
-	 * @param userContext the user context.
+	 * {@see kobold.common.controller.IKoboldServer#fetchMessage(UserContext)}
 	 */
 	public AbstractKoboldMessage fetchMessage(UserContext userContext) {
 		return MessageManager.getInstance().fetchMessage(userContext);
 	}
 
 	/**
-	 * Invalidates the specified message. This method will remove the message
-	 * from Servers message queue.
-	 * 
-	 * @param userContext the user context.
-	 * @param koboldMessage the message.
+	 * {@see kobold.common.controller.IKoboldServer#invalidateMessage(UserContext, AbstractKoboldMessage)}
 	 */
 	public void invalidateMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
-		MessageManager.getInstance().invalidateMessage(userContext,
-																					koboldMessage);
+		MessageManager.getInstance().invalidateMessage(userContext, koboldMessage);
 	}
 	
 	/**
@@ -608,5 +467,6 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 		return IKoboldServer.NO_RESULT;// until fully implemented
 	}
 
+	
 
 }

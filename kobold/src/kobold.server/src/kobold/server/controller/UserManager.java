@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.9 2004/06/27 16:48:02 vanto Exp $
+ * $Id: UserManager.java,v 1.10 2004/07/05 15:59:53 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -41,10 +41,6 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-import kobold.common.data.Role;
-import kobold.common.data.RoleP;
-import kobold.common.data.RolePE;
-import kobold.common.data.RolePLE;
 import kobold.server.data.User;
 
 /**
@@ -88,43 +84,6 @@ public class UserManager {
 	 */
 	public void addUser(User user) {
 		users.put(user.getUserName(), user);
-	}
-
-
-	/**
-	 * @return <code>true</code> if the userContext is PLE.
-	 * @param userName the user name.
-	 */
-	public boolean isPLE(String userName) {
-		 User user = getUser(userName);
-		 if (user != null) {
-		 	List roles = user.getRoles();
-			for (Iterator it = roles.iterator(); it.hasNext(); ) {
-				Role role = (Role) it.next();
-				if (role instanceof RolePLE) {
-					return true;
-				}
-			}
-		 }
-		return false;
-	}
-
-	/**
-		 * @return <code>true</code> if the userContext is PE.
-		 * @param userName the user name.
-		 */
-	public boolean isPE(String userName) {
-		User user = getUser(userName);
-		if (user != null) {
-			List roles = user.getRoles();
-			for (Iterator it = roles.iterator(); it.hasNext();) {
-				Role role = (Role) it.next();
-				if (role instanceof RolePE) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -215,25 +174,16 @@ public class UserManager {
 		anselm.setUserName("garbeam");
 		anselm.setRealName("Anselm R. Garbe");
 		anselm.setPassword("garbeam");
-		anselm.addRole(new RolePLE("kobold2"));
-		anselm.addRole(new RolePE("kobold server"));
-		anselm.addRole(new RoleP("kobold server"));
-		
+
 		User tammo = new User();
 		tammo.setUserName("vanto");
 		tammo.setRealName("Tammo van Lessen");
 		tammo.setPassword("vanto");
-		tammo.addRole(new RolePLE("kobold3"));
-		tammo.addRole(new RolePE("kobold client"));
-		tammo.addRole(new RoleP("kobold client"));
 		
 		User patrick = new User();
 		patrick.setUserName("schneipk");
 		patrick.setRealName("Patrick Schneider");
 		patrick.setPassword("schneipk");
-		patrick.addRole(new RolePLE("kobold4"));
-		patrick.addRole(new RolePE("kobold vcm"));
-		patrick.addRole(new RoleP("kobold vcm"));
 		
 		addUser(anselm);
 		addUser(tammo);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductManager.java,v 1.8 2004/06/24 09:58:57 grosseml Exp $
+ * $Id: ProductManager.java,v 1.9 2004/07/05 15:59:53 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -191,6 +191,7 @@ public class ProductManager {
 	 */
 	public void deserialize(String path) {
 		
+		// TODO
 		SAXReader reader = new SAXReader();
 		Document document = null;
 		try {
@@ -210,8 +211,8 @@ public class ProductManager {
 		List listP = document.selectNodes( "/products/product" );
 		for (Iterator iter = listP.iterator(); iter.hasNext(); ) {
 			Element element = (Element) iter.next();
-			Product product = new Product(element);
-			products.put(product.getName(), product);
+			//Product product = new Product(element);
+			//products.put(product.getName(), product);
 		}
 	}
 	
@@ -220,26 +221,29 @@ public class ProductManager {
 		
 		addProductLine(new Productline("kobold2",
 					   new RepositoryDescriptor(
-						"cvs", "cvs.berlios.de",
-						"/cvsroot/kobold/kobold2")));
+						RepositoryDescriptor.CVS_REPOSITORY, "ssh",
+						"cvs.berlios.de", "/cvsroot/kobold/", "kobold2")));
 		addProductLine(new Productline("kobold3",
 				       new RepositoryDescriptor(
-		 			   "cvs", "cvs.berlios.de",
-		 			   "/cvsroot/kobold/kobold3")));
+				       		RepositoryDescriptor.CVS_REPOSITORY,
+		 			   "pserver", "cvs.berlios.de",
+		 			   "/cvsroot/kobold/", "kobold3")));
 		addProductLine(new Productline("kobold4",
 					   new RepositoryDescriptor(
-					   "cvs", "cvs.berlios.de",
-					   "/cvsroot/kobold/kobold4")));
+					   		RepositoryDescriptor.CVS_REPOSITORY,
+							"ssh", "cvs.berlios.de",
+					   		"/cvsroot/kobold/", "kobold4")));
 		
 		// TODO: repository descriptot for products
-		addProduct(new Product("kobold server", "kobold2",
-				new RepositoryDescriptor("cvs",
-				"cvs.berlios.de", "/cvsroot/kobold/kobold2")));
+		/*addProduct(new Product("kobold server", "kobold2",
+				new RepositoryDescriptor(RepositoryDescriptor.CVS_REPOSITORY,
+						"ssh",	"cvs.berlios.de", "/cvsroot/kobold/", "kobold2")));
 		addProduct(new Product("kobold client", "kobold3",
-				new RepositoryDescriptor("cvs",
-			   	"cvs.berlios.de", "/cvsroot/kobold/kobold2")));
+				new RepositoryDescriptor(RepositoryDescriptor.CVS_REPOSITORY,
+						"pserver", 	"cvs.berlios.de", "/cvsroot/kobold/", "kobold2")));
 		addProduct(new Product("kobold vcm", "kobold4",
-				new RepositoryDescriptor("cvs",
-			   	"cvs.berlios.de", "/cvsroot/kobold/kobold2")));
+				new RepositoryDescriptor(RepositoryDescriptor.CVS_REPOSITORY,
+						"pserver", "cvs.berlios.de", "/cvsroot/kobold/", "kobold2")));
+						*/
 	}
 }

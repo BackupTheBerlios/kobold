@@ -21,20 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.1 2004/06/27 16:48:02 vanto Exp $
+ * $Id: User.java,v 1.2 2004/07/05 15:59:53 garbeam Exp $
  *
  */
 
 package kobold.server.data;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Vector;
 
 import kobold.common.data.ISerializable;
-import kobold.common.data.Role;
 import kobold.common.data.UserContext;
 
 import org.apache.commons.logging.Log;
@@ -53,7 +48,6 @@ import sun.misc.BASE64Encoder;
  */
 public class User implements ISerializable {
 
-	private Vector roles;
 	private String userName;
 	private String password;
 	private String realName;
@@ -62,7 +56,6 @@ public class User implements ISerializable {
 	 * Basic constructor.
 	 */
 	public User() {
-		roles = new Vector();
 	}
 	
 	/**
@@ -72,7 +65,6 @@ public class User implements ISerializable {
 	 * this user.
 	 */
 	public User(Element element) {
-		roles = new Vector();
 		deserialize(element);
 	}
 
@@ -94,16 +86,6 @@ public class User implements ISerializable {
 			Log log = LogFactory.getLog("kobold.common.data.User");
 			log.error(e);
 		}
-
-		List roles = element.selectNodes("//user/roles");
-		for (ListIterator it = (ListIterator) this.roles.iterator();
-			it.hasNext();
-			)
-		{
-			Element roleElem = (Element) it.next();
-			Role role = Role.createRole(roleElem);
-			addRole(role);
-		}
 	}
 
 	/**
@@ -119,11 +101,6 @@ public class User implements ISerializable {
 		user.addElement("password").addText(
 				new BASE64Encoder().encode(this.password.getBytes()));
 
-		Element roles = user.addElement("roles");
-		for (Iterator it = (Iterator) this.roles.iterator();	it.hasNext(); ) {
-			Role role = (Role) it.next();
-			roles.add(role.serialize());
-		}
         return user;
 	}
 
@@ -138,25 +115,6 @@ public class User implements ISerializable {
 	}
 
 	/**
-	 * Adds a new Role to this user's role list.
-	 * 
-	 * @param role the Role to add
-	 */
-	public void addRole(Role role) {
-		roles.add(role);
-	}
-
-	/**
-	 * Removes the passed Role form the user's role list. if the passed
-	 * role is not part of the user's role list this method has no effect.
-	 *
-	 * @param r the role to remove
-	 */
-	public void removeRole(Role role) {
-		roles.remove(role);
-	}
-
-	/**
 	 * @return
 	 */
 	public String getPassword() {
@@ -168,13 +126,6 @@ public class User implements ISerializable {
 	 */
 	public String getRealName() {
 		return realName;
-	}
-
-	/**
-	 * @return
-	 */
-	public Vector getRoles() {
-		return roles;
 	}
 
 	/**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManagerTest.java,v 1.4 2004/05/18 21:23:58 garbeam Exp $
+ * $Id: UserManagerTest.java,v 1.5 2004/07/05 15:59:53 garbeam Exp $
  *
  */
 
@@ -29,8 +29,8 @@ import junit.framework.TestCase;
 import kobold.common.data.RoleP;
 import kobold.common.data.RolePE;
 import kobold.common.data.RolePLE;
-import kobold.common.data.User;
 import kobold.server.controller.UserManager;
+import kobold.server.data.User;
 
 /**
  * @author garbeam
