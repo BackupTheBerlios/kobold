@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.73 2004/08/06 09:21:42 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.74 2004/08/06 10:57:32 neccaino Exp $
  *
  */
 package kobold.server;
@@ -741,14 +741,14 @@ public class SecureKoboldWebServer implements IKoboldServer,
         
         // 3.) get maintainer list and convert it to string
         List ml = pl.getMaintainers();
+        Iterator it = ml.iterator();
         String ret = "";
         
-        int sizeOfList = ml.size();
-        if (sizeOfList == 0){
+        if (!it.hasNext()){
             ret += "no users assigned\n";
         }
-        else for (int ax = 0; ax < sizeOfList; ax++){
-            ret += (String) ml.toArray()[ax] + "\n";
+        else while(it.hasNext()){
+            ret += ((User)it.next()).getUsername() + "\n";
         }
         
         return ret; 
@@ -779,7 +779,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
         }
         else while(it.hasNext()){
             it.next(); // removes id string of next productline
-            ret += it.next();
+            ret += it.next() + "\n";
         }
                 
         return ret; 
