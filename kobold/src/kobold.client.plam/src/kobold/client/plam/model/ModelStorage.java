@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.44 2004/10/18 00:12:54 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.45 2004/10/18 16:26:32 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -32,8 +32,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
@@ -97,6 +101,8 @@ public class ModelStorage
                     SAXReader reader = new SAXReader();
                     Document document = reader.read(in);
                     pl = new Productline(kp, document.getRootElement());                    
+                    
+                    // TODO: load products
                 } catch (CoreException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -357,20 +363,43 @@ public class ModelStorage
      * control which aren't already under version control.
      * @param asset
      */
-    public static void prepareCommit(AbstractAsset asset) {
-        IPath path = getPathForAsset(asset);
+    public static void prepareCommit(AbstractRootAsset asset) {
+        
+        Productline pl = asset.getProductline();
         FileDescriptor fd = new FileDescriptor();
         fd.setParent(null);
         fd.setParentAsset(null);
+        fd.setDirectory(true);
+        fd.setRevision(null);
+        fd.setAuthor(null);
+        fd.setFilename(getPathForAsset(asset).toOSString());
+        KoboldProject kp = pl.getKoboldProject();
         
+        kp.refreshResources(fd);
+        List addCandidates = new ArrayList();
+        createAddCandidates(addCandidates, fd);
         
+        if (addCandidates.size() > 0) {
+            kp.addFileDescriptors(asset, addCandidates);
+        }
+    }
+    
+    private static void createAddCandidates(List addCandidates, IFileDescriptorContainer fdc) {
+        for (Iterator it = fdc.getFileDescriptors().iterator(); it.hasNext();) {
+            FileDescriptor fd = (FileDescriptor) it.next();
+            createAddCandidates(addCandidates, fd);
+            if (fd.getRevision() == null) {
+                addCandidates.add(fd);
+            }
+        }
     }
     
     public static void serializeProduct (Productline pl, IProgressMonitor monitor)
     {
         //get the PRODUCTS-directory
         //the PL directory
-        IProject project = pl.getKoboldProject().getProject();
+        KoboldProject kp = pl.getKoboldProject();
+        IProject project = kp.getProject();
         //IFolder productsFolder = project.getFolder(); //pl.getResource());
         //PRODUCTS-dir
         //productsFolder = productsFolder.getFolder(PRODUCTS_FOLDER_NAME);
@@ -460,6 +489,9 @@ public class ModelStorage
                     KoboldPLAMPlugin.log(e);
                 }
             }
+            
+            // commit the product
+            kp.commitProduct(product);
         }
         
     }

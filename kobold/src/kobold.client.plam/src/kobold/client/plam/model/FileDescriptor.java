@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.25 2004/09/22 23:43:25 martinplies Exp $
+ * $Id: FileDescriptor.java,v 1.26 2004/10/18 16:26:32 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -241,9 +241,12 @@ public class FileDescriptor implements IFileDescriptorContainer,
 	 */
 	public IPath getLocalPath() {
 	    if (parent != null){
-	       return new Path(getParent().getLocalPath().toString() + filename);
-	    } else {
+     	    return new Path(getParent().getLocalPath().toString() + filename);
+	    } else if (parentAsset != null) {
 	        return new Path(parentAsset.getLocalPath().toString() + filename);
+	    }
+	    else {
+	        return new Path("");
 	    }
 	}
 

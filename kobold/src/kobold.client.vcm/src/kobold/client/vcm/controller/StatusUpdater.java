@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.42 2004/09/23 13:43:28 vanto Exp $
+ * $Id: StatusUpdater.java,v 1.43 2004/10/18 16:26:35 garbeam Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -71,7 +71,7 @@ public class StatusUpdater {
 	 */
 	public void updateFileDescriptors(final IFileDescriptorContainer fdCon)
 	{
-			    String tmpString = fdCon.getLocalPath().toOSString();
+		String tmpString = fdCon.getLocalPath().toOSString();
 		final String[] command = {"perl", getScriptPath() + 
         					      "stats.pl", tmpString.substring(0,tmpString.length()-1)};
 	    logger.debug("running: " + command[0] + " " + command[1] + " " + command[2]);

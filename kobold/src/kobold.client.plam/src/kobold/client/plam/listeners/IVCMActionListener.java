@@ -21,11 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVCMActionListener.java,v 1.7 2004/10/13 14:48:05 martinplies Exp $
+ * $Id: IVCMActionListener.java,v 1.8 2004/10/18 16:26:32 garbeam Exp $
  *
  */
 package kobold.client.plam.listeners;
 
+import java.util.List;
+
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
@@ -94,4 +97,11 @@ public interface IVCMActionListener
      */
     void tagRelease(Release release);
  
+    /**
+     * Adds a all FileDescriptors.
+     * @param asset AbstractRootAsset
+     * @param files List of FileDescriptors to add.
+     */
+    void addFileDescriptors(AbstractRootAsset asset, List fds);
+    
 }

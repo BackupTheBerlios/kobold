@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.29 2004/10/15 03:53:57 garbeam Exp $
+ * $Id: KoboldProject.java,v 1.30 2004/10/18 16:26:32 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -52,9 +52,11 @@ import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.ProductlineFactory;
 import kobold.client.plam.model.Release;
+import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.workflow.LocalMessageQueue;
+import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Component;
 import kobold.common.data.User;
 
@@ -557,7 +559,38 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
 	    }
 	}
 	
-	public void updateProductline(kobold.common.data.Productline spl, IProject p) 
+    public void addFileDescriptors(AbstractRootAsset asset, List fds)
+	{
+	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
+	    if (l != null) {
+	        l.addFileDescriptors(asset, fds);
+	    } else {
+	        logger.error("no vcm listener registered");
+	    }
+	}
+    
+    public void updateProduct(kobold.common.data.Product p, IProject prj) 
+	{
+	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
+	    if (l != null) {
+	        l.updateProduct(p, prj);
+	    } else {
+	        logger.error("no vcm listener registered");
+	    }
+	}
+	
+	public void commitProduct(Product p)
+	{
+	    ModelStorage.prepareCommit(p);
+	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
+	    if (l != null) {
+	        l.commitProduct(p);
+	    } else {
+	        logger.error("no vcm listener registered");
+	    }
+	}
+	
+    public void updateProductline(kobold.common.data.Productline spl, IProject p) 
 	{
 	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
 	    if (l != null) {
@@ -569,6 +602,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
 	
 	public void commitProductline(Productline pl)
 	{
+	    ModelStorage.prepareCommit(pl);
 	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
 	    if (l != null) {
 	        l.commitProductline(pl);

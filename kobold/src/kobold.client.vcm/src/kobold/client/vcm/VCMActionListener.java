@@ -21,16 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.12 2004/10/18 00:12:59 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.13 2004/10/18 16:26:35 garbeam Exp $
  *
  */
 package kobold.client.vcm;
 
 import java.util.Iterator;
+import java.util.List;
 
 import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.Release;
@@ -287,5 +289,63 @@ public class VCMActionListener implements IVCMActionListener
     public void updateRelease(RelatedComponent rc, Release newRelase) {
         // TODO Auto-generated method stub
         
+    }
+
+    /**
+     * @see kobold.client.plam.listeners.IVCMActionListener#addFileDescriptors(java.util.List)
+     */
+    public void addFileDescriptors(AbstractRootAsset asset, List fds) {
+        
+        String userName = KoboldRepositoryHelper.getUserName();
+		String password = KoboldRepositoryHelper.getUserPassword();
+		RepositoryDescriptor rd = ModelStorage.getRepositoryDescriptorForAsset(asset);
+		ScriptServerConnection connection =
+		    ScriptServerConnection.getConnection(rd.getRoot());
+        IProgressMonitor progress = new SubProgressMonitor(KoboldPolicy.monitorFor(null), fds.size());
+        
+		if (connection != null) {
+		    /**
+		     * 	# $1 working directory
+				# $2 repo type
+				# $3 protocoal type
+				# $4 username
+				# $5 password
+				# $6 host
+				# $7 root
+				# $8 module
+				# $9 userdef
+		     */
+		    String localPath = KoboldRepositoryHelper.localPathForAsset(asset);
+    		String command[] = new String[10];
+            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.ADD).concat(KoboldRepositoryHelper.getScriptExtension());
+		    command[1] = localPath;
+		    command[2] = rd.getType();
+		    command[3] = rd.getProtocol();
+		    command[4] = userName;
+		    command[5] = password; 
+			command[6] = rd.getHost();
+			command[7] = rd.getRoot();
+			command[9] = "";
+			for (Iterator it = fds.iterator(); it.hasNext();) {
+    			    
+			    kobold.client.plam.model.FileDescriptor fd = (FileDescriptor)it.next();
+    			command[8] = fd.getLocalPath().toOSString();
+    			for (int j = 0; j < command.length; j++) {
+    				System.out.print(command[j]);
+    				System.out.print(" ");
+    			}
+    			try {
+    			    // first we try to commit
+        			connection.open(progress, command);
+        			connection.close();	
+        			
+    //    			if (connection.getReturnValue() != 0) {
+    //				}
+    			}
+    			catch (Exception e) {
+    			    e.printStackTrace();
+    			}
+			}
+		}
     }
 }
