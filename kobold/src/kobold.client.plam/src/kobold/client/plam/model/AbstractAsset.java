@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.18 2004/08/06 09:36:46 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.19 2004/08/23 01:27:28 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -118,48 +118,42 @@ public abstract class AbstractAsset implements ISerializable, INode
      * the Childclass.
      * @return GXLNode
      */
-    public final GXLNode getGXLGraph() throws GXLException {
-    	
-    	if (this instanceof IGXLExport) {
-    		IGXLExport thisGXL = (IGXLExport) this;
-      	    GXLNode node = new GXLNode(IdManager.nextId(id));
-			//node.setAttr("id", new GXLString(id));
-    		if (name != null) {
-			  node.setAttr("name",new GXLString(name));
-    		}
-    		if (description != null) {
-			  node.setAttr("description", new GXLString(description));
-    		}
-    		
-    		/* FIXME: Martin, es gibt jetzt eine Liste von Maintainern
-    		 * if (owner != null) {
-			  node.setAttr("owner", new GXLString(owner));
-    		}*/
-    		
-			Map attributes = thisGXL.getGXLAttributes();
-			if (attributes != null) {
-				for (Iterator ite = attributes.keySet().iterator(); ite.hasNext();){
-					String key = (String) ite.next();
-		 			node.setAttr(key, new GXLString((String) attributes.get(key)));
-				}
-			}
-			List children = thisGXL.getGXLChildren();
-			if (children != null){
-			  GXLGraph graph = new GXLGraph(IdManager.nextId("graph"));
-			  for (Iterator ite = children.iterator(); ite.hasNext();){
-				AbstractAsset asset = (AbstractAsset) ite.next();
-				graph.add(asset.getGXLGraph());
-			  }
-			  node.add(graph);
-			}
+    public GXLNode createGXLGraph(Map nodes) throws GXLException {          
+        GXLNode node = new GXLNode(IdManager.nextId(id));
+        nodes.put(this, node);
+        if (name != null) {
+            node.setAttr("name", new GXLString(name));
+        }
+        if (description != null) {
+            node.setAttr("description", new GXLString(description));
+        }       
 
-			node.setType(URI.create(thisGXL.getGXLType()));
-    	return node;
-    	} else {
-    		throw new GXLException(this.getClass()+" implements not IGXLExport");
-    	}
-    
+        List children = this.getGXLChildren();
+        if (children != null && children.size() > 0) {
+            GXLGraph graph = new GXLGraph(IdManager.nextId("graph"));
+            for (Iterator ite = children.iterator(); ite.hasNext();) {
+                AbstractAsset asset = (AbstractAsset) ite.next();
+                graph.add(asset.createGXLGraph(nodes));
+            }
+            node.add(graph);
+        }
+
+        node.setType(URI.create(this.getGXLType()));
+        return node;
     }
+    
+    /**
+	 * The List contains only Childclassse of this class.
+	 * @return List List with the children of this GXLNode
+	 */
+	public abstract List getGXLChildren();
+	
+	/**
+	 * 
+	 * @return String the GXL type of the Childclass.
+	 */
+	public abstract String getGXLType();
+	
        
     public void addToPool(AbstractAsset asset){
         // add asset to id pool

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.14 2004/08/06 11:07:18 garbeam Exp $
+ * $Id: FileDescriptor.java,v 1.15 2004/08/23 01:27:28 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import kobold.client.plam.model.edges.INode;
 import kobold.client.plam.model.product.SpecificComponent;
@@ -48,7 +49,7 @@ import org.eclipse.core.runtime.Path;
  *
  * @author garbeam
  */
-public class FileDescriptor implements IFileDescriptorContainer, INode {
+public class FileDescriptor implements IFileDescriptorContainer, INode, IGXLExport {
 
     private List children = new ArrayList();
     private IFileDescriptorContainer parentAsset;
@@ -278,5 +279,32 @@ public class FileDescriptor implements IFileDescriptorContainer, INode {
      */
     public void clear() {
         children.clear();
+    }
+
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.IGXLExport#getGXLChildren()
+     */
+    public List getGXLChildren() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.IGXLExport#getGXLType()
+     */
+    public String getGXLType() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.IGXLExport#getMaintainers()
+     */
+    public List getMaintainers() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.14 2004/08/06 03:40:44 martinplies Exp $
+ * $Id: Component.java,v 1.15 2004/08/23 01:28:00 martinplies Exp $
  *
  */
 
@@ -161,11 +161,7 @@ public class Component extends AbstractMaintainedAsset
 	
 	public List getGXLChildren() {
 		return variants;
-	}
-	
-	public Map getGXLAttributes() {
-		return null;
-	}
+	}	
 
 	/**
 	 * @see kobold.common.model.AbstractAsset#getGXLType()
@@ -194,4 +190,5 @@ public class Component extends AbstractMaintainedAsset
 	    }
 	    return sc;
 	}
+
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IGXLExport.java,v 1.2 2004/07/15 13:57:48 martinplies Exp $
+ * $Id: IGXLExport.java,v 1.3 2004/08/23 01:27:28 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -36,29 +36,7 @@ import java.util.Map;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public interface IGXLExport {
-
-	/**
-	 * Create a Map with the Attributes of the Childclass.
-	 * It contains only Attributes that should be in the 
-	 * GXL Graph.
-	 * The Attributes must be Strings.
-	 * 
-	 * @return Map with the Attributes that shoud be in+
-	 * the GXLGraph.
-	 */
-	public Map getGXLAttributes();
-	
-	/**
-	 * The List contains only Childclassse of this class.
-	 * @return List List with the children of this GXLNode
-	 */
-	public List getGXLChildren();
-	
-	/**
-	 * 
-	 * @return String the GXL type of the Childclass.
-	 */
-	public String getGXLType();
+		
 
 
 }

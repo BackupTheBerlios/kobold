@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.17 2004/08/07 23:13:07 martinplies Exp $
+ * $Id: AbstractRootAsset.java,v 1.18 2004/08/23 01:27:28 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -131,7 +131,7 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     {
         return Collections.unmodifiableList(metaNodes);
     }
-
+    
 	/**
 	 * @return
 	 */
@@ -176,4 +176,5 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 		
 		return root;
     }
+    
 }

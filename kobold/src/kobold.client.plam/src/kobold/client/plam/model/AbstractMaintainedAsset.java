@@ -21,15 +21,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractMaintainedAsset.java,v 1.8 2004/08/04 17:52:58 vanto Exp $
+ * $Id: AbstractMaintainedAsset.java,v 1.9 2004/08/23 01:27:28 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import net.sourceforge.gxl.GXLBag;
+import net.sourceforge.gxl.GXLNode;
+import net.sourceforge.gxl.GXLString;
 
 import kobold.common.data.User;
+import kobold.common.exception.GXLException;
 
 
 /**
@@ -44,7 +51,7 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
 	
     public AbstractMaintainedAsset() 
     {
-        super();
+        super();        
     }
     
     public AbstractMaintainedAsset(String name) 
@@ -83,4 +90,16 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
 	{
 	    return maintainers;
 	}
+	
+	public GXLNode createGXLGraph(Map nodes) throws GXLException {
+        GXLNode node = super.createGXLGraph(nodes);
+        GXLBag bag = new GXLBag();
+        for (Iterator ite = maintainers.iterator(); ite.hasNext();){
+            User user = (User) ite.next();
+            bag.add(new GXLString(user.getUsername())); 
+        }
+        node.setAttr("maintainer" ,bag);
+	    return node;	    	
+	}
+	
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Release.java,v 1.5 2004/08/03 22:11:46 vanto Exp $
+ * $Id: Release.java,v 1.6 2004/08/23 01:27:28 martinplies Exp $
  *
  */
 
@@ -46,6 +46,8 @@ public class Release extends AbstractAsset{
 
     private List revisions = new ArrayList();
     private boolean released = false;
+    public static final String GXL_TYPE = "http://kobold.berlios.de/types#Release";  
+    
 
     public Release()
     {
@@ -222,4 +224,18 @@ public class Release extends AbstractAsset{
             revision = element.elementTextTrim("revision");
         }
 	}
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.AbstractAsset#getGXLChildren()
+     */
+    public List getGXLChildren() {        
+        return revisions;
+    }
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.AbstractAsset#getGXLType()
+     */
+    public String getGXLType() {
+        return GXL_TYPE;
+    }
 }

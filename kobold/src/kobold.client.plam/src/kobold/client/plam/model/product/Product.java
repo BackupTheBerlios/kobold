@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.17 2004/08/06 03:41:20 martinplies Exp $
+ * $Id: Product.java,v 1.18 2004/08/23 01:29:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -220,16 +220,7 @@ public class Product extends AbstractRootAsset
 	 */
 	public List getSpecificComponents() {
 		return Collections.unmodifiableList(specificComponents);
-	}
-
-    
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
-	 */
-	public Map getGXLAttributes() {
-		HashMap attributes = new HashMap();
-		return attributes;
-	}
+	}   
 
 	/* (non-Javadoc)
 	 * @see kobold.common.model.AbstractAsset#getGXLChildren()

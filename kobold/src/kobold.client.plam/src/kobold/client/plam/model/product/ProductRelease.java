@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductRelease.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: ProductRelease.java,v 1.2 2004/08/23 01:29:27 martinplies Exp $
  *
  */
 
@@ -46,7 +46,7 @@ public class ProductRelease extends AbstractAsset
 {
 
 	private DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSZ");
-	
+	private static final String GXL_TYPE = "http://kobold.berlios.de/types#ProductReleases";
 	// container
 	private List releases;
 	private Date creationDate;
@@ -123,5 +123,19 @@ public class ProductRelease extends AbstractAsset
 	public String getType() {
 		return AbstractAsset.PRODUCT_RELEASE;
 	}
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.AbstractAsset#getGXLChildren()
+     */
+    public List getGXLChildren() {
+        return this.releases;
+    }
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.AbstractAsset#getGXLType()
+     */
+    public String getGXLType() {
+        return GXL_TYPE;
+    }
 
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.8 2004/08/06 10:50:58 vanto Exp $
+ * $Id: RelatedComponent.java,v 1.9 2004/08/23 01:29:01 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -100,14 +100,7 @@ public class RelatedComponent extends ProductComponent
 	protected RelatedComponent (Element element) {
 		super();
 		deserialize(element);
-	}
-	
-	/**
-	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
-	 */
-	public Map getGXLAttributes() {
-		return relatedVariant.getGXLAttributes();
-	}
+	}	
 
 	/**
 	 * @see kobold.common.model.AbstractAsset#getGXLChildren()

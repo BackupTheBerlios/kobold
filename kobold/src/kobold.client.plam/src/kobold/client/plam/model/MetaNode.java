@@ -22,10 +22,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaNode.java,v 1.5 2004/08/06 03:40:44 martinplies Exp $
+ * $Id: MetaNode.java,v 1.6 2004/08/23 01:27:28 martinplies Exp $
  *
  */ 
 package kobold.client.plam.model;
+
+import java.util.List;
+
+import net.sourceforge.gxl.GXLElement;
 
 import org.dom4j.Element;
 
@@ -38,6 +42,7 @@ import org.dom4j.Element;
 public class MetaNode  extends AbstractAsset {
     public static final String OR = META_NODE + ".OR"; // a logic xor
     public static final String AND = META_NODE + ".AND";
+    public static final String GXL_TYPE = "http://kobold.berlios.de/types#Product";
     
     private String type;
     private String edgeType;
@@ -92,4 +97,22 @@ public class MetaNode  extends AbstractAsset {
         
         return root;
     }
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.AbstractAsset#getGXLChildren()
+     */
+    public List getGXLChildren() {
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.AbstractAsset#getGXLType()
+     */
+    public String getGXLType() {
+        return GXL_TYPE;
+    }
+
+    /**
+     * @return
+     */
 }

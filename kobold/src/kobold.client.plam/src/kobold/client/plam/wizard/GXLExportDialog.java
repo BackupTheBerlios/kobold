@@ -21,18 +21,34 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.12 2004/08/05 22:44:00 martinplies Exp $
+ * $Id: GXLExportDialog.java,v 1.13 2004/08/23 01:30:04 martinplies Exp $
  *
  */
 package kobold.client.plam.wizard;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.MetaNode;
+import kobold.client.plam.model.edges.Edge;
+import kobold.client.plam.model.edges.EdgeContainer;
+import kobold.client.plam.model.edges.INode;
 import kobold.common.exception.GXLException;
 import net.sourceforge.gxl.GXLDocument;
+import net.sourceforge.gxl.GXLEdge;
+import net.sourceforge.gxl.GXLElement;
 import net.sourceforge.gxl.GXLGraph;
+import net.sourceforge.gxl.GXLGraphElement;
+import net.sourceforge.gxl.GXLNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,6 +72,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import antlr.collections.List;
 
 
 /**
@@ -90,8 +108,9 @@ public class GXLExportDialog extends TitleAreaDialog {
     }
 
     protected Control createDialogArea(Composite parent) {
-        this.setTitle("GXL EXPORT");
-        this.setMessage("", 1);
+        //this.setTitle("GXL EXPORT");
+        this.setMessage(" Select a File for Export", 1);
+        this.getShell().setText("GXL EXPORT");
         Composite exportGroup = new Composite(parent, SWT.NONE);
             GridLayout layout = new GridLayout();
             layout.numColumns = 1;
@@ -212,8 +231,25 @@ public class GXLExportDialog extends TitleAreaDialog {
         GXLGraph graph = new GXLGraph("koboldgraph"); //$NON-NLS-1$
         GXLDocument doc = new GXLDocument();
         try {
-            graph.add(asset.getGXLGraph());
-            doc.getDocumentElement().add(graph);
+            
+            // create nodes
+            HashMap nodeMap = new HashMap();
+            graph.add(asset.createGXLGraph(nodeMap));
+            // add edges and MetaNodes        
+            Set addedEdges = new HashSet();
+            // Now nodeMap contains all gxlnodes of Variants, Releases, Components and Product/Producline
+            // as Value and as key the Variants, Releases,... .
+            // For all assets the edges and MetaNodes must be added.            
+            ArrayList nodes = new ArrayList();
+            // MetaNodes are added => nodeMap.keySet will changed and must copied.
+            for (Iterator ite = nodeMap.keySet().iterator(); ite.hasNext();){
+                nodes.add(ite.next());
+            }
+            for (Iterator ite = nodes.iterator(); ite.hasNext();){
+                createEdges((INode) ite.next(), graph, nodeMap, new HashSet(),
+                        addedEdges, asset.getRoot().getEdgeContainer());
+            }           
+            doc.getDocumentElement().add(graph);            
             doc.write(GXLFile);
         } catch (GXLException e) {
             logger.debug(e.getLocalizedMessage(), e);
@@ -224,10 +260,82 @@ public class GXLExportDialog extends TitleAreaDialog {
             this.setMessage(e.getLocalizedMessage(), IMessageProvider.ERROR);
             return false;
         }
+        catch (Exception e) {            
+            String message;
+            logger.error(e.getLocalizedMessage(), e);
+            if(e.getLocalizedMessage() == null) {
+                this.setMessage("An unexpected error has been occured.", IMessageProvider.ERROR);
+            } else {
+                this.setMessage(e.getLocalizedMessage(), IMessageProvider.ERROR);
+            }
+            return false;
+        }
         
         this.setMessage("Graph is exported", IMessageProvider.NONE);//delete old error Messages
         return true;
     }
     
+    private boolean createEdges(INode node, GXLGraph graph, Map nodeMap, Set visited,
+            Set addedEdges, EdgeContainer cont) throws GXLException {
+        // collect all exported to asset
+        boolean edgesAdd = false;
+        for (Iterator ite = cont.getEdgesFrom(node).iterator(); ite.hasNext();) {
+            Edge edge = (Edge) ite.next();
+            if (! visited.contains(edge.getTargetNode())) {
+                visited.add(node);                                            
+                if ( edge.getTargetNode() instanceof MetaNode) {
+                  boolean b = createEdges(edge.getTargetNode(), graph, nodeMap, visited, addedEdges, cont);
+                  if (b){
+                      edgesAdd = true;                      
+                      // add MetaNode       
+                      GXLNode gxlNode = ((MetaNode)node).createGXLGraph(nodeMap);
+                      graph.add(gxlNode); 
+                      
+                      nodeMap.put(node, gxlNode);
+                      addEdge(edge, graph, nodeMap, addedEdges);                       
+                  }                  
+                } else if(nodeMap.containsKey(edge.getTargetNode())) {
+                    edgesAdd = true;
+                    if (! MetaNode.class.equals(edge.getStartNode().getClass())){
+                       addEdge(edge, graph, nodeMap, addedEdges);
+                    }
+                }
+            }
+        }
+       if (edgesAdd) {
+            // => node is in gxlgraph
+            // add the missing edges of loops  
+            for (Iterator ite = cont.getEdges(node).iterator(); ite
+                    .hasNext();) {
+                Edge edge = (Edge) ite.next();
+                if (!addedEdges.contains(edge)
+                        && nodeMap.containsKey(edge.getTargetNode())
+                        && nodeMap.containsKey(edge.getStartNode())) {                    
+                    addEdge(edge, graph, nodeMap, addedEdges);                    
+                }
+            }
+        }
+       return edgesAdd;
+    }
+    
+    /**
+     * @param node
+     * @param targetNode
+     * @param graph
+     */
+    private void addEdge(Edge edge, GXLGraph graph, Map nodeMap, Set addedEdges) {
+        if (!addedEdges.contains(edge)) {
+            GXLGraphElement form = (GXLGraphElement) nodeMap.get(edge
+                    .getStartNode());
+            GXLGraphElement to = (GXLGraphElement) nodeMap.get(edge
+                    .getTargetNode());
+            GXLEdge gxlEdge = new GXLEdge(form, to);
+            graph.add(gxlEdge);
+            addedEdges.add(edge);
+        }
+    }  
+    
 
 }
+
+   
