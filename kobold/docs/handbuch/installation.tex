@@ -29,5 +29,43 @@ Its server is purely based on Java and therefore runs on:
 \end{itemize}
 
 
-% Oli: bitte hier dann einfügen
-\section{}
+% Oli: bitte hier dann einfügen --> bitteschoen:-)
+\section{Installation}
+To make distributing and installation easier a set of files and the
+necessary make shell script is located at
+/home/stsopra/werkbold/install\_scripts (change ME) for an easy
+linux installation. It also includes the binaries of java, eclipse and
+perl (also for windows).
+%
+\subsection{Create a distribution iso}
+To create a distribution iso the make.sh script is executed with the
+argument ``distribute''. The script creates:
+\begin{itemize}
+\item the distributing directory
+\item the iso-file directory
+\item the generated iso-file
+\end{itemize}
+The generated iso-file is used to burn a cd-rom or can be easily
+mounted into the VM-ware.
+%
+\subsection{Install Kobold}
+To install Kobold, the generated iso-file is needed. Mount the
+iso-file an change into the install-directory. The make.sh script is
+executed with the argument ``install'' and the used install path of
+the user.
+All needed files are installed to the install path and the start
+scripts for the server, the sat-tool and the kobold application are
+created and adapted to the choosen install path.
+\subsection{Adapt the PATH-variable}
+After the installation the user can add the shown path to his
+PATH-variable to start the tools without using the full path.
+The tcsh path is extended in the file ~/.cshrc with the command ``setenv PATH KOBOLD\_HOME:PATH''.
+\subsection{Start the tools}
+The tools are started with the start\_scripts:
+\begin{itemize}
+\item start-server.sh to start the server
+\item start-sat.sh to start the server administartion tool
+\item start-kobold.sh to get Kobold running
+\end{itemize}
+The start script initialize java and perl of the Kobold package and
+set other settings.
