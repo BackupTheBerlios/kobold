@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentSpecific.java,v 1.6 2004/06/17 13:30:31 rendgeor Exp $
+ * $Id: ComponentSpecific.java,v 1.7 2004/06/18 12:18:49 garbeam Exp $
  *
  */
 
@@ -42,6 +42,7 @@ public class ComponentSpecific extends AbstractComponent {
 
 	//the versions
 	private HashMap versions;
+	
 	/**
 	 * Basic constructor.
 	 * @param componentName
