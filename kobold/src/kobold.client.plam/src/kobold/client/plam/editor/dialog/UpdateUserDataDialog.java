@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateUserDataDialog.java,v 1.7 2004/09/08 09:17:30 grosseml Exp $
+ * $Id: UpdateUserDataDialog.java,v 1.8 2004/09/22 13:33:59 grosseml Exp $
  */
 package kobold.client.plam.editor.dialog;
 
@@ -171,7 +171,9 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
     			"Can't update password, because the entered old password don't match. " 
        			+ "Please try again.");
             }
-            if (textPassword.getText().equals(textConfPassword.getText()))
+            String t = textNewPassword.getText();
+            String t2 = textConfPassword.getText();
+            if (textNewPassword.getText().equals(textConfPassword.getText()))
             {
             	MessageDialog.openInformation(getShell(),"Kobold Information",
             			"Password updated successfully!");
