@@ -15,12 +15,13 @@ package kobold.common.data;
 public class WorkflowItem {
 	public final static int TEXT = 0; 
 	public final static int CHECK = 1;
+	public final static int RADIO = 2;
 	
 	String description;
 	String nameValue; // The Name of the Checkbutton or Textwindow or the value of the Radiobutton 
 	int type;
 	
-	public WorkflowItem(String nameValue,String description, int type ) {
+	public WorkflowItem(String nameValue,String description, int type) {
 		this.nameValue = nameValue;
 		this.description = description;
 		this.type = type;
