@@ -1,0 +1,181 @@
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: LocalMessageQueue.java,v 1.1 2004/05/14 18:45:20 vanto Exp $
+ *
+ */
+package kobold.client.plam.workflow;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+
+import kobold.common.data.KoboldMessage;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+
+/**
+ * Stores/Manages all local kobold messages
+ * 
+ * @author Tammo
+ */
+public class LocalMessageQueue {
+
+	private static final Log logger = LogFactory.getLog(LocalMessageQueue.class);
+	
+	private IFile queueFile;
+	private Map messages = new TreeMap(new DateComparator());
+	
+	
+	public LocalMessageQueue(IFile queueFile)
+	{
+		this.queueFile = queueFile;
+		update();
+	}
+	
+	public synchronized void addMessage(KoboldMessage msg)
+	{
+		messages.put(msg.getId(), msg);
+		store();
+		addMarker(msg);
+	}
+
+	public synchronized void removeMessage(KoboldMessage msg)
+	{
+		messages.remove(msg.getId());
+		store();
+		removeMarker(msg);
+	}
+	
+	public KoboldMessage[] getMessages()
+	{
+		return (KoboldMessage[])messages.values().toArray(new KoboldMessage[0]);
+	}
+	
+	public KoboldMessage getMessageById(String id)
+	{
+		return (KoboldMessage)messages.get(id);	
+	}
+	
+	public void update()
+	{
+		if (!queueFile.exists()) {
+			logger.debug("update: file doesn't exist");
+			return;
+		}
+			
+		try {
+			InputStream in = queueFile.getContents();
+			SAXReader reader = new SAXReader();
+			Document document = reader.read(in);
+		    
+			if (document.getRootElement() != null 
+				&& document.getRootElement().getName() != "kobold-messages") {
+				logger.debug("update: wrong file structure");
+				return; 
+			}
+			
+			Iterator it = document.getRootElement().elementIterator("message");
+			while (it.hasNext()) {
+				Element msgEl = (Element)it.next();
+				KoboldMessage message = KoboldMessage.createMessage(msgEl);
+				messages.put(message.getId(), message);
+				addMarker(message);
+			}
+
+			logger.debug("");
+			in.close();
+		} catch (CoreException e) {
+			logger.debug("Error while reading PLAM config.", e);
+		} catch (DocumentException e) {
+			logger.debug("Error while parsing PLAM config.", e);
+		} catch (IOException e) {
+		}
+	}
+	
+	public void store()
+	{
+		try {
+			Document document = DocumentHelper.createDocument();
+			Element root = document.addElement("kobold-messages");
+			
+			Iterator it = messages.values().iterator();
+			
+			while (it.hasNext()) {
+				KoboldMessage msg = (KoboldMessage)it.next();
+				root.add(msg.serialize()); 
+			}
+			
+			
+			XMLWriter writer = new XMLWriter(new FileWriter(queueFile.getLocation().toOSString()),
+						OutputFormat.createPrettyPrint());
+			writer.write(document);
+			writer.close();
+			// TODO notify eclipse that file has been changed.
+			
+		} catch (IOException e) {
+			logger.debug("Error while writing PLAM config.", e);
+		}
+	}
+
+	private void addMarker(KoboldMessage msg)
+	{
+		logger.info("add marker: " + msg);
+	}
+
+	private void removeMarker(KoboldMessage msg)
+	{
+		logger.info("remove marker: " + msg);
+	}
+
+	/**
+	 * Sorts Kobold Messages by Date
+	 */
+	public class DateComparator implements Comparator{
+
+		/**
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
+		public int compare(Object o1, Object o2) {
+			if (o1 instanceof KoboldMessage && o2 instanceof KoboldMessage) {
+				return ((KoboldMessage)o1).getDate().compareTo(((KoboldMessage)o2).getDate());
+			} else return 1;
+		}
+
+	}
+
+}

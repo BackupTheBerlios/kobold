@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.2 2004/05/13 20:15:47 vanto Exp $
+ * $Id: PLAMProject.java,v 1.3 2004/05/14 18:45:20 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -116,10 +116,10 @@ public class PLAMProject
 		try {
 			Document document = DocumentHelper.createDocument();
 			Element root = document.addElement("kobold-config");
-			root.addElement("server-uri").setText(serverUrl);
+			root.addElement("server-url").setText(serverUrl);
 			root.addElement("username").setText(username);
 			root.addElement("password").setText(password);
-			root.addElement("password").setText(productline);
+			root.addElement("productline").setText(productline);
 			
 			writer = new XMLWriter(new FileWriter(plamFile.getLocation().toOSString()),
 						format);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PerspectiveFactory.java,v 1.2 2004/05/13 20:01:50 vanto Exp $
+ * $Id: PerspectiveFactory.java,v 1.3 2004/05/14 18:45:20 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -72,6 +72,6 @@ public class PerspectiveFactory implements IPerspectiveFactory {
 		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
 		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
 		layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);
-				
+			
 	}
 }

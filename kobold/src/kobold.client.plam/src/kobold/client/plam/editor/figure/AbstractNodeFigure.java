@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeFigure.java,v 1.1 2004/05/14 02:19:15 vanto Exp $
+ * $Id: AbstractNodeFigure.java,v 1.2 2004/05/14 18:45:20 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -45,6 +45,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * @author Tammo
@@ -78,7 +80,7 @@ public abstract class AbstractNodeFigure extends Shape {
 	}
 
 	public void init1() {
-		setBorder(new MarginBorder(5));
+		setBorder(new MarginBorder(3));
 		ScrollPane scrollpane = new ScrollPane();
 		pane = new FreeformLayer();
 		pane.setLayoutManager(new FreeformLayout());
@@ -136,9 +138,12 @@ public abstract class AbstractNodeFigure extends Shape {
 			add(titleLabel);
 			
 			iconWidget = new Figure();
-			//add(iconWidget);
+			iconWidget.setLayoutManager(tbl);
+			add(iconWidget);
 			
-			scriptLabel = new Label("x");
+			scriptLabel = new Label(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJS_INFO_TSK));
+			scriptLabel.setTextAlignment(Label.RIGHT);
+			scriptLabel.setToolTip(new Label("This Asset contains Scripts"));
 			iconWidget.add(scriptLabel);	
 		}
 		

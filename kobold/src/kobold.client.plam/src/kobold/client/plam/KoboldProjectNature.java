@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProjectNature.java,v 1.3 2004/05/13 20:15:47 vanto Exp $
+ * $Id: KoboldProjectNature.java,v 1.4 2004/05/14 18:45:20 vanto Exp $
  *
  */
 package kobold.client.plam;
+
+import kobold.client.plam.workflow.LocalMessageQueue;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -37,11 +39,12 @@ import org.eclipse.core.runtime.CoreException;
 public class KoboldProjectNature implements IProjectNature {
 
 	public static final String NATURE_ID = "kobold.client.plam.KoboldProjectNature"; //$NON-NLS-1$
-	public static final String WORKFLOW_FILENAME = ".kworkflows"; //$NON-NLS-1$
+	public static final String WORKFLOW_FILENAME = ".messages"; //$NON-NLS-1$
 	public static final String PLAM_FILENAME = ".kobold"; //$NON-NLS-1$
 
 	private IProject project;
 	private PLAMProject plamProject = null;
+	private LocalMessageQueue mqueue = null;
 	
 	/**
 	 *
@@ -82,11 +85,17 @@ public class KoboldProjectNature implements IProjectNature {
 	}
 	
 	/**
-	 * Returns the local workflow file
+	 * Returns the one an only messagequeue instance.
 	 */
-	protected IFile getWorkflowFile() 
+	public LocalMessageQueue getMessageQueue() 
 	{
-		return project.getFile(WORKFLOW_FILENAME);
+		// lazy
+		if (mqueue == null) {
+			IFile qFile = project.getFile(WORKFLOW_FILENAME);
+			mqueue = new LocalMessageQueue(qFile);
+		}
+		
+		return mqueue;
 	}
 	
 	/**
@@ -98,7 +107,7 @@ public class KoboldProjectNature implements IProjectNature {
 	}
 
 	/**
-	 * Returns the PLAM project for this Project
+	 * Returns the PLAM project for this Project. (singleton)
 	 */	
 	public PLAMProject getPLAMProject() {
 		// lazy

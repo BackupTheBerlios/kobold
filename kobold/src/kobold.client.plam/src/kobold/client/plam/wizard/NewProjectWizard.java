@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.4 2004/05/13 20:15:47 vanto Exp $
+ * $Id: NewProjectWizard.java,v 1.5 2004/05/14 18:45:20 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -31,6 +31,8 @@ import java.lang.reflect.InvocationTargetException;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProjectNature;
 import kobold.client.plam.PLAMProject;
+import kobold.client.plam.workflow.LocalMessageQueue;
+import kobold.common.data.KoboldMessage;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -210,12 +212,22 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			e.printStackTrace();
 		}
 		if (kNature != null) {
+			// create project info
 			PLAMProject p = kNature.getPLAMProject();
 			p.setServerUrl(serverPage.getServerURL());
 			p.setUsername(serverPage.getUsername());
 			p.setPassword(serverPage.getPassword());
 			p.setProductline(chooserPage.getProductLineName());
 			p.store();
+			
+			// create local message queue.
+			LocalMessageQueue mq = kNature.getMessageQueue();
+			KoboldMessage welcome = new KoboldMessage();
+			welcome.setSender("null");
+			welcome.setReceiver(p.getUsername());
+			welcome.setSubject("Welcome");
+			welcome.setMessageText("Just have fun!");
+			mq.addMessage(welcome);
 		}
 	}
 	
