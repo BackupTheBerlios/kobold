@@ -37,7 +37,7 @@ an den Client übergeben, der Client reagiert seinerseits mit dem Bereitstellen d
 Views für den Benutzer.
 \section{Der Produktlinienarchitektur View/Editor}
 In diesem View wird die je nach aktiver Rolle relevante Sicht auf die Architektur der Produktlinie
-angezeigt. Die grafische "Notation" hält sich dabei an die in dem Paper ... festgelegte Struktur.
+angezeigt. Die grafische "Notation" orientiert sich dabei an die in dem Paper ... festgelegte Struktur.
 Um dies nocheinmal grafisch darzustellen hier noch einmal die 3 verschiedenen Sichten auf die
 Produktlinien bzw. Produktarchitektur.
 Die Ansicht bietet die Möglichkeit verschidene Zoomstufen einzustellen. Dies reultiert darin,
@@ -46,17 +46,32 @@ Um trotzdem den Überblick zu gewährleisten wird eine Minimap zur Verfügung geste
 
 %todo Grafiken einfügen%
 \subsection{Ansicht der Rolle ProduktlinienIngenieur}
-
+Der Produktlinieningeniur hat die Möglichkeit zwischen zwei Ansichten zu wechseln.
+Diese sind einerseits die Ansicht auf die Architektur der gesamten Produktlinie, die
+sich grafisch sehr stark an der von %todo verweis auf Paper%
+A Product Line Asset Management Tool vorgeschlagene Sicht anlehnt. Es wird die Möglichkeit
+bestimmte Beziehungen farblich hervorzuheben, bzw. in spätern Iterationen auch automatisch
+hervorheben zu lassen. Grundsätzlich kann die Farbe von Archtikturelementen gewählt werden,
+einige Farben werden aber Konflikten und ähnlichen Beziehungen vorbehalten.
 \begin{figure}[ht]
 \includegraphics[width=15cm]{compiler-spl}
    \caption{Sicht des Produktlinieningenieurs}
 \end{figure}
 \subsection{Ansicht der Rolle eines Produktingenieurs}
+Der Produktingenieur kann in dem Architektur-View immer nur ein Produkt auf einmal einsehen.
+Er kann im Rollen View durch die verschiedenen ihm zugeordneten Produktarchitekturen der
+verschiedenen Produkte zur Darstellung auswählen. Grafisch wird sich Kobold hier wiederum
+an der im Paper [%REF einfg.%
+] orientieren.
 \begin{figure}[ht]
 \includegraphics[width=15cm]{compiler-pe}
    \caption{Sicht des Produktingenieurs}
 \end{figure}
 \subsection{Ansicht der Rolle eines Programmierers}
+Der Programmierer hat eine sehr flache Sicht auf ein einziges ihm zugeordnetes Produkt.
+Er kann die für ihn änderbaren Produktteile des Produktes von den nichtäderbaren unterscheiden.
+Es besteht die Möglichkeit den aktuellen Stand des Produktes in seinen aktuellen "Workspace"
+auszuchecken.
 \begin{figure}[ht]
 \includegraphics[width=15cm]{compiler-p}
    \caption{Sicht des Programmierers}
@@ -66,7 +81,9 @@ Um trotzdem den Überblick zu gewährleisten wird eine Minimap zur Verfügung geste
 Auf der linken Seite der Ausgangsperspektive wird ein hierarchischer Baum angezeigt, der
 die momentan aktive Rolle und die mit Ihr verbundenen möglichen Sichten darstellt.
 \section{Der Worklflow/Task View}
-Am unteren Rand der Ausgangsperspektive wird standardmässig 
+Am unteren Rand der Ausgangsperspektive werden standardmässig die noch zu erfüllenden
+Aufgaben, die aktuellen Nachrichten oder etwaige Konflikte und ähnliches angezeigt.
+
 \section{Die Minimap}
 Am rechten unteren Rand der Ausgangsperspektive wird eine sogennante Minimap angezeigt,
-in der ein Überblick über die ganze Architektursicht der aktuellen Rolle gegeben wird.
+in der ein Überblick über die ganze Architekturansicht der aktuellen Rolle gegeben wird.
