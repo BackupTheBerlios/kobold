@@ -106,6 +106,7 @@
          point="org.eclipse.ui.preferencePages">
       <page
             class="kobold.client.vcm.preferences.VCMPreferencePage"
+            category="kobold.client.plam.mainpage"
             name="VCM Konfiguration"
             id="kobold.client.vcm.preferences.VCMPreferencePage"/>
    </extension>
