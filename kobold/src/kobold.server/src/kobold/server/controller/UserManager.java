@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.16 2004/08/06 09:21:42 garbeam Exp $
+ * $Id: UserManager.java,v 1.17 2004/08/11 10:12:32 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -123,6 +123,17 @@ public class UserManager {
 		return (User) users.remove(user.getUserName());
 	}
 
+    /**
+     * Removes the user with the passed username.
+     * 
+     * @param username username of the user that should be removed
+     * @return the removed User object or null, if the passed username hasn't 
+     *         been registered
+     */
+    public User removeUserByName(String username){
+        return (User) users.remove(username);
+    }
+    
 	/**
 	 * Serializes all users with its roles to the file specified
 	 * by 'userStore.
