@@ -21,12 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: WrapperProvider.java,v 1.1 2004/04/16 12:38:45 garbeam Exp $
+ * $Id: WrapperProvider.java,v 1.2 2004/04/18 15:13:50 garbeam Exp $
  */
 
 package kobold.client.vcm.controller;
 
-import java.lang.String;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.team.core.RepositoryProvider;
 
 /**
@@ -58,6 +58,15 @@ public class WrapperProvider extends RepositoryProvider {
      * Answer the id of this provider instance.
      */
     public String getID() {
+		return null;
 
     }
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.resources.IProjectNature#deconfigure()
+	 */
+	public void deconfigure() throws CoreException {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -3,6 +3,7 @@
 	<name>Kobold VCM</name>
 	<comment></comment>
 	<projects>
+		<project>Kobold Common</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
