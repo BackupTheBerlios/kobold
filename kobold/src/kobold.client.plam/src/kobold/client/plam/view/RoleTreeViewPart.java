@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.18 2004/08/23 13:00:42 vanto Exp $
+ * $Id: RoleTreeViewPart.java,v 1.19 2004/08/24 15:45:45 vanto Exp $
  *
  */
 package kobold.client.plam.view;
@@ -274,8 +274,12 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 			    for (int k = 0; k < projects.length; k++) {
 			        try {
                         KoboldProject kpn = (KoboldProject)projects[k].getNature(KoboldProject.NATURE_ID);
-                        AbstractAsset asset = kpn.getProductline().getAssetById(elementMem[i].getString(TAG_PATH));
-                        logger.debug("Select asset: " + asset);
+                        Productline pl = kpn.getProductline();
+                        AbstractAsset asset = null;
+                        if (pl != null) {
+                            asset = pl.getAssetById(elementMem[i].getString(TAG_PATH));
+                            logger.debug("Select asset: " + asset);
+                        }
                         if (asset != null) {
                             list.add(asset);
                         }
@@ -299,8 +303,12 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 			    for (int k = 0; k < projects.length; k++) {
 			        try {
                         KoboldProject kpn = (KoboldProject)projects[k].getNature(KoboldProject.NATURE_ID);
-                        AbstractAsset asset = kpn.getProductline().getAssetById(elementMem[i].getString(TAG_PATH));
-                        logger.debug("Expand asset: " + asset);
+                        Productline pl = kpn.getProductline();
+                        AbstractAsset asset = null;
+                        if (pl != null) {
+                            asset = pl.getAssetById(elementMem[i].getString(TAG_PATH));
+                            logger.debug("Expand asset: " + asset);
+                        }
                         if (asset != null) {
                             elements.add(asset);
                         }
@@ -318,7 +326,7 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 			        try {
                         KoboldProject kpn = (KoboldProject)projects[k].getNature(KoboldProject.NATURE_ID);
                         Productline pl = kpn.getProductline();
-        			    if (pl.getId().equals(elementMem[i].getString(TAG_PLID))) {
+        			    if (pl != null && pl.getId().equals(elementMem[i].getString(TAG_PLID))) {
         			        RoleTreeContentProvider.TreeContainer tc = contentProvider.new TreeContainer(elementMem[i].getString(TAG_PATH), pl);
         			        logger.debug("Expand treecontainer: " + tc);
         			        if (tc != null) {

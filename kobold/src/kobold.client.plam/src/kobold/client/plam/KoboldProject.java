@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.14 2004/08/23 16:20:43 vanto Exp $
+ * $Id: KoboldProject.java,v 1.15 2004/08/24 15:45:45 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -71,7 +71,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressService;
 
@@ -180,6 +182,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
             kobold.common.data.Productline spl = ServerHelper.fetchProductline(this);
             if (spl == null) {
                 logger.error("Connection failed: Could not fetch productline descriptor");
+                MessageDialog.openError(Display.getDefault().getActiveShell(), "Server Error", "Productline does not exist on server.");
                 return null;
             }
             
