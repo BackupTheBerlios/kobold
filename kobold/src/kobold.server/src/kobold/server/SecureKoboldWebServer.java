@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.33 2004/06/24 07:42:00 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.34 2004/06/24 07:42:44 neccaino Exp $
  *
  */
 package kobold.server;
@@ -476,7 +476,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * on the KoboldServer
 	 * 
 	 * NOTE: this member has not yet been fully implemented!
-	 * (stub has been inserted to avoid comp. errors)
+	 * (adminPassword is not checked -> it3)
 	 * 
 	 * @param adminPassword server administartion password
 	 * @param plname name of the new productline
