@@ -27,6 +27,7 @@ package kobold.client.plam.editor.tool;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -55,7 +56,9 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author pliesmn
  * 
- * UNDER CONSTRUCTION
+ *  The Productcompomposer help the user to slecet a product. 
+ *  Edges are followed to mark the target edges.
+ *  After selection a new product can be returned.  
  *  
  */
 public class ProductComposer {
@@ -75,7 +78,6 @@ public class ProductComposer {
 
     private Productline productline; // the productline, that is use to create a
 
-    // new
 
     private EdgeContainer container;
 
@@ -1115,6 +1117,7 @@ String p(int i){
         ProductComponent productComponent;
         Variant variant = null;
         Iterator varIte = comp.getVariants().iterator();
+        // look for a used variant 
 	    while ( varIte.hasNext() &&
 	            ! get(variant = (Variant) varIte.next()).isUsed()){}
     	if (variant != null && get(variant).isUsed()){
@@ -1122,6 +1125,7 @@ String p(int i){
     	    // find Release
     	    Release release = null;
     	    Iterator  relIte = variant.getReleases().iterator();
+    	    // look for a used Release
     	    while ( relIte.hasNext() &&
     	            ! get( release = (Release) relIte.next() ).isUsed()  
     	           ){}
