@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.11 2004/06/24 01:26:42 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.12 2004/06/24 01:31:48 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -254,65 +254,4 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	        this.pl = pl;
 	    }
 	}
-	
-	/*
-	public class ItemContainer {
-		private Object treeParent;
-		private Object item;
-		private IProject project;
-		
-		public ItemContainer(Object treeParent, Object item)
-		{
-			this.treeParent = treeParent; 
-			this.item = item;
-		}
-		
-		public Object getParent()
-		{
-			return treeParent;
-		}
-
-		public Object getItem() {
-			return item;	
-		}
-		
-		public Object[] getChildren()
-		{
-			if (treeParent instanceof IProject) {
-				return new String[] {"A", "B" };
-			} 
-			else if(treeParent instanceof User) {
-				User aUser = (User)treeParent;
-				return aUser.getRoles().toArray();
-			}
-			else if(treeParent instanceof RoleP) {
-				RoleP programmer = (RoleP)treeParent;
-				return programmer.getProducts().toArray();
-			}
-			else if(treeParent instanceof RolePE) {
-				RolePE productEngineer = (RolePE)treeParent;
-				return productEngineer.getProducts().toArray();
-			}
-			else if(treeParent instanceof RolePLE) {
-				RolePLE productLineEngineer = (RolePLE)treeParent;
-				return productLineEngineer.getProductLines().toArray();
-			}
-			return null;
-		}
-		
-		public boolean hasChildren()
-		{
-			return (getChildren().length != 0); 
-		}
-		
-		public IProject getProject()
-		{
-			if (project == null && treeParent != null && treeParent instanceof ItemContainer) {
-				project = ((ItemContainer)treeParent).getProject();
-			}
-			
-			return project;		
-		}
-	}
-	*/
 }
