@@ -21,18 +21,23 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.12 2004/08/02 14:36:03 vanto Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.13 2004/08/02 16:52:31 garbeam Exp $
  *
  */
 package kobold.client.plam.wizard;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.KeyStoreException;
+import java.security.cert.Certificate;
 import java.util.Vector;
 
+import kobold.client.plam.controller.SSLHelper;
 import kobold.client.plam.controller.SecureKoboldClient;
 import kobold.common.data.UserContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -54,6 +59,7 @@ import org.eclipse.swt.widgets.Text;
  */
 public class NewProjectWizardServerPage extends WizardPage {
 
+    public static final Log logger = LogFactory.getLog(NewProjectWizardServerPage.class);
 	public static final String PAGE_ID
 					= "KOBOLD_WIZARD_NEW_SERVER"; 
 
@@ -61,6 +67,7 @@ public class NewProjectWizardServerPage extends WizardPage {
 	private Text usernameField;
 	private Text passwordField;
 	private Button testButton;
+	private Button importButton;
 
 	private boolean serverOk = false;
 	
@@ -98,7 +105,7 @@ public class NewProjectWizardServerPage extends WizardPage {
 	/**
 	 * Creates the area for selecting the projects
 	 */		
-	public void createServerChooser(Composite parent) {
+	public void createServerChooser(final Composite parent) {
 		// project server group
 		Composite projectGroup = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -175,6 +182,33 @@ public class NewProjectWizardServerPage extends WizardPage {
                         MessageDialog.openError(getShell(), "Cannot disconnect", "There is a problem connecting to the server. Please check your entries.");
                         //ErrorDialog.openError(getShell(), "Cannot disconnect", "There is a problem connecting to the server. Please check your entries.");
                     }
+			}
+		});
+		
+		importButton = new Button(projectGroup, SWT.NONE);
+		importButton.setText("&Import certificate...");
+		importButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+			    NewCertificateDialog dlg = new NewCertificateDialog(parent.getShell());
+			    dlg.open();
+			    
+			    Certificate certificate = null;
+			    String plainText = dlg.getCertificateText();
+			    if (dlg.getCertificateText().length() > 0) {
+			        certificate = SSLHelper.getCertificateForPlainText(plainText);
+			    }
+
+			    String alias = dlg.getName();
+			    
+			    if (alias.length() > 0 && (certificate != null)) {
+			        try {
+                        SSLHelper.getKeyStore().setCertificateEntry(alias, certificate);
+                        // TODO: report success message
+                    } catch (KeyStoreException e) {
+                        logger.error("Can't import certificate", e);
+                    }
+			    }
+			    
 			}
 		});
 	}

@@ -21,21 +21,31 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewCertificateDialog.java,v 1.1 2004/08/02 14:41:18 garbeam Exp $
+ * $Id: NewCertificateDialog.java,v 1.2 2004/08/02 16:52:31 garbeam Exp $
  *
  */
 package kobold.client.plam.wizard;
 
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.util.Enumeration;
+
+import kobold.client.plam.controller.SSLHelper;
 import kobold.client.plam.model.AbstractAsset;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
@@ -48,7 +58,8 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
  */
 public class NewCertificateDialog extends TitleAreaDialog
 {
-    private Text name;
+    public static final Log logger = LogFactory.getLog(NewCertificateDialog.class);
+    private Combo combo;
     private Text text;
     
     /**
@@ -64,11 +75,11 @@ public class NewCertificateDialog extends TitleAreaDialog
         setTitle("Import certificate");
         setMessage("Please paste your certificate here");
         Composite composite = (Composite) super.createDialogArea(parent);
-        createAssetProps(composite);
+        createCertProps(composite);
         return composite;
     }
     
-    private void createAssetProps(Composite parent) {
+    private void createCertProps(Composite parent) {
 		Composite panel = new Composite(parent, SWT.NONE);
 
 		GridLayout layout = new GridLayout(2, false);
@@ -82,10 +93,28 @@ public class NewCertificateDialog extends TitleAreaDialog
 
 		Label label = new Label(panel, SWT.NONE);
 		label.setText(IDEWorkbenchMessages
-				.getString("Name: ")); //$NON-NLS-1$
+				.getString("Alias: ")); //$NON-NLS-1$
 
-		name = new Text(panel, SWT.BORDER | SWT.LEAD);
-		name.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
+		// combo box for certificates
+		Combo combo = new Combo (panel, SWT.NONE);
+		KeyStore keyStore = SSLHelper.getKeyStore();
+	        
+	    try {
+	        Enumeration e = keyStore.aliases();
+            while (e.hasMoreElements()) {
+                combo.add((String)e.nextElement());
+            }
+        } catch (KeyStoreException e1) {
+            logger.error("Can't determine keystore aliases", e1);
+        }
+	    
+	    //combo.setItems (new String [] {"Werkbold1-Certificate"});
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = 250;
+		combo.setLayoutData(data);
+		combo.setFont(parent.getFont());
+
+		combo.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
 				| GridData.FILL_HORIZONTAL));
 		
 		label = new Label(panel, SWT.NONE);
@@ -107,7 +136,7 @@ public class NewCertificateDialog extends TitleAreaDialog
     }
     
     public String getName() {
-        return name.getText();
+        return combo.getText();
     }
     
     public String getCertificateText() {

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.20 2004/08/02 16:31:25 garbeam Exp $
+ * $Id: NewProjectWizard.java,v 1.21 2004/08/02 16:52:31 garbeam Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -67,7 +67,6 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 	private IStructuredSelection selection;
 
 	private WizardNewProjectCreationPage mainPage;
-	private CertificateWizardPage certPage;
 	private NewProjectWizardServerPage serverPage;
 
 	// cache of newly-created project
@@ -112,12 +111,6 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 	{
 		super.addPages();
 
-		certPage = new CertificateWizardPage();
-		certPage.setTitle("Certificate Configuration");
-		certPage.setDescription("Defines the SSL certificate to use for server communication");
-		certPage.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
-		this.addPage(certPage);
-		
 		serverPage = new NewProjectWizardServerPage(); //$NON-NLS-1$
 		serverPage.setTitle(Messages.getString("NewProjectWizard.ServerPageTitle")); //$NON-NLS-1$
 		serverPage.setDescription(Messages.getString("NewProjectWizard.ServerPageDesc")); //$NON-NLS-1$
