@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptChooserDialog.java,v 1.8 2004/09/20 16:35:59 garbeam Exp $
+ * $Id: ScriptChooserDialog.java,v 1.9 2004/09/20 16:42:02 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -213,7 +213,9 @@ public class ScriptChooserDialog extends TitleAreaDialog
 			    if (sel != null) {
 			        for (Iterator iter = sel.iterator(); iter.hasNext();) {
     			        SDTreeItem item = (SDTreeItem) iter.next();
-    			        item.getParent().removeSDItem(item);
+    			        if (item.getSd() != null) {
+        			        item.getParent().removeSDItem(item);
+    			        }
 			        }
 			        viewer.refresh();
 			    }
