@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PaletteHelper.java,v 1.8 2004/08/03 19:39:20 vanto Exp $
+ * $Id: PaletteHelper.java,v 1.9 2004/08/24 11:10:03 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -57,17 +57,24 @@ import org.eclipse.gef.palette.ToolEntry;
 public class PaletteHelper
 {
 
-    static private List createCategories(PaletteRoot root){
+    static List createProductlineCategories(){
     	List categories = new ArrayList();
     	
-    	categories.add(createControlGroup(root));
-    	categories.add(createTemplateComponentsDrawer());
+    	categories.add(createProductlineComponentsDrawer());
+    	categories.add(createMetaNodesDrawer());
+    	categories.add(createEdgeDrawer());
+    	categories.add(createProductlineTools());
     	return categories;
     }
 
-    static private PaletteContainer createControlGroup(PaletteRoot root){
-    	PaletteGroup controlGroup = new PaletteGroup("Control");
+    static List createProductCategories(){
+    	List categories = new ArrayList();
+    	
+    	return categories;
+    }
 
+    static PaletteContainer createControlGroup(PaletteRoot root){
+    	PaletteGroup controlGroup = new PaletteGroup("Control");
     	List entries = new ArrayList();
 
     	ToolEntry tool = new PanningSelectionToolEntry();
@@ -81,53 +88,57 @@ public class PaletteHelper
     			"kobold.client.plam.editor.sep1"); //$NON-NLS-1$
     	sep.setUserModificationPermission(PaletteEntry.PERMISSION_NO_MODIFICATION);
     	entries.add(sep); //$NON-NLS-1$
-
-    	tool = new ConnectionCreationToolEntry(
-    		"Include Edge",
-    		"Include Edge",
-    		new KoboldAssetFactory(Edge.INCLUDE),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
-    	);
-    	entries.add(tool);
-    	tool = new ConnectionCreationToolEntry(
-    		"Exclude Edge",
-    		"Exclude Edge",
-    		new KoboldAssetFactory(Edge.EXCLUDE),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
-    	);
-    	entries.add(tool);
-
-    	
+   	
     	controlGroup.addAll(entries);
     	return controlGroup;
     }
 
-    static private PaletteContainer createTemplateComponentsDrawer(){
+    static private PaletteContainer createMetaNodesDrawer() 
+    {
+        PaletteDrawer drawer = new PaletteDrawer("Meta Nodes");
+    	drawer.setUserModificationPermission(PaletteEntry.PERMISSION_FULL_MODIFICATION);
+    	
+    	List entries = new ArrayList();
+    	
+    	AssetCreationToolEntry toolEntry = new AssetCreationToolEntry(
+    	    "AND Node",
+    		"Insert a new AND node.",
+    		MetaNode.AND,
+    		new KoboldAssetFactory(MetaNode.AND),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
+    	);
+    	entries.add(toolEntry);
 
-    	PaletteDrawer drawer = new PaletteDrawer("Assets",
-    	    KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"));
+    	toolEntry = new AssetCreationToolEntry(
+    	    "OR Node",
+    		"Insert a new OR node.",
+    		MetaNode.OR,
+    		new KoboldAssetFactory(MetaNode.OR),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
+    	);
+    	entries.add(toolEntry);
+    	
+    	drawer.addAll(entries);
+    	return drawer;
+
+    }
+    
+    static private PaletteContainer createProductlineComponentsDrawer(){
+
+    	PaletteDrawer drawer = new PaletteDrawer("Productline Assets");
     	drawer.setUserModificationPermission(PaletteEntry.PERMISSION_FULL_MODIFICATION);
 
     	List entries = new ArrayList();
-    	
-//       	CreationToolEntry combined = new CreationToolEntry(
-//    		"Component",
-//    		"Insert a new Component.",
-//    		new KoboldAssetFactory(AbstractAsset.COMPONENT),
-//    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
-//    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
-//    	);
-//    	entries.add(combined);
 
        	AssetCreationToolEntry combined = new AssetCreationToolEntry(
     		"Component",
     		"Insert a new Component.",
     		AbstractAsset.COMPONENT,
     		new KoboldAssetFactory(AbstractAsset.COMPONENT),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
+    		KoboldPLAMPlugin.getImageDescriptor("icons/component.gif"),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/component.gif")
     	);
     	entries.add(combined);
 
@@ -136,57 +147,58 @@ public class PaletteHelper
     		"Insert a new Variant.",
     		AbstractAsset.VARIANT,
     		new KoboldAssetFactory(AbstractAsset.VARIANT),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
+    		KoboldPLAMPlugin.getImageDescriptor("icons/variant.gif"),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/variant.gif")
     	);
     	entries.add(combined);
     	
-    	entries.add(new PaletteSeparator());
-
     	combined = new AssetCreationToolEntry(
     		"Release",
     		"Insert a new Release.",
     		AbstractAsset.RELEASE,
     		new KoboldAssetFactory(AbstractAsset.RELEASE),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
+    		KoboldPLAMPlugin.getImageDescriptor("icons/release.gif"),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/release.gif")
     	);
     	entries.add(combined);
     	
-    	entries.add(new PaletteSeparator());
-
-    	combined = new AssetCreationToolEntry(
-    	    "AND Node",
-    		"Insert a new AND node.",
-    		MetaNode.AND,
-    		new KoboldAssetFactory(MetaNode.AND),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
-    	);
-    	entries.add(combined);
-
-    	combined = new AssetCreationToolEntry(
-    	    "OR Node",
-    		"Insert a new OR node.",
-    		MetaNode.OR,
-    		new KoboldAssetFactory(MetaNode.OR),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
-    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
-    	);
-    	entries.add(combined);
-    	
-    	entries.add(new PaletteSeparator());
-    	entries.add(new ProductComposerToolEntry());
-
     	drawer.addAll(entries);
     	return drawer;
     }
     
-    static PaletteRoot createPalette() {
-    	PaletteRoot palette = new PaletteRoot();
-    	palette.addAll(createCategories(palette));
-    	return palette;
+    static PaletteContainer createProductlineTools()
+    {
+    	PaletteDrawer drawer = new PaletteDrawer("Tools");
+    	    //KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"));
+    	drawer.setUserModificationPermission(PaletteEntry.PERMISSION_FULL_MODIFICATION);
+    	
+    	drawer.add(new ProductComposerToolEntry());
+    	return drawer;
     }
-
- 
+    
+    static PaletteContainer createEdgeDrawer()
+    {
+    	PaletteDrawer drawer = new PaletteDrawer("Connections");
+    	drawer.setUserModificationPermission(PaletteEntry.PERMISSION_FULL_MODIFICATION);
+    	
+       	ToolEntry tool = new ConnectionCreationToolEntry(
+    		"Include Edge",
+    		"Include Edge",
+    		new KoboldAssetFactory(Edge.INCLUDE),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
+    	);
+    	drawer.add(tool);
+    	tool = new ConnectionCreationToolEntry(
+    		"Exclude Edge",
+    		"Exclude Edge",
+    		new KoboldAssetFactory(Edge.EXCLUDE),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
+    	);
+    	drawer.add(tool);
+    	
+    	return drawer;
+    }
+    
 }

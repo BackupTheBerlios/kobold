@@ -27,7 +27,6 @@ package kobold.client.plam.editor.tool;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1042,7 +1041,7 @@ String p(int i){
     }
 
     public String getWarning(AbstractAsset node) {
-        return get(node).getWarnig();
+        return get(node).getWarning();
     }
 
     public void addPropertyChangeListener(PropertyChangeListener l) {
@@ -1218,7 +1217,7 @@ String p(int i){
             return status;
         }
 
-        String getWarnig() {
+        String getWarning() {
             return "warningf";
         }
 

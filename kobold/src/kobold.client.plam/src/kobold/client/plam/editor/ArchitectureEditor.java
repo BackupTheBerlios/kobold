@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.32 2004/08/23 15:29:31 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.33 2004/08/24 11:10:03 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -39,6 +39,7 @@ import kobold.client.plam.editor.action.GXLExportAction;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModelContainer;
 import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Productline;
 
 import org.eclipse.core.resources.IMarker;
@@ -389,7 +390,8 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     
     protected PaletteRoot getPaletteRoot() {
     	if( root == null ){
-    		root = PaletteHelper.createPalette();
+    		root = new PaletteRoot();
+		    root.add(PaletteHelper.createControlGroup(root));
     	}
     	return root;
     }
@@ -525,6 +527,13 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 		setPartName(getArchEditorInput().getName());
 		//setTitle(getArchEditorInput().getName());
 
+		// setup palette entries
+		if (model instanceof Productline) {
+		    getPaletteRoot().addAll(PaletteHelper.createProductlineCategories());
+		} else if (model instanceof Product) {
+		    getPaletteRoot().addAll(PaletteHelper.createProductCategories());
+		}
+		
     	if (!isSaving) {
     		if (getGraphicalViewer() != null) {
     			getGraphicalViewer().setContents(model);
