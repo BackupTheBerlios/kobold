@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.3 2004/05/15 16:18:16 vanto Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.4 2004/05/15 16:23:11 vanto Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -145,6 +145,7 @@ public class NewProjectWizardServerPage extends WizardPage {
 			new URL(serverUrlField.getText());
 		} catch (MalformedURLException e) {
 			// malformed url -> page not valid
+			setErrorMessage(Messages.getString("NewProjectWizardServerPage.InvalidUrlMsg")); //$NON-NLS-1$
 			return false;
 		}
 
