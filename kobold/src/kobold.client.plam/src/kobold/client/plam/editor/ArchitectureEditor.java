@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.35 2004/09/01 02:58:22 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.36 2004/09/21 10:52:10 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -40,6 +40,8 @@ import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Productline;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -104,7 +106,9 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  */
 public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette 
 	implements IViewModelProvider {
-
+    
+    private static final Log logger = LogFactory.getLog(ArchitectureEditor.class);
+    
     protected static final String PALETTE_DOCK_LOCATION = "Dock location"; //$NON-NLS-1$
     protected static final String PALETTE_SIZE = "Palette Size"; //$NON-NLS-1$
     protected static final String PALETTE_STATE = "Palette state"; //$NON-NLS-1$
@@ -318,7 +322,8 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	 * @see org.eclipse.ui.ISaveablePart#isDirty()
 	 */
 	public boolean isDirty() {
-		return getCommandStack().isDirty() || model.getKoboldProject().isDirty();
+	    logger.debug("editor state: isDirty? commandstack: " + getCommandStack().isDirty() + ", model: " + model.getKoboldProject().isDirty());
+	    return getCommandStack().isDirty() || model.getKoboldProject().isDirty();
 	}
 
 	/**
