@@ -16,6 +16,29 @@ public class WorkflowMessage extends KoboldMessage {
    private HashMap result;
    private String  xmlMessage;
    private List historyList  = new ArrayList();
+   private String type;
+   
+   
+	  public void setType(String str) {
+		  type = str;
+	  }
+   
+	  public String getType() {
+		  return type;
+	  }
+
+
+
+   public History newHistory() {
+	   History history = new History();
+	   return history;
+   }
+
+
+
+
+
+
 
 
 /**

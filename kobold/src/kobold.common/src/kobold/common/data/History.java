@@ -20,6 +20,33 @@ public class History {
 	private String decision_opportunities;
 	private String choices;
 	private int step;
+	private String firedRule;
+	private String sender;
+	private Hashtable hash;
+
+	public History() {
+		hash = new Hashtable();
+	}
+	public Hashtable getHashtable() {
+		return hash;
+	}
+	public void setHashtable(Hashtable str) {
+		hash = str;
+	}	
+
+	public String getSender() {
+		return sender;
+	}
+	public void setSender(String str) {
+		sender = str;
+	}
+		
+	public String getFiredRule() {
+		return firedRule;
+	}
+	public void setFiredRule(String str) {
+		firedRule = str;
+	}
 	
 	
 	

@@ -21,20 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.4 2004/05/06 23:07:20 garbeam Exp $
+ * $Id: WorkflowEngine.java,v 1.5 2004/05/12 14:47:29 bettina Exp $
  *
  */
 package kobold.server.workflow;
 
-import java.net.URL;
-import java.util.List;
-
 import kobold.common.data.WorkflowMessage;
+import org.drools.*;
+import org.drools.rule.*;
+import java.util.*;
 
-import org.drools.FactException;
-import org.drools.RuleBase;
-import org.drools.WorkingMemory;
-import org.drools.io.RuleBaseBuilder;
 
 /**
  * This class mediates between Kobold and drools. 
@@ -75,6 +71,9 @@ public class WorkflowEngine {
 			theInstance = new WorkflowEngine();
 			theInstance.loadRuleBase();
 			RuleBase base = theInstance.getRuleBase();
+			if (base == null) {
+				System.out.println("Huhu");
+			}
 			theInstance.setWorkingMemory(base.newWorkingMemory());
 		}
 		return theInstance; 
@@ -117,22 +116,10 @@ public class WorkflowEngine {
 	 */
 	private void loadRuleBase() {
 		try {
-			//RuleSetReader reader = new RuleSetReader();
-			//URL ruleSetURL = new URL ("file:///e|/programming/eclipse/workspace/drools/kobold/server/workflow/ruleset.dat");
-			//reader.r
-			//RuleSet ruleSet = reader.read(ruleSetURL);
-			
-			URL url = WorkflowEngine.class.getResource( "ruleset.drl" );
-			
-			RuleBase ruleBase = RuleBaseBuilder.buildFromUrl( url );
-			System.out.println("Huhu.");
-			
-
-			//org.drools.RuleBaseBuilder builder = new org.drools.RuleBaseBuilder();
-			//builder.addRuleSet(ruleSet);
-			//builder.setConflictResolver(SalienceConflictResolver.getInstance());
-			//this.setRuleBase(builder.build());
-			this.setRuleBase(ruleBase);
+			RuleSet ruleSet = WorkflowRules.createRuleSet();
+			RuleBaseBuilder builder = new RuleBaseBuilder();
+			builder.addRuleSet(ruleSet);
+			this.setRuleBase(builder.build());
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -202,9 +189,9 @@ public class WorkflowEngine {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (!(msg.getReciever().equals(""))) {
-			System.out.println(msg.getMessageText());
-		}
+		//if (!(msg.getReciever().equals(""))) {
+
+		//}
 		engine.retractObject(msg);
 	}
 
