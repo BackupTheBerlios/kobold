@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.11 2004/06/24 11:03:22 martinplies Exp $
+ * $Id: Component.java,v 1.12 2004/06/25 11:41:55 martinplies Exp $
  *
  */
 
@@ -262,11 +262,11 @@ public class Component extends AbstractAsset
 		
 	}
 */	
-	public List getChildren() {
+	public List getGXLChildren() {
 		return variants;
 	}
 	
-	public Map getAttributes() {
+	public Map getGXLAttributes() {
 		return null;
 	}
 

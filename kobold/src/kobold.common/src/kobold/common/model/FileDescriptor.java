@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptor.java,v 1.4 2004/06/24 14:11:14 rendgeor Exp $
+ * $Id: FileDescriptor.java,v 1.5 2004/06/25 11:41:55 martinplies Exp $
  *
  */
 
@@ -228,42 +228,29 @@ public class FileDescriptor extends AbstractAsset {
 		this.revision = revision;
 	}
 
-	/**
-	 * @return
-	 */
-	/*public GXLNode getGXLNode() {
-		GXLNode node = new GXLNode("file");
-		if (path !=  null)
-		  node.setAttr("path", new GXLString(path));
-		if (revision != null)
-		  node.setAttr("revison", new GXLString(revision));
-		if (lastChanged != null)
-		  node.setAttr("lastChanged", new GXLString(dateFormat.format(lastChanged)));
-		if (lastAuthor != null)
-		  node.setAttr("lastAuthor", new GXLString(lastAuthor));
-		return node;		
-	}
-*/
+	
 	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getAttributes()
+	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
 	 */
-	public Map getAttributes() {
+	public Map getGXLAttributes() {
         HashMap attributes = new HashMap();
-		if (path !=  null)
-			attributes.put("path",path);
-		if (revision != null)
-			attributes.put("revison",revision);
+		if (path !=  null){
+			attributes.put("path", path);
+		}
+		if (revision != null){
+			attributes.put("revision", revision);
+		}
 		if (lastChanged != null)
-			attributes.put("lastChanged",dateFormat.format(lastChanged));
+			attributes.put("lastChanged", dateFormat.format(lastChanged));
 		if (lastAuthor != null)
-			attributes.put("lastAuthor",lastAuthor);
+			attributes.put("lastAuthor", lastAuthor);
 		return attributes;
 	}
 
 	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getChildren()
+	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
 	 */
-	public List getChildren() {
+	public List getGXLChildren() {
 		// TODO Auto-generated method stub
 		return null;
 	}

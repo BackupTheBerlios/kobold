@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.4 2004/06/24 11:03:07 martinplies Exp $
+ * $Id: RelatedComponent.java,v 1.5 2004/06/25 11:41:55 martinplies Exp $
  *
  */
 
@@ -104,17 +104,17 @@ public class RelatedComponent extends AbstractAsset {
 	}
 	
 	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getAttributes()
+	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
 	 */
-	public Map getAttributes() {
-		return relatedComponent.getAttributes();
+	public Map getGXLAttributes() {
+		return relatedComponent.getGXLAttributes();
 	}
 
 	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getChildren()
+	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
 	 */
-	public List getChildren() {
-		return relatedComponent.getChildren();
+	public List getGXLChildren() {
+		return relatedComponent.getGXLChildren();
 	}
 
 	/* (non-Javadoc)

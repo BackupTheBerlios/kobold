@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.5 2004/06/24 11:25:10 rendgeor Exp $
+ * $Id: SpecificComponent.java,v 1.6 2004/06/25 11:41:55 martinplies Exp $
  *
  */
 
@@ -108,16 +108,16 @@ public class SpecificComponent extends AbstractAsset {
 	}
 
 	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getAttributes()
+	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
 	 */
-	public Map getAttributes() {
+	public Map getGXLAttributes() {
 		return null;
 	}
 
 	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getChildren()
+	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
 	 */
-	public List getChildren() {
+	public List getGXLChildren() {
 		// TODO add releases;
 		return null;
 	}

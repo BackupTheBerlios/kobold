@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.14 2004/06/24 14:11:14 rendgeor Exp $
+ * $Id: Product.java,v 1.15 2004/06/25 11:41:55 martinplies Exp $
  *
  */
 
@@ -232,29 +232,7 @@ public class Product extends AbstractAsset {
 	 *
 	 * @param componentName contains the name of the component
 	 */
-/*	public AbstractAsset getComponent(String componentName, SpecificComponent returnComponent) {
-
-		List components = null;
-		if (returnComponent instanceof SpecificComponent) {
-			components = specificComponents;
-			System.out.println ("i'm a specificComp.!");
-		}
-		else if(returnComponent instanceof RelatedComponent) 
-		{
-			components = relatedComponents;
-			System.out.println ("i'm a relatedComp.!");
-		}
-
-		if (components != null)
-		for (Iterator it = components.iterator(); it.hasNext(); ) {
-			AbstractAsset aa = (AbstractAsset)it.next();
-			if (aa.getName().equals(componentName)) return aa;
-		}	
-		System.out.println ("component "+componentName + " not found!");
-		return null;
-
-	}	
-*/
+	
 	public void addProductRelease (ProductRelease productRelease)
 	{
 		if (productRelease != null)
@@ -313,18 +291,18 @@ public class Product extends AbstractAsset {
     }
 
 	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getAttributes()
+	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
 	 */
-	public Map getAttributes() {
+	public Map getGXLAttributes() {
 		HashMap attributes = new HashMap();
 		attributes.put("localPath",localPath);
 		return attributes;
 	}
 
 	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getChildren()
+	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
 	 */
-	public List getChildren() {
+	public List getGXLChildren() {
 		ArrayList children = new ArrayList();
 		children.addAll(specificComponents);
 		return children;

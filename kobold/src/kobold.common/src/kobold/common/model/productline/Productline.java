@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.20 2004/06/24 14:11:14 rendgeor Exp $
+ * $Id: Productline.java,v 1.21 2004/06/25 11:41:55 martinplies Exp $
  *
  */
 package kobold.common.model.productline;
@@ -345,18 +345,18 @@ public class Productline extends AbstractAsset
 
 
 	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getAttributes()
+	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
 	 */
-	public Map getAttributes() {
+	public Map getGXLAttributes() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getChildren()
+	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
 	 */
-	public List getChildren() {
+	public List getGXLChildren() {
 		return coreAssets;
 	}
 

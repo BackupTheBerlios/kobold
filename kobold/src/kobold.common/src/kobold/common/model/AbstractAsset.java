@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.11 2004/06/24 11:02:47 martinplies Exp $
+ * $Id: AbstractAsset.java,v 1.12 2004/06/25 11:41:55 martinplies Exp $
  *
  */
 package kobold.common.model;
@@ -110,14 +110,14 @@ public abstract class AbstractAsset implements ISerializable
 			  node.setAttr("description", new GXLString(description));
     		if (owner != null)
 			  node.setAttr("owner", new GXLString(owner));
-			Map attributes = getAttributes();
+			Map attributes = getGXLAttributes();
 			if (attributes != null) {
 				for (Iterator ite = attributes.keySet().iterator(); ite.hasNext();){
 					String key = (String) ite.next();
 					node.setAttr(key, new GXLString((String) attributes.get(key)));
 				}
 			}
-			List children = getChildren();
+			List children = getGXLChildren();
 			if (children != null){
 			  GXLGraph graph = new GXLGraph(IdManager.getInstance().getGXLGraphId("graph"));
 			  for (Iterator ite = children.iterator(); ite.hasNext();){
@@ -319,8 +319,8 @@ public abstract class AbstractAsset implements ISerializable
 		listeners.firePropertyChange(prop, null, child);
 	}
 	
-	public abstract Map getAttributes();
-	public abstract List getChildren();
+	public abstract Map getGXLAttributes();
+	public abstract List getGXLChildren();
 	public abstract String getGXLType();
 	/**
 	 * @return Returns the owner.

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.8 2004/06/24 11:01:56 martinplies Exp $
+ * $Id: Variant.java,v 1.9 2004/06/25 11:41:55 martinplies Exp $
  *
  */
 
@@ -228,7 +228,7 @@ public class Variant extends AbstractAsset
 		return node;
 	}
 */
-	public List getChildren() {
+	public List getGXLChildren() {
 		List children = new ArrayList();
 		children.addAll(components);
 		if (releases.size() > 0) {
@@ -238,7 +238,7 @@ public class Variant extends AbstractAsset
 		return children;
 	}
 	
-	public Map getAttributes() {
+	public Map getGXLAttributes() {
 		return null;
 	}
 	
