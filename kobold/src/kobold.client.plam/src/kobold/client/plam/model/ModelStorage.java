@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.36 2004/09/09 14:21:20 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.37 2004/09/20 05:44:59 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -309,10 +309,9 @@ public class ModelStorage
         AbstractAsset asset = (AbstractAsset)fd.getParentAsset();
         IFolder folder = getFolderForAsset(asset);
         String relP = fd.getFilename();
-        fd = fd.getParent();
         while (fd != null) {
-            relP = fd.getFilename() + IPath.SEPARATOR + relP ;
-            
+            fd = (FileDescriptor)fd.getParent();        
+            relP = fd.getFilename() + IPath.SEPARATOR + relP ;            
         }
         return folder.findMember(relP);
     }
@@ -619,14 +618,14 @@ public class ModelStorage
     
     private static void deleteTree( File path )
     {
-      File files[] = path.listFiles();
-      for ( int i = 0; i < files.length; i++ )
-      {
-        if ( files[i].isDirectory() )
-          deleteTree( files[i] );
-        files[i].delete();
-      }
-      path.delete();
+        File files[] = path.listFiles();
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isDirectory()) deleteTree(files[i]);
+                files[i].delete();
+            }
+        }
+        path.delete();
     }
     private static void deleteTree( String path )
     {
