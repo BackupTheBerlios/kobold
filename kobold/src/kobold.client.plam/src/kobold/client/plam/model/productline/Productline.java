@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.20 2004/08/05 09:13:01 vanto Exp $
+ * $Id: Productline.java,v 1.21 2004/08/05 17:46:59 martinplies Exp $
  *
  */
 package kobold.client.plam.model.productline;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,7 @@ public class Productline extends AbstractRootAsset
 	//the products and core-assets
 	private List products = new ArrayList();
 	private List coreAssets = new ArrayList();
+	private Map idPool = Collections.synchronizedMap(new HashMap()); 
 	
     public Productline() 
 	{
@@ -138,10 +140,6 @@ public class Productline extends AbstractRootAsset
 	    return Collections.unmodifiableList(coreAssets);
 	}
 
-
-
-
-	
 	
 	/**
 	 * returns a Serialized productline.
@@ -332,5 +330,37 @@ public class Productline extends AbstractRootAsset
 	    }
 	    return spl;
 	}
+	
+	/**
+	 * @param id
+	 * @return Returns asset with this id or null.
+	 */
+	public AbstractAsset getAsset(String id){
+	    return (AbstractAsset) idPool.get(id);
+	}
+	
+	/**
+	 * Add asset to idpool.
+	 * @param asset
+	 */
+	public void addAssetToPool(AbstractAsset asset){
+	    idPool.put(asset.getId(), asset);
+	}
+	
+	/**
+	 * Delete asset with this id from the id pool.
+	 * @param id 
+	 */
+	public void removeAsset(String id){
+	    this.idPool.remove(id);
+	}
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.AbstractRootAsset#getProductline()
+     */
+    public Productline getProductline() {        
+        return this;
+    }
+	
 	
 }

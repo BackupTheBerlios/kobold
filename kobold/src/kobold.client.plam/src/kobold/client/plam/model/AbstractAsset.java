@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.11 2004/08/04 18:29:39 garbeam Exp $
+ * $Id: AbstractAsset.java,v 1.12 2004/08/05 17:47:44 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.Set;
 
 import kobold.client.plam.model.edges.INode;
+import kobold.client.plam.model.productline.Productline;
 import kobold.common.data.ISerializable;
 import kobold.common.data.IdManager;
 import kobold.common.exception.GXLException;
@@ -90,6 +91,10 @@ public abstract class AbstractAsset implements ISerializable, INode
     public AbstractAsset()
     {
         this.id = IdManager.nextId(getType());
+        // add asset to id pool
+        AbstractRootAsset ara = this.getRoot();
+        Productline pl = ara.getProductline();
+        pl.addAssetToPool(this);
     }
 
     public AbstractAsset(String name)
@@ -109,6 +114,15 @@ public abstract class AbstractAsset implements ISerializable, INode
     public String getId()
     {
         return id;
+    }
+    
+    /**
+     * Removes this asset from the id pool. 
+     */
+    public void remove(){
+        AbstractRootAsset ara = this.getRoot();
+        Productline pl = ara.getProductline();
+        pl.removeAsset(this.getId());
     }
     
     /**

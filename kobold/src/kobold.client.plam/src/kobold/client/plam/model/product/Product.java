@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.12 2004/08/04 08:06:05 vanto Exp $
+ * $Id: Product.java,v 1.13 2004/08/05 17:47:18 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -38,6 +38,7 @@ import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.ModelStorage;
+import kobold.client.plam.model.productline.Productline;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -57,15 +58,19 @@ public class Product extends AbstractRootAsset
 	private List relatedComponents = new ArrayList();
 
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#Product";
+    private Productline productline;
 		
-	public Product()
-	{
+	public Product(Productline productline)
+	{	    
 	    super();
+	    this.productline = productline;
 	}
+		
 
-	public Product(String name)
-	{
+	public Product(String name, Productline productline)
+	{	   
 	    super(name);
+	    this.productline = productline;
 	}
 	
 	/**
@@ -246,5 +251,12 @@ public class Product extends AbstractRootAsset
 	public IPath getLocalPath() {
 	    return ModelStorage.getPathForAsset(this);		
 	}
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.AbstractRootAsset#getProductline()
+     */
+    public Productline getProductline() {        
+        return productline;
+    }
 	
 }

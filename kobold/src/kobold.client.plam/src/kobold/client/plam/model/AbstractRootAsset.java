@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.14 2004/08/05 15:05:21 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.15 2004/08/05 17:47:27 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -37,6 +37,7 @@ import java.util.Map;
 
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.model.edges.EdgeContainer;
+import kobold.client.plam.model.productline.Productline;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.Element;
@@ -143,6 +144,8 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 	public void setRepositoryDescriptor(RepositoryDescriptor descriptor) {
 		repositoryDescriptor = descriptor;
 	}
+	
+	public abstract Productline getProductline();
     
 
     public void deserialize(Element element)
