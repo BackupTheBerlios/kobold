@@ -1,8 +1,14 @@
 \chapter{Einleitung}
 \product wird als zweischichtige Client-/Server-Applikation entwickelt.
-Der Serverdienst wird globale, strukturelle Daten verwalten und den
-Client-Instanzen in Form von Eclipse Feature-Sets zur Verfügung stellen.
-Diese arbeiten hauptsächlich mit Detail-Daten aus den Repositories.
+Der Apache XML-RPC basierte Server wird globale strukturelle Daten verwalten
+und den Clients zur Verfügung stellen.
+
+Die Eclipse Feature-Set basierenden Clients arbeiten hauptsächlich mit
+Detail-Daten aus den Repositories. Der Zugriff auf die Repositories wird
+durch einen VCM-Wrapper der Eclipse Team-Komponente realisiert.
+
 Die Business-Logik befindet sich demnach auf beiden Seiten.
+
 Die Kommunkation zwischen Client und Serverdienst wird nach dem Prinzip
-der Service Oriented Architecture mittels HTTPS  XML-RPCs realisiert.
+der Service Oriented Architecture durch XML-RPCs über das
+Standardprotokoll HTTPS realisiert.

@@ -1,0 +1,33 @@
+\section{Delegator-Komponente Serverkommunikation}
+
+Die clientseitige Delegator-Komponente fungiert als Implementierung der
+Serverschnittstelle und dient zur Delegation aller serverseitigen
+Methodenaufrufe. Neben der Delegierung der Methodenaufrufe an den Server
+via XML-RPC kapselt die Delegator-Komponente auch das Berechtigungskonzept
+zum Server von den restlichen clientseitigen Komponenten ab. Die
+Delegator-Komponente ist ein Singleton.
+
+\subsection{Kapselung des Berechtigungskonzeptes}
+
+Der Delegator meldet sich mit Benutzernamen und Passwort am Server an und
+erhält vom Server eine spezifische Session-ID. Danach werden vom
+Server alle Konfigurationsdaten geladen und automatisch mit der
+vorhandenen Konfiguration der Eclipse Entwicklungsumgebung abgeglichen.
+
+\subsubsection{Automatischer Login bei wiederholtem Zugriff}
+
+Beim ersten Login am Server wird von diesem eine eindeutige Session-ID
+vergeben, die bei erneutem Zugriff auf den Server zur
+Authentifizierung genutzt wird. 
+
+Falls die selben Benutzerdaten von verschiedenen Clients zur
+Authentifizierung am Server verwendet werden, wird die erste bereits
+vergebene Session-ID ungültig und eine neue Session-ID an die zweite
+Client Instanz vergeben. Dadurch wird die Datenkonsistenz
+sichergestellt.
+
+\subsection{Resultatwerte der XML-RPC Aufrufe auf dem Server}
+
+Durch die Auswertung der Resultatwerte von XML-RPCs kann die
+Delegator-Komponente entscheiden, ob die Server-Aktion erfolgreich
+ausgeführt wurde oder ob eine erneute Authentifizierung notwendig ist.

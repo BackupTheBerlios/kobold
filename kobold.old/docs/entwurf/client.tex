@@ -1,5 +1,5 @@
 \chapter{Client}
-Der Client wird nach dem Model-View-Controler Design Pattern als
+Der Client wird nach dem Model-View-Controller Design Pattern als
 Feature-Set für Eclipse entwickelt. Dank der verwendeten Framework-SDKs
 (Eclipse SDK, Draw2D, GEF) lassen sich die Module in das MVC Design
 Pattern leicht integrieren.
@@ -8,9 +8,9 @@ Pattern leicht integrieren.
 \includegraphics[width=15cm]{client.jpg}
 
 \subsection{MVC-Aufteilung}
-Idee des Model-View-Controler Design Patterns ist die Entkopplung der Komponenten
+Idee des Model-View-Controller Design Patterns ist die Entkopplung der Komponenten
 in Gruppen, die ausschließlich der Darstellung (View) bzw. Datenhaltung 
-(Model) dienen. Die Vermittlung zwischen beiden Gruppen übernehmen Controler,
+(Model) dienen. Die Vermittlung zwischen beiden Gruppen übernehmen Controller,
 so dass die Views und Models keine direkten Abhängigkeiten haben.
 
 Für die Darstellung und Bearbeitung der Architektur ist es notwendig auch 
@@ -18,7 +18,7 @@ view-spezifische Informationen für den Benutzer zu speichern (z.B. Position
 der Architektur-Elemente), so dass hier ein View-Model zum Einsatz kommt, 
 welches das eigentliche Architektur-Model erweitert.\par
 
-Die Aufteilung in die Gruppen:\par
+Die Aufteilung der Client-Komponenten in MVC-Gruppen sieht wie folgt aus:\par
 
 {\bf View}
 \begin{itemize}
@@ -37,9 +37,9 @@ Die Aufteilung in die Gruppen:\par
     \item Komponente MessageQueue
 \end{itemize}\par
 
-{\bf Controler}
+{\bf Controller}
 \begin{itemize}
-    \item Komponente Server-Kommunikation
+    \item Delegator-Komponente Server-Kommunikation
     \item Komponente VCM-Wrapper
     \item Komponente GEF (teilweise 3rd-Party)
     \item Komponente Eclipse-Plattform (teilweise 3rd-Party)
@@ -47,10 +47,11 @@ Die Aufteilung in die Gruppen:\par
 \end{itemize}\par
 
 \section{Viewkomponente RollenView}
-Die Rollenview zeigt in einem Baum die "Welt" des angemeldeten Benutzers an
+Die Rollenview zeigt in einem Baum die Rollen und dazugehörigen
+Produkte bzw. die zugehörige Produktlinie des angemeldeten Benutzers an
 (siehe auch 2.1.1. und 2.2.4., Spezifikation I).\par
 
-Die Rollenview operiert über der Eclipse-Plattform (ITreeContentProvider) auf der
+Die Rollenview operiert über die Eclipse-Plattform (ITreeContentProvider) auf der
 Komponente ArchitekturModel.
 
 Die Rollenview kann Aktionen in der Komponente VCM-Wrapper auslösen sowie
@@ -67,8 +68,8 @@ Die Minimap (2.2.3., Spezifikation I) ist direkt mit dem Architektur-Editor
 verknüpft und stellt eine verkleinerte Fassung der Architektur dar.
 
 \section{Viewkomponente Task-/WorkflowView}
-Diese Komponente zeigt die Tasks und Workflows an. Sie operiert über die 
-Controlerkomponente Eclipse-Plattform (IMarker) auf der Komponente MessageQueue.
+Diese Komponente zeigt die Tasks und Workflows an. Sie operiert über die
+Controllerkomponente Eclipse-Plattform (IMarker) auf der Komponente MessageQueue.
 
 \section{Viewkomponente TaskDetailView}
 Hier werden die Details zu einem Workflow angezeigt. Die Daten werden über die
@@ -92,24 +93,24 @@ Import und Export der Architekturmodels von und nach GXL.
 \section{Modelkomponente MessageQueue}
 Diese Komponente ist die lokale Repräsentation der MessageQueue auf dem Server.
 Alle Nachrichten werden über die Server-Kommunikations-Komponente bezogen und 
-lokal gespeichert. Diese Komponente bedient über den Eclipse-Controler die
+lokal gespeichert. Diese Komponente bedient über den Eclipse-Controller die
 Task-/Workflow-Viewkomponente.
 
-\section{Controlerkomponente Server-Kommunikation}
+\section{Controllerkomponente Server-Kommunikation}
 Diese Komponente übernimmt die Kommunikation mit dem Kobold Server. Die 
 Kommunikation findet mittels HTTPS (SSL) und XML-RPC statt. Das Querschnitts-
 Interface ist unter Kapitel \ref{cha_interface} näher erläutert.
 
-\section{Controlerkomponente GEF}
+\section{Controllerkomponente GEF}
 Das Graphical Editing Framework ist ein MVC-basiertes Editing-Framework von 
 Eclipse. Der Architektur-Editor setzt darauf auf und kommuniziert über darüber
 mit dem ArchitekturViewModel.
 
-\section{Controlerkomponente Eclipse-Plattform}
+\section{Controllerkomponente Eclipse-Plattform}
 Die Eclipse-Plattform bietet viele MVC-unterstützende Klassen und Komponenten
 mit deren Hilfe die Trennung zwischen Model und View ermöglicht wird.
 
-\section{Controlerkomponente Team-Plugin}
+\section{Controllerkomponente Team-Plugin}
 Die Teamplugins sind die Team-Komponenten an die der VCM-Wrapper die Anfragen
 weiterdelegiert. In der Eclipse-Plattform ist das CVS-Team-Plugin bereits 
 enthalten. Weitere Plugins sind als 3rd-Party-Module verfügbar.
