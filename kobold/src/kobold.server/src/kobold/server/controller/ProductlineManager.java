@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.6 2004/07/21 17:07:36 garbeam Exp $
+ * $Id: ProductlineManager.java,v 1.7 2004/07/22 11:21:34 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -51,7 +51,7 @@ import kobold.common.io.RepositoryDescriptor;
  * refused if their name has already been registered with another productline.
  * This class is serializable.
  * 
- * @see Productline    
+ * @see kobold.common.data.Productline    
  */
 public class ProductlineManager {
 
@@ -127,6 +127,8 @@ public class ProductlineManager {
 	/**
 	 * Serializes all products and productlines to the file specified
      * by productStore.
+     * 
+     * @see serialize(String)
 	 */
 	public void serialize() {
 		serialize(this.productStore);
@@ -198,7 +200,7 @@ public class ProductlineManager {
 	/**
 	 * Returns a list of Strings which contain all the productline's names.
      * 
-     * @return List of String-Objects with all productline's names
+     * @return Vector of String objects with all productlines' names
 	 */
 	public Vector getProductlineNames() {
 	    Vector result = new Vector();
