@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.21 2004/08/24 17:10:44 garbeam Exp $
+ * $Id: WorkflowDialog.java,v 1.22 2004/08/24 18:46:24 garbeam Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -114,6 +114,7 @@ public class WorkflowDialog extends TitleAreaDialog {
 		// add Mesagetext
 		Text mt = new Text(panel, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		mt.setText(msg.getMessageText());
+		mt.setLayoutData(new GridData(GridData.FILL_BOTH));
 	
 		if (msg instanceof WorkflowMessage) {
 		    // add workflowcontrol items
@@ -125,9 +126,8 @@ public class WorkflowDialog extends TitleAreaDialog {
 		   
 		   // add comment item 	     
 		   comment = new Text(panel, SWT.WRAP |SWT.MULTI |SWT.V_SCROLL|SWT.VERTICAL);
-		   GridData gd = new GridData();
+		   GridData gd = new GridData(GridData.FILL_BOTH);
            gd.heightHint = 150;
-           gd.widthHint = 350;           
            comment.setLayoutData(gd);  			 
            comment.setFocus();
     	}

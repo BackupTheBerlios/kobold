@@ -21,7 +21,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 * DEALINGS IN THE SOFTWARE.
 *
-* $Id: CoreGroupDialog.java,v 1.5 2004/08/24 17:10:44 garbeam Exp $
+* $Id: CoreGroupDialog.java,v 1.6 2004/08/24 18:46:24 garbeam Exp $
 *
 */
 
@@ -73,11 +73,11 @@ public class CoreGroupDialog extends TitleAreaDialog {
 	protected Control createDialogArea(Composite parent) {
 	
 	    getShell().setText("Core Group Suggestion");
-	    setTitle("Core Group Suggestion");
+	    setTitle("&Core Group Suggestion");
 	    setMessage("Suggest Asset To Core Group. Choose the kind of recipient of your suggestion.");
 		
 		Composite panel = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(2, false);
+		GridLayout layout = new GridLayout(1, false);
 		layout.marginHeight =
 		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
 		layout.marginWidth =
@@ -92,10 +92,12 @@ public class CoreGroupDialog extends TitleAreaDialog {
 
 		// add radiobuttons
 		pe = new Button(panel, SWT.RADIO);
-		pe.setText("Send to a PE");
+		pe.setText("Product Engineer (PE)");
 		ple = new Button(panel, SWT.RADIO);
-		ple.setText("Send to a PLE");
+		ple.setText("Productline Enginer (PLE)");
    	   	
+		pe.setSelection(true);
+		pe.setFocus();
   	  	return panel;
 	}
 	

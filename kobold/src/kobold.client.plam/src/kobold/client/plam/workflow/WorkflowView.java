@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.22 2004/08/24 16:53:54 garbeam Exp $
+ * $Id: WorkflowView.java,v 1.23 2004/08/24 18:46:24 garbeam Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -97,7 +97,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	
 	public void createPartControl(Composite parent) 
 	{
-		Table table = new Table (parent, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);	
+		Table table = new Table (parent, SWT.MULTI | SWT.BORDER | SWT.SINGLE);
 		table.setLinesVisible (true);
 		table.setHeaderVisible (true);
 		TableLayout layout = new TableLayout();
@@ -309,16 +309,24 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		private final DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 		public String getColumnText(Object obj, int index) {
-			switch (index) {
-				case 2: return ((AbstractKoboldMessage)obj).getProductline();
-				case 3: return ((AbstractKoboldMessage)obj).getSubject();
-				case 4: return ((AbstractKoboldMessage)obj).getSender() + " (" +
-				               ((AbstractKoboldMessage)obj).getRole() + ")";
-				case 5: return df.format(((AbstractKoboldMessage)obj).getDate());				
+		    AbstractKoboldMessage msg = (AbstractKoboldMessage)obj;
+			if (msg != null) {
+    			switch (index) {
+    				case 2: return msg.getProductline();
+    				case 3: return msg.getSubject();
+    				case 4: return msg.getSender() + " (" +
+    				               msg.getRole() + ")";
+    				case 5: 
+    				    	if (msg.getDate() != null) {
+    				    	    return df.format(msg.getDate());				
+    				    	}
+    			}
 			}
 			return "";
 		}
+		
 		public Image getColumnImage(Object obj, int index) 
+		
 		{
 			AbstractKoboldMessage msg = (AbstractKoboldMessage)obj;
 			if (msg == null) return null;
