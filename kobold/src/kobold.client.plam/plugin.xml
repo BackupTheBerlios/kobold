@@ -33,11 +33,13 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="%editor.Architecture"
-            extensions="kae"
-            icon="icons/kobold_persp.png"
             class="kobold.client.plam.editor.ArchitectureEditor"
-            id="ArchitectureEditor">
+            icon="icons/kobold_persp.png"
+            default="true"
+            contributorClass="kobold.client.plam.editor.KoboldActionBarContributor"
+            name="%editor.Architecture"
+            id="ArchitectureEditor"
+            extensions="kae">
       </editor>
    </extension>
    <extension

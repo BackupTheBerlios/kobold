@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.8 2004/06/22 23:30:12 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.9 2004/06/23 02:26:23 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -41,46 +41,51 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.parts.ScrollableThumbnail;
 import org.eclipse.draw2d.parts.Thumbnail;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.KeyHandler;
+import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
-import org.eclipse.gef.SharedImages;
+import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
-import org.eclipse.gef.palette.ConnectionCreationToolEntry;
-import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.palette.PaletteSeparator;
-import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.AlignmentAction;
 import org.eclipse.gef.ui.actions.CopyTemplateAction;
+import org.eclipse.gef.ui.actions.DirectEditAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
+import org.eclipse.gef.ui.actions.MatchHeightAction;
+import org.eclipse.gef.ui.actions.MatchWidthAction;
+import org.eclipse.gef.ui.actions.ToggleGridAction;
+import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
+import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
-import org.eclipse.gef.ui.palette.PaletteContextMenuProvider;
 import org.eclipse.gef.ui.palette.PaletteViewer;
+import org.eclipse.gef.ui.palette.PaletteViewerProvider;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
-import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
+import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
+import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.gef.ui.stackview.CommandStackInspectorPage;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -90,16 +95,24 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  *
  * @author Tammo
  */
-public class ArchitectureEditor extends GraphicalEditorWithPalette 
+public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette 
 	implements IViewModelProvider {
 
-	protected static final String PALETTE_SIZE = "Palette Size"; //$NON-NLS-1$
-	protected static final int DEFAULT_PALETTE_SIZE = 130;
-
+    protected static final String PALETTE_DOCK_LOCATION = "Dock location"; //$NON-NLS-1$
+    protected static final String PALETTE_SIZE = "Palette Size"; //$NON-NLS-1$
+    protected static final String PALETTE_STATE = "Palette state"; //$NON-NLS-1$
+    protected static final int DEFAULT_PALETTE_SIZE = 130;
+    
+    static {
+    	KoboldPLAMPlugin.getDefault().getPreferenceStore().setDefault(
+    			PALETTE_SIZE, DEFAULT_PALETTE_SIZE);
+    }
 	private ViewModelContainer viewModel;
+	private PaletteRoot root;
+	private KeyHandler keyHandler;
 	
 	/**
-	 * Creates a new HelloGefEditor object.
+	 * Creates a architecture editor
 	 */
 	public ArchitectureEditor()
 	{
@@ -112,80 +125,16 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette
 	{
 	    return viewModel;
 	}
-	
-	/**
-	 * @see org.eclipse.ui.IEditorPart#init(IEditorSite, IEditorInput)
-	 */
-	public void init(IEditorSite iSite, IEditorInput iInput)
-		throws PartInitException
-	{
-		setSite(iSite);
-		System.out.println(iInput.getName());
-		setInput(iInput);
-	}
-
-	/**
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithPalette#getInitialPaletteSize()
-	 */
-	protected int getInitialPaletteSize() {
-		return KoboldPLAMPlugin.getDefault().getPreferenceStore().getInt(PALETTE_SIZE);
-	}
-
-	/**
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithPalette#handlePaletteResized(int)
-	 */
-	protected void handlePaletteResized(int newSize) {
-		KoboldPLAMPlugin.getDefault().getPreferenceStore().setValue(PALETTE_SIZE, newSize);
-	}
-
-	protected void hookPaletteViewer() {
-		super.hookPaletteViewer();
-		final CopyTemplateAction copy = 
-				(CopyTemplateAction)getActionRegistry().getAction(GEFActionConstants.COPY);
-		getPaletteViewer().addSelectionChangedListener(copy);
-		getPaletteViewer().getContextMenu().addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				manager.appendToGroup(GEFActionConstants.GROUP_COPY, copy);
-			}
-		});
-	}
-
-	/**
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithPalette#getPaletteRoot()
-	 */
-	protected PaletteRoot getPaletteRoot() {
-		ArrayList categories = new ArrayList();
-		List entries = new ArrayList(3);
-
-		entries.add(new SelectionToolEntry());
-		entries.add(new MarqueeToolEntry());
-		entries.add(new ConnectionCreationToolEntry("Connect",
-				"Connection Creation Tool", null,
-				SharedImages.DESC_SELECTION_TOOL_16,
-				SharedImages.DESC_SELECTION_TOOL_16));
-
-		entries.add(new PaletteSeparator());
-        
-		/*entries.add(new CreationToolEntry("Component", 
-					"Create a new Component",
-					new ComponentCreationFactory(),
-					null, null)); 
-		entries.add(new CreationToolEntry("Variant", 
-					"Create a new Variant",
-					new VariantCreationFactory(),
-					null, null));*/ 
-                    
-		PaletteRoot palette = new PaletteRoot();
-		palette.setChildren(entries);
-
-		return palette;
-	}
 
 	/**
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#initializeGraphicalViewer()
 	 */
 	protected void initializeGraphicalViewer() {
-		Productline model = new Productline("PL Compiler");
+		super.initializeGraphicalViewer();
+		getGraphicalViewer().addDropTargetListener(
+			new KoboldTemplateTransferDropTargetListener(getGraphicalViewer()));
+		
+	    Productline model = new Productline("PL Compiler");
 		
 		Component ca1 = new Component("CA Frontend");
 		Component ca2 = new Component("CA Backend");
@@ -206,24 +155,6 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette
 		ca2.addVariant(va4);
 		ca2.addVariant(va5);
 	    getGraphicalViewer().setContents(model);
-	}
-
-	/**
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithPalette#configurePaletteViewer()
-	 */
-	protected void configurePaletteViewer() {
-		super.configurePaletteViewer();
-		PaletteViewer viewer = (PaletteViewer)getPaletteViewer();
-		ContextMenuProvider provider = new PaletteContextMenuProvider(viewer);
-		getPaletteViewer().setContextMenu(provider);
-		//viewer.setCustomizer(new KoboldPaletteCustomizer());
-	}
-
-	public void dispose() {
-		CopyTemplateAction copy = (CopyTemplateAction)getActionRegistry().getAction(GEFActionConstants.COPY);
-		getPaletteViewer().removeSelectionChangedListener(copy);
-	
-		super.dispose();
 	}
 
 	/**
@@ -252,18 +183,85 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette
 		viewer.setRootEditPart(root);
 
 		viewer.setEditPartFactory(new GraphicalPartFactory());
-		//ContextMenuProvider provider = new AEContextMenuProvider(viewer, getActionRegistry());
-		//viewer.setContextMenu(provider);
-		//getSite().registerContextMenu("org.eclipse.gef.examples.logic.editor.contextmenu", //$NON-NLS-1$
-		//	provider, viewer);
 		
-		//viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer)
-		//	.setParent(getCommonKeyHandler()));
+		// Actions
+		IAction showRulers = new ToggleRulerVisibilityAction(getGraphicalViewer());
+		getActionRegistry().registerAction(showRulers);
+		
+		IAction snapAction = new ToggleSnapToGeometryAction(getGraphicalViewer());
+		getActionRegistry().registerAction(snapAction);
 
+		IAction showGrid = new ToggleGridAction(getGraphicalViewer());
+		getActionRegistry().registerAction(showGrid);
+
+		ContextMenuProvider provider = new KoboldContextMenuProvider(viewer, getActionRegistry());
+		viewer.setContextMenu(provider);
+		getSite().registerContextMenu("kobold.client.plam.editor.contextmenu", //$NON-NLS-1$
+				provider, viewer);
+
+		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer)
+				.setParent(getCommonKeyHandler()));
 	}
 
-
-	/**
+    protected void createActions() {
+    	super.createActions();
+    	ActionRegistry registry = getActionRegistry();
+    	IAction action;
+    	
+    	action = new CopyTemplateAction(this);
+    	registry.registerAction(action);
+    
+    	action = new MatchWidthAction(this);
+    	registry.registerAction(action);
+    	getSelectionActions().add(action.getId());
+    	
+    	action = new MatchHeightAction(this);
+    	registry.registerAction(action);
+    	getSelectionActions().add(action.getId());
+    	
+    	action = new DirectEditAction((IWorkbenchPart)this);
+    	registry.registerAction(action);
+    	getSelectionActions().add(action.getId());
+    
+    	action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.LEFT);
+    	registry.registerAction(action);
+    	getSelectionActions().add(action.getId());
+    
+    	action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.RIGHT);
+    	registry.registerAction(action);
+    	getSelectionActions().add(action.getId());
+    
+    	action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.TOP);
+    	registry.registerAction(action);
+    	getSelectionActions().add(action.getId());
+    
+    	action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.BOTTOM);
+    	registry.registerAction(action);
+    	getSelectionActions().add(action.getId());
+    
+    	action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.CENTER);
+    	registry.registerAction(action);
+    	getSelectionActions().add(action.getId());
+    
+    	action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.MIDDLE);
+    	registry.registerAction(action);
+    	getSelectionActions().add(action.getId());
+    }
+	
+	protected KeyHandler getCommonKeyHandler(){
+		if (keyHandler == null){
+			keyHandler = new KeyHandler();
+			keyHandler.put(
+				KeyStroke.getPressed(SWT.DEL, 127, 0),
+				getActionRegistry().getAction(ActionFactory.DELETE.getId()));
+			keyHandler.put(
+				KeyStroke.getPressed(SWT.F2, 0),
+				getActionRegistry().getAction(GEFActionConstants.DIRECT_EDIT));
+		}
+		return keyHandler;
+	}
+	
+    /**
 	 * @see org.eclipse.ui.ISaveablePart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void doSave(IProgressMonitor monitor) {
@@ -297,6 +295,70 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette
 		return false;
 	}
 
+
+	/* palette stuff */
+	protected CustomPalettePage createPalettePage() 
+	{
+		return new CustomPalettePage(getPaletteViewerProvider()) {
+			public void init(IPageSite pageSite) {
+				super.init(pageSite);
+				IAction copy = getActionRegistry().getAction(ActionFactory.COPY.getId());
+				pageSite.getActionBars().setGlobalActionHandler(
+						ActionFactory.COPY.getId(), copy);
+			}
+		};
+	}
+
+	protected PaletteViewerProvider createPaletteViewerProvider() 
+	{
+		return new PaletteViewerProvider(getEditDomain()) {
+			private IMenuListener menuListener;
+			protected void configurePaletteViewer(PaletteViewer viewer) {
+				super.configurePaletteViewer(viewer);
+				viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
+			}
+		};
+	}
+	
+    /**
+     * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPalettePreferences()
+     */
+    protected FlyoutPreferences getPalettePreferences()
+    {
+    	return new FlyoutPreferences() {
+    		public int getDockLocation() {
+    			return KoboldPLAMPlugin.getDefault().getPreferenceStore()
+    					.getInt(PALETTE_DOCK_LOCATION);
+    		}
+    		public int getPaletteState() {
+    			return KoboldPLAMPlugin.getDefault().getPreferenceStore().getInt(PALETTE_STATE);
+    		}
+    		public int getPaletteWidth() {
+    			return KoboldPLAMPlugin.getDefault().getPreferenceStore().getInt(PALETTE_SIZE);
+    		}
+    		public void setDockLocation(int location) {
+    			KoboldPLAMPlugin.getDefault().getPreferenceStore()
+    					.setValue(PALETTE_DOCK_LOCATION, location);
+    		}
+    		public void setPaletteState(int state) {
+    		    KoboldPLAMPlugin.getDefault().getPreferenceStore()
+    					.setValue(PALETTE_STATE, state);
+    		}
+    		public void setPaletteWidth(int width) {
+    			KoboldPLAMPlugin.getDefault().getPreferenceStore()
+    					.setValue(PALETTE_SIZE, width);
+    		}
+    	};
+    }
+    
+    protected PaletteRoot getPaletteRoot() {
+    	if( root == null ){
+    		root = PaletteHelper.createPalette();
+    	}
+    	return root;
+    }
+
+	
 	/**
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
@@ -318,7 +380,7 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette
 	}
 
 	class OutlinePage extends ContentOutlinePage implements IAdaptable
-	 {
+	{
 		 static final int ID_OUTLINE = 0;
 		 static final int ID_OVERVIEW = 1;
 		 private Canvas overview;
@@ -337,7 +399,7 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette
 		 {
 			 if (type == ZoomManager.class) {
 				 return ((ScalableFreeformRootEditPart) getGraphicalViewer()
-															.getRootEditPart()).getZoomManager();
+												.getRootEditPart()).getZoomManager();
 			 }
 
 			 return null;
@@ -374,11 +436,11 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette
 
 			 ActionRegistry registry = getActionRegistry();
 			 IActionBars bars = pageSite.getActionBars();
-			 String id = IWorkbenchActionConstants.UNDO;
+			 String id = ActionFactory.UNDO.getId();
 			 bars.setGlobalActionHandler(id, registry.getAction(id));
-			 id = IWorkbenchActionConstants.REDO;
+			 id = ActionFactory.REDO.getId();
 			 bars.setGlobalActionHandler(id, registry.getAction(id));
-			 id = IWorkbenchActionConstants.DELETE;
+			 id = ActionFactory.DELETE.getId();
 			 bars.setGlobalActionHandler(id, registry.getAction(id));
 			 bars.updateActionBars();
 		 }

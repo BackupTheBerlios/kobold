@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ViewModelContainer.java,v 1.1 2004/06/22 23:30:11 vanto Exp $
+ * $Id: ViewModelContainer.java,v 1.2 2004/06/23 02:26:23 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -79,7 +79,6 @@ public class ViewModelContainer implements ISerializable
         Iterator it = element.elementIterator("prop");
         while (it.hasNext()) {
             Element el = (Element)it.next();
-            //FIXME find model instance and set it as parent for viewmodel
             propertyByModelId.put(el.attribute("id"), new ViewModel(element));
         }
     }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineEditPart.java,v 1.2 2004/06/22 23:30:12 vanto Exp $
+ * $Id: ProductlineEditPart.java,v 1.3 2004/06/23 02:26:23 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -32,6 +32,7 @@ import java.util.List;
 
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
+import kobold.client.plam.editor.policy.ProductlineContainerEditPolicy;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.productline.Productline;
@@ -58,7 +59,7 @@ import org.eclipse.gef.tools.MarqueeDragTracker;
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductlineEditPart.java,v 1.2 2004/06/22 23:30:12 vanto Exp $
+ * @version $Id: ProductlineEditPart.java,v 1.3 2004/06/23 02:26:23 vanto Exp $
  */
 public class ProductlineEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
@@ -84,6 +85,7 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicy());
+        installEditPolicy(EditPolicy.CONTAINER_ROLE, new ProductlineContainerEditPolicy());
     }
 
     /**
@@ -91,7 +93,7 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
      */
     public void propertyChange(PropertyChangeEvent evt) {
         String prop = evt.getPropertyName();
-        if (prop.equals("child")) {
+        if (prop.equals(AbstractAsset.ID_CHILDREN)) {
            System.out.println("refresh");
            refreshChildren();
         }

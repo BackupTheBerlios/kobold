@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: XYLayoutEditPolicy.java,v 1.3 2004/06/22 23:30:12 vanto Exp $
+ * $Id: XYLayoutEditPolicy.java,v 1.4 2004/06/23 02:26:23 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
@@ -44,7 +44,7 @@ import org.eclipse.gef.requests.CreateRequest;
  * XYLayoutEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: XYLayoutEditPolicy.java,v 1.3 2004/06/22 23:30:12 vanto Exp $
+ * @version $Id: XYLayoutEditPolicy.java,v 1.4 2004/06/23 02:26:23 vanto Exp $
  */
 public class XYLayoutEditPolicy 
 	extends org.eclipse.gef.editpolicies.XYLayoutEditPolicy {
@@ -73,7 +73,6 @@ public class XYLayoutEditPolicy
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
      */
     protected Command getCreateCommand(CreateRequest request) {
-        // TODO
         return null;
     }
 

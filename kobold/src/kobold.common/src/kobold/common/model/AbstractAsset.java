@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.4 2004/06/22 12:50:55 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.5 2004/06/23 02:26:18 vanto Exp $
  *
  */
 package kobold.common.model;
@@ -57,8 +57,6 @@ public abstract class AbstractAsset implements ISerializable
     
 	public static final String
 		ID_CHILDREN = "children", 	//$NON-NLS-1$
-		ID_SIZE = "size",         //$NON-NLS-1$
-		ID_LOCATION = "location", //$NON-NLS-1$
 		ID_DATA = "data", //$NON-NLS-1$
 		ID_STATUS = "status"; //$NON-NLS-1$
 
@@ -256,5 +254,6 @@ public abstract class AbstractAsset implements ISerializable
 	protected final void fireStructureChange(String prop, Object child){
 		listeners.firePropertyChange(prop, null, child);
 	}
+	
 }
 
