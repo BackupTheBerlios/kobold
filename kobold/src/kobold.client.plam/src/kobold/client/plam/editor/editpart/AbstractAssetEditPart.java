@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAssetEditPart.java,v 1.17 2004/11/05 01:51:06 martinplies Exp $
+ * $Id: AbstractAssetEditPart.java,v 1.18 2004/11/09 23:29:07 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -92,6 +92,7 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
 	        refreshSourceConnections();
 	    } else if (EdgeContainer.ID_TARGET_CHANGED.equals(prop)) {
 	        refreshTargetConnections();
+	    } else {
 	        refreshVisuals();
 	    }
 	}
