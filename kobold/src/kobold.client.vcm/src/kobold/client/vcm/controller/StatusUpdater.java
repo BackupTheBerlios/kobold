@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.30 2004/08/27 15:56:55 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.31 2004/08/27 17:47:59 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -35,6 +35,7 @@ import java.util.Date;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.FileDescriptorHelper;
 import kobold.client.plam.model.IFileDescriptorContainer;
+import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.communication.*;
 import kobold.client.vcm.preferences.VCMPreferencePage;
@@ -205,5 +206,32 @@ public class StatusUpdater {
 		        }
 		    }
 		}	
-	//}
+    
+	/**
+     * deletes the variant directory
+     * @param variant
+     */
+    public static void deleteVariantVCMDirectory (Variant variant)
+    {
+    	
+    	ScriptServerConnection sc = new ScriptServerConnection("noUser");
+    	
+    	StatusUpdater su = new StatusUpdater();
+		//command line command with the stats script to the changed part of the meta-data containing FD(s)
+		String[] command = {"perl", su.getScriptPath() + 
+							"cleanvcmdata.pl", variant.getLocalPath().toOSString()};
+    	
+		try 
+		{
+			String iString="";
+			iString = sc.open(command,"");
+			System.out.println(iString);
+			sc.close();			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	System.out.println ("deleted variant "+variant.getName()+" directory!");
+    }
+    
 }
