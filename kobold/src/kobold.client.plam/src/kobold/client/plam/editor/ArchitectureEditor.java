@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.20 2004/07/02 12:33:58 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.21 2004/07/07 01:50:36 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -266,6 +266,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 			System.out.println(model.getParent());
 		    PLAMProject pp = model.getProject();
 			pp.storeViewModelContainer(viewModel, monitor);
+			pp.store();
 			//pp.getProductline().serializeAll();
 			getCommandStack().markSaveLocation();
 		} 

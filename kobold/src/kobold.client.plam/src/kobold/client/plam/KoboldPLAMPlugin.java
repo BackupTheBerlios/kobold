@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.11 2004/07/02 12:33:58 vanto Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.12 2004/07/07 01:50:36 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -41,6 +41,7 @@ import kobold.client.plam.workflow.LocalMessageQueue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.BasicConfigurator;
 import org.eclipse.core.internal.resources.ResourceException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceStatus;
@@ -76,6 +77,8 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 		super();
 		plugin = this;
 		currentProject = null;
+		
+		BasicConfigurator.configure();
 		
 		try {
 			resourceBundle= ResourceBundle.getBundle("kobold.client.plam.KoboldPLAMPluginResources");

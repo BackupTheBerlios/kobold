@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeFigure.java,v 1.5 2004/06/22 23:30:12 vanto Exp $
+ * $Id: AbstractNodeFigure.java,v 1.6 2004/07/07 01:50:36 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
 
+import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
@@ -57,7 +58,8 @@ public abstract class AbstractNodeFigure extends Shape {
 	
 	public AbstractNodeFigure() 
 	{
-		ToolbarLayout layout = new ToolbarLayout();
+		//ToolbarLayout layout = new ToolbarLayout();
+	    BorderLayout layout = new BorderLayout();
 		setLayoutManager(layout);
 		setBorder(new MarginBorder(1));        
 		setBackgroundColor(classColor);
@@ -65,39 +67,17 @@ public abstract class AbstractNodeFigure extends Shape {
 
 		titlebar = new TitleBarFigure();
 		add(titlebar);
+		layout.setConstraint(titlebar, BorderLayout.TOP);
 		
-		/*ScrollPane scrollpane = new ScrollPane();
-		pane = new FreeformLayer();
-		ToolbarLayout tl = new ToolbarLayout();
-		tl.setSpacing(5);
-		pane.setLayoutManager(tl);
-
-		//setLayoutManager(new StackLayout());
-		add(scrollpane);
-		scrollpane.setViewport(new FreeformViewport());
-		scrollpane.setContents(pane);*/
-
-		/*pane = new Figure();
-		pane.setBorder(new MarginBorder(5));
-		ToolbarLayout tl = new ToolbarLayout();
-		tl.setSpacing(15);
-		pane.setLayoutManager(tl);
-		
-		add(pane);*/
-
-		init1();
-	}
-
-	public void init1() {
 		setBorder(new MarginBorder(3));
 		ScrollPane scrollpane = new ScrollPane();
 		pane = new FreeformLayer();
 		pane.setLayoutManager(new FreeformLayout());
 		//setLayoutManager(new StackLayout());
 		add(scrollpane);
+		layout.setConstraint(scrollpane, BorderLayout.CENTER);
 		scrollpane.setViewport(new FreeformViewport());
 		scrollpane.setContents(pane);
-
 		
 		//setBackgroundColor(ColorConstants.listBackground);
 		setOpaque(true);

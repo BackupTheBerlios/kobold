@@ -1,8 +1,28 @@
 /*
- * Created on 01.07.2004
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: ModelStorage.java,v 1.2 2004/07/07 01:50:36 vanto Exp $
+ *
  */
 package kobold.client.plam.model;
 
@@ -15,6 +35,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import kobold.client.plam.model.productline.Productline;
 
+import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;
@@ -32,14 +53,14 @@ import org.eclipse.ui.progress.IProgressService;
 
 /**
  * @author Tammo
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
  */
 public class ModelStorage
 {
+    private static final Logger logger = Logger.getLogger(ModelStorage.class);
+    
     public static Productline loadModel(IProject project)
     {
+        logger.debug("Loading model...");
         Productline pl = null;
         IFolder plmeta = project.getFolder(".plmeta");
         if (plmeta.exists()) {
@@ -68,6 +89,7 @@ public class ModelStorage
     
     public static void storeModel(final Productline pl, final IProject project)
     {
+        logger.debug("Storing model...");
         IProgressService progressService = PlatformUI.getWorkbench().getProgressService();
         try {
             progressService.busyCursorWhile(new IRunnableWithProgress(){

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Release.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: Release.java,v 1.2 2004/07/07 01:50:36 vanto Exp $
  *
  */
 
@@ -123,6 +123,7 @@ public class Release extends AbstractAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
+	    super.deserialize(element);
 	    Iterator it = element.element("filerevisions").elementIterator(FileRevision.TYPE);
 	    released = element.attributeValue("released").equals(""+true);
 	    

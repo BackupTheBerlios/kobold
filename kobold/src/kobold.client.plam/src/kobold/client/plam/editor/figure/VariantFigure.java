@@ -21,13 +21,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantFigure.java,v 1.3 2004/05/14 02:19:15 vanto Exp $
+ * $Id: VariantFigure.java,v 1.4 2004/07/07 01:50:36 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
 
+import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.SchemeBorder;
+import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 
@@ -36,17 +42,34 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * VariantFigure
  * 
  * @author Tammo van Lessen
- * @version $Id: VariantFigure.java,v 1.3 2004/05/14 02:19:15 vanto Exp $
+ * @version $Id: VariantFigure.java,v 1.4 2004/07/07 01:50:36 vanto Exp $
  */
 public class VariantFigure extends AbstractNodeFigure {
     
 	protected Dimension corner = new Dimension(8, 8);
-
-	public VariantFigure() 
-	 {
-		 super();
-		 setBackgroundColor(ColorConstants.orange);
-	 }
+	   
+    private IFigure releasePane;
+    
+    public VariantFigure() 
+    {
+        super();
+        setBackgroundColor(ColorConstants.orange);
+        
+        releasePane = new Figure();
+       
+        FlowLayout tbl = new FlowLayout();
+        tbl.setStretchMinorAxis(false);
+        tbl.setMajorSpacing(2);
+        tbl.setMinorSpacing(2);
+        releasePane.setLayoutManager(tbl);
+        //TitleBarBorder border = new TitleBarBorder("Releases");
+        //SchemeBorder border = new SchemeBorder(new SchemeBorder.Scheme());
+        SchemeBorder border = new SchemeBorder(SchemeBorder.SCHEMES.BUTTON_PRESSED);
+        //border.setBackgroundColor(ColorConstants.lightGray);
+        releasePane.setBorder(border);
+        add(releasePane);
+        getLayoutManager().setConstraint(releasePane, BorderLayout.BOTTOM);
+    }
 	 
 	/**
 	 * @see Shape#fillShape(Graphics)
@@ -80,4 +103,8 @@ public class VariantFigure extends AbstractNodeFigure {
 		corner.height = d.height;
 	}
 
+	public IFigure getReleasePane()
+	{
+	    return releasePane;
+	}
 }

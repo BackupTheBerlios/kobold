@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.15 2004/07/02 12:33:58 vanto Exp $
+ * $Id: PLAMProject.java,v 1.16 2004/07/07 01:50:36 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -106,10 +106,10 @@ public class PLAMProject
 			    node = document.getRootElement().selectSingleNode("productline"); 
 			    productline = (node != null)?node.getText():null;
 			    
-			    logger.debug("server-uri: " + serverUrl);
-			    logger.debug("username: " + username);
-			    logger.debug("password: " + password);
-			    logger.debug("productline: " + productline);
+			    //logger.debug("server-uri: " + serverUrl);
+			    //logger.debug("username: " + username);
+			    //logger.debug("password: " + password);
+			    //logger.debug("productline: " + productline);
 			    in.close();
 			}
 		} catch (CoreException e) {

@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantEditPart.java,v 1.7 2004/07/01 11:27:25 vanto Exp $
+ * $Id: VariantEditPart.java,v 1.8 2004/07/07 01:50:36 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kobold.client.plam.editor.figure.VariantFigure;
@@ -33,13 +34,16 @@ import kobold.client.plam.editor.policy.VariantContainerEditPolicy;
 import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.LayoutManager;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
 
 /**
  * VariantEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: VariantEditPart.java,v 1.7 2004/07/01 11:27:25 vanto Exp $
+ * @version $Id: VariantEditPart.java,v 1.8 2004/07/07 01:50:36 vanto Exp $
  */
 public class VariantEditPart extends AbstractNodeEditPart {
 
@@ -69,7 +73,9 @@ public class VariantEditPart extends AbstractNodeEditPart {
      */
     protected List getModelChildren()
     {
-        List children = ((Variant)getModel()).getComponents();
+        List children = new ArrayList(); 
+        children.addAll(((Variant)getModel()).getComponents());
+        children.addAll(((Variant)getModel()).getReleases());
         return children;
     }
     
@@ -80,6 +86,10 @@ public class VariantEditPart extends AbstractNodeEditPart {
         return figure.getContentPane();
     }
     
+    public IFigure getReleasePane() {
+        return figure.getReleasePane();
+    }
+
     /**
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
@@ -89,4 +99,64 @@ public class VariantEditPart extends AbstractNodeEditPart {
         installEditPolicy(EditPolicy.CONTAINER_ROLE, new VariantContainerEditPolicy());
     }
 
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#addChildVisual(org.eclipse.gef.EditPart, int)
+     */
+    protected void addChildVisual(EditPart childEditPart, int index)
+    {
+    	IFigure child = ((GraphicalEditPart)childEditPart).getFigure();
+        if (childEditPart instanceof ReleaseEditPart) {
+            getReleasePane().add(child, index);
+    	} else {
+    	    getContentPane().add(child, index);
+    	}
+    }
+    
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#removeChildVisual(org.eclipse.gef.EditPart)
+     */
+    protected void removeChildVisual(EditPart childEditPart)
+    {
+        IFigure child = ((GraphicalEditPart)childEditPart).getFigure();
+        if (childEditPart instanceof ReleaseEditPart) {
+            getReleasePane().remove(child);
+    	} else {
+           	getContentPane().remove(child);
+    	}
+    }
+    
+    /**
+     * @see org.eclipse.gef.GraphicalEditPart#setLayoutConstraint(org.eclipse.gef.EditPart, org.eclipse.draw2d.IFigure, java.lang.Object)
+     */
+    public void setLayoutConstraint(EditPart child, IFigure childFigure,
+            Object constraint)
+    {
+        if (child instanceof ReleaseEditPart) {
+            getReleasePane().setConstraint(childFigure, constraint);
+    	} else {
+    	    getContentPane().setConstraint(childFigure, constraint);
+    	}
+    }
+    
+    protected void reorderChild(EditPart child, int index)
+    {
+    	IFigure childFigure = ((GraphicalEditPart) child).getFigure();
+    	LayoutManager layout = null;
+    	if (child instanceof ReleaseEditPart) {
+    	    layout = getReleasePane().getLayoutManager();
+        } else {
+            layout = getContentPane().getLayoutManager();
+        }
+    	Object constraint = null;
+    	if (layout != null)
+    		constraint = layout.getConstraint(childFigure);
+    	
+    	removeChildVisual(child);
+    	List children = getChildren();
+    	children.remove(child);
+    	children.add(index, child);
+    	addChildVisual(child, index);
+    	
+    	setLayoutConstraint(child, childFigure, constraint);
+    }
 }
