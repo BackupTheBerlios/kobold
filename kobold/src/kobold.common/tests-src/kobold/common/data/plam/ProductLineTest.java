@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.14 2004/06/24 10:21:07 grosseml Exp $
+ * $Id: ProductLineTest.java,v 1.15 2004/06/24 11:03:29 martinplies Exp $
  *
  */
 package kobold.common.data.plam;
@@ -150,6 +150,7 @@ public class ProductLineTest extends TestCase {
 		//serialize the whole product-line (all included)
  
 		//.productmetainfo 
+
 		//pl.serializeProductline("/tmp", 0);
 
 		//do all
@@ -172,6 +173,7 @@ public class ProductLineTest extends TestCase {
 			e.printStackTrace();
 		}
 		
+
 		ser = coreAssetA.serialize();
 		try {
 			XMLWriter w = new XMLWriter(System.out, OutputFormat.createPrettyPrint());

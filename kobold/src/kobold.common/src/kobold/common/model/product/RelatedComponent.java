@@ -21,11 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.3 2004/06/23 15:00:39 rendgeor Exp $
+ * $Id: RelatedComponent.java,v 1.4 2004/06/24 11:03:07 martinplies Exp $
  *
  */
 
 package kobold.common.model.product;
+
+import java.util.List;
+import java.util.Map;
 
 import org.dom4j.Element;
 import org.dom4j.DocumentHelper;
@@ -91,6 +94,7 @@ public class RelatedComponent extends AbstractAsset {
 		return AbstractAsset.COMPONENT;
 	}
 
+
 	/**
 	 * DOM constructor.
 	 * @param productName
@@ -98,5 +102,27 @@ public class RelatedComponent extends AbstractAsset {
 	public RelatedComponent (Element element) {
 		deserialize(element);
 	}
+	
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getAttributes()
+	 */
+	public Map getAttributes() {
+		return relatedComponent.getAttributes();
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getChildren()
+	 */
+	public List getChildren() {
+		return relatedComponent.getChildren();
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getGXLType()
+	 */
+	public String getGXLType() {
+		return relatedComponent.getGXLType();
+	}
+
 	
 }

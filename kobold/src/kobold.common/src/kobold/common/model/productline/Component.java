@@ -21,41 +21,50 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.10 2004/06/24 03:35:01 rendgeor Exp $
+ * $Id: Component.java,v 1.11 2004/06/24 11:03:22 martinplies Exp $
  *
  */
 
 package kobold.common.model.productline;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import kobold.common.data.IdManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
 import java.io.File;
 import java.io.FileWriter;
-
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.IVariantContainer;
+
+import net.sourceforge.gxl.GXLGraph;
+import net.sourceforge.gxl.GXLNode;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.DocumentException;
+
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.dom4j.io.SAXReader;
 /**
  * @author garbeam
  */
 public class Component extends AbstractAsset 
 					   implements IVariantContainer {
 
+	public static final String GXL_TYPE = "http://kobold.berlios.de/types#component";
 	//the variants
 	private List variants = new ArrayList();
+
 	
 	//the repository-path
 	String repositoryPath;
@@ -97,6 +106,8 @@ public class Component extends AbstractAsset
 		
 		return element;
 	}
+
+	
 
 	public void serializeComponent (String path)
 	{
@@ -234,5 +245,35 @@ public class Component extends AbstractAsset
 	public void setRepositoryPath(String repositoryPath) {
 		this.repositoryPath = repositoryPath;
 		firePropertyChange(ID_DATA, null, repositoryPath);
+	}
+	
+/*	public GXLNode getGXLNode() throws URISyntaxException {
+		
+		GXLNode node = super.getGxlNode();
+		if (variants.size() > 0 ) {
+		  GXLGraph graph = new GXLGraph(IdManager.getInstance().getGXLNodeId("graph"));
+		  for (int i =0; i < variants.size(); i++){
+		  	Variant v = (Variant) variants.get(i);
+		  	graph.add(v.getGXLGraph());
+		  }
+		}
+		node.setType(new URI(GXL_TYPE));
+		return node;
+		
+	}
+*/	
+	public List getChildren() {
+		return variants;
+	}
+	
+	public Map getAttributes() {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getGXLType()
+	 */
+	public String getGXLType() {
+		return GXL_TYPE;
 	}
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.10 2004/06/24 10:21:07 grosseml Exp $
+ * $Id: Product.java,v 1.11 2004/06/24 11:02:54 martinplies Exp $
  *
  */
 
@@ -30,18 +30,19 @@ package kobold.common.model.product;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
+
 import org.dom4j.DocumentHelper;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.dom4j.io.SAXReader;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,6 +64,7 @@ public class Product extends AbstractAsset {
 	private List relatedComponents = new ArrayList();
 	private RepositoryDescriptor repositoryDescriptor = null;
 	private String localPath;
+	private static final String GXL_TYPE = "http://kobold.berlios.de/types#Product";
 		
 	/**
 	 * Basic constructor.
@@ -112,6 +114,7 @@ public class Product extends AbstractAsset {
 		return productElement;
 	}
 
+	
 	public void serializeProduct (String path)
 	{
 		//creates a document
@@ -276,4 +279,30 @@ public class Product extends AbstractAsset {
     {
         this.localPath = localPath;
     }
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getAttributes()
+	 */
+	public Map getAttributes() {
+		HashMap attributes = new HashMap();
+		attributes.put("localPath",localPath);
+		return attributes;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getChildren()
+	 */
+	public List getChildren() {
+		ArrayList children = new ArrayList();
+		children.addAll(specificComponents);
+		return children;
+		// TODO add Release
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getGXLType()
+	 */
+	public String getGXLType() {
+		return GXL_TYPE;
+	}
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.3 2004/06/23 15:00:39 rendgeor Exp $
+ * $Id: SpecificComponent.java,v 1.4 2004/06/24 11:03:16 martinplies Exp $
  *
  */
 
@@ -33,6 +33,7 @@ import org.dom4j.DocumentHelper;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.Release;
@@ -44,6 +45,7 @@ import kobold.common.model.Release;
 public class SpecificComponent extends AbstractAsset {
 
 	private List releases;
+	private static final String GXL_TYPE = "http://kobold.berlios.de/types#component";
 	
 	/**
 	 * Basic constructor.
@@ -96,6 +98,7 @@ public class SpecificComponent extends AbstractAsset {
 	 */
 	public void deserialize(Element element) {
 		setName(element.attributeValue("name"));
+		
 	}
 
 	/**
@@ -103,6 +106,28 @@ public class SpecificComponent extends AbstractAsset {
 	 */
 	public String getType() {
 		return AbstractAsset.COMPONENT;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getAttributes()
+	 */
+	public Map getAttributes() {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getChildren()
+	 */
+	public List getChildren() {
+		// TODO add releases;
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getGXLType()
+	 */
+	public String getGXLType() {
+		return GXL_TYPE;
 	}		
 }
 

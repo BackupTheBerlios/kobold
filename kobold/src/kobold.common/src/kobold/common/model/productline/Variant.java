@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.7 2004/06/24 02:49:26 rendgeor Exp $
+ * $Id: Variant.java,v 1.8 2004/06/24 11:01:56 martinplies Exp $
  *
  */
 
@@ -31,11 +31,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import kobold.common.data.IdManager;
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.IComponentContainer;
 import kobold.common.model.IReleaseContainer;
 import kobold.common.model.Release;
+
+import net.sourceforge.gxl.GXLGraph;
+import net.sourceforge.gxl.GXLNode;
 
 import org.dom4j.Element;
 
@@ -47,7 +52,8 @@ public class Variant extends AbstractAsset
 					 implements IComponentContainer, IReleaseContainer {
 
 	private List components = new ArrayList();
-	private List releases = new ArrayList();;
+	private List releases = new ArrayList();
+	private static final String GXL_TYPE = "http://kobold.berlios.de/types#variant";;
 	
 	/**
 	 * Basic constructor.
@@ -202,6 +208,43 @@ public class Variant extends AbstractAsset
 	{
 	    return Collections.unmodifiableList(releases);
 	}
-
+	
+/*	public GXLNode getGXLGraph() {
+		GXLNode node = super.getGxlNode();
+		// add Children
+		if (components.size() > 0  || releases.size()> 0) {
+		  GXLGraph graph = new GXLGraph(IdManager.getInstance().getModelId("varaint"));
+		  for (Iterator it = components.iterator(); it.hasNext();){
+		  	Component comp = (Component) it.next();
+		  	graph.add(comp.getGXLGraph());
+		  	
+		  }
+		  if (releases.size()> 0){
+		  	Release lastRel = (Release)releases.get(releases.size()-1);
+		  	graph.add( lastRel.getGXLGraph() );
+		  }
+		  node.add(graph);
+		}
+		return node;
+	}
+*/
+	public List getChildren() {
+		List children = new ArrayList();
+		children.addAll(components);
+		if (releases.size() > 0) {
+		  List files = (List) releases.get(releases.size()-1);
+		  children.addAll(files);
+		}
+		return children;
+	}
+	
+	public Map getAttributes() {
+		return null;
+	}
+	
+	public String getGXLType() {
+		return GXL_TYPE;
+	}
+	
     
 }

@@ -21,21 +21,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.10 2004/06/24 03:35:01 rendgeor Exp $
+ * $Id: AbstractAsset.java,v 1.11 2004/06/24 11:02:47 martinplies Exp $
  *
  */
 package kobold.common.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import kobold.common.data.ISerializable;
 import kobold.common.data.IdManager;
 
+import net.sourceforge.gxl.GXLElement;
+import net.sourceforge.gxl.GXLGraph;
+import net.sourceforge.gxl.GXLNode;
+import net.sourceforge.gxl.GXLString;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
@@ -52,6 +63,8 @@ public abstract class AbstractAsset implements ISerializable
     public static final String VARIANT = "variant";
     public static final String RELEASE = "release";
     public static final String FILE_DESCRIPTOR = "filedesc";
+    
+    protected static final Log logger = LogFactory.getLog(AbstractAsset.class);
 
     protected transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     
@@ -85,6 +98,46 @@ public abstract class AbstractAsset implements ISerializable
     {
         return id;
     }
+    
+    public final GXLNode getGXLGraph() {
+    	
+    	GXLNode node = new GXLNode(IdManager.getInstance().getMessageId(id));
+    	try {
+			//node.setAttr("id", new GXLString(id));
+    		if (name != null)
+			  node.setAttr("name",new GXLString(name));
+    		if (description != null)
+			  node.setAttr("description", new GXLString(description));
+    		if (owner != null)
+			  node.setAttr("owner", new GXLString(owner));
+			Map attributes = getAttributes();
+			if (attributes != null) {
+				for (Iterator ite = attributes.keySet().iterator(); ite.hasNext();){
+					String key = (String) ite.next();
+					node.setAttr(key, new GXLString((String) attributes.get(key)));
+				}
+			}
+			List children = getChildren();
+			if (children != null){
+			  GXLGraph graph = new GXLGraph(IdManager.getInstance().getGXLGraphId("graph"));
+			  for (Iterator ite = children.iterator(); ite.hasNext();){
+				AbstractAsset asset = (AbstractAsset) ite.next();
+				graph.add(asset.getGXLGraph());
+			  }
+			  node.add(graph);
+			}
+			try {
+				node.setType(new URI(getGXLType()));
+			} catch (Exception e) {
+				logger.info("Wrong node type uri specified", e);
+			}
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return node;
+    }
+       
 
     /**
      * Returns the assets name.
@@ -266,5 +319,20 @@ public abstract class AbstractAsset implements ISerializable
 		listeners.firePropertyChange(prop, null, child);
 	}
 	
+	public abstract Map getAttributes();
+	public abstract List getChildren();
+	public abstract String getGXLType();
+	/**
+	 * @return Returns the owner.
+	 */
+	public String getOwner() {
+		return owner;
+	}
+	/**
+	 * @param owner The owner to set.
+	 */
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
 }
 
