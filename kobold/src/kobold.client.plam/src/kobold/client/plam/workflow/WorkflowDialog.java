@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.7 2004/05/17 22:27:39 martinplies Exp $
+ * $Id: WorkflowDialog.java,v 1.8 2004/05/18 01:05:17 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -58,6 +58,7 @@ public class WorkflowDialog extends Dialog {
 	private List viewItems = new ArrayList();
 	private ContainerViewItem containerItem;
 	private boolean send = false;
+	final WorkflowDialog thisWorkflowDialog = this;
 	//List checkButton
 
 	
@@ -103,7 +104,6 @@ public class WorkflowDialog extends Dialog {
 		
      	Button button = new Button(buttons,SWT.PUSH);
 		button.setText("send");	
-		final WorkflowDialog thisWorkflowDialog = this;
       	button.addSelectionListener(new SelectionAdapter() {
 		   public void widgetSelected(SelectionEvent e) {
 		 	  thisWorkflowDialog.buttonPressed("send");
@@ -124,7 +124,7 @@ public class WorkflowDialog extends Dialog {
 	
 	 private void buttonPressed(String button){
 	 	if (button == "send") {
-	 		this.containerItem.applyValues();
+	 		//this.containerItem.applyValues();
 	 	}
 	 }
 	 
@@ -146,7 +146,7 @@ public class WorkflowDialog extends Dialog {
 	 */
 	public boolean isSend() {
 		
-		return send;
+		return  send;
 	}
 }
 
