@@ -85,7 +85,7 @@ sub read_entries {
                 #store all in the hash map instead
 
                 # absolut path:
-                $data {"$root/$path"} = "$rev\t$date\t$tag";
+                $data {"/$root/$path"} = "$rev\t$date\t$tag";
             }
         }
         
@@ -145,7 +145,7 @@ sub read_phys {
                 #or:
                 #cut off the prefix
                 #$teilstring = substr(STRING,STARTPOS[,LAENGE])
-                $newFile = substr ($newFile, $currDirLength+1);
+                $newFile = substr ($newFile, $currDirLength-1);
 
                 #directory?
                 if ( -d "$File::Find::name" ) {
