@@ -1,7 +1,7 @@
 \chapter{12-step Tutorial}
 
 \section{Preconditions}
-In order to perform this tutorial, install Kobold and start the Client, Server and
+In order to perform this tutorial, install Kobold and start the Server and
 Server Administration Tool. Make sure that you have set the correct properties for your
 Client. 
 
@@ -9,12 +9,13 @@ Client.
 \section{Creating a productline}
 In your SAT Tool, enter the command 'newpl'. A listing is shown with the properties of the lately created
 productline. Enter the command '1' and then 'testproductline' as name for your
-new productline. Enter the command 'p' to create the productline.
+new productline. Enter the command 'p' to create the productline (see \ref{productline}).
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial1.png}
    \caption{Creating a productline}
+   \label{productline}
 \end{center}
 \end{figure}\par
 
@@ -23,24 +24,27 @@ new productline. Enter the command 'p' to create the productline.
 In your SAT Tool, enter the command 'newuser'. A listing is shown with the properties of the lately created
 user, his/her username, fullname and initial password. 
 Enter the command '1' and then 'testuser' as username for your new user.
-Enter the command 'p' to create the user.
+Enter the command 'p' to create the user (see \ref{user}).
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial2.png}
    \caption{Creating a new user}
+   \label{user}
 \end{center}
 \end{figure}\par
 
 
 \section{Assigning an existing user to a productline as PLE}
 In your SAT Tool, enter the command 'assignple'. 
-As PLE enter the username 'testuser'. As productline enter your productline 'testproductline'.
+As PLE enter the username 'testuser'. As productline enter your productline 'testproductline' 
+(see \ref{ple}).
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial3.png}
    \caption{Assigning your ple to your productline}
+   \label{ple}
 \end{center}
 \end{figure}\par
 
@@ -51,30 +55,33 @@ As PLE enter the username 'testuser'. As productline enter your productline 'tes
 Start the Client.
 In the File menu select 'New' and then 'Kobold PLAM Project'. The Kobold wizard opens.
 Enter the url of your Kobold server, your username (testuser) and a blank for your password. Then press
-"test connection". If the test succeeds, the "next" button is enabled.
+"test connection". If the test succeeds, the "next" button is enabled (see \ref{project1}).
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial4.png}
    \caption{Kobold wizard}
+   \label{project1}
 \end{center}
 \end{figure}\par
 
-After that you choose 'testproductline' as the productline you want to check out.
+After that you choose 'testproductline' as the productline you want to check out (see \ref{project2}).
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial5.png}
    \caption{Kobold wizard}
+   \label{project2}
 \end{center}
 \end{figure}\par
 
-In the last step you have to enter 'testproject' as the name of the project you want to create.
+In the last step you have to enter 'testproject' as the name of the project you want to create (see \ref{project3}).
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial6.png}
    \caption{Kobold wizard}
+   \label{project3}
 \end{center}
 \end{figure}\par
 
@@ -88,22 +95,24 @@ open the Architecture Editor. \par
 
 Open the pallete on the right of the Architecture Editor and select the 'component' item. Click in 
 the Architecture Editor. A core asset is inserted and a dialog opens where you enter 'componentA' as name of
-the core asset. 
+the core asset (see \ref{asset1}). 
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=8cm]{tutorial7.png}
    \caption{Asset Configuration Core Asset}
+   \label{asset1}
 \end{center}
 \end{figure}\par
 
 Repeat these steps another two times and create the core assets 'componentB' and
-'componentC'. After this your architecture should look like the following:
+'componentC'. After this your architecture should look like the following (see \ref{asset2}):
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial8.png}
    \caption{Your Core Assets}
+   \label{asset2}
 \end{center}
 \end{figure}\par
 
@@ -112,22 +121,24 @@ Repeat these steps another two times and create the core assets 'componentB' and
 
 In the pallete select the "variant" item. Click within componentA in 
 the Architecture Editor. A variant is inserted and a dialog opens where you can enter 'variantA1' as name of
-the variant. 
+the variant (see \ref{variant1}). 
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial9.png}
    \caption{Asset Configuration Variant}
+   \label{variant1}
 \end{center}
 \end{figure}\par
 
 Repeat these steps another two times in order to create the variants 'variantA2' and 'variantB'.
-After this your architecture should look like the following:
+After this your architecture should look like the following (see \ref{variant2}):
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial10.png}
    \caption{Your Variants}
+   \label{variant2}
 \end{center}
 \end{figure}\par
 
@@ -136,22 +147,24 @@ After this your architecture should look like the following:
 
 In the pallete select the "release" item. Click within variantA1 in 
 the Architecture Editor. A release is inserted and a dialog opens where you can enter 'releaseA' as name of
-the release. 
+the release (see \ref{release1}). 
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial11.png}
    \caption{Asset Configuration Release}
+   \label{release1}
 \end{center}
 \end{figure}\par
 
 Repeat these steps another two times in order to create the releases 'releaseB1' and 
-'releaseB2'. After this your architecture should look like the following:
+'releaseB2'. After this your architecture should look like the following (see \ref{release2}):
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial12.png}
    \caption{Your Releases}
+   \label{release2}
 \end{center}
 \end{figure}\par
 
@@ -161,12 +174,13 @@ Repeat these steps another two times in order to create the releases 'releaseB1'
 
 In the pallete select the "include edge" item. Select the assets 'variantA1', 'releaseB1', 
 'componentA' and 'componentC' in this order. Two dependency edges appear between the
-assets. After this your architecture should look like the following:
+assets. After this your architecture should look like the following (see \ref{edge}):
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial13.png}
    \caption{Dependency edges}
+   \label{edge}
 \end{center}
 \end{figure}\par
 
@@ -175,12 +189,13 @@ assets. After this your architecture should look like the following:
 \section{Creating a product}
 
 In the palette press 'compose product'. The components, etc. in the architecture editor turn
-grey. Select 'releaseA'. The chosen object and all the objects that are needed for it turn blue. 
+grey. Select 'releaseA'. The chosen object and all the objects that are needed for it turn blue (see \ref{product1}). 
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial14.png}
    \caption{Creating a product - step 1}
+   \label{product1}
 \end{center}
 \end{figure}\par
 
@@ -188,12 +203,13 @@ grey. Select 'releaseA'. The chosen object and all the objects that are needed f
 Press the 
 'create product' button in the Architecture Editor. A dialog opens where you can enter 'testproduct' as
 the name of your new product. After confirming the dialog, you can see
-your new product in the Architecture Tree and Architecture Editor.
+your new product in the Architecture Tree and Architecture Editor (see \ref{product2}).
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial15.png}
    \caption{Creating a product - step 2}
+   \label{product2}
 \end{center}
 \end{figure}\par
 
@@ -206,12 +222,13 @@ your new product in the Architecture Tree and Architecture Editor.
 In the menu of the Workflow View select "new mail". A Workflow window opens where
 you enter 'testuser' as the recipient in order to send yourself a testmail. 
 Choose 'test' as the subject of your message and enter 'this is a testmail'. 
-Press the 'transmit' button to send your mail.
+Press the 'transmit' button to send your mail (see \ref{mail1}).
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial16.png}
    \caption{Write a mail}
+   \label{mail1}
 \end{center}
 \end{figure}\par
 
@@ -223,12 +240,13 @@ message arrives in your Workflow View.
 In the Workflow View double-click on your testmail. The Workflow
 window opens where you can see the message text of the mail. Below you enter
 the subject 'reply' and the text of your reply. Send the answer by pressing the 'Transmit' 
-button. 
+button (see \ref{mail2}). 
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{tutorial17.png}
    \caption{Answer a mail}
+   \label{mail2}
 \end{center}
 \end{figure}\par
 
