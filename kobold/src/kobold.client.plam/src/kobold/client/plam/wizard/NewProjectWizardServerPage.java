@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.4 2004/05/15 16:23:11 vanto Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.5 2004/05/15 16:37:06 garbeam Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -46,6 +46,9 @@ import org.eclipse.swt.widgets.Text;
  */
 public class NewProjectWizardServerPage extends WizardPage {
 
+	public static final String PAGE_ID
+					= "KOBOLD_WIZARD_NEW_SERVER"; 
+
 	private Text serverUrlField;
 	private Text usernameField;
 	private Text passwordField;
@@ -62,8 +65,8 @@ public class NewProjectWizardServerPage extends WizardPage {
 	 * Constructor for NewProjectSetWizardPage.
 	 * @param pageName
 	 */
-	public NewProjectWizardServerPage(String pageName) {
-		super(pageName);
+	public NewProjectWizardServerPage() {
+		super(PAGE_ID);
 		setPageComplete(false);
 	}
 

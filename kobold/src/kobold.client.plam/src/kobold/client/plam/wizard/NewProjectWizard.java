@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.7 2004/05/15 16:18:16 vanto Exp $
+ * $Id: NewProjectWizard.java,v 1.8 2004/05/15 16:37:06 garbeam Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -110,7 +110,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 		mainPage.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
 		this.addPage(mainPage);
 		
-		serverPage = new NewProjectWizardServerPage("serverpage"); //$NON-NLS-1$
+		serverPage = new NewProjectWizardServerPage(); //$NON-NLS-1$
 		serverPage.setTitle(Messages.getString("NewProjectWizard.ServerPageTitle")); //$NON-NLS-1$
 		serverPage.setDescription(Messages.getString("NewProjectWizard.ServerPageDesc")); //$NON-NLS-1$
 		serverPage.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$

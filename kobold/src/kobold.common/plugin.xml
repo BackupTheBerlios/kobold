@@ -22,6 +22,22 @@
       <library name="contrib/xmlrpc2-devel/xmlrpc-2.0-a1-dev.jar">
          <export name="*"/>
       </library>
+      <library name="contrib/jakarta-commons/commons-codec-1.3.jar">
+         <export name="*"/>
+      </library>
+      <library name="contrib/jakarta-commons/commons-httpclient.jar">
+         <export name="*"/>
+      </library>
+      <library name="/home/garbeam/jsse1.0.3_03/lib/jcert.jar">
+         <export name="*"/>
+      </library>
+      <library name="/home/garbeam/jsse1.0.3_03/lib/jnet.jar">
+         <export name="*"/>
+      </library>
+      <library name="/home/garbeam/jsse1.0.3_03/lib/jsse.jar">
+         <export name="*"/>
+      </library>
+      <library name="New Library"/>
    </runtime>
 
 </plugin>

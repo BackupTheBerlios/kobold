@@ -21,11 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ProductLineChooserWizardPage.java,v 1.2 2004/05/13 20:02:18 vanto Exp $
+ * $Id: ProductLineChooserWizardPage.java,v 1.3 2004/05/15 16:37:06 garbeam Exp $
  *  
  */
 package kobold.client.plam.wizard;
 
+import java.net.URL;
+
+import kobold.client.plam.controller.SecureKoboldClient;
+import kobold.common.data.Productline;
+import kobold.common.data.UserContext;
+
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -70,6 +77,26 @@ public class ProductLineChooserWizardPage extends WizardPage {
 		projectGroup.setLayout(layout);
 		projectGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
+		NewProjectWizardServerPage serverInfoPage =
+			(NewProjectWizardServerPage) getWizard().getPage(NewProjectWizardServerPage.PAGE_ID);
+	
+		String pline = "unknown";		
+		SecureKoboldClient client;
+		try {
+			System.out.println("got URL: " + serverInfoPage.getServerURL());
+			//client = new SecureKoboldClient(serverInfoPage.getServerURL());
+			client = new SecureKoboldClient(new URL("https://localhost:23232/RPC2"));
+			UserContext uc = client.login("garbeam", "garbeam");
+			//client.login(serverInfoPage.getUsername(),
+			//											serverInfoPage.getPassword());
+			Productline productline = client.getProductline(uc, "kobold2");
+			pline = productline.getName();
+			client.logout(uc);
+		} catch (Exception exception) {
+			LogFactory.getLog(getClass().getName()).info(exception);
+			exception.printStackTrace();
+		}
+		
 		// new server label
 		Label projectLabel = new Label(projectGroup, SWT.NONE);
 		projectLabel.setText("Product Line");
@@ -77,7 +104,7 @@ public class ProductLineChooserWizardPage extends WizardPage {
 
 		combo = new Combo (projectGroup, SWT.READ_ONLY);
 		
-		combo.setItems (new String [] {"", "A-1", "B-1", "C-1"});
+		combo.setItems (new String [] {pline, "A-1", "B-1", "C-1"});
 		
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.widthHint = 250;
