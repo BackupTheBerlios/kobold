@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVCMActionListener.java,v 1.9 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: IVCMActionListener.java,v 1.10 2004/10/26 15:07:38 garbeam Exp $
  *
  */
 package kobold.client.plam.listeners;
@@ -64,11 +64,12 @@ public interface IVCMActionListener
     void refreshFiledescriptors(IFileDescriptorContainer container);
     
     /**
-     * Update productline.
-     * @param spl
-     * @param p
+     * Update server asset.
+     * Used by server side productline and products.
+     * @param asset
+     * @param p the project
      */
-    void updateProductline(kobold.common.data.Productline spl, IProject p);
+    void updateAsset(kobold.common.data.Asset asset, IProject p);
     
     /**
      * Commit productline.
@@ -76,13 +77,6 @@ public interface IVCMActionListener
      * @param pl
      */
     void commitProductline(Productline pl);
-    
-    /**
-     * Update productline.
-     * @param prod
-     * @param p
-     */
-    void updateProduct(kobold.common.data.Product prod, IProject p);
     
     /**
      * Commit productline.

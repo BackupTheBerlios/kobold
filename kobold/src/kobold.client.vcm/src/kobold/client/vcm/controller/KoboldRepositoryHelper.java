@@ -168,7 +168,7 @@ public class KoboldRepositoryHelper {
     	String uN = KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR);
     
     	if (uN.equals("")) {
-    		uN = getPreference (VCMPreferencePage.KOBOLD_VCM_USER_STR);
+    		uN = getPreference(VCMPreferencePage.KOBOLD_VCM_USER_STR);
     		if (uN != null) {
     		    setUserName(uN);
     		}
@@ -195,7 +195,7 @@ public class KoboldRepositoryHelper {
     	
     	if (prefs.getBoolean(VCMPreferencePage.KOBOLD_VCM_ASK_PWD) || prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR).equals(""))
     	{
-    		uP = getPreference (VCMPreferencePage.KOBOLD_VCM_PWD_STR);
+    		uP = getPreference(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
     		if (uP != null) {
     			setUserPassword(uP);
     		}
@@ -209,7 +209,7 @@ public class KoboldRepositoryHelper {
      */
     static private void setUserPassword (String userPassword)
     {
-    	KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_PWD_STR,userPassword);
+    	KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_PWD_STR, userPassword);
     }
     
     /**
@@ -217,17 +217,15 @@ public class KoboldRepositoryHelper {
      * @param type the variableName to get of the user
      * @return the input-value of the dialog
      */
-    static private String getPreference (String type)
-    {
-        String preferenceName = "";
+    static private String getPreference (String type) {
+        String preferenceName = type;
         if (type.equals(VCMPreferencePage.KOBOLD_VCM_PWD_STR))
         {
-            preferenceName = type;
             type = "VCM User Password"; 
-            PasswordDialog pd = new PasswordDialog (new Shell());
+            PasswordDialog pd = new PasswordDialog(new Shell());
             //open the dialog
             if (pd.open() == Dialog.OK) {
-                return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
+                return pd.getPassword();
             }
             else {
     		    // CANCEL
@@ -236,12 +234,11 @@ public class KoboldRepositoryHelper {
         } 
         else if (type.equals(VCMPreferencePage.KOBOLD_VCM_USER_STR))
         {
-            preferenceName = type;
             type = "VCM User Name";
-    		InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
+    		InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type + ":", null, null);
     		//open the dialog
     		if (in.open() == Dialog.OK) {
-    			return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR);
+    			return in.getValue();
     		}
     		else {
     		    // CANCEL

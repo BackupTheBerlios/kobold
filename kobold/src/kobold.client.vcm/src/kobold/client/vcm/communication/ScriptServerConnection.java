@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ScriptServerConnection.java,v 1.51 2004/10/21 21:33:58 martinplies Exp $
+ * $Id: ScriptServerConnection.java,v 1.52 2004/10/26 15:07:39 garbeam Exp $
  */
 package kobold.client.vcm.communication;
 
@@ -237,8 +237,8 @@ public class ScriptServerConnection implements IServerConnection
 				returnValue =  process.exitValue();
 				if (returnValue != 0)
                 {
-					MessageDialog.openError(new Shell(),"Error excecuting VCM Script","an Error occured while excecuting a VCM Script, \n +" +
-					"please check the Message Console for further Details!");
+					MessageDialog.openError(new Shell(),"Error","An error occured while excecuting a VCM script, \n" +
+					"please check the message console for further details!");
                 }
 				System.out.println(returnValue);
             } catch (Exception e)

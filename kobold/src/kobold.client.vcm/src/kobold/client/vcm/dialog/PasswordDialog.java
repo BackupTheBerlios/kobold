@@ -41,10 +41,8 @@ import org.eclipse.swt.widgets.Text;
 
 public class PasswordDialog extends Dialog{
 	
-    private Label labelUsername;
     private Label labelPassword;
     
-    private Text textUsername;
     private Text textPassword;
 
     /**
@@ -94,11 +92,13 @@ public class PasswordDialog extends Dialog{
 
 		textPassword.setFocus();
     }
+    
+    public String getPassword() {
+        return textPassword.getText();
+    }
    
-    protected void okPressed()
-    {
- 		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(
- 		        VCMPreferencePage.KOBOLD_VCM_PWD_STR, textPassword.getText());
+    protected void okPressed() {
+        super.setReturnCode(Dialog.OK);
     	super.okPressed();
     }
     

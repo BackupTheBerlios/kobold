@@ -65,9 +65,10 @@ public class VCMPreferencePage
 		setDescription("This page lets you modify the values for the VCM Configuration");
 		initializeDefaults();
 	}
-/**
- * Sets the default values of the preferences.
- */
+	
+    /**
+     * Sets the default values of the preferences.
+     */
 	private void initializeDefaults() {
 		IPreferenceStore store = getPreferenceStore();
 		store.setDefault(KOBOLD_VCM_ASK_PWD, false);
@@ -76,99 +77,25 @@ public class VCMPreferencePage
 		store.setDefault(KOBOLD_VCM_SCRIPT_LOCATION, "");
 	}
 	
-/**
- * Creates the field editors. Field editors are abstractions of
- * the common GUI blocks needed to manipulate various types
- * of preferences. Each field editor knows how to save and
- * restore itself.
- */
-
+    /**
+     * Creates the field editors. Field editors are abstractions of
+     * the common GUI blocks needed to manipulate various types
+     * of preferences. Each field editor knows how to save and
+     * restore itself.
+     */
 	public void createFieldEditors() {
-
-		addField(
-			new BooleanFieldEditor(
-				KOBOLD_VCM_ASK_PWD,
-				"&Ask for Password everytime",
-				getFieldEditorParent()));
+		addField(new BooleanFieldEditor( KOBOLD_VCM_ASK_PWD, "&Ask for Password everytime", getFieldEditorParent()));
 		addField(new StringFieldEditor(KOBOLD_VCM_USER_STR, "User name:", getFieldEditorParent()));
 		addField(new DirectoryFieldEditor(KOBOLD_VCM_SCRIPT_LOCATION, "Script location:", getFieldEditorParent()));
 		addField(new PasswordFieldEditor(KOBOLD_VCM_PWD_STR, "User Password:", getFieldEditorParent()));
-
-		//		new (KOBOLD_VCM_PWD_STR, "Password:", getFieldEditorParent());
-//		addField();
-//		class PasswordFieldEditor extends FieldEditor{
-
 	}
-            /* (non-Javadoc)
-             * @see org.eclipse.jface.preference.FieldEditor#adjustForNumColumns(int)
-             */
-            protected void adjustForNumColumns(int numColumns)
-            {
-                
-            }
+	
+    /**
+     * @see org.eclipse.jface.preference.FieldEditor#adjustForNumColumns(int)
+     */
+    protected void adjustForNumColumns(int numColumns) {
+    }
 
-            /* (non-Javadoc)
-             * @see org.eclipse.jface.preference.FieldEditor#doFillIntoGrid(org.eclipse.swt.widgets.Composite, int)
-             */
-//            protected void doFillIntoGrid(Composite parent, int numColumns)
-//            {
-//        		GridLayout layout = new GridLayout(2, false);
-//        		layout.marginHeight = convertVerticalDLUsToPixels(parent,IDialogConstants.VERTICAL_MARGIN);
-//        		layout.marginWidth = convertHorizontalDLUsToPixels(parent,IDialogConstants.HORIZONTAL_MARGIN);
-//        		layout.verticalSpacing = convertVerticalDLUsToPixels(parent,IDialogConstants.VERTICAL_SPACING);
-//        		layout.horizontalSpacing = convertHorizontalDLUsToPixels(parent,IDialogConstants.HORIZONTAL_SPACING);
-//        		Label passwordLabel = new Label(parent,SWT.DEFAULT  );
-//        		passwordLabel.setText("VCM Password");
-//        		Text passwordField = new Text(parent,SWT.BORDER | SWT.LEAD);
-//        		passwordField.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
-//        				| GridData.FILL_HORIZONTAL));
-//        		passwordField.setEchoChar('*');
-//                
-//            }
-//
-//            /* (non-Javadoc)
-//             * @see org.eclipse.jface.preference.FieldEditor#doLoad()
-//             */
-//            protected void doLoad()
-//            {
-//
-////        		addField(new StringFieldEditor())
-//        	                    // TODO Auto-generated method stub
-//                
-//            }
-//
-//            /* (non-Javadoc)
-//             * @see org.eclipse.jface.preference.FieldEditor#doLoadDefault()
-//             */
-//            protected void doLoadDefault()
-//            {
-//                getPreferenceStore().getString(KOBOLD_VCM_PWD_STR);
-//                
-//            }
-//
-//            /* (non-Javadoc)
-//             * @see org.eclipse.jface.preference.FieldEditor#doStore()
-//             */
-//            protected void doStore()
-//            {
-//               getPreferenceStore().setValue(KOBOLD_VCM_PWD_STR,"test");
-//                
-//            }
-//
-//            /* (non-Javadoc)
-//             * @see org.eclipse.jface.preference.FieldEditor#getNumberOfControls()
-//             */
-//            public int getNumberOfControls()
-//            {
-//                // TODO Auto-generated method stub
-//                return 2;
-//            }
-//		    
-//		}
-//		addField(new PasswordFieldEditor());
-	
-	
-	
 	public void init(IWorkbench workbench) {
 	}
 }
