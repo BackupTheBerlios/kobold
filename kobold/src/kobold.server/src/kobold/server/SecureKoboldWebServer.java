@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.45 2004/07/14 14:11:29 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.46 2004/07/14 14:15:26 garbeam Exp $
  *
  */
 package kobold.server;
@@ -86,10 +86,15 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			System.err.println("Invalid port number: " + args[0]);
 			System.exit(1);
 		}
-
-		Properties props = new Properties(System.getProperties());
-		props.load(new FileInputStream("server.properties"));
-		System.setProperties(props);
+		
+		
+		try {
+		    Properties props = new Properties(System.getProperties());
+		    props.load(new FileInputStream(System.getProperty("kobold.server.configFile")));
+		    System.setProperties(props);
+        } catch (Exception e) {
+			logger.error("Could not find client configuration",e);
+        }
 		
 		server = new SecureWebServer(port);
 		// add an instance of this class as default handler
