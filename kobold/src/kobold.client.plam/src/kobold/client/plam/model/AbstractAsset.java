@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.29 2004/11/09 15:17:02 garbeam Exp $
+ * $Id: AbstractAsset.java,v 1.30 2004/11/09 16:23:36 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model;
@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 
 import kobold.client.plam.model.edges.INode;
+import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Productline;
 import kobold.common.data.ISerializable;
 import kobold.common.data.IdManager;
@@ -266,7 +267,10 @@ public abstract class AbstractAsset implements ISerializable, INode
             
             parent = parent.getParent();
         }
-        
+        if ((parent != null) && (parent instanceof Product))
+        {
+            return (AbstractRootAsset)parent.getParent();
+        }
         return (AbstractRootAsset)parent;
     }
 
