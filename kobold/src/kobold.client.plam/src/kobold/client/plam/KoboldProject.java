@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.23 2004/08/31 20:14:07 vanto Exp $
+ * $Id: KoboldProject.java,v 1.24 2004/09/21 16:24:50 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -203,7 +203,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
 
 			    //check out from repo
 			    logger.debug("checkout pl");
-			    checkOutProductline(productline);
+			    updateProductline(productline);
 		    } else {
 		        productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
 		        productline.setProject(this);
@@ -549,11 +549,11 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
 	    }
 	}
 	
-	public void checkOutProductline(Productline pl) 
+	public void updateProductline(Productline pl) 
 	{
 	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
 	    if (l != null) {
-	        l.checkoutProductline(pl);
+	        l.updateProductline(pl);
 	    } else {
 	        logger.error("no vcm listener registered");
 	    }

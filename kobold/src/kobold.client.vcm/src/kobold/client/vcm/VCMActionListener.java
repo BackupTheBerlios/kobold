@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.1 2004/08/24 17:13:55 vanto Exp $
+ * $Id: VCMActionListener.java,v 1.2 2004/09/21 16:24:50 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -54,7 +54,7 @@ public class VCMActionListener implements IVCMActionListener
     /* (non-Javadoc)
      * @see kobold.client.plam.listeners.IVCMActionListener#checkoutProductline(kobold.client.plam.model.AbstractRootAsset)
      */
-    public void checkoutProductline(AbstractRootAsset rootAsset)
+    public void updateProductline(AbstractRootAsset rootAsset)
     {
 		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 		try
@@ -66,6 +66,14 @@ public class VCMActionListener implements IVCMActionListener
 		{
 			// TODO: handle exception
 		}
+    }
+
+    /**
+     * @see kobold.client.plam.listeners.IVCMActionListener#commitProductline(kobold.client.plam.model.AbstractRootAsset)
+     */
+    public void commitProductline(AbstractRootAsset rootAsset) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

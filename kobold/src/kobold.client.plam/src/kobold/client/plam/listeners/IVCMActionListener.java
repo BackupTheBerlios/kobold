@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVCMActionListener.java,v 1.3 2004/08/24 17:13:49 vanto Exp $
+ * $Id: IVCMActionListener.java,v 1.4 2004/09/21 16:24:50 garbeam Exp $
  *
  */
 package kobold.client.plam.listeners;
@@ -47,10 +47,17 @@ public interface IVCMActionListener
     void refreshFiledescriptors(IFileDescriptorContainer container);
     
     /**
-     * Refreshes all filedescriptors in this container.
+     * Update productline.
      * 
      * @param container
      */
-    void checkoutProductline(AbstractRootAsset rootAsset);
-    //TODO: To be continued.
+    void updateProductline(AbstractRootAsset rootAsset);
+
+    /**
+     * Commit productline.
+     * 
+     * @param container
+     */
+    void commitProductline(AbstractRootAsset rootAsset);
+ 
 }
