@@ -21,14 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ProductLineChooserWizardPage.java,v 1.5 2004/05/18 11:22:48 vanto Exp $
+ * $Id: ProductLineChooserWizardPage.java,v 1.6 2004/05/19 15:08:03 garbeam Exp $
  *  
  */
 package kobold.client.plam.wizard;
 
 import java.net.URL;
 
+import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.PLAMProject;
 import kobold.client.plam.controller.SecureKoboldClient;
+import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Productline;
 import kobold.common.data.UserContext;
 
@@ -66,10 +69,8 @@ public class ProductLineChooserWizardPage extends WizardPage {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout());
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));		
-				
 
 		setControl(composite);
-
 		
 		Composite projectGroup = new Composite(composite, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -80,6 +81,7 @@ public class ProductLineChooserWizardPage extends WizardPage {
 		NewProjectWizardServerPage serverInfoPage =
 			(NewProjectWizardServerPage) getWizard().getPage(NewProjectWizardServerPage.PAGE_ID);
 	
+		
 		String pline = "unknown";		
 		SecureKoboldClient client;
 		try {

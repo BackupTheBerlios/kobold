@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProjectNature.java,v 1.8 2004/05/15 21:56:04 vanto Exp $
+ * $Id: KoboldProjectNature.java,v 1.9 2004/05/19 15:08:03 garbeam Exp $
  *
  */
 package kobold.client.plam;
 
 import kobold.client.plam.controller.SecureKoboldClient;
 import kobold.client.plam.workflow.LocalMessageQueue;
+import kobold.common.data.UserContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,6 +53,7 @@ public class KoboldProjectNature implements IProjectNature, IResourceChangeListe
 	private PLAMProject plamProject = null;
 	private LocalMessageQueue mqueue = null;
 	private SecureKoboldClient client = null;
+	private UserContext userContext = null;
 	
 	/**
 	 *
@@ -150,6 +152,20 @@ public class KoboldProjectNature implements IProjectNature, IResourceChangeListe
 	 */
 	public void resourceChanged(IResourceChangeEvent event) {
 		//logger.info(event);		
+	}
+	
+	/**
+	 * @return
+	 */
+	public UserContext getUserContext() {
+		return userContext;
+	}
+
+	/**
+	 * @param context
+	 */
+	public void setUserContext(UserContext context) {
+		this.userContext = context;
 	}
 
 }
