@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.12 2004/07/31 08:15:45 martinplies Exp $
+ * $Id: EdgeContainer.java,v 1.13 2004/08/01 09:25:21 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -283,7 +283,7 @@ public class EdgeContainer implements ISerializable {
      * @return a list of edges that start at the startNode and end at the targetNode 
      * or Collection.EMPTY_LIST
      */
-    private List getEdges(INode startNode, INode targetNode) {
+    public List getEdges(INode startNode, INode targetNode) {
         if (! startNodesList.containsKey(startNode)) {
             return Collections.EMPTY_LIST;
         }
@@ -387,7 +387,7 @@ public class EdgeContainer implements ISerializable {
     /**
      * @return
      */
-    private String getType() {
+    public String getType() {
         return type;
     }
 
@@ -413,7 +413,7 @@ public class EdgeContainer implements ISerializable {
  */
 public List getEdgesTo(INode targetNode, String type ){
      LinkedList arrL = new LinkedList();
-     for (Iterator ite = ((List) targetNodesList.get(targetNode)).iterator(); ite.hasNext(); ){
+     for (Iterator ite = getEdgesTo(targetNode).iterator(); ite.hasNext(); ){
         Edge edge = (Edge) ite.next();
         if (edge.getType().equals(type)){
           arrL.add(edge);
@@ -429,7 +429,7 @@ public List getEdgesTo(INode targetNode, String type ){
  */
 public List getEdgesFrom(AbstractAsset groundNode, String type) {
     LinkedList arrL = new LinkedList();
-    for (Iterator ite = ((List) startNodesList.get(groundNode)).iterator(); ite.hasNext(); ){
+    for (Iterator ite = getEdgesFrom(groundNode).iterator(); ite.hasNext(); ){
         Edge edge = (Edge) ite.next();
         if (edge.getType().equals(type)){
           arrL.add(edge.getStartNode());
