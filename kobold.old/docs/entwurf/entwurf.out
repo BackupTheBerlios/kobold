@@ -1,0 +1,33 @@
+\BOOKMARK [0][-]{chapter.1}{Einleitung}{}
+\BOOKMARK [1][-]{section.1.1}{Entwurfsidee}{chapter.1}
+\BOOKMARK [0][-]{chapter.2}{Client}{}
+\BOOKMARK [1][-]{section.2.1}{\334berblick}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.1.1}{MVC-Aufteilung}{section.2.1}
+\BOOKMARK [1][-]{section.2.2}{Viewkomponente RollenView}{chapter.2}
+\BOOKMARK [1][-]{section.2.3}{Viewkomponente ArchitekturEditor}{chapter.2}
+\BOOKMARK [1][-]{section.2.4}{Viewkomponente Minimap}{chapter.2}
+\BOOKMARK [1][-]{section.2.5}{Viewkomponente Task-/WorkflowView}{chapter.2}
+\BOOKMARK [1][-]{section.2.6}{Viewkomponente TaskDetailView}{chapter.2}
+\BOOKMARK [1][-]{section.2.7}{Modelkomponente ArchitekturModel}{chapter.2}
+\BOOKMARK [1][-]{section.2.8}{Modelkomponente ArchitekturViewModel}{chapter.2}
+\BOOKMARK [1][-]{section.2.9}{Modelkomponente GXL}{chapter.2}
+\BOOKMARK [1][-]{section.2.10}{Modelkomponente MessageQueue}{chapter.2}
+\BOOKMARK [1][-]{section.2.11}{Controlerkomponente Server-Kommunikation}{chapter.2}
+\BOOKMARK [1][-]{section.2.12}{Controlerkomponente VCM-Wrapper}{chapter.2}
+\BOOKMARK [1][-]{section.2.13}{Controlerkomponente GEF}{chapter.2}
+\BOOKMARK [1][-]{section.2.14}{Controlerkomponente Eclipse-Plattform}{chapter.2}
+\BOOKMARK [1][-]{section.2.15}{Controlerkomponente Team-Plugin}{chapter.2}
+\BOOKMARK [0][-]{chapter.3}{Server}{}
+\BOOKMARK [1][-]{section.3.1}{\334berblick}{chapter.3}
+\BOOKMARK [1][-]{section.3.2}{Komponente Kobold Interface}{chapter.3}
+\BOOKMARK [1][-]{section.3.3}{Komponente Drools}{chapter.3}
+\BOOKMARK [1][-]{section.3.4}{Komponente MessageQueue}{chapter.3}
+\BOOKMARK [1][-]{section.3.5}{Komponente Benutzerverwaltung}{chapter.3}
+\BOOKMARK [1][-]{section.3.6}{Komponente Produktlinien-/Produktverwaltung}{chapter.3}
+\BOOKMARK [0][-]{chapter.4}{Interface}{}
+\BOOKMARK [1][-]{section.4.1}{Synchrone Kommunikation}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.1.1}{Authentifizierung}{section.4.1}
+\BOOKMARK [2][-]{subsection.4.1.2}{Benutzerverwaltung}{section.4.1}
+\BOOKMARK [2][-]{subsection.4.1.3}{Produktlinienverwaltung}{section.4.1}
+\BOOKMARK [2][-]{subsection.4.1.4}{Produktverwaltung}{section.4.1}
+\BOOKMARK [1][-]{section.4.2}{Asynchrone Kommunikation}{chapter.4}
