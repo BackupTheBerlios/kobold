@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.11 2004/08/02 09:23:04 vanto Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.12 2004/08/02 14:36:03 vanto Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -156,12 +156,12 @@ public class NewProjectWizardServerPage extends WizardPage {
 		testButton.setText("Test connection");
 		testButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-                    SecureKoboldClient client = new SecureKoboldClient(getServerURL());
-                    UserContext context = client.login(getUsername(), getPassword());
+                    SecureKoboldClient client = SecureKoboldClient.getInstance();
+                    UserContext context = client.login(getServerURL(), getUsername(), getPassword());
                     if (context != null) {
                         //Vector roles = client.getRoles(context);
                         Vector productlines = client.getProductlineNames(context);
-                        client.logout(context);
+                        //client.logout(context);
                         client = null;
                         serverOk = true;
 

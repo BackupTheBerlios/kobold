@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.31 2004/08/02 14:01:21 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.32 2004/08/02 14:36:03 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -156,10 +156,10 @@ public class SecureKoboldClient implements IKoboldServer {
 	/**
 	 * @see kobold.common.controller.IKoboldServer#getProductline(kobold.common.data.UserContext, java.lang.String)
 	 */
-	public Productline getProductline(UserContext userContext, String plName) {
+	public Productline getProductline(UserContext userContext, String plId) {
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		v.add(plName);
+		v.add(plId);
 		try {
 			Object result = getClientByUrl(userContext.getServerUrl()).execute("getProductline", v);
 			if (!((String)result).equals(IKoboldServer.NO_RESULT)) {

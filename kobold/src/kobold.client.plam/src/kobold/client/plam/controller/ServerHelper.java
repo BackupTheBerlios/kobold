@@ -21,13 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerHelper.java,v 1.1 2004/08/02 09:23:04 vanto Exp $
+ * $Id: ServerHelper.java,v 1.2 2004/08/02 14:36:03 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.PLAMProject;
 import kobold.common.data.Productline;
 import kobold.common.data.UserContext;
@@ -39,6 +43,12 @@ import kobold.common.data.UserContext;
  */
 public class ServerHelper
 {
+    public static final Log logger = LogFactory.getLog(ServerHelper.class);
+    
+    public static UserContext getUserContext(KoboldProject proj) {
+        return SecureKoboldClient.getInstance().login(proj.getServerURL(), proj.getUserName(), proj.getPassword());
+    }
+    
     /**
      * Retrieves the Server-Productline instance for the {@link PLAMProject}
      * Returns null if PL doesnt exist or login fails.
@@ -47,31 +57,34 @@ public class ServerHelper
      * @param plName
      * @return
      */
-    public static Productline fetchProductline(PLAMProject p) 
+    public static Productline fetchProductline(KoboldProject p) 
     {
     	Productline pl = null;
-        SecureKoboldClient client = new SecureKoboldClient(p.getServerUrl());
-		UserContext context = client.login(p.getUsername(), p.getPassword());
+
+		UserContext context = getUserContext(p);
 		if (context != null) {
-		    pl = client.getProductline(context, p.getProductlineName());
-		    client.logout(context);
+		    pl = SecureKoboldClient.getInstance().getProductline(context, p.getProductlineId());
+		} else {
+		    logger.warn("Could not fetch Productline due to a login failure");
 		}
+		
         return pl;
     }
 
     /**
      * @param project
      */
-    public static List fetchAllUsers(PLAMProject p)
+    public static List fetchAllUsers(KoboldProject p)
     {
         List users = null;
-        SecureKoboldClient client = new SecureKoboldClient(p.getServerUrl());
-		UserContext context = client.login(p.getUsername(), p.getPassword());
+
+		UserContext context = getUserContext(p);
 		if (context != null) {
-		    users = client.getAllUsers(context);
-		    client.logout(context);
+		    users = SecureKoboldClient.getInstance().getAllUsers(context);
+		} else {
+		    logger.warn("Could not fetch user list due to a login failure");
 		}
-        return users;
-      
+
+		return users;
     }
 }
