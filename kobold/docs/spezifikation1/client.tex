@@ -7,14 +7,16 @@ eine sehr abstrakte Beschreibung des \product Rahmensystems.\par
 In den Folgeiterationen werden zum Kobold Client und Kobold
 Serverdienst jeweils Use-Cases entwickelt, die die konkret
 ermittelten und vor jeder Folge-Iteration priorisierten
-Anforderungen (siehe Anhang B) detailliert spezifizieren.
+Anforderungen (siehe Anforderungsdokument\footnote{
+ftp://ftp.berlios.de/pub/kobold/docs/anforderungen/anforderungen.pdf}
+) detailliert spezifizieren.
 
 \section{Anforderungen an das Gesamtsystem}
 
 Zur rollenabhängigen Verwaltung von Produkten und Produktlinien
 und zur Etablierung eines Produktlinien-Entwicklungsprozesses ist
 eine zentrale Schnittstelle zur Produktlinien-, Produkt- und
-Benutzerpersistierung notwendig, die Rechte, Rollen,
+Benutzerspeicherung notwendig, die Rechte, Rollen,
 Verpflichtungen und Nachrichten der Benutzer bereitstellt und
 rechnerübergreifend verfügbar ist.\par Diese zentrale
 Schnittstelle in Form des Kobold Serverdienstes wird HTTPS
@@ -42,7 +44,7 @@ folgende Rollen von \product unterstützt:
 Die einzelnen Rollen sind im Begriffslexikon näher erläutert.\par
 Einem Benutzer des Kobold-Systems können mehrere dieser Rollen zugeteilt
 werden. Die Benutzer- und Rollenverwaltung wird durch den
-Kobold-Serverdienst persistiert. Informationen zur genauen Persistierung
+Kobold-Serverdienst gespeichert. Informationen zur genauen Persistierung
 können aus dem Kapitel zum Kobold-Serverdienst entnommen werden.
 
 \section{Kobold Client}
@@ -97,11 +99,6 @@ welche komplexe Darstellungs- und Interaktionsalgorithmen zur
 Visualisierung von Graphen anbietet.\par Der Editor bietet die
 Möglichkeit, grundlegende Operationen durchzuführen, die für die
 Verwaltung einer Produktlinienarchitektur nötig sind.\par
-
-%\begin{figure}[h!]
-%\includegraphics[width=12cm]{../angebot/praesentation/visual.png}
-%   \caption{Screenshot des Architektureditors(Prototyp)}
-%\end{figure} %4Stimmen gegen die Grafik
 
 \subsubsection{Visualisierung von Architekturen}
 Architekturen werden als Graphen dargestellt, die eine
@@ -165,6 +162,7 @@ anzuzeigen. Zu diesen Eigenschaften gehören die Metainformationen
 des Knotens wie z.B. die Liste der schreibberechtigten Benutzer.
 Näheres zu Metainformationen ist im Abschnitt zur
 Metainformationskomponente beschrieben.
+\newpage
 
 \subsection{Rollen View}
 Auf der linken Seite der Ausgangsperspektive wird ein
@@ -172,7 +170,7 @@ hierarchischer Baum angezeigt, der die momentan aktive Rolle und
 die mit ihr verbundenen möglichen Sichten darstellt.
 \begin{figure}[h!]
 \includegraphics[width=7cm]{../angebot/praesentation/verwaltung}
-   \caption{Prototypistische Darstellung der Rollen View}
+   \caption{Prototypische Darstellung der Rollen View}
 \end{figure}
 Die Hierarchie ist aus der Darstellung ersichtlich. Rollen werden
 Produkten bzw. Produktlinien zugeordnet, die sich wiederum in

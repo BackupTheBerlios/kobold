@@ -12,7 +12,7 @@ im Minutentakt von den Clients abgefragt wird.\par
 Der Server wird als HTTPS-basierter {\it XML-RPC Server}
 \footnote{Nähere Informationen: http://ws.apache.org/xmlrpc/}
 implementiert und bietet damit verschlüsselte Kommunikation.
-Alle Informationen, die der Server bereitstellt, werden persistiert.
+Alle Informationen, die der Server bereitstellt, werden gespeichert.
 
 \subsection{Berechtigungskonzept}
 
@@ -27,16 +27,16 @@ so werden in seinen Client die Daten der ihm zugeteilten Rollen und den
 dazu gehörenden Produktlinien bzw. Produkte geladen. Der Benutzer
 kann dabei nur die Daten verändern, für die er auch eine Berechtigung besitzt.
 
-\subsection{Persistierung}
+\subsection{Persistenz}
 
-Die Persistierung aller für das Berechtigungskonzept notwendigen Daten wird
+Die Speicherung aller für das Berechtigungskonzept notwendigen Daten wird
 durch eine abstrakte, XML-basierte Persistenzschicht, realisiert, wodurch eine
 flexible Datenhaltung ermöglicht wird.\par
 Die Persistenzschicht dient zur Speicherung aller Rollen-,
 Authentifizierungs-, Produktlinien- und Produktrelationen. Die Grundstruktur dieser Schicht ist
 baumartig aufgebaut. Die im Speicher aktuelle Schicht wird nach Ablauf eines konfigurierbaren Zeitintervalls
-persistiert (standardmäßig alle 10 Minuten).\par
-In der XML-Struktur werden hierbei die folgenden Elemente persistiert:
+gespeichert (standardmäßig alle 10 Minuten).\par
+In der XML-Struktur werden hierbei die folgenden Elemente gespeichert:
 \begin{itemize}
 \item Benutzer
 \item Rollen

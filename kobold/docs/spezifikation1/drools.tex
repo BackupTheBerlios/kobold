@@ -11,21 +11,22 @@ eine funktional orientierte, intelligente Wissensbasis modelliert,
 die auf Fakten Antworten generiert (ähnlich den PROLOG Prinzipien
 aus der Logik-Vorlesung).\par Dafür wird eine Regelbasis in XML
 für Drools erzeugt. Diese besteht aus einer Menge von Regelmengen
-und wird vom Serverdienst persistiert. Eine Regelmenge
+und wird vom Serverdienst gespeichert. Eine Regelmenge
 besteht aus einzelnen Regeln, durch die verschiedene
 Prüfungen vorgenommen werden können.\par Eine solche Regel
-besteht aus drei Teilen:
-\begin{itemize}
-\item Parameter
-\item Bedingung
-\item Konsequenz
-\end{itemize}
-\paragraph{Parameter} sind Eingaben (Fakten), die auf die
-jeweiligen Regeln angewendet werden.
-\paragraph{Bedingungen} entscheiden anhand der Parameter, welche
-Konsequenzen ausgeführt werden.
-\paragraph{Konsequenzen} dienen zur Erzeugung/Modifikation von
-Workflow-Objekten, falls eine Bedingung zutrifft.\par
+besteht aus drei Teilen:\par
+\begin{tabular}{ll}\\
+{\bf Parameter} & sind Eingaben (Fakten), die auf die jeweiligen
+Regeln\\
+   & angewendet werden.\\
+{\bf Bedingungen} & entscheiden anhand der Parameter, welche
+Konsequenzen\\
+   & ausgeführt werden.\\
+{\bf Konsequenzen} & dienen zur Erzeugung/Modifikation von
+Workflow-Objekten,\\
+   & falls eine Bedingung zutrifft.
+\end{tabular}
+\par
 Fakten werden auf alle Regeln einer Regelmenge angewendet.\par
 Der Workflow-Mechanismus ist eine Querschnittskomponente zwischen dem
 Kobold Serverdienst und dem Kobold-Client.
