@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.14 2004/08/06 10:58:07 neccaino Exp $
+ * $Id: ProductlineManager.java,v 1.15 2004/08/10 10:30:35 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -109,7 +109,7 @@ public class ProductlineManager {
 	}
 
 	/**
-	 * Gets a productline by its name.
+	 * Gets a productline by its id.
 	 *
 	 * @param id the id of the productLine.
      * @return Productline with the passed name, null if it doesn't exist
@@ -118,11 +118,30 @@ public class ProductlineManager {
 		return (Productline) productlines.get(id);
 	}
 
+    /**
+     * Returns the productline with the passed name.
+     * 
+     * @param nameOfProductline String containing the name of the productline to get
+     * @return the productline with the passed name or null if it doesen't exist
+     */
+    public Productline getProductlineByName(String nameOfProductline){
+    	Iterator it = productlines.values().iterator();
+        
+        while(it.hasNext()){
+        	Productline tmp = (Productline) it.next();
+            if (tmp.getName().equals(nameOfProductline)){
+                return tmp;
+            }
+        }
+        
+        return null;
+    }
+    
 	/**
 	 * Removes the specified productline.
 	 * 
-	 * @param id the id of the productline.
-     * @return <code>true</code> if the product existed and has been removed
+	 * @param id the id of the productline to remove
+     * @return <code>true</code> if the productline existed and could be removed
      *         successfully, <code>false</code> otherwise.
 	 */
 	public boolean removeProductline(String id) {
@@ -132,35 +151,27 @@ public class ProductlineManager {
 	}
     
     /**
-     * The following method returns the id of the productline specified by
-     * its name.
+     * Removes the productline with the specified name.
      * 
-     * @param nameOfProductline name of the productline whose id is to be
-     *        returned
-     * @return String containing the passed productline's id or <code>null</code>
-     *         if not productlone with the passed name exists
+     * @param nameOfProductline String containing the name of the productline to remove
+     * @return <code>true</code> if the productline existed and could be removed
+     *         successfully, <code>false</code> otherwise.
      */
-    public String getProductlineIdByName(String nameOfProductline){
-        Vector v = getProductlineNames();
-        Iterator it = v.iterator();
-        String id = null;
+    public boolean removeProductlineByName(String nameOfProductline) {
+        // 1.) stop if the productline doesn't exist
+        Productline pl = getProductlineByName(nameOfProductline);
         
-        while(it.hasNext()){
-            // store id of next pl
-            String tmp = (String)it.next();
-            
-            // compare next pl's name 
-            if (((String)it.next()).equals(nameOfProductline)){
-                // tmp contains the desired pl's id
-                id = tmp;
-                break;
-            }
+        if (pl == null){
+            return false;
         }
         
-        return id;
+       // 2.) Remove the productline
+       productlines.remove(pl.getId());
+       serialize();
+       return true;
     }
 
-	/**
+    /**
 	 * Serializes all products and productlines to the file specified
      * by productStore.
      * 
@@ -234,8 +245,15 @@ public class ProductlineManager {
 	}
 
 	/**
-	 * Returns a list of two-dimensional objects which contain the productline id
-	 * as first component and the productline name as second component.
+     * Returns a vector of String objects containing all the productlines' ids
+     * and names. Name and id of one productline are stored in two seperate
+     * strings. The String object containing the id of a specific productline 
+     * is followed directly by a string object containing that productline's
+     * name on the returned vector. The first on the vector contains a 
+     * productline's id.
+     * 
+     * Note that an empty vector will be returned if no productline is 
+     * registered on the server. 
      * 
      * @return Vector of String objects with all productlines' names
 	 */
