@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.20 2004/09/20 06:49:45 martinplies Exp $
+ * $Id: EdgeContainer.java,v 1.21 2004/09/22 09:20:48 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -381,7 +381,11 @@ public class EdgeContainer implements ISerializable {
             List edges = (List)nodesIt.next();
             Iterator edIt = edges.iterator();
             while (edIt.hasNext()) {
-                element.add(((Edge)edIt.next()).serialize());
+                Element lmt = ((Edge)edIt.next()).serialize();
+                // Edges from or to Filedescriptios are not serialized 
+                if (lmt != null){
+                   element.add(lmt);
+                }
             }
         }
         
