@@ -1,0 +1,41 @@
+﻿<statcvs>
+  <settings>
+    <webRepository>
+      http://cvs.berlios.de/cgi-bin/viewcvs.cgi/kobold/kobold/
+    </webRepository>
+    <authors type="map">
+        <setting key="neco">Necati Aydin</setting>
+        <setting key="neccaino">Armin Cont</setting>
+        <setting key="bettina">Bettina Druckenmüller</setting>
+        <setting key="garbeam">Anselm Garbe</setting>
+        <setting key="grosseml">Michael Grosse</setting>
+        <setting key="vanto">Tammo van Lessen</setting>
+        <setting key="martinplies">Martin Plies</setting>
+        <setting key="rendgeor">Oliver Rendgen</setting>
+        <setting key="memyselfandi">Patrick Schneider</setting>
+    </authors>
+    
+<!--    <authorPics type="map">
+        <setting key="neco">neco.png</setting>
+        <setting key="neccaino">neccaino.png</setting>
+        <setting key="bettina">bettina.png</setting>
+        <setting key="garbeam">garbeam.png</setting>
+        <setting key="grosseml">grosseml.png</setting>
+        <setting key="vanto">vanto.png</setting>
+        <setting key="martinplies">martinplies.png</setting>
+        <setting key="rendgeor">rendgeor.png</setting>
+        <setting key="memyselfandi">memyselfandi.png</setting>
+    </authorPics> -->
+    
+	<showImages>true</showImages>
+    <projectName>Kobold PLAM</projectName>
+    <outputDir>xdocs/statcvs-xml</outputDir>
+    <renderer>xdoc</renderer>
+<!--    <include>src/de/berlios/statcvs/xml/**/*.java</include> -->
+    <modules type="map">
+      <setting key="Documentation">**/docs/*.tex</setting>
+      <setting key="Sources">**/*.java</setting>
+      <setting key="Site">**/xdocs/*</setting>
+    </modules>
+  </settings>
+</statcvs>
