@@ -27,7 +27,7 @@ package kobold.client.plam.action;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.editor.dialog.ChangePasswordDialog;
-import kobold.client.plam.editor.dialog.UpdateFullNameDialog;
+import kobold.client.plam.editor.dialog.UpdateUserDataDialog;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Shell;
@@ -50,7 +50,7 @@ public class UpdateFullNameAction extends Action{
 	
     public void run()
     {
-		UpdateFullNameDialog ufnd = new UpdateFullNameDialog(shell);
+		UpdateUserDataDialog ufnd = new UpdateUserDataDialog(shell, true);
 		ufnd.open();
     }
 

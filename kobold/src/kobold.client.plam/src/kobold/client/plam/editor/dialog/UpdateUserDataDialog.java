@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- *MiG05.08.2004
+ * $Id: UpdateUserDataDialog.java,v 1.1 2004/08/24 11:06:13 garbeam Exp $
  */
 package kobold.client.plam.editor.dialog;
 
@@ -43,36 +43,38 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class UpdateFullNameDialog extends TitleAreaDialog{
-	private Map userPool;
+public class UpdateUserDataDialog extends TitleAreaDialog{
 	
-    private Label labelUserName;
     private Label labelRealName;
     private Label labelPassword;
-    private Label labelConfPass;
+    private Label labelOldPassword;
+    private Label labelNewPassword;
     
-    private Text textUserName;
     private Text textRealName;
     private Text textPassword;
-    private Text textConfPass;
+    private Text textOldPassword;
+    private Text textNewPassword;
+    
+    private boolean isEditFullName;
+	private String userName;
 	
-	
-    public UpdateFullNameDialog(Shell parentShell)
+    /**
+     * @param parentShell
+     * @param isEditFullName if <code>true</code> this dialog is used to edit
+     *        the users fullname, otherwise it is used to change the password.
+     */
+    public UpdateUserDataDialog(Shell parentShell, boolean isEditFullName)
     {
         super(parentShell);
-        KoboldProject kp = KoboldPLAMPlugin.getCurrentKoboldProject();
-        if (kp!=null){
-        	
-        	userPool = kp.getUserPool();	
-        }
-    
+        this.isEditFullName = isEditFullName;
+        this.userName = KoboldPLAMPlugin.getCurrentKoboldProject().getUserName();
     }
     
     protected Control createDialogArea(Composite parent)
     {
-        setTitle("Change Full Name");
-        setMessage("Changes the users full name");
-        getShell().setText("Change full name");
+        getShell().setText("Update " + userName + "'s user data");
+        setTitle("Update " + userName + "'s user data");
+        setMessage("Change your password or full name in this dialog.");
         Composite composite = (Composite) super.createDialogArea(parent);
         
         createContent(composite);
@@ -95,37 +97,56 @@ public class UpdateFullNameDialog extends TitleAreaDialog{
 		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
 		panel.setFont(parent.getFont());
 		
-        try{
-            Composite control = new Composite(parent, SWT.NONE);
-            GridLayout gridLayout = new GridLayout();
-            gridLayout.numColumns = 2;
-            control.setLayout(gridLayout);
+        Composite control = new Composite(parent, SWT.NONE);
+        GridLayout gridLayout = new GridLayout();
+        gridLayout.numColumns = 2;
+        control.setLayout(gridLayout);
             
-            // "data" can only use for 1 object.
-            GridData data = new GridData(GridData.FILL_HORIZONTAL);
                         
+        if (isEditFullName) {
             //RealName
             labelRealName = new Label(control,SWT.NONE);
             labelRealName.setText("Full Name:");
             textRealName = new Text(control, SWT.BORDER);		
-            
+            textRealName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+                
             //password
             labelPassword = new Label(control,SWT.NONE);
             labelPassword.setText("Password:");
             textPassword = new Text(control, SWT.BORDER);
             textPassword.setEchoChar('*');
-            
-        } catch(Exception e) {
-            e.printStackTrace();
+            textPassword.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         }
-
+        else {
+            // old password
+            labelOldPassword = new Label(control,SWT.NONE);
+            labelOldPassword.setText("Old password:");
+            textOldPassword = new Text(control, SWT.BORDER);		
+            textOldPassword.setEchoChar('*');
+            textOldPassword.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+                
+            //password
+            labelNewPassword = new Label(control,SWT.NONE);
+            labelNewPassword.setText("Password:");
+            textNewPassword = new Text(control, SWT.BORDER);
+            textNewPassword.setEchoChar('*');
+            textNewPassword.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        }
+    
     }
     
     protected void okPressed()
     {
+    
 	    KoboldProject tmpProj = KoboldPLAMPlugin.getCurrentKoboldProject();
         UserManager acts = new UserManager();
-       	acts.updateFullName(tmpProj.getUserName(), textRealName.getText(), textPassword.getText());
+        
+        if (isEditFullName) {
+           	acts.updateFullName(tmpProj.getUserName(), textRealName.getText(), textPassword.getText());
+        }
+        else {
+           	acts.changePassword(textOldPassword.getText(), textNewPassword.getText());
+        }
         super.okPressed();
     }
     

@@ -27,6 +27,7 @@ package kobold.client.plam.action;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.editor.dialog.ChangePasswordDialog;
+import kobold.client.plam.editor.dialog.UpdateUserDataDialog;
 import kobold.client.plam.editor.dialog.UserManagerDialog;
 
 import org.eclipse.jface.action.Action;
@@ -51,8 +52,8 @@ public class ChangePasswordAction extends Action{
 	
     public void run()
     {
-		ChangePasswordDialog cpd = new ChangePasswordDialog(shell);
-		cpd.open();
+		UpdateUserDataDialog ufnd = new UpdateUserDataDialog(shell, false);
+		ufnd.open();
     }
 
 }
