@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.7 2004/06/25 17:25:34 martinplies Exp $
+ * $Id: RelatedComponent.java,v 1.8 2004/06/27 18:52:10 vanto Exp $
  *
  */
 
@@ -31,13 +31,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.dom4j.Element;
-import org.dom4j.DocumentHelper;
-
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.IGXLExport;
 import kobold.common.model.Release;
 import kobold.common.model.productline.Component;
+
+import org.dom4j.Element;
 
 /**
  * Represents a related component. Related components are
@@ -102,7 +101,7 @@ public class RelatedComponent extends ProductComponent
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public RelatedComponent (Element element) {
+	protected RelatedComponent (Element element) {
 		super();
 		deserialize(element);
 	}

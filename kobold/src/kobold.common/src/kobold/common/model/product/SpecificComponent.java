@@ -21,14 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.8 2004/06/25 17:25:35 martinplies Exp $
+ * $Id: SpecificComponent.java,v 1.9 2004/06/27 18:52:10 vanto Exp $
  *
  */
 
 package kobold.common.model.product;
-
-import org.dom4j.Element;
-import org.dom4j.DocumentHelper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -36,8 +33,9 @@ import java.util.List;
 import java.util.Map;
 
 import kobold.common.model.AbstractAsset;
-import kobold.common.model.IGXLExport;
 import kobold.common.model.Release;
+
+import org.dom4j.Element;
 
 
 /**
@@ -62,7 +60,7 @@ public class SpecificComponent extends ProductComponent {
 	 * @param element the DOM element representing this
 	 * 		  object.
 	 */
-	public SpecificComponent (Element element) {
+	protected SpecificComponent (Element element) {
 		deserialize(element);
 	}
 	
@@ -113,30 +111,32 @@ public class SpecificComponent extends ProductComponent {
 		return AbstractAsset.SPECIFIC_COMPONENT;
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
-	 */
-	public Map getGXLAttributes() {
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see kobold.common.model.IGXLExport#getGXLAttributes()
+     */
+    public Map getGXLAttributes()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
-	 */
-	public List getGXLChildren() {
-	    List children = new ArrayList();
-	    children.addAll(getProductComponents());
-	    if (releases.size() > 0){
-	       children.add(releases.get(releases.size()-1));
-	    }
-		return children;
-	}
+    /* (non-Javadoc)
+     * @see kobold.common.model.IGXLExport#getGXLChildren()
+     */
+    public List getGXLChildren()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLType()
-	 */
-	public String getGXLType() {
-		return GXL_TYPE;
-	}		
+    /* (non-Javadoc)
+     * @see kobold.common.model.IGXLExport#getGXLType()
+     */
+    public String getGXLType()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
 
