@@ -56,13 +56,13 @@ erfordern, d.h. nur für bestimmte möglich sind.\par
 
 Die sichtbaren Aktionen:\par
 
-\bf Alle Benutzer:
+{\bf Alle Benutzer:}
 \begin{itemize}
   \item check out: immer möglich, ggf. nur Leserechte.
   \item update: Vorbedingung: check out
 \end{itemize}
 
-\bf Nur bestimmte Benutzer:
+{\bf Nur bestimmte Benutzer:}
 
 \begin{itemize}
   \item commit: Vorbedingung: check out
@@ -85,17 +85,40 @@ Matainfo-Datei übergeben werden, das eine georndete Liste von Skripten
 enthält, die vor und nach einem ``commit'' ausgeführt werden. Diese
 möglichen Metainfo-Dateien werden an anderer Stelle festgelegt.
 
+\subsection{Der (initiale) Metadaten-Abgleich}
+{\bf Vorbedingung:} Um einen korrekten Konsistenzcheck durchführen zu
+können, müssen Informationen über alle Dateien, Verzeichnisse, deren
+Autoren und die vorhandenen Dateiversionen vorliegen. Diese werden im
+weiteren als Metadaten bezeichnet.\par
+Da es passieren kann, dass verschiedene Personen an Dateien und
+Versionen arbeiten, sollte vor der produktzusammenstellung eine
+erneute Syncronisation dieser Daten durchgeführt werde.
+
+\subsection{Reihenfolge beim Schreiben von Metainformationen}
+\begin{itemize}
+  \item commit aller Dateien (Änderungen)
+  \item update des Repositories, damit werden die aktuellen (neuen)
+  Revisionsnummern gesetzt)
+  \item commit der Metadaten (neue Revisionen)
+\end{itemize}
+
+
 \subsection{Konsistenzcheck bei der Produktzusammenstellung}
 Als Konsistenzcheck wird die Anfrage an die Datenbasis genannt, die
 als Eingabeparameter die Revision oder den Autor einer bestimmten
-Datei xy erhält und zurückgibt ob die Datei vorhanden (match=syncron)
-ist (oder nicht) und ob die Revision übereinstimmt. Ggf. wird ein
-passender Workflow angestoßen.\par
+Datei xy erhält und zurückgibt, ob die Datei vorhanden (match=syncron)
+ist (oder nicht) und ob die Revision übereinstimmt. Im Fehlerfall wird
+ein passender Workflow angestoßen.\par
 Zur Überprüfung des gesamten Produktes werden oben genannte Schritte
 angewandt, wobei die Eingabemenge aus Dateinamen und deren Revisionen
 besteht.
 
-\subsection{der initial Metadaten-Abgleich}
-Vorbedingung:...
 
 \subsection{Einschränkungen bei der Implementierung}
+\begin{itemize}
+  \item Eclipse eigene VCM-Aktionen müssen abgefangen
+  werden. Ansonsten können Daten ungesehen manipuliert
+  werden. Ggf. erlauben, aber den benutzer auf Folgen hinweisen.
+  \item 
+  \item
+\end{itemize}
