@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTree.java,v 1.3 2004/03/30 23:41:20 vanto Exp $
+ * $Id: RoleTreeViewPart.java,v 1.1 2004/03/31 14:43:47 vanto Exp $
  *
  */
 package kobold.client.view;
@@ -37,7 +37,7 @@ import org.eclipse.ui.part.ViewPart;
  * 
  * @author Tammo van Lessen
  */
-public class RoleTree extends ViewPart 
+public class RoleTreeViewPart extends ViewPart 
 {
 
     /**
