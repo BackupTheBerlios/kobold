@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAssetEditPart.java,v 1.4 2004/07/27 14:11:59 vanto Exp $
+ * $Id: AbstractAssetEditPart.java,v 1.5 2004/08/04 20:53:08 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -39,6 +39,7 @@ import kobold.client.plam.editor.policy.GraphicalNodeEditPolicyImpl;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.edges.EdgeContainer;
 
 import org.apache.commons.logging.Log;
@@ -194,6 +195,10 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
     {
         if (req.getType() == RequestConstants.REQ_OPEN) {
             final AbstractAsset asset = getAsset();
+            if (asset instanceof MetaNode) {
+                super.performRequest(req);
+                return;
+            }
             getViewer().getControl().getDisplay().asyncExec(new Runnable() {
                 public void run()
                 {

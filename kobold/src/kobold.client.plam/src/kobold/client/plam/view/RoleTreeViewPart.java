@@ -21,20 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.16 2004/08/04 17:52:58 vanto Exp $
+ * $Id: RoleTreeViewPart.java,v 1.17 2004/08/04 20:53:08 vanto Exp $
  *
  */
 package kobold.client.plam.view;
 
-import kobold.client.plam.KoboldConstants;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider;
 import kobold.client.plam.controller.roletree.RoleTreeLabelProvider;
-import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
-import kobold.client.plam.editor.ArchitectureEditorInput;
-import kobold.client.plam.editor.dialog.EditUserManager;
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.IFileDescriptorContainer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,14 +39,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -61,11 +52,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
 
@@ -77,7 +64,8 @@ import org.eclipse.ui.part.ViewPart;
  * 
  * @author Tammo van Lessen
  */
-public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListener
+public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListener,
+	IMenuListener
 {
 	private static final Log logger = LogFactory.getLog(RoleTreeViewPart.class);
 	
@@ -89,9 +77,9 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 	private TreeViewer viewer;
 	private Shell shell = new Shell();
 	private DrillDownAdapter drillDownAdapter;
-	private Action action1;
-	private Action action2;
 	private Action doubleClickAction;
+	
+	private RoleTreeActionGroup actionGroup;
 	
     /**
      * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
@@ -107,10 +95,20 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 		//viewer.setSorter(new NameSorter());
 		viewer.setInput(ResourcesPlugin.getWorkspace());
 		
-		makeActions();
+	    actionGroup = new RoleTreeActionGroup(this);
+
+	    IActionBars bars = getViewSite().getActionBars();
+		actionGroup.fillActionBars(bars);
+		drillDownAdapter.addNavigationActions(bars.getMenuManager());
+
+		viewer.addDoubleClickListener(new IDoubleClickListener() {
+			public void doubleClick(DoubleClickEvent event) {
+				actionGroup.handleDoubleClick(event);
+			}
+		});
+
+
 		hookContextMenu();
-		hookDoubleClickAction();
-		contributeToActionBars();
     }
 
     /**
@@ -120,114 +118,18 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 		viewer.getControl().setFocus();
     }
 
-	private void hookContextMenu() {
+    public TreeViewer getViewer() 
+    {
+        return viewer;
+    }
+    
+    private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				RoleTreeViewPart.this.fillContextMenu(manager);
-			}
-		});
+		menuMgr.addMenuListener(this);
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(menuMgr, viewer);
-	}
-
-	private void contributeToActionBars() {
-		IActionBars bars = getViewSite().getActionBars();
-		fillLocalPullDown(bars.getMenuManager());
-		fillLocalToolBar(bars.getToolBarManager());
-	}
-
-	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(new Separator());
-		manager.add(action2);
-	}
-
-	private void fillContextMenu(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(action2);
-		
-		manager.add(new Separator());
-		drillDownAdapter.addNavigationActions(manager);
-		// Other plug-ins can contribute there actions here
-		manager.add(new Separator("Additions"));
-	}
-	
-	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(action1);
-		manager.add(action2);
-		manager.add(new Separator());
-		
-		drillDownAdapter.addNavigationActions(manager);
-	}
-
-	private void makeActions() {
-		action1 = new Action() {
-			public void run() {
-				EditUserManager eum = new EditUserManager(shell);
-				eum.open();
-			}
-		};
-		action1.setText("Create New User");
-		action1.setToolTipText("Creates a New User for the PL");
-		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		
-		action2 = new Action() {
-			public void run() {
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				//FIXME
-				if (obj instanceof IFileDescriptorContainer) {
-				    ((IFileDescriptorContainer)obj).getRoot().getKoboldProject().refreshResources((IFileDescriptorContainer)obj);
-				}
-			}
-
-		};
-		action2.setText("Refresh");
-		action2.setToolTipText("Refresh Resources");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(org.eclipse.ui.ide.IDE.SharedImages.IMG_OBJS_TASK_TSK));
-
-		doubleClickAction = new Action() {
-			public void run() {
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				
-				if (obj instanceof ArchitectureItem) {
-				    try {
-				        final IWorkbenchWindow activeWorkbenchWindow =
-				            PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-				            IWorkbenchPage page = activeWorkbenchWindow.getActivePage();
-				            
-				            ArchitectureItem ai = (ArchitectureItem)obj; 
-				            final ArchitectureEditorInput editorInput =
-				                new ArchitectureEditorInput(ai.getAsset());
-				            page.openEditor(editorInput, KoboldConstants.ID_ARCH_EDITOR, true);
-				    } catch (PartInitException e) {
-				        e.printStackTrace();
-				    }
-				} else
-				showMessage("Double-click detected on "+obj.toString());
-			}
-		};
-	}
-
-	private void hookDoubleClickAction() {
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
-			public void doubleClick(DoubleClickEvent event) {
-				doubleClickAction.run();
-			}
-		});
-	}
-	
-	private void showMessage(String message) {
-		MessageDialog.openInformation(
-			viewer.getControl().getShell(),
-			"Sample View",
-			message);
 	}
 
 	/**
@@ -251,6 +153,10 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 	    		.getRoot().getKoboldProject().getProject();
 		}
 		
+		if (actionGroup != null) {
+		    actionGroup.handleSelectionChanged(event);
+		}
+		
 		if (p != null && p != KoboldPLAMPlugin.getCurrentProject()) {
 			try {
                 KoboldPLAMPlugin.getDefault().setCurrentProject((IProject)p);
@@ -259,4 +165,20 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
             } catch (CoreException e) {}
 		}
 	}
+
+    /**
+     * @see org.eclipse.jface.action.IMenuListener#menuAboutToShow(org.eclipse.jface.action.IMenuManager)
+     */
+    public void menuAboutToShow(IMenuManager manager)
+    {
+		actionGroup.setContext(new ActionContext(viewer.getSelection()));
+		actionGroup.fillContextMenu(manager);
+		actionGroup.setContext(null);
+    }
+    
+    public void dispose()
+    {
+        actionGroup.dispose();
+        super.dispose();
+    }
 }

@@ -21,12 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ConfigureAssetAction.java,v 1.1 2004/07/07 10:34:29 vanto Exp $
+ * $Id: ConfigureAssetAction.java,v 1.2 2004/08/04 20:53:08 vanto Exp $
  *
  */
 package kobold.client.plam.editor.action;
 
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
+import kobold.client.plam.editor.editpart.AbstractAssetEditPart;
+import kobold.client.plam.editor.editpart.MetaEditPart;
 import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.gef.EditPart;
@@ -70,8 +72,9 @@ public class ConfigureAssetAction extends SelectionAction
     protected boolean calculateEnabled()
     {
         if ((getSelectedObjects().size() == 1)
-                && (getSelectedObjects().get(0) instanceof EditPart)) {
-            //AbstractAsset aa = (AbstractAsset)((EditPart)getSelectedObjects().get(0)).getModel();
+                && (getSelectedObjects().get(0) instanceof AbstractAssetEditPart)
+                && !(getSelectedObjects().get(0) instanceof MetaEditPart)) {
+
             return true;
         }
         return false;
