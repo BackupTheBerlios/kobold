@@ -1,6 +1,6 @@
 ###############################################################################
-## Makefile for generating Entwurf papers
-## $Id: Makefile,v 1.1 2004/01/28 18:10:49 garbeam Exp $
+## Makefile for generating papers
+## $Id: Makefile,v 1.2 2004/01/30 12:21:07 garbeam Exp $
 
 TEXCMD=pdflatex
 PDFCMD=pdflatex

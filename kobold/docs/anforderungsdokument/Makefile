@@ -1,12 +1,12 @@
 ###############################################################################
 ## Makefile for generating papers
-## $Id: Makefile,v 1.2 2004/01/30 12:21:07 garbeam Exp $
+## $Id: Makefile,v 1.1 2004/01/30 12:21:07 garbeam Exp $
 
 TEXCMD=pdflatex
 PDFCMD=pdflatex
 PSCMD=dvips
 PSCMDARGS=-o
-INPUT=angebot
+INPUT=anforderungsdokument.tex
 TEXEXT=.tex
 DVIEXT=.dvi
 PSEXT=.ps
