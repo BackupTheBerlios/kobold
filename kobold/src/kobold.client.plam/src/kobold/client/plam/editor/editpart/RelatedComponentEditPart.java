@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponentEditPart.java,v 1.5 2004/08/25 02:27:02 vanto Exp $
+ * $Id: RelatedComponentEditPart.java,v 1.6 2004/09/01 01:08:29 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -34,10 +34,14 @@ import java.util.Set;
 import kobold.client.plam.editor.figure.RelatedComponentFigure;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
 import kobold.client.plam.model.AbstractStatus;
+import kobold.client.plam.model.product.ProductComponent;
 import kobold.client.plam.model.product.RelatedComponent;
+import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.internal.WorkbenchPlugin;
@@ -81,6 +85,13 @@ public class RelatedComponentEditPart extends AbstractAssetEditPart
     }
 
     /**
+     * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
+     */
+    public IFigure getFileDescriptorPane() {
+        return figure.getFileDescriptorPane();
+    }
+
+    /**
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies()
@@ -96,9 +107,50 @@ public class RelatedComponentEditPart extends AbstractAssetEditPart
     {
         List children = new ArrayList(); 
         children.addAll(((RelatedComponent)getModel()).getProductComponents());
+        children.addAll(((RelatedComponent)getModel()).getFileDescriptors());
         return children;
     }
     
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#addChildVisual(org.eclipse.gef.EditPart, int)
+     */
+    protected void addChildVisual(EditPart childEditPart, int index)
+    {
+    	IFigure child = ((GraphicalEditPart)childEditPart).getFigure();
+        if (childEditPart instanceof FileDescriptorEditPart) {
+            int i = ((ProductComponent)getAsset()).getFileDescriptors().indexOf(((FileDescriptorEditPart)childEditPart).getAsset());
+            getFileDescriptorPane().add(child, i);
+    	} else {
+    	    getContentPane().add(child, index);
+    	}
+    }
+    
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#removeChildVisual(org.eclipse.gef.EditPart)
+     */
+    protected void removeChildVisual(EditPart childEditPart)
+    {
+        IFigure child = ((GraphicalEditPart)childEditPart).getFigure();
+        if (childEditPart instanceof FileDescriptorEditPart) {
+            getFileDescriptorPane().remove(child);
+    	} else {
+           	getContentPane().remove(child);
+    	}
+    }
+    
+    /**
+     * @see org.eclipse.gef.GraphicalEditPart#setLayoutConstraint(org.eclipse.gef.EditPart, org.eclipse.draw2d.IFigure, java.lang.Object)
+     */
+    public void setLayoutConstraint(EditPart child, IFigure childFigure,
+            Object constraint)
+    {
+        if (child instanceof FileDescriptorEditPart) {
+            getFileDescriptorPane().setConstraint(childFigure, constraint);
+    	} else {
+    	    getContentPane().setConstraint(childFigure, constraint);
+    	}
+    }
+
     private class RelatedStatus extends AbstractStatus 
     {
 

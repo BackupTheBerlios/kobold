@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantEditPart.java,v 1.13 2004/08/06 01:30:02 vanto Exp $
+ * $Id: VariantEditPart.java,v 1.14 2004/09/01 01:08:29 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -46,7 +46,7 @@ import org.eclipse.gef.GraphicalEditPart;
  * VariantEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: VariantEditPart.java,v 1.13 2004/08/06 01:30:02 vanto Exp $
+ * @version $Id: VariantEditPart.java,v 1.14 2004/09/01 01:08:29 vanto Exp $
  */
 public class VariantEditPart extends AbstractComposableEditPart 
 {
@@ -58,12 +58,6 @@ public class VariantEditPart extends AbstractComposableEditPart
     protected IFigure createNodeFigure() {
         figure = new VariantFigure();
 		figure.setTitle(getAsset().getName());
-		//figure.setSize(getAsset().getSize());
-		//figure.setLocation(getAsset().getLocation());
-		//refreshVisuals();
-
-		//ScriptDescriptor sd = getNode().getScriptDescriptor();
-		//figure.showScriptLabel(sd != null);
     
         return figure;
     }

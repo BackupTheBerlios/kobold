@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalPartFactory.java,v 1.9 2004/08/06 01:57:29 vanto Exp $
+ * $Id: GraphicalPartFactory.java,v 1.10 2004/09/01 01:08:29 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
 
 import kobold.client.plam.editor.editpart.ComponentEditPart;
 import kobold.client.plam.editor.editpart.EdgeEditPart;
+import kobold.client.plam.editor.editpart.FileDescriptorEditPart;
 import kobold.client.plam.editor.editpart.MetaEditPart;
 import kobold.client.plam.editor.editpart.ProductEditPart;
 import kobold.client.plam.editor.editpart.ProductlineEditPart;
@@ -35,6 +36,7 @@ import kobold.client.plam.editor.editpart.RelatedComponentEditPart;
 import kobold.client.plam.editor.editpart.ReleaseEditPart;
 import kobold.client.plam.editor.editpart.SpecificComponentEditPart;
 import kobold.client.plam.editor.editpart.VariantEditPart;
+import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.edges.Edge;
@@ -81,6 +83,8 @@ public class GraphicalPartFactory implements EditPartFactory {
 		    editPart = new SpecificComponentEditPart();
 		} else if (model instanceof RelatedComponent) {
 		    editPart = new RelatedComponentEditPart();
+		} else if (model instanceof FileDescriptor) {
+		    editPart = new FileDescriptorEditPart();
 		}
 		
 		if (editPart != null) {

@@ -21,29 +21,52 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponentFigure.java,v 1.2 2004/09/01 01:08:29 vanto Exp $
+ * $Id: FileDescriptorEditPart.java,v 1.1 2004/09/01 01:08:29 vanto Exp $
  *
  */
-package kobold.client.plam.editor.figure;
+package kobold.client.plam.editor.editpart;
 
-import kobold.client.plam.editor.KoboldColors;
+import kobold.client.plam.editor.figure.ReleaseFigure;
+import kobold.client.plam.editor.policy.FlowLayoutEditPolicyImpl;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.FileDescriptor;
 
-import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.swt.graphics.Color;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
+
 
 /**
+ * EditPart for Release instances.
+ * 
  * @author Tammo
  */
-public class RelatedComponentFigure extends ProductComponentFigure
+public class FileDescriptorEditPart extends AbstractComposableEditPart
 {
-    protected Dimension corner = new Dimension(8, 8);
+
+    private ReleaseFigure figure;
     
     /**
-     * @see kobold.client.plam.editor.figure.AbstractNodeFigure#getAssetColor()
+     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
-    protected Color getAssetColor()
+    protected IFigure createNodeFigure()
     {
-        return KoboldColors.orMeta;
+        figure = new ReleaseFigure();
+        figure.setTitle(((FileDescriptor)getModel()).getFilename());
+        return figure;
     }
 
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies()
+    {
+        super.createEditPolicies();
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new FlowLayoutEditPolicyImpl());
+    }
+    
+    protected void refreshVisuals()
+    {
+        super.refreshVisuals();
+        figure.setTitle((((FileDescriptor)getModel()).getFilename() == null) ? "" : getAsset().getName());
+    }
 }
