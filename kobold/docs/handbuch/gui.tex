@@ -20,7 +20,7 @@ In the Main Window you can see the following editors and views (see \ref{main}):
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=15cm]{main.png}
+\includegraphics[width=17cm]{main.png}
    \caption{Main Window}
 \label{main}
 \end{center}
@@ -47,9 +47,9 @@ Enter the url of your Kobold server, your username and password. Then press
 \end{center}
 \end{figure}\par
 
-Before you proceed, you have the chance to import a new certificate. In order to do this,
+Before you proceed, you have the possibility to import a new certificate. In order to do this,
 press the button 'import certificate...'. A new dialog opens (see \ref{certificate}) where you 
-can an alias and your new certificate. Confirm with 'OK'.
+can enter an alias and your new certificate. Confirm with 'OK'.
 
 \begin{figure}[h!]
 \begin{center}
@@ -85,13 +85,14 @@ and 'show view'.
 \subsubsection{Setting the Kobold preferences}
 In the Kobold Client menu, select 'Window' and then 'Preferences'. The preferences
 dialog opens (see \ref{pref}). Open the Kobold tree. In the SSL tab you can enter the 
-properties for the Kobold Client. They resemble your SAT properties (see chapter 'Installation').
+properties for the Kobold Client. They resemble your SAT properties (see chapter '4.3 Server 
+Administration Tool').
 The VCM Configuration allows you to save your username, password and script for the
 communication with the projects' repositories.
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=14cm]{pref.png}
+\includegraphics[width=17cm]{pref.png}
    \caption{Kobold preferences}
 \label{pref}
 \end{center}
@@ -118,24 +119,24 @@ any relationship between nodes.\par
 
 The Architecture Editor offers you the following options:
 \begin{itemize}
-	\item Creating a core asset/component
-	\item Configuring a core asset/component
-	\item Creating a variant
-	\item Configuring a variant
-	\item Creating a release
-	\item Configuring a release
-	\item Deleting a core asset/component, variant or release
-	\item Creating a meta node
-	\item Deleting a meta node
-	\item Creating a dependency edge
-	\item Creating an exclusion edge
-	\item Deleting an edge
-	\item Marking a product, component, variant or release "deprecated"
-	\item Setting the maintainers of a productline, product or component
-	\item Moving an item
-	\item Changing the size of an item
-	\item Composing a product
-	\item Configuring a product
+	\item Create a core asset/component
+	\item Configure a core asset/component
+	\item Createa variant
+	\item Configure a variant
+	\item Create a release
+	\item Configure a release
+	\item Delete a core asset/component, variant or release
+	\item Create a meta node
+	\item Delete a meta node
+	\item Create a dependency edge
+	\item Create an exclusion edge
+	\item Delete an edge
+	\item Mark a product, component, variant or release "deprecated"
+	\item Set the maintainers of a productline, product or component
+	\item Move an item
+	\item Change the size of an item
+	\item Compose a product
+	\item Configure a product
 	\item Edit the repository descriptor of a product
 	\item Export
 \end{itemize}
@@ -162,7 +163,7 @@ Note: Core Assets/Components can only be inserted top-level or into variants.
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=8cm]{component.png}
+\includegraphics[width=6cm]{component.png}
    \caption{Component}
 \label{component}
 \end{center}
@@ -176,7 +177,7 @@ asset. You can also set the asset on deprecated if you like.
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=8cm]{configcomp.png}
+\includegraphics[width=12cm]{configcomp.png}
    \caption{Asset Configuration Dialog for Components}
 \label{configcomp}
 \end{center}
@@ -206,7 +207,7 @@ asset. You can also set the asset on deprecated if you like.
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=8cm]{configvar.png}
+\includegraphics[width=12cm]{configvar.png}
    \caption{Asset Configuration Dialog for Variants}
 \label{configvar}
 \end{center}
@@ -215,8 +216,8 @@ asset. You can also set the asset on deprecated if you like.
 \subsubsection{Creating a release}
 
 In the pallete select the "release" item. Click within a variant in 
-the Architecture Editor. A release is inserted (see \ref{release}) and a dialog opens where you can enter the meta data of
-the release. For each file of the variant you can select the revision number you want to add to the release. 
+the Architecture Editor. A release is inserted (see \ref{release}) and a dialog opens where you can enter the data of
+the release. For each file of the surrounding variant you can select the revision number you want to add to the release. 
 By clicking on the border and pulling it you can simply change the size of the release. \par
 Note: Releases can only be inserted into variants.
 
@@ -237,7 +238,7 @@ asset. You can also set the asset on deprecated or mark it as a release if you l
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=8cm]{configrel.png}
+\includegraphics[width=12cm]{configrel.png}
    \caption{Asset Configuration Dialog for Releases}
 \label{configrel}
 \end{center}
@@ -329,14 +330,14 @@ Alternatively you can select the edge and press "Del" on your keyboard.
 
 
 \subsubsection{Setting the maintainers of a productline, product or component}
-Right-click on the component or name of the productline and choose "configure". The Asset Configuration dialog (see \ref{configcomp}, \ref{configp} and \ref{configpl}) opens.
+Right-click on the component or name of the product(line) and choose "configure". The Asset Configuration dialog (see \ref{configcomp}, \ref{configp} and \ref{configpl}) opens.
 Press the 'Edit Maintainer' button. A new window opens where you can select the users you want to make maintainers of
-the productline/component (see \ref{maintainer}). After pressing 'OK' you can see the new maintainers in the Asset Configuration
+the product(line)/component (see \ref{maintainer}). After pressing 'OK' you can see the new maintainers in the Asset Configuration
 dialog.
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{configpl.png}
+\includegraphics[width=12cm]{configpl.png}
    \caption{Asset Configuration Dialog for Productlines}
 \label{configpl}
 \end{center}
@@ -369,7 +370,7 @@ your new product in the Architecture Tree and Architecture Editor.
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{composeproduct.png}
+\includegraphics[width=12cm]{composeproduct.png}
    \caption{Composing a Product}
 \label{compose}
 \end{center}
@@ -383,7 +384,7 @@ asset. You can also set the asset on deprecated if you like.
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=8cm]{configp.png}
+\includegraphics[width=12cm]{configp.png}
    \caption{Asset Configuration Dialog for Products}
 \label{configp}
 \end{center}
@@ -398,7 +399,7 @@ Here you can change the data of the repository that saves the data of the produc
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=8cm]{repository.png}
+\includegraphics[width=12cm]{repository.png}
    \caption{Edit Repository Descriptor}
 \label{repository}
 \end{center}
@@ -460,11 +461,11 @@ between different actions (see \ref{rolekontext} and \ref{rolekontext2}). The po
 depending on which asset you open the context menu on. Possible actions are:
 
 \begin{itemize}
-	\item Creating a new user
+	\item Create a new user
 	\item Change password
 	\item Update full name
 	\item Configure asset
-	\item Suggesting an asset for a Core Group
+	\item Suggest an asset for a Core Group
 	\item Generate AssetInfo document
 	\item Export
 	\item Import
@@ -475,7 +476,7 @@ depending on which asset you open the context menu on. Possible actions are:
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=5cm]{rolekontext.png}
+\includegraphics[width=8cm]{rolekontext.png}
    \caption{Architecture Tree Context Menu 1}
 \label{rolekontext}
 \end{center}
@@ -483,7 +484,7 @@ depending on which asset you open the context menu on. Possible actions are:
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{rolekontext2.png}
+\includegraphics[width=8cm]{rolekontext2.png}
    \caption{Architecture Tree Context Menu 2}
 \label{rolekontext2}
 \end{center}
@@ -551,8 +552,8 @@ your message (see \ref{core1}).
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{core1.png}
-   \caption{Suggesting a file for a Core Group}
+\includegraphics[width=12cm]{core1.png}
+   \caption{Suggesting an asset for a Core Group}
 \label{core1}
 \end{center}
 \end{figure}\par
@@ -757,7 +758,7 @@ your message (see \ref{answermail}).
 \subsubsection{Suggesting an asset for a Core Group}
 
 In the menu of the Workflow View select 'Suggest asset for core group'. A dialog opens where
- you can select the type of recipient, i.d. whether the suggestion is to be sent to a PE or a PLE. After
+ you can select the type of recipient, that is whether the suggestion is to be sent to a PE or a PLE. After
  that decision a Workflow
 window opens where you can enter the name of the asset and the username of the
 PE/PLE you want to send the message to. You can also enter an additional comment you want 
@@ -962,7 +963,7 @@ possibilities:
 
 \subsection{Setting up the server connection}
 At startup the SAT tries per default to establish a connection to a server running 
-at 'localhost' on port 23232 without a set administartion password. You can change
+at 'localhost' on port 23232 without a set administration password. You can change
 those default settings at any time by entering the command 'setserver'.\par
 
 After entering that command the current properties of the server connection are 
@@ -981,15 +982,15 @@ tries to establish the new connection. Enter 'c' to cancel the action.
 
 \subsection{Creating a productline}
 Enter the command 'newpl'. A listing is shown with the properties of the lately created
-productline. You can change the properties as described above. By enetering 'p' the SAT
+productline. You can change the properties as described above. By entering 'p' the SAT
 tries to create a new productline with the current settings. \par
 
-Please not that every productline of a Kobold server must have an unique name. Creation
+Please note that every productline of a Kobold server must have an unique name. Creation
 of a productline with an already assigned name will be refused by the server.
 
 \subsection{Deleting a product line}
-Enter the command 'rempl'. All registered productline's names are listed and you are 
-asked to enter the name of the productline you want to remove. Once you confirmed your 
+Enter the command 'rempl'. All registered productlines' names are listed and you are 
+asked to enter the name of the productline you want to remove. Once you have confirmed your 
 entry, the productline is deleted.
 
 \subsection{Assigning an existing user to a productline as PLE}
