@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.17 2004/05/19 15:38:19 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.18 2004/05/20 00:38:58 vanto Exp $
  *
  */
 package kobold.server;
@@ -112,7 +112,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			    logout(uc);
 			}
 			else if (methodName.equals("getRoles")) {
-				List result = new ArrayList();
+				List result = new Vector();
 				List roles = getRoles(new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0))));
 				if (roles.size() > 0) {

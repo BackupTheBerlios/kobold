@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.14 2004/05/19 14:01:57 martinplies Exp $
+ * $Id: NewProjectWizard.java,v 1.15 2004/05/20 00:39:00 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -83,7 +83,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 	 */
 	public boolean performFinish() 
 	{
-		createNewProject();
+	    createNewProject();
 		if (newProject == null) {
 			return false;
 		} else {	
@@ -106,23 +106,25 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 	public void addPages() 
 	{
 		super.addPages();
-		mainPage = new WizardNewProjectCreationPage("basicNewProjectPage"); //$NON-NLS-1$
-		mainPage.setTitle(Messages.getString("NewProjectWizard.CreationPageTitle")); //$NON-NLS-1$
-		mainPage.setDescription(Messages.getString("NewProjectWizard.CreationPageDesc")); //$NON-NLS-1$
-		mainPage.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
-		this.addPage(mainPage);
-		
+	
 		serverPage = new NewProjectWizardServerPage(); //$NON-NLS-1$
 		serverPage.setTitle(Messages.getString("NewProjectWizard.ServerPageTitle")); //$NON-NLS-1$
 		serverPage.setDescription(Messages.getString("NewProjectWizard.ServerPageDesc")); //$NON-NLS-1$
 		serverPage.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
 		this.addPage(serverPage);
 		
-		chooserPage = new ProductLineChooserWizardPage("chooserpage"); //$NON-NLS-1$
+		chooserPage = new ProductLineChooserWizardPage(); //$NON-NLS-1$
 		chooserPage.setTitle(Messages.getString("NewProjectWizard.ChooseThePLTitle")); //$NON-NLS-1$
 		chooserPage.setDescription(Messages.getString("NewProjectWizard.ChooseThePLDesc")); //$NON-NLS-1$
 		serverPage.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
 		this.addPage(chooserPage);
+		
+		mainPage = new WizardNewProjectCreationPage("basicNewProjectPage"); //$NON-NLS-1$
+		mainPage.setTitle(Messages.getString("NewProjectWizard.CreationPageTitle")); //$NON-NLS-1$
+		mainPage.setDescription(Messages.getString("NewProjectWizard.CreationPageDesc")); //$NON-NLS-1$
+		mainPage.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
+		this.addPage(mainPage);
+
 	}
 	
 	/**
@@ -219,7 +221,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			p.setServerUrl(serverPage.getServerURL());
 			p.setUsername(serverPage.getUsername());
 			p.setPassword(serverPage.getPassword());
-			p.setProductline(chooserPage.getProductLineName());
+			//p.setProductline(chooserPage.getProductLineName());
 			p.store();
 			
 			// create secure client

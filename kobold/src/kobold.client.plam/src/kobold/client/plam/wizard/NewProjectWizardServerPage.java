@@ -21,18 +21,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.5 2004/05/15 16:37:06 garbeam Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.6 2004/05/20 00:39:00 vanto Exp $
  *
  */
 package kobold.client.plam.wizard;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
+import kobold.client.plam.controller.SecureKoboldClient;
+import kobold.common.data.UserContext;
+
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -52,6 +60,9 @@ public class NewProjectWizardServerPage extends WizardPage {
 	private Text serverUrlField;
 	private Text usernameField;
 	private Text passwordField;
+	private Button testButton;
+
+	private boolean serverOk = false;
 	
 	private Listener nameModifyListener = new Listener() {
 		public void handleEvent(Event e) {
@@ -134,8 +145,34 @@ public class NewProjectWizardServerPage extends WizardPage {
 		data.widthHint = 250;
 		passwordField.setLayoutData(data);
 		passwordField.setFont(parent.getFont());
+		passwordField.setEchoChar('*');
 		
 		passwordField.addListener(SWT.Modify, nameModifyListener);
+		
+		testButton = new Button(projectGroup, SWT.NONE);
+		testButton.setText("Test connection");
+		testButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+                    SecureKoboldClient client = new SecureKoboldClient(getServerURL());
+                    UserContext context = client.login(getUsername(), getPassword());
+                    if (context != null) {
+                        List roles = client.getRoles(context);
+                        client.logout(context);
+                        client = null;
+                        serverOk = true;
+
+                        ProductLineChooserWizardPage chooserPage =
+                			(ProductLineChooserWizardPage)getWizard().getPage(ProductLineChooserWizardPage.PAGE_ID);
+
+                        chooserPage.setRoles(roles);
+                        
+                        nameModifyListener.handleEvent(null);
+                    } else {
+                        MessageDialog.openError(getShell(), "Cannot disconnect", "There is a problem connecting to the server. Please check your entries.");
+                        //ErrorDialog.openError(getShell(), "Cannot disconnect", "There is a problem connecting to the server. Please check your entries.");
+                    }
+			}
+		});
 	}
 	
 	private boolean validatePage()
@@ -159,6 +196,11 @@ public class NewProjectWizardServerPage extends WizardPage {
 
 		if (passwordField.getText().length() == 0) {
 			setErrorMessage(Messages.getString("NewProjectWizardServerPage.NoPasswordMsg")); //$NON-NLS-1$
+			return false;
+		}
+		
+		if (!serverOk) {
+			setErrorMessage("Test your server connection first."); //$NON-NLS-1$
 			return false;
 		}
 		
@@ -193,5 +235,4 @@ public class NewProjectWizardServerPage extends WizardPage {
 	public String getPassword() {	
 		return passwordField.getText();
 	}
-
 }

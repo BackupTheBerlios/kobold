@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.12 2004/05/19 13:46:15 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.13 2004/05/20 00:39:00 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -119,17 +119,17 @@ public class SecureKoboldClient implements IKoboldServer {
 		try {
 			Object object = client.execute("getRoles", v);
 			
-			if (!((String)object).equals(IKoboldServer.NO_RESULT)) {
-				List list = (List)object;	
+			if (object instanceof Vector) {//&& !((String)object).equals(IKoboldServer.NO_RESULT)) {
+			    List list = (Vector)object;
 				List result = new ArrayList();
-				for (Iterator it = result.iterator(); it.hasNext(); ) {
+				for (Iterator it = list.iterator(); it.hasNext(); ) {
 					Element element = RPCMessageTransformer.decode((String) it.next());
 					result.add(Role.createRole(element));
 				}
 				return result;
 			}
 		} catch (Exception exception) {
-			log.error(exception);
+			log.error("error during getRoles()", exception);
 		}
 		return null;
 	}

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Role.java,v 1.7 2004/05/17 09:17:11 garbeam Exp $
+ * $Id: Role.java,v 1.8 2004/05/20 00:38:59 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -44,15 +44,17 @@ public abstract class Role implements ISerializable {
 	 * @return
 	 */
 	public static Role createRole(Element element) {
-
-		String roleType = element.selectSingleNode("//roles/role").getText();
-		if (roleType.equals("PLE")) {
+	    //TODO: Anselm?!
+		//String roleType = element.selectSingleNode("//roles/role").getText();
+	    String roleType = element.getTextTrim();
+	    if (roleType.equals("PLE")) {
 			return new RolePLE(element);
 		} else if (roleType.equals("PE")) {
 			return new RolePE(element);
 		} else {
 			return new RoleP(element);
 		}
+	    
 	}
 
 	/**
