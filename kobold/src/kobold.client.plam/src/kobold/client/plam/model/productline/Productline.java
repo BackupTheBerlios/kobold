@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.26 2004/08/23 14:36:58 vanto Exp $
+ * $Id: Productline.java,v 1.27 2004/08/25 14:59:13 vanto Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IComponentContainer;
@@ -70,8 +71,9 @@ public class Productline extends AbstractRootAsset
 	    addToPool(this);
 	}
 
-    public Productline(Element element) {
+    public Productline(KoboldProject kp, Element element) {
 		super();
+		setProject(kp);
 		deserialize(element);
 		addToPool(this);
 	}
@@ -84,6 +86,7 @@ public class Productline extends AbstractRootAsset
 	public void addProduct(Product product) {
 		products.add(product);
 		product.setParent(this);
+		product.setProject(getKoboldProject());
 		addToPool(product);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, product);
 	}
@@ -168,10 +171,6 @@ public class Productline extends AbstractRootAsset
 			// Store only a file reference to the product here. 
 			Element pEl = productsEl.addElement("product");
 			pEl.addAttribute("refid", product.getId());
-			
-			
-				//TODO ms.serializeProduct(product);
-
 		}
 		
 		//now all components
@@ -179,62 +178,14 @@ public class Productline extends AbstractRootAsset
 		for (Iterator it = coreAssets.iterator(); it.hasNext();)	{
 				Component component = (Component)it.next();
 				componentsEl.add(component.serialize());
-				
-				//create component dirs
-				//TODO createComponentDirectory(component);
-
-				//serializeAll?
-				//TODO	ms.serializeComponent(component);
-
-
 		}
 		
 		// serialize EdgeContainer
-		//Element edgeContElem = root.addElement("edgeconatainer");
-		//edgeContElem.add(this.getEdgeContainer().serialize());
 		root.add(getEdgeContainer().serialize());
-		
-//		if (repositoryPath != null) {
-//			root.addAttribute("repositoryPath", repositoryPath);
-//		}
 		
 		return root;
 	}
 	
-
-	
-//	private void createProductDirectory (Product product)
-//	{
-//		//create directory for every product			
-//		File newDir = new File (getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
-//										+ "PRODUCTS" + File.separator + product.getName());
-//
-//
-//		if (newDir.mkdir()==true)
-//		{
-//			System.out.println("Project-PL-Products-Dirs Directory was created");
-//		}
-//		else
-//		System.out.println("Project-PL-Products-Dirs Directory already existed");
-//	}
-
-	
-//	private void createComponentDirectory (Component component)
-//	{
-//	
-//		//create directory for every component			
-//		File newDir = new File (getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
-//										+ "CAS" + File.separator + component.getName());
-//
-//		if (newDir.mkdir()==true)
-//		{
-//			System.out.println("Project-PL-CAS-Dirs Directory was created");
-//		}
-//
-//		else
-//		System.out.println("Project-PL-CAS-Dirs Directory already existed");
-//	
-//	}	
 	public void deserialize(Element element) {
 	    super.deserialize(element);
 	    //repositoryPath = element.attributeValue("repositoryPath");
@@ -242,11 +193,12 @@ public class Productline extends AbstractRootAsset
 		Iterator it = element.element("products").elementIterator(AbstractAsset.PRODUCT);
 		while (it.hasNext()) {
 		    Element pEl = (Element)it.next();
-		    /* load and create the product by finding its local path and 
-		     		  deserializing it from there.
-		    */
+		    String refId = pEl.attributeValue("refid");
 		   
-			//TODO addProduct(new Product (pEl, this,  path));
+			Product p = ModelStorage.retrieveProject(this, refId); 
+		    if (p != null) {
+		        addProduct(p);
+		    }
 		}
 		
 		it = element.element("components").elementIterator(AbstractAsset.COMPONENT);
@@ -336,6 +288,12 @@ public class Productline extends AbstractRootAsset
 	    while (it.hasNext()) {
 	        Component c = (Component)it.next();
 	        spl.addCoreAsset(c.getServerRepresentation(spl));
+	    }
+	    
+	    it = getProducts().iterator();
+	    while (it.hasNext()) {
+	        Product p = (Product)it.next();
+	        spl.addProduct(p.getServerRepresentation(spl));
 	    }
 	    return spl;
 	}

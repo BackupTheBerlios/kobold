@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.24 2004/08/24 17:13:49 vanto Exp $
+ * $Id: ModelStorage.java,v 1.25 2004/08/25 14:59:13 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -36,6 +36,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.RelatedComponent;
@@ -54,7 +55,6 @@ import org.dom4j.io.XMLWriter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -77,13 +77,14 @@ public class ModelStorage
     
     public static final Logger logger = Logger.getLogger(ModelStorage.class);
     
-    public static Productline loadModel(IProject project, kobold.common.data.Productline spl)
+    public static Productline loadModel(KoboldProject kp, kobold.common.data.Productline spl)
     {
         logger.debug("Loading model...");
         Productline pl = null;
         
-		//get the PL directory
-     	IFolder plmeta = project.getFolder(spl.getResource());
+        //get the PL directory
+        IProject project = kp.getProject();
+        IFolder plmeta = project.getFolder(spl.getResource());
         if (plmeta.exists()) {
             IFile modelFile = plmeta.getFile(PRODUCTLINE_META_FILE);
             if (modelFile.exists()) {
@@ -92,7 +93,7 @@ public class ModelStorage
                     in = modelFile.getContents();
                     SAXReader reader = new SAXReader();
                     Document document = reader.read(in);
-                    pl = new Productline(document.getRootElement());                    
+                    pl = new Productline(kp, document.getRootElement());                    
                 } catch (CoreException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -104,7 +105,7 @@ public class ModelStorage
         } else {
             logger.debug("no model loaded.");
         }
-
+        
         return pl;        
     }
     
@@ -113,51 +114,51 @@ public class ModelStorage
      * @param pl, the pl for creating the dirs
      * @return the PL-IFolder
      */
-	private static void createPlDirectory (Productline pl, IProgressMonitor monitor) {
-		//create directory for the PL
-		monitor.beginTask("Creating directory structure", 150);
-		//the PL directory
+    private static void createPlDirectory (Productline pl, IProgressMonitor monitor) {
+        //create directory for the PL
+        monitor.beginTask("Creating directory structure", 150);
+        //the PL directory
         IProject project = pl.getKoboldProject().getProject();
         
         try {
-	        IFolder plFolder = project.getFolder(pl.getResource());
-	        if (!plFolder.exists()) {
-	            plFolder.create(true, true, monitor);
-	        }
-	
-	        IFolder plFolder2 = plFolder.getFolder(COREASSETS_FOLDER_NAME);
-	        if (!plFolder2.exists()) {
-	            plFolder2.create(true, true, monitor);
-	        }
-	        
-	        plFolder2 = plFolder.getFolder(PRODUCTS_FOLDER_NAME);
-	        if (!plFolder2.exists()) {
-	            plFolder2.create(true, true, monitor);
-	        }
+            IFolder plFolder = project.getFolder(pl.getResource());
+            if (!plFolder.exists()) {
+                plFolder.create(true, true, monitor);
+            }
+            
+            IFolder plFolder2 = plFolder.getFolder(COREASSETS_FOLDER_NAME);
+            if (!plFolder2.exists()) {
+                plFolder2.create(true, true, monitor);
+            }
+            
+            plFolder2 = plFolder.getFolder(PRODUCTS_FOLDER_NAME);
+            if (!plFolder2.exists()) {
+                plFolder2.create(true, true, monitor);
+            }
         } catch (CoreException e) {
             KoboldPLAMPlugin.log(e);
         } finally {
             monitor.done();
         }
-	}	
-
+    }	
+    
     private static void createFile (IFile modelFile, IProgressMonitor monitor, ByteArrayOutputStream out)
-	{
-		try{
-		    if (modelFile.exists()) {
-		        modelFile.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, monitor);
-		    } else {
-		        modelFile.create(new ByteArrayInputStream(out.toByteArray()), 
-		            true, monitor);
-		    }
-		    
-	    } catch (CoreException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-	    } finally {
-	        monitor.done();
-	    }
-	}
+    {
+        try{
+            if (modelFile.exists()) {
+                modelFile.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, monitor);
+            } else {
+                modelFile.create(new ByteArrayInputStream(out.toByteArray()), 
+                        true, monitor);
+            }
+            
+        } catch (CoreException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            monitor.done();
+        }
+    }
     
     
     /**
@@ -171,15 +172,15 @@ public class ModelStorage
         try {
             progressService.run(false, true, new IRunnableWithProgress(){
                 public void run(IProgressMonitor monitor) {
-                	monitor.beginTask("Storing PLAM Model", 1000);
-            		//get the PL directory
+                    monitor.beginTask("Storing PLAM Model", 1000);
+                    //get the PL directory
                     IProject project = pl.getKoboldProject().getProject();
-                 	IFolder plmeta = project.getFolder(pl.getResource());
-                	
-                	//create the PL,PRODUCTS,CAS directories
-                	createPlDirectory(pl, new SubProgressMonitor(monitor, 500));
-                	
-                	//create the metafiles
+                    IFolder plmeta = project.getFolder(pl.getResource());
+                    
+                    //create the PL,PRODUCTS,CAS directories
+                    createPlDirectory(pl, new SubProgressMonitor(monitor, 500));
+                    
+                    //create the metafiles
                     IFile modelFile = plmeta.getFile(PRODUCTLINE_META_FILE);
                     
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -200,14 +201,14 @@ public class ModelStorage
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
-   
+                        
                     } finally {
                         monitor.done();
                     }
                     
                     //write the products metafile
                     serializeProduct(pl, monitor);
-
+                    
                     //create CAS subdirs
                     serializeCoreassets(pl, monitor);
                     
@@ -220,7 +221,7 @@ public class ModelStorage
             e.printStackTrace();
         }
     }
-
+    
     /**
      * Returns the repository descriptor of the asset. If a product(line)
      * is given, it'll return a repository descriptor to the product(line).
@@ -230,7 +231,7 @@ public class ModelStorage
      * @param asset the asset you're gaining the repository descriptor for.
      */
     public static RepositoryDescriptor getRepositoryDescriptorForAsset(AbstractAsset asset) {
-
+        
         // checks special cases first
         if (asset.getType() == AbstractAsset.PRODUCT_LINE) {
             return ((Productline)asset).getRepositoryDescriptor();
@@ -249,14 +250,14 @@ public class ModelStorage
         RepositoryDescriptor repositoryDescriptor = root.getRepositoryDescriptor();
         
         return
-            new RepositoryDescriptor(repositoryDescriptor.getType(),
-                    				 repositoryDescriptor.getProtocol(),
-                    				 repositoryDescriptor.getHost(),
-                    				 repositoryDescriptor.getRoot(),
-                    				 repositoryDescriptor.getPath() + IPath.SEPARATOR +
-                    				 modulePath);
+        new RepositoryDescriptor(repositoryDescriptor.getType(),
+                repositoryDescriptor.getProtocol(),
+                repositoryDescriptor.getHost(),
+                repositoryDescriptor.getRoot(),
+                repositoryDescriptor.getPath() + IPath.SEPARATOR +
+                modulePath);
     }
-	
+    
     
     /**
      * Returns full path of given abstract assets. The full path will
@@ -268,20 +269,20 @@ public class ModelStorage
         AbstractRootAsset root = asset.getRoot();
         String thePath = "";
         while (asset != null) {
-             
+            
             if (asset.getType() == AbstractAsset.COMPONENT) {
                 if (asset.getParent().getType() != AbstractAsset.VARIANT) {
                     thePath = COREASSETS_FOLDER_NAME + IPath.SEPARATOR +
-                    		  asset.getResource() + IPath.SEPARATOR + thePath;
+                    asset.getResource() + IPath.SEPARATOR + thePath;
                 }
                 else {
                     thePath = asset.getResource() + IPath.SEPARATOR + thePath;
                 }
             }
             else if ((asset.getType() == AbstractAsset.SPECIFIC_COMPONENT) ||
-                     (asset.getType() == AbstractAsset.RELATED_COMPONENT)) {
+                    (asset.getType() == AbstractAsset.RELATED_COMPONENT)) {
                 thePath = PRODUCTS_FOLDER_NAME + IPath.SEPARATOR +
-                		  asset.getResource() + IPath.SEPARATOR + thePath;
+                asset.getResource() + IPath.SEPARATOR + thePath;
             }
             else {
                 thePath = asset.getResource() + IPath.SEPARATOR + thePath;
@@ -291,27 +292,27 @@ public class ModelStorage
         }
         
         return new Path(root.getKoboldProject().getProject().getLocation()
-                        + "" + IPath.SEPARATOR + thePath);
+                + "" + IPath.SEPARATOR + thePath);
     }
     
-	public static IFolder getFolderForAsset(AbstractAsset asset) {
+    public static IFolder getFolderForAsset(AbstractAsset asset) {
         AbstractRootAsset root = asset.getRoot();
         String thePath = "";
         while (asset != null) {
-
+            
             if (asset.getType() == AbstractAsset.COMPONENT) {
                 if (asset.getParent().getType() != AbstractAsset.VARIANT) {
                     thePath = COREASSETS_FOLDER_NAME + IPath.SEPARATOR +
-                    		  asset.getResource() + IPath.SEPARATOR + thePath;
+                    asset.getResource() + IPath.SEPARATOR + thePath;
                 }
                 else {
                     thePath = asset.getResource() + IPath.SEPARATOR + thePath;
                 }
             }
             else if ((asset.getType() == AbstractAsset.SPECIFIC_COMPONENT) ||
-                     (asset.getType() == AbstractAsset.RELATED_COMPONENT)) {
+                    (asset.getType() == AbstractAsset.RELATED_COMPONENT)) {
                 thePath = PRODUCTS_FOLDER_NAME + IPath.SEPARATOR +
-                		  asset.getResource() + IPath.SEPARATOR + thePath;
+                asset.getResource() + IPath.SEPARATOR + thePath;
             }
             else {
                 thePath = asset.getResource() + IPath.SEPARATOR + thePath;
@@ -321,194 +322,210 @@ public class ModelStorage
         }
         
         return root.getKoboldProject().getProject().getFolder(thePath);
-	}
-	
-	public static void serializeProduct (Productline pl, IProgressMonitor monitor)
-	{
-		//get the PRODUCTS-directory
-		//the PL directory
+    }
+    
+    public static void serializeProduct (Productline pl, IProgressMonitor monitor)
+    {
+        //get the PRODUCTS-directory
+        //the PL directory
         IProject project = pl.getKoboldProject().getProject();
-       	IFolder productsFolder = project.getFolder(pl.getResource());
+        IFolder productsFolder = project.getFolder(pl.getResource());
         //PRODUCTS-dir
         productsFolder = productsFolder.getFolder(PRODUCTS_FOLDER_NAME);
         
-		//get all products
-    	List products = pl.getProducts();
-    	
+        //get all products
+        List products = pl.getProducts();
+        
         //for each product
-		for (Iterator it = products.iterator(); it.hasNext();) {
-			Product product = (Product) it.next();
-		       
-	        //create the dir
-	        IFolder specialProductFolder = productsFolder.getFolder(product.getResource());
-
-			
-			//createDirectory
-	        try {
-		        if (!specialProductFolder.exists()) {
-		            specialProductFolder.create(true, true, monitor);
-		        }
-	        } catch (CoreException e) {
-	            KoboldPLAMPlugin.log(e);
-	        }
-	        /**finally {
-	            monitor.done();
-	        }**/
-	            
-	    	
-	    	//create the metafiles
-	        IFile modelFile = specialProductFolder.getFile(PRODUCT_META_FILE);
-	        
-	        ByteArrayOutputStream out = new ByteArrayOutputStream();
-	        XMLWriter writer;
-			
-	        try {
-	            writer = new XMLWriter(out, OutputFormat.createPrettyPrint());
-	            writer.write(product.serialize());
-	            writer.close();
-	            
-	            //write the metafile
-	            createFile(modelFile, monitor, out);
-	            
-	            out.close();
-	            
-	            
-	        } catch (UnsupportedEncodingException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        } catch (IOException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        }
-	        //Part of generating all subfolders
-	        //List of all related components
-	        List relCompList = product.getRelatedComponents();
-	        Iterator it2 = relCompList.iterator();
-	        int count = 0;
-	        while(it2.hasNext()){
-	        	count=count+1;
-	        	RelatedComponent tmpRelComp = (RelatedComponent)it2.next();
-	        	
-	        	IFolder relCompFolder = specialProductFolder.getFolder(tmpRelComp.getResource());
-	        	
-				//createDirectory
-		        try {
-			        if (!relCompFolder.exists()) {
-			            relCompFolder.create(true, true, monitor);
-			        }
-		        } catch (CoreException e) {
-		            KoboldPLAMPlugin.log(e);
-		        }
-	        }
-	        
-	        List specCompList = product.getSpecificComponents();
-	        it2 = specCompList.iterator();
-	        while(it2.hasNext()){
-	        	SpecificComponent tmpRelComp = (SpecificComponent)it2.next();
-	        	
-	        	IFolder relCompFolder = specialProductFolder.getFolder(tmpRelComp.getResource());
-	        	
-				//createDirectory
-		        try {
-			        if (!relCompFolder.exists()) {
-			            relCompFolder.create(true, true, monitor);
-			        }
-		        } catch (CoreException e) {
-		            KoboldPLAMPlugin.log(e);
-		        }
-	        }
-		}
-
-	}
-	
-	public static void serializeCoreassets (Productline pl, IProgressMonitor monitor)
-	{
-		//get the CAS-directory
-		//the PL directory
+        for (Iterator it = products.iterator(); it.hasNext();) {
+            Product product = (Product) it.next();
+            
+            //create the dir
+            IFolder specialProductFolder = productsFolder.getFolder(product.getResource());
+            
+            
+            //createDirectory
+            try {
+                if (!specialProductFolder.exists()) {
+                    specialProductFolder.create(true, true, monitor);
+                }
+            } catch (CoreException e) {
+                KoboldPLAMPlugin.log(e);
+            }
+            /**finally {
+             monitor.done();
+             }**/
+            
+            
+            //create the metafiles
+            IFile modelFile = specialProductFolder.getFile(PRODUCT_META_FILE);
+            
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            XMLWriter writer;
+            
+            try {
+                writer = new XMLWriter(out, OutputFormat.createPrettyPrint());
+                writer.write(product.serialize());
+                writer.close();
+                
+                //write the metafile
+                createFile(modelFile, monitor, out);
+                
+                out.close();
+                
+                
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            //Part of generating all subfolders
+            //List of all related components
+            List relCompList = product.getRelatedComponents();
+            Iterator it2 = relCompList.iterator();
+            int count = 0;
+            while(it2.hasNext()){
+                count=count+1;
+                RelatedComponent tmpRelComp = (RelatedComponent)it2.next();
+                
+                IFolder relCompFolder = specialProductFolder.getFolder(tmpRelComp.getResource());
+                
+                //createDirectory
+                try {
+                    if (!relCompFolder.exists()) {
+                        relCompFolder.create(true, true, monitor);
+                    }
+                } catch (CoreException e) {
+                    KoboldPLAMPlugin.log(e);
+                }
+            }
+            
+            List specCompList = product.getSpecificComponents();
+            it2 = specCompList.iterator();
+            while(it2.hasNext()){
+                SpecificComponent tmpRelComp = (SpecificComponent)it2.next();
+                
+                IFolder relCompFolder = specialProductFolder.getFolder(tmpRelComp.getResource());
+                
+                //createDirectory
+                try {
+                    if (!relCompFolder.exists()) {
+                        relCompFolder.create(true, true, monitor);
+                    }
+                } catch (CoreException e) {
+                    KoboldPLAMPlugin.log(e);
+                }
+            }
+        }
+        
+    }
+    
+    public static void serializeCoreassets (Productline pl, IProgressMonitor monitor)
+    {
+        //get the CAS-directory
+        //the PL directory
         IProject project = pl.getKoboldProject().getProject();
-       	IFolder casFolder = project.getFolder(pl.getResource());
+        IFolder casFolder = project.getFolder(pl.getResource());
         //CAS-dir
         casFolder = casFolder.getFolder(COREASSETS_FOLDER_NAME);
         
-		//get all cas
-    	List cas = pl.getComponents();
-    	
+        //get all cas
+        List cas = pl.getComponents();
+        
         //for each product
-		for (Iterator it = cas.iterator(); it.hasNext();) {
-			Component component = (Component) it.next();
-		       
-	        //create the dir
-	        IFolder specialComponentFolder = casFolder.getFolder(component.getResource());
-
-			
-			//createDirectory
-	        try {
-		        if (!specialComponentFolder.exists()) {
-		            specialComponentFolder.create(true, true, monitor);
-		        }
-	        } catch (CoreException e) {
-	            KoboldPLAMPlugin.log(e);
-	        }
-	        finally {
+        for (Iterator it = cas.iterator(); it.hasNext();) {
+            Component component = (Component) it.next();
+            
+            //create the dir
+            IFolder specialComponentFolder = casFolder.getFolder(component.getResource());
+            
+            
+            //createDirectory
+            try {
+                if (!specialComponentFolder.exists()) {
+                    specialComponentFolder.create(true, true, monitor);
+                }
+            } catch (CoreException e) {
+                KoboldPLAMPlugin.log(e);
+            }
+            finally {
                 //create Variant dirs in each component
                 serializeVariants(component, monitor);
-	        	
-	            monitor.done();
-	        }	    	
-
-	        }
-		}
-	
-	public static IFileDescriptorContainer getAssetByPath(IResource resource)
-	{
-	    IFileDescriptorContainer asset = null;
-	    
-	    if (resource instanceof IFile) {
-	        resource = resource.getParent();
-	    }
-	    
-	    String[] segs = resource.getProjectRelativePath().segments();
-	    for (int i = 0; i < segs.length; i++) {
-	        logger.info(segs[i]);
-	    }
-	    
-	    return asset;
-	}
-
-	public static void serializeVariants (Component co, IProgressMonitor monitor)
-	{
-		//get the CAS-directory
-		//the PL directory
+                
+                monitor.done();
+            }	    	
+            
+        }
+    }
+    
+    public static void serializeVariants (Component co, IProgressMonitor monitor)
+    {
+        //get the CAS-directory
+        //the PL directory
         IProject project = co.getRoot().getKoboldProject().getProject();
-       	IFolder casFolder = project.getFolder(co.getRoot().getResource());
+        IFolder casFolder = project.getFolder(co.getRoot().getResource());
         //CAS-dir
         casFolder = casFolder.getFolder(COREASSETS_FOLDER_NAME);
         casFolder = casFolder.getFolder(co.getResource());
         
-		//get all vars
-    	List vars = co.getVariants();
-    	
+        //get all vars
+        List vars = co.getVariants();
+        
         //for each variant
-		for (Iterator it = vars.iterator(); it.hasNext();) {
-			Variant variant = (Variant) it.next();
-		       
-	        //create the dir
-	        IFolder specialVariantFolder = casFolder.getFolder(variant.getResource());
-
-			
-			//createDirectory
-	        try {
-		        if (!specialVariantFolder.exists()) {
-		            specialVariantFolder.create(true, true, monitor);
-		        }
-	        } catch (CoreException e) {
-	            KoboldPLAMPlugin.log(e);
-	        }
-	        finally {
-	            monitor.done();
-	        }	    	
-
-	        }
-		}
-	}
+        for (Iterator it = vars.iterator(); it.hasNext();) {
+            Variant variant = (Variant) it.next();
+            
+            //create the dir
+            IFolder specialVariantFolder = casFolder.getFolder(variant.getResource());
+            
+            
+            //createDirectory
+            try {
+                if (!specialVariantFolder.exists()) {
+                    specialVariantFolder.create(true, true, monitor);
+                }
+            } catch (CoreException e) {
+                KoboldPLAMPlugin.log(e);
+            }
+            finally {
+                monitor.done();
+            }	    	
+            
+        }
+    }
+    
+    public static Product retrieveProject(Productline pl, String productId)
+    {
+        kobold.common.data.Product product = ServerHelper.fetchProduct(pl.getKoboldProject(), productId);
+        IProject project = pl.getKoboldProject().getProject();
+        
+        IFolder productsFolder = project.getFolder(pl.getResource());
+        productsFolder = productsFolder.getFolder(PRODUCTS_FOLDER_NAME);
+        IFolder productFolder = productsFolder.getFolder(product.getResource());
+        if (productFolder.exists()) {
+            IFile modelFile = productFolder.getFile(PRODUCT_META_FILE);
+            if (modelFile.exists()) {
+                InputStream in;
+                try {
+                    in = modelFile.getContents();
+                    SAXReader reader = new SAXReader();
+                    Document document = reader.read(in);
+                    Product p = new Product(pl, document.getRootElement());
+                    p.setRepositoryDescriptor(product.getRepositoryDescriptor());
+                    return p;                    
+                } catch (CoreException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (DocumentException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        
+        return null;
+    }
+}
 

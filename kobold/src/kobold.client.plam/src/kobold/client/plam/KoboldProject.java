@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.17 2004/08/25 10:25:08 memyselfandi Exp $
+ * $Id: KoboldProject.java,v 1.18 2004/08/25 14:59:13 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -185,7 +185,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
             }
             
             // FIXME: perform an vcm update.
-            productline = ModelStorage.loadModel(project, spl);
+            productline = ModelStorage.loadModel(this, spl);
 	        
 		    if (productline == null) {
 		        productline = ProductlineFactory.create(spl);
@@ -193,7 +193,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 			    productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
 			    
 		        ModelStorage.storeModel(productline);
-		        
+
 			    //check out from repo
 			    logger.debug("checkout pl");
 			    checkOutProductline(productline);

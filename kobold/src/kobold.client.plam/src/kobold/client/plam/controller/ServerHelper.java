@@ -21,14 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerHelper.java,v 1.4 2004/08/05 09:13:01 vanto Exp $
+ * $Id: ServerHelper.java,v 1.5 2004/08/25 14:59:13 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.KoboldProject;
+import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.UserContext;
 
@@ -68,6 +70,38 @@ public class ServerHelper
 		}
 		
         return pl;
+    }
+
+    /**
+     * Retrieves the Server-Product instance for the {@link PLAMProject}
+     * Returns null if P doesnt exist or login fails.
+     * 
+     * @param p
+     * @param productId
+     * @return
+     */
+    public static Product fetchProduct(KoboldProject kp, String productId) 
+    {
+    	Productline pl = null;
+		UserContext context = getUserContext(kp);
+		if (context != null) {
+		    pl = SecureKoboldClient.getInstance().getProductline(context, kp.getProductlineId());
+		} else {
+		    logger.warn("Could not fetch Productline due to a login failure");
+		}
+		
+		if (pl != null) {
+		    //p = pl.getProduct(productId);
+		    Iterator it = pl.getProducts().iterator();
+		    while (it.hasNext()) {
+		        Product p = (Product)it.next();
+		        if (p.getId().equals(productId)) {
+		            return p;
+		        }
+		    }
+		}
+		
+        return null;
     }
 
     /**

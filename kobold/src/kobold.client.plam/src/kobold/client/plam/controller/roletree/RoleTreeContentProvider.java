@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.36 2004/08/25 02:27:02 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.37 2004/08/25 14:59:13 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -42,7 +42,6 @@ import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.FileDescriptor;
-import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.ProductComponent;
 import kobold.client.plam.model.productline.Component;
@@ -268,7 +267,9 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
             event.getDelta().accept(new IResourceDeltaVisitor() {
                 public boolean visit(IResourceDelta delta) throws CoreException
                 {
-                    System.err.println(delta.getResource().getName());
+                    //TODO: remember project, find assets for directory and 
+                    // continue if next token is a IFolder. then refresh filedescs
+                    // for the given asset.
                     return true;
                 }
             });
@@ -276,8 +277,6 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
             e.printStackTrace();
         }
 		
-		ModelStorage.getAssetByPath(event.getDelta().getResource());
-
 	    viewer.getControl().getDisplay().syncExec(new Runnable() {		
 			public void run() {		
 				viewer.refresh();

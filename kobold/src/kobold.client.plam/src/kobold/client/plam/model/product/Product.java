@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.19 2004/08/23 13:00:42 vanto Exp $
+ * $Id: Product.java,v 1.20 2004/08/25 14:59:13 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -37,6 +37,7 @@ import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.productline.Productline;
+import kobold.common.data.User;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -69,6 +70,12 @@ public class Product extends AbstractRootAsset
 	{	   
 	    super(name);
 	    this.productline = productline;
+	}
+	
+	public Product(Productline productline, Element element)
+	{
+	    this(productline);
+	    deserialize(element);
 	}
 	
 	/**
@@ -115,15 +122,12 @@ public class Product extends AbstractRootAsset
 		
 		System.out.println ("start deserializing!");
 	    
-		Iterator it = element.elementIterator("releases");
+		Iterator it = element.element("releases").elementIterator(AbstractAsset.PRODUCT_RELEASE);
 		while (it.hasNext()) {
 		    Element pEl = (Element)it.next();
-		    /* load and create the product by finding its local path and 
-		     		  deserializing it from there.
-		    */
 		    addProductRelease(new ProductRelease(this, pEl));
 		}
-		it = element.elementIterator("specific-components");
+		it = element.element("specific-components").elementIterator(AbstractAsset.SPECIFIC_COMPONENT);
 		while (it.hasNext()) {
 		    Element pEl = (Element)it.next();
 		    /* load and create the product by finding its local path and 
@@ -132,7 +136,7 @@ public class Product extends AbstractRootAsset
 			addComponent(new SpecificComponent(this, pEl));
 		}
 
-		it = element.elementIterator("releated-component");
+		it = element.element("related-components").elementIterator(AbstractAsset.RELATED_COMPONENT);
 		while (it.hasNext()) {
 		    Element pEl = (Element)it.next();
 		    /* load and create the product by finding its local path and 
@@ -251,5 +255,25 @@ public class Product extends AbstractRootAsset
     public Productline getProductline() {        
         return productline;
     }
-	
+
+	public kobold.common.data.Product getServerRepresentation(kobold.common.data.Productline spl)
+	{
+	    kobold.common.data.Product sp = new kobold.common.data.Product (spl, getName(), getResource(),
+	               getRepositoryDescriptor());
+	    sp.setId(getId());
+	    Iterator it = getMaintainers().iterator();
+	    while (it.hasNext()) {
+	        User u = (User)it.next();
+	        sp.addMaintainer(u);
+	    }
+	    
+	    it = getRelatedComponents().iterator();
+	    while (it.hasNext()) {
+	        ProductComponent pc = (ProductComponent)it.next();
+	        sp.addComponent(pc.getServerRepresentation(spl));
+	    }
+	    return sp;
+
+	}
+
 }

@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Set;
 
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.edges.Edge;
@@ -49,6 +48,7 @@ import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
+import kobold.common.io.RepositoryDescriptor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -1000,6 +1000,8 @@ public class ProductComposer {
     public Product createProduct() {      
     	
     	Product product = new Product(productline);
+    	//FIXME !!!!
+    	product.setRepositoryDescriptor(new RepositoryDescriptor("x", "x", "x", "x", "x"));
     	HashMap assets = new HashMap();
         // create ProductComponments for used CoreAssets.    	
     	for (Iterator ite = productline.getComponents().iterator(); ite.hasNext();){

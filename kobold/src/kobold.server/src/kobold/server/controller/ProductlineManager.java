@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.19 2004/08/24 05:24:40 neccaino Exp $
+ * $Id: ProductlineManager.java,v 1.20 2004/08/25 14:59:11 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -317,8 +317,14 @@ public class ProductlineManager {
 	
 	// DEBUG, TODO: delete before delivery
 	public void dummyProds() {
-		
-	    Productline pl = new Productline("kobold2", "kobold2",
+		Productline pl = new Productline("werkbold", "werkbold",
+		        new RepositoryDescriptor(RepositoryDescriptor.CVS_REPOSITORY, "pserver",
+		                "cvs.berlios.de", "/cvsroot/kobold/", "werkbold"));
+		kobold.server.data.User vanto = UserManager.getInstance().getUser("vanto");
+		pl.addMaintainer(new User(vanto.getUserName(), vanto.getFullName()));
+	    
+		addProductline(pl);
+	    /*Productline pl = new Productline("kobold2", "kobold2",
 		         			   new RepositoryDescriptor(
 				               RepositoryDescriptor.CVS_REPOSITORY, "ssh",
 						       "cvs.berlios.de", "/cvsroot/kobold/", "kobold2"));
@@ -350,6 +356,6 @@ public class ProductlineManager {
 					   new RepositoryDescriptor(
 					   	RepositoryDescriptor.CVS_REPOSITORY,
 						"ssh", "cvs.berlios.de",
-					   	"/cvsroot/kobold/", "kobold4")));
+					   	"/cvsroot/kobold/", "kobold4")));*/
 	}
 }

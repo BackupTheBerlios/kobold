@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.16 2004/08/23 13:00:42 vanto Exp $
+ * $Id: Component.java,v 1.17 2004/08/25 14:59:13 vanto Exp $
  *
  */
 
@@ -186,7 +186,7 @@ public class Component extends AbstractMaintainedAsset
 	    Iterator it = getMaintainers().iterator();
 	    while (it.hasNext()) {
 	        User u = (User)it.next();
-	        spl.addMaintainer(u);
+	        sc.addMaintainer(u);
 	    }
 	    return sc;
 	}

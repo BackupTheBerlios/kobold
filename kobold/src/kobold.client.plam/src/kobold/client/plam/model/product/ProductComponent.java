@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.12 2004/08/23 13:00:42 vanto Exp $
+ * $Id: ProductComponent.java,v 1.13 2004/08/25 14:59:13 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -37,6 +37,8 @@ import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.ModelStorage;
+import kobold.common.data.Productline;
+import kobold.common.data.User;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.Element;
@@ -85,7 +87,7 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 	public void deserialize(Element element) {
 		super.deserialize(element);
 		
-		Iterator it = element.elementIterator("product-components");
+		Iterator it = element.element("product-components").elementIterator();
 		while (it.hasNext()) {
 			Element el = (Element)it.next();
 			addProductComponent(createProductComponent(this, el));
@@ -182,4 +184,25 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 	public void clear() {
 	    filedescs.clear();
 	}
+	
+	public kobold.common.data.Component getServerRepresentation(Productline spl)
+	{
+	    kobold.common.data.Component sc = new kobold.common.data.Component(spl, getName(), 
+	        getResource(), getRemoteRepository());
+	    sc.setId(getId());
+	    Iterator it = getMaintainers().iterator();
+	    while (it.hasNext()) {
+	        User u = (User)it.next();
+	        sc.addMaintainer(u);
+	    }
+
+	    /*it = getProductComponents().iterator();
+	    while (it.hasNext()) {
+	        ProductComponent pc = (ProductComponent)it.next();
+	        sc.addComponent(pc.getServerRepresentation());
+	    }*/
+	    
+	    return sc;
+	}
+
 }
