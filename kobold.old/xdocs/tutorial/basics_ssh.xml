@@ -1,38 +1,48 @@
 <?xml version="1.0"?>
 <document>
   <properties>
-    <title>Changes</title>
+    <title>Tutorial: Basics</title>
   </properties>
+<body>
 
-  <!-- type == add, fix, update, remove,
-               icon_warning_sml, icon_success_sml, icon_info_sml -->
+<section name="Basics">
 
-  <body>
-<!--	<release version="0.1.0" date="2003-10-01">
-      <action type="icon_success_sml">Initial Release (prototype)</action>
-    </release>
+  <subsection name="ssh"><table><tr><td>
+      <p>Die "Secure SHell" ermöglicht den sicheren Zugriff auf die Projektdaten. </p>
+  
+              <source>
+                >  ssh shell.berlios.de
+                >  cd /home/groups/kobold/htdocs oder cd /home/groups/ftp/pub/kobold
+                >  mkdir hallo_verzeichnis
+                >  scp marvin.informatik.uni-stuttgart.de:~/hallo.pdf hallo/hallo_datei_fuer_alle.pdf
+                >  chmod o+x hallo_verzeichnis
+                >  chmod o+r hallo_datei_fuer_alle.pdf
+                
+              </source>
+      <p> Mit dem Server shell.berlios.de wird hierbei eine Verbindung hergestellt. Die Webpage-Daten und die FTP-Daten liegen in verschiedenen Verzeichnissen. Damit die Welt auf Dateien zugreifen kann müssen die Rechte für Verzeichnisse und Dateien gesetzt werden.
+  </td></tr></table></subsection>
 
-	<release version="0.2.0" date="2004-01-13">
-      <action type="icon_success_sml">Ported source code to Windows</action>
-      <action type="add">Added scheduling dialog. The scheduling
-      dialog provides a list of all blocks and their timings as well as
-      a graphical display of the block dependencies.</action>
-      <action type="add">Added smart routing algorithm</action>
-      <action type="add">Added regression test framework</action>
-      <action type="update">Snap blocks to grid on drop</action>
-      <action type="update">Added consistency checking to project
-      management</action>
-      <action type="update">Changed unit of all timings from ms to ns</action>
-      <action type="update">Warn if a project is saved to a directory
-      that already contains a project file</action>
-      <action type="fix">Ask to save changed files on project close</action>
-      <action type="fix">Fixed bug in project management that caused
-      connections to be restored incorrectly when a saved project was
-      opened</action>
-    </release>
+  <subsection name="cvs (without Eclipse)"><table><tr><td>
+      <p>CVS wird genutzt um die Projektdaten zu verwalten, dieses ist bei berlios.de abgelegt.  </p>
+  
+              <source>
+                >  cvs -d :pserver:USERNAME@cvs.berlios.de:/cvsroot/kobold login
+                >  cvs -z3 -d :pserver:USERNAME@cvs.berlios.de:/cvsroot/kobold co kobold
+              </source>
+      <p> Durch "login" (optional) wird die Datei ~/.cvspass angelegt. Diese wird bei alle Aktionen (up(date), co(mit)) benutzt.
+          Die zweite Aktion führt dabei ein auschecken des Moduls kobold aus, und legt im aktuellen verzeichnis ein verzeichnis namens
+          Kobold mit dem Inhalt dessen an.</p>
+  </td></tr></table></subsection>
 
-	<release version="0.2.1" date="2003-16-01">
-      <action type="fix">MS VC++ compile error fixes</action>
-    </release> -->
+
+  <subsection name="Times"><table><tr><td>
+      <p>Times wird verwendet um unsere zeiterfassung komfortabel und übersichtlich zu verwalten. </p>
+  <a
+        href="http://duck.informatik.uni-stuttgart.de/times/cgi-bin/times.cgi?project=kobold">Duckforge-Times Eingangsseite</a>
+
+  </td></tr></table></subsection>
+
+
+
   </body>
 </document>
