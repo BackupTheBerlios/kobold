@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.21 2004/08/23 08:42:41 neccaino Exp $
+ * $Id: UserManager.java,v 1.22 2004/08/24 05:24:01 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -149,7 +149,9 @@ public class UserManager {
             unassignFromAllAssets(username);
         }
         
-        return (User) users.remove(username);
+        User ret = (User) users.remove(username);
+        serialize();
+        return ret;
     }
     
     /**
@@ -195,6 +197,9 @@ public class UserManager {
         while(it.hasNext()){
             ((Asset)it.next()).removeMaintainer(user);
         }
+        
+        // 3.) persist changes
+        ProductlineManager.getInstance().serialize();
     }
     
 	/**
