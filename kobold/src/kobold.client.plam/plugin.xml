@@ -16,10 +16,19 @@
       <import plugin="org.eclipse.gef"/>
       <import plugin="org.eclipse.swt"/>
       <import plugin="kobold.commons"/>
-      <import plugin="kobold.client.vcm"/>
+      <import plugin="kobold.vcm"/>
    </requires>
 
 
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="Kobold PLAM Perspective"
+            icon="icons/sample.gif"
+            class="kobold.client.plam.PerspectiveFactory"
+            id="kobold.client.plam.perspective">
+      </perspective>
+   </extension>
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -47,7 +56,7 @@
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="org.eclipse.ui.resourcePerspective">
+            targetID="kobold.client.plam.perspective">
          <view
                ratio="0.5"
                relative="org.eclipse.ui.views.TaskList"
@@ -55,6 +64,44 @@
                relationship="left">
          </view>
       </perspectiveExtension>
+   </extension>
+   <extension
+         id="KoboldProjectNature"
+         name="%nature.KoboldProjectNature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="kobold.client.plam.KoboldProjectNature">
+         </run>
+      </runtime>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/sample.gif"
+            natureId="kobold.plam.KoboldProjectNature"
+            id="kobold.client.plam.NatureImage">
+      </image>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="Kobold"
+            id="kobold.client.plam.category">
+      </category>
+      <wizard
+            descriptionImage="icons/kprojectwiz.gif"
+            name="newwizard.NewKoboldProjectWizards"
+            icon="icons/sample.gif"
+            category="kobold.client.plam.category"
+            class="kobold.client.plam.wizard.NewProjectWizard"
+            project="true"
+            finalPerspective="kobold.client.plam.perspective"
+            id="kobold.client.plam.newwizard">
+         <description>
+            Bla Fasel
+         </description>
+      </wizard>
    </extension>
 
 </plugin>
