@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.20 2004/08/25 16:08:24 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.21 2004/08/25 16:37:16 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -151,20 +151,22 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		    name.setText(asset.getName());
 		}
 		
-		label = new Label(panel, SWT.NONE);
-		label.setText("Resource:");
+		GridData gd = null;
+		if (!(asset instanceof Release)) {
+    		label = new Label(panel, SWT.NONE);
+    		label.setText("Resource:");
     
-		resource = new Text(panel, SWT.BORDER | SWT.LEAD);
-		resource.setEnabled(!asset.isResourceDefined());
-		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
-			| GridData.FILL_HORIZONTAL);
-		resource.setLayoutData(gd);
+    		resource = new Text(panel, SWT.BORDER | SWT.LEAD);
+    		resource.setEnabled(!asset.isResourceDefined());
+            gd = new GridData(GridData.GRAB_HORIZONTAL
+    			| GridData.FILL_HORIZONTAL);
+    		resource.setLayoutData(gd);
 
-    		
-		if (asset.getResource() != null) {
-		    resource.setText(asset.getResource());
-		} else {
-		    resource.setText(asset.getName());
+    		if (asset.getResource() != null) {
+    		    resource.setText(asset.getResource());
+    		} else {
+    		    resource.setText(asset.getName());
+    		}
 		}
 		
 		label = new Label(panel, SWT.NONE);
