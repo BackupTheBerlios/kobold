@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentNode.java,v 1.2 2004/04/16 12:20:00 garbeam Exp $
+ * $Id: ComponentNode.java,v 1.3 2004/04/21 15:05:08 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
+
+import java.net.URI;
 
 /**
  * ComponentNode
@@ -33,12 +35,29 @@ package kobold.client.plam.model.pline.graph;
  */
 public class ComponentNode extends AbstractNode 
 {
-
+//List of variants??
+String name;
+//person who's responsible
+String officer;
+String description;
+//List of scripts??
+int status;
 	/**
 	 */
-	public ComponentNode(String arg0) 
+	public ComponentNode(String id) 
 	{
-		super(arg0);
+		super(id);
+		URI type = null;
+				try
+				{
+					type = new URI("ComponentNode");
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+		
+				setType(type);		
 		// TODO Auto-generated constructor stub
 	}
 

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: OrNode.java,v 1.2 2004/04/16 12:20:00 garbeam Exp $
+ * $Id: OrNode.java,v 1.3 2004/04/21 15:05:08 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
+
+import java.net.URI;
 
 /**
  * OrNode
@@ -36,9 +38,20 @@ public class OrNode extends RelationNode
 
 	/**
 	 */
-	public OrNode(String arg0) 
+	public OrNode(String id) 
 	{
-		super(arg0);
+		super(id);
+		URI type = null;
+		try
+		{
+			type = new URI("OrNode");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		setType(type);		
 		// TODO Auto-generated constructor stub
 	}
 

@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNode.java,v 1.2 2004/04/16 12:20:00 garbeam Exp $
+ * $Id: AbstractNode.java,v 1.3 2004/04/21 15:05:08 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
 import net.sourceforge.gxl.GXLNode;
+import java.net.URI;
 
 /**
  * AbstractNode
@@ -38,11 +39,23 @@ import net.sourceforge.gxl.GXLNode;
 public abstract class AbstractNode extends GXLNode {
 
 	/**
-	 * @param arg0
+	 * @param id
 	 */
-	public AbstractNode(String arg0) {
-		super(arg0);
+	public AbstractNode(String id) {
+		super(id);
+		URI type = null;
+				try
+				{
+					type = new URI("AbstractNode");
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+		
+				setType(type);		
 		// TODO Auto-generated constructor stub
+		
 	}
 
 }

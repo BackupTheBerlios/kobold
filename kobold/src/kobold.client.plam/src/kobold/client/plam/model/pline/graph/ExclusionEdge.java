@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ExclusionEdge.java,v 1.2 2004/04/16 12:20:00 garbeam Exp $
+ * $Id: ExclusionEdge.java,v 1.3 2004/04/21 15:05:08 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
 import net.sourceforge.gxl.GXLEdge;
-
+import net.sourceforge.gxl.GXLGraphElement;
+import java.net.URI;
 /**
  * ExclusionEdge
  * 
@@ -35,12 +36,23 @@ import net.sourceforge.gxl.GXLEdge;
  */
 public class ExclusionEdge extends GXLEdge 
 {
-
 	/**
 	 */
-	public ExclusionEdge(String arg0, String arg1) 
+	public ExclusionEdge(GXLGraphElement arg0, GXLGraphElement arg1) 
 	{
 		super(arg0, arg1);
+		URI type = null;
+				try
+				{
+					type = new URI("ExclusionEdge");
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+		
+				setType(type);
+
 		// TODO Auto-generated constructor stub
 	}
 

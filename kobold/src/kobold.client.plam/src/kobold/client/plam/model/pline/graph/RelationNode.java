@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelationNode.java,v 1.2 2004/04/16 12:20:00 garbeam Exp $
+ * $Id: RelationNode.java,v 1.3 2004/04/21 15:05:08 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
 import net.sourceforge.gxl.GXLNode;
+import java.net.URI;
 
 /**
  * RelationNode
@@ -38,12 +39,25 @@ import net.sourceforge.gxl.GXLNode;
  */
 public abstract class RelationNode extends GXLNode 
 {
-
+	String startNode = null;
+	String endNode = null;
 	/**
 	 */
-	public RelationNode(String arg0) 
+	public RelationNode(String id) 
 	{
-		super(arg0);
+		super(id);
+		
+		URI type = null;
+		try
+		{
+			type = new URI("RelationNode");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		setType(type);
 		// TODO Auto-generated constructor stub
 	}
 
