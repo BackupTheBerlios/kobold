@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.33 2004/08/31 10:24:08 memyselfandi Exp $
+ * $Id: StatusUpdater.java,v 1.34 2004/08/31 13:27:04 memyselfandi Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -160,7 +160,7 @@ public class StatusUpdater {
 	        		//erase the "/t" in windows!!
 	        		if (revision.endsWith("\r"))
 	        		{
-	        			revision = revision.substring(0, revision.length()-2);
+	        			revision = revision.replaceAll("\r","");
 	        		}
 		        	
 		        	//not checked in directory or file

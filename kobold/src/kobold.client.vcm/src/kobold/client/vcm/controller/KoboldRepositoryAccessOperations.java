@@ -139,7 +139,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                         {
                             progress = KoboldPolicy.monitorFor(progress);
                             ScriptDescriptor tmpScriptDescriptor = ((ScriptDescriptor)tmpList.get(j));
-                            if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_CHECKOUT))
+                            if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_COMMIT))
                             {
                                 progress.beginTask("precheckin working", 2);
                                 ScriptServerConnection connection = new ScriptServerConnection(
@@ -174,7 +174,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                         {
                             progress = KoboldPolicy.monitorFor(progress);
                             ScriptDescriptor tmpScriptDescriptor = ((ScriptDescriptor)tmpList.get(j));
-                            if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_CHECKOUT))
+                            if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_COMMIT))
                             {
                                 progress.beginTask("postcheckin working", 2);
                                 ScriptServerConnection connection = new ScriptServerConnection(
