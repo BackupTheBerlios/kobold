@@ -2,26 +2,26 @@
 
 \section{Über dieses Dokument}
 
-Diese Spezifikation dient als Grundlage zur informalen Beschreibung des
-Produktlinien Management Systems \product. Aufgrund des evolutionären
-Vorgehensmodells wird sie iterativ erweitert und verfeinert und zu
-Beginn jeder Folge-Iteration der weiteren Entwicklung zugrundegelegt.\par
-Das Dokument richtet sich sowohl an den Auftraggeber und dessen technische
-Berater als auch an die Mitarbeiter des Werkbold-Teams.\par
-Es wird vom Auftraggeber am Anfang jeder Iteration abgenommen und ist
-von da an Vertragsbestandteil für die weitere Entwicklung von \product.
+Diese Spezifikation dient als Grundlage zur informalen
+Beschreibung des Produktlinien Management Systems \product.
+Aufgrund des evolutionären Vorgehensmodells wird dieses Dokument
+iterativ erweitert und verfeinert und zu Beginn jeder
+Folge-Iteration der weiteren Entwicklung zugrundegelegt.\par Das
+Dokument richtet sich sowohl an den Auftraggeber und dessen
+technische Berater als auch an die Mitarbeiter des
+Werkbold-Teams.\par Es wird vom Auftraggeber am Anfang jeder
+Iteration abgenommen und ist von da an Vertragsbestandteil für die
+weitere Entwicklung von \product.
 
 \subsection{Spezifikation I}
-Die Spezifikation I dient als Grundlage zur informalen Beschreibung des
-Rahmensystems von \product, das in der ersten Iteration entwickelt wird.\par
-Sie basiert auf der Abstraktion der ermittelten Anforderungen an das
-Produktlinien Management System \product (vgl. Anhang B) und
-spezifiziert somit die gemeinsame Basis aller konkreten
-Anforderungen.\par
-Aufgrund des abstrakten Charakters der Spezifikation des Rahmensystems
-wird auf eine explizite Spezifikation von Use-Cases für die erste
-Iteration verzichtet, die Gegenstand der Spezifikationen in den
-Folge-Iterationen sein werden.
+Die Spezifikation I dient als Grundlage zur informalen
+Beschreibung des Rahmensystems von \product, das in der ersten
+Iteration entwickelt wird.\par Sie basiert auf der Abstraktion der
+ermittelten Anforderungen an das Produktlinien Management System
+\product (vgl. Anhang B).\par Aufgrund des abstrakten Charakters
+der Spezifikation des Rahmensystems wird auf eine explizite
+Spezifikation von Use-Cases verzichtet. Diese wird Gegenstand der
+Spezifikationen in den Folge-Iterationen sein.
 
 \section{Das Kobold-System}
 
@@ -32,21 +32,22 @@ Entwicklungsprozesses.
 
 
 \subsection{Grundlegende Architekturentscheindungen}
-Die grundlegende Architektur von \product untergliedert sich in zwei
-Teilsysteme: der Kobold Client, der als rollenbasierte Entwicklungsumgebung
-für die Verwaltung von Produktlinien und Produkten konzipiert ist - und dem
-Kobold Server-Dienst, der zur Benutzer-, Rollen- und
-Nachrichten-Verwaltung dient. \par
-Der Eclipse-basierte Client bietet dem Benutzer eine graphische
+Die grundlegende Architektur von \product untergliedert sich in
+zwei Teilsysteme: der Kobold Client, der als rollenbasierte
+Entwicklungsumgebung für die Verwaltung von Produktlinien und
+Produkten konzipiert ist, und dem Kobold Server-Dienst, der die
+Benutzer-, Rollen- und Nachrichten-Verwaltung ermöglicht. \par Der
+Eclipse-basierte Client bietet dem Benutzer eine graphische
 Benutzungsoberfläche, über die er seine Produktlinien und Produkte
-rollenabhängig verwalten kann. Er kann damit seine
-Architekturen als Graphen ansehen und verändern, neue Rollen verteilen, 
-Nachrichten verschicken und Workflows auslösen.\par
-Der Server verwaltet die Daten der einzelnen Benutzer und deren
+rollenabhängig verwalten kann. Er kann damit seine Architekturen
+als Graphen ansehen und verändern, neue Rollen verteilen,
+Nachrichten verschicken und Workflows auslösen.\par Der Server
+verwaltet die Daten der einzelnen Benutzer und deren
 Zugriffsrechte. Er bietet den Clients außerdem einen zentralen
 Nachrichtendienst an. Wenn von einem Client eine Nachricht an den
-Serverdienst gesendet wird, prüft der Serverdienst die Nachricht auf mögliche
-Konsequenzen, die anderen Clients in Form von Workflows zugeteilt werden.
-Darüber hinaus verwaltet der Serverdienst auch die Pfade und
-Zugriffskonfigurationen der Repositories, in denen die Daten der Produkte
-und Produktlinien gespeichert und versioniert werden.
+Serverdienst gesendet wird, prüft der Serverdienst die Nachricht
+auf mögliche Konsequenzen, die anderen Clients in Form von
+Workflows zugeteilt werden. Darüber hinaus verwaltet der
+Serverdienst auch die Pfade und Zugriffskonfigurationen der
+Repositories, in denen die Daten der Produkte und Produktlinien
+gespeichert und versioniert werden.
