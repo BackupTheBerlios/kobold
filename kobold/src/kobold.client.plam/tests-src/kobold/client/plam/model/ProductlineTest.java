@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineTest.java,v 1.3 2004/08/01 12:07:36 rendgeor Exp $
+ * $Id: ProductlineTest.java,v 1.4 2004/08/03 13:01:39 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -67,9 +67,7 @@ public class ProductlineTest extends TestCase {
 		//---------------------------------------------
 
 		Productline pl = new Productline("PLtest23");
-		/**/
-		pl.setRepositoryPath("bla.blubber.com");
-		
+
 		/////--------Product----------------
 		//add a product
 		Product productA = new Product ("me");
