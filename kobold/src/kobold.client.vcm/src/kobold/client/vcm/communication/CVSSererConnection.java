@@ -267,7 +267,7 @@ public class CVSSererConnection implements IServerConnection
 	{
 		return outputStream;
 	}
-	public void readInpuStreamsToConsole()
+	public void readInputStreamsToConsole()
 	{
 		if (this.connected) 
 		{
