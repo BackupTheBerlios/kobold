@@ -9,6 +9,8 @@ package kobold.server.workflow;
 
 import org.drools.rule.*;
 import kobold.common.data.*;
+import kobold.server.controller.GlobalMessageContainer;
+
 import org.drools.semantics.java.*;
 
 /**
@@ -79,45 +81,56 @@ public class WorkflowRules {
 		
 		no2.addCondition(new ExprCondition("(msg.getWorkflowId().equals(\"Core Group Suggestion\")) && (msg.getStep == 2)", new Declaration[] {dec2}));
 		no2.addParameterDeclaration(dec1);
-		//no2.setConsequence(new BlockConsequence(
-		WorkflowMessage answer = new WorkflowMessage(msg.getWorkflowType());
-		answer.setSender(msg.getSender());
-		answer.addParentId(msg.getId());
+		no2.setConsequence(new BlockConsequence(
+		"WorkflowMessage answer = new WorkflowMessage(msg.getWorkflowType());"+
+		"answer.setSender(msg.getSender());"+
+		"answer.addParentId(msg.getId());"+
 		
 		//analyzing the answer
-		String decision = "";
-		String comment = "";
-		WorkflowItem controls[] = msg.getWorkflowControls();
-		for(int i = 0; i < controls.length;i++){
-			if (controls[i].getType().equals("TEXT")){
-				comment = controls[i].getValue();
-			}
-			if (controls[i].getType().equals("CONTAINER")){
-				WorkflowItem container[] = controls[i].getChildren();
-				for (int j = 0; j < container.length;j++){
-					if (container[j].getValue().equals("true")){
-						decision = container[j].getDescription();
-					}
-				}
-			}
-		}
+		"String decision = \"\";"+
+		"String comment = \"\";"+
+		"WorkflowItem controls[] = msg.getWorkflowControls();"+
+		"for(int i = 0; i < controls.length;i++){"+
+			"if (controls[i].getType().equals(\"TEXT\")){"+
+				"comment = controls[i].getValue();"+
+			"}"+
+			"if (controls[i].getType().equals(\"CONTAINER\")){"+
+				"WorkflowItem container[] = controls[i].getChildren();"+
+				"for (int j = 0; j < container.length;j++){"+
+					"if (container[j].getValue().equals(\"true\")){"+
+						"decision = container[j].getDescription();"+
+					"}"+
+				"}"+
+			"}"+
+		"}"+
 		
-		if (decision.equals("An zuständigen PE weiterleiten")){
-			answer.setReceiver("garbeam");
-			answer.setSubject("Ein Vorschlag für ein neues Core Group Item ist eingegangen");
-			answer.setMessageText("Es ist ein neuer Vorschlag für ein Core Group Item eingegangen," +
-					"der zuständige PE schrieb dazu: " + comment);
+		"answer.setStep(msg.getStep());"+
+		
+		"if (decision.equals(\"An zuständigen PE weiterleiten\")){"+
+			"answer.setReceiver(\"garbeam\");"+
+			"answer.setSubject(\"Ein Vorschlag für ein neues Core Group Item ist eingegangen\");"+
+			"answer.setMessageText(\"Es ist ein neuer Vorschlag für ein Core Group Item eingegangen,\" +"+
+					"\"der zuständige PE schrieb dazu: \" + comment);"+
 			
 			//add decisions for core group PE
-			WorkflowItem radio1 = new WorkflowItem("false","Vorschlag zustimmen","RADIO");
-			WorkflowItem radio2 = new WorkflowItem("true","Vorschlag ablehnen","RADIO");
-			WorkflowItem comm = new WorkflowItem("","Bitte hier ein Kommentar einfügen:","TEXT");
-			WorkflowItem container = new WorkflowItem(null,"Entscheidung","CONTAINER");
-			container.addChild(radio1);
-			container.addChild(radio2);
-			answer.addWorkflowControl(comm);
-			answer.addWorkflowControl(container);
-		}
+			"WorkflowItem radio1 = new WorkflowItem(\"false\",\"Vorschlag zustimmen\",\"RADIO\");"+
+			"WorkflowItem radio2 = new WorkflowItem(\"true\",\"Vorschlag ablehnen\",\"RADIO\");"+
+			"WorkflowItem comm = new WorkflowItem(\"\",\"Bitte hier ein Kommentar einfügen:\",\"TEXT\");"+
+			"WorkflowItem container = new WorkflowItem(null,\"Entscheidung\",\"CONTAINER\");"+
+			"container.addChild(radio1);"+
+			"container.addChild(radio2);"+
+			"answer.addWorkflowControl(comm);"+
+			"answer.addWorkflowControl(container);"+
+		"}"+
+		
+		"else if (decision.equals(\"Ablehnen\")){"+
+			"GlobalMessageContainer gmc = GlobalMessageContainer.getInstance();"+
+			"WorkflowMessage wfm = (WorkflowMessage)gmc.getMessage(msg.getParentIds()[0]);"+
+			"answer.setReceiver(wfm.getSender());"+
+			"answer.setSubject(\"Ihre Anfrage wurde abgelehnt.\");"+
+			"answer.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" mit der Begründung '\" +"+
+					 "comment +\"' abgelehnt\");"+
+		"}"));
 		
 		/*	"msg.addHistory(msg.newHistory());" +
 			"if (msg.getHistoryList().size() > 1) {" +
