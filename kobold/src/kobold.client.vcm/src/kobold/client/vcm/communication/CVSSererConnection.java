@@ -142,7 +142,50 @@ public class CVSSererConnection implements IServerConnection
 				}
 			}
 		}
-	}	
+	}
+	/**
+	 * This method allows the caller to run a given command as a
+	 * runtime excecution call
+	 * @param command
+	 * @throws IOException
+	 * @throws CVSAuthenticationException
+	 */
+	public void open(String[] command) throws IOException,
+	CVSAuthenticationException
+{
+
+		connected = false;
+		try {
+			if (skriptName != null) {
+				command[0] = skriptName;
+			}
+			process = Util.createProcess(command,null);
+
+			inputStream = new PollingInputStream(new TimeoutInputStream(process
+					.getInputStream(), 8192 /* bufferSize */,
+					2900 /* readTimeout */, -1 /* closeTimeout */), 60, null);
+			outputStream = new PollingOutputStream(new TimeoutOutputStream(
+					process.getOutputStream(), 8192 /* buffersize */,
+					1000 /* writeTimeout */, 1000 /* closeTimeout */), 60,
+					null);
+
+			// XXX need to do something more useful with stderr
+			// discard the input to prevent the process from hanging due to a
+			// full pipe
+			errStream = (process.getErrorStream());
+			connected = true;
+
+		} finally {
+			if (!connected) {
+				try {
+					close();
+				} finally {
+					// Ignore any exceptions during close
+				}
+			}
+		}
+}	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.ccvs.core.IServerConnection#open(org.eclipse.core.runtime.IProgressMonitor)
 	 */
@@ -160,7 +203,7 @@ public class CVSSererConnection implements IServerConnection
 				8192 /*buffersize*/, 1000 /*writeTimeout*/, 1000 /*closeTimeout*/), 60, monitor);
 			// XXX need to do something more useful with stderr
 			// discard the input to prevent the process from hanging due to a full pipe
-			ConsolePlugin.getDefault();
+	
 			MessageConsoleStream stream = null;
 			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(

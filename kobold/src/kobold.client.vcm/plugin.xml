@@ -21,7 +21,7 @@
       <import plugin="kobold.commons"/>
       <import plugin="org.eclipse.team.ui"/>
       <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="kobold.client.plam"/>
+      <import plugin="kobold.client.plam" export="false"/>
       <import plugin="org.eclipse.ui.console"/>
    </requires>
 

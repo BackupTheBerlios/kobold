@@ -25,6 +25,9 @@
  */
 package kobold.client.vcm.controller;
 
+import kobold.client.plam.model.IFileDescriptorContainer;
+import kobold.client.vcm.communication.CVSSererConnection;
+
 /**
  * @author rendgeor
  *
@@ -32,4 +35,18 @@ package kobold.client.vcm.controller;
  */
 public class StatusUpdater {
 
+	
+	public void updateFileDescriptors(IFileDescriptorContainer fileDescriptorContainer)
+	{
+		CVSSererConnection conn = new CVSSererConnection("fake","fake");
+		String[] command = {"Skriptpfad","Dateiname"};
+		try 
+		{
+			conn.open(command);
+			conn.getInputStream();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

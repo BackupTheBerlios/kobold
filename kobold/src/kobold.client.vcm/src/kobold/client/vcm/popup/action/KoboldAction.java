@@ -60,7 +60,7 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 	protected Product selectedProduct = null;
 	protected Variant selectedVariant = null;
 	// Problems creating an AssetArray changing to Object
-	protected Object testAssets[] = null;
+	protected AbstractAsset testAssets[] = null;
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.ui.actions.TeamAction#isEnabled()
@@ -81,7 +81,7 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 		
 		for (int i = 0; i < structSelection.size(); i++) {
 			if (i == 0) {
-				testAssets = new Object[structSelection.size()];
+				testAssets = new AbstractAsset[structSelection.size()];
 			}
 			if (structSelection.getFirstElement() instanceof AbstractAsset) {
 				testAssets[i] = (AbstractAsset)structSelection.getFirstElement();
