@@ -1,0 +1,68 @@
+
+\section{Use Cases der Benutzeraktionen}
+Use Cases - Anlegen / Modifizieren User
+
+
+Use Case Name      : Neuen Benutzer anlegen\\
+Akteur             : PE des Produktes\\
+Vorbedingung       : Benutzer ist mindestens PE; Benutzername noch nicht vorhanden; ein Produkt ist ausgewählt\\
+Regulärer Ablauf   : \\
+Der Benutzer klickt mit der rechten Maustaste auf das Produkt, in welchem der Benutzer hinzugefügt werden soll.
+ Es erscheint das Kontextmenü, hier klickt er auf Neu->Benutzer.
+Es erscheint nun ein Wizard in dem der Benutzer aufgefordert wird, den Namen und ein Initialpasswort für den neuen 
+Benutzer festzulegen.Mit Klick auf 'Next' wird der anlegende Benutzer mittels einer ComboBox aufgefordert, die Rolle 
+innerhalb des aktuellen Projektes festzulegen. Ein weiterer Klick auf 'Next' schliesst den Wizard und 
+legt den Benutzer an.\\
+Nachbedingung      : \\
+\begin{itemize}
+\item Benutzer ist angelegt
+\item Benutzer hat im gewählten Produkt die gewünschte Rolle
+\item Benutzer erscheint in allen Auflistungen der Benutzer
+\end{itemize}
+Alternativer Ablauf: keiner \par
+
+
+
+Use Case Name		: Rolle ändern\\
+Akteur				: PE des Produktes\\
+Vorbedingung		:\begin{itemize}
+\item Anlegender ist mindestens PE
+\item Benutzer ist vorhanden
+\item ein Produkt ist ausgewählt
+\end{itemize}
+
+Regulärer Ablauf	:\\
+Der Benutzer klickt mit der rechten Maustaste auf das Produkt, in welchem der Person eine Rolle zugewiesen werden soll.
+ Es erscheint das Kontextmenü in welchem er 'Rolle ändern' anklickt.
+Es erscheint ein Wizard, mit einem Texteingabefeld und 3 Listboxen, zudem 4 Buttons. In der linken Liste befinden sich 
+alle verfügbaren Benutzernamen. In den beiden Listboxen auf der rechten Seite werden alle PE / Ps des Produktes in der 
+Liste angezeigt. Die 4 Buttons symbolisieren das "Rüberschieben in die jeweils andere Liste" ("<<" bzw. ">>"). Das 
+Eingabefeld dient der linken Gesamtbenutzerliste als Filterkriterium. Werden hier Buchstaben eingegeben erscheinen nur 
+noch die Benutzernamen in der darunterliegenden Liste, die mit diesen Buchstaben anfangen.
+Wenn ein Benutzer auf die jeweils andere Seite geschoben werden soll, muss sein Benutzernamen in der jeweiligen Liste
+ markiert und dann der zugeh?örige Button gedr?ückt werden. Danach klickt der Benutzer wieder auf OK um das Fenster zu 
+verlassen.\\
+
+Nachbedingung		:\\
+Benutzer hat neue Rolle \par
+
+
+
+
+
+Use Case Name		: Benutzer löschen\\
+Wollen wir das wirklich per Client ermöglichen?\par
+
+
+
+Use Case Name		: Passwort ändern\\
+Akteur				: Benutzer
+Vorbedingung		: Benutzer ist vorhanden\\
+
+Ablauf:\\
+Der Benutzer klickt auf ein noch näher zu spezifizierendes Ding. Es erscheint ein Dialog in welchem er sein altes
+ Passwort noch einmal eingeben muss und danach sein neues Passwort doppelt eingeben muss. Der Dialog endet mit OK.
+ Bei Klick auf Abbrechen wird der Vorgang abgebrochen und das Passwort nicht geändert.\\
+
+Nachbedingung		:\\
+Passwort für Benutzer ist geändert.\par
