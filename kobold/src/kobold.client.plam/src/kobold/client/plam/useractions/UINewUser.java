@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UINewUser.java,v 1.5 2004/08/05 09:45:40 grosseml Exp $
+ * $Id: UINewUser.java,v 1.6 2004/08/05 10:20:23 grosseml Exp $
  *
  */
 package kobold.client.plam.useractions;
@@ -96,14 +96,16 @@ public class UINewUser extends Dialog	{
             //password
             labelPassword = new Label(control,SWT.NONE);
             labelPassword.setText("Please insert the initial password of the new user:");
-            textPassword = new Text(control, SWT.BORDER);		
+            textPassword = new Text(control, SWT.BORDER);
+            textPassword.setEchoChar('*');
             //data = new GridData(GridData.FILL_HORIZONTAL);
             //textPassword.setLayoutData(data);
             
             //confirmpassword
             labelConfPass = new Label(control,SWT.NONE);
             labelConfPass.setText("Please retype the initial password of the new user:");
-            textConfPass = new Text(control, SWT.BORDER);		
+            textConfPass = new Text(control, SWT.BORDER);
+            textConfPass.setEchoChar('*');
             //data = new GridData(GridData.FILL_HORIZONTAL);
             //textConfPass.setLayoutData(data);
         } catch(Exception e) {

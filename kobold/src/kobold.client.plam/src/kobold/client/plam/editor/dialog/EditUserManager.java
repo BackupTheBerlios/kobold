@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EditUserManager.java,v 1.2 2004/08/05 10:03:26 grosseml Exp $
+ * $Id: EditUserManager.java,v 1.3 2004/08/05 10:19:05 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -102,9 +102,6 @@ public class EditUserManager extends TitleAreaDialog
 		panel.setLayout(layout);
 		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
 		panel.setFont(parent.getFont());
-
-		Label label = new Label(panel, SWT.NONE);
-		label.setText("All Users");
 		
 	    
 		Button newUser = new Button(panel, SWT.NONE);
