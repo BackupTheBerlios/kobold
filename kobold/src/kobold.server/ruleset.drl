@@ -191,9 +191,11 @@
         </java:consequence>
     </rule>
 
+
+
 	/**
 	 * Rule No.5
-	 * sends a message when a new user is added
+	 * sends a message to all users when a new user is added
 	 */
 	 <rule name="New User Message">
         <parameter identifier="spy">
@@ -213,13 +215,195 @@
 			    kobold.common.data.User user = (kobold.common.data.User)iterator.next();
 			    answer.setReceiver(user.getUsername());
 			    if (!(answer.getReceiver().equals(args.get(1)))) { 
-			    	System.out.println(answer.getReceiver());
 					kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
 				}
 			}
         </java:consequence>
     </rule>
 
+
+
+	/**
+	 * Rule No.6
+	 * sends a list of all users to the user who requested the list
+	 */
+	<rule name="User List Message">
+        <parameter identifier="spy">
+            <java:class>kobold.common.data.RPCSpy</java:class>
+        </parameter>
+        <java:condition>(spy.getMethodName().equals("getAllUsers"))</java:condition>
+        <java:consequence>
+        	java.util.List users = kobold.server.controller.UserManager.getInstance().getAllUsers();
+			java.util.Iterator iterator = users.iterator();
+			kobold.common.data.KoboldMessage answer = new kobold.common.data.KoboldMessage();
+			java.lang.String list = "The following users are registered in the Kobold system: ";
+			java.lang.Boolean first = new Boolean(true);
+			answer.setSender("Kobold");
+			answer.setSubject("user list");
+			while (iterator.hasNext()) {
+				kobold.common.data.User user = (kobold.common.data.User)iterator.next();
+				if (first) {
+						list = list + user.getUsername();
+						first = !first;
+				} else {
+					list = list + ", " + user.getUsername();
+				}
+         	} 	
+			java.util.Vector args = spy.getArguments();
+			answer.setMessageText(list);	
+			kobold.common.data.UserContext uc = args.get(0);    
+			answer.setReceiver(uc.getUserName());
+			kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
+        </java:consequence>
+    </rule>
+    
+    
+
+	/**
+	 * Rule No.7
+	 * sends a confirmation when one updates his/her password
+	 */
+	 <rule name="Update Password Message">
+        <parameter identifier="spy">
+            <java:class>kobold.common.data.RPCSpy</java:class>
+        </parameter>
+        <java:condition>(spy.getMethodName().equals("updateUserPassword"))</java:condition>
+        <java:consequence>
+        	kobold.common.data.KoboldMessage answer = new kobold.common.data.KoboldMessage();
+			answer.setSender("Kobold");
+			answer.setSubject("your password");
+			java.util.Vector args = spy.getArguments();
+			kobold.common.data.User user = (kobold.common.data.User) args.get(1);
+			answer.setMessageText("Your password has been changed!");	
+		    answer.setReceiver(user.getUsername());
+			kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
+        </java:consequence>
+    </rule>
+
+
+
+	/**
+	 * Rule No.8
+	 * sends a confirmation when one updates his/her full name
+	 */
+	 <rule name="Update Full Name Message">
+        <parameter identifier="spy">
+            <java:class>kobold.common.data.RPCSpy</java:class>
+        </parameter>
+        <java:condition>(spy.getMethodName().equals("updateUserFullName"))</java:condition>
+        <java:consequence>
+        	kobold.common.data.KoboldMessage answer = new kobold.common.data.KoboldMessage();
+			answer.setSender("Kobold");
+			answer.setSubject("your full name");
+			java.util.Vector args = spy.getArguments();
+			kobold.common.data.User user = (kobold.common.data.User) args.get(1);
+			answer.setMessageText("Your full name has been changed to: " + user.getFullname());	
+		    answer.setReceiver(user.getUsername());
+			kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
+        </java:consequence>
+    </rule>
+    
+    
+    
+	/**
+	 * Rule No.9
+	 * sends a list of all productlines to the user who requested the list
+	 */
+	<rule name="Productline List Message">
+        <parameter identifier="spy">
+            <java:class>kobold.common.data.RPCSpy</java:class>
+        </parameter>
+        <java:condition>(spy.getMethodName().equals("getProductlineNames"))</java:condition>
+        <java:consequence>
+        	kobold.server.controller.ProductlineManager productlineManager = kobold.server.controller.ProductlineManager.getInstance();
+			java.util.Vector productlines = productlineManager.getProductlineNames();
+			java.util.Iterator iterator = productlines.iterator();
+			kobold.common.data.KoboldMessage answer = new kobold.common.data.KoboldMessage();
+			java.lang.String list = "The following productlines are registered in the Kobold system: ";
+			java.lang.Boolean first = new Boolean(true);
+			answer.setSender("Kobold");
+			answer.setSubject("productline list");
+			while (iterator.hasNext()) {
+				java.lang.String pl = (java.lang.String)iterator.next();
+				pl = (java.lang.String)iterator.next();
+				if (first) {
+						list = list + pl;
+						first = !first;
+				} else {
+					list = list + ", " + pl;
+				}
+         	} 	
+			java.util.Vector args = spy.getArguments();
+			answer.setMessageText(list);	
+			kobold.common.data.UserContext uc = args.get(0);    
+			answer.setReceiver(uc.getUserName());
+			kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
+        </java:consequence>
+    </rule>
+    
+    
+    
+	/**
+	 * Rule No.10
+	 * notifies the ples of a productline when it is requested
+	 */
+	<rule name="Productline Request Message">
+        <parameter identifier="spy">
+            <java:class>kobold.common.data.RPCSpy</java:class>
+        </parameter>
+        <java:condition>(spy.getMethodName().equals("getProductline"))</java:condition>
+        <java:consequence>
+       		java.util.Vector args = spy.getArguments();
+       		kobold.common.data.UserContext uc = args.get(0); 
+         	kobold.server.controller.ProductlineManager productlineManager = kobold.server.controller.ProductlineManager.getInstance();
+         	kobold.common.data.Productline pl = productlineManager.getProductline(args.get(1));
+			java.util.List ples = pl.getMaintainers();
+			java.util.Iterator iterator = ples.iterator();		
+			while (iterator.hasNext()) {
+				kobold.common.data.User user = (kobold.common.data.User)iterator.next();
+				kobold.common.data.KoboldMessage answer = new kobold.common.data.KoboldMessage();
+				answer.setSender("Kobold");
+				answer.setSubject("productline requested");	
+				answer.setMessageText("The user " + uc.getUserName() + " has requested your productline " + pl.getName() + ".");		   
+				answer.setReceiver(user.getUsername());
+				kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
+         	} 	
+
+			
+        </java:consequence>
+    </rule>
+
+
+
+	/**
+	 * Rule No.11
+	 * sends a message to all users when a productline is updated
+	 */
+	 <rule name="Productline Update Message">
+        <parameter identifier="spy">
+            <java:class>kobold.common.data.RPCSpy</java:class>
+        </parameter>
+        <java:condition>(spy.getMethodName().equals("updateProductline"))</java:condition>
+        <java:consequence>
+        	//send out the message to all users
+			java.util.List users = kobold.server.controller.UserManager.getInstance().getAllUsers();
+			java.util.Iterator iterator = users.iterator();
+			while (iterator.hasNext()) {
+         	    kobold.common.data.KoboldMessage answer = new kobold.common.data.KoboldMessage();
+				answer.setSender("Kobold");
+				answer.setSubject("productline updated");
+				java.util.Vector args = spy.getArguments();
+				kobold.common.data.UserContext uc = (kobold.common.data.UserContext) args.get(0);
+				kobold.common.data.Productline pl = (kobold.common.data.Productline) args.get(1);
+				answer.setMessageText("The user " + uc.getUserName() + " has updated the productline " + pl.getName() + ".");	
+			    kobold.common.data.User user = (kobold.common.data.User)iterator.next();
+			    answer.setReceiver(user.getUsername());
+			    if (!(answer.getReceiver().equals(uc.getUserName()))) { 
+					kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
+				}
+			}
+        </java:consequence>
+    </rule>
 
 
 </rule-set>
