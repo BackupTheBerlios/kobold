@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.12 2004/08/03 16:46:35 garbeam Exp $
+ * $Id: ProductlineManager.java,v 1.13 2004/08/06 06:02:32 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -130,6 +130,35 @@ public class ProductlineManager {
 		serialize();
 		return obj != null;
 	}
+    
+    /**
+     * The following method returns the id of the productline specified by
+     * its name.
+     * 
+     * @param nameOfProductline name of the productline whose id is to be
+     *        returned
+     * @return String containing the passed productline's id or <code>null</code>
+     *         if not productlone with the passed name exists
+     */
+    public String getProductlineIdByName(String nameOfProductline){
+        Vector v = getProductlineNames();
+        Iterator it = v.iterator();
+        String id = null;
+        
+        while(it.hasNext()){
+            // store id of next pl
+            String tmp = (String)it.next();
+            
+            // compare next pl's name 
+            if (((String)it.next()).equals(nameOfProductline)){
+                // tmp contains the desired pl's id
+                id = tmp;
+                break;
+            }
+        }
+        
+        return id;
+    }
 
 	/**
 	 * Serializes all products and productlines to the file specified

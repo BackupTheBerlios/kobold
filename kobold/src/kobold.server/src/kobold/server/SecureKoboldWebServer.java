@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.71 2004/08/04 09:26:13 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.72 2004/08/06 06:02:02 neccaino Exp $
  *
  */
 package kobold.server;
@@ -286,11 +286,11 @@ public class SecureKoboldWebServer implements IKoboldServer,
                     
                     //1.) unpack the repository desscriptor
                     RepositoryDescriptor rd = new RepositoryDescriptor();
-                    rd.setHost((String)arguments.elementAt(2));
-                    rd.setPath((String)arguments.elementAt(3));
-                    rd.setProtocol((String)arguments.elementAt(4));
-                    rd.setRoot((String)arguments.elementAt(5));
-                    rd.setType((String)arguments.elementAt(6));
+                    rd.setHost((String)arguments.elementAt(3));
+                    rd.setPath((String)arguments.elementAt(4));
+                    rd.setProtocol((String)arguments.elementAt(5));
+                    rd.setRoot((String)arguments.elementAt(6));
+                    rd.setType((String)arguments.elementAt(7));
                     
                     //2.) call newProductline and leave without noticing the WorkflowEngine
                     return newProductline((String)arguments.elementAt(0),
@@ -585,10 +585,18 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
 			return IKoboldServerAdministration.RETURN_FAIL;
 		}
-		
-		// 2.) remove the productline
-		ProductlineManager plm = ProductlineManager.getInstance();
-		return plm.removeProductline(nameOfProductline) ? RETURN_OK : RETURN_FAIL;
+        
+        // 2.) get the productline's id
+        ProductlineManager plm = ProductlineManager.getInstance();
+        String id = plm.getProductlineIdByName(nameOfProductline);
+        
+		// 3.) remove the productline
+        if (id != null){
+        	return plm.removeProductline(id) ? RETURN_OK : RETURN_FAIL;
+        }
+        else{
+            return RETURN_FAIL;
+        }
 	} 
 	
 	/**
@@ -623,15 +631,20 @@ public class SecureKoboldWebServer implements IKoboldServer,
         }
 		
 		// 4.) convert the user-object to its client-representation
-		User cuser = new User(suser.getUserName(), suser.getFullName());
+		User cuser = suser.getSecureRepresentation();
 
-        // 5.= stop if the productline does not exist
-        Productline pl = plm.getProductline(nameOfProductline);
+        // 5.) stop if the productline does not exist
+        String id = plm.getProductlineIdByName(nameOfProductline);
+        Productline pl = null;
         
+        if (id != null){
+        	pl = plm.getProductline(id);           
+        }
+
         if (pl == null){
             return IKoboldServerAdministration.RETURN_FAIL;
         }
-        
+
         // 6.) stop if the user has already been assigned
         if (pl.getMaintainers().contains(cuser)){
             return IKoboldServerAdministration.RETURN_FAIL;
@@ -673,15 +686,20 @@ public class SecureKoboldWebServer implements IKoboldServer,
         }
         
         // 4.) convert the user-object to its client-representation
-        User cuser = new User(suser.getUserName(), suser.getFullName());
+        User cuser = suser.getSecureRepresentation();
         
         // 5.) stop if the productline doesn't exist
-        Productline pl = plm.getProductline(nameOfProductline);
+        Productline pl = null;
+        String id = plm.getProductlineIdByName(nameOfProductline);
         
+        if (id != null){
+        	pl = plm.getProductline(id);
+        }
+
         if (pl == null){
             return IKoboldServerAdministration.RETURN_FAIL;
         }
-        
+
         // 6.) stop if the user has not yet been assigned to the productline
         if (!pl.getMaintainers().contains(cuser)){
             return IKoboldServerAdministration.RETURN_FAIL;
@@ -711,8 +729,12 @@ public class SecureKoboldWebServer implements IKoboldServer,
         
         // 2.) check if productline exists
         ProductlineManager plm = ProductlineManager.getInstance();
-        Productline pl = plm.getProductline(nameOfProductline);
+        String id = plm.getProductlineIdByName(nameOfProductline);
+        Productline pl = null;
         
+        if (id != null){
+        	pl = plm.getProductline(id);
+        }
         if (pl == null){
             return IKoboldServerAdministration.RETURN_FAIL;
         }
@@ -747,18 +769,19 @@ public class SecureKoboldWebServer implements IKoboldServer,
             return IKoboldServerAdministration.RETURN_FAIL;
         }
         
-        // 2.) get productline list and convert it to string
-        List pllist = ProductlineManager.getInstance().getProductlineNames();
+        // 2.) get productline vector, remove id strings and convert it to string
+        Vector v = ProductlineManager.getInstance().getProductlineNames();
+        Iterator it = v.iterator();
         String ret = "";
+
+        if (!it.hasNext()){
+            ret += "no productlines registered\n";
+        }
+        else while(it.hasNext()){
+            it.next(); // removes id string of next productline
+            ret += it.next();
+        }
                 
-        int sizeOfList = pllist.size();
-        if (sizeOfList == 0){
-            ret += "no productlines on the server\n";
-        }
-        else for (int ax = 0; ax < sizeOfList; ax++){
-            ret += (String) pllist.toArray()[ax] + "\n";
-        }
-        
         return ret; 
     }
     
@@ -781,7 +804,10 @@ public class SecureKoboldWebServer implements IKoboldServer,
         Iterator it = ul.iterator();
         String ret = "";
         
-        while(it.hasNext()){
+        if (!it.hasNext()){
+            ret += "no users registered\n";
+        }
+        else while(it.hasNext()){
             ret += ((kobold.common.data.User)it.next()).getUsername() + "\n";
         }
         
