@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.4 2004/07/23 20:31:54 vanto Exp $
+ * $Id: Productline.java,v 1.5 2004/07/26 08:31:55 martinplies Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -45,7 +45,8 @@ import org.dom4j.Element;
  */
 public class Productline extends AbstractRootAsset
                          implements IComponentContainer,
-                         			IGXLExport {
+                         			IGXLExport,  
+                         			IProductlineNode{
     
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#productline";
 
@@ -264,4 +265,19 @@ public class Productline extends AbstractRootAsset
 		}	
 		return null;
 	}
+
+	
+    /**
+     * @return Returns the edgeConatainer.
+     */
+    public EdgeContainer getEdgeConatainer() {
+        return edgeConatainer;
+    }
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.productline.IProductlineNode#getChildren()
+     */
+    public List getChildren() {
+        return coreAssets;
+    }
 }
