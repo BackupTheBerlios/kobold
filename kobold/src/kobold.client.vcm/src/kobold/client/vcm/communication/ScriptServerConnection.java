@@ -154,8 +154,8 @@ public class ScriptServerConnection implements IServerConnection
 				try {
 					close();
 				} finally {
-					errorThread.destroy();
-					inputThread.destroy();
+					errorThread = null;
+					inputThread = null;
 					// Ignore any exceptions during close
 				}
 			}
@@ -285,8 +285,8 @@ public class ScriptServerConnection implements IServerConnection
 			{
 				outputStream = null;
 				if (process != null) process.destroy();
-				if (errorThread != null) errorThread.destroy();
-				if (inputThread != null) inputThread.destroy();
+				if (errorThread != null) errorThread = null;
+				if (inputThread != null) inputThread = null;
 			}
 		} 
 	}
@@ -368,23 +368,9 @@ public class ScriptServerConnection implements IServerConnection
 			this.in = in;
 			this.stream = stream;
 		}
-		/* (non-Javadoc)
-		 * @see java.lang.Thread#destroy()
-		 */
-		public void destroy() {
-			try {
-				this.in.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			finally 
-			{
-				super.destroy();
-			}
-		}
+
 		public void run() {
 			
-			try {
 				try {
 					if (in != null) {
 					int r,index = 0;
@@ -405,13 +391,13 @@ public class ScriptServerConnection implements IServerConnection
 					else{
 						stream.print(new String(readLineBuffer, 0, index));
 					}
+				} 
+				} catch (IOException e) {
+			    } finally {
+					try {
+                        in.close();
+                    } catch (IOException e1) {}
 				}
-				} finally {
-					in.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 		private static byte[] append(byte[] buffer, int index, byte b) {
 			if (index >= buffer.length) {
