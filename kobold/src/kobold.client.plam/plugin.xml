@@ -129,7 +129,7 @@
             id="AssetContrib">
          <action
                enablesFor="1"
-               label="%action.GXLExport"
+               label="GXLExport..."
                class="kobold.client.plam.action.GXLExportAction"
                id="kobold.client.plam.action1"/>
          <action
@@ -172,7 +172,7 @@
             objectClass="kobold.client.plam.model.AbstractAsset"
             id="AssetContribVisi">
          <action
-               label="Delete Asset"
+               label="Delete Asset ..."
                class="kobold.client.plam.action.DeleteAssetAction"
                id="kobold.client.plam.DeleteAssetAction">
          </action>
@@ -194,8 +194,8 @@
                id="kobold.client.plam.updateRelatedComponent"/>
       </objectContribution> -->
       <objectContribution
-            objectClass="kobold.client.plam.model.productline.Variant"
-            id="VariantContrib">
+            objectClass="kobold.client.plam.model.Release"
+            id="ReleaseContrib">
          <action
                label="Add To Product"
                class="kobold.client.plam.action.AddToProduct"
