@@ -24,16 +24,16 @@ goto END
 
 :EMPTYSTRING
    echo cvs -z3 -d :%3:%4:%5@%6:%7 co -d . %8
-   cvs -z3 -d :%3:%4:%5@%6:%7 co -d . %8
+   cvs -z3 -d :%3:%4:%5@%6:%7 co  %8
 goto END
 
 :LOCAL
 if "%9" == "" goto EMPTYSTRINGLOCAL
-   cvs -z3 -d %7 co -d . -r %9 %8
+   cvs -z3 -d %7 co %8
 goto END
 
 :EMPTYSTRINGLOCAL
-   cvs -z3 -d %7 co -d . %8
+   cvs -z3 -d %7 co %8
 goto END
 
 :END

@@ -17,12 +17,12 @@ goto END
 :CVS
 if %3 == local goto LOCAL
 
-cvs -z3 -d :%3:%4:%5@%6:%7 import -m %9 %8 %4 R0
+cvs -z3 -d :%3:%4:%5@%6:%7 import %8 %4 R0
 
 goto END
 
 :LOCAL
-cvs -z3 -d %7 add %8 import -m %9 %8 %4 R0
+cvs -z3 -d %7 import %8 %4 R0
 goto END
 
 

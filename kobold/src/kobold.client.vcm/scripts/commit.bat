@@ -17,12 +17,12 @@ goto END
 :CVS
 if %3 == local goto LOCAL
 
-cvs -z3 -d :%3:%4:%5@%6:%7 ci -m %9 %8
+cvs -z3 -d :%3:%4:%5@%6:%7 ci -m %9 
 
 goto END
 
 :LOCAL
-cvs -z3 -d %7 ci -m %9 %8
+cvs -z3 -d %7 ci -m %9
 goto END
 
 :END

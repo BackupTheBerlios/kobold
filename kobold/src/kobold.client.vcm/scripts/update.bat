@@ -17,22 +17,16 @@ goto END
 :CVS
 if %3 == local goto LOCAL
 
-if "%9" == "" GOTO EMPTY1
-  cvs -z3 -d :%3:%4:%5@%6:%7 up -dP -r %9
+  cvs -z3 -d :%3:%4:%5@%6:%7 up -dP %8
 
-goto END
-
-:EMPTY1
-    cvs -z3 -d :%3:%4:%5@%6:%7 up -dP
 goto END
 
 :LOCAL
 if "%9" == "" goto EMPTY2
-    cvs -z3 -d %7 up -dP -r %9
+    cvs -z3 -d %7 up -dP %8
 goto END
 
-:EMPTY2
-    cvs -z3 -d %7 up -dP
+
 goto END
 
 :END
