@@ -21,13 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNode.java,v 1.3 2004/04/21 15:05:08 rendgeor Exp $
+ * $Id: AbstractNode.java,v 1.4 2004/04/21 15:57:09 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
 import net.sourceforge.gxl.GXLNode;
+
+import java.awt.Dimension;
 import java.net.URI;
+import org.eclipse.swt.graphics.Point;
 
 /**
  * AbstractNode
@@ -38,6 +41,8 @@ import java.net.URI;
  */
 public abstract class AbstractNode extends GXLNode {
 
+	private Dimension dimension;
+	private Point x, y;
 	/**
 	 * @param id
 	 */
@@ -52,10 +57,57 @@ public abstract class AbstractNode extends GXLNode {
 				{
 					e.printStackTrace();
 				}
-		
 				setType(type);		
-		// TODO Auto-generated constructor stub
 		
+	}
+
+
+	/**
+	 * This method returns the dimension of the graphical object, or null if it is not set
+	 * @return
+	 */
+	public Dimension getDimension() {
+		return dimension;
+	}
+
+	/**
+	 * This method returns the x-Axis point of the graphical object, or null if it is not set
+	 * @return
+	 */
+	public Point getX() {
+		return x;
+	}
+
+	/**
+	 * This method returns the y-Axis point of the graphical object, or null if it is not set
+	 * @return
+	 */
+	public Point getY() {
+		return y;
+	}
+
+	/**
+	 * This method sets the dimension of the graphical object
+	 * @param dimension
+	 */
+	public void setDimension(Dimension dimension) {
+		this.dimension = dimension;
+	}
+
+	/**
+	 * This method sets the x-Axis point of the graphical object
+	 * @param point
+	 */
+	public void setX(Point point) {
+		x = point;
+	}
+
+	/**
+	 * This method sets the y-Axis point of the graphical object
+	 * @param point
+	 */
+	public void setY(Point point) {
+		y = point;
 	}
 
 }

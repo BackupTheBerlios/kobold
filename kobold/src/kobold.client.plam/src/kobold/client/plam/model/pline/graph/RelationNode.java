@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelationNode.java,v 1.3 2004/04/21 15:05:08 rendgeor Exp $
+ * $Id: RelationNode.java,v 1.4 2004/04/21 15:57:09 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
@@ -58,7 +58,6 @@ public abstract class RelationNode extends GXLNode
 		}
 		
 		setType(type);
-		// TODO Auto-generated constructor stub
 	}
 
 }
