@@ -37,8 +37,8 @@
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
             adaptable="true"
+            objectClass="org.eclipse.core.resources.IFile"
             id="kobold.client.vcm.contribution1">
          <action
                label="Commit"
@@ -65,10 +65,22 @@
                name="projectPersistentProperty"
                value="org.eclipse.team.core.repository=kobold.client.vcm.controller.WrapperProvider">
          </filter>
+         <action
+               label="Add"
+               class="kobold.client.vcm.AddAction"
+               menubarPath="team.main/group1"
+               id="kobold.client.vcm.addaction">
+         </action>
+         <action
+               label="Import..."
+               class="kobold.client.vcm.popup.action.ImportAction"
+               menubarPath="team.main/group1"
+               id="kobold.client.vcm.importaction">
+         </action>
       </objectContribution>
       <objectContribution
-            objectClass="org.eclipse.core.resources.IProject"
             adaptable="true"
+            objectClass="org.eclipse.core.resources.IProject"
             id="kobold.client.vcm.ProjectContributions">
          <action
                label="Unmanage Kobold Project"

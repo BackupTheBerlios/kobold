@@ -38,14 +38,14 @@ import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
-public class CommitAction extends TeamAction implements IObjectActionDelegate {
+public class AddAction extends TeamAction implements IObjectActionDelegate {
 
 	//The selected Object
 	IResource currentSelection = null;
 	/**
 	 * Constructor for Action1.
 	 */
-	public CommitAction() {
+	public AddAction() {
 		super();
 	}
 
@@ -72,51 +72,18 @@ public class CommitAction extends TeamAction implements IObjectActionDelegate {
 			MessageDialog.openInformation(
 				shell,
 				"Kobold VCM Plug-in",
-				"precommit (precheckin) was executed.");
+				"preAdd was executed.");
 //			repoAccess.checkin();
 			MessageDialog.openInformation(
 					shell,
 					"Kobold VCM Plug-in",
-					"commit was executed.");
+					"Add was executed.");
 //			repoAccess.postcheckin();
 			MessageDialog.openInformation(
 					shell,
 					"Kobold VCM Plug-in",
-					"postcommit was executed.");
+					"postadd was executed.");
 		}
-//			run(new WorkspaceModifyOperation() {
-//				public void execute(IProgressMonitor monitor) throws InterruptedException {
-//					try {
-//						Map table = CommitAction.this.getProviderMapping();
-//						monitor.beginTask(null, table.size() * 1000);
-//						monitor.setTaskName(KoboldPolicy.bind("GetAction.working")); //$NON-NLS-1$
-//						for (Iterator iter = table.keySet().iterator(); iter.hasNext();) {
-//							IProgressMonitor subMonitor = new SubProgressMonitor(monitor, 1000);
-//							WrapperProvider provider = (WrapperProvider) iter.next();
-//							List list = (List) table.get(provider);
-//							IResource[] providerResources = (IResource[]) list.toArray(new IResource[list.size()]);
-////							provider.getOperations().get(providerResources, IResource.DEPTH_INFINITE, isOverwriteOutgoing(), subMonitor);
-//						}
-//					} finally {
-//						monitor.done();
-//					}
-//				}
-//			}, KoboldPolicy.bind("GetAction.problemMessage"), TeamAction.PROGRESS_DIALOG); //$NON-NLS-1$		
-//
-//		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
-//		IProgressMonitor monitor;
-////		selection
-//		try {
-//			
-//			repoAccess.precheckin(currentSelection,IResource.DEPTH_INFINITE,null);
-//			repoAccess.checkin();
-//			repoAccess.postcheckin();
-////			ao.precheckin(currentSelection,0);
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
-		
-	
 
 	/**
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
