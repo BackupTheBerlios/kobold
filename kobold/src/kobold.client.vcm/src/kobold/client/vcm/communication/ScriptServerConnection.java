@@ -386,73 +386,104 @@ public class ScriptServerConnection implements IServerConnection
 	private static class InputThreadToConsole extends Thread {
 		private BufferedInputStream in, errStream;
 		private byte[] readLineBuffer = new byte[512];
+		private Process proc = null;
 		private MessageConsoleStream stream = null;
 		String returnString = null;
 		public InputThreadToConsole(Process proc,MessageConsoleStream stream ) {
 			this.in = new BufferedInputStream(proc.getInputStream());
 			this.stream = stream;
 			this.errStream = new BufferedInputStream(proc.getErrorStream());
+			this.proc = proc;
 		}
 
 		public void run() {
-			
-				try {
-					if (in != null) {
-					int r = 0, s = 0,index = 0;
-//					sleep(2500);
-					
-//					System.out.println(in.toString()+" :"+in.available());(in.available() != 0) && 
-					while(r != -1 | s != -1)
-					{
-//						int test = errStream.available();
-						if (errStream != null && errStream.available() != 0)
-						{
-						while (errStream != null && (s = errStream.read()) != -1 )
-						{
-							if(s == NEWLINE) break;
-							readLineBuffer = append(readLineBuffer, index++, (byte) s);
-						}
-						}
-//						int testIn = ;
-						if (in.available() != 0)
-						{
-						while ((in != null && (r = in.read()) != -1 ) ) 
-						{
-							if(r == NEWLINE) break;
-							readLineBuffer = append(readLineBuffer, index++, (byte) r);
-						}
-						}
-						if(returnString != null)
-						{
-							if(returnString.equals(""))
-								returnString = new String(readLineBuffer, 0, index);
-							else
-								returnString  = returnString.concat(new String(readLineBuffer, 0, index));
-							readLineBuffer = new byte[512];
-						}
-							
-						else{
-							stream.print(new String(readLineBuffer, 0, index));
-							readLineBuffer = new byte[512];
-							index=0;
-						}
-						
-					}
-//					if(returnString != null)
-//						returnString = new String(readLineBuffer, 0, index);
-//					else{
-//						stream.print(new String(readLineBuffer, 0, index));
-//					}
-//					stream.getConsole().
-	
-				} 
-				} catch (IOException e) {
-					e.printStackTrace();
-			    } finally {
-					try {
-                        in.close();
-                    } catch (IOException e1) {e1.printStackTrace();}
-				}
+				try
+            {
+                if (in != null)
+                {
+                    int r = 0, s = 0, exit = 0, index = 0;
+                    //					sleep(2500);
+//                    System.out.println(in.toString() + " :" + in.available()
+//                            + errStream.available());//(in.available() != 0) &&
+                    try
+                    {
+                        sleep(50);
+                    } catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    while (r != -1 | s != -1 | exit < 20)
+                    {
+                        //						int test = errStream.available();
+                        if (errStream != null && errStream.available() != 0)
+                        {
+                            while ((s = errStream.read()) != -1)
+                            {
+                                //							if(s == NEWLINE) break;
+                                readLineBuffer = append(readLineBuffer,
+                                        index++, (byte) s);
+                            }
+                        } else
+                            {
+                            	s = -1;
+                            	exit++;
+                            }
+                        //						int testIn = ;
+                        if (in.available() != 0)
+                        {
+                            while (in.available() != 0 & (r = in.read()) != -1)
+                            {
+                                //							if(r == NEWLINE) break;
+                                readLineBuffer = append(readLineBuffer,
+                                        index++, (byte) r);
+                            }
+
+                        } else
+                        {
+                            r = -1;
+                            exit++;
+                        }
+                        if (returnString != null)
+                        {
+                            if (returnString.equals(""))
+                                returnString = new String(readLineBuffer, 0,
+                                        index);
+                            else
+                                returnString = returnString.concat(new String(
+                                        readLineBuffer, 0, index));
+                            readLineBuffer = new byte[512];
+                        }
+
+                        else
+                        {
+                            stream.print(new String(readLineBuffer, 0, index));
+                            readLineBuffer = new byte[512];
+                            index = 0;
+                        }
+
+                    }
+                    //					if(returnString != null)
+                    //						returnString = new String(readLineBuffer, 0, index);
+                    //					else{
+                    //						stream.print(new String(readLineBuffer, 0, index));
+                    //					}
+                    //					stream.getConsole().
+
+                }
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            } finally
+            {
+                try
+                {
+                    in.close();
+                } catch (IOException e1)
+                {
+                    e1.printStackTrace();
+                }
+            }
 		}
 		private static byte[] append(byte[] buffer, int index, byte b) {
 			if (index >= buffer.length) {

@@ -80,41 +80,41 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-//		Plugin plugin = KoboldPLAMPlugin.getDefault();
-//		IProject projects[] = KoboldPLAMPlugin.getWorkspace().getRoot().getProjects();
-//		if (projects != null) {
-//			for (int i = 0; i < projects.length; i++) {
-//				IProjectNature nature = projects[i].getNature(KoboldProject.NATURE_ID);
-//				if (nature != null) {
-//					((KoboldProject)nature).addVCMActionListener(new IVCMActionListener() {
-//						public void refreshFiledescriptors(
-//								IFileDescriptorContainer container) {
-//							StatusUpdater st = new StatusUpdater();
-//							st.updateFileDescriptors(container);
-//							System.out.println("TEST STATUS");
-//						}
-//
-//						public void checkoutProductline(AbstractRootAsset rootAsset) {
-//							KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
-//							try
-//							{
-//								AbstractAsset tmpAsset[] = {rootAsset};
-//								repoAccess.checkout(tmpAsset,IResource.DEPTH_INFINITE,null);
-//							}
-//							catch (Exception e)
-//							{
-//								// TODO: handle exception
-//							}
-//							
-//							
-//						}
-//					});
-//				}
-//			}
-//			
-//		} else {
-//
-//		} 
+		Plugin plugin = KoboldPLAMPlugin.getDefault();
+		IProject projects[] = KoboldPLAMPlugin.getWorkspace().getRoot().getProjects();
+		if (projects != null) {
+			for (int i = 0; i < projects.length; i++) {
+				IProjectNature nature = projects[1].getNature(KoboldProject.NATURE_ID);
+				if (nature != null) {
+					((KoboldProject)nature).addVCMActionListener(new IVCMActionListener() {
+						public void refreshFiledescriptors(
+								IFileDescriptorContainer container) {
+							StatusUpdater st = new StatusUpdater();
+							st.updateFileDescriptors(container);
+							System.out.println("TEST STATUS");
+						}
+
+						public void checkoutProductline(AbstractRootAsset rootAsset) {
+							KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
+							try
+							{
+								AbstractAsset tmpAsset[] = {rootAsset};
+								repoAccess.checkout(tmpAsset,IResource.DEPTH_INFINITE,null);
+							}
+							catch (Exception e)
+							{
+								// TODO: handle exception
+							}
+							
+							
+						}
+					});
+				}
+			}
+			
+		} else {
+
+		} 
 
 		
 	}
