@@ -21,12 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComposableFigure.java,v 1.3 2004/07/26 18:39:16 vanto Exp $
+ * $Id: ComposableFigure.java,v 1.4 2004/07/27 17:05:36 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.figure;
 
-import kobold.client.plam.editor.ProductAlgorithm;
+import kobold.client.plam.editor.ProductComposer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -64,11 +64,11 @@ public abstract class ComposableFigure extends Shape
 	public void setState(String state) 
 	{
 	    logger.debug("state change: "+state);
-	    if (state == ProductAlgorithm.STATE_OPEN) {
+	    if (state == ProductComposer.STATE_OPEN) {
 	        setBackgroundColor(ColorConstants.lightGray);
-	    } else if (state == ProductAlgorithm.STATE_USED) {
+	    } else if (state == ProductComposer.STATE_USED) {
 	        setBackgroundColor(ColorConstants.darkGreen);
-	    } else if (state == ProductAlgorithm.STATE_MUST_NOT) {
+	    } else if (state == ProductComposer.STATE_MUST_NOT) {
 	        setBackgroundColor(ColorConstants.darkGray);
 	    }
 	}

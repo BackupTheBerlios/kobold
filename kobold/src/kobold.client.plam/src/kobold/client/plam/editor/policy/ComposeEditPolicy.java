@@ -21,14 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComposeEditPolicy.java,v 1.2 2004/07/24 01:11:08 vanto Exp $
+ * $Id: ComposeEditPolicy.java,v 1.3 2004/07/27 17:05:36 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.policy;
 
 import kobold.client.plam.editor.ArchitectureEditor;
 import kobold.client.plam.editor.KoboldGraphicalViewer;
-import kobold.client.plam.editor.ProductAlgorithm;
+import kobold.client.plam.editor.ProductComposer;
 import kobold.client.plam.editor.command.ProductComposerCommand;
 import kobold.client.plam.editor.tool.ProductComposerTool;
 import kobold.client.plam.model.AbstractAsset;
@@ -60,7 +60,7 @@ public class ComposeEditPolicy extends AbstractEditPolicy
     protected Command getProductComposerCommand()
     {
         ArchitectureEditor ae = (ArchitectureEditor)((DefaultEditDomain)getHost().getViewer().getEditDomain()).getEditorPart();
-        ProductAlgorithm comp = ((KoboldGraphicalViewer)ae.getAdapter(GraphicalViewer.class)).getProductComposer();
+        ProductComposer comp = ((KoboldGraphicalViewer)ae.getAdapter(GraphicalViewer.class)).getProductComposer();
         return new ProductComposerCommand((AbstractAsset)getHost().getModel(), comp);
     }
     

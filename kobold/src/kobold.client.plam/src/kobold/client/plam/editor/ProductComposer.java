@@ -52,8 +52,8 @@ import org.apache.commons.logging.LogFactory;
  * UNDER CONSTRUCTION
  *  
  */
-public class ProductAlgorithm {
-    private static final Log logger = LogFactory.getLog(ProductAlgorithm.class);
+public class ProductComposer {
+    private static final Log logger = LogFactory.getLog(ProductComposer.class);
     protected transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     
     public static final String STATE_OPEN = "sopen";
@@ -68,7 +68,7 @@ public class ProductAlgorithm {
 
     EdgeContainer container;
 
-    public ProductAlgorithm(Productline pl) {
+    public ProductComposer(Productline pl) {
         productline = pl;
         nodes.put(pl, new NodeAttr());
         container = pl.getEdgeConatainer();
@@ -484,7 +484,7 @@ public class ProductAlgorithm {
     }
 
     public boolean hasWarning(AbstractAsset node) {
-        return get(node).hasWarning;
+        return  get(node).hasWarning;
     }
 
     public String getWarning(AbstractAsset node) {
