@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.10 2004/05/17 09:17:11 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.11 2004/05/17 12:53:37 garbeam Exp $
  *
  */
 package kobold.server;
@@ -156,7 +156,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			logger.info("Exception during execute()", e);
 			throw e;	
 		}
-		return null;
+		return "NO_RESULT";
 	}
 
 	/**

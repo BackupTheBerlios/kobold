@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.9 2004/05/17 09:26:43 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.10 2004/05/17 12:53:29 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -30,6 +30,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -96,7 +98,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public void logout(UserContext userContext) {
 		Vector v = new Vector();
-		v.add(userContext);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
 			Object result = client.execute("logout", v);
 		} catch (Exception exception) {
@@ -111,10 +113,15 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public List getRoles(UserContext userContext) {
 		Vector v = new Vector();
-		v.add(userContext);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
-			Object result = client.execute("getRoles", v);
-			return (List)result;
+			List list = (List)client.execute("getRoles", v);
+			List result = new ArrayList();
+			for (Iterator it = result.iterator(); it.hasNext(); ) {
+				Element element = RPCMessageTransformer.decode((String) it.next());
+				result.add(Role.createRole(element));
+			}
+			return result;
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -134,7 +141,7 @@ public class SecureKoboldClient implements IKoboldServer {
 									String password, String realName)
 	{
 		Vector v = new Vector();
-		v.add(userContext);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(userName);
 		v.add(password);
 		v.add(realName);
@@ -153,11 +160,11 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public Productline getProductline(UserContext userContext, String plName) {
 		Vector v = new Vector();
-		v.add(userContext);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(plName);
 		try {
 			Object result = client.execute("getProductline", v);
-			return (Productline)result;
+			return new Productline(RPCMessageTransformer.decode((String)result));
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -172,11 +179,11 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public Product getProduct(UserContext userContext, String productName) {
 		Vector v = new Vector();
-		v.add(userContext);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(productName);
 		try {
 			Object result = client.execute("getProduct", v);
-			return (Product)result;
+			return new Product(RPCMessageTransformer.decode((String)result));
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -190,8 +197,8 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public void addProduct(UserContext userContext, Product product) {
 		Vector v = new Vector();
-		v.add(userContext);
-		v.add(product);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(RPCMessageTransformer.encode(product.serialize()));
 		try {
 			Object result = client.execute("addProduct", v);
 		} catch (Exception exception) {
@@ -207,9 +214,9 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public void addRole(UserContext userContext, String userName, Role role) {
 		Vector v = new Vector();
-		v.add(userContext);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(userName);
-		v.add(role);
+		v.add(RPCMessageTransformer.encode(role.serialize()));
 		try {
 			Object result = client.execute("addRole", v);
 		} catch (Exception exception) {
@@ -225,9 +232,9 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public void removeRole(UserContext userContext, String userName, Role role) {
 		Vector v = new Vector();
-		v.add(userContext);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(userName);
-		v.add(role);
+		v.add(RPCMessageTransformer.encode(role.serialize()));
 		try {
 			Object result = client.execute("removeRole", v);
 		} catch (Exception exception) {
@@ -242,8 +249,8 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public void applyProductlineModifications(UserContext userContext, Productline productline) {
 		Vector v = new Vector();
-		v.add(userContext);
-		v.add(productline);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(RPCMessageTransformer.encode(productline.serialize()));
 		try {
 			Object result = client.execute("applyProductlineModifications", v);
 		} catch (Exception exception) {
@@ -258,8 +265,8 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public void applyProductModifications(UserContext userContext, Product product) {
 		Vector v = new Vector();
-		v.add(userContext);
-		v.add(product);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(RPCMessageTransformer.encode(product.serialize()));
 		try {
 			Object result = client.execute("applyProductModifications", v);
 		} catch (Exception exception) {
@@ -274,7 +281,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public void removeUser(UserContext userContext, String userName) {
 		Vector v = new Vector();
-		v.add(userContext);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(userName);
 		try {
 			Object result = client.execute("removeUser", v);
@@ -291,8 +298,8 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public void sendMessage(UserContext userContext, KoboldMessage koboldMessage) {
 		Vector v = new Vector();
-		v.add(userContext);
-		v.add(koboldMessage);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(RPCMessageTransformer.encode(koboldMessage.serialize()));
 		try {
 			Object result = client.execute("sendMessage", v);
 		} catch (Exception exception) {
@@ -309,10 +316,10 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public KoboldMessage fetchMessage(UserContext userContext) {
 		Vector v = new Vector();
-		v.add(userContext);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
 			Object result = client.execute("fetchMessage", v);
-			return (KoboldMessage)result;
+			return new KoboldMessage(RPCMessageTransformer.decode((String)result));
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -328,8 +335,8 @@ public class SecureKoboldClient implements IKoboldServer {
 	 */
 	public void invalidateMessage(UserContext userContext, KoboldMessage koboldMessage) {
 		Vector v = new Vector();
-		v.add(userContext);
-		v.add(koboldMessage);
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(RPCMessageTransformer.encode(koboldMessage.serialize()));
 		try {
 			Object result = client.execute("invalidateMessage", v);
 		} catch (Exception exception) {
