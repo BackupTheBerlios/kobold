@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.12 2004/08/04 09:45:08 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.13 2004/08/04 15:29:00 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -32,12 +32,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import kobold.client.plam.KoboldProject;
-import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.common.io.RepositoryDescriptor;
 
@@ -54,7 +52,7 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     private KoboldProject project;
     protected Map releasePool = new HashMap();
     protected transient PropertyChangeSupport changeListeners = new PropertyChangeSupport(this); 
-    protected transient List vcmListeners = new LinkedList();
+
     private List metaNodes = new ArrayList();
     private EdgeContainer edgeContainer = new EdgeContainer(this);
     
@@ -104,23 +102,6 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 	public void fireModelChange() 
 	{
 	    changeListeners.firePropertyChange("refresh", false, true);
-	}
-	
-    public void addVCMActionListener(IVCMActionListener l)
-	{
-		vcmListeners.add(l);
-	}
-
-	public void removeVCMActionListener(IVCMActionListener l)
-	{
-		vcmListeners.remove(l);
-	}
-
-	public void refreshResources(IFileDescriptorContainer fdCont)
-	{
-	    for (int i = 0; i < vcmListeners.size(); i++) {
-	        ((IVCMActionListener)vcmListeners.get(i)).refreshFiledescriptors(fdCont);
-	    }
 	}
 	
     /**

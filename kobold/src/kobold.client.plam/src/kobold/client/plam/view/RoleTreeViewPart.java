@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.13 2004/08/03 22:54:09 vanto Exp $
+ * $Id: RoleTreeViewPart.java,v 1.14 2004/08/04 15:29:00 vanto Exp $
  *
  */
 package kobold.client.plam.view;
@@ -183,7 +183,7 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
 				//FIXME
 				if (obj instanceof IFileDescriptorContainer) {
-				    ((IFileDescriptorContainer)obj).getRoot().refreshResources((IFileDescriptorContainer)obj);
+				    ((IFileDescriptorContainer)obj).getRoot().getKoboldProject().refreshResources((IFileDescriptorContainer)obj);
 				}
 			}
 

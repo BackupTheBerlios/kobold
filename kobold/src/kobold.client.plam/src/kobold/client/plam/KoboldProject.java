@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.7 2004/08/03 19:39:20 vanto Exp $
+ * $Id: KoboldProject.java,v 1.8 2004/08/04 15:29:00 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -36,11 +36,14 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.editor.model.ViewModelContainer;
+import kobold.client.plam.listeners.IVCMActionListener;
+import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.ProductlineFactory;
 import kobold.client.plam.model.productline.Productline;
@@ -69,9 +72,6 @@ import org.eclipse.ui.progress.IProgressService;
 
 /**
  * @author Tammo
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class KoboldProject implements IProjectNature, IResourceChangeListener
 {
@@ -92,6 +92,8 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 
 	private Map userPool;
 
+    protected transient List vcmListeners = new LinkedList();
+    
 	/**
      * @see org.eclipse.core.resources.IProjectNature#configure()
      */
@@ -432,6 +434,23 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 			// project does not exist or is not open
 		}
 		return false;
+	}
+
+    public void addVCMActionListener(IVCMActionListener l)
+	{
+		vcmListeners.add(l);
+	}
+
+	public void removeVCMActionListener(IVCMActionListener l)
+	{
+		vcmListeners.remove(l);
+	}
+
+	public void refreshResources(IFileDescriptorContainer fdCont)
+	{
+	    for (int i = 0; i < vcmListeners.size(); i++) {
+	        ((IVCMActionListener)vcmListeners.get(i)).refreshFiledescriptors(fdCont);
+	    }
 	}
 	
 }
