@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineEditPart.java,v 1.11 2004/08/06 11:04:29 vanto Exp $
+ * $Id: ProductlineEditPart.java,v 1.12 2004/09/20 05:39:01 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -43,6 +43,7 @@ import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.productline.Productline;
 
 import org.eclipse.draw2d.ActionEvent;
 import org.eclipse.draw2d.ActionListener;
@@ -68,6 +69,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
@@ -79,7 +81,7 @@ import org.eclipse.ui.PlatformUI;
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductlineEditPart.java,v 1.11 2004/08/06 11:04:29 vanto Exp $
+ * @version $Id: ProductlineEditPart.java,v 1.12 2004/09/20 05:39:01 martinplies Exp $
  */
 public class ProductlineEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
@@ -128,9 +130,15 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
                     Product p = composer.createProduct();
                     Shell shell = getViewer().getControl().getShell();
                     AssetConfigurationDialog dlg = new AssetConfigurationDialog(shell, p);
-                    dlg.open();
-
-                    
+                    int  returnCode = dlg.open();
+                    if (returnCode == 1){
+                        // Cancel pressed
+                        // delete Product
+                        Productline pl = (Productline) p.getParent();
+                        pl.removeProduct(p);
+                        p.setParent(null);
+                        return;
+                    }
 		            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
                     final ArchitectureEditorInput editorInput =
 		                new ArchitectureEditorInput(p);
