@@ -25,7 +25,10 @@
           duckforge-time-managment   <a href="./tutorial/basics_ssh.html">Presentation</a></td>
           </tr>
           <tr>
-            <td>04.02.04</td><td><a href="http://fachschaft.informatik.uni-stuttgart.de/studium/infmisc/">Tracing (Open-Source) Projects with Maven</a> (Tammo van Lessen, Steffen Pingel) [V38.03, 14h]</td>
+            <td>04.02.04</td><td><a
+            href="http://fachschaft.informatik.uni-stuttgart.de/studium/infmisc/">Tracing
+            (Open-Source) Projects with Maven</a> (Tammo van Lessen,
+            Steffen Pingel) [V38.03, 14h] <a href="http://xnap.org/talks/maven.pdf">Presentation</a></td>
           </tr>
           <tr>
             <td>09.02.04</td><td>Design Patterns (Armin Cont, Michael Grosse)</td>
