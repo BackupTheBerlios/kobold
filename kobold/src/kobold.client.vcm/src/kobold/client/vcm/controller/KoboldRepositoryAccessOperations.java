@@ -41,6 +41,10 @@ import kobold.common.data.UserContext;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.io.ScriptDescriptor;
 
+import org.eclipse.core.internal.resources.File;
+import org.eclipse.core.internal.resources.Resource;
+import org.eclipse.core.internal.resources.Workspace;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -50,6 +54,8 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.core.TeamException;
+import org.eclipse.ui.internal.Workbench;
+import org.eclipse.ui.internal.WorkbenchPlugin;
 /**
  * @author schneipk
  *
@@ -62,6 +68,10 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	 */ 
 
 	private static UserContext userContext = null;
+	
+	//Variable to store Release Tag
+	
+	//Variable to store 
 	
 	// RepositoryDescriptor of the current Project
 	private RepositoryDescriptor currentVCMProvider = null;
@@ -212,26 +222,27 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 					currentVCMProvider = productLine.getRepositoryDescriptor();
 					localPath = productLine.getLocalPath().toOSString();
 					setCurrentVCMProvider(productLine.getRepositoryDescriptor());
-//					connection.setLocalPath(localPath);
-//					connection.setRepositoryDescriptor(productLine.getRepositoryDescriptor());
-//					repoDesc.
-//					localPath = productLine
+					connection.setRepositoryDescriptor(productLine.getRepositoryDescriptor());
+
 				}
 				if (assets[i] instanceof Product) {
 					product = (Product) assets[i];
 					localPath = product.getLocalPath().toOSString();
 					currentVCMProvider = product.getRepositoryDescriptor();
 					setCurrentVCMProvider(product.getRepositoryDescriptor());
+					connection.setRepositoryDescriptor(product.getRepositoryDescriptor());
 				}
 				if (assets[i] instanceof Variant) {
 					variant = (Variant) assets[i];
 					localPath = variant.getLocalPath().toOSString();
 					setCurrentVCMProvider(variant.getRemoteRepository()); 					
+					connection.setRepositoryDescriptor(variant.getRemoteRepository());
 				}
 				if (assets[i] instanceof Component) {
 					component = (Component) assets[i];
 					localPath = component.getLocalPath().toOSString();
 					setCurrentVCMProvider(component.getRemoteRepository());
+					connection.setRepositoryDescriptor(component.getRemoteRepository());
 				}			
 				
 				if (currentVCMProvider != null) {
@@ -350,6 +361,28 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			if (connection != null) {
     			connection.setSkriptName(skriptPath.toOSString().concat(CHECKOUT).concat(skriptExtension));
     			initConnection(connection,resources);
+    			if (productLine != null)
+                {
+                    String tmpString[] = new String[argString.length+1];
+                    for (int i = 0; i < argString.length; i++)
+                    {
+                        tmpString[i] = argString[i];
+                    }
+                    java.io.File metainfo = productLine.getLocalPath().append(".productlinemetainfo.xml").toFile();
+                    java.io.File viewdata = productLine.getLocalPath().append(productLine.getName()+".vm").toFile();
+                    
+                    if (viewdata.exists())
+                    {
+                        tmpString[tmpString.length-1] = viewdata.getName();
+                        connection.open(progress, tmpString);
+                    }
+                    argString = tmpString;
+                    if (metainfo.exists())
+                    {
+                        tmpString[tmpString.length-1] = metainfo.getName();
+                    }
+                    System.out.println("lalal");
+                }
     			connection.open(progress, argString);
     			connection.close();	
 			}
