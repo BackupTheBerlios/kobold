@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.6 2004/05/19 22:50:52 vanto Exp $
+ * $Id: WorkflowView.java,v 1.7 2004/06/01 10:58:50 bettina Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -33,6 +33,7 @@ import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.listeners.IProjectChangeListener;
 import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.KoboldMessage;
+import kobold.common.data.*;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.Action;
@@ -74,9 +75,9 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private WorkflowContentProvider contentProvider;
 
 	private Action fetchAction;
-	
+	private Action messageAction;
 	private Action filterAction;
-	
+	private Action coreGroupAction;
 	private Action doubleClickAction;
 	
 	private String[] titles = {null, null, "Subject", "Sender", "Date" };
@@ -162,6 +163,8 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(fetchAction);
+		manager.add(messageAction);
+		manager.add(coreGroupAction);
 		manager.add(new Separator());
 		//manager.add(action2);
 	}
@@ -169,6 +172,8 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(filterAction);
 		manager.add(fetchAction);
+		manager.add(messageAction);
+		manager.add(coreGroupAction);
 		//manager.add(action2);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator("Additions"));
@@ -177,6 +182,8 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(fetchAction);
 		manager.add(filterAction);
+		//manager.add(messageAction);
+		//manager.add(coreGroupAction);
 	}
 
 	private void makeActions() {
@@ -208,6 +215,45 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		filterAction.setText("Filter sent messages");
 		filterAction.setToolTipText("Hide already sent messages from this list");
 		filterAction.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/filter_msg.gif"));
+		
+		messageAction = new Action() {
+			public void run() {
+				WorkflowMessage msg = new WorkflowMessage("TextMail");
+				msg.setStep(1);
+				msg.setSender("druckeba");
+				msg.setReceiver("-");
+				msg.setSubject("-");
+				msg.setMessageText("Enter the data for your mail:");
+				WorkflowItem recipient = new WorkflowItem("", "Recipient: ", WorkflowItem.TEXT);
+				WorkflowItem subject = new WorkflowItem ("", "Subject: ", WorkflowItem.TEXT);
+				msg.addWorkflowControl(recipient);
+				msg.addWorkflowControl(subject);
+				WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
+				wfDialog.open();
+			}
+		};
+		messageAction.setText("New mail");
+		messageAction.setToolTipText("Write a new message");
+		
+		coreGroupAction = new Action() {
+			public void run() {
+				WorkflowMessage msg = new WorkflowMessage("Core Group Suggestion");
+				msg.setStep(1);
+				msg.setSender("druckeba");
+				msg.setReceiver("PE");
+				msg.setSubject("Core Group Suggestion");
+				msg.setMessageText("Enter the data of the file you want to suggest:");
+				WorkflowItem file = new WorkflowItem("", "File: ", WorkflowItem.TEXT);
+				WorkflowItem path = new WorkflowItem ("", "Path: ", WorkflowItem.TEXT);
+				msg.addWorkflowControl(file);
+				msg.addWorkflowControl(path);
+				WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
+				wfDialog.open();
+				
+			}
+		};
+		coreGroupAction.setText("Suggest file for core group");
+		coreGroupAction.setToolTipText("Suggest a file to be added to a core group");
 	}
 
 	private void hookDoubleClickAction() {
