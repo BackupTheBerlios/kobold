@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.28 2004/11/09 14:57:58 garbeam Exp $
+ * $Id: AbstractAsset.java,v 1.29 2004/11/09 15:17:02 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -257,7 +257,7 @@ public abstract class AbstractAsset implements ISerializable, INode
     {
         AbstractAsset parent = getParent();
  
-        if (this instanceof AbstractRootAsset || parent == null) {
+        if (this instanceof AbstractRootAsset && parent == null) {
             return (AbstractRootAsset)this;
         }
         
