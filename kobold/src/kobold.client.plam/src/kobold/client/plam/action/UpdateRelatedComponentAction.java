@@ -21,61 +21,66 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateRelatedComponentAction.java,v 1.1 2004/10/05 17:56:03 martinplies Exp $
+ * $Id: UpdateRelatedComponentAction.java,v 1.2 2004/10/13 22:41:12 martinplies Exp $
  *
  */
+
+
 package kobold.client.plam.action;
+/**
+ * @author pliesmn
+ *
+ */
 
-import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.model.IFileDescriptorContainer;
-import kobold.client.plam.model.Release;
-import kobold.client.plam.model.product.RelatedComponent;
+import kobold.client.plam.editor.dialog.UpdateRelatedComponentDialog;
+import kobold.client.plam.model.IProductComponentContainer;
 
-import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.actions.ActionDelegate;
 
 
 /**
  * @author pliesmn
+ *
+ * 
  */
-public class UpdateRelatedComponentAction extends Action
-{
-    private Shell shell;
-    private RelatedComponent relComp;
-    
-    public UpdateRelatedComponentAction(Shell shell)
-    {
-        this.shell = shell;
-		setText("add to Product");
-		//setToolTipText("Refresh Resources");
-		//setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/refresh_msg.gif"));
+public class UpdateRelatedComponentAction extends ActionDelegate {
 
-    }
+
+    private IProductComponentContainer productComponentContainer;
     
-    public void run()
-    {
-		if (relComp != null) {		    
-		    relComp.updateRelease();
+
+    public void run(IAction action) {
+        if (productComponentContainer != null) {		    
+            UpdateRelatedComponentDialog urd = new UpdateRelatedComponentDialog(productComponentContainer, new Shell());
+            urd.open();
 		}
     }
     
-    public void handleSelectionChanged(SelectionChangedEvent event)
-    {
-        IStructuredSelection sel = (IStructuredSelection)event.getSelection();
-        Object asset = sel.getFirstElement(); 
-        if (sel.size() == 1 && asset instanceof Release
-            && ((Release) asset).getParent() instanceof RelatedComponent){
-            this.relComp = (RelatedComponent) ((Release) asset).getParent();
-        }else if (sel.size() == 1 && asset instanceof RelatedComponent){
-            this.relComp = (RelatedComponent) asset;
-                setEnabled(false);
-                this.relComp = null;
-        } else {
-            setEnabled(false);
-            this.relComp = null;
-        }
-    }
+    public void selectionChanged(IAction action, ISelection selection) {
 
+        this.productComponentContainer  = null;
+        boolean enable = false;
+        IStructuredSelection sel = (StructuredSelection)selection;
+        Object asset = sel.getFirstElement(); 
+        if (sel.size() == 1 && 
+                asset instanceof IProductComponentContainer){
+            enable = true;
+            this.productComponentContainer = (IProductComponentContainer) asset;
+        } else {
+            enable = false;
+            this.productComponentContainer = null;
+        }
+        
+        
+        if (action != null) {
+            action.setEnabled(enable);
+        }
+     }
+     
+     
 }
