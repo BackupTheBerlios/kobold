@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.1 2004/08/24 10:43:19 garbeam Exp $
+ * $Id: UserManager.java,v 1.2 2004/08/25 10:00:27 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -70,7 +70,7 @@ public class UserManager {
         User user = new User("Username","mismatch"); //the user to be removed
 		
         UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
-        SecureKoboldClient.getInstance().removeUser(ctx, getOneUser(userName));
+        SecureKoboldClient.getInstance().removeUser(ctx, getUser(userName));
 		
 		KoboldProject kp = KoboldPLAMPlugin.getCurrentKoboldProject();
 		kp.updateUserPool();
@@ -78,7 +78,7 @@ public class UserManager {
 	
 	public void changePassword(String oldPassword, String newPassword){
 		    UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
-		    SecureKoboldClient.getInstance().updateUserPassword(ctx, getOneUser(ctx.getUserName()), oldPassword, newPassword);
+		    SecureKoboldClient.getInstance().updateUserPassword(ctx, getUser(ctx.getUserName()), oldPassword, newPassword);
 		    //changing the password at the client
 		    KoboldProject tmpProj = KoboldPLAMPlugin.getCurrentKoboldProject();
 		    tmpProj.setPassword(newPassword);
@@ -87,7 +87,7 @@ public class UserManager {
 	public void updateFullName(String userName, String newName, String password){
 		
 	    UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());        
-        User user = getOneUser(userName);
+        User user = getUser(userName);
         
         user.setFullname(newName);
         
@@ -104,7 +104,7 @@ public class UserManager {
 	/*
 	 * returns one User
 	 */
-	private User getOneUser(String userName){
+	private User getUser(String userName){
         User user = null;
 		
         UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
