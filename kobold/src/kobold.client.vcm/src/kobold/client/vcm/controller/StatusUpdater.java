@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.6 2004/07/15 13:21:10 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.7 2004/07/21 16:09:16 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -63,7 +63,8 @@ public class StatusUpdater {
 	{
 		CVSSererConnection conn = new CVSSererConnection("faceLoc", "fakeUser","fakePswd");
 		//command line command with the stats script to the changed part of the meta-data containing FD(s)
-		String[] command = {"perl", getScriptPath() + "stats.pl", fileDescriptorContainer.getLocalPath().toOSString()};
+		String[] command = {"perl", getScriptPath() + 
+							"stats.pl", fileDescriptorContainer.getLocalPath().toOSString()};
 		try 
 		{
 			conn.open(command);
@@ -85,7 +86,6 @@ public class StatusUpdater {
 	private String getScriptPath ()
 	{
 		KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
-		//TODO:doesn't work??-->nullPointerExc.
 		if (plugin != null)
 		{
 			String tmpLocation = plugin.getBundle().getLocation();
@@ -117,7 +117,7 @@ public class StatusUpdater {
 		java.util.StringTokenizer line = new java.util.StringTokenizer(inputString, "\n");
 		while(line.hasMoreTokens()) 
 		{ 
-		    //for each line
+		    //for each line (divided by tabs)
 		    java.util.StringTokenizer localLine = new java.util.StringTokenizer(inputString, "\t");
 		    while(localLine.hasMoreTokens()) 
 		    { 
@@ -125,11 +125,22 @@ public class StatusUpdater {
 		        //it's a directory
 		        if (line.countTokens() == 1)
 		        {
+		        	//TODO:divide token by "/"(unix) or "\"(windows)
+		        	//first part under windows is "c:", under unix still ""
+		        	//#(tokens) = (tmp a b) --> first two:"/tmp/a" still created, create only b!
+		        	
+		        	//immer über root element gehen:
+		        	//root.getChild(a).addChild(b)
+		        	//-->
+		        	//more good:
+		        	//root-element selects the existing parts automatically
+		        	//and add the last element!
+		        	
 		        	FileDescriptor fd = FileDescriptorHelper.createDirectory(localLine.nextToken());
 		            fileDescriptorContainer.addFileDescriptor (fd);
 		            
 		            //set (overwrite) FDContainer to the added FD --> add FD(s) hierarchy
-		            fileDescriptorContainer = fd;
+		            //fileDescriptorContainer = fd;
 		            
 		        }
 		        //it's a file

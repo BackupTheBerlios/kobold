@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMTest.java,v 1.3 2004/07/15 13:21:10 rendgeor Exp $
+ * $Id: VCMTest.java,v 1.4 2004/07/21 16:09:16 rendgeor Exp $
  *
  */
 package kobold.client.vcm.test;
@@ -29,9 +29,11 @@ package kobold.client.vcm.test;
 
 import junit.framework.TestCase;
 import kobold.client.plam.model.FileDescriptor;
+import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.KoboldVCMPlugin;
+import kobold.client.vcm.communication.CVSSererConnection;
 import kobold.client.vcm.controller.StatusUpdater;
 import kobold.client.vcm.popup.action.KoboldAction;
 
@@ -83,4 +85,27 @@ public class VCMTest extends TestCase {
 	
 
 	}
+	
+	public void testFileDescriptors()
+	{
+		CVSSererConnection conn = new CVSSererConnection("faceLoc", "fakeUser","fakePswd");
+		//command line command with the stats script to the changed part of the meta-data containing FD(s)
+		String[] command = {"perl",	"/home/rendgeor/workspace/kobold.client.vcm/scripts/stats.pl",
+							"/home/rendgeor/workspace/kobold.common"};
+		try 
+		{
+			conn.open(command);
+			String iString = conn.getInputStream().toString();
+			//parse the string
+			//!parseInputString(fileDescriptorContainer, iString);
+		
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+		
 }

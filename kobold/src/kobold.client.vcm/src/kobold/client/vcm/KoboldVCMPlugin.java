@@ -63,12 +63,7 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	 */
 	//TODO: ensure that a plugin instance exist!!
 	public static KoboldVCMPlugin getDefault() {
-		if (plugin != null)
-		{
 			return plugin;
-		}
-		//else
-		return null;
 	}
 
 	/**
