@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantNode.java,v 1.4 2004/04/21 15:57:09 memyselfandi Exp $
+ * $Id: VariantNode.java,v 1.5 2004/04/27 09:29:12 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
@@ -61,5 +61,6 @@ public class VariantNode extends AbstractNode
 		
 				setType(type);		
 	}
+	
 
 }
