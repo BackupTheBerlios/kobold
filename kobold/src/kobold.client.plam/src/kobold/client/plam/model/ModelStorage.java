@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.57 2004/11/17 11:53:16 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.58 2004/11/22 16:12:36 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -96,20 +96,10 @@ public class ModelStorage
                     SAXReader reader = new SAXReader();
                     Document document = reader.read(in);
                     pl = new Productline(kp, document.getRootElement());                    
-                    
-                    // TODO: load products
                 } catch (CoreException e) {
-                    // TODO Auto-generated catch block
-					logger
-							.error(
-									"loadModel(KoboldProject, kobold.common.data.Productline)",
-									e);
+ 					logger.error( "loadModel(KoboldProject, kobold.common.data.Productline)", e);
                 } catch (DocumentException e) {
-                    // TODO Auto-generated catch block
-					logger
-							.error(
-									"loadModel(KoboldProject, kobold.common.data.Productline)",
-									e);
+					logger.error( "loadModel(KoboldProject, kobold.common.data.Productline)", e);
                 }
             }
         } else {
@@ -154,11 +144,7 @@ public class ModelStorage
             }
             
         } catch (CoreException e) {
-            // TODO Auto-generated catch block
-			logger
-					.error(
-							"createFile(IFile, IProgressMonitor, ByteArrayOutputStream)",
-							e);
+			logger.error( "createFile(IFile, IProgressMonitor, ByteArrayOutputStream)", e);
         } finally {
             monitor.done();
         }
