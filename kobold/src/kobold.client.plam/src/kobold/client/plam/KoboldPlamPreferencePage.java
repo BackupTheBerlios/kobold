@@ -43,11 +43,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class KoboldPlamPreferencePage extends FieldEditorPreferencePage
         implements IWorkbenchPreferencePage {
 
-
-    public static final String TRUST_STORE = "javax.net.ssl.trustStore";
-    public static final String TRUST_STORE_PASSWORD =
-        							"javax.net.ssl.trustStorePassword";
-
     public KoboldPlamPreferencePage() {
         super(GRID);
         setPreferenceStore(KoboldPLAMPlugin.getDefault().getPreferenceStore());
@@ -65,8 +60,8 @@ public class KoboldPlamPreferencePage extends FieldEditorPreferencePage
         store.setDefault(SSLHelper.JAVA_DEBUG, "all");
         store.setDefault(SSLHelper.KEY_STORE, "[your keystore path]");
         store.setDefault(SSLHelper.KEY_STORE_PASSWORD, "[your keystore passphrase]");
-        store.setDefault(TRUST_STORE,"[your truststore path]");
-        store.setDefault(TRUST_STORE_PASSWORD,"[your truststore passphrase]");
+        store.setDefault(SSLHelper.TRUST_STORE,"[your truststore path]");
+        store.setDefault(SSLHelper.TRUST_STORE_PASSWORD,"[your truststore passphrase]");
     }
 
     /**
@@ -85,10 +80,10 @@ public class KoboldPlamPreferencePage extends FieldEditorPreferencePage
 
         addField(new StringFieldEditor(SSLHelper.KEY_STORE_PASSWORD,
                 "Keystore password:", getFieldEditorParent()));
-        	    addField(new FileFieldEditor(TRUST_STORE, "Truststore path:",
+        	    addField(new FileFieldEditor(SSLHelper.TRUST_STORE, "Truststore path:",
         	        getFieldEditorParent()));
 
-        addField(new StringFieldEditor(TRUST_STORE_PASSWORD, "Truststore password:" ,
+        addField(new StringFieldEditor(SSLHelper.TRUST_STORE_PASSWORD, "Truststore password:" ,
             	getFieldEditorParent()));
     }
 

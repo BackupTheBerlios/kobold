@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.19 2004/08/02 23:15:59 vanto Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.20 2004/08/03 13:00:39 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -264,8 +264,8 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 		    props.setProperty(SSLHelper.JAVA_DEBUG, getPluginPreferences().getString(SSLHelper.JAVA_DEBUG));
 		    props.setProperty(SSLHelper.KEY_STORE, getPluginPreferences().getString(SSLHelper.KEY_STORE));
 		    props.setProperty(SSLHelper.KEY_STORE_PASSWORD, getPluginPreferences().getString(SSLHelper.KEY_STORE_PASSWORD));
-		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE, getPluginPreferences().getString(KoboldPlamPreferencePage.TRUST_STORE));
-		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE_PASSWORD, getPluginPreferences().getString(KoboldPlamPreferencePage.TRUST_STORE_PASSWORD));
+		    props.setProperty(SSLHelper.TRUST_STORE, getPluginPreferences().getString(SSLHelper.TRUST_STORE));
+		    props.setProperty(SSLHelper.TRUST_STORE_PASSWORD, getPluginPreferences().getString(SSLHelper.TRUST_STORE_PASSWORD));
 		    System.setProperties(props);
         } catch (Exception e) {
 			logger.error("Could not find client configuration",e);

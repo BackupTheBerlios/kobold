@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SSLHelper.java,v 1.1 2004/08/02 16:31:25 garbeam Exp $
+ * $Id: SSLHelper.java,v 1.2 2004/08/03 13:00:39 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -55,7 +55,9 @@ public class SSLHelper
     public static final String JAVA_DEBUG = "javax.net.debug";
     public static final String KEY_STORE = "javax.net.ssl.keyStore";
     public static final String KEY_STORE_PASSWORD = "javax.net.ssl.keyStorePassword";
-  
+    public static final String TRUST_STORE = "javax.net.ssl.trustStore";
+    public static final String TRUST_STORE_PASSWORD = "javax.net.ssl.trustStorePassword";
+
     public static KeyStore getKeyStore() {
         IPreferenceStore preferenceStore = KoboldPLAMPlugin.getDefault().getPreferenceStore();
         KeyStore result = null;

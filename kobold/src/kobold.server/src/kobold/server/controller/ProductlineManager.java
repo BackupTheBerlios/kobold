@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.8 2004/08/02 10:59:46 garbeam Exp $
+ * $Id: ProductlineManager.java,v 1.9 2004/08/03 13:00:51 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -41,7 +41,10 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
+import kobold.common.data.Component;
+import kobold.common.data.Product;
 import kobold.common.data.Productline;
+import kobold.common.data.User;
 import kobold.common.io.RepositoryDescriptor;
 
 /**
@@ -76,6 +79,7 @@ public class ProductlineManager {
 		this.productStore = 
 			System.getProperty("kobold.server.storePath") + 
 			System.getProperty("kobold.server.productStore");
+		deserialize();
 		// DEBUG
 		dummyProds();
 	}
@@ -96,10 +100,11 @@ public class ProductlineManager {
             // Obviously a productline with the name specified in 'productLine
             // already existed, so undo the change and signal error
             productlines.put(productLine.getId(), o);
-            return false;
+            serialize();
+            return true;
         }
         else{
-            return true;
+            return false;
         }
 	}
 
@@ -217,10 +222,27 @@ public class ProductlineManager {
 	// DEBUG, TODO: delete before delivery
 	public void dummyProds() {
 		
-	    addProductline(new Productline("kobold2", "kobold2",
-					   new RepositoryDescriptor(
-						RepositoryDescriptor.CVS_REPOSITORY, "ssh",
-						"cvs.berlios.de", "/cvsroot/kobold/", "kobold2")));
+	    Productline pl = new Productline("kobold2", "kobold2",
+		         			   new RepositoryDescriptor(
+				               RepositoryDescriptor.CVS_REPOSITORY, "ssh",
+						       "cvs.berlios.de", "/cvsroot/kobold/", "kobold2"));
+	    
+	    kobold.server.data.User vanto = UserManager.getInstance().getUser("vanto");
+		pl.addMaintainer(new User(vanto.getUserName(), vanto.getFullName()));
+		
+		Product product = new Product(pl, "hallo", "hallo", new RepositoryDescriptor(
+				               RepositoryDescriptor.CVS_REPOSITORY, "ssh",
+						       "cvs.berlios.de", "/cvsroot/kobold/", "kobold2/hallo"));
+		
+		kobold.server.data.User garbeam = UserManager.getInstance().getUser("garbeam");
+		product.addMaintainer(new User(garbeam.getUserName(), garbeam.getFullName()));
+		
+		pl.addProduct(product);
+
+		Component comp = new Component(pl, "lala", "lala",  new RepositoryDescriptor(
+	               RepositoryDescriptor.CVS_REPOSITORY, "ssh",
+			       "cvs.berlios.de", "/cvsroot/kobold/", "kobold2/hallo"));
+		
 		addProductline(new Productline("kobold3", "kobold3",
 				       new RepositoryDescriptor(
 		                RepositoryDescriptor.CVS_REPOSITORY,
