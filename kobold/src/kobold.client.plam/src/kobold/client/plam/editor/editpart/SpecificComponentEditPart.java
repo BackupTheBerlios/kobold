@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponentEditPart.java,v 1.2 2004/08/06 10:50:58 vanto Exp $
+ * $Id: SpecificComponentEditPart.java,v 1.3 2004/08/06 11:04:29 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -47,6 +47,12 @@ public class SpecificComponentEditPart extends AbstractAssetEditPart
 		figure.setTitle(getAsset().getName());
     
         return figure;
+    }
+    
+    protected void refreshVisuals()
+    {
+        super.refreshVisuals();
+        figure.setTitle((getAsset().getName() == null) ? "" : getAsset().getName());
     }
 
 }

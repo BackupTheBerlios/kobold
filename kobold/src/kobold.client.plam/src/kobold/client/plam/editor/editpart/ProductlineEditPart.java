@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineEditPart.java,v 1.10 2004/08/06 10:50:58 vanto Exp $
+ * $Id: ProductlineEditPart.java,v 1.11 2004/08/06 11:04:29 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -31,6 +31,8 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import kobold.client.plam.KoboldConstants;
+import kobold.client.plam.editor.ArchitectureEditorInput;
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
@@ -68,13 +70,16 @@ import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 
 /**
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductlineEditPart.java,v 1.10 2004/08/06 10:50:58 vanto Exp $
+ * @version $Id: ProductlineEditPart.java,v 1.11 2004/08/06 11:04:29 vanto Exp $
  */
 public class ProductlineEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
@@ -124,6 +129,17 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
                     Shell shell = getViewer().getControl().getShell();
                     AssetConfigurationDialog dlg = new AssetConfigurationDialog(shell, p);
                     dlg.open();
+
+                    
+		            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+                    final ArchitectureEditorInput editorInput =
+		                new ArchitectureEditorInput(p);
+		            try {
+                        page.openEditor(editorInput, KoboldConstants.ID_ARCH_EDITOR, true);
+                    } catch (PartInitException e) {
+                        e.printStackTrace();
+                    }
+
                 }
                 
             }

@@ -21,16 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponentEditPart.java,v 1.2 2004/08/06 10:50:58 vanto Exp $
+ * $Id: RelatedComponentEditPart.java,v 1.3 2004/08/06 11:04:29 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
-import kobold.client.plam.editor.KoboldColors;
+import kobold.client.plam.editor.figure.RelatedComponentFigure;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.RectangleFigure;
 
 
 /**
@@ -38,17 +36,22 @@ import org.eclipse.draw2d.RectangleFigure;
  */
 public class RelatedComponentEditPart extends AbstractAssetEditPart
 {
-
+    private RelatedComponentFigure figure;
+    
     /**
      * @see kobold.client.plam.editor.editpart.AbstractAssetEditPart#createNodeFigure()
      */
     protected IFigure createNodeFigure()
     {
-        RectangleFigure f = new RectangleFigure();
-        f.setBackgroundColor(KoboldColors.orMeta);
-        f.add(new Label("Related Component"));
-        return f;
-
+        figure = new RelatedComponentFigure();
+		figure.setTitle(getAsset().getName());
+    
+        return figure;
     }
 
+    protected void refreshVisuals()
+    {
+        super.refreshVisuals();
+        figure.setTitle((getAsset().getName() == null) ? "" : getAsset().getName());
+    }
 }
