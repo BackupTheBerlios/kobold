@@ -178,22 +178,21 @@
 
 	/**
 	 * Rule No.5
-	 * sends a message on login
+	 * sends a message when a new user is added
 	 */
-	 <rule name="Login Message">
+	 <rule name="New User Message">
         <parameter identifier="spy">
             <java:class>kobold.common.data.RPCSpy</java:class>
         </parameter>
-        <java:condition>(spy.getMethodName().equals("login"))</java:condition>
+        <java:condition>(spy.getMethodName().equals("addUser"))</java:condition>
         <java:consequence>
             kobold.common.data.KoboldMessage answer = new kobold.common.data.KoboldMessage();
 			answer.setSender("Kobold");
-			answer.setSubject("new login");
+			answer.setSubject("new user");
 			java.util.Vector args = spy.getArguments();
-			answer.setMessageText("The user " + args.get(0) + " has logged into Kobold.");
+			answer.setMessageText("The user " + args.get(1) + " has been added to Kobold.");
 			//send out the message to all users
 			java.util.List users = kobold.server.controller.UserManager.getInstance().getAllUsers();
-			java.util.List userssent = new java.util.ArrayList();
 			java.util.Iterator iterator = users.iterator();
 			while (iterator.hasNext()) {
 			    kobold.common.data.User user = (kobold.common.data.User)iterator.next();
@@ -201,10 +200,8 @@
 			    if (!(answer.getReceiver().equals(args.get(0)))) { 
 			    	System.out.println(answer.getReceiver());
 					kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
-					userssent.add(args.get(0));
 				}
 			}
-			
         </java:consequence>
     </rule>
 
