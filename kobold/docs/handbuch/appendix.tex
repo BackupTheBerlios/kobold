@@ -1,0 +1,1963 @@
+\chapter{Source Code}
+\section{IKoboldServer}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: IKoboldServer.java,v 1.14 2004/07/21 17:07:36 garbeam Exp $
+ *
+ */
+
+package kobold.common.controller;
+
+import java.util.Vector;
+
+import kobold.common.data.AbstractKoboldMessage;
+import kobold.common.data.Component;
+import kobold.common.data.Product;
+import kobold.common.data.Productline;
+import kobold.common.data.User;
+import kobold.common.data.UserContext;
+
+/**
+ * This class acts as an interface between kobold clients and a
+ * kobold server.
+ */
+public interface IKoboldServer {
+	
+	public static final String NO_RESULT = "NO_RESULT";
+
+	/**
+	 * Login handler.
+	 * @param userName the username.
+	 * @param password the plain text password.
+	 * @return UserContext, if the userName and password
+	 * 			  is valid. 
+	 */
+    public UserContext login(String userName, String password);
+
+	/**
+	 * Logout handler.
+	 * Invalidates the given user context.
+	 * @param userContext the user context.
+	 */
+    public void logout(UserContext userContext);
+	
+	/**
+	 * Adds an new user to the server.
+	 * @param userContext the user context of the valid creator of the
+	 * 			  new user (if the new user is a P, than the userContext
+	 * 			  must be at least a PE).
+	 * @param userName the user name.
+	 * @param password the password.
+	 * @param fullName the full name.
+	 */
+	public void addUser(UserContext userContext,
+									String userName,
+									String password,
+									String fullName);
+		
+    /**
+     * Get list of all users.
+     * @param userContext
+     */
+    public Vector getAllUsers(UserContext userContext);
+    
+	/**
+     * Applies modifications to the specified user fullname.
+	 * @param userContext the user context
+	 * @param user the user name
+	 * @param password the decrypted user password verification
+     */
+    public void updateUserFullName(UserContext userContext,
+    					           User user, String password);
+
+	/**
+     * Applies modifications to the specified user password.
+	 * @param userContext the user context
+	 * @param user the user name
+	 * @param oldPassword the old password
+	 * @param newPassword the new password
+     */
+    public void updateUserPassword(UserContext userContext,
+    					   		   User user, String oldPassword,
+    					   		   String newPassword);
+
+	/**
+     * Removes the specified user.
+     * @param userContext the user context.
+     * @param user the user to remove.
+     */
+    public void removeUser(UserContext userContext, User user);
+
+    /**
+     * Fetches a productline by its name.
+     * @param userContext the user context.
+     * @param plName the name of the productline.
+     * @return the product line.
+     */
+    public Productline getProductline(UserContext userContext, String plName);
+
+    /**
+     * Fetches all product line names.
+     * @param userContext the user context.
+     * @return {@see java.util.List} of the productline names.
+     */
+    public Vector getProductlineNames(UserContext userContext);
+
+    /**
+	 * Applies modifications to the given Productline.
+	 * If you make changes to a specific product or component,
+	 * use the specific method instead.
+	 * @param userContext the user context.
+	 * @param productline the productline. 
+	 */
+	public void updateProductline(UserContext userContext,
+								  Productline productline);
+    
+	/**
+	 * Applies modifications to the given Product.
+	 * If you make changes to a specific component, use the
+	 * applComponentModification() method instead.
+	 * @param userContext the user context.
+	 * @param productlineName th
+	 * @param product the product. 
+	 */
+	public void updateProduct(UserContext userContext,
+							  String productlineName,
+							  Product product);
+    
+	/**
+	 * Applies modifications to the given Component.
+	 * @param userContext the user context.
+	 * @param product the product. 
+	 */
+	public void updateComponent(UserContext userContext,
+	        					String productlineName,
+								String productName,
+								Component component);
+	
+	/**
+	 * Sends a KoboldMessage or WorkflowMessage.
+	 * 
+	 * @param userContext the user context.
+	 * @param koboldMessage the message.
+	 */
+	public void sendMessage(UserContext userContext,
+							AbstractKoboldMessage koboldMessage);
+	
+	
+	/**
+	 * Fetches a single KoboldMessage. Should be put to a queue.
+	 * Note: to remove the message from Servers message queue,
+	 * it has to be invalidated using invalidateMessage!
+	 * 
+	 * @param userContext the user context.
+	 */
+	public AbstractKoboldMessage fetchMessage(UserContext userContext);
+	
+
+	/**
+	 * Invalidates the specified message. This method will remove the message
+	 * from Servers message queue.
+	 * 
+	 * @param userContext the user context.
+	 * @param koboldMessage the message.
+	 */
+	public void invalidateMessage(UserContext userContext,
+								  AbstractKoboldMessage koboldMessage);
+}
+\end{verbatim}
+\section{AbstractKoboldMessage}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: AbstractKoboldMessage.java,v 1.3 2004/05/18 19:13:06 vanto Exp $
+ *
+ */
+package kobold.common.data;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
+/**
+ * @author garbeam
+ */
+public abstract class AbstractKoboldMessage implements ISerializable {
+
+	private static final Log logger = LogFactory.getLog(AbstractKoboldMessage.class);
+	private DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSZ");
+	
+	/** this field must be changed if you subclass this class */
+	
+	public static final String STATE_UN_FETCHED = "UN_FETCHED"; 
+	public static final String STATE_FETCHED = "FETCHED";
+	public static final String STATE_INVALID = "INVALID";
+	
+	public static final String PRIORITY_HIGH = "high";
+	public static final String PRIORITY_NORMAL = "normal";
+	public static final String PRIORITY_LOW = "low";
+	
+	private String sender;
+	private String receiver;
+	private String messageText;
+	private Date date = new Date();
+	private String priority = PRIORITY_NORMAL;
+	private String subject;
+	private String id;
+	private String state = STATE_UN_FETCHED;
+
+	/**
+	 * Creates a new Kobold Message.
+	 * Use this constructor to use a seperate id pool for the given type.
+	 * @param idtype
+	 */
+	protected AbstractKoboldMessage(String idtype)
+	{
+		id = IdManager.getInstance().getMessageId(idtype);
+	}
+
+	/**
+	 * Returns the state.
+	 * @return state.
+	 */
+	public String getState() {
+		return state;	
+	}
+	
+	/**
+	 * @return
+	 */
+	public Date getDate() {
+		return date;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getId() {
+		return id;
+	}
+
+	public abstract String getType(); 
+	
+	/**
+	 * @return
+	 */
+	public String getMessageText() {
+		return messageText;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getPriority() {
+		return priority;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getReceiver() {
+		return receiver;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getSender() {
+		return sender;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getSubject() {
+		return subject;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	/**
+	 * @param i
+	 */
+	protected void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setMessageText(String string) {
+		messageText = string;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setPriority(String string) {
+		priority = string;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setReceiver(String string) {
+		receiver = string;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setSender(String string) {
+		sender = string;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setSubject(String string) {
+		subject = string;
+	}
+
+	/**
+	 * Serializes this object to an xml element and adds it to the given root.
+	 * @param root
+	 */
+	public Element serialize() {
+		Element xmsg = DocumentHelper.createElement("message");
+		xmsg.addAttribute("type", getType());
+		xmsg.addAttribute("id", id);
+		xmsg.addAttribute("priority", priority);
+		xmsg.addAttribute("state", state);
+		
+		if (sender != null) {
+		    xmsg.addElement("sender").setText(sender);
+		}
+		
+		if (receiver != null) {
+		    xmsg.addElement("receiver").setText(receiver);
+		}
+
+		xmsg.addElement("date").setText(dateFormat.format(date));
+
+		if (subject != null) {
+		    xmsg.addElement("subject").setText(subject);
+        } 
+		
+		if (messageText != null) {
+		    xmsg.addCDATA(messageText);
+		}	
+		
+		return xmsg;
+	}
+
+	/**
+	 * Deserializes message 
+	 */
+	public void deserialize(Element data) {
+		id = data.attributeValue("id");
+		priority = data.attributeValue("priority");
+		state = data.attributeValue("state");
+				
+		sender = data.elementTextTrim("sender");
+		receiver = data.elementTextTrim("receiver");
+		
+		// fall back on parse error
+		date = new Date();
+		try {
+			date = dateFormat.parse(data.elementTextTrim("date"));
+		} catch (ParseException e) {
+			logger.debug("Could not parse date.", e);
+		}
+
+		subject = data.elementTextTrim("subject");
+
+		messageText = data.getTextTrim();
+	}
+
+
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals(Object obj) 
+	{
+		if (!(obj instanceof AbstractKoboldMessage)) 
+			return false;
+		return ((AbstractKoboldMessage)obj).getId().equals(getId());
+	}
+
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode() 
+	{
+		return getId().hashCode();
+	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() 
+	{
+		StringBuffer sb = new StringBuffer(getClass().getName());
+		sb.append("\n\t[id:       " + getId() + "]\n");
+		sb.append("\t[state:   "  + getState() + "]\n");
+		sb.append("\t[sender:   " + getSender() + "]\n");
+		sb.append("\t[receiver: " + getReceiver() + "]\n");
+		sb.append("\t[subject:  " + getSubject() + "]\n");
+		return sb.toString();
+	}
+
+	/**
+	 * Factorymethod to create a Kobold-/Workflow-instance from an dom4j element.
+	 * Checks the type attribute to select the right class, returns null if type
+	 * attribute is not set or has wrong data.
+	 * 
+	 * @param el
+	 * @return
+	 */
+	public static AbstractKoboldMessage createMessage(Element el)
+	{
+		String type = el.attributeValue("type");
+		if (type == null)
+			return null;
+		
+		if (type.equals(KoboldMessage.TYPE)) {
+			return new KoboldMessage(el);
+		}
+		else if (type.equals(WorkflowMessage.TYPE)) {
+			return new WorkflowMessage(el);
+		}
+		else return null;	
+	}
+
+	/**
+	 * Sets the state.
+	 * @param state the state.
+	 */
+	public void setState(String state) {
+		this.state = state;
+	}
+}
+
+\end{verbatim}
+\section{Asset}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: Asset.java,v 1.1 2004/07/05 15:59:32 garbeam Exp $
+ *
+ */
+package kobold.common.data;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import kobold.common.io.RepositoryDescriptor;
+
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
+/**
+ * Base class for architectural elements which are managed by the Kobold Server.
+ * Implements the {@see kobold.common.data.ISerializable} class for client-server
+ * interchange.
+ */
+public class Asset implements ISerializable {
+
+	public static final String COMPONENT = "component";
+	public static final String PRODUCT = "product";
+	public static final String PRODUCT_LINE = "productline";
+	
+	// name of this asset
+	private String name = null;
+	// id of this asset
+	private String id = null;
+	// type of this asset
+	private String type = null;
+	// repository location of this asset
+	private RepositoryDescriptor repositoryDescriptor = null;
+	// maintainers of this asset
+	private List maintainer = new ArrayList();
+	// parent asset
+	private Asset parent = null;
+	
+	/**
+	 * Base constructor for server side assets.
+	 * @param parent of this asset, if <code>null</code> this
+	 * 		  asset is the root.
+	 * @param type the type of this asset, must be a value of the
+	 * 		  static final members of this class.
+	 * @param id a unique id of this asset.
+	 * @param name
+	 * @param repositoryDescriptor
+	 */
+	public Asset(Asset parent, String type, String name,
+			     RepositoryDescriptor repositoryDescriptor)
+	{
+		this.parent = parent;
+		this.type = type;
+		this.name = name;
+		this.repositoryDescriptor = repositoryDescriptor;
+	
+		this.id = IdManager.getInstance().getAssetId(name);
+	}
+
+	/**
+	 * DOM constructor for deserialization.
+	 */
+	public Asset(Asset parent, Element element) {
+		this.parent = parent;
+		deserialize(element);
+	}
+	
+	/**
+	 * Serializes this asset.
+	 */
+	public Element serialize() {
+		Element element = DocumentHelper.createElement(type);
+		element.addAttribute("id", this.id);
+		element.addAttribute("name", this.name);
+		if (parent != null) {
+			element.addAttribute("parent-id", parent.getId());
+		}
+		element.add(repositoryDescriptor.serialize());
+		Element maintainerElements = element.addElement("maintainers");
+		for (Iterator iterator = maintainer.iterator(); iterator.hasNext(); ) {
+			User user = (User) iterator.next();
+			maintainerElements.add(user.serialize());
+		}
+		return element;
+	}
+
+	/**
+	 * Deserializes this asset.
+	 */
+	public void deserialize(Element element) {
+		this.type = element.getName();
+		this.id = element.attributeValue("id");
+		this.name = element.attributeValue("name");
+		this.repositoryDescriptor =
+			new RepositoryDescriptor(element.element("repository-descriptor"));
+		Element maintainerElements = element.element("maintainers");
+		for (Iterator iterator = maintainerElements.elementIterator("maintainer");
+		     iterator.hasNext(); )
+		{
+			Element elem = (Element) iterator.next();
+			maintainer.add(new User(elem));
+		}
+	}
+
+	/**
+	 * Returns the id of this asset.
+	 */
+	public String getId() {
+		return id;
+	}
+	
+	/**
+	 * Returns a list of all maintainer.
+	 */
+	public List getMaintainers() {
+		return maintainer;
+	}
+	
+	/**
+	 * Adds new maintainer.
+	 * @param user the maintainer.
+	 */
+	public void addMaintainer(User user) {
+		maintainer.add(user);
+	}
+	
+	/**
+	 * Removes maintainer.
+	 * @param user the maintainer.
+	 */
+	public void removeMaintainer(User user) {
+		maintainer.remove(user);
+	}
+	
+	/**
+	 * Returns the name of this asset.
+	 */
+	public String getName() {
+		return name;
+	}
+	
+	/**
+	 * Returns the parent asset.
+	 */
+	public Asset getParent() {
+		return parent;
+	}
+	
+	/**
+	 * Sets the parent.
+	 * @parent parent the parent asset.
+	 */
+	public void setParent(Asset parent) {
+		this.parent = parent;
+	}
+	
+	/**
+	 * Returns the repositoryDescriptor.
+	 */
+	public RepositoryDescriptor getRepositoryDescriptor() {
+		return repositoryDescriptor;
+	}
+	
+	/**
+	 * Returns the type.
+	 */
+	public String getType() {
+		return type;
+	}
+}
+\end{verbatim}
+\section{Component}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: Component.java,v 1.1 2004/07/05 15:59:32 garbeam Exp $
+ *
+ */
+
+package kobold.common.data;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import kobold.common.io.RepositoryDescriptor;
+
+import org.dom4j.Element;
+
+/**
+* Represents a server-side component. If the parent is a productline this class
+* represents a server-side coreasset. Used for client-server interchange. 
+ */
+public class Component extends Asset {
+
+	private List components = new ArrayList();
+	
+	/**
+	 * Basic constructor.
+	 * @param parent the parent asset, e.g. a product or productline.
+	 * @param name the name of this component.
+	 * @param repositoryDescriptor the repository descriptor of this
+	 * 		  component.
+	 */
+	public Component(Asset parent, String name, RepositoryDescriptor repositoryDescriptor) {
+		super(parent, Asset.COMPONENT, name, repositoryDescriptor);
+	}
+	
+	/**
+	 * DOM constructor.
+	 * @param parent the parent of this component.
+	 * @param element the DOM element representing this component.
+	 */
+	public Component (Asset parent, Element element) {
+		super (parent, element);
+		deserialize(element);
+	}
+	
+	/**
+	 * Adds new component to this product.
+	 * @param component the component.
+	 */
+	public void addComponent(Component component) {
+		components.add(component);
+	}
+
+	/**
+	 * Removes an existing component from this product.
+	 * @param component the component.
+	 */
+	public void removeComponent(Component component) {
+		components.remove(component);
+	}
+	
+	/**
+	 * Serializes this component.
+	 */
+	public Element serialize() {
+		Element element = super.serialize();
+
+		Element compElements = element.addElement("components");
+		for (Iterator iterator = components.iterator(); iterator.hasNext();) {
+			Component component = (Component) iterator.next();
+			compElements.add(component.serialize());
+		}
+		
+		return element;
+	}
+
+	/**
+	 * Deserializes this product.
+	 * @param productName
+	 */
+	public void deserialize(Element element) {
+		Element compElements = element.element("components");
+		
+		for (Iterator iterator = compElements.elementIterator(Asset.COMPONENT);
+			 iterator.hasNext(); )
+		{
+			Element elem = (Element) iterator.next();
+			components.add(new Component(this, elem));
+		}
+	}
+}
+
+\end{verbatim}
+\section{IdManager}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: IdManager.java,v 1.5 2004/07/05 15:59:32 garbeam Exp $
+ *
+ */
+package kobold.common.data;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author Tammo van Lessen
+ */
+public class IdManager 
+{
+
+	private static final IdManager instance = new IdManager();
+	private Map idByModelName = new HashMap();
+	private Map idByScriptName = new HashMap();
+	private Map idByUserName = new HashMap();
+	private Map idByMessageType = new HashMap();
+	private Map idByGXLGraphName = new HashMap();
+	private Map idByAssetName = new HashMap();
+	
+	private IdManager() {}
+	
+	public static IdManager getInstance() 
+	{
+		return instance;
+	}
+	
+	public String getGXLGraphId(String name){
+		return createId(idByGXLGraphName, name);
+	}
+
+	public String getModelId(String name) 
+	{
+		return createId(idByModelName, name);
+	}
+
+	public String getScriptId(String name) 
+	{
+		return createId(idByScriptName, name);
+	}
+	
+	public String getSessionId(String name)	{
+		return createId(idByUserName, name);
+	}
+
+	public String getMessageId(String name)	{
+		return createId(idByMessageType, name);
+	}
+	
+	public String getAssetId(String name) {
+		return createId(idByAssetName, name);
+	}
+
+	private String createId(Map idPool, String name) {
+		Integer count = (Integer) idPool.get(name);
+		if (count == null) {
+			idPool.put(name, new Integer(1));
+			return name;
+		}
+		String id = name + count.toString();
+		idPool.put(name, new Integer(count.intValue() + 1));
+
+		return id;
+	}
+}
+
+\end{verbatim}
+\section{KoboldMessage}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: KoboldMessage.java,v 1.12 2004/05/18 18:47:33 vanto Exp $
+ *
+ */
+package kobold.common.data;
+
+import org.dom4j.Element;
+
+/**
+ * @author Tammo
+ */
+public class KoboldMessage extends AbstractKoboldMessage 
+{
+    public static final String TYPE = "kobold";
+    
+	/**
+	 * Creates a new Kobold Message with a new unique id. (type = kmesg).
+	 */
+	public KoboldMessage()
+	{
+		super("kmesg");
+	}
+
+	/**
+	 * Unmarshals a Kobold Message.
+	 * @param data
+	 */
+	public KoboldMessage(Element data)
+	{
+		this();
+		super.deserialize(data);
+	}
+
+    /**
+     * @see kobold.common.data.AbstractKoboldMessage#getType()
+     */
+    public String getType()
+    {
+   		return KoboldMessage.TYPE;
+    }
+
+}
+
+\end{verbatim}
+\section{Product}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: Product.java,v 1.10 2004/07/05 15:59:32 garbeam Exp $
+ *
+ */
+
+package kobold.common.data;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import kobold.common.io.RepositoryDescriptor;
+import kobold.common.data.Productline;
+
+import org.dom4j.Element;
+
+/**
+ * Represents a server side product. Used for client-server interchange.
+ */
+public class Product extends Asset {
+
+	private List components = new ArrayList();
+	
+	/**
+	 * Basic constructor.
+	 * @param productline the parent productline.
+	 * @param name the name of this product.
+	 * @param repositoryDescriptor the repository descriptor of this product.
+	 */
+	public Product (Productline productline, String name, RepositoryDescriptor repositoryDescriptor) {
+		super(productline, Asset.PRODUCT, name, repositoryDescriptor);
+	}
+	
+	/**
+	 * DOM constructor.
+	 * @param productline the parent productline.
+	 * @param the DOM element representing this asset.
+	 */
+	public Product (Productline productline, Element element) {
+		super(productline, element);
+		deserialize(element);
+	}
+	
+	/**
+	 * Returns all components of this product.
+	 */
+	public List getComponents() {
+		return components;
+	}
+	
+	/**
+	 * Adds new component to this product.
+	 * @param component the component.
+	 */
+	public void addComponent(Component component) {
+		components.add(component);
+	}
+
+	/**
+	 * Removes an existing component from this product.
+	 * @param component the component.
+	 */
+	public void removeComponent(Component component) {
+		components.remove(component);
+	}
+
+	/**
+	 * Serializes this product.
+	 */
+	public Element serialize() {
+		Element element = super.serialize();
+		
+		Element compElements = element.addElement("components");
+		for (Iterator iterator = components.iterator(); iterator.hasNext(); ) {
+			Component component = (Component) iterator.next();
+			compElements.add(component.serialize());
+		}
+		
+		return element;
+	}
+	
+	/**
+	 * Deserializes this product. It's asserted that super deserialization
+	 * is already finished.
+	 * @param element the DOM element representing this product.
+	 */
+	public void deserialize(Element element) {
+		Element compElements = element.element("components");
+		
+		for (Iterator iterator = compElements.elementIterator(Asset.COMPONENT);
+			 iterator.hasNext(); )
+		{
+			Element elem = (Element) iterator.next();
+			components.add(new Component(this, elem));
+		}
+	}
+}
+
+\end{verbatim}
+\section{Productline}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: Productline.java,v 1.14 2004/07/14 15:55:46 garbeam Exp $
+ *
+ */
+package kobold.common.data;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.dom4j.Element;
+
+import kobold.common.io.RepositoryDescriptor;
+
+
+/**
+ * Represents a server side productline. Used for client-server interchange.
+ */
+public class Productline extends Asset {
+
+	private Map coreassets = new HashMap();
+	private Map products = new HashMap();
+	
+	/**
+	 * Base constructor for productlines.
+	 * @param name the name of this productline.
+	 * @param repositoryDescriptor the repository descriptor.
+	 */
+	public Productline(String name, RepositoryDescriptor repositoryDescriptor) {
+		super(null, Asset.PRODUCT_LINE, name, repositoryDescriptor);
+	}
+
+	/**
+	 * DOM constructor for server-side productlines.
+	 * @param element the DOM element representing this productline.
+	 */
+	public Productline(Element element) {
+		super(null, element);
+		deserialize(element);
+	}
+
+	/**
+	 * Adds new product to this productline.
+	 * @param product the product to add.
+	 */
+	public void addProduct(Product product) {
+		products.put(product.getName(), product);
+		product.setParent(this);
+	}
+	
+	/**
+	 * Gets a product by its name.
+	 * @param productName the product name.
+	 */
+	public Product getProduct(String productName) {
+	    return (Product)products.get(productName);
+	}
+	
+	/**
+	 * Removes existing product from this productline.
+	 * @param product the product to remove.
+	 */
+	public void removeProduct(Product product) {
+		products.remove(product.getName());
+		product.setParent(null);
+	}
+
+	/**
+	 * Adds new core asset to this productline.
+	 * @param coreasset the coreasset to add.
+	 */
+	public void addCoreAsset(Component coreasset) {
+		coreassets.put(coreasset.getName(), coreasset);
+		coreasset.setParent(this);
+	}
+	
+	/**
+	 * Removes existing coreasset from this productline.
+	 * @param coreasset the coreassset to remove.
+	 */
+	public void removeCoreAsset(Component coreasset) {
+		coreassets.remove(coreasset.getName());
+		coreasset.setParent(null);
+	}
+
+	/**
+	 * Serializes this productline.
+	 */
+	public Element serialize() {
+		Element element = super.serialize();
+
+		Element coreassetElements = element.addElement("coreassets");
+		for (Iterator iterator = coreassets.values().iterator(); iterator.hasNext(); ) {
+			Component component = (Component) iterator.next();
+			coreassetElements.add(component.serialize());
+		}
+		
+		Element productElements = element.addElement("products");
+		for (Iterator iterator = products.values().iterator(); iterator.hasNext(); ) {
+			Product product = (Product) iterator.next();
+			productElements.add(product.serialize());
+		}
+
+		return element;
+	}
+
+	/**
+	 * Deserializes this productline. It's asserted that super deserialization
+	 * is already finished.
+	 * @param element the DOM element representing this productline.
+	 */
+	public void deserialize(Element element) {
+		Element coreassetElements = element.element("coreassets");
+		for (Iterator iterator = coreassetElements.elementIterator(Asset.COMPONENT);
+			 iterator.hasNext(); )
+		{
+			Element elem = (Element) iterator.next();
+			Component component = new Component(this, elem);
+			coreassets.put(component.getName(), component);
+		}
+		
+		Element productElements = element.element("products");
+		for (Iterator iterator = coreassetElements.elementIterator(Asset.PRODUCT);
+			 iterator.hasNext(); )
+		{
+			Element elem = (Element) iterator.next();
+			Product product = new Product(this, elem);
+			products.put(product.getName(), product);
+		}
+	}
+}
+\end{verbatim}
+\section{RPCSpy}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: RPCSpy.java,v 1.1 2004/06/23 13:27:26 garbeam Exp $
+ *
+ */
+
+package kobold.common.data;
+
+import java.util.Vector;
+
+/**
+ * Container for RPC call sniffing.
+ */
+public class RPCSpy {
+	
+	private String methodName = null;
+	private Vector arguments = null;
+	
+	/**
+	 * Clones all RPC stuff.
+	 * @param methodName the method which has been invoked.
+	 * @param arguments the argument container.
+	 */
+	public RPCSpy(String methodName, Vector arguments) {
+		this.methodName = methodName;
+		this.arguments = arguments;
+	}
+	
+	/**
+	 * @return Returns the arguments.
+	 */
+	public Vector getArguments() {
+		return arguments;
+	}
+	/**
+	 * @return Returns the methodName.
+	 */
+	public String getMethodName() {
+		return methodName;
+	}
+}
+ 
+\end{verbatim}
+\section{User}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: User.java,v 1.14 2004/07/07 15:40:32 garbeam Exp $
+ *
+ */
+package kobold.common.data;
+
+
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
+
+/**
+ * Provides a user representation on the client side.
+ * 
+ * Implements ISerializable to make the tranport through XMLRPC possible.
+ * 
+ * @author Tammo
+ */
+public class User implements ISerializable
+{
+    private String username;
+    private String fullname;
+    
+    
+    public User(String username, String fullname)
+    {
+        this.username = username;
+        this.fullname = fullname;
+    }
+    
+    public User(Element element) {
+    	deserialize(element);
+    }
+    
+    /**
+     * @param fullname The fullname to set.
+     */
+    public void setFullname(String fullname)
+    {
+        this.fullname = fullname;
+    }
+    
+    /**
+     * @return Returns the fullname.
+     */
+    public String getFullname()
+    {
+        return fullname;
+    }
+    
+    /**
+     * @param username The username to set.
+     */
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+    
+    /**
+     * @return Returns the username.
+     */
+    public String getUsername()
+    {
+        return username;
+    }
+
+    /**
+     * @see kobold.common.data.ISerializable#serialize()
+     */
+    public Element serialize()
+    {
+        Element user = DocumentHelper.createElement("user");
+        if (username != null) {
+            user.addAttribute("username", username);   
+        }
+        
+        if (fullname != null) {
+            user.addAttribute("fullname", fullname);
+        }
+        
+        return user;
+    }
+
+    /**
+     * @see kobold.common.data.ISerializable#deserialize(org.dom4j.Element)
+     */
+    public void deserialize(Element element)
+    {
+       username = element.attributeValue("username");
+       fullname = element.attributeValue("fullname");
+    }
+    
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof User) {
+            return getUsername().equals(((User)obj).getUsername());
+        }
+        return false;
+    }
+    
+    public int hashCode()
+    {
+        return getUsername().hashCode();
+    }
+}
+
+\end{verbatim}
+\section{UserContext}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2004 Armin Cont, Anselm R. Garbe, Bettina Druckenmueller,
+ *                    Martin Plies, Michael Grosse, Necati Aydin,
+ *                    Oliver Rendgen, Patrick Schneider, Tammo van Lessen
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * $Id: UserContext.java,v 1.9 2004/05/18 11:19:27 vanto Exp $
+ */
+
+package kobold.common.data;
+
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
+/**
+ * Base class for user context information (session info).
+ * This class provides information about the current user context
+ * which is the session info.
+ *
+ * @author garbeam
+ */
+public class UserContext implements ISerializable {
+	
+    /**
+     * DOM constructor for user contexts.
+	 * @param element the DOM element represendting this user context.
+	 */
+	public UserContext(Element element) {
+		deserialize(element);
+	}
+
+	// members
+	private String userName;
+	private String sessionId;
+	 
+    /**
+     * Default constructor, which provides basic info
+     * about the user context.
+     * This class could be used to determine more information
+     * about the specific user context from the Kobold server,
+     * e.g. roles, repository access data, etc.
+     *
+     * @param username username of the users (like a Unix username).
+     * @param sessionId the current session Id of the user context.
+     */
+    public UserContext(String userName, String sessionId)
+    {
+        this.userName = userName;
+        this.sessionId = sessionId;
+    }
+
+    /**
+     * @returns the username of this user context.  
+     */
+    public String getUserName() {
+        return this.userName;
+    }
+
+    /**
+     * @returns the session id of this user context.
+     */
+    public String getSessionId() {
+        return this.sessionId;
+    }
+
+	/**
+	 * Sets sessionId.
+	 */
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+	
+	/**
+	 * Serializes this object.
+	 * 
+	 * @return DOM Element representing this object.
+	 */
+	public Element serialize() {
+		Element userContext = DocumentHelper.createElement("usercontext");
+		userContext.addElement("username").addText(this.userName);
+		userContext.addElement("session-id").addText(this.sessionId);
+		return userContext;
+	}
+	
+	/**
+	 * Deserializes this object.
+	 * @param element the DOM element representing this object.
+	 */
+	public void deserialize(Element element) {
+		this.userName = element.elementText("username");
+		this.sessionId = element.elementText("session-id");
+	}
+}
+\end{verbatim}
+\section{WorkflowItem}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: WorkflowItem.java,v 1.7 2004/05/19 16:08:34 martinplies Exp $
+ *
+ */
+package kobold.common.data;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
+/**
+ * @author pliesmn
+ *
+ * A WorkflowItem is a Checkbutton, a Radiobutton or a  single-Line-TextWindow
+ * The data, to display a WorkFlowItem is stored here.  
+ * 
+ */
+public class WorkflowItem {
+
+	public final static String TEXT = "text"; 
+	public final static String CHECK = "check";
+	public final static String RADIO = "radio";
+	public final static String CONTAINER = "container";
+	
+	private String description;
+	private String value; // The Name of the Checkbutton or Textwindow or the value of the Radiobutton 
+	private String type;
+	private List children = new LinkedList();
+	
+	public WorkflowItem(Element data)
+	{
+		deserialize(data);
+	}
+
+	/**
+	 * Creates a new WorkflowItem object.
+	 * 
+	 * There are 4 different kinds of workflow items:
+	 *  <ul>
+	 * 		<li>type = TEXT: value = text in inputarea, description, no children<li> 
+	 * 		<li>type = CHECK: value = "true"|"false", description, no children<li>
+	 * 		<li>type = RADIO: value = "true"|"false", description, must be added to a 
+	 * 			CONTAINER item, no children<li>
+	 * 		<li>type = CONTAINER: value = undefined|null, description, RADIO items as children<li>
+	 * 	</ul>
+	 *    
+	 * @param nameValue
+	 * @param description
+	 * @param type
+	 */
+	public WorkflowItem(String value, String description, String type) {
+		this.value = value;
+		this.description = description;
+		this.type = type;
+	}
+
+	
+	public void addChild(WorkflowItem control)
+	{
+		if (!type.equals(WorkflowItem.CONTAINER))
+			throw new IllegalArgumentException("illegal add");
+		children.add(control);	
+	}
+	
+	
+	public void addChildren(WorkflowItem[] control)
+	{
+		if (!type.equals(WorkflowItem.CONTAINER))
+			throw new IllegalArgumentException("illegal add");
+		for (int itemNr =0; itemNr <  control.length; itemNr++)
+		  children.add(control[itemNr]);	
+	}
+	
+	public WorkflowItem[] getChildren()
+	{
+		return (WorkflowItem[])children.toArray(new WorkflowItem[0]);	
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public String getValue(){
+		return value;
+	}
+	
+	public String getDescription() {
+		return this.description;
+	}
+	
+	public Element serialize()
+	{
+		Element element = DocumentHelper.createElement("control");
+		element.addElement("type").setText(type);
+		element.addElement("description").setText(description);
+		element.addElement("value").setText(value);
+		
+		if (type.equals(WorkflowItem.CONTAINER)) {
+			Element childrenEl = element.addElement("children");
+			Iterator it = children.iterator();
+			while (it.hasNext()) {
+				WorkflowItem wfi = (WorkflowItem)it.next();
+				childrenEl.add(wfi.serialize());
+			}			
+		}		
+		return element;
+	}
+	
+	protected void deserialize(Element data)
+	{
+		type = data.elementTextTrim("type");
+		value = data.elementTextTrim("value");
+		description = data.elementTextTrim("description");
+		
+		Element childrenEl = data.element("children");
+		if (type.equals(WorkflowItem.CONTAINER) && childrenEl != null) {
+			children.clear();
+			Iterator it = childrenEl.elementIterator("control");
+			while (it.hasNext()) {
+				Element control = (Element)it.next();
+				children.add(new WorkflowItem(control));	
+			}
+		}
+	}
+
+	public void setValue(String value) 
+	{
+		this.value = value;
+	}
+	
+}
+
+\end{verbatim}
+\section{WorkflowMessage}
+\small \begin{verbatim}
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: WorkflowMessage.java,v 1.25 2004/06/23 13:27:26 garbeam Exp $
+ *
+ */
+package kobold.common.data;
+import java.util.*;
+
+import org.dom4j.Element;
+
+/**
+ 
+ * @author garbeam
+ * @author vanto
+ */
+public class WorkflowMessage extends AbstractKoboldMessage {
+	
+	public static final String TYPE = "workflow";
+	public static final String DATA_VALUE_TRUE = "TRUE";
+	public static final String DATA_VALUE_FALSE= "FALSE";
+	private String workflowType = new String();
+	private String comment = "";
+	private Set parents = new HashSet();
+	private List controlItems = new LinkedList(); // ArrayList performs much better
+	private HashMap workflowData = new HashMap();
+	private int step;
+
+
+	/**
+	 * Creates a Workflow Message in the 'workflow' id namespace
+	 */
+	public WorkflowMessage(String workflowType)
+	{
+		super(TYPE);
+		this.workflowType = workflowType;
+	}
+	
+	/**
+	 * Creates a Workflow Message and deserializes its data from xml
+	 * 
+	 * @param data a &lt;message&gt; element
+	 */
+	public WorkflowMessage(Element data)
+	{
+		super(TYPE);
+	    deserialize(data);
+	}
+	
+	public void addParentId(String id)
+	{
+		parents.add(id);
+	}
+	
+	public String[] getParentIds()
+	{
+		return (String[])parents.toArray(new String[0]);	
+	}
+	
+	public void addWorkflowControl(WorkflowItem item)
+	{
+		controlItems.add(item);
+	}
+	
+	public WorkflowItem[] getWorkflowControls()
+	{
+		return (WorkflowItem[])controlItems.toArray(new WorkflowItem[0]);
+	}
+	
+	/**
+	 * @return
+	 */
+	public String getComment() {
+		return comment;
+	}
+
+
+	/**
+	 * Sets the Workflow ID. 
+	 * This ID describes, which Workflow should be applied by Drools
+
+	 * @return workflow id
+	 */
+	public String getWorkflowType() {
+		return workflowType;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setComment(String string) {
+		comment = string;
+	}
+
+	/**
+	 * Sets the Workflow ID. 
+	 * This ID describes, which Workflow should be applied by Drools
+	 */
+	public void setWorkflowType(String type) {
+		workflowType = type;
+	}
+	
+	/**
+	 * @return
+	 */
+	public Map getWorkflowData() {
+		return workflowData;
+	}	
+	
+	public void putWorkflowData(String key, String value) {
+		this.workflowData.put(key, value);
+	}	
+	
+	public String getWorkflowDate(String key) {
+		return (String) this.workflowData.get(key);
+	}
+
+	/**
+	 * @see kobold.common.data.KoboldMessage#deserialize(org.dom4j.Element)
+	 */
+	public void deserialize(Element data) 
+	{
+		super.deserialize(data);
+		// TODO check why those slutty variables dont get initialized.
+		//parents = new HashSet();
+		//controlItems = new LinkedList();
+		
+		workflowType = data.elementTextTrim("workflow-id");
+		comment = data.elementTextTrim("comment");
+		step = Integer.valueOf(data.elementTextTrim("step")).intValue();
+
+		Element history = data.element("history");
+		Iterator it = history.elementIterator("parent");
+		
+		while (it.hasNext()) {
+			Element p = (Element)it.next();
+			parents.add(p.getTextTrim());
+		}
+		
+		Element controls = data.element("controls");
+		it = controls.elementIterator("control");
+
+		while (it.hasNext()) {
+			Element c = (Element)it.next();
+			controlItems.add(new WorkflowItem(c));
+		}
+		
+		Element answers = data.element("results");
+		it = answers.elementIterator();
+		
+		while (it.hasNext()) {
+			Element a = (Element) it.next();
+			this.putWorkflowData(a.getName(), a.getTextTrim());
+		}
+
+	}
+
+	public String getType() 
+	{
+		return WorkflowMessage.TYPE;
+	}
+
+	/**
+	 * @see kobold.common.data.KoboldMessage#serialize()
+	 */
+	public Element serialize() 
+	{
+		Element el = super.serialize();
+		el.addElement("workflow-id").setText(workflowType);
+		el.addElement("comment").addCDATA(comment);
+		el.addElement("step").setText(String.valueOf(step));
+		
+		Element hist = el.addElement("history");
+		Iterator it = parents.iterator();
+		while (it.hasNext()) {
+			String id = (String)it.next();
+			hist.addElement("parent").setText(id);
+		}
+		
+		Element controls = el.addElement("controls");
+		it = controlItems.iterator();
+		while (it.hasNext()) {
+			WorkflowItem control = (WorkflowItem)it.next();
+			controls.add(control.serialize());
+		}
+		
+		// store answers
+		Element answers = el.addElement("results");
+		it = workflowData.keySet().iterator();
+		while (it.hasNext()) {
+			String key = (String) it.next();
+			answers.addElement(key).setText((String) workflowData.get(key));
+		}
+		return el;
+	}
+
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("\t[wf-id:    " + getWorkflowType() + "]\n");
+		sb.append("\t[parents:  " + getParentIds().length + "]\n");
+		sb.append("\t[controls: " + getWorkflowControls().length + "]\n");
+
+		return super.toString() + sb.toString(); 
+	}
+	/**
+	 * @return Returns the step.
+	 */
+	public int getStep() {
+		return step;
+	}
+	/**
+	 * @param step The step to set.
+	 */
+	public void setStep(int step) {
+		this.step = step;
+	}
+}   
+   
+
+
+\end{verbatim}
