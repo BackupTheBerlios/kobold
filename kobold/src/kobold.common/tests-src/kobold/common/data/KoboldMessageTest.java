@@ -21,61 +21,62 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IdManager.java,v 1.3 2004/05/14 13:04:31 vanto Exp $
+ * $Id: KoboldMessageTest.java,v 1.1 2004/05/14 13:04:31 vanto Exp $
  *
  */
 package kobold.common.data;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
+
+import junit.framework.Assert;
+import junit.framework.TestCase;
+
+import org.dom4j.Element;
+import org.dom4j.io.XMLWriter;
 
 /**
- * @author Tammo van Lessen
+ * @author Tammo
+ *
  */
-public class IdManager 
-{
+public class KoboldMessageTest extends TestCase {
 
-	private static final IdManager instance = new IdManager();
-	private Map idByModelName = new HashMap();
-	private Map idByScriptName = new HashMap();
-	private Map idByUserName = new HashMap();
-	private Map idByMessageType = new HashMap();
-	
-	private IdManager() {}
-	
-	public static IdManager getInstance() 
+	/**
+	 * Constructor for KoboldMessageTest.
+	 */
+	public KoboldMessageTest() 
 	{
-		return instance;
+		super("Kobold Message Test");
 	}
 
-	public String getModelId(String name) 
+	public void testSerialize() 
 	{
-		return createId(idByModelName, name);
-	}
-
-	public String getScriptId(String name) 
-	{
-		return createId(idByScriptName, name);
-	}
-	
-	public String getSessionId(String name)	{
-		return createId(idByUserName, name);
-	}
-
-	public String getMessageId(String name)	{
-		return createId(idByMessageType, name);
-	}
-
-	private String createId(Map idPool, String name)
-	{
-		Integer count = (Integer) idPool.get(name);
-		if (count == null) {
-			idPool.put(name, new Integer(1));
-			return name;
+		KoboldMessage msg = new KoboldMessage();
+		msg.setDate(new Date());
+		msg.setMessageText("Das ist ein Test");
+		msg.setPriority("high");
+		msg.setReceiver("vanto");
+		msg.setSender("tammo");
+		msg.setSubject("Test");
+		System.out.println(msg);
+		
+		Element ser = msg.serialize();
+		
+		try {
+			XMLWriter w = new XMLWriter(System.out);
+			w.write(ser);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		String id = name + count.toString();
-		idPool.put(name, new Integer(count.intValue() + 1));
-
-		return id;
+		
+		KoboldMessage msg2 = new KoboldMessage(ser);
+		System.out.println(msg2);
+		Assert.assertEquals(msg.getId(), msg2.getId());
+		Assert.assertEquals(msg.getMessageText(), msg2.getMessageText());
+		Assert.assertEquals(msg.getPriority(), msg2.getPriority());
+		Assert.assertEquals(msg.getReceiver(), msg2.getReceiver());
+		Assert.assertEquals(msg.getSender(), msg2.getSender());
+		Assert.assertEquals(msg.getSubject(), msg2.getSubject());
+		Assert.assertEquals(msg.getId(), msg2.getId());
 	}
+
 }

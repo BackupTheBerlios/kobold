@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RolePLE.java,v 1.4 2004/05/05 17:49:54 garbeam Exp $
+ * $Id: RolePLE.java,v 1.5 2004/05/14 13:04:31 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -66,7 +66,7 @@ public class RolePLE extends Role {
 	 * @see kobold.common.data.Role#serialize(org.dom4j.Element)
 	 */
 	public void serialize(Element roles) {
-		Element role = roles.addElement("role").addText("PE");
+		Element role = roles.addElement("role").addText("PLE");
 	}
 	
 	/**
