@@ -1,4 +1,4 @@
-package kobold.util.data;
+package kobold.common.data;
 
 /**
  *

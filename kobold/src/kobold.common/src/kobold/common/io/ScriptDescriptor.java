@@ -21,10 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptDescriptor.java,v 1.1 2004/04/16 11:28:03 garbeam Exp $
+ * $Id: ScriptDescriptor.java,v 1.2 2004/04/16 12:39:46 garbeam Exp $
  *
  */
-package kobold.util.io;
+package kobold.common.io;
 
 /**
  * Base descriptor class for invocation of scripts before and after

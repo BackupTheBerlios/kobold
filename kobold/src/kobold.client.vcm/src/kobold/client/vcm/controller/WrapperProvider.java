@@ -21,10 +21,10 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: WrapperProvider.java,v 1.1 2004/04/16 11:28:04 garbeam Exp $
+ * $Id: WrapperProvider.java,v 1.1 2004/04/16 12:38:45 garbeam Exp $
  */
 
-package kobold.client.controller.vcm;
+package kobold.client.vcm.controller;
 
 import java.lang.String;
 import org.eclipse.team.core.RepositoryProvider;
