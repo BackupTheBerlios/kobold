@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.11 2004/05/18 14:21:41 martinplies Exp $
+ * $Id: NewProjectWizard.java,v 1.12 2004/05/18 14:29:33 martinplies Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -32,6 +32,7 @@ import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProjectNature;
 import kobold.client.plam.PLAMProject;
 import kobold.client.plam.workflow.LocalMessageQueue;
+import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.WorkflowItem;
 import kobold.common.data.WorkflowMessage;
