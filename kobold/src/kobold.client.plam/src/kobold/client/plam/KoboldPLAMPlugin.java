@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.13 2004/07/21 23:06:39 martinplies Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.14 2004/07/22 10:34:47 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -52,6 +52,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.
@@ -85,24 +86,6 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 		} catch (Exception x) {
 		    resourceBundle = null;
 		}
-		
-		// set properties
-		try {
-		    Properties props = new Properties(System.getProperties());
-		    props.setProperty("path", getPluginPreferences().getString("path"));
-		    props.setProperty(KoboldPlamPreferencePage.PROTOKOL_HANDLER, getPluginPreferences().getString(KoboldPlamPreferencePage.PROTOKOL_HANDLER));
-		    props.setProperty(KoboldPlamPreferencePage.JAVA_DEBUG, getPluginPreferences().getString(KoboldPlamPreferencePage.JAVA_DEBUG));
-		    props.setProperty(KoboldPlamPreferencePage.JAVA_SSL, getPluginPreferences().getString(KoboldPlamPreferencePage.JAVA_SSL));
-		    props.setProperty(KoboldPlamPreferencePage.KEY_STORE_PASSWORD, getPluginPreferences().getString(KoboldPlamPreferencePage.KEY_STORE_PASSWORD));
-		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE, getPluginPreferences().getString(KoboldPlamPreferencePage.TRUST_STORE));
-		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE_PASSWORD, getPluginPreferences().getString(KoboldPlamPreferencePage.KEY_STORE_PASSWORD));
-		    props.load(new FileInputStream(System.getProperty("kobold.client.configFile")));
-		    System.setProperties(props);
-        } catch (Exception e) {
-			logger.error("Could not find client configuration",e);
-        }
-		
-
 	}
 
 	/**
@@ -272,4 +255,24 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 		return (getCurrentProjectNature() == null)?null 
 			: getCurrentProjectNature().getMessageQueue(); 
 	}
+	
+    public void start(BundleContext ctx) throws Exception
+    {
+        super.start(ctx);
+		// set properties
+		try {
+		    Properties props = new Properties(System.getProperties());
+		    props.setProperty(KoboldPlamPreferencePage.PROTOKOL_HANDLER, getPluginPreferences().getString(KoboldPlamPreferencePage.PROTOKOL_HANDLER));
+		    props.setProperty(KoboldPlamPreferencePage.JAVA_DEBUG, getPluginPreferences().getString(KoboldPlamPreferencePage.JAVA_DEBUG));
+		    props.setProperty(KoboldPlamPreferencePage.JAVA_SSL, getPluginPreferences().getString(KoboldPlamPreferencePage.JAVA_SSL));
+		    props.setProperty(KoboldPlamPreferencePage.KEY_STORE_PASSWORD, getPluginPreferences().getString(KoboldPlamPreferencePage.KEY_STORE_PASSWORD));
+		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE, getPluginPreferences().getString(KoboldPlamPreferencePage.TRUST_STORE));
+		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE_PASSWORD, getPluginPreferences().getString(KoboldPlamPreferencePage.KEY_STORE_PASSWORD));
+		    props.load(new FileInputStream(System.getProperty("kobold.client.configFile")));
+		    System.setProperties(props);
+        } catch (Exception e) {
+			logger.error("Could not find client configuration",e);
+        }
+
+    }
 }
