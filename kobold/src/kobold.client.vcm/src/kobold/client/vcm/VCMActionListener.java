@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.23 2004/11/09 14:57:59 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.24 2004/11/09 16:24:23 memyselfandi Exp $
  *
  */
 package kobold.client.vcm;
@@ -53,7 +53,9 @@ import kobold.common.data.Asset;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.io.ScriptDescriptor;
 
+import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.internal.resources.ResourceInfo;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -62,6 +64,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException;
 
@@ -168,11 +171,11 @@ public class VCMActionListener implements IVCMActionListener
         ResourceInfo test = null;
         IFolder tmpFolder = null;
         Productline pl = product.getProductline();
+        KoboldProject koboldProject = KoboldPLAMPlugin.getCurrentKoboldProject();
+        IProject project = koboldProject.getProject();
         try
         {
             IWorkspace workspace = ResourcesPlugin.getWorkspace();
-            KoboldProject koboldProject = KoboldPLAMPlugin.getCurrentKoboldProject();
-            IProject project = koboldProject.getProject();
             tmpFolder = project.getFolder("VCMtmp");
             if (!tmpFolder.exists())
             {
@@ -180,7 +183,7 @@ public class VCMActionListener implements IVCMActionListener
             }
             else
             {
-//                tmpFolder.delete(false, null);
+                tmpFolder.delete(false, null);
                 tmpFolder.create(false, true, null);
             }
             
@@ -251,11 +254,30 @@ public class VCMActionListener implements IVCMActionListener
 //                productFolder  = productFolder.makeUNC(true);
                 int removeableSegments = productFolder.matchingFirstSegments(tmpPath);
                 productFolder = productFolder.removeFirstSegments(removeableSegments);
+                productFolder = productFolder.setDevice(null);
                 IResource[] tmpResources = tmpFolder.members();
+               
+                    IPath tmpPath2 = productFolder.addTrailingSeparator().append(release.getName());
+                    
                 for (int i = 0; i < tmpResources.length; i++)
                 {
                     IResource tmpResource = tmpResources[i];
+                    try
+                    {
+                        tmpResource.move(tmpPath2,true,new NullProgressMonitor());
+                    } catch (Exception e)
+                    {
+                        tmpPath2.append(tmpResource.getName()).toFile().delete();
+                        tmpResource.move(tmpPath2,true,new NullProgressMonitor());
+                    }
+                    
 //                    tmpResource.
+                }
+                IFolder addedProductFolder = project.getFolder(productFolder.addTrailingSeparator().append(release.getName()));
+                if (addedProductFolder.exists())
+                {
+                    
+                    addedProductFolder.delete(true,false, null);
                 }
                 tmpFolder.move(productFolder.addTrailingSeparator().append(release.getName()),true, new NullProgressMonitor());
                 
