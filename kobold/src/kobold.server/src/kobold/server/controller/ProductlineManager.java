@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.15 2004/08/10 10:30:35 neccaino Exp $
+ * $Id: ProductlineManager.java,v 1.16 2004/08/11 12:17:25 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -172,6 +172,14 @@ public class ProductlineManager {
     }
 
     /**
+     * @return Iterator over a Collection containing all registered productline
+     *         objects.
+     */
+    public Iterator getProductlineIterator(){
+         return productlines.values().iterator(); 
+    }
+    
+    /**
 	 * Serializes all products and productlines to the file specified
      * by productStore.
      * 
@@ -270,6 +278,38 @@ public class ProductlineManager {
 	    
 	    return result;
 	}
+    
+    public Vector getAllRegisteredAssets(){
+        Vector ret = new Vector();
+        
+        // add all productlines
+        Iterator productlineIterator = productlines.values().iterator();
+        while(productlineIterator.hasNext()){
+            Productline pl = (Productline) productlineIterator.next();
+            ret.add(pl);
+            
+            // add all products of pl
+            Iterator productIterator = pl.getProducts().iterator();
+            while(productIterator.hasNext()){
+                Product p = (Product) productIterator.next();
+                ret.add(p);
+                
+                // add all components of p
+                Iterator componentIterator = p.getComponents().iterator();
+                while(componentIterator.hasNext()){
+                    ret.add(componentIterator.next());
+                }
+            }
+            
+            // add all coreassets
+            Iterator coreassetIterator = pl.getCoreAssets().iterator();
+            while(coreassetIterator.hasNext()){
+                ret.add(coreassetIterator.next());
+            }
+        }
+        
+        return ret;
+    }
 	
 	// DEBUG, TODO: delete before delivery
 	public void dummyProds() {
