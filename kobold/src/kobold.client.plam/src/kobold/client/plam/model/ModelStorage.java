@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.22 2004/08/06 09:46:00 grosseml Exp $
+ * $Id: ModelStorage.java,v 1.23 2004/08/22 12:44:56 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model;
@@ -119,7 +119,7 @@ public class ModelStorage
         IProject project = pl.getKoboldProject().getProject();
         
         try {
-	        IFolder plFolder = project.getFolder(pl.getName());
+	        IFolder plFolder = project.getFolder(pl.getResource());
 	        if (!plFolder.exists()) {
 	            plFolder.create(true, true, monitor);
 	        }
@@ -240,7 +240,7 @@ public class ModelStorage
         
         String modulePath = "";
         while (! (asset instanceof AbstractRootAsset)) {
-            modulePath = asset.getName() + IPath.SEPARATOR + modulePath;
+            modulePath = asset.getResource() + IPath.SEPARATOR + modulePath;
             asset = asset.getParent();
         }
         
@@ -271,19 +271,19 @@ public class ModelStorage
             if (asset.getType() == AbstractAsset.COMPONENT) {
                 if (asset.getParent().getType() != AbstractAsset.VARIANT) {
                     thePath = COREASSETS_FOLDER_NAME + IPath.SEPARATOR +
-                    		  asset.getName() + IPath.SEPARATOR + thePath;
+                    		  asset.getResource() + IPath.SEPARATOR + thePath;
                 }
                 else {
-                    thePath = asset.getName() + IPath.SEPARATOR + thePath;
+                    thePath = asset.getResource() + IPath.SEPARATOR + thePath;
                 }
             }
             else if ((asset.getType() == AbstractAsset.SPECIFIC_COMPONENT) ||
                      (asset.getType() == AbstractAsset.RELATED_COMPONENT)) {
                 thePath = PRODUCTS_FOLDER_NAME + IPath.SEPARATOR +
-                		  asset.getName() + IPath.SEPARATOR + thePath;
+                		  asset.getResource() + IPath.SEPARATOR + thePath;
             }
             else {
-                thePath = asset.getName() + IPath.SEPARATOR + thePath;
+                thePath = asset.getResource() + IPath.SEPARATOR + thePath;
             }
             
             asset = asset.getParent();
@@ -301,19 +301,19 @@ public class ModelStorage
             if (asset.getType() == AbstractAsset.COMPONENT) {
                 if (asset.getParent().getType() != AbstractAsset.VARIANT) {
                     thePath = COREASSETS_FOLDER_NAME + IPath.SEPARATOR +
-                    		  asset.getName() + IPath.SEPARATOR + thePath;
+                    		  asset.getResource() + IPath.SEPARATOR + thePath;
                 }
                 else {
-                    thePath = asset.getName() + IPath.SEPARATOR + thePath;
+                    thePath = asset.getResource() + IPath.SEPARATOR + thePath;
                 }
             }
             else if ((asset.getType() == AbstractAsset.SPECIFIC_COMPONENT) ||
                      (asset.getType() == AbstractAsset.RELATED_COMPONENT)) {
                 thePath = PRODUCTS_FOLDER_NAME + IPath.SEPARATOR +
-                		  asset.getName() + IPath.SEPARATOR + thePath;
+                		  asset.getResource() + IPath.SEPARATOR + thePath;
             }
             else {
-                thePath = asset.getName() + IPath.SEPARATOR + thePath;
+                thePath = asset.getResource() + IPath.SEPARATOR + thePath;
             }
             
             asset = asset.getParent();
@@ -327,7 +327,7 @@ public class ModelStorage
 		//get the PRODUCTS-directory
 		//the PL directory
         IProject project = pl.getKoboldProject().getProject();
-       	IFolder productsFolder = project.getFolder(pl.getName());
+       	IFolder productsFolder = project.getFolder(pl.getResource());
         //PRODUCTS-dir
         productsFolder = productsFolder.getFolder(PRODUCTS_FOLDER_NAME);
         
@@ -339,7 +339,7 @@ public class ModelStorage
 			Product product = (Product) it.next();
 		       
 	        //create the dir
-	        IFolder specialProductFolder = productsFolder.getFolder(product.getName());
+	        IFolder specialProductFolder = productsFolder.getFolder(product.getResource());
 
 			
 			//createDirectory
@@ -388,7 +388,7 @@ public class ModelStorage
 	        	count=count+1;
 	        	RelatedComponent tmpRelComp = (RelatedComponent)it2.next();
 	        	
-	        	IFolder relCompFolder = specialProductFolder.getFolder(tmpRelComp.getName());
+	        	IFolder relCompFolder = specialProductFolder.getFolder(tmpRelComp.getResource());
 	        	
 				//createDirectory
 		        try {
@@ -405,7 +405,7 @@ public class ModelStorage
 	        while(it2.hasNext()){
 	        	SpecificComponent tmpRelComp = (SpecificComponent)it2.next();
 	        	
-	        	IFolder relCompFolder = specialProductFolder.getFolder(tmpRelComp.getName());
+	        	IFolder relCompFolder = specialProductFolder.getFolder(tmpRelComp.getResource());
 	        	
 				//createDirectory
 		        try {
@@ -425,7 +425,7 @@ public class ModelStorage
 		//get the CAS-directory
 		//the PL directory
         IProject project = pl.getKoboldProject().getProject();
-       	IFolder casFolder = project.getFolder(pl.getName());
+       	IFolder casFolder = project.getFolder(pl.getResource());
         //CAS-dir
         casFolder = casFolder.getFolder(COREASSETS_FOLDER_NAME);
         
@@ -437,7 +437,7 @@ public class ModelStorage
 			Component component = (Component) it.next();
 		       
 	        //create the dir
-	        IFolder specialComponentFolder = casFolder.getFolder(component.getName());
+	        IFolder specialComponentFolder = casFolder.getFolder(component.getResource());
 
 			
 			//createDirectory
@@ -463,10 +463,10 @@ public class ModelStorage
 		//get the CAS-directory
 		//the PL directory
         IProject project = co.getRoot().getKoboldProject().getProject();
-       	IFolder casFolder = project.getFolder(co.getRoot().getName());
+       	IFolder casFolder = project.getFolder(co.getRoot().getResource());
         //CAS-dir
         casFolder = casFolder.getFolder(COREASSETS_FOLDER_NAME);
-        casFolder = casFolder.getFolder(co.getName());
+        casFolder = casFolder.getFolder(co.getResource());
         
 		//get all vars
     	List vars = co.getVariants();
@@ -476,7 +476,7 @@ public class ModelStorage
 			Variant variant = (Variant) it.next();
 		       
 	        //create the dir
-	        IFolder specialVariantFolder = casFolder.getFolder(variant.getName());
+	        IFolder specialVariantFolder = casFolder.getFolder(variant.getResource());
 
 			
 			//createDirectory

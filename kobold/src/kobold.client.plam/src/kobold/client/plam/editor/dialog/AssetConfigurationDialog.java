@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.11 2004/08/06 09:21:43 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.12 2004/08/22 12:44:56 memyselfandi Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -105,6 +105,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     protected Control createDialogArea(Composite parent)
     {
         setTitle("Asset Configuration");
+        getShell().setText("Asset Configuration");
         setMessage("Please configure your " + asset.getType());
         Composite composite = (Composite) super.createDialogArea(parent);
         createAssetProps(composite);
@@ -146,7 +147,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		if (asset.getResource() != null) {
 		    resource.setText(asset.getResource());
 		}
-    		
+		else resource.setText(asset.getName());
 		label = new Label(panel, SWT.NONE);
 		label.setText(IDEWorkbenchMessages
 				.getString("Description:")); //$NON-NLS-1$
@@ -446,7 +447,10 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         if (!description.getText().equals(asset.getDescription())) {
             asset.setDescription(description.getText());
         }
-
+        
+        if (!resource.getText().equals(asset.getResource())) {
+            asset.setResource(resource.getText());
+        }
         if (deprecated != null) {
 	        boolean dep = AbstractStatus.isDeprecated(asset); 
 	        if (deprecated.getSelection() && !dep) {
