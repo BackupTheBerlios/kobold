@@ -21,16 +21,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNode.java,v 1.4 2004/04/21 15:57:09 memyselfandi Exp $
+ * $Id: AbstractNode.java,v 1.5 2004/04/28 13:06:20 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
+
+import java.net.URI;
+
 import net.sourceforge.gxl.GXLNode;
 
-import java.awt.Dimension;
-import java.net.URI;
-import org.eclipse.swt.graphics.Point;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
+
 
 /**
  * AbstractNode
@@ -41,24 +46,24 @@ import org.eclipse.swt.graphics.Point;
  */
 public abstract class AbstractNode extends GXLNode {
 
+	private static final Log logger = LogFactory.getLog(AbstractNode.class);
 	private Dimension dimension;
 	private Point x, y;
+	private String responsibleEmployee;
+	private String description;
+
+
 	/**
 	 * @param id
 	 */
-	public AbstractNode(String id) {
+	public AbstractNode(String id, String type) {
 		super(id);
-		URI type = null;
-				try
-				{
-					type = new URI("AbstractNode");
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-				setType(type);		
-		
+
+		try {
+			setType(new URI(type));
+		}	catch (Exception e) {
+			logger.info("Wrong node type uri specified", e);
+		}
 	}
 
 
@@ -108,6 +113,34 @@ public abstract class AbstractNode extends GXLNode {
 	 */
 	public void setY(Point point) {
 		y = point;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getResponsibleEmployee() {
+		return responsibleEmployee;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setDescription(String string) {
+		description = string;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setResponsibleEmployee(String string) {
+		responsibleEmployee = string;
 	}
 
 }

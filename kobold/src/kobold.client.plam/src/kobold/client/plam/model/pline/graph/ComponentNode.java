@@ -21,142 +21,102 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentNode.java,v 1.4 2004/04/27 15:49:00 rendgeor Exp $
+ * $Id: ComponentNode.java,v 1.5 2004/04/28 13:06:20 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
-import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * ComponentNode
  * 
  * @author Tammo van Lessen
  */
-public class ComponentNode extends AbstractNode 
-{
-//List of variant
-private Vector variants;
-private String name;
-//person who's responsible
-private String responsibleEmployee;
-private String description;
-//List of scripts
-private Vector scripts;
-int status;
+public class ComponentNode extends AbstractNode {
+	
+	public static final String TYPE = "http://kobold.berlios.de/types#component";
+	
+	//List of variants
+	private List variants = new ArrayList();
+	private String name;
+	
+
+	//List of scripts
+	private Vector scripts;
+	int status;
 	/**
 	 */
-	public ComponentNode(String id) 
-	{
-		super(id);
-		URI type = null;
-				try
-				{
-					type = new URI("ComponentNode");
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-		
-				setType(type);		
-		// TODO Auto-generated constructor stub
+	public ComponentNode(String id) {
+		super(id, TYPE);
 	}
 
+	/**
+	 * @return
+	 */
+	public String getName() {
+		return name;
+	}
 
-/**
- * @return
- */
-public String getDescription() {
-	return description;
-}
+	/**
+	 * @return
+	 */
+	public Vector getScripts() {
+		return scripts;
+	}
 
-/**
- * @return
- */
-public String getName() {
-	return name;
-}
+	/**
+	 * @param
+	 */
+	public void addScript() {
+	}
 
-/**
- * @return
- */
-public String getResponsibleEmployee() {
-	return responsibleEmployee;
-}
+	/**
+	 * @param
+	 */
+	public void removeScript() {
+	}
 
-/**
- * @return
- */
-public Vector getScripts() {
-	return scripts;
-}
+	/**
+	 * @return
+	 */
+	public int getStatus() {
+		return status;
+	}
 
-/**
- * @param
- */
-public void addScript() {
-}
+	/**
+	 * @return
+	 */
+	public VariantNode[] getVariants() {
+		return (VariantNode[])variants.toArray(new VariantNode[0]);
+	}
 
-/**
- * @param
- */
-public void removeScript() {
-}
+	/**
+	 * @param
+	 */
+	public void addVariant() {
+	}
 
-/**
- * @return
- */
-public int getStatus() {
-	return status;
-}
+	/**
+	 * @param
+	 */
+	public void removeVariant() {
+	}
 
-/**
- * @return
- */
-public Vector getVariants() {
-	return variants;
-}
+	/**
+	 * @param string
+	 */
+	public void setName(String string) {
+		name = string;
+	}
 
-/**
- * @param
- */
-public void addVariant() {
-}
-
-/**
- * @param
- */
-public void removeVariant() {
-}
-
-/**
- * @param string
- */
-public void setDescription(String string) {
-	description = string;
-}
-
-/**
- * @param string
- */
-public void setName(String string) {
-	name = string;
-}
-
-/**
- * @param string
- */
-public void setResponsibleEmployee(String string) {
-	responsibleEmployee = string;
-}
-
-/**
- * @param i
- */
-public void setStatus(int i) {
-	status = i;
-}
+	/**
+	 * @param i
+	 */
+	public void setStatus(int i) {
+		status = i;
+	}
 
 }

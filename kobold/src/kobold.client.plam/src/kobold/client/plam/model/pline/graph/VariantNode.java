@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantNode.java,v 1.6 2004/04/27 15:49:00 rendgeor Exp $
+ * $Id: VariantNode.java,v 1.7 2004/04/28 13:06:20 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
-import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * VariantNode
@@ -36,38 +37,27 @@ import java.util.*;
  */
 public class VariantNode extends AbstractNode 
 {
-	private Vector components;
+	public static final String TYPE = "http://kobold.berlios.de/types#variant";
+	
+	private List components = new ArrayList();
 	private String version;
-	//person who's responsible
-	private String responsibleEmployee;
 	private String name;
-	private String description;
 	//List of scripts
 	private Vector scripts;
 	private int status;
+
 	/**
 	 */
 	public VariantNode(String id) 
 	{
-		super(id);
-		URI type = null;
-				try
-				{
-					type = new URI("VariantNode");
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-		
-				setType(type);		
+		super(id, TYPE);
 	}
 
 	/**
 	 * @return
 	 */
-	public Vector getComponents() {
-		return components;
+	public ComponentNode[] getComponents() {
+		return (ComponentNode[])components.toArray(new ComponentNode[0]);
 	}
 
 	/**
@@ -88,22 +78,8 @@ public class VariantNode extends AbstractNode
 	/**
 	 * @return
 	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @return
-	 */
 	public String getName() {
 		return name;
-	}
-
-	/**
-	 * @return
-	 */
-	public String getResponsibleEmployee() {
-		return responsibleEmployee;
 	}
 
 	/**
@@ -145,22 +121,8 @@ public class VariantNode extends AbstractNode
 	/**
 	 * @param string
 	 */
-	public void setDescription(String string) {
-		description = string;
-	}
-
-	/**
-	 * @param string
-	 */
 	public void setName(String string) {
 		name = string;
-	}
-
-	/**
-	 * @param string
-	 */
-	public void setResponsibleEmployee(String string) {
-		responsibleEmployee = string;
 	}
 
 	/**

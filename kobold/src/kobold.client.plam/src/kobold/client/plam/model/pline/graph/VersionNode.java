@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VersionNode.java,v 1.3 2004/04/27 15:49:00 rendgeor Exp $
+ * $Id: VersionNode.java,v 1.4 2004/04/28 13:06:20 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
@@ -34,26 +34,15 @@ import java.net.URI;
  */
 public class VersionNode extends AbstractNode 
 {
-
+	public static final String TYPE = "http://kobold.berlios.de/types#version";
+	
 	private String versionNumber;
 	private String status;
 	/**
 	 */
 	public VersionNode(String id) 
 	{
-		super(id);
-		URI type = null;
-				try
-				{
-					type = new URI("VersionNode");
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-		
-				setType(type);		
-		// TODO Auto-generated constructor stub
+		super(id, TYPE);
 	}
 
 	/**

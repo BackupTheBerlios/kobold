@@ -21,13 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorNode.java,v 1.4 2004/04/27 15:49:00 rendgeor Exp $
+ * $Id: FileDescriptorNode.java,v 1.5 2004/04/28 13:06:20 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
-import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * FileDescriptorNode
  * 
@@ -35,31 +35,21 @@ import java.util.*;
  */
 public class FileDescriptorNode extends AbstractNode 
 {
+	public static final String TYPE = "http://kobold.berlios.de/types#filedesc";
+	
 	//List of versions
-	private Vector versions;	
+	private List versions = new ArrayList();
+		
 	//List of releaseable versions
   	private String name;
-	//person who's responsible
-	private String officer;
-	private String description;
+  	
 	private Boolean binary;
+
 	/**
 	 */
 	public FileDescriptorNode(String id) 
 	{
-		super(id);
-		URI type = null;
-				try
-				{
-					type = new URI("FileDescriptorNode");
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-		
-				setType(type);		
-		// TODO Auto-generated constructor stub
+		super(id, TYPE);
 	}
 
 	/**
@@ -72,22 +62,8 @@ public class FileDescriptorNode extends AbstractNode
 	/**
 	 * @return
 	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @return
-	 */
 	public String getName() {
 		return name;
-	}
-
-	/**
-	 * @return
-	 */
-	public String getOfficer() {
-		return officer;
 	}
 
 	/**
@@ -100,30 +76,15 @@ public class FileDescriptorNode extends AbstractNode
 	/**
 	 * @param string
 	 */
-	public void setDescription(String string) {
-		description = string;
-	}
-
-	/**
-	 * @param string
-	 */
 	public void setName(String string) {
 		name = string;
 	}
 
 	/**
-	 * @param string
-	 */
-	public void setOfficer(String string) {
-		officer = string;
-	}
-
-
-	/**
 	 * @return
 	 */
-	public Vector getVersions() {
-		return versions;
+	public VersionNode[] getVersions() {
+		return (VersionNode[])versions.toArray(new VersionNode[0]);
 	}
 
 	/**
