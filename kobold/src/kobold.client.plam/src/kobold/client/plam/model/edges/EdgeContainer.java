@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.9 2004/07/29 11:36:13 martinplies Exp $
+ * $Id: EdgeContainer.java,v 1.10 2004/07/29 11:49:01 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -363,7 +363,7 @@ public class EdgeContainer implements ISerializable {
                  try {
                     edges.add(edge.serialize());
                 } catch (ClassCastException e) {
-                	private static final Log logger = LogFactory.getLog(EdgeConatainer.class);
+                	logger.debug("There are extern edges");
                 }
                } // else it is an Bauhaus edge theese are not serialised.
            }            
