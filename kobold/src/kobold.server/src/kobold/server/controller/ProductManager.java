@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductManager.java,v 1.1 2004/05/12 23:21:23 rendgeor Exp $
+ * $Id: ProductManager.java,v 1.2 2004/05/13 00:30:47 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -80,7 +80,7 @@ public class ProductManager {
 	 * @param product String containing the new productname
 	 */
 	public void addProduct(Product product) {
-		products.put(product.getProductName(), product);
+		products.put(product.getName(), product);
 	}
 
 	
@@ -90,7 +90,7 @@ public class ProductManager {
 	 * @param productLine String containing the new productLine name
 	 */
 	public void addProductLine(Productline productLine) {
-		productLines.put(productLine.getProductLineName(), productLine);
+		productLines.put(productLine.getName(), productLine);
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class ProductManager {
 		for (Iterator iter = list.iterator(); iter.hasNext(); ) {
 			Element element = (Element) iter.next();
 			Product product = new Product();
-			products.put(product.getProductName(), product);
+			products.put(product.getName(), product);
 		}
 	}
 }
