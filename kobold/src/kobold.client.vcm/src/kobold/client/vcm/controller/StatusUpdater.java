@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.40 2004/09/21 19:21:51 memyselfandi Exp $
+ * $Id: StatusUpdater.java,v 1.41 2004/09/22 23:44:41 martinplies Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -30,8 +30,13 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.FileDescriptorHelper;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.productline.Variant;
@@ -71,13 +76,13 @@ public class StatusUpdater {
 	 */
 	public void updateFileDescriptors(final IFileDescriptorContainer fdCon)
 	{
-		String tmpString = fdCon.getLocalPath().toOSString();
+			    String tmpString = fdCon.getLocalPath().toOSString();
 		final String[] command = {"perl", getScriptPath() + 
         					      "stats.pl", tmpString.substring(0,tmpString.length()-1)};
 	    logger.debug("running: " + command[0] + " " + command[1] + " " + command[2]);
 	    
 	    try {
-	        ProgressManager.getInstance().runInUI(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), new WorkspaceModifyDelegatingOperation(new IRunnableWithProgress() {
+	        ProgressManager.getInstance().runInUI(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), new WorkspaceModifyDelegatingOperation(new IRunnableWithProgress() {	            
 	            public void run(IProgressMonitor monitor)
 	            throws InvocationTargetException, InterruptedException
 	            {
@@ -106,6 +111,23 @@ public class StatusUpdater {
 	                
 	            }
 	        }),IDEWorkbenchPlugin.getPluginWorkspace().getRoot());
+	        
+	        if (fdCon instanceof AbstractAsset){
+	           // remove Components/ProductComponents  directories from FilDescriptorConatainer 
+	           HashMap fdMap = new HashMap ();
+	           for ( Iterator ite = fdCon.getFileDescriptors().iterator(); ite.hasNext();){
+		             FileDescriptor fd = (FileDescriptor) ite.next();
+		             fdMap.put(fd.getFilename(), fd);
+		       }
+	           for (Iterator ite = ((AbstractAsset) fdCon).getChildren().iterator(); ite.hasNext();) {
+	               AbstractAsset asset = (AbstractAsset)ite.next();
+	               if(fdMap.containsKey(asset.getResource())){
+	                   fdCon.removeFileDescriptor((FileDescriptor)fdMap.get(asset.getResource()));
+	               }
+	           }
+	           
+	           
+	        }
 	    } catch (InvocationTargetException e) {
 	    } catch (InterruptedException e) {
 	        logger.info("FD Update cancelled.");
