@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProjectNature.java,v 1.5 2004/05/15 01:22:34 garbeam Exp $
+ * $Id: KoboldProjectNature.java,v 1.6 2004/05/15 15:03:29 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -29,6 +29,8 @@ package kobold.client.plam;
 import kobold.client.plam.controller.SecureKoboldClient;
 import kobold.client.plam.workflow.LocalMessageQueue;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectNature;
@@ -39,6 +41,7 @@ import org.eclipse.core.runtime.CoreException;
  */
 public class KoboldProjectNature implements IProjectNature {
 
+	public static final Log logger = LogFactory.getLog(KoboldProjectNature.class);
 	public static final String NATURE_ID = "kobold.client.plam.KoboldProjectNature"; //$NON-NLS-1$
 	public static final String WORKFLOW_FILENAME = ".messages"; //$NON-NLS-1$
 	public static final String PLAM_FILENAME = ".kobold"; //$NON-NLS-1$
@@ -60,7 +63,7 @@ public class KoboldProjectNature implements IProjectNature {
 	 */
 	public void configure() throws CoreException 
 	{
-		System.out.println("configure nature");
+		logger.info("configure nature");
 	}
 
 	/**
@@ -68,6 +71,7 @@ public class KoboldProjectNature implements IProjectNature {
 	 */
 	public void deconfigure() throws CoreException 
 	{
+		logger.info("deconfigure nature");
 	}
 
 	/**

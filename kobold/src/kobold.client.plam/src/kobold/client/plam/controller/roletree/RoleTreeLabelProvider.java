@@ -21,13 +21,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.3 2004/05/12 15:04:14 neco Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.4 2004/05/15 15:03:29 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
 
+import java.util.Hashtable;
+import java.util.Map;
+
+import kobold.common.data.Product;
+import kobold.common.data.Productline;
+import kobold.common.data.RoleP;
+import kobold.common.data.RolePE;
+import kobold.common.data.RolePLE;
+import kobold.common.data.User;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
-import kobold.common.data.*;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.model.IWorkbenchAdapter;
 
 /**
  * RoleTreeLabelProvider
@@ -39,6 +52,7 @@ import kobold.common.data.*;
  */
 public class RoleTreeLabelProvider extends LabelProvider
 {
+	private Map imgCache = null;
 
 	public String getText(Object element) {
 		if (element instanceof User) {
@@ -53,12 +67,44 @@ public class RoleTreeLabelProvider extends LabelProvider
 			return ((Productline)element).getName();
 		} else if (element instanceof Product) {
 			return ((Product)element).getName();
+		} else if (element instanceof IProject) {
+			return ((IProject)element).getName();	
 		} else {
-			throw unknownElement(element);
+			return "unkown";
+			//throw unknownElement(element);
 		}
 	}
+	
+	
+	
 	protected RuntimeException unknownElement(Object element) {
 		return new RuntimeException("Unknown type of element in tree of type " 
 				+ element.getClass().getName());
 	}
+	
+	public Image getImage(Object element) {
+		ImageDescriptor id = null;
+		if (element instanceof IProject) {
+			IWorkbenchAdapter wa = (IWorkbenchAdapter)((IProject)element).getAdapter(IWorkbenchAdapter.class);
+			id = wa.getImageDescriptor(element);
+		}
+		
+		if (id == null) {
+			return null;
+		}
+		
+		// image cache
+		if (imgCache == null) {
+			imgCache = new Hashtable(10);
+		}
+		
+		Image image = (Image)imgCache.get(id);
+
+		if (image == null) {
+			image = id.createImage();
+			imgCache.put(id, image);
+		}
+		return image;
+	}
+
 }
