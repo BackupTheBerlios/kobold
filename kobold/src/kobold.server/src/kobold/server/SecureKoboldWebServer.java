@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.46 2004/07/14 14:15:26 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.47 2004/07/14 14:57:30 neccaino Exp $
  *
  */
 package kobold.server;
@@ -63,11 +63,11 @@ import org.apache.xmlrpc.secure.SecureWebServer;
  * appropriate methods.
  */
 public class SecureKoboldWebServer implements IKoboldServer, 
-                                              XmlRpcHandler,
-                                              IKoboldServerAdministration{
+XmlRpcHandler,
+IKoboldServerAdministration{
 	
 	private static final Log logger = LogFactory.getLog(SecureKoboldWebServer.class);
-
+	
 	// the xml-rpc webserver
 	private static SecureWebServer server;
 	
@@ -102,13 +102,13 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		server.start();
 		System.err.println("Listening on port " + port);
 	}
-
+	
 	/**
 	 * Basic delegation of RPC to the specific handler method.
 	 * @see org.apache.xmlrpc.XmlRpcHandler#execute(java.lang.String, java.util.Vector)
 	 */
 	public Object execute(String methodName, Vector arguments)
-		throws Exception
+	throws Exception
 	{
 		Vector sniffArgs = new Vector();
 		try {
@@ -135,8 +135,8 @@ public class SecureKoboldWebServer implements IKoboldServer,
 				sniffArgs.add(arguments.elementAt(3));
 				
 				addUser(uc, (String)arguments.elementAt(1),
-						    (String)arguments.elementAt(2),
-						    (String)arguments.elementAt(3));
+						(String)arguments.elementAt(2),
+						(String)arguments.elementAt(3));
 			}
 			else if (methodName.equals("getAllUsers")) {
 				UserContext uc = new UserContext(
@@ -189,7 +189,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				sniffArgs.add(uc);
-
+				
 				// no need to serialize string lists
 				return getProductlineNames(uc);
 			}
@@ -210,7 +210,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 				
 				sniffArgs.add(uc);
 				sniffArgs.add(productline);
-
+				
 				updateProductline(uc, productline);
 			}
 			else if (methodName.equals("updateProduct")) {
@@ -223,20 +223,20 @@ public class SecureKoboldWebServer implements IKoboldServer,
 				
 				sniffArgs.add(uc);
 				sniffArgs.add(product);
-
+				
 				updateProduct(uc, productlineName, product);
 			}
 			else if (methodName.equals("updateComponent")) {
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				String productName = (String)arguments.elementAt(1);
-//				Product product = ProductlineManager.getInstance().getProduct(productName);
-	//			Component component = new Component(product,
-		//				RPCMessageTransformer.decode((String)arguments.elementAt(2)));
+				//				Product product = ProductlineManager.getInstance().getProduct(productName);
+				//			Component component = new Component(product,
+				//				RPCMessageTransformer.decode((String)arguments.elementAt(2)));
 				
 				sniffArgs.add(uc);
-			//	sniffArgs.add(component);
-
+				//	sniffArgs.add(component);
+				
 				//updateComponent(uc, productName, component);
 			}
 			else if (methodName.equals("sendMessage")) {
@@ -244,7 +244,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				AbstractKoboldMessage msg =
 					AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1)));
-
+				
 				sniffArgs.add(uc);
 				sniffArgs.add(msg);
 				sendMessage(uc, msg);
@@ -263,69 +263,69 @@ public class SecureKoboldWebServer implements IKoboldServer,
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				AbstractKoboldMessage msg =
 					AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1)));
-
+				
 				sniffArgs.add(uc);
 				sniffArgs.add(msg);
 				
 				invalidateMessage(uc, msg);
-			
+				
 			}
-            else if (methodName.equals("checkAdministrability")){
-                try{
-                   // admin method so leave without noticing the WorkflowEngine
-                   return checkAdministrability((String)arguments.elementAt(0));
-                }
-                catch(Exception e){
-                   logger.info("Exception during execute()", e);
-                   return IKoboldServerAdministration.RETURN_FAIL;
-                }
-            }
-            else if (methodName.equals("newProductline")){
-                try{
-                    // admin method so leave without noticing the WorkflowEngine
-                    return newProductline((String)arguments.elementAt(0),
-                                          (String)arguments.elementAt(1),
-                                          (RepositoryDescriptor)arguments.elementAt(2));
-                }
-                catch(Exception e){
-                    logger.info("Exception during execute()", e);
-                    return IKoboldServerAdministration.RETURN_FAIL;
-                }
-            }
-            else if (methodName.equals("invalidateProductline")){
-                try{
-                   // admin method so leave without noticing the WorkflowEngine
-                   return invalidateProductline((String)arguments.elementAt(0),
-                                                (String)arguments.elementAt(1));
-                }
-                catch(Exception e){
-                    logger.info("Exception during execute()", e);
-                    return IKoboldServerAdministration.RETURN_FAIL;
-                }
-            }
-            else if (methodName.equals("assignPle")){
-                try{
-                    // admin method so leave without noticing the WorkflowEngine
-                    return assignPle((String)arguments.elementAt(0),
-                                     (String)arguments.elementAt(1),
-                                     (String)arguments.elementAt(2));
-                }
-                catch(Exception e){
-                   logger.info("Exception during execute()", e);
-                   return IKoboldServerAdministration.RETURN_FAIL;
-                }
-            }
-            else if (methodName.equals("unassignPle")){
-                try{
-                    // admin method so leave without noticing the WorkflowEngine
-                    return unassignPle((String)arguments.elementAt(0),
-                                       (String)arguments.elementAt(1));
-                }
-                catch(Exception e){
-                    logger.info("Exception during execute()", e);
-                    return IKoboldServerAdministration.RETURN_FAIL;
-                }
-            }
+			else if (methodName.equals("checkAdministrability")){
+				try{
+					// admin method so leave without noticing the WorkflowEngine
+					return checkAdministrability((String)arguments.elementAt(0));
+				}
+				catch(Exception e){
+					logger.info("Exception during execute()", e);
+					return IKoboldServerAdministration.RETURN_FAIL;
+				}
+			}
+			else if (methodName.equals("newProductline")){
+				try{
+					// admin method so leave without noticing the WorkflowEngine
+					return newProductline((String)arguments.elementAt(0),
+							(String)arguments.elementAt(1),
+							(RepositoryDescriptor)arguments.elementAt(2));
+				}
+				catch(Exception e){
+					logger.info("Exception during execute()", e);
+					return IKoboldServerAdministration.RETURN_FAIL;
+				}
+			}
+			else if (methodName.equals("invalidateProductline")){
+				try{
+					// admin method so leave without noticing the WorkflowEngine
+					return invalidateProductline((String)arguments.elementAt(0),
+							(String)arguments.elementAt(1));
+				}
+				catch(Exception e){
+					logger.info("Exception during execute()", e);
+					return IKoboldServerAdministration.RETURN_FAIL;
+				}
+			}
+			else if (methodName.equals("assignPle")){
+				try{
+					// admin method so leave without noticing the WorkflowEngine
+					return assignPle((String)arguments.elementAt(0),
+							(String)arguments.elementAt(1),
+							(String)arguments.elementAt(2));
+				}
+				catch(Exception e){
+					logger.info("Exception during execute()", e);
+					return IKoboldServerAdministration.RETURN_FAIL;
+				}
+			}
+			else if (methodName.equals("unassignPle")){
+				try{
+					// admin method so leave without noticing the WorkflowEngine
+					return unassignPle((String)arguments.elementAt(0),
+							(String)arguments.elementAt(1));
+				}
+				catch(Exception e){
+					logger.info("Exception during execute()", e);
+					return IKoboldServerAdministration.RETURN_FAIL;
+				}
+			}
 		} catch (Exception e) {
 			logger.info("Exception during execute()", e);
 			throw e;	
@@ -334,80 +334,80 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 		return IKoboldServer.NO_RESULT;
 	}
-
+	
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#login(String, String)}
 	 */
 	public UserContext login(String userName, String password) {
 		return SessionManager.getInstance().login(userName, password);
 	}
-
+	
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#logout(UserContext)}
 	 */
 	public void logout(UserContext userContext) {
 		SessionManager.getInstance().logout(userContext);
 	}
-
+	
 	/**
 	 * @see kobold.common.controller.IKoboldServer#getAllUsers(kobold.common.data.UserContext)
 	 */
 	public List getAllUsers(UserContext userContext) {
-	    List users = UserManager.getInstance().getAllUsers();
-	    List result = new ArrayList();
-	    
-	    for (Iterator iterator = users.iterator(); iterator.hasNext(); ) {
-	        kobold.server.data.User user = (kobold.server.data.User) iterator.next();
-	        result.add(new User(user.getUserName(), user.getFullName()).serialize());
-	    }
-	    
+		List users = UserManager.getInstance().getAllUsers();
+		List result = new ArrayList();
+		
+		for (Iterator iterator = users.iterator(); iterator.hasNext(); ) {
+			kobold.server.data.User user = (kobold.server.data.User) iterator.next();
+			result.add(new User(user.getUserName(), user.getFullName()).serialize());
+		}
+		
 		return result;
 	}
-
+	
 	/**
 	 * @see kobold.common.controller.IKoboldServer#updateUserFullName(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String)
 	 */
 	public void updateUserFullName(UserContext userContext, User user, String password) {
-	    UserManager manager = UserManager.getInstance();
-	    kobold.server.data.User serverUser = manager.getUser(userContext.getUserName());
-	    if (userContext.getUserName().equals(user.getUsername())
-	        && serverUser.getUserName().equals(userContext.getUserName())
-	        && password.equals(serverUser.getPassword())) 
-	    {
-	        serverUser.setFullName(user.getFullname());
-	    }
+		UserManager manager = UserManager.getInstance();
+		kobold.server.data.User serverUser = manager.getUser(userContext.getUserName());
+		if (userContext.getUserName().equals(user.getUsername())
+				&& serverUser.getUserName().equals(userContext.getUserName())
+				&& password.equals(serverUser.getPassword())) 
+		{
+			serverUser.setFullName(user.getFullname());
+		}
 	}
-
+	
 	/**
 	 * @see kobold.common.controller.IKoboldServer#updateUserPassword(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String, java.lang.String)
 	 */
 	public void updateUserPassword(UserContext userContext, User user,
-	        	                   String oldPassword, String newPassword)
+			String oldPassword, String newPassword)
 	{
-	    UserManager manager = UserManager.getInstance();
-	    kobold.server.data.User serverUser = manager.getUser(userContext.getUserName());
-	    if (userContext.getUserName().equals(user.getUsername())
-	        && serverUser.getUserName().equals(userContext.getUserName())
-	        && oldPassword.equals(serverUser.getPassword())) 
-	    {
-	        serverUser.setPassword(newPassword);
-	    }
+		UserManager manager = UserManager.getInstance();
+		kobold.server.data.User serverUser = manager.getUser(userContext.getUserName());
+		if (userContext.getUserName().equals(user.getUsername())
+				&& serverUser.getUserName().equals(userContext.getUserName())
+				&& oldPassword.equals(serverUser.getPassword())) 
+		{
+			serverUser.setPassword(newPassword);
+		}
 	}
-
+	
 	/**
 	 * @see kobold.common.controller.IKoboldServer#removeUser(kobold.common.data.UserContext, kobold.common.data.User)
 	 */
 	public void removeUser(UserContext userContext, kobold.common.data.User user) {
 	}
-
+	
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#addUser(UserContext, String, String, String)}
 	 */
 	public void addUser(UserContext userContext, String userName,
-						String password, String fullName)
+			String password, String fullName)
 	{
 		UserManager.getInstance().addUser(
-		        new kobold.server.data.User(userName, fullName, password));
+				new kobold.server.data.User(userName, fullName, password));
 	}
 	
 	/**
@@ -417,14 +417,14 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		ProductlineManager productManager = ProductlineManager.getInstance();
 		return productManager.getProductLine(plName);
 	}
-
+	
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#updateProductline(UserContext, Productline)}
 	 */
 	public void updateProductline(UserContext userContext, Productline productline) {
-	    
+		
 	}
-
+	
 	/**
 	 * @see kobold.common.controller.IKoboldServer#getProductlineNames(kobold.common.data.UserContext)
 	 */
@@ -432,19 +432,19 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#updateProduct(UserContext, String, Product)}
 	 */
 	public void updateProduct(UserContext userContext, String productlineName, Product product) {
 	}
-
+	
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#updateProduct(UserContext, String, Product)}
 	 */
 	public void updateComponent(UserContext userContext, String productName, Component component) {
 	}
-
+	
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#sendMessage(UserContext, AbstractKoboldMessage)}
 	 */
@@ -456,14 +456,14 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			MessageManager.getInstance().sendMessage(userContext, koboldMessage);
 		}
 	}
-
+	
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#fetchMessage(UserContext)}
 	 */
 	public AbstractKoboldMessage fetchMessage(UserContext userContext) {
 		return MessageManager.getInstance().fetchMessage(userContext);
 	}
-
+	
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#invalidateMessage(UserContext, AbstractKoboldMessage)}
 	 */
@@ -471,158 +471,163 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		MessageManager.getInstance().invalidateMessage(userContext, koboldMessage);
 	}
 	
-
-    /**
-     * @see kobold.common.controller.IKoboldServer#updateComponent(kobold.common.data.UserContext, java.lang.String, java.lang.String, kobold.common.data.Component)
-     */
-    public void updateComponent(UserContext userContext, String productlineName, String productName, Component component) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /*
-    --------------------------------------------------------------------------------
-     The following section contains the IKoboldServerAdministration-methods'
-     implementation. Thay are called by 'execute().
-    -------------------------------------------------------------------------------- 
-    */
-        /**
-         * this method is used to check if the called Kobold server is reachable 
-         * and can be administrated with the passed password
-         * 
-         * NOTE: this method has not yet been fully implemented - every password is
-         *       accepted
-         * 
-         * TODO: implement real password checking
-         *  
-         * @param adminPassword the Kobold server's administration password
-         * 
-         * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-         *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-         *         occured while executing the method on the server. 
-         */
-       public String checkAdministrability(String adminPassword){
-            // 1.) Since no checking has to occur, signal success.
-            return IKoboldServerAdministration.RETURN_OK;
-        }
-        
-        /**
-         * call this method if you want to create a new productline on the Kobold
-         * server. Note that if there already exists a productline with the name
-         * 'nameOfProductline, the method will exit with an error. 
-         * 
-         * @param adminPassword the Kobold server's administration password
-         * @param nameOfProductline the new productline's desired name
-         * @param repositoryDescriptor description of the repository for the new
-         *                             productline
-         * 
-         * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-         *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-         *         occured while executing the method on the server. 
-         */
-        public String newProductline(String adminPassword, 
-                                     String nameOfProductline, 
-                                     RepositoryDescriptor repositoryDescriptor){
-            // 1.) check the password
-            if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-                return IKoboldServerAdministration.RETURN_FAIL;
-            }
-
-            // 2.) create the new pl
-            ProductlineManager plm = ProductlineManager.getInstance();
-            Productline pl = new Productline(nameOfProductline, 
-                                             repositoryDescriptor);
-            plm.addProductline(pl); // TODO: fetch return when there will be one
-            
-            return IKoboldServerAdministration.RETURN_OK;        
-        }
-        
-        /**
-         * to assure data consistency of products that are realted to a certain
-         * productline, productlines cannot be entirely deleted. nonetheless this 
-         * method provides you with the possibility to mark an existing productline
-         * as invalid. 
-         *  
-         * @param adminPassword the Kobold server's administration password
-         * @param nameOfProductline name of the productline that is to be 
-         *                          invalidated
-         * 
-         * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-         *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-         *         occured while executing the method on the server. 
-         */
-        public String invalidateProductline(String adminPassword, 
-                                            String nameOfProductline){
-            // 1.) check the password
-            if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-                return IKoboldServerAdministration.RETURN_FAIL;
-            }
-            
-            // 2.) [check if the passed productline exists and] remove it
-            ProductlineManager plm = ProductlineManager.getInstance();
-            plm.removeProductLine(plm.getProductLine(nameOfProductline));
-            //TODO: check the return of removeProductline as soon as there is one
-            
-            return IKoboldServerAdministration.RETURN_OK;
-        } 
-        
-        /**
-         * This method assigns a user to a productline (users that are assigned
-         * directly to productlines act as the productline's ple). Possible already
-         * assigned user will be automatically unassigned.
-         * 
-         * @param adminPassword the Kobold server's administration password
-         * @param nameOfProductline name of the productline that should be assigned
-         *                          a new PLE
-         * @param nameOfUser name of the user that should be assigned to the 
-         *                   specified productline
-         * 
-         * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-         *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-         *         occured while executing the method on the server. 
-         */
-        public String assignPle(String adminPassword,
-                                String nameOfProductline,
-                                String nameOfUser){
-            // 1.) check the password
-            if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-                return IKoboldServerAdministration.RETURN_FAIL;
-            }
-            
-            // 2.) assign the ple
-            ProductlineManager plm = ProductlineManager.getInstance();
-            UserManager um = UserManager.getInstance();
-            //plm.getProductLine(nameOfProductline).removeMaintainer(um.getUser(nameOfUser));
-            //TODO: solve the kobold.server/common.data.User conflict
-            //TODO: check error return from um and plm as soon as there will be one
-            
-            return IKoboldServerAdministration.RETURN_OK;
-        }
-        
-        /**
-         * This methods unassigns a user (ple) from a productline. Since there can
-         * only be one assigned ple per productline at the same time, the specified
-         * productline will have no more assigned ple after a successful call of
-         * this method.
-         * 
-         * @param adminPassword the Kobold server's administration password
-         * @param nameOfProductline name of the productline that should "loose"
-         *                          the specified user
-         * @param nameOfUser username specifiing which user should be unassigned 
-         * 
-         * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-         *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-         *         occured while executing the method on the server. 
-         */
-        public String unassignPle(String adminPassword, String nameOfProductline){
-            // 1.) check the password
-            if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-                return IKoboldServerAdministration.RETURN_FAIL;
-            }
-
-            // 2.) unassign the ple
-            //TODO: check if pls really may have more than one PLE, then implement
-            
-            return IKoboldServerAdministration.RETURN_FAIL;
-        }
+	
+	/**
+	 * @see kobold.common.controller.IKoboldServer#updateComponent(kobold.common.data.UserContext, java.lang.String, java.lang.String, kobold.common.data.Component)
+	 */
+	public void updateComponent(UserContext userContext, String productlineName, String productName, Component component) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+/*
+--------------------------------------------------------------------------------
+ The following section contains the IKoboldServerAdministration-methods'
+ implementation. Thay are called by 'execute().
+-------------------------------------------------------------------------------- 
+*/
+	/**
+	 * this method is used to check if the called Kobold server is reachable 
+	 * and can be administrated with the passed password
+	 * 
+	 * NOTE: this method has not yet been fully implemented - every password is
+	 *       accepted
+	 * 
+	 * TODO: implement real password checking
+	 *  
+	 * @param adminPassword the Kobold server's administration password
+	 * 
+	 * @return IKoboldServerAdministration.RETURN_OK, if the check was 
+	 *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
+	 *         occured while executing the method on the server. 
+	 */
+	public String checkAdministrability(String adminPassword){
+		// 1.) Since no checking has to occur, signal success.
+		return IKoboldServerAdministration.RETURN_OK;
+	}
+	
+	/**
+	 * call this method if you want to create a new productline on the Kobold
+	 * server. Note that if there already exists a productline with the name
+	 * 'nameOfProductline, the method will exit with an error. 
+	 * 
+	 * @param adminPassword the Kobold server's administration password
+	 * @param nameOfProductline the new productline's desired name
+	 * @param repositoryDescriptor description of the repository for the new
+	 *                             productline
+	 * 
+	 * @return IKoboldServerAdministration.RETURN_OK, if the check was 
+	 *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
+	 *         occured while executing the method on the server. 
+	 */
+	public String newProductline(String adminPassword, 
+			String nameOfProductline, 
+			RepositoryDescriptor repositoryDescriptor){
+		// 1.) check the password
+		if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
+			return IKoboldServerAdministration.RETURN_FAIL;
+		}
+		
+		// 2.) create the new pl
+		ProductlineManager plm = ProductlineManager.getInstance();
+		Productline pl = new Productline(nameOfProductline, 
+				repositoryDescriptor);
+		plm.addProductline(pl); // TODO: fetch return when there will be one
+		
+		return IKoboldServerAdministration.RETURN_OK;        
+	}
+	
+	/**
+	 * to assure data consistency of products that are realted to a certain
+	 * productline, productlines cannot be entirely deleted. nonetheless this 
+	 * method provides you with the possibility to mark an existing productline
+	 * as invalid. 
+	 *  
+	 * @param adminPassword the Kobold server's administration password
+	 * @param nameOfProductline name of the productline that is to be 
+	 *                          invalidated
+	 * 
+	 * @return IKoboldServerAdministration.RETURN_OK, if the check was 
+	 *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
+	 *         occured while executing the method on the server. 
+	 */
+	public String invalidateProductline(String adminPassword, 
+			String nameOfProductline){
+		// 1.) check the password
+		if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
+			return IKoboldServerAdministration.RETURN_FAIL;
+		}
+		
+		// 2.) [check if the passed productline exists and] remove it
+		ProductlineManager plm = ProductlineManager.getInstance();
+		plm.removeProductLine(plm.getProductLine(nameOfProductline));
+		//TODO: check the return of removeProductline as soon as there is one
+		
+		return IKoboldServerAdministration.RETURN_OK;
+	} 
+	
+	/**
+	 * This method assigns a user to a productline (users that are assigned
+	 * directly to productlines act as the productline's ple). Possible already
+	 * assigned user will be automatically unassigned.
+	 * 
+	 * @param adminPassword the Kobold server's administration password
+	 * @param nameOfProductline name of the productline that should be assigned
+	 *                          a new PLE
+	 * @param nameOfUser name of the user that should be assigned to the 
+	 *                   specified productline
+	 * 
+	 * @return IKoboldServerAdministration.RETURN_OK, if the check was 
+	 *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
+	 *         occured while executing the method on the server. 
+	 */
+	public String assignPle(String adminPassword,
+			String nameOfProductline,
+			String nameOfUser){
+		// 1.) check the password
+		if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
+			return IKoboldServerAdministration.RETURN_FAIL;
+		}
+		
+		// 2.) get the user's server representation by its name 
+		ProductlineManager plm = ProductlineManager.getInstance();
+		UserManager um = UserManager.getInstance();
+		kobold.server.data.User suser = um.getUser(nameOfUser);
+		
+		// 3.) convert the user-object to its client-representation
+		User cuser = new User(suser.getUserName(), suser.getFullName());
+		
+		// 4.) assign the user
+		plm.getProductLine(nameOfProductline).addMaintainer(cuser);
+		
+		//TODO: check error return from um and plm as soon as there will be one
+		
+		return IKoboldServerAdministration.RETURN_OK;
+	}
+	
+	/**
+	 * This methods unassigns a user (ple) from a productline. Since there can
+	 * only be one assigned ple per productline at the same time, the specified
+	 * productline will have no more assigned ple after a successful call of
+	 * this method.
+	 * 
+	 * @param adminPassword the Kobold server's administration password
+	 * @param nameOfProductline name of the productline that should "loose"
+	 *                          the specified user
+	 * @param nameOfUser username specifiing which user should be unassigned 
+	 * 
+	 * @return IKoboldServerAdministration.RETURN_OK, if the check was 
+	 *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
+	 *         occured while executing the method on the server. 
+	 */
+	public String unassignPle(String adminPassword, String nameOfProductline){
+		// 1.) check the password
+		if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
+			return IKoboldServerAdministration.RETURN_FAIL;
+		}
+		
+		// 2.) unassign the ple
+		
+		return IKoboldServerAdministration.RETURN_FAIL;
+	}
 }
