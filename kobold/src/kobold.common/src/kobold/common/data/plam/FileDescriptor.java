@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptor.java,v 1.5 2004/06/16 11:27:35 rendgeor Exp $
+ * $Id: FileDescriptor.java,v 1.6 2004/06/17 12:23:02 rendgeor Exp $
  *
  */
 
@@ -72,10 +72,10 @@ public class FileDescriptor extends AbstractAsset {
 		Element fdElement = DocumentHelper.createElement("fd");
 		fdElement.addText(getName ());
 		
-		fdElement.addElement("path").addText(this.path);
-		fdElement.addElement("version").addText(this.version);
-		fdElement.addElement("lastChangeDate").addText(this.lastChangeDate);
-		fdElement.addElement("lastAuthor").addText(this.lastAuthor);
+		if  (this.path != null) fdElement.addElement("path").addText(this.path);
+		if (this.version != null) fdElement.addElement("version").addText(this.version);
+		if (this.lastChangeDate != null) fdElement.addElement("lastChangeDate").addText(this.lastChangeDate);
+		if (this.lastAuthor != null) fdElement.addElement("lastAuthor").addText(this.lastAuthor);
 		
 		return fdElement;
 	}
@@ -106,13 +106,7 @@ public class FileDescriptor extends AbstractAsset {
 		return AbstractAsset.FILE_DESCRIPTOR;
 	}
 
-    /**
-     * @see kobold.common.data.IAsset#getName()
-     */
-    public String getName()
-    {
-        return getName ();
-    }
+   
 	/**
 	 * Adds a new fileDescriptor.
 	 *

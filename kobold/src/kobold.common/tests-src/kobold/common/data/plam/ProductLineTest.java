@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.5 2004/06/16 16:59:17 rendgeor Exp $
+ * $Id: ProductLineTest.java,v 1.6 2004/06/17 12:23:02 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -49,52 +49,80 @@ public class ProductLineTest extends TestCase {
 		
 		
 		Productline pl = new Productline("windows");
+		pl.setRepositoryPath("bla.blubber.com");
 		
-		//------------------------
+		/////--------Product----------------
 		//add a product
 		Product productA = new Product ("me");
+		productA.setRepositoryPath("cvs.berlios.de");
 		Product productB = new Product ("xp");
+		productA.setRepositoryPath("svn.berlios.de");
 		
 		pl.addProduct(productA);
 		pl.addProduct(productB);
 
-		//--
+		//--add component
+		ComponentSpecific componentC = new ComponentSpecific ("compC");
+		productA.addComponent(componentC);
+		
+		//--add version
+		Version versionA = new Version ("versA");
+		Version versionB = new Version ("versB");
+
+		componentC.addVersion(versionA);
+		componentC.addVersion(versionB);
+
+		//--add FD
+		FileDescriptor fd1 = new FileDescriptor ("fd1");
+		versionA.addFileDescriptor(fd1);
+
+		//versionB has no FD!
+		
+		/////--------CoreAsset--------------------------------------------------
+		//add a component
+		CoreAsset coreAssetA = new CoreAsset ("coreAssetA");
+		coreAssetA.setRepositoryPath("cvs.berlios.de");
+		CoreAsset coreAssetB = new CoreAsset ("coreAssetB");
+		coreAssetB.setRepositoryPath("svn.berlios.de");
+		
+		pl.addCoreAsset(coreAssetA);
+		pl.addCoreAsset(coreAssetB);
+
+		//--add component
 		ComponentRelated componentA = new ComponentRelated ("compA");
 		ComponentRelated componentB = new ComponentRelated ("compB");
+
+		coreAssetA.addComponent(componentA);
+		coreAssetA.addComponent(componentB);
 		
-		ComponentSpecific componentC = new ComponentSpecific ("compC");
-		
-		productA.addComponent(componentC);
-		//productA.addComponent(componentB);
-		
-		//--
+		//--add variant--\\
 		Variant variantA = new Variant ("varA");
 		Variant variantB = new Variant ("varB");
 		
 		componentA.addVariant(variantA);
 		componentA.addVariant(variantB);
+
+		//--add version		
+		Version versionC = new Version ("versC");
+		Version versionD = new Version ("versD");
+
+		variantA.addVersion(versionA);
+		variantA.addVersion(versionB);
+
+		//--add FD
+		FileDescriptor fd2 = new FileDescriptor ("fd2");
 		
-		//--
-		Version versionA = new Version ("versA");
-		Version versionB = new Version ("versB");
+		versionC.addFileDescriptor(fd2);
 
+		//versionB has no FD!
+		
+		//\\--add component to a variant
+		ComponentRelated componentD = new ComponentRelated ("compC");
+		variantA.addComponent(componentD);
 
-		componentC.addVersion(versionA);
-		componentC.addVersion(versionB);
-
-	
-		//--
-		FileDescriptor fd1 = new FileDescriptor ("fd1");
-		versionA.addFileDescriptor(fd1);
+		
 		
 		//------------------------------
-		//add a coreAsset
-		CoreAsset coreAssetA = new CoreAsset ("caBla");
-		CoreAsset coreAssetB = new CoreAsset ("caBlubber");
-		
-		pl.addCoreAsset (coreAssetA);
-		pl.addCoreAsset (coreAssetB);
-
 		//serialize the whole product-line (all included)
 		// .productlinemetainfo 
 		pl.serialize("test-productlinemetainfo.xml", 0);

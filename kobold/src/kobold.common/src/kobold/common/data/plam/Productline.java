@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.9 2004/06/16 16:59:17 rendgeor Exp $
+ * $Id: Productline.java,v 1.10 2004/06/17 12:23:02 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -124,7 +124,8 @@ public class Productline extends AbstractAsset{
 	public void serialize(String path, int serializeLevel) {
 
 		Document document = DocumentHelper.createDocument();
-		Element root = document.addElement("kobold-Productline");
+		Element root = document.addElement("productline");
+		root.addText(getName());
 		
 		//serialize all products and coreAssets
 		
@@ -138,11 +139,17 @@ public class Productline extends AbstractAsset{
 		}
 
 		//now all coreAssets
-		Element coreAssetsElement = root.addElement("coreAssets");		
+		Element coreAssetElement = root.addElement("coreAssets");		
 		
 		for (Iterator it = this.coreAssets.values().iterator(); it.hasNext();) {
 			CoreAsset product = (CoreAsset) it.next();
-			coreAssetsElement.add(product.serialize());
+			coreAssetElement.add(product.serialize());
+		}
+		
+		if (getRepositoryPath() != null)
+		{
+			Element repositoryPathElement = coreAssetElement.addElement ("repositoryPath");
+			repositoryPathElement.addText (getRepositoryPath());
 		}
 
 		

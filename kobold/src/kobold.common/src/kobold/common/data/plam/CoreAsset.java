@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CoreAsset.java,v 1.4 2004/06/16 16:59:17 rendgeor Exp $
+ * $Id: CoreAsset.java,v 1.5 2004/06/17 12:23:02 rendgeor Exp $
  *
  */
 
@@ -50,6 +50,7 @@ public class CoreAsset extends AbstractAsset {
 	 */
 	public CoreAsset (String productName) {
 		super(productName);
+		components = new HashMap ();
 	}
 	
 	/**
@@ -57,6 +58,7 @@ public class CoreAsset extends AbstractAsset {
 	 * @param productName
 	 */
 	public CoreAsset (Element element) {
+		components = new HashMap ();
 		deserialize(element);
 	}
 	
@@ -65,12 +67,12 @@ public class CoreAsset extends AbstractAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element productElement = DocumentHelper.createElement("coreAsset");
-		productElement.addText(getName());
+		Element coreAssetElement = DocumentHelper.createElement("coreAsset");
+		coreAssetElement.addText(getName());
 
 		
 		//now all components
-		Element componentElement = productElement.addElement ("components");
+		Element componentElement = coreAssetElement.addElement ("components");
 		
 		//serialize each component
 		
@@ -79,8 +81,13 @@ public class CoreAsset extends AbstractAsset {
 			ComponentRelated component = (ComponentRelated) it.next ();
 			componentElement.add (component.serialize ());
 		}
+		if (getRepositoryPath() != null)
+		{
+			Element repositoryPathElement = coreAssetElement.addElement ("repositoryPath");
+			repositoryPathElement.addText (getRepositoryPath());
+		}
 		
-		return productElement;
+		return coreAssetElement;
 	}
 
 	/**

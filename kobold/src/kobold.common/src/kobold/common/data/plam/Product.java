@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.5 2004/06/16 16:59:17 rendgeor Exp $
+ * $Id: Product.java,v 1.6 2004/06/17 12:23:02 rendgeor Exp $
  *
  */
 
@@ -82,6 +82,13 @@ public class Product extends AbstractAsset {
 			ComponentSpecific component = (ComponentSpecific) it.next ();
 			componentElement.add (component.serialize ());
 		}
+		
+		if (getRepositoryPath() != null)
+		{
+			Element repositoryPathElement = productElement.addElement ("repositoryPath");
+			repositoryPathElement.addText (getRepositoryPath());
+		}
+
 		
 		return productElement;
 	}
