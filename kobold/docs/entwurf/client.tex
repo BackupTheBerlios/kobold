@@ -278,3 +278,24 @@ gegebenen Metadaten und liefert als Rückgabe ein Delta.
   Code-Schnittstellen geschaut werden.
   \item
 \end{itemize}
+
+\subsection{Entwurfsdetails}
+
+Der VCM-Wrapper wird als Repository Provider {\it
+WrappedVCMProvider} für die Eclipse Team
+Komponente realisiert und erbt demzufolge von der abstrakten Klasse:
+\begin{verbatim}
+org.eclipse.team.core.RepositoryProvider
+\end{verbatim}\footnote{http://help.eclipse.org/help21/index.jsp}
+
+Er stellt demnach ein eigenständiges Team Plugin dar mit
+Kobold-spezifischen Erweiterungen. In der zugehörigen {\it plugin.xml}
+des VCM-Wrapper Plugins wird die folgende Repository Extension Point
+Definition verwendet:
+
+\begin{verbatim}
+<extension point="org.eclipse.team.core.repository">
+  <repository class="kobold.client.controller.WrappedVCMProvider"
+      id="kobold.client.controller.WrappedVCMProviderID"/>
+</extension>
+\end{verbatim}
