@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.13 2004/08/06 06:02:32 neccaino Exp $
+ * $Id: ProductlineManager.java,v 1.14 2004/08/06 10:58:07 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -101,10 +101,10 @@ public class ProductlineManager {
             // already existed, so undo the change and signal error
             productlines.put(productLine.getId(), o);
             serialize();
-            return true;
+            return false;
         }
         else{
-            return false;
+            return true;
         }
 	}
 
