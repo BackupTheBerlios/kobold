@@ -64,13 +64,20 @@ sub read_entries {
         read_entries ($array_element);
     }
 
-
-
 }
 
 ###MAIN###
 
-my $currDir = cwd;#`pwd`;#chomp $currDir;
+if ($#ARGV == 0)
+{
+    #or the current directory?
+    #my $currDir = cwd;#`pwd`; #chomp $currDir;
+    my $currDir = $ARGV[0];
 
-#print "beginning with: $currDir\n";
-read_entries($currDir);
+    #print "beginning with: $currDir\n";
+    read_entries($currDir);
+}
+else
+{
+    print "give me argument path!\n";
+}
