@@ -1,0 +1,94 @@
+\chapter{The concepts in Kobold}
+
+\section{Productline}
+
+Kobold is a tool to administrate productlines. By specifying an architecture in which
+core assets are linked with each other through dependency and exclusion edges, the product line engineer
+creates a basis for all the products of the product line. 
+
+\section{Core Asset}
+
+Core assets are abstract modules in the productline architecture. Instances of them (i.d. components)
+are used for the different products of the productline.
+
+\section{Component}
+
+Components...
+
+\section{Custom Component}
+
+Custom components are instances of core assets and used in product architectures. They can
+differ from the corresponding core assets in order to fit the product.
+
+\section{Variant}
+
+Variants are modifications of core assets.
+
+\section{Version}
+
+Versions are created to save the current state of a variant. Versions are usually
+used to create a release of the product.
+
+\section{Meta Node}
+
+Meta nodes are a means to creating complex relationships between nodes. They represent
+the relationships AND, OR and XOR.
+
+\section{Dependency Edge}
+
+A dependency edge indicates that the nodes at the ends of the edge depend on each other.
+Therefore one of them can't be used without the other.
+
+\section{Exclusion Edge}
+
+An exclusion edge indicates that the nodes at the ends of the edge can't be used
+at the same time.
+
+\section{GXL}
+
+GXL is a graph exchange language and used to export the architecture, etc. For more
+information: http://www.gupro.de/GXL/
+
+\section{Product Line Engineer (PLE)}
+
+The product line engineer has the responsibility for the product line.
+
+\section{Product Engineer (PE)}
+
+The product engineer administrates a specific product and is a subordinate of the
+product line engineer.
+
+\section{Product Developer (P)}
+
+Product developers are subordinates of the product engineer. They develop the software 
+product.
+
+\section{Workflow}
+
+A workflow is a working process. You can create them in order to trigger certain
+activities when the server executes one of the following commands:
+
+\begin{itemize}
+	\item login
+	\item logout
+	\item get roles
+	\item get product role
+	\item add user
+	\item get productline
+	\item get product
+	\item add product
+	\item add role
+	\item remove role
+	\item apply productline modifications
+	\item apply product modifications
+	\item remove user
+	\item send message
+	\item fetch message
+	\item invalidate message
+	\item validate SAT accessibility
+	\item change user password
+	\item create new productline
+	\item remove productline
+	\item add product line engineer
+	\item remove product line engineer
+\end{itemize}
