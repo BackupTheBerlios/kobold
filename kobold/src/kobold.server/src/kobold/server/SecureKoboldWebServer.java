@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.15 2004/05/18 21:23:58 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.16 2004/05/19 13:46:28 garbeam Exp $
  *
  */
 package kobold.server;
@@ -62,7 +62,7 @@ import org.apache.xmlrpc.secure.SecureWebServer;
 public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	
 	private static final Log logger = LogFactory.getLog(SecureKoboldWebServer.class);
-	
+
 	// the xml-rpc webserver
 	private static SecureWebServer server;
 
@@ -102,7 +102,10 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	{
 		try {
 			if (methodName.equals("login")) {
-				return RPCMessageTransformer.encode(login((String)arguments.elementAt(0), (String)arguments.elementAt(1)).serialize());
+				UserContext userContext = login((String)arguments.elementAt(0), (String)arguments.elementAt(1));
+				if (userContext !=  null) {
+					return RPCMessageTransformer.encode(userContext.serialize());
+				}
 			}
 			else if (methodName.equals("logout")) {
 			    UserContext uc = new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0)));
@@ -112,11 +115,13 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 				List result = new ArrayList();
 				List roles = getRoles(new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0))));
-				for (Iterator it = roles.iterator(); it.hasNext(); ) {
-					Role role = (Role) it.next();
-					result.add(RPCMessageTransformer.encode(role.serialize()));
+				if (roles.size() > 0) {
+					for (Iterator it = roles.iterator(); it.hasNext(); ) {
+						Role role = (Role) it.next();
+						result.add(RPCMessageTransformer.encode(role.serialize()));
+					}
+					return result;
 				}
-				return result;
 			}
 			else if (methodName.equals("addUser")) {
 				addUser(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
@@ -126,13 +131,19 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			}
 			else if (methodName.equals("getProductline")) {
 				UserContext uc = new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0)));
-			    return RPCMessageTransformer.encode(getProductline(uc,
+				if (uc != null) {
+					return RPCMessageTransformer.encode(getProductline(uc,
 											  (String)arguments.elementAt(1)).serialize());
+				}
 			}
 			else if (methodName.equals("getProduct")) {
-				return RPCMessageTransformer.encode(
-										 getProduct(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-										 (String)arguments.elementAt(1)).serialize());
+				Product product = getProduct(
+					new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
+					(String)arguments.elementAt(1));
+					
+				if (product != null) {
+					return RPCMessageTransformer.encode(product.serialize());
+				}
 			}
 			else if (methodName.equals("addProduct")) {
 				addProduct(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
@@ -165,8 +176,11 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 								 AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
 			}
 			else if (methodName.equals("fetchMessage")) {
-				return RPCMessageTransformer.encode(
-						fetchMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0)))).serialize());
+				AbstractKoboldMessage abstractKoboldMessage =
+					fetchMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))));
+				if (abstractKoboldMessage != null) {
+					return RPCMessageTransformer.encode(abstractKoboldMessage.serialize());
+				}
 			}
 			else if (methodName.equals("invalidateMessage")) {
 				invalidateMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
@@ -176,7 +190,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			logger.info("Exception during execute()", e);
 			throw e;	
 		}
-		return "NO_RESULT";
+		return IKoboldServer.NO_RESULT;
 	}
 	
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.11 2004/05/18 11:22:48 vanto Exp $
+ * $Id: SecureKoboldClient.java,v 1.12 2004/05/19 13:46:15 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -83,8 +83,10 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(password);
 		try {
 			Object result = client.execute("login", v);
-			Element element = RPCMessageTransformer.decode((String)result);
-			return new UserContext(element);
+			if (!((String)result).equals(IKoboldServer.NO_RESULT)) {
+				Element element = RPCMessageTransformer.decode((String)result);
+				return new UserContext(element);
+			}
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -115,13 +117,17 @@ public class SecureKoboldClient implements IKoboldServer {
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
-			List list = (List)client.execute("getRoles", v);
-			List result = new ArrayList();
-			for (Iterator it = result.iterator(); it.hasNext(); ) {
-				Element element = RPCMessageTransformer.decode((String) it.next());
-				result.add(Role.createRole(element));
+			Object object = client.execute("getRoles", v);
+			
+			if (!((String)object).equals(IKoboldServer.NO_RESULT)) {
+				List list = (List)object;	
+				List result = new ArrayList();
+				for (Iterator it = result.iterator(); it.hasNext(); ) {
+					Element element = RPCMessageTransformer.decode((String) it.next());
+					result.add(Role.createRole(element));
+				}
+				return result;
 			}
-			return result;
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -164,9 +170,11 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(plName);
 		try {
 			Object result = client.execute("getProductline", v);
-			System.err.println(result);
-			System.err.println(RPCMessageTransformer.decode((String)result));
-			return new Productline(RPCMessageTransformer.decode((String)result));
+			if (!((String)result).equals(IKoboldServer.NO_RESULT)) {
+				System.err.println(result);
+				System.err.println(RPCMessageTransformer.decode((String)result));
+				return new Productline(RPCMessageTransformer.decode((String)result));
+			}
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -185,7 +193,9 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(productName);
 		try {
 			Object result = client.execute("getProduct", v);
-			return new Product(RPCMessageTransformer.decode((String)result));
+			if (!((String)result).equals(IKoboldServer.NO_RESULT)) {
+				return new Product(RPCMessageTransformer.decode((String)result));
+			}
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -321,7 +331,9 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
 			Object result = client.execute("fetchMessage", v);
-			return AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)result));
+			if (!((String)result).equals(IKoboldServer.NO_RESULT)) {
+				return AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)result));
+			}
 		} catch (Exception exception) {
 			log.error(exception);
 		}

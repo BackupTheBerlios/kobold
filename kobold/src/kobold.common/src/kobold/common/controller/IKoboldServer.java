@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.2 2004/05/18 11:19:27 vanto Exp $
+ * $Id: IKoboldServer.java,v 1.3 2004/05/19 13:46:27 garbeam Exp $
  *
  */
 
@@ -40,6 +40,8 @@ import kobold.common.data.UserContext;
  * kobold server.
  */
 public interface IKoboldServer {
+	
+	public static final String NO_RESULT = "NO_RESULT";
 
 	/**
 	 * Login handler.
