@@ -2,17 +2,17 @@
 %% StuPro A, Produktlinien (Kobold)
 %% Team Werkbold
 %% Spezifikation I
-%% $Id: spezifikation.tex,v 1.2 2004/06/14 16:56:51 garbeam Exp $
+%% $Id: spezifikation.tex,v 1.3 2004/06/14 17:46:28 garbeam Exp $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[a4paper,titlepage,12pt,ngerman]{scrbook}
 \usepackage{../common/header}
 \usepackage{supertabular}
 
-\RCSdef $Revision: 1.2 $
-\RCSdef $Date: 2004/06/14 16:56:51 $
+\RCSdef $Revision: 1.3 $
+\RCSdef $Date: 2004/06/14 17:46:28 $
 
 %\newcommand\version{Version \today \xspace}
-\newcommand\version{Version 1.0\xspace}
+\newcommand\version{Version 2.0\xspace}
 
 \newcommand{\usecase}[5]{
 \nopagebreak
@@ -28,7 +28,7 @@
 #5\\
 }
 
-\title {\huge \product\\[0.5cm]\large Spezifikation I \\[0.5cm] \version
+\title {\huge \product\\[0.5cm]\large Spezifikation II \\[0.5cm] \version
   \\[1cm] \Large \company}
 
 \begin{document}
@@ -55,7 +55,7 @@
 \includegraphics[width=15cm]{../common/logo-color.png}
 \vfill
 {\parindent=0cm
-\Huge Spezifikation I
+\Huge Spezifikation II
 }
 
 
@@ -70,6 +70,10 @@
 \begin{itemize}
 
 \item Version 1.0 (20.02.2004)
+    
+    Diese Version wurde dem Auftraggeber vorgelegt.
+
+\item Version 2.0 (14.06.2004)
     
     Diese Version wurde dem Auftraggeber vorgelegt.
 
@@ -96,6 +100,7 @@
 \include{gxlexportusecase}
 \include{editor}
 \include{serverpersistenz}
+\include{admintool}
 %---------------------------
 %----------------------------
 \include{nichtfunktional}

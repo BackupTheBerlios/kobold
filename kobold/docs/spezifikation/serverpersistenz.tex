@@ -1,6 +1,6 @@
 \section{Serverseitige Persistierung}
 Vom Kobold Serverdienst werden Benutzer-, Rollen-, Produkt-,
-Produktlinien- und Nachrichtendaten in Form eines eigenen XML Fromates
+Produktlinien- und Nachrichtendaten in einem eigenen XML Format
 persistiert. Bei Produkten und Produktlinien werden lediglich die Repository-Lokationen
 sowie der zugehörige Produkt- bzw. Produktlinienname persistiert, da die
 wesentliche Metainformations-Speicherung clientseitig geschieht. Alle
@@ -13,8 +13,111 @@ Benutzer werden vom Kobold in Form von folgender XML-Struktur persistiert.
 \begin{verbatim}
 <users>
     <user>
-
-
-
+        <username>vanto</username>
+        <realname>Tammo van Lessen</realname>
+        <password>87EE3E2F</password>
+        <roles>
+            <role type="PE">
+                <product>xregatta</product>
+            </role>
+            <role type="P">
+                <product>statcvs-xml</product>
+            </role>
+        </roles>
+    </user>
+    <user>
+        <username>garbeam</username>
+        <realname>Anselm R. Garbe</realname>
+        <password>FE453E2F</password>
+        <roles>
+            <role type="PE">
+                <product>WMI</product>
+            </role>
+            <role type="P">
+                <product>CAIF</product>
+            </role>
+        </roles>
+    </user>
+    ...
 </users>
+\end{verbatim}
+
+\subsection{Nachrichtendaten}
+
+Nachrichten in Queues oder an spezielle Benutzer werden wie folgt
+persistiert:
+
+\begin{verbatim}
+<messages>
+    <queues>
+        <queue>
+            <entry>
+                <message type="TYP" id="ID" priority="PRIO"
+                state="STATE">
+                    <sender>vanto</sender>
+                    <receiver>garbeam</receiver>
+                    <date>200408102¾451910</date>
+                    <subject>Hallo</subject>
+                </message>
+            </entry>
+            ...
+        </queue>
+    </queues>
+    <pending>
+        <message type="TYP" id="ID" priority="PRIO"
+        state="STATE">
+            <sender>vanto</sender>
+            <receiver>garbeam</receiver>
+            <date>200408102¾451910</date>
+            <subject>Hallo</subject>
+        </message>
+        ...
+    </pending>
+</messages>
+\end{verbatim}
+
+Nachrichten, die global für alle verfügbar sind, werden wie folgt
+persistiert:
+
+\begin{verbatim}
+<messages>
+    <global>
+        <message type="TYP" id="ID" priority="PRIO"
+        state="STATE">
+            <sender>vanto</sender>
+            <receiver>garbeam</receiver>
+            <date>200408102¾451910</date>
+            <subject>Hallo</subject>
+        </message>
+        ...
+    </global>
+</messages>
+\end{verbatim}
+
+\subsection{Produkt- und Produklinien-Daten}
+
+Produkte werden serverseitig unterhalb von Produktlinien
+persistiert:
+
+\begin{verbatim}
+<productline name="metricline">
+    <repository type="CVS">
+        <host>cvs.berlios.de</host>
+        <path>/cvsroot/metricline</path>
+    </repository>
+    <products>
+        <product name="statcvs-xml">
+            <repository type="CVS">
+                <host>cvs.berlios.de</host>
+                <path>/cvsroot/statcvs-xml</path>
+            </repository>
+        </product>
+        <product name="wmi">
+            <repository type="SVN">
+                <host>svn.berlios.de</host>
+                <path>/svnroot/repos/wmi</path>
+            </repository>
+        </product>
+    </products>
+</productline>
 \end{verbatim}

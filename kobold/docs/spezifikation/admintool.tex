@@ -3,25 +3,25 @@
 Use Case Name      : Server-Administartions-Tool starten\\
 Akteur            : Kobold Administrator\\
 Vorbedingung      : -\\
-Regulï¿½rer Ablauf  : \\
+Regulärer Ablauf  : \\
 \begin{itemize}
-\item Ein BegrÃ¼Ã&#159;ungstext wird auf der Konsole ausgegeben.
-\item Der Kobold Administrator wird aufgefordert, eine gÃ¼ltige URL des
+\item Ein Begrüßungstext wird auf der Konsole ausgegeben.
+\item Der Kobold Administrator wird aufgefordert, eine gültige URL des
 zu administrierenden Servers anzugeben.
-\item Der Kobold Administartor gibt eine gÃ¼ltige URL ein.
-\item Der Kobold Administrator wird aufgefordert, das gÃ¼ltige
-Administrator-Passwort fÃ¼r den zu administrierenden
+\item Der Kobold Administartor gibt eine gültige URL ein.
+\item Der Kobold Administrator wird aufgefordert, das gültige
+Administrator-Passwort für den zu administrierenden
 Kobold Server einzugeben.
-\item Der kobold Administrator gibt das gÃ¼ltige Passwort an.
-\item Das Administartionstool Ã¼berprÃ¼ft die Angaben des Administrators
+\item Der kobold Administrator gibt das gültige Passwort an.
+\item Das Administartionstool überprüft die Angaben des Administrators
 und gibt eine Erfolgsmeldung aus.
 \end{itemize}
-Alternative Ablï¿½ufe: \\
+Alternative Abläufe: \\
 Falls keine Verbindung zum angegebenen Server hergestellt werden kann
 (Fehleingaben, Kommunikationsproblem),
 wird eine entsprechende Fehlermeldung ausgegeben. Der Administartor wird
 vor die Wahl gestellt, ob er seine
-Eingabe wiederholen mÃ¶chte, oder ob das Administrationstool beendet
+Eingabe wiederholen möchte, oder ob das Administrationstool beendet
 werden soll. \\
 Nachbedingung      : Die Eingabeaufforderung der Administartionskonsole
 ist zu sehen.\par
@@ -30,35 +30,35 @@ Use Case Name      : Server-Administartionstool beenden\\
 Akteur            : Kobold Administrator\\
 Vorbedingung      : Das Administrationstool ist gestartet und die
 Eingabeaufforderung ist zu sehen.\\
-Regulï¿½rer Ablauf  : \\
+Regulärer Ablauf  : \\
 \begin{itemize}
-\item Der Koboldadministartor gibt das Kommando "exit" ein. \item
+\item Der Koboldadministartor gibt das Kommando 'exit' ein. \item
 Der Kobold-Server wird beendet.
 \end{itemize}
 Nachbedingung      : Die Eingabeaufforderung der Administartionskonsole
 ist nicht mehr zu sehen, Eingaben 
 werden nicht mehr entgegengenommen.\par
 
-Use Case Name      : Kommandoï¿½bersicht anzeigen\\
+Use Case Name      : Kommandoübersicht anzeigen\\
 Akteur            : Kobold Administartor\\
 Vorbedingung      : Das Administrationstool ist gestartet und die
 Eingabeaufforderung ist zu sehen.\\
-Regulï¿½rer Ablauf  : \\
+Regulärer Ablauf  : \\
 \begin{itemize}
-\item Der Koboldadministartor gibt das Kommando "help" ein.
-\item Eine ï¿½bersicht ï¿½ber die verfï¿½gbaren Kommandos erscheint auf
+\item Der Koboldadministartor gibt das Kommando 'help' ein.
+\item Eine Übersicht über die verfügbaren Kommandos erscheint auf
 der Konsole, mit einer kurzen Beschreibung jedes Kommandos.
 \end{itemize}
 Nachbedingung      : Die Eingabeaufforderung der Administartionskonsole
 ist zu sehen.\par
 
-Use Case Name      : Fehleingabe tï¿½tigen\\
+Use Case Name      : Fehleingabe tätigen\\
 Akteur            : Kobold Administrator\\
 Vorbedingung      : Das Administrationstool ist gestartet und die
 Eingabeaufforderung ist zu sehen.\\
-Regulï¿½rer Ablauf  : \\
+Regulärer Ablauf  : \\
 \begin{itemize}
-\item Der Kobold Administartor gibt ein ungï¿½ltiges Kommando ein.
+\item Der Kobold Administartor gibt ein ungültiges Kommando ein.
 \item Eine Fehlermeldung wird auf der Konsole ausgegeben.
 \end{itemize}
 Nachbedingung      : Die Eingabeaufforderung der Administartionskonsole
@@ -68,16 +68,16 @@ Use Case Name      : Neue Produktlinie anlegen\\
 Akteur            : Kobold Administrator\\
 Vorbedingung      : Das Administrationstool ist gestartet und die
 Eingabeaufforderung ist zu sehen.\\
-Regulï¿½rer Ablauf  : \\
+Regulärer Ablauf  : \\
 \begin{itemize}
-\item Der Koboldadministartor gibt das Kommando "createpl" ein. \item
+\item Der Koboldadministartor gibt das Kommando 'createpl' ein. \item
 Der Koboldadministartor wird aufgefordert
-einen Namen fï¿½r die neue Produktlinie anzugeben. \item Der
-Koboldadministrator gibt einen gï¿½ltigen Namen fï¿½r die neue
+einen Namen fär die neue Produktlinie anzugeben. \item Der
+Koboldadministrator gibt einen gältigen Namen fär die neue
 Produktlinie an. \item Eine Erfolgsmeldung wird ausgegeben.
 \end{itemize}
-Alternative Ablï¿½ufe: \\
-Falls der eingegebene Name ungï¿½ltig ist (leere Eingabe,
+Alternative Abläufe: \\
+Falls der eingegebene Name ungältig ist (leere Eingabe,
 Produktlinie bereits vorhanden), wird eine entsprechende
 Fehlermeldung ausgegeben und die Bearbeitung abgebrochen.\\
 Nachbedingung      : Die Eingabeaufforderung der Administartionskonsole
@@ -87,18 +87,18 @@ Use Case Name      : Produktlinie entfernen\\
 Akteur            : Kobold Administrator\\
 Vorbedingung      : Das Administrationstool ist gestartet und die
 Eingabeaufforderung ist zu sehen.\\
-Regulï¿½rer Ablauf  : \\
+Regulärer Ablauf  : \\
 \begin{itemize}
-\item Der Koboldadministartor gibt das Kommando "removepl" ein. 
+\item Der Koboldadministartor gibt das Kommando 'removepl' ein. 
 \item Der Koboldadministrator wird aufgefordert den Namen der zu
 entfernenden Produktlinie einzugeben. 
-\item Der Kobold Administrator gibt einen gï¿½ltigen Produktliniennamen
+\item Der Kobold Administrator gibt einen gältigen Produktliniennamen
 an.
 \item Die angegebene Produktlinie wird aus dem System entfernt und eine
 kurze Erfolgsmeldung ausgegeben.
 \end{itemize}
-Alternative Ablï¿½ufe: \\
-Falls der eingegebene Produktlinien-Name ungï¿½ltig ist (leere Eingabe,
+Alternative Abläufe: \\
+Falls der eingegebene Produktlinien-Name ungältig ist (leere Eingabe,
 Produktlinie nicht vorhanden) 
 oder die zu entfernende Produktlinie nicht leer ist, wird eine
 entsprechende Fehlermeldung ausgegeben 
@@ -110,13 +110,13 @@ Use Case Name      : Neuen PLE anlegen\\
 Akteur            : Kobold Administrator\\
 Vorbedingung      : Das Administrationstool ist gestartet und die
 Eingabeaufforderung ist zu sehen.\\
-Regulï¿½rer Ablauf  : \\
+Regulärer Ablauf  : \\
 \begin{itemize}
-\item Der Koboldadministartor gibt das Kommando "addple" ein.
+\item Der Koboldadministartor gibt das Kommando 'addple' ein.
 \item Der Koboldadministrator wird aufgefordert, den Namen des Users
 einzugeben, dem die neu anzulegende
 PLE-Rolle zugewiesen werden soll. 
-\item Der Kobold Administrator gibt einen gï¿½ltigen PLE-Namen an. 
+\item Der Kobold Administrator gibt einen gältigen PLE-Namen an. 
 \item Der Kobold Administartor wird aufgefordert, die Produktlinie
 anzugeben, der der angegebene User als
 PLE zugewiesen werden soll.
@@ -124,9 +124,9 @@ PLE zugewiesen werden soll.
 \item Dem angegebenen User und der angegebenen Produktlinie wird die
 PLE-Rolle zugewiesen.
 \end{itemize}
-Alternative Ablï¿½ufe: \\
+Alternative Abläufe: \\
 \begin{itemize}
-\item Falls der eingegebene Benutzername ungï¿½ltig ist (z.B. leere
+\item Falls der eingegebene Benutzername ungältig ist (z.B. leere
 Eingabe), wird eine entsprechende 
 Fehlermeldung ausgegeben und die Bearbeitung abgebrochen.
 \item Falls der eingegebene Benutzername noch nicht vergeben ist, wird
@@ -141,26 +141,26 @@ Use Case Name      : PLE-Rolle invalidieren\\
 Akteur            : Kobold Administrator\\
 Vorbedingung      : Das Administrationstool ist gestartet und die
 Eingabeaufforderung ist zu sehen.\\
-Regulï¿½rer Ablauf  : \\
+Regulärer Ablauf  : \\
 \begin{itemize}
-\item Der Koboldadministartor gibt das Kommando "removeple" ein.
+\item Der Koboldadministartor gibt das Kommando 'removeple' ein.
 \item Der Koboldadministrator wird aufgefordert den Namen des Users
 einzugeben, dessen PLE-Rolle entfernt 
 werden soll. 
-\item Der Kobold Administrator gibt einen gï¿½ltigen Benutzernamen an. 
+\item Der Kobold Administrator gibt einen gältigen Benutzernamen an. 
 \item Der Kobold Administrator wird aufgefordert, den Namen der
-Produktlinie anzugeben, fÃ¼r den der angegebene
+Produktlinie anzugeben, für den der angegebene
 Benutzer die PLE-Rolle verlieren soll.
 \item Der Kobold Administrator gibt einen korrekten Produktliniennamen
 ein.
 \item Die angegebene PLE-Rolle wird aus dem System entfernt.
 \end{itemize}
-Alternative Ablï¿½ufe: \\
+Alternative Abläufe: \\
 \begin{itemize}
-\item Falls der eingegebene Benutzer-Name ungï¿½ltig ist (leere Eingabe,
+\item Falls der eingegebene Benutzer-Name ungältig ist (leere Eingabe,
 Name nicht vergeben), wird eine 
 entsprechende Fehlermeldung ausgegeben und die Bearbeitung abgebrochen.
-\item Falls der eingegebene Produktlinienname ungÃ¼ltig ist (leere
+\item Falls der eingegebene Produktlinienname ungültig ist (leere
 Eingabe, Produktlinie nicht vorhanden),
 wird eine entsprechende Fehlermeldung ausgegeben und die Bearbeitung
 abgebrochen.
