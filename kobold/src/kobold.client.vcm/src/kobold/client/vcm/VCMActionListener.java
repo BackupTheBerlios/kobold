@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.17 2004/11/05 10:50:58 grosseml Exp $
+ * $Id: VCMActionListener.java,v 1.18 2004/11/08 12:17:32 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -361,11 +361,91 @@ public class VCMActionListener implements IVCMActionListener
     /**
      * @see kobold.client.plam.listeners.IVCMActionListener#updateRelease(kobold.client.plam.model.product.RelatedComponent, kobold.client.plam.model.Release)
      */
-    public void updateRelease(RelatedComponent rc, Release newRelase) {
-        // TODO Auto-generated method stub
+    public void updateRelease(RelatedComponent rc, Release newRelease) {
+        final String cleanVCMCmd = "cleanvcmdata.pl";
+        String cleanDir = rc.getLocalPath().toOSString();
+		String userName = KoboldRepositoryHelper.getUserName();
+		String password = KoboldRepositoryHelper.getUserPassword();
+		RepositoryDescriptor rd = ModelStorage.getRepositoryDescriptorForAsset(newRelease.getParent());
+		ScriptServerConnection connection =
+		    ScriptServerConnection.getConnection(rd.getRoot());
+        IProgressMonitor progress = new SubProgressMonitor(KoboldPolicy.monitorFor(null), newRelease.getFileRevisions().size());
         
+		if (connection != null) {
+    		String command[] = new String[10];
+		    // First clean existing component directory from existing VCM data
+		    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(cleanVCMCmd);
+		    command[1] = cleanDir;
+			try {
+				connection.open(progress, command);
+				connection.close();	
+			}
+			catch (Exception e) {
+				logger.error("tagRelease(Release)", e);
+			}
+			// Next checkout component to cleanDir
+		    /**
+		     * 	# $1 working directory
+				# $2 repo type
+				# $3 protocoal type
+				# $4 username
+				# $5 password
+				# $6 host
+				# $7 root
+				# $8 module
+				# $9 userdef
+		     */
+            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.CHECKOUT).concat(KoboldRepositoryHelper.getScriptExtension());
+		    command[1] = cleanDir;
+		    command[2] = rd.getType();
+		    command[3] = rd.getProtocol();
+		    command[4] = userName;
+		    command[5] = password; 
+			command[6] = rd.getHost();
+			command[7] = rd.getRoot();
+			command[9] = newRelease.getName();
+			try {
+			    // first we try to commit
+    			connection.open(progress, command);
+    			connection.close();	
+        			
+//    			if (connection.getReturnValue() != 0) {
+//				}
+			}
+			catch (Exception e) {
+				logger.error("tagRelease(Release)", e);
+			}
+			// Clean again
+		    // First clean existing component directory from existing VCM data
+		    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(cleanVCMCmd);
+		    command[1] = cleanDir;
+			try {
+				connection.open(progress, command);
+				connection.close();	
+			}
+			catch (Exception e) {
+				logger.error("tagRelease(Release)", e);
+			}
+			// Finally import the subdirectory
+			rd = rc.getRemoteRepository();
+            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.IMPORT).concat(KoboldRepositoryHelper.getScriptExtension());
+		    command[1] = cleanDir;
+		    command[2] = rd.getType();
+		    command[3] = rd.getProtocol();
+		    command[4] = userName;
+		    command[5] = password; 
+			command[6] = rd.getHost();
+			command[7] = rd.getRoot();
+			command[9] = newRelease.getName();
+			try {
+				connection.open(progress, command);
+				connection.close();	
+			}
+			catch (Exception e) {
+				logger.error("tagRelease(Release)", e);
+			}
+		}
     }
-
     
     /**
      * @see kobold.client.plam.listeners.IVCMActionListener#addFileDescriptors(kobold.client.plam.model.AbstractRootAsset, java.util.List)

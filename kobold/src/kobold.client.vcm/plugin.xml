@@ -39,6 +39,7 @@
             adaptable="true"
             objectClass="kobold.client.plam.model.AbstractAsset"
             id="kobold.client.vcm.contribution1">
+            <!--
          <action
                label="Commit..."
                class="kobold.client.vcm.popup.action.CommitAction"
@@ -83,6 +84,7 @@
                class="kobold.client.vcm.popup.action.CheckoutAction"
                menubarPath="kobold.client.vcm.menu1/group1"
                id="kobold.client.vcm.checkoutaction"/>
+               -->
       </objectContribution>
       <objectContribution
             adaptable="true"

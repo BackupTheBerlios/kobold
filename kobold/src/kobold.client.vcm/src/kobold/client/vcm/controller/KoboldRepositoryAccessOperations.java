@@ -185,7 +185,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
         try {
 			progress = KoboldPolicy.monitorFor(progress);
 	  			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.CHECKOUT).concat(scriptExtension),
-    			                 tag, ScriptDescriptor.VCM_CHECKOUT);
+    			                 tag, "checkout");
 		} catch (Exception e) {
 			logger
 					.error(
@@ -218,7 +218,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
         try {
 			progress = KoboldPolicy.monitorFor(progress);
 			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(scriptExtension),
-			                 tag, ScriptDescriptor.VCM_UPDATE);
+			                 tag, "update");
 		} catch (Exception e) {
 			logger
 					.error("update(AbstractAsset[], IProgressMonitor, String)",
@@ -233,7 +233,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
         try {
 			progress = KoboldPolicy.monitorFor(progress);
 			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.REMOVE).concat(scriptExtension),
-			                 null, ScriptDescriptor.VCM_DELETE);
+			                 null, ScriptDescriptor.VCM_REMOVE);
 		} catch (Exception e) {
 			logger.error("remove(AbstractAsset[], IProgressMonitor)", e);
 		}
