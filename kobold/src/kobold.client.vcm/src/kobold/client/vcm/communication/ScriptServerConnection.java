@@ -78,6 +78,10 @@ public class ScriptServerConnection implements IServerConnection
 	
 	// The two Threads created for error and input reading
 	private Thread errorThread, inputThread;
+	
+	// The return Value of the process
+	int returnValue = -1;
+	
 	public static final char NEWLINE= 0xA;
 	
 	
@@ -214,7 +218,9 @@ public class ScriptServerConnection implements IServerConnection
             {
 			    errorThread.start();
 			    Workbench.getInstance().getProgressService().run(true,false,(InputThreadToConsole)inputThread) ;
-				process.waitFor();			   
+				process.waitFor();
+				returnValue =  process.exitValue();
+				System.out.println(returnValue);
             } catch (Exception e)
             {
                 e.printStackTrace();
@@ -358,19 +364,19 @@ public class ScriptServerConnection implements IServerConnection
             }
 		}
 		public void run(){
-		    int index = 0, r = 0, s = 0, i = 0, lineCount = 100;
+		    int index = 0, r = 0, s = 0, i = 0, lineCount = 50;
             try
             {
                 if(monitor != null)monitor.beginTask("VCM Action....",1000000);
                 	else{
                 	    monitor = KoboldPolicy.monitorFor(null);
                 	}
-                while (in.available() == 0 && s < 100)
+                while (in.available() == 0 && s < 50)
                 {
                     sleep(5);   
                     s++;
                 }
-                while ( lineCount == 100 || i < 100)
+                while ( lineCount == 50 || i < 50)
                 {
                     monitor.worked(1);
                     try
@@ -415,7 +421,7 @@ public class ScriptServerConnection implements IServerConnection
                         this.readLineBuffer = new byte[512];
                         index = 0;
                     }
-                    if (in.available() == 0  && lineCount != 100)
+                    if (in.available() == 0  && lineCount != 50)
                     {
                         monitor.worked(3);
                         i++;
@@ -638,5 +644,12 @@ public class ScriptServerConnection implements IServerConnection
 	public InputStream getErrStream() {
 		return errStream;
 	}
-
+	
+	/**
+	 * @return returnValue Returns the return Value of the process.
+	 */
+    public int getReturnValue()
+    {
+        return returnValue;
+    }
 }
