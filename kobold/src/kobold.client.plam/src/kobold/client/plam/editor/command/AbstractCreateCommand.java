@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractCreateCommand.java,v 1.1 2004/06/23 12:58:10 vanto Exp $
+ * $Id: AbstractCreateCommand.java,v 1.2 2004/08/30 13:31:57 rendgeor Exp $
  *
  */
 package kobold.client.plam.editor.command;
+
+import kobold.client.plam.model.ModelStorage;
 
 import org.eclipse.gef.commands.Command;
 
@@ -49,6 +51,12 @@ public abstract class AbstractCreateCommand extends Command
     public void execute()
     {
         redo();
+        
+        //ModelStorage
+        ModelStorage ms = new ModelStorage ();
+
+        //TODO: store the model to get the directories!!
+        System.out.println ("Save me please manually!");
     }
     
     /**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.1 2004/08/28 11:31:10 vanto Exp $
+ * $Id: DeleteAssetCommand.java,v 1.2 2004/08/30 13:31:57 rendgeor Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -108,7 +108,10 @@ public class DeleteAssetCommand extends Command
 
         if (parent instanceof IComponentContainer
                 && asset instanceof Component) {
-            IComponentContainer cc = (IComponentContainer)parent;
+        	//delete the component directory
+        	ModelStorage.deleteComponentDirectory((Component)asset);
+        	
+        	IComponentContainer cc = (IComponentContainer)parent;
             index = cc.getComponents().indexOf(asset);
             cc.removeComponent((Component)asset);
         } else if (parent instanceof IVariantContainer
@@ -116,13 +119,11 @@ public class DeleteAssetCommand extends Command
         	//delete the variant directory
         	ModelStorage.deleteVariantDirectory((Variant)asset);
         	
-        	//remove VCM-dir stuff
-        	//TODO: acces to the vcm-plugin:
-        	//StatusUpdater:deleteVariantVCMDirectory((Variant)asset);
-        	
             IVariantContainer vc = (IVariantContainer)parent;
             index = vc.getVariants().indexOf(asset);
             vc.removeVariant((Variant)asset);
+            
+            
         } else if (parent instanceof IReleaseContainer
                 && asset instanceof Release) {
             IReleaseContainer rc = (IReleaseContainer)parent;

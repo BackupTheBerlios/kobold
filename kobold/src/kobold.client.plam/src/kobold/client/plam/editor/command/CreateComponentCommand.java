@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CreateComponentCommand.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
+ * $Id: CreateComponentCommand.java,v 1.3 2004/08/30 13:31:57 rendgeor Exp $
  *
  */
 package kobold.client.plam.editor.command;
 
 import kobold.client.plam.model.IComponentContainer;
+import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.productline.Component;
 
 
@@ -38,6 +39,7 @@ public class CreateComponentCommand extends AbstractCreateCommand
     private IComponentContainer parent;
     private Component child;
 
+    
     public void setParent(IComponentContainer parent)
     {
         this.parent = parent;
