@@ -21,14 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.12 2004/06/26 17:06:24 bettina Exp $
+ * $Id: WorkflowView.java,v 1.13 2004/06/26 19:54:01 bettina Exp $
  *
  */
 package kobold.client.plam.workflow;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import javax.swing.*;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.listeners.IProjectChangeListener;
@@ -80,6 +79,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private Action filterAction;
 	private Action coreGroupAction;
 	private Action doubleClickAction;
+	private Action deleteAction;
 	
 	private String[] titles = {null, null, "Subject", "Sender", "Date" };
 	private ColumnLayoutData columnLayouts[] =	{
@@ -165,7 +165,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(fetchAction);
 		manager.add(messageAction);
-		manager.add(coreGroupAction);
+	//	manager.add(coreGroupAction);
 		manager.add(new Separator());
 		//manager.add(action2);
 	}
@@ -174,7 +174,8 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		manager.add(filterAction);
 		manager.add(fetchAction);
 		manager.add(messageAction);
-		manager.add(coreGroupAction);
+		//manager.add(deleteAction);
+		//manager.add(coreGroupAction);
 		//manager.add(action2);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator("Additions"));
@@ -216,6 +217,14 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		filterAction.setText("Filter sent messages");
 		filterAction.setToolTipText("Hide already sent messages from this list");
 		filterAction.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/filter_msg.gif"));
+		
+		deleteAction = new Action() {
+			public void run() {
+				//TODO
+			}
+		};
+		deleteAction.setText("Delete message");
+		
 		
 		messageAction = new Action() {
 			public void run() {
