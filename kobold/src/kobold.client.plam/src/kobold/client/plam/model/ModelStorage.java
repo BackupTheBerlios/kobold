@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.12 2004/08/03 14:49:21 vanto Exp $
+ * $Id: ModelStorage.java,v 1.13 2004/08/04 13:07:04 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -108,7 +108,7 @@ public class ModelStorage
      * @param pl, the pl for creating the dirs
      * @return the PL-IFolder
      */
-	public static void createPlDirectory (Productline pl, IProgressMonitor monitor) {
+	private static void createPlDirectory (Productline pl, IProgressMonitor monitor) {
 		//create directory for the PL
 		monitor.beginTask("Creating directory structure", 150);
 		//the PL directory
@@ -120,14 +120,14 @@ public class ModelStorage
 	            plFolder.create(true, true, monitor);
 	        }
 	
-	        plFolder = project.getFolder(COREASSETS_FOLDER_NAME);
-	        if (!plFolder.exists()) {
-	            plFolder.create(true, true, monitor);
+	        IFolder plFolder2 = plFolder.getFolder(COREASSETS_FOLDER_NAME);
+	        if (!plFolder2.exists()) {
+	            plFolder2.create(true, true, monitor);
 	        }
 	        
-	        plFolder = project.getFolder(PRODUCTS_FOLDER_NAME);
-	        if (!plFolder.exists()) {
-	            plFolder.create(true, true, monitor);
+	        plFolder2 = plFolder.getFolder(PRODUCTS_FOLDER_NAME);
+	        if (!plFolder2.exists()) {
+	            plFolder2.create(true, true, monitor);
 	        }
         } catch (CoreException e) {
             KoboldPLAMPlugin.log(e);
@@ -201,6 +201,7 @@ public class ModelStorage
                     }
                     
                     //write the products metafile
+                    serializeProduct(pl, monitor);
                     
                 }
             });
@@ -219,6 +220,7 @@ public class ModelStorage
      *       the repository descriptor of it.
      * @param asset the asset you're gaining the repository descriptor for.
      */
+    
     public static RepositoryDescriptor getRepositoryDescriptorForAsset(AbstractAsset asset) {
 
         // checks special cases first
@@ -246,12 +248,14 @@ public class ModelStorage
                     				 repositoryDescriptor.getPath() + File.separator +
                     				 modulePath);
     }
-
+	
+    
     /**
      * Returns full path of given abstract assets. The full path will
      * be calculated.
      * @param theAsset an abstract asset
      */
+    /**
     public static IPath getPathForAsset(AbstractAsset asset) {
         
         AbstractRootAsset root = asset.getRoot();
@@ -281,7 +285,7 @@ public class ModelStorage
         
         return new Path(root.getKoboldProject().getProject().getLocation()
                         + "" + IPath.SEPARATOR + thePath);
-    }
+    }**/
     
 	
 	
@@ -294,19 +298,29 @@ public class ModelStorage
         //PRODUCTS-dir
         productsFolder = productsFolder.getFolder(PRODUCTS_FOLDER_NAME);
         
-        
-        
 		//get all products
     	List products = pl.getProducts();
     	
-        ////////////////////////////
         //for each product
 		for (Iterator it = products.iterator(); it.hasNext();) {
 			Product product = (Product) it.next();
 		       
 	        //create the dir
 	        IFolder specialProductFolder = productsFolder.getFolder(product.getName());
-	        //XXX:createDirectory (specialProductFolder, monitor);
+
+			
+			//createDirectory
+	        try {
+		        if (!specialProductFolder.exists()) {
+		            specialProductFolder.create(true, true, monitor);
+		        }
+	        } catch (CoreException e) {
+	            KoboldPLAMPlugin.log(e);
+	        }
+	        /**finally {
+	            monitor.done();
+	        }**/
+	            
 	    	
 	    	//create the metafiles
 	        IFile modelFile = specialProductFolder.getFile(PRODUCT_META_FILE);
@@ -322,7 +336,8 @@ public class ModelStorage
 	            //write the metafile
 	            createFile(modelFile, monitor, out);
 	            
-	            out.close();   
+	            out.close();
+	            
 	            
 	        } catch (UnsupportedEncodingException e) {
 	            // TODO Auto-generated catch block
@@ -331,9 +346,9 @@ public class ModelStorage
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 
-	        }
-			//////////////////////////////////
 
+
+	        }
 		}
 
 	}
