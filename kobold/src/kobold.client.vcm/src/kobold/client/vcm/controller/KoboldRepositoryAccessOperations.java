@@ -292,7 +292,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			connection.setSkriptName(skriptPath.toOSString().concat(CHECKOUT).concat(skriptExtension));
 			initConnection(connection,resources);
 			connection.open(progress, argString);
-			connection.close();	
+//			connection.close();	
 			progress.done();
 		} catch (Exception e) {
 			e.printStackTrace();
