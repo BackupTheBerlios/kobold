@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.16 2004/08/24 17:13:49 vanto Exp $
+ * $Id: KoboldProject.java,v 1.17 2004/08/25 10:25:08 memyselfandi Exp $
  *
  */
 package kobold.client.plam;
@@ -191,11 +191,12 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 		        productline = ProductlineFactory.create(spl);
 			    productline.setProject(this);
 			    productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
+			    
+		        ModelStorage.storeModel(productline);
+		        
 			    //check out from repo
 			    logger.debug("checkout pl");
 			    checkOutProductline(productline);
-			    
-		        ModelStorage.storeModel(productline);
 		    } else {
 		        productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
 		        productline.setProject(this);
