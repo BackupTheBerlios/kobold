@@ -21,10 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VersionNode.java,v 1.1 2004/04/16 11:28:04 garbeam Exp $
+ * $Id: VersionNode.java,v 1.2 2004/04/16 12:20:00 garbeam Exp $
  *
  */
-package kobold.client.model.pline.graph;
+package kobold.client.plam.model.pline.graph;
 
 /**
  * VersionNode

@@ -21,10 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.1 2004/04/16 11:28:04 garbeam Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.2 2004/04/16 12:20:00 garbeam Exp $
  *
  */
-package kobold.client.controller.roletree;
+package kobold.client.plam.controller.roletree;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
