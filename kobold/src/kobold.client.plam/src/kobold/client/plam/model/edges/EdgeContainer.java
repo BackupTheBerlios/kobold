@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.19 2004/08/23 01:42:10 martinplies Exp $
+ * $Id: EdgeContainer.java,v 1.20 2004/09/20 06:49:45 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -260,8 +260,9 @@ public class EdgeContainer implements ISerializable {
         List sourceEdges = (List)startNodesList.get(edge.getStartNode());
         List targetEdges = (List)targetNodesList.get(edge.getTargetNode());
         sourceEdges.remove(edge);
-        listeners.firePropertyChange(ID_SOURCE_CHANGED, null, edge);
         targetEdges.remove(edge);
+        listeners.firePropertyChange(ID_SOURCE_CHANGED, null, edge);
+        
         listeners.firePropertyChange(ID_TARGET_CHANGED, null, edge);
     }
     
