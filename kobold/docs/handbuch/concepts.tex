@@ -1,62 +1,98 @@
-\chapter{The concepts in Kobold}
+\chapter{Overview of Kobold}
 
-\section{Productline}
+The essential architecture of Kobold is divided in two subsystems: the Kobold Client
+which is a development environment for productlines and products, and the Kobold 
+Server which administrates the users, roles and messages. \par
 
-Kobold is a tool to administrate productlines. By specifying an architecture in which
-core assets are linked with each other through dependency and exclusion edges, the product line engineer
-creates a basis for all the products of the product line. 
+The Client is based on Eclipse and offers the user a graphical user interface
+through which he can administrate his productlines and products. He can view and alter the
+architectures in form of graphs, send messages and trigger workflows.\par
 
-\section{Component}
+The Server administrates the data of each user and their responsibilities. Also it
+offers the Clients a central message service . If a message is sent from a Client
+to the Server, the Server checks the message for possible consequences which are
+assigned to other clients as workflows. Besides the Server administrates the paths
+and the access configurations of the repositories which save the data of the products
+and the productlines.
 
-Components are abstract modules in the productline architecture. Instances of them (i.d. variants and custom components)
-are used for the different products of the productline.
+\section{Architecture Objects}
 
-\section{Custom Component}
+\subsection{Core Asset}
 
-Custom components are instances of components and used in product architectures. They can
-differ from the corresponding components in order to fit the product.
+Core Assets are abstract modules in the productline architecture. They can contain variants.
 
 \section{Variant}
 
-Variants are modifications of components.
+Whenever there are more than one design possibilites, a variant is created. It allows
+the user to pursue both possibilites.
 
 \section{Release}
 
-Releases are created to save the current state of a variant. 
+Releases are created to save the state of a variant at a specific date. 
 
-\section{Meta Node}
+\subsection{Related Component}
+Related components are 
 
-Meta nodes are a means to creating complex relationships between nodes. They represent
-the relationships AND and OR.
+\subsection{Specific Component}
 
-\section{Dependency Edge}
+Specific components are instances of releases and used in product architectures. They can
+differ from the related components in order to fit the product.
+
+\subsection{Dependency Edge}
 
 A dependency edge indicates that the nodes connected by the edge depend on each other.
 Therefore one of them can't be used without the other.
 
-\section{Exclusion Edge}
+\subsection{Exclusion Edge}
 
 An exclusion edge indicates that the nodes connected by the edge can't be used
-in the same product.
+at the same time.
 
-\section{GXL}
+\subsection{Meta Node}
 
-GXL is a graph exchange language and used to export the architecture, etc. For more
+Meta nodes are used to create complex relationships between nodes. They represent
+the relationships AND and OR. In an AND relationship all objects are needed. The OR
+relationship lets you decide between the objects of the relationship.
+Be careful with
+the direction of the edges that are linked to a meta node! In the following architecture component A
+needs components B and C. But components B and C are independent of component A (see \ref{example}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{example.png}
+   \caption{Meta node example}
+\label{example}
+\end{center}
+\end{figure}\par
+
+
+\subsection{GXL}
+
+GXL is a graph exchange language and used to export the architectures in Kobold. For more
 information: http://www.gupro.de/GXL/
 
-\section{Product Line Engineer (PLE)}
 
-The product line engineer has the responsibility for the product line.
+\section{Roles}
 
-\section{Product Engineer (PE)}
+\subsection{Productline Engineer (PLE)}
 
-The product engineer administrates a specific product and is a subordinate of the
-product line engineer.
+Productline engineers have the responsibility for the productlines.
 
-\section{Product Developer (P)}
+\subsection{Product Engineer (PE)}
 
-Product developers are subordinates of the product engineer. They develop the software 
-product.
+Product engineers administrate products and core assets and are subordinates of the
+productline engineers.
+
+\subsection{Programmer (P)}
+
+Programmers are subordinates of the product engineers. They develop the software of the
+products and core assets.
+
+\section{Productline}
+
+Kobold is a tool to administrate productlines. By specifying an architecture in which
+core assets are linked with each other through dependency and exclusion edges, the productline engineer
+creates a basis for all the products of the productline. 
 
 \section{Workflow}
 
@@ -64,17 +100,14 @@ A workflow is a working process. You can create them in order to trigger certain
 activities when the server executes one of the following commands:
 
 \begin{itemize}
-	\item login
-	\item logout
-	\item get roles
-	\item get product role
 	\item add user
+	\item get all users
+	\item update user password
+	\item update user full name
+	\item get productline names
 	\item get productline
-	\item get product
-	\item add product
-	\item add role
-	\item remove role
-	\item apply productline modifications
-	\item apply product modifications
-	\item remove user
+	\item update productline
 \end{itemize}
+
+In Kobold workflows are triggered by either WorkflowMessage or RPCSpy objects. You can
+find the interfaces and implementations in chapter 6.
