@@ -1,16 +1,15 @@
-\chapter{Funktionale Anforderungen}
-In diesem Kapitel werden die funktionalen Anforderungen der
-jeweiligen Iterationen beschrieben. Grundlage der Spezifikation
-der funktionalen Anforderungen im Rahmen der Spezifikation I ist
+\chapter{Funktionale Anforderungen der Iteration I}
+In diesem und den folgenden Kapiteln werden die funktionalen
+Anforderungen der jeweiligen Iteration beschrieben. Grundlage
+der Spezifikation der funktionalen Anforderungen im Rahmen der
+Spezifikation I ist
 eine sehr abstrakte Beschreibung des \product Rahmensystems.\par
 In den Folgeiterationen werden zum Kobold Client und Kobold
 Serverdienst jeweils Use-Cases entwickelt, die die konkret
 ermittelten und vor jeder Folge-Iteration priorisierten
 Anforderungen (siehe Anhang B) detailliert spezifizieren.
 
-\section{Iteration I}
-
-\subsection{Anforderungen an das Gesamtsystem}
+\section{Anforderungen an das Gesamtsystem}
 
 Zur rollenabhängigen Verwaltung von Produkten und Produktlinien
 und zur Etablierung eines Produktlinien-Entwicklungsprozesses ist
@@ -29,7 +28,7 @@ ab.\par Gegenstand der Spezifikation I ist es also, die Grundlage
 für solide Teilkomponenten zu spezifizieren, die diesen
 Anforderungen an das Gesamtsystem gerecht werden.
 
-\subsubsection{Rollenprinzip}
+\subsection{Rollenprinzip}
 
 Zur Etablierung eines Produktlinien-Entwicklungsprozesses werden
 folgende Rollen von \product unterstützt:
@@ -45,7 +44,7 @@ werden. Die Benutzer- und Rollenverwaltung wird durch den
 Kobold-Serverdienst persistiert. Informationen zur genauen Persistierung
 können aus dem Kapitel zum Kobold-Serverdienst entnommen werden.
 
-\subsection{Kobold Client}
+\section{Kobold Client}
 Der Client basiert grundlegend auf der Eclipse Plattform und deren
 Standard Widgettoolkit (SWT) und ist dadurch von dessen nativer
 Schnittstelle abhängig. Er wird als 'Feature-Set' für die
@@ -67,12 +66,12 @@ Komponenten:
 Diese werden in den jeweiligen Unterkapiteln näher beschrieben.
 Die Oberfläche des Kobold-Clients wird in der nachfolgenden Abbildung prototypisch dargestellt.
 \newpage
- \begin{figure}[h!]
+\begin{figure}[h!]
 \includegraphics[width=15cm]{../angebot/screenshot.png}
    \caption{Screenshot des Client-Prototypen}
 \end{figure}
 
-\subsubsection{Authentifizierung}
+\subsection{Authentifizierung}
 Um mit der Kobold-Perspektive in Eclipse zu arbeiten, ist eine
 zentrale Authentifizierung am Kobold-Serverdienst nötig. Diese
 wird RPC-basiert über eine SSL verschlüsselte Verbindung
@@ -88,7 +87,7 @@ reagiert der Client mit der Synchronisation der Produktlinien-
 bzw. Produkt-spezifischen Repositories und dem Bereitstellen der
 daraufhin aktualisierten Views für den Benutzer.
 
-\subsubsection{Der Produkt(linien) Editor}
+\subsection{Der Produkt(linien) Editor}
 In diesem View wird die je nach aktiver Rolle relevante Ansicht
 auf die Architektur der Produktlinie angezeigt. Diese
 Architekturansicht wird durch die GEF-basierte
@@ -98,7 +97,12 @@ Visualisierung von Graphen anbietet.\par Der Editor bietet die
 Möglichkeit, grundlegenden Operationen durchzuführen, die für die
 Verwaltung einer Produktlinienarchitektur nötig sind.\par
 
-\paragraph{Visualisierung von Architekturen}
+\begin{figure}[h!]
+\includegraphics[width=12cm]{../angebot/praesentation/visual.png}
+   \caption{Screenshot des Produktlinien Editors}
+\end{figure}
+
+\subsubsection{Visualisierung von Architekturen}
 Architekturen werden als Graphen dargestellt, die sich aus einer
 Komposition von Knoten und gerichteten Kanten zusammensetzen. Knoten
 sind folgende Architekturelemente:
@@ -136,13 +140,13 @@ verkleinerte Ansicht der Gesamtarchitektur zur Verfügung, über die
 auch in der Graphendarstellung navigiert werden kann (ähnlich dem
 sog. 'Fischaugen Prinzip').\par
 
-\paragraph{Verwaltung von Architekturen}
+\subsubsection{Verwaltung von Architekturen}
 Architekturen von Produktlinien oder Produkten können durch die
 Interaktion mit der Maus über Kontextmenüs bzw. Symbolleisten
 verändert werden.\par Zu {\bf Veränderungen} von Architekturen
 zählen:
 \begin{itemize}
-\item Drag&Drop von Architekturelementen und Beziehungen
+\item Drag\&Drop von Architekturelementen und Beziehungen
 \item Ändern von Eigenschaften der Architekturelementen oder Beziehungen
 über einen Einstellungsdialog
 \item Hinzufügen/Entfernen von Architekturelementen und Beziehungen
@@ -162,8 +166,23 @@ des Knotens wie z.B. die Liste der schreibberechtigten Benutzer.
 Näheres zu Metainformationen ist im Abschnitt zur
 Metainformationskomponente beschrieben.
 
+\subsubsection{Interaktion mit der Maus}
+
+Sämtliche Interaktionen mit den Architekturelementen und ihren
+Beziehungen sollen im Einklang zur Bedienung moderner
+Benutzungsoberflächen stehen. Interaktionen werden durch sog. 'Actions'
+realisiert, die als zentrale Schnittstelle für alle Aktionen aus
+Mausklicks, Menüelementen, Kontextmenüelementen oder
+Symbolleistenelementen bedient werden.\par
+Die detaillierte Ausgestaltung von Menüs und Symbolleisten ist durch die
+Eclipse-basierte Grundlage von \product beliebig für die
+Benutzerbedürfnisse konfigurierbar. Wesentlich sind lediglich die
+'Actions' zur Interaktion. Exemplarisch werden in der ersten Iteration
+die grundlegenden 'Actions' zur Verwaltung von Architekturen
+implementiert (vgl. Verwaltung von Architekturen).
+
 \newpage
-\subsubsection{Der Rollen View}
+\subsection{Der Rollen View}
 Auf der linken Seite der Ausgangsperspektive wird ein
 hierarchischer Baum angezeigt, der die momentan aktive Rolle und
 die mit ihr verbundenen möglichen Sichten darstellt.
@@ -186,7 +205,7 @@ beschriebenen Produktlinien Editor spezifiziert.
 Die grafische Notation orientiert sich dabei an der in \cite{paper} festgelegten
 Struktur.
 
-\paragraph{Ansicht der Rolle Produktlinieningenieur}
+\subsubsection{Ansicht der Rolle Produktlinieningenieur}
 Der Produktlinieningenieur hat im Produktlinieneditor
 standardmäßig eine Ansicht auf die Architektur der gesamten
 Produktlinie, die sich grafisch sehr stark an die in \cite{paper}
@@ -199,7 +218,7 @@ Produkthierarchie.
 \end{figure}
 \newpage
 
-\paragraph{Ansicht der Rolle eines Produktingenieurs}
+\subsubsection{Ansicht der Rolle eines Produktingenieurs}
 Der Produktingenieur kann im Produktarchitektureditor
 standardmäßig jeweils genau ein Produkt auf einmal einsehen. Er
 kann in der Rollen View die verschiedenen ihm zugeordneten
@@ -212,7 +231,7 @@ graphischen Darstellung aus \cite{paper} orientieren.
 \end{figure}
 \newpage
 
-\paragraph{Ansicht der Rolle eines Programmierers}
+\subsubsection{Ansicht der Rolle eines Programmierers}
 Der Programmierer hat standardmäßig eine sehr flache Sicht auf ein
 einziges ihm zugeordnetes Produkt.\par Es besteht die Möglichkeit,
 den aktuellen Stand des Produktes mit seiner aktuellen
@@ -222,7 +241,7 @@ Arbeitskopie zu synchronisieren.
    \caption{Ansicht des Programmierers}
 \end{figure}
 
-\subsubsection{Der Worklflow/Task View}
+\subsection{Der Worklflow/Task View}
 Am unteren Rand der Ausgangsperspektive werden standardmässig die
 noch zu erfüllenden Aufgaben, die aktuellen Nachrichten sowie
 etwaige Workflows angezeigt.\par Durch Doppelklick auf einen
@@ -234,7 +253,7 @@ realisiert, der Workflows im XHTML-Format visualisiert. In einer
 späteren Iteration wird auch die Erstellung von angepassten
 Workflows (siehe Abschnitt zu Workflows) unterstützt werden.
 
-\subsubsection{Die Minimap}
+\subsection{Die Minimap}
 Am linken unteren Rand der Ausgangsperspektive wird eine sogenannte
 Minimap dargstellt, in der ein Überblick über die ganze Architekturansicht
 der aktuellen Rolle gegeben wird.\par

@@ -1,4 +1,4 @@
-\subsubsection{Workflow Mechanismus}
+\subsection{Workflow Mechanismus}
 
 Kobold bietet dem Benutzer einen Workflow-Mechanismus, der ihn bei
 der Einhaltung des definierten produktlinienbasierten
@@ -30,7 +30,7 @@ Fakten werden auf alle Regeln einer Regelmenge angewendet.\par
 Der Workflow-Mechanismus ist eine Querschnittskomponente zwischen dem
 Kobold Serverdient und dem Kobold-Client.
 
-\paragraph{Mechanismus auf dem Kobold Client}
+\subsubsection{Mechanismus auf dem Kobold Client}
 Der Kobold Client ruft nach bestimmten Zeitintervallen (Standard:
 im Minutentakt) Nachrichten vom Server ab. Nachrichten können
 einfach RPC-Resultate sein, aber auch Workflow-Objekte. Wird ein
@@ -43,7 +43,7 @@ wie folgt graphisch veranschaulicht werden:
    \caption{Workflow Mechanismus}
 \end{figure}
 
-\paragraph{Die Regelbasis in Kobold}
+\subsubsection{Die Regelbasis in Kobold}
 Kobold wird nach der ersten Iteration eine Initialregelbasis zur
 Verfügung stellen, die vom Anwender jederzeit erweitert werden
 kann. Er muss dabei eine neue Regel erstellen und sie der

@@ -1,4 +1,4 @@
-\subsection{Kobold Serverdienst}
+\section{Kobold Serverdienst}
 
 Der Kobold Serverdienst koordiniert die Arbeit der Benutzer von \product.
 Ein Benutzer ist dabei jede Person mit einem Benutzernamen und dem dazu
@@ -14,7 +14,7 @@ Der Server wird als HTTPS-basierter {\it XML-RPC Server}
 implementiert und bietet damit verschlüsselte Kommunikation.
 Alle Informationen, die der Server bereitstellt, werden persistiert.
 
-\subsubsection{Berechtigungskonzept}
+\subsection{Berechtigungskonzept}
 
 Zur Realisierung des produktlinien\-übergreifenden Berechtigungskonzepts
 verwaltet der Server alle benutzer-, rollen-, produktlinien- und
@@ -27,7 +27,7 @@ so werden in seinen Client die Daten der ihm zugeteilten Rollen und den
 dazu gehörenden Produktlinien bzw. Produkte geladen. Der Benutzer
 kann dabei nur die Daten verändern, für die er auch eine Berechtigung besitzt.
 
-\subsubsection{Persistierung}
+\subsection{Persistierung}
 
 Die Persistierung aller für das Berechtigungskonzept notwendigen Daten wird
 durch eine abstrakte, XML-basierte Persistenzschicht realisiert, wodurch eine
@@ -55,7 +55,7 @@ Für jeden Benutzer werden vom Kobold Serverdienst folgende Daten gespeichert:
 \end{itemize}
 
 
-\subsubsection{Nachrichten-Queue}
+\subsection{Nachrichten-Queue}
 
 Der Kobold Serverdienst bildet für jeden Kobold-Benutzer eine
 Nachrichten-Queue. Werden Nachrichten oder Workflow-Objekte an
@@ -76,7 +76,7 @@ Für jede Nachricht in der Nachrichten-Queue werden folgende Daten benötigt:
 \item Priorität
 \end{itemize}
 
-\paragraph{Workflow-Mechanismus auf dem Kobold Server}
+\subsubsection{Workflow-Mechanismus auf dem Kobold Server}
 Sendet ein Client dem Server eine Nachricht, wendet dieser diese
 Nachricht als Fakt auf eine kontextabhängige Regelmenge aus der
 Regelbasis an. Dabei werden alle Regeln der Regelmenge

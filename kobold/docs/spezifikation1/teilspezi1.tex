@@ -1,4 +1,4 @@
-\subsubsection{Metainformationen}
+\subsection{Metainformationen}
 
 Der Begriff Metainformationen umfasst alle Informationen zu
 Produkten und Produktlinien, die für das \product System notwendig
@@ -15,28 +15,28 @@ Identifikation eines Elementes verwendet.\par Dieses Kapitel
 liefert eine genaue Auflistung der geplanten
 Metainformationen.\newline
 
-\paragraph{Produkt:}
+\subsubsection{Produkt}
 Für jedes Produkt werden folgende Metainformationen gespeichert:
 \begin{itemize}
 \item Name
 \item Liste aller Releases
 \end{itemize}
 
-\paragraph{Release:}
+\subsubsection{Release}
 Für jedes Release werden folgende Metainformationen gespeichert:
 \begin{itemize}
 \item Liste der Objekte
 \item Erstellungsdatum
 \end{itemize}
 
-\paragraph{Version:}
+\subsubsection{Version}
 Für eine Version werden folgende Metainformationen gespeichert:
 \begin{itemize}
 \item interne Versionsnummer
 \item Status
 \end{itemize}
 
-\paragraph{Objekt:}
+\subsubsection{Objekt}
 Ein Objekt ist ein beliebiges Softwaredokument (zum Beispiel
 Quelltext oder Dokumentation), das in der Regel als Datei
 vorliegt. Für jedes Objekt werden folgende Metainformationen
@@ -51,10 +51,11 @@ gespeichert:
 \item Zuständiger
 \end{itemize}
 
-\paragraph{Skript:}
-Die Unterstützung für Skripte wird erst in einer Folgeiteration
-realisiert. Folgende Metainformationen werden dafür
-voraussichtlich gespeichert werden:
+\subsubsection{Skript}
+Ein Skript ist ein externer Aufruf einer ausführbaren Datei (z.B. ein
+Perl Skript, ein configure Skript oder ein externes Programm), welches
+vor der nach einer VCM-Aktion ausgeführt wird. Folgende Metainformationen
+werden dafür gespeichert werden:
 \begin{itemize}
 \item Aktion
 \item Parameter
@@ -62,7 +63,7 @@ voraussichtlich gespeichert werden:
 \item Reihenfolge
 \end{itemize}
 
-\paragraph{Variante:}
+\subsubsection{Variante}
 Für jede Variante werden folgende Metainformationen gespeichert:
 \begin{itemize}
 \item Liste aller Objekte
@@ -75,7 +76,7 @@ Für jede Variante werden folgende Metainformationen gespeichert:
 \item Status
 \end{itemize}
 
-\paragraph{Komponente:}
+\subsubsection{Komponente}
 Für jede Komponente werden folgende Metainformationen gespeichert:
 \begin{itemize}
 \item Liste aller Varianten
@@ -87,7 +88,7 @@ Für jede Komponente werden folgende Metainformationen gespeichert:
 \item Status
 \end{itemize}
 
-\paragraph{Abhängigkeit:}
+\subsubsection{Abhängigkeit}
 Für jede Abhängigkeit werden folgende Metainformationen
 gespeichert:
 \begin{itemize}
@@ -97,7 +98,7 @@ gespeichert:
 \item Zielknoten
 \end{itemize}
 
-\paragraph{Metaknoten:}
+\subsubsection{Metaknoten}
 Für jeden Metaknoten werden folgende Metainformationen
 gespeichert:
 \begin{itemize}
@@ -105,7 +106,7 @@ gespeichert:
 \item ID
 \end{itemize}
 
-\paragraph{Architektur:}
+\subsubsection{Architektur}
 Für jede Architektur werden folgenden Metainformationen
 gespeichert:
 \begin{itemize}
@@ -137,3 +138,15 @@ verweigert.\par Darüber hinaus ermöglicht der VCM-Wrapper die
 automatische Übernahme von Repository-Zugriffskonfigurationen aus
 den Produktlinien- oder Produktkonfigurationen, die vom \product
 Serverdienst zur Verfügung gestellt werden.
+
+\subsubsection{Skriptausführung}
+
+Es soll möglich sein, vor und nach jeder VCM-Aktion auf einer
+beliebigen Architekturebene für alle betroffenen Architekturelemente
+sog. Skripte auszuführen. Skripte sind externe Aufrufe von
+ausführbaren Dateien. Skripte können in beliebiger Reihenfolge
+ausgeführt werden und durch Benutzerinteraktion mit beliebigen
+Argumenten versehen werden, die in einer späteren Spezifikation genau
+spezifiziert werden.\par
+Die Skriptausführung wird durch eine spezielle Schnittstelle im VCM
+Wrapper ermöglicht.
