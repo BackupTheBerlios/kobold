@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.16 2004/08/11 12:17:25 neccaino Exp $
+ * $Id: ProductlineManager.java,v 1.17 2004/08/20 09:30:41 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -94,16 +94,15 @@ public class ProductlineManager {
      *         existes a productline with the same name as the new one).
 	 */
 	public boolean addProductline(Productline productLine) {
-        Object o = productlines.put(productLine.getId(), productLine);
+        Productline pl = getProductlineByName(productLine.getName());
         
-        if (o != null){
+        if (pl != null){
             // Obviously a productline with the name specified in 'productLine
-            // already existed, so undo the change and signal error
-            productlines.put(productLine.getId(), o);
-            serialize();
+            // already existed, so stop and signal error
             return false;
         }
         else{
+            productlines.put(productLine.getId(), productLine);
             return true;
         }
 	}
