@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.13 2004/08/25 01:35:37 martinplies Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.14 2004/08/25 01:50:32 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -34,7 +34,6 @@ import kobold.client.plam.controller.roletree.RoleTreeContentProvider.Architectu
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.TreeContainer;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.FileDescriptor;
-import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.RelatedComponent;
@@ -118,10 +117,12 @@ public class RoleTreeLabelProvider extends LabelProvider
 		    id = KoboldPLAMPlugin.getImageDescriptor("icons/container.gif");
 		} else if (element instanceof ArchitectureItem) {
 		    id = KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif");
+		} else if (element instanceof Product) {
+		    id = KoboldPLAMPlugin.getImageDescriptor("icons/product.gif");
 		} else if (element instanceof RelatedComponent) {
-		    id = KoboldPLAMPlugin.getImageDescriptor("icons/component.gif");
+		    id = KoboldPLAMPlugin.getImageDescriptor("icons/relcomp.gif");
 		} else if (element instanceof SpecificComponent){
-		    id = KoboldPLAMPlugin.getImageDescriptor("icons/variant.gif");
+		    id = KoboldPLAMPlugin.getImageDescriptor("icons/speccomp.gif");
 		} else if (element instanceof FileDescriptor) {
 		    FileDescriptor fd = (FileDescriptor) element;
 		    if (fd.isDirectory()) {
@@ -132,8 +133,6 @@ public class RoleTreeLabelProvider extends LabelProvider
 		    }
 		}
 
-
-		
 		if (id == null) {
 			return null;
 		}

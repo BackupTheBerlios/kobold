@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteCommand.java,v 1.5 2004/08/05 14:19:33 vanto Exp $
+ * $Id: DeleteCommand.java,v 1.6 2004/08/25 01:50:32 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -32,6 +32,8 @@ import java.util.List;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.AbstractStatus;
+import kobold.client.plam.model.DeprecatedStatus;
 import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.IVariantContainer;
@@ -43,6 +45,8 @@ import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
 
 
 /**
@@ -50,9 +54,13 @@ import org.eclipse.gef.commands.Command;
  */
 public class DeleteCommand extends Command
 {
+    private static final int DELETE = 1;
+    private static final int DEPRECATED = 2;
     private AbstractAsset asset, parent;
     private int index = -1;
     private List edges = new ArrayList();
+    private List depAssets = new ArrayList();
+    private int action;
     
     public DeleteCommand()
     {
@@ -67,11 +75,24 @@ public class DeleteCommand extends Command
     
     public void execute()
     {
+        if (MessageDialog.openQuestion(Display.getDefault().getActiveShell(), 
+            	"Deleted or Deprecated", 
+            	"Are you sure to delete this asset? Press \"Yes\" to delete or \"No\" to mark the asset deprecated.")) {
+            action = DELETE;
+        } else {
+            action = DEPRECATED;
+        }
+        
         redo();
     }
 
     public void redo()
     {
+        if (action == DEPRECATED) {
+            makeAssetDeprecated(asset);
+            return;
+        }
+        
         if (parent != null) {
             EdgeContainer ec = parent.getRoot().getEdgeContainer();
             edges.addAll(ec.getEdgesTo(asset));
@@ -106,6 +127,15 @@ public class DeleteCommand extends Command
     }
     public void undo()
     {
+        if (action == DEPRECATED) {
+            Iterator it = depAssets.iterator();
+            while (it.hasNext()) {
+                AbstractAsset asset = (AbstractAsset)it.next();
+                asset.removeStatus(AbstractStatus.DEPRECATED_STATUS);
+            }
+            return;
+        }
+        
         if (parent instanceof IComponentContainer
                 && asset instanceof Component) {
             IComponentContainer cc = (IComponentContainer)parent;
@@ -131,6 +161,31 @@ public class DeleteCommand extends Command
         while (it.hasNext()) {
             Edge edge = (Edge)it.next();
             ec.addEdge(edge);
+        }
+    }
+    
+    private void makeAssetDeprecated(AbstractAsset asset) 
+    {
+        if (!DeprecatedStatus.isDeprecated(asset)) {
+            asset.addStatus(AbstractStatus.DEPRECATED_STATUS);
+            // add asset to undolist if status has changed
+            depAssets.add(asset);
+        }
+        
+        List assetList = new ArrayList();
+        if (asset instanceof IComponentContainer) {
+            assetList.addAll(((IComponentContainer)asset).getComponents());
+        }
+        if (asset instanceof IVariantContainer) {
+            assetList.addAll(((IVariantContainer)asset).getVariants());
+        }
+        if (asset instanceof IReleaseContainer) {
+            assetList.addAll(((IReleaseContainer)asset).getReleases());
+        }
+
+        Iterator it = assetList.iterator();
+        while (it.hasNext()) {
+            makeAssetDeprecated((AbstractAsset)it.next());
         }
     }
 }

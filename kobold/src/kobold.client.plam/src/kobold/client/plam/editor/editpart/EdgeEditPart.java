@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeEditPart.java,v 1.3 2004/08/02 17:23:54 vanto Exp $
+ * $Id: EdgeEditPart.java,v 1.4 2004/08/25 01:50:32 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -61,6 +61,8 @@ public class EdgeEditPart extends AbstractConnectionEditPart
 		    fig.setForegroundColor(ColorConstants.green);
 		} else if (edge.getType().equals(Edge.EXCLUDE)) {
 		    fig.setForegroundColor(ColorConstants.red);
+		} else {
+		    fig.setForegroundColor(ColorConstants.lightGray);
 		}
 	}
     

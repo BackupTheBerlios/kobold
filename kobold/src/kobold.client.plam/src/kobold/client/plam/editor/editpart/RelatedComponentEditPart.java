@@ -21,14 +21,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponentEditPart.java,v 1.3 2004/08/06 11:04:29 vanto Exp $
+ * $Id: RelatedComponentEditPart.java,v 1.4 2004/08/25 01:50:32 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import kobold.client.plam.editor.figure.RelatedComponentFigure;
+import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
+import kobold.client.plam.model.product.RelatedComponent;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
 
 
 /**
@@ -53,5 +59,31 @@ public class RelatedComponentEditPart extends AbstractAssetEditPart
     {
         super.refreshVisuals();
         figure.setTitle((getAsset().getName() == null) ? "" : getAsset().getName());
+    }
+
+    /**
+     * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
+     */
+    public IFigure getContentPane() {
+        return figure.getContentPane();
+    }
+
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies()
+    {
+        super.createEditPolicies();
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicyImpl());
+    }
+
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
+     */
+    protected List getModelChildren()
+    {
+        List children = new ArrayList(); 
+        children.addAll(((RelatedComponent)getModel()).getProductComponents());
+        return children;
     }
 }
