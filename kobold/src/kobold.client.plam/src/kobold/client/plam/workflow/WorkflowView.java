@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.14 2004/06/27 20:42:47 bettina Exp $
+ * $Id: WorkflowView.java,v 1.15 2004/06/27 21:17:01 bettina Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -165,7 +165,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(fetchAction);
 		manager.add(messageAction);
-	//	manager.add(coreGroupAction);
+		manager.add(coreGroupAction);
 		manager.add(new Separator());
 		//manager.add(action2);
 	}
@@ -174,8 +174,8 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		manager.add(filterAction);
 		manager.add(fetchAction);
 		manager.add(messageAction);
-		//manager.add(deleteAction);
-		//manager.add(coreGroupAction);
+		manager.add(deleteAction);
+		manager.add(coreGroupAction);
 		//manager.add(action2);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator("Additions"));
@@ -184,8 +184,6 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(fetchAction);
 		manager.add(filterAction);
-		//manager.add(messageAction);
-		//manager.add(coreGroupAction);
 	}
 
 	private void makeActions() {
@@ -248,7 +246,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 					WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
 					wfDialog.open();	
 				} catch (Exception e) {
-					showMessage("A Project must be selected!");
+					showMessage("A project must be selected!");
 				}
 			}
 		};
@@ -257,7 +255,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		
 		coreGroupAction = new Action() {
 			public void run() {
-				WorkflowMessage msg = new WorkflowMessage("Core Group Suggestion");
+			/**	WorkflowMessage msg = new WorkflowMessage("Core Group Suggestion");
 				try {
 					UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();					
 					msg.setSender(user.getUserName());	
@@ -296,8 +294,9 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 						showMessage("A product must be selected!");
 					}
 				} catch (Exception e) {
-					showMessage("A project must be selected!");
-				}
+					e.printStackTrace();
+					//showMessage("A project must be selected!");
+				}*/
 			}
 		};
 		coreGroupAction.setText("Suggest file for core group");
