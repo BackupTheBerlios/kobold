@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.15 2004/06/27 21:17:01 bettina Exp $
+ * $Id: WorkflowView.java,v 1.16 2004/06/27 22:20:37 bettina Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -31,9 +31,7 @@ import java.text.SimpleDateFormat;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.listeners.IProjectChangeListener;
-import kobold.client.plam.view.*;
 import kobold.common.data.*;
-import kobold.common.model.*;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.Action;
@@ -255,48 +253,43 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		
 		coreGroupAction = new Action() {
 			public void run() {
-			/**	WorkflowMessage msg = new WorkflowMessage("Core Group Suggestion");
+				WorkflowMessage msg = new WorkflowMessage("Core Group Suggestion");
 				try {
 					UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();					
 					msg.setSender(user.getUserName());	
-					RoleTreeViewPart roleView = new RoleTreeViewPart();
-					Object obj = roleView.getSelectedObject();
-					if (obj instanceof Product) {
-						Product product = (Product) obj;
-						Role role = KoboldPLAMPlugin.getCurrentProjectNature().getClient().getProductRole(user, user.getUserName(), product.getName());
-						if (role instanceof RoleP) {
-							msg.setStep(1);
-							msg.setReceiver("PE");
-							msg.putWorkflowData("P", user.getUserName());
-						}
+					msg.setStep(1);
+					msg.setReceiver("PE");
+					msg.putWorkflowData("P", user.getUserName());
+					/** may be used later
 						if (role instanceof RolePE) {
 							msg.setStep(2);
 							msg.setReceiver("PLE");
 							msg.putWorkflowData("decision", "true");
 						}
 						if (!(role instanceof RolePLE)) {
-							msg.setSubject("Core Group Suggestion");
-							msg.setMessageText("Enter the data of the file you want to suggest:");
-							WorkflowItem recipient = new WorkflowItem ("recipient", "Recipient: ", WorkflowItem.TEXT);
-							WorkflowItem file = new WorkflowItem("file", "File: ", WorkflowItem.TEXT);
-							WorkflowItem component = new WorkflowItem ("component", "Component: ", WorkflowItem.TEXT);
-							msg.addWorkflowControl(recipient);
-							msg.addWorkflowControl(file);
-							msg.addWorkflowControl(component);
-							WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
-							wfDialog.open();
+					 * 
+					 */
+				
+					msg.setSubject("Core Group Suggestion");
+					msg.setMessageText("Enter the data of the file you want to suggest:");
+					WorkflowItem recipient = new WorkflowItem ("recipient", "Recipient: ", WorkflowItem.TEXT);
+					WorkflowItem file = new WorkflowItem("file", "File: ", WorkflowItem.TEXT);
+					WorkflowItem component = new WorkflowItem ("component", "Component: ", WorkflowItem.TEXT);
+					msg.addWorkflowControl(recipient);
+					msg.addWorkflowControl(file);
+					msg.addWorkflowControl(component);
+					WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
+					wfDialog.open();
+					/** may be used later
 						}
 						else {
 							showMessage("This option can't be used by the PLE!");
 						}
-					}
-					else {
-						showMessage("A product must be selected!");
-					}
+					*/
 				} catch (Exception e) {
 					e.printStackTrace();
-					//showMessage("A project must be selected!");
-				}*/
+					showMessage("A project must be selected!");
+				}
 			}
 		};
 		coreGroupAction.setText("Suggest file for core group");
