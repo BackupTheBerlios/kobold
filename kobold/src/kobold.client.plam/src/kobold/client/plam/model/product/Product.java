@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.23 2004/09/18 16:06:30 martinplies Exp $
+ * $Id: Product.java,v 1.24 2004/09/20 11:36:52 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -320,6 +320,9 @@ public class Product extends AbstractRootAsset
 		    addSpecificComponent((SpecificComponent)comp, index);
 		}
     }
+    public void addSpecificComponent(SpecificComponent comp){
+        addSpecificComponent(comp, -1);
+    }
     
     public void addSpecificComponent(SpecificComponent comp, int index){
         if (index >= 0){
@@ -332,6 +335,9 @@ public class Product extends AbstractRootAsset
         fireStructureChange(AbstractAsset.ID_CHILDREN, comp);
     }
     
+    public void addRelatedComponent(RelatedComponent comp){
+        addRelatedComponent(comp, -1);
+    }
     public void addRelatedComponent(RelatedComponent comp, int index){
         if (index >= 0){
            relatedComponents.add(index, (RelatedComponent)comp);
