@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.13 2004/08/23 14:36:58 vanto Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.14 2004/08/24 14:51:04 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -39,6 +39,7 @@ import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.plam.model.AbstractStatus;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IComponentContainer;
+import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.IVariantContainer;
 import kobold.client.plam.model.Release;
@@ -46,6 +47,7 @@ import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -210,6 +212,26 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		}
     }
     
+	/**
+	 * prints the root node and all children
+	 * @param fd
+	 */
+	private void prettyPrintFD(FileDescriptor fd, String prefix) {
+	    String newPrefix = prefix + IPath.SEPARATOR +   fd.getFilename();
+	    System.out.println("fd: "+ newPrefix + "\t" + fd.getRevision() +
+	                       ((fd.getLastChange() != null) ? "\t" + fd.getLastChange().toString() : ""));
+
+	    //get all children
+	    for (Iterator iterator = fd.getFileDescriptors().iterator();
+	         iterator.hasNext(); )
+	    {
+	    	FileDescriptor fdActual = (FileDescriptor)iterator.next();
+	    	
+	        prettyPrintFD(fdActual, newPrefix);
+
+	    }
+	}
+	
     private void createVariantArea(Composite composite) {
         
         final Variant variant = (Variant) asset;
@@ -218,96 +240,14 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         	 iterator.hasNext(); )
         {
             FileDescriptor fd = (FileDescriptor)iterator.next();
-            System.out.println("fd: " + fd.getFilename() + ", rev=" + fd.getRevision()   
-                                 + ((fd.getLastChange() != null) ? " date=" + fd.getLastChange() : ""));
+            prettyPrintFD(fd, "");
         }
-        
-  	    Label label = new Label(composite, SWT.NONE);
-	    label.setText("Files:");
-        Table table = new Table(composite, SWT.BORDER | SWT.MULTI
-                				| SWT.FULL_SELECTION | SWT.LEAD | SWT.WRAP
-                				| SWT.V_SCROLL | SWT.VERTICAL);
-        table.setHeaderVisible(true);
-        table.setLinesVisible(true);
-        TableColumn col1 = new TableColumn(table, SWT.NONE);
-        col1.setText("Name");
-        TableColumn col2 = new TableColumn(table, SWT.NONE);
-        col2.setText("Size");
-        TableColumn col3 = new TableColumn(table, SWT.NONE);
-        col3.setText("Date");
-		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
-		        				   | GridData.FILL_HORIZONTAL);
-		gd.heightHint = 200;
-	    table.setLayoutData(gd);
-	    TableLayout layout = new TableLayout();
-	    layout.addColumnData(new ColumnWeightData(33));
-	    layout.addColumnData(new ColumnWeightData(33));
-	    layout.addColumnData(new ColumnWeightData(33));
-	    table.setLayout(layout);
-        final TableViewer viewer = new TableViewer(table);
-        viewer.setContentProvider(new IStructuredContentProvider() {
-            public Object[] getElements(Object input) {
-                if (input instanceof File) {
-                    File dir = (File) input;
-                    String[] names = dir.list();
-                    if (names != null) {
-                        File[] files = new File[names.length];
-                        for (int i = 0; i < names.length; i++)
-                            files[i] = new File(dir, names[i]);
-                        return files;
-                    }
-                }
-                return new File[0];
-            }
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-//                 don't need to hang onto input for this example, so do nothing
-            }
-            public void dispose() {
-            }
-        });
-        viewer.setLabelProvider(new ITableLabelProvider() {
-            DateFormat dateFormat = DateFormat.getInstance();
-            public String getColumnText(Object element, int columnIndex) {
-                File file = (File) element;
-                switch (columnIndex) {
-                case 0 :
-                    return file.getName();
-                case 1 :
-                    return file.isDirectory() ? ""
-                            : ((file.length() + 1023) / 1024) + " KB ";
-                case 2 :
-                    Date date = new Date(file.lastModified());
-                    return dateFormat.format(date);
-                default :
-                    return "";
-                }
-            }
-            public Image getColumnImage(Object element, int columnIndex) {
-                return null;
-            }
-            public void addListener(ILabelProviderListener listener) {
-                // TODO Auto-generated method stub
-                
-            }
-            public void dispose() {
-                // TODO Auto-generated method stub
-                
-            }
-            public boolean isLabelProperty(Object element, String property) {
-                // TODO Auto-generated method stub
-                return false;
-            }
-            public void removeListener(ILabelProviderListener listener) {
-                // TODO Auto-generated method stub
-                
-            }
-        });
-        viewer.setInput(new File(variant.getLocalPath().toOSString()));    
     }
     
     private void createReleaseArea(Composite composite) {
     
         final Release release = (Release) asset;
+        final Variant variant = (Variant) release.getParent();
   	    Label label = new Label(composite, SWT.NONE);
 	    label.setText("Select resources:");
 	      
@@ -319,7 +259,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         TableColumn col1 = new TableColumn(table, SWT.NONE);
         col1.setText("Name");
         TableColumn col2 = new TableColumn(table, SWT.NONE);
-        col2.setText("Size");
+        col2.setText("Revision");
         TableColumn col3 = new TableColumn(table, SWT.NONE);
         col3.setText("Date");
 		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
@@ -334,17 +274,11 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         final CheckboxTableViewer viewer = new CheckboxTableViewer(table);
         viewer.setContentProvider(new IStructuredContentProvider() {
             public Object[] getElements(Object input) {
-                if (input instanceof File) {
-                    File dir = (File) input;
-                    String[] names = dir.list();
-                    if (names != null) {
-                        File[] files = new File[names.length];
-                        for (int i = 0; i < names.length; i++)
-                            files[i] = new File(dir, names[i]);
-                        return files;
-                    }
+                if (input instanceof IFileDescriptorContainer) {
+                    IFileDescriptorContainer fd = (IFileDescriptorContainer) input;
+                    return fd.getFileDescriptors().toArray();
                 }
-                return new File[0];
+                return new Object[0];
             }
             public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 //                 don't need to hang onto input for this example, so do nothing
@@ -355,16 +289,14 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         viewer.setLabelProvider(new ITableLabelProvider() {
             DateFormat dateFormat = DateFormat.getInstance();
             public String getColumnText(Object element, int columnIndex) {
-                File file = (File) element;
+                FileDescriptor fd = (FileDescriptor) element;
                 switch (columnIndex) {
                 case 0 :
-                    return file.getName();
+                    return fd.getFilename();
                 case 1 :
-                    return file.isDirectory() ? ""
-                            : ((file.length() + 1023) / 1024) + " KB ";
+                    return fd.getRevision();
                 case 2 :
-                    Date date = new Date(file.lastModified());
-                    return dateFormat.format(date);
+                    return dateFormat.format(fd.getLastChange());
                 default :
                     return "";
                 }
@@ -391,16 +323,8 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         });
         viewer.addSelectionChangedListener(new ISelectionChangedListener() {
             public void selectionChanged(SelectionChangedEvent event) {
-                IStructuredSelection sel =
-                    (IStructuredSelection) event.getSelection();
-                System.out.println(
-                    sel.size()
-                    + " items selected, "
-                    + viewer.getCheckedElements().length
-                    + " items checked");
             }
         });
-        viewer.setInput(new File("/"/*((Variant)release.getParent()).getLocalPath().toOSString()*/));
     }
     
     private void createMaintainerArea (final Composite composite) {

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorTest.java,v 1.6 2004/08/24 14:26:50 rendgeor Exp $
+ * $Id: FileDescriptorTest.java,v 1.7 2004/08/24 14:51:05 garbeam Exp $
  *
  */
 package kobold.client.vcm.test;
@@ -74,6 +74,7 @@ public class FileDescriptorTest extends TestCase {
 	
 		prettyPrintFD(fd, "");
 	}
+	
 	/**
 	 * prints the root node and all children
 	 * @param fd
