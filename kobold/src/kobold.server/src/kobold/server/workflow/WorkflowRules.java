@@ -13,10 +13,9 @@ import kobold.common.data.*;
 import org.drools.semantics.java.*;
 
 /**
- * @author Administrator
+ * @author Bettina
  *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * collection of Workflow rules
  */
 public class WorkflowRules {
 	
@@ -25,40 +24,30 @@ public class WorkflowRules {
 	
 	protected static RuleSet createRuleSet() throws Exception {
 		RuleSet set = new RuleSet("Kobold");
-		kobold.common.data.WorkflowMessage msg = new kobold.common.data.WorkflowMessage("Core Group Suggestion");
+		
 		/**
 		 * Rule No.1
+		 * Core Group Suggestion
+		 * transfers the rule from p to his pe
 		 */
 		Rule no1 = new Rule("Core Group Suggestion - Step 1");
 		Declaration dec1 = new Declaration(new ClassObjectType(WorkflowMessage.class), "msg");
-		
 		no1.addCondition(new ExprCondition("(msg.getWorkflowType().equals(\"Core Group Suggestion\")) && (msg.getStep() == 1)", new Declaration[] {dec1}));
 		no1.addParameterDeclaration(dec1);
 		no1.setConsequence(new BlockConsequence(""+	
 			"kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
-			"answer.addParentId(msg.getId());"+	//add the actual parent as history
+			"answer.addParentId(msg.getId());"+	
 			"answer.setSender(msg.getSender());"+	
-			//"answer.setReceiver(msg.getReceiver());"+
 			"answer.setSubject(\"Antrag auf Commit eines Coregroup Items\");" +
 			"answer.setStep(msg.getStep() + 1);"+
-			
-		
+			// gets the sender's inputs
 			"java.util.HashMap map = msg.getWorkflowData();" +
-			
-			"answer.setReceiver(map.get(\"recipient\"));" +
-			
-				
-			
-			"answer.setMessageText(\"Der Mitarbeiter \"+msg.getSender() + \" würde gerne " +
-					"ein Commit der Datei \" + map.get(\"file\") + \" unter \" + map.get(\"path\") + \" "+
-					"in die Coregroup machen. Bitte wählen Sie daher in " +
-					"untenstehenden Optionen.\");" +
-					"" +
-			
-			
-			//creating necessary workflow items
-			//containing 2 radio buttons (forward, deny)
-			"kobold.common.data.WorkflowItem rb1 = new kobold.common.data.WorkflowItem(\"true\",\"An zuständigen PLE weiterleiten\",kobold.common.data.WorkflowItem.RADIO);"+
+			"answer.setReceiver(msg.getReceiver());" +
+			"answer.setMessageText(\"Programmer \"+msg.getSender() + \" would like to suggest " +
+					"committing the file \" + map.get(\"file\") + \" in component \" + map.get(\"path\") + \" "+
+					"to a Core Group. He added the following comment: \"" +
+					"msg.getComment());" +
+			"kobold.common.data.WorkflowItem rb1 = new kobold.common.data.WorkflowItem(\"true\",\"Consent and transfer to PLE\",kobold.common.data.WorkflowItem.RADIO);"+
 			"kobold.common.data.WorkflowItem rb2 = new kobold.common.data.WorkflowItem(\"false\",\"Ablehnen\", kobold.common.data.WorkflowItem.RADIO);"+
 			"kobold.common.data.WorkflowItem cont = new kobold.common.data.WorkflowItem(\"bla\",\"Entscheidung\",kobold.common.data.WorkflowItem.CONTAINER);"+
 			"kobold.common.data.WorkflowItem recip = new kobold.common.data.WorkflowItem(\"recipient\",\"Recipient (PLE):\",kobold.common.data.WorkflowItem.TEXT);"+
@@ -88,7 +77,7 @@ public class WorkflowRules {
 		"answer.setSender(msg.getSender());"+
 		"answer.addParentId(msg.getId());"+
 		
-		//analyzing the answer
+
 		"java.lang.String decision = \"\";"+
 
 		"java.util.HashMap map = msg.getWorkflowData();" +
@@ -198,6 +187,7 @@ public class WorkflowRules {
 		
 		/**
 		 * Rule No.4
+		 * implements a text mail
 		 */
 		Rule no4 = new Rule("Text Mail");
 		
@@ -207,32 +197,21 @@ public class WorkflowRules {
 		no4.addParameterDeclaration(dec4);
 		no4.setConsequence(new BlockConsequence(""+
 
-		"kobold.common.data.KoboldMessage answer = new kobold.common.data.KoboldMessage();"+
+		"kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(\"TextMail\");"+
 		"answer.setSender(msg.getSender());"+
-	//	"answer.addParentId(msg.getId());"+
-		
-	//	"kobold.common.data.WorkflowItem[] controls = msg.getWorkflowControls();"+
-
-	//	"answer.setStep(msg.getStep()+1);" +
-		
-		
-		
-
+		// reference to msg
+		"answer.addParentId(msg.getId());"+
+		"answer.setStep(msg.getStep()+1);" +
+		// gets the sender's inputs
 		"java.util.HashMap map = msg.getWorkflowData();" +
-
-
-		
-		
 		"answer.setReceiver(map.get(\"recipient\"));"+
 		"answer.setSubject(map.get(\"subject\"));"+
 		"answer.setMessageText(msg.getComment());"+
-
-		//add reply
-	//	"kobold.common.data.WorkflowItem recip = new kobold.common.data.WorkflowItem(\"\",\"Recipient: \",kobold.common.data.WorkflowItem.TEXT);"+
-	//	"kobold.common.data.WorkflowItem subj = new kobold.common.data.WorkflowItem(\"true\",\"Subject: \",kobold.common.data.WorkflowItem.TEXT);"+
-	//	"answer.addWorkflowControl(recip);"+
-	//	"answer.addWorkflowControl(subj);" +
-			
+		//add the possibility to reply
+		"kobold.common.data.WorkflowItem subj = new kobold.common.data.WorkflowItem(\"subject\",\"Subject: \",kobold.common.data.WorkflowItem.TEXT);"+
+		"answer.addWorkflowControl(subj);" +
+		//set recipient of the reply
+		"answer.putWorkflowData(\"recipient\", msg.getSender());" +
 		"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);"));
 		
 		

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.10 2004/06/22 14:12:07 bettina Exp $
+ * $Id: WorkflowView.java,v 1.11 2004/06/25 18:05:30 bettina Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -230,7 +230,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 				msg.setStep(1);
 				msg.setReceiver("-");
 				msg.setSubject("-");
-				msg.setMessageText("Enter the data for your mail:");
+				msg.setMessageText("");
 				WorkflowItem recipient = new WorkflowItem("recipient", "Recipient: ", WorkflowItem.TEXT);
 				WorkflowItem subject = new WorkflowItem ("subject", "Subject: ", WorkflowItem.TEXT);
 				msg.addWorkflowControl(recipient);
@@ -247,6 +247,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 				WorkflowMessage msg = new WorkflowMessage("Core Group Suggestion");
 				try {
 					UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
+					
 					msg.setSender(user.getUserName());
 				} catch (Exception e) {
 					msg.setSender("unknown");
@@ -256,11 +257,9 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 				msg.setSubject("Core Group Suggestion");
 				msg.setMessageText("Enter the data of the file you want to suggest:");
 				WorkflowItem file = new WorkflowItem("file", "File: ", WorkflowItem.TEXT);
-				WorkflowItem path = new WorkflowItem ("path", "Path: ", WorkflowItem.TEXT);
-				WorkflowItem recipient = new WorkflowItem("recipient", "Recipient (PE): ", WorkflowItem.TEXT);
+				WorkflowItem component = new WorkflowItem ("component", "Component: ", WorkflowItem.TEXT);
 				msg.addWorkflowControl(file);
-				msg.addWorkflowControl(path);
-				msg.addWorkflowControl(recipient);
+				msg.addWorkflowControl(component);
 				WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
 				wfDialog.open();
 			}
