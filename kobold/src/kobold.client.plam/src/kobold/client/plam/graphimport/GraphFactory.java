@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphFactory.java,v 1.3 2004/07/29 20:51:34 martinplies Exp $
+ * $Id: GraphFactory.java,v 1.4 2004/08/04 12:56:32 martinplies Exp $
  *
  */
 package kobold.client.plam.graphimport;
@@ -225,7 +225,7 @@ private Map mapFilenodesToFiledescriptors(Element graph, HashMap fileDescriptors
 /**
  * finds  the right Filedescritpor.
  * Exist more than one Filedescriptor, that filename is equal to nodename, the 
- * usser is aske, which Filedescriptor mapped to the node. 
+ * user is asked, which Filedescriptor should mapped to the node. 
  * @param container
  * @param fileDescriptors
  * @param nodeName 
@@ -242,7 +242,8 @@ private FileDescriptor findFileDescriptor(List fileDescriptors, String nodeName,
     } else {
         // starte einen Dialog um den Benutzer zu fragen, welcher Fildescriptor zu dem Knoten gehört.
       NodeAssignmentDialog nad = new NodeAssignmentDialog(fileDescriptors, nodeName, nodeBauhausPath, new Shell());
-      return null;
+      nad.open();      
+      return nad.getSelectedFileDesciptor();
     }
 }
 
