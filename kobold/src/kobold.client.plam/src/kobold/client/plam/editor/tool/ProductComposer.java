@@ -23,7 +23,7 @@
  *
  *
  */
-package kobold.client.plam.editor;
+package kobold.client.plam.editor.tool;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -90,8 +90,7 @@ public class ProductComposer {
     }
 
     public void setUsed(AbstractAsset node) {
-        use(node, true);
-        get(node).setUse();
+        use(node, true);        
         listeners
                 .firePropertyChange(AbstractAsset.ID_COMPOSE, null, STATE_USED);
         logger.debug(node + " has new state USED");
@@ -166,8 +165,8 @@ public class ProductComposer {
                                     "Target node(s) of include edge are not used in product!");
                 }
             } else if (edge.getType().equals(Edge.EXCLUDE)
-                    && (!get(edge.getTargetNode()).isMustNotUse())) {
-                mustNotUseMeta(node);
+                    && (! get(edge.getTargetNode()).isMustNotUse())) {
+                mustNotUseMeta(edge.getTargetNode());
                 if (get(edge.getTargetNode()).isMustNotUse()) {
                     get(node)
                             .setWarning(
@@ -346,6 +345,7 @@ public class ProductComposer {
         boolean wasOldStateUse = attr.isOpen();
         attr.setChanged(true);  
         attr.setUserChanged(firstAction);
+        attr.setMustNotUse();
         
         // children must also have state MustNotUse
         for(Iterator ite = getChildren(node).iterator(); ite.hasNext();){
@@ -358,7 +358,7 @@ public class ProductComposer {
             if(edge.getType() == Edge.INCLUDE){
                 clear(edge);
             } else {
-                mustNotUseMeta(edge.getTargetNode());
+                clear(edge);
             }            
         }
         
@@ -426,10 +426,10 @@ public class ProductComposer {
                 children = ((Variant) parent).getReleases();
             }
 
-            // TODO kann listen mit iterator nicht ändern
+
             // at first gain information
-            List useList = new LinkedList();            
-            List openList = new LinkedList();
+            LinkedList useList = new LinkedList();            
+            LinkedList openList = new LinkedList();
             for (Iterator ite = children.iterator(); ite.hasNext();) {
                 AbstractAsset node = (AbstractAsset) ite.next();
                 if (get(node).isUse()) {
@@ -438,16 +438,21 @@ public class ProductComposer {
                     openList.add(node);
                 }
             }
+            
+            if(useList.size()==0 && openList.size() ==1){
+                use((AbstractAsset) openList.getFirst(), false);
+            }
 
             if (useList.size() > 1) {
                 // try to set some back.
                 // nodes that set from the user to USE cannot be changed, but
                 // the others can set to MUST_NOT_USE.
-                for (Iterator ite = useList.listIterator(); ite.hasNext();) {
-                    AbstractAsset node = (AbstractAsset) ite.next();
-                    if (!get(node).isUserChanged()) {
-                        useList.remove(node);
-                        setMustNotUse(node);
+                for (int i = 0; useList.size() < i; i++) {
+                    AbstractAsset node = (AbstractAsset) useList.get(i);
+                    if (!get(node).isUserChanged()) {                        
+                        mustNotUse(node, false);
+                        useList.remove(node);                        
+                        i--;
                     }
                 }
             }
@@ -456,21 +461,8 @@ public class ProductComposer {
                 // set last open nodes to MUST_NOT_USE.
                 for (Iterator ite = openList.listIterator(); ite.hasNext();) {
                     AbstractAsset node = (AbstractAsset) ite.next();
-                    setMustNotUse(node);
-                    openList.remove(node);
+                    setMustNotUse(node);                   
                 }
-            }
-
-            if (openList.size() > 0) {
-                get(parent).setToWorkOn(true);
-            } else {
-                get(parent).setToWorkOn(false);
-            }
-
-            if (useList.size() > 0) {
-                // warn
-            } else {
-                // may unwarn
             }
         }
 
@@ -605,7 +597,7 @@ public class ProductComposer {
            get(node).setOpen();
            // update incoming edges
            for(Iterator upd = container.getEdgesTo(node).iterator(); ite.hasNext();){
-               Edge edge = (Edge) ite.next();
+               Edge edge = (Edge) upd.next();
                if(edge.getType() == Edge.INCLUDE){
                    this.updateStateMetaInclude(edge.getStartNode(), edge.getTargetNode());
                } else if(edge.getType() == Edge.EXCLUDE) {
@@ -624,8 +616,12 @@ public class ProductComposer {
         }
         // call NotNeededUse also on children. (Maybe they are also need not the MustNotUse state.) 
         for(Iterator ite = mnuNodes.iterator(); ite.hasNext();){
-            
-            
+            AbstractAsset node = (AbstractAsset) ite.next();
+            if(! get(node).isMustNotUse()){
+                for (Iterator chIte = getChildren(node).iterator(); chIte.hasNext();){
+                    notNeededMustNot((AbstractAsset)chIte.next());
+                }
+            }            
         }
         return true;        
         
@@ -768,8 +764,9 @@ public class ProductComposer {
 
 
     public void setMustNotUse(AbstractAsset node) {
+        mustNotUse(node, true);
         listeners
-                .firePropertyChange(AbstractAsset.ID_COMPOSE, null, STATE_OPEN);
+                .firePropertyChange(AbstractAsset.ID_COMPOSE, null, STATE_MUST_NOT);
         logger.debug(node + " has new state MUST_NOT_USE");
     }
 

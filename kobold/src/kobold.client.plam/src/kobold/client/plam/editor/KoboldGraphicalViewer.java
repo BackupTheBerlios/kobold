@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldGraphicalViewer.java,v 1.3 2004/07/27 17:05:36 martinplies Exp $
+ * $Id: KoboldGraphicalViewer.java,v 1.4 2004/08/01 18:23:06 martinplies Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -29,6 +29,7 @@ package kobold.client.plam.editor;
 import java.util.Iterator;
 
 import kobold.client.plam.editor.editpart.AbstractAssetEditPart;
+import kobold.client.plam.editor.tool.ProductComposer;
 import kobold.client.plam.model.productline.Productline;
 
 import org.eclipse.gef.EditPart;

@@ -21,12 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComposableFigure.java,v 1.4 2004/07/27 17:05:36 martinplies Exp $
+ * $Id: ComposableFigure.java,v 1.5 2004/08/01 18:24:43 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.figure;
 
-import kobold.client.plam.editor.ProductComposer;
+import kobold.client.plam.editor.tool.ProductComposer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
