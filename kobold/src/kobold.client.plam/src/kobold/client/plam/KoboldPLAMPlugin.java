@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.8 2004/05/19 22:50:52 vanto Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.9 2004/05/20 21:34:45 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -83,7 +83,7 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 		
 		try {
 		    Properties props = new Properties(System.getProperties());
-		    props.load(new FileInputStream((String)System.getProperty("kobold.client.configFile")));
+		    props.load(new FileInputStream(System.getProperty("kobold.client.configFile")));
 		    System.setProperties(props);
         } catch (Exception e) {
 			logger.error("Could not find client configuration",e);
