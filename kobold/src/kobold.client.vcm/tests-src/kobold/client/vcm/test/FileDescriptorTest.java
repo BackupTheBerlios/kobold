@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorTest.java,v 1.3 2004/08/24 11:03:26 rendgeor Exp $
+ * $Id: FileDescriptorTest.java,v 1.4 2004/08/24 11:18:20 garbeam Exp $
  *
  */
 package kobold.client.vcm.test;
@@ -68,7 +68,7 @@ public class FileDescriptorTest extends TestCase {
 		fd.setDirectory(true);
 		statUp.parseInputString(fd, dump);
 	
-		//prettyPrintFD(fd);
+		prettyPrintFD(fd);
 	}
 	
 	private void prettyPrintFD(FileDescriptor fd) {
