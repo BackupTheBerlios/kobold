@@ -83,13 +83,25 @@ sub read_entries {
                 #pretty printing "binary"
                 $tag =~ s/-kb/binary/g;
 
-                #!print "$root/$path\t$rev\t$date\t$tag\n";
                 #store all in the hash map instead
 
 
                 #absolut path:
                 #    $data {"$root/$path"} = "$rev\t$date\t";
-                $data {"$rootLocalDirStructure/$path"} = "$rev\t$date\t$tag";
+
+                #local path
+                my $newRootLocalDirStructure = substr ($rootLocalDirStructure, 1);
+                if (length ($newRootLocalDirStructure) > 0) {
+                    $data {"$newRootLocalDirStructure/$path"} = "$rev\t$date\t$tag";
+                }
+                #for files in the root
+                else {
+                    $data {"$path"} = "$rev\t$date\t$tag";
+                }
+
+                #debug:
+                #print "BLA $root/$path\t$rev\t$date\t$tag\n";
+                #print "BLA2 $newRootLocalDirStructure,$path\n";
 
 
             }
