@@ -75,6 +75,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	private Product product = null;
 	private Variant variant = null;
 	private Release release = null;
+	private Component component = null;
 	
 	// skriptExtension
 	private String skriptExtension = null;
@@ -91,7 +92,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	private final String ADD = "add.";
 	private final String UPDATE = "update.";
 	private final String COMMIT = "commit.";
-	private final String CHECKOUT = "checkout";
+	private final String CHECKOUT = "checkout.";
 	public KoboldRepositoryAccessOperations()
 	{
 		KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
@@ -105,13 +106,13 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		{
 			this.skriptPath = new Path(tmpLocation.substring(8,tmpLocation.length()));
 			this.skriptPath = (Path)skriptPath.append("scripts" + IPath.SEPARATOR);
-			skriptExtension = ".bat";
+			skriptExtension = "bat";
 		}
 		else
 			{
 			this.skriptPath = new Path(tmpLocation.substring(7,tmpLocation.length()));
 			this.skriptPath = (Path)skriptPath.append("scripts" + IPath.SEPARATOR);
-				skriptExtension = ".sh";
+				skriptExtension = "sh";
 			}
 			
 		
@@ -119,18 +120,16 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#precheckin(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void precheckin(AbstractAsset[] resources, int depth,
+	public void preCheckin(AbstractAsset[] resources, int depth,
 			IProgressMonitor progress, boolean performOperation) throws TeamException {
 		if (performOperation) {
 			try {
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("precheckin working", 2);
-				// @ FIXME read password and user out of whatever
 				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
+				initConnection(connection,resources);
 				connection.open(progress);
-				// wait(5000);
-				// connection.readInpuStreamsToConsole();
 				connection.close();	
 				progress.done();
 			} catch (Exception e) {
@@ -141,7 +140,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postcheckin(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void postcheckin(AbstractAsset[] resources, int depth,
+	public void postCheckin(AbstractAsset[] resources, int depth,
 			IProgressMonitor progress, boolean performOperation) throws TeamException {
 			if (performOperation) {
 				try {
@@ -150,9 +149,8 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 					// @ FIXME read password and user out of whatever
 					ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 					connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
+					initConnection(connection,resources);
 					connection.open(progress);
-					// wait(5000);
-					// connection.readInpuStreamsToConsole();
 					connection.close();	
 					progress.done();
 				} catch (Exception e) {
@@ -176,6 +174,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 //					repositoryPath
 					currentVCMProvider = productLine.getRepositoryDescriptor();
 					localPath = productLine.getLocalPath().toOSString();
+					setCurrentVCMProvider(productLine.getRepositoryDescriptor());
 //					connection.setLocalPath(localPath);
 //					connection.setRepositoryDescriptor(productLine.getRepositoryDescriptor());
 //					repoDesc.
@@ -187,17 +186,19 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 					product = (Product) assets[i];
 					localPath = product.getLocalPath().toOSString();
 					currentVCMProvider = product.getRepositoryDescriptor();
+					setCurrentVCMProvider(product.getRepositoryDescriptor());
 				}
 				if (assets[i] instanceof Variant) {
 					variant = (Variant) assets[i];
 					localPath = variant.getLocalPath().toOSString();
-					currentVCMProvider = variant.getRemoteRepository();					
+					setCurrentVCMProvider(variant.getRemoteRepository()); 					
 				}
-//				if (assets[i] instanceof Release) {
-//					release = (Release) assets[i];
-//					localPath = release.ge
-//					release.get
-//				}				
+				if (assets[i] instanceof Component) {
+					component = (Component) assets[i];
+					localPath = component.getLocalPath().toOSString();
+					setCurrentVCMProvider(component.getRemoteRepository());
+				}			
+				
 				if (currentVCMProvider != null) {
 					repositoryRootPath = currentVCMProvider.getRoot();
 					repositoryModulePath = currentVCMProvider.getPath();
@@ -214,7 +215,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#precheckout(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void precheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation
+	public void preCheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation
 			) throws TeamException {
 		if (performOperation) {
 			try {
@@ -237,7 +238,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postcheckout(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void postcheckout(AbstractAsset[] resources, int depth,
+	public void postCheckout(AbstractAsset[] resources, int depth,
 			IProgressMonitor progress, boolean performOperation ) throws TeamException {
 		if (performOperation) {
 			try {
@@ -247,6 +248,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 				// @  FIXME this needs to be changes to the given skript not the usual!
 				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
+				initConnection(connection,resources);
 				connection.open(progress);
 				// wait(5000);
 				// connection.readInpuStreamsToConsole();
@@ -260,18 +262,16 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#get(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void get(AbstractAsset[] resources, int depth, IProgressMonitor progress)
+	public void importing(AbstractAsset[] resources, int depth, IProgressMonitor progress)
 			throws TeamException {
 		try {
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("update working", 2);
-			// @ FIXME read password and user out of whatever
 			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 			// @  FIXME this needs to be changes to the given skript not the usual!
 			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
+			initConnection(connection,resources);
 			connection.open(progress);
-			// wait(5000);
-			// connection.readInpuStreamsToConsole();
 			connection.close();	
 			progress.done();
 		} catch (Exception e) {
@@ -287,26 +287,11 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		try {
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("checkout working", 2);
-			// @ FIXME read password and user out of whatever
-//			((Component)resources[0]).ge
-
 			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 			initConnection(connection,resources);
-			argString = new String[4];
-			if (localPath != null || repositoryHost != null || repositoryModulePath != null || repositoryRootPath != null  ) {
-				argString[0] = localPath;
-				argString[1] = repositoryHost;
-				argString[2] = repositoryRootPath;
-				argString[3] = "kobold"; // @ FIXME repositoryModulePath;
-			} else {
-				MessageDialog.openError(new Shell(), "Hoooonk", "Du nix hast gesetzt den RepositoryProvider Alder");
-			}
-			// @  FIXME this needs to be changes to the given skript not the usual!
 			connection.setSkriptName(skriptPath.toOSString().concat(CHECKOUT).concat(skriptExtension));
-			
+			initConnection(connection,resources);
 			connection.open(progress, argString);
-			// wait(5000);
-			// connection.readInpuStreamsToConsole();
 			connection.close();	
 			progress.done();
 		} catch (Exception e) {
@@ -321,19 +306,137 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		try {
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("checkin working", 2);
-			// @ FIXME read password and user out of whatever
 			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-			// @  FIXME this needs to be changes to the given skript not the usual!
 			connection.setSkriptName(skriptPath.toOSString().concat(COMMIT).concat(skriptExtension));
 			connection.open(progress);
-			// wait(5000);
-//			// connection.readInpuStreamsToConsole();
 			connection.close();	
 			progress.done();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postGet(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void postImport(AbstractAsset[] resources, int depth,
+			IProgressMonitor progress, boolean performOperation) throws TeamException
+	{
+		if (performOperation) {
+			try {
+				progress = KoboldPolicy.monitorFor(progress);
+				progress.beginTask("postImport working", 2);
+				// @ FIXME read password and user out of whatever
+				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
+				// @  FIXME this needs to be changes to the given skript not the usual!
+				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
+				initConnection(connection,resources);
+				connection.open(progress);
+				connection.close();	
+				progress.done();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	
+	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#preImport(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void preImport(AbstractAsset[] resources, int depth,
+			IProgressMonitor progress, boolean performOperation) throws TeamException
+	{
+		if (performOperation) {
+			try {
+				progress = KoboldPolicy.monitorFor(progress);
+				progress.beginTask("preImport working", 2);
+				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
+				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
+				initConnection(connection,resources);
+				connection.open(progress);
+				connection.close();	
+				progress.done();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}
+	}
+	/**
+	 * @param currentVCMProvider The currentVCMProvider to set.
+	 */
+	public void setCurrentVCMProvider(RepositoryDescriptor currentVCMProvider) {
+		this.currentVCMProvider = currentVCMProvider;
+		if(currentVCMProvider != null && currentVCMProvider instanceof RepositoryDescriptor)
+		{
+				argString = new String[4];
+			if (localPath != null || repositoryHost != ""|| repositoryModulePath != "" || repositoryRootPath != ""  ) {
+				argString[0] = localPath;
+				argString[1] = repositoryHost;
+				argString[2] = repositoryRootPath;
+				argString[3] = "kobold"; // @ FIXME repositoryModulePath;
+			} else {
+				MessageDialog.openError(new Shell(), "Hoooonk", "Du nix hast gesetzt den RepositoryProvider Alder");
+			}
+		}
+	}
+	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postcheckout(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
+	 */
+	public void postcheckout(IResource[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
+		// TODO Auto-generated method stub
+		
+	}
+	/**
+	 * @param repositoryPath The repositoryPath to be set.
+	 */
+	public void setRepositoryRootPath(String repositoryPath) {
+		this.repositoryRootPath = repositoryPath;
+	}
+	
+	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#update(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void update(AbstractAsset[] resources, int depth, IProgressMonitor progress) throws TeamException {
+		// TODO Auto-generated method stub
+		
+	}
+	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#preUpdate(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void preUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress) throws TeamException {
+		// TODO Auto-generated method stub
+		
+	}
+	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postUpdate(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void postUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress) throws TeamException {
+		// TODO Auto-generated method stub
+		
+	}
+	/* (non-Javadoc)
+	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#Import(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void get(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException {
+//		 TODO Not needed with type IResource using AbstractAsset instead
+		
+	}
+	/* (non-Javadoc)
+	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#checkout(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void checkout(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException {
+//		 TODO Not needed with type IResource using AbstractAsset instead
+		
+	}
+	/* (non-Javadoc)
+	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#checkin(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void checkin(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException {
+		// TODO Not needed with type IResource using AbstractAsset instead
+		
+	}
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#uncheckout(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
@@ -375,96 +478,5 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	public boolean isDirty(IResource resource) {
 		// TODO NOT IN USE / IN ITERATION I
 		return false;
-	}
-	/* (non-Javadoc)
-	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postGet(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	public void postGet(AbstractAsset[] resources, int depth,
-			IProgressMonitor progress, boolean performOperation) throws TeamException
-	{
-		if (performOperation) {
-			try {
-				progress = KoboldPolicy.monitorFor(progress);
-				progress.beginTask("postget working", 2);
-				// @ FIXME read password and user out of whatever
-				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-				// @  FIXME this needs to be changes to the given skript not the usual!
-				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
-				connection.open(progress);
-				// wait(5000);
-				// connection.readInpuStreamsToConsole();
-				connection.close();	
-				progress.done();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	
-	/* (non-Javadoc)
-	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#preget(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	public void preget(AbstractAsset[] resources, int depth,
-			IProgressMonitor progress, boolean performOperation) throws TeamException
-	{
-		if (performOperation) {
-			try {
-				progress = KoboldPolicy.monitorFor(progress);
-				progress.beginTask("preget working", 2);
-				// @ FIXME read password and user out of whatever
-				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-				// @  FIXME this needs to be changes to the given skript not the usual!
-				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
-				connection.open(progress);
-				// wait(5000);
-				// connection.readInpuStreamsToConsole();
-				connection.close();	
-				progress.done();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}	
-		}
-	}
-	/**
-	 * @param currentVCMProvider The currentVCMProvider to set.
-	 */
-	public void setCurrentVCMProvider(RepositoryDescriptor currentVCMProvider) {
-		this.currentVCMProvider = currentVCMProvider;
-	}
-	/* (non-Javadoc)
-	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postcheckout(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
-	 */
-	public void postcheckout(IResource[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
-		// TODO Auto-generated method stub
-		
-	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#get(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	public void get(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException {
-//		 TODO Not needed with type IResource using AbstractAsset instead
-		
-	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#checkout(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	public void checkout(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException {
-//		 TODO Not needed with type IResource using AbstractAsset instead
-		
-	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#checkin(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	public void checkin(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException {
-		// TODO Not needed with type IResource using AbstractAsset instead
-		
-	}
-
-	/**
-	 * @param repositoryPath The repositoryPath to be set.
-	 */
-	public void setRepositoryPath(String repositoryPath) {
-		this.repositoryRootPath = repositoryPath;
 	}
 }

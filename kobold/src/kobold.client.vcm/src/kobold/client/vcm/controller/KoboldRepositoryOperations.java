@@ -39,24 +39,31 @@ import org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations;
  */
 public interface KoboldRepositoryOperations extends SimpleAccessOperations {
 	
-	public void precheckin(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	public void preCheckin(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 	
-	public void postcheckin(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	public void postCheckin(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 	
-	public void precheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	public void preCheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 	
-	public void postcheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	public void postCheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 
-	public void preget(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	public void preImport(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 	
-	public void postGet(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	public void postImport(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 	
 	public void checkin(AbstractAsset[] resources, int depth, IProgressMonitor progress)throws TeamException; 
 	
 	public void checkout(AbstractAsset[] resources, int depth, IProgressMonitor progress) throws TeamException;
 	
-	public void get(AbstractAsset[] resources, int depth, IProgressMonitor progress)
+	public void importing(AbstractAsset[] resources, int depth, IProgressMonitor progress)
 			throws TeamException;
-
 	
+	public void update(AbstractAsset[] resources, int depth, IProgressMonitor progress)
+	throws TeamException;
+	
+	public void preUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress)
+	throws TeamException;
+	
+	public void postUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress)
+	throws TeamException;
 }

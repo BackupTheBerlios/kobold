@@ -86,7 +86,7 @@ public class AddAction extends KoboldAction {
 //				((Component)testAssets[0])
 
 				
-				repoAccess.precheckout(testAssets,IResource.DEPTH_INFINITE,null,true);
+				repoAccess.preCheckout(testAssets,IResource.DEPTH_INFINITE,null,true);
 			}
 			catch (Exception e)
 			{

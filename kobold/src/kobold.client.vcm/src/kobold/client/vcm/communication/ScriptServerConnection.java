@@ -225,7 +225,7 @@ public class ScriptServerConnection implements IServerConnection
 			System.out.print(actualCommand[i]);
 			System.out.print(" ** ");
 		}
-		System.out.println("endegelände");
+		System.out.println("** Stopp endegelände");
 //		String[] command = ((CVSRepositoryLocation)location).getExtCommand(password);
 //		String[] command = {"C:\\Temp\\test","marvin"};
 		try {
@@ -368,6 +368,20 @@ public class ScriptServerConnection implements IServerConnection
 			this.in = in;
 			this.stream = stream;
 		}
+		/* (non-Javadoc)
+		 * @see java.lang.Thread#destroy()
+		 */
+		public void destroy() {
+			try {
+				this.in.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			finally 
+			{
+				super.destroy();
+			}
+		}
 		public void run() {
 			
 			try {
@@ -453,7 +467,8 @@ public class ScriptServerConnection implements IServerConnection
 		if (uN.equals(""))
 		{
 			uN = getPreference ("User Name");
-			setUserName(uN);
+			//@ FIXME Dangerouse ;)
+//			setUserName(uN);
 			return uN;
 		}
 		return uN;

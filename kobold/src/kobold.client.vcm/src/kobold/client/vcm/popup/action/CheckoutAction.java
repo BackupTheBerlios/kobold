@@ -50,8 +50,8 @@ public class CheckoutAction extends KoboldAction {
 		try
 		{
 
-			ModelStorage.storeModel((Productline)testAssets[0]);
-			RepositoryDescriptor rd = ((Productline)testAssets[0]).getRepositoryDescriptor();
+//			ModelStorage.storeModel((Productline)testAssets[0]);
+//			RepositoryDescriptor rd = ((Productline)testAssets[0]).getRepositoryDescriptor();
 			repoAccess.checkout(testAssets,IResource.DEPTH_INFINITE,null);
 		}
 		catch (Exception e)
