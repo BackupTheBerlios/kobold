@@ -84,7 +84,7 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 		IProject projects[] = KoboldPLAMPlugin.getWorkspace().getRoot().getProjects();
 		if (projects != null) {
 			for (int i = 0; i < projects.length; i++) {
-				IProjectNature nature = projects[1].getNature(KoboldProject.NATURE_ID);
+				IProjectNature nature = projects[i].getNature(KoboldProject.NATURE_ID);
 				if (nature != null) {
 					((KoboldProject)nature).addVCMActionListener(new IVCMActionListener() {
 						public void refreshFiledescriptors(

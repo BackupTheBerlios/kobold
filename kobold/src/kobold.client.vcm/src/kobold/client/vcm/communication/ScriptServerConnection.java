@@ -199,9 +199,9 @@ public class ScriptServerConnection implements IServerConnection
 //			errorThread = new InputThreadToConsole(errStream,null);
 			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, null);
 			((InputThreadToConsole)inputThread).setReturnString(returnStr);
-			((InputThreadToConsole)errorThread).setReturnString(returnStr);
+//			((InputThreadToConsole)errorThread).setReturnString(returnStr);
 			inputThread.run();
-			errorThread.run();
+//			errorThread.run();
 			return ((InputThreadToConsole)inputThread).getReturnString();
 		} finally {
 			if (!connected) {
@@ -395,8 +395,63 @@ public class ScriptServerConnection implements IServerConnection
 			this.errStream = new BufferedInputStream(proc.getErrorStream());
 			this.proc = proc;
 		}
+public void run(){
+    int index = 0, r = 0, s = 0, i = 0, lineCount = 150;
+            try
+            {
 
-		public void run() {
+                while (in.available() == 0 & errStream.available() == 0)
+                {
+                    sleep(5);
+                }
+                while (i < lineCount)
+                {
+                    while (in.available() != 0 && (r = in.read()) != -1)
+                    {
+                        if (r == NEWLINE)
+                            break;
+                        readLineBuffer = append(readLineBuffer, index++,
+                                (byte) r);
+                    }
+                    while (errStream.available() != 0
+                            && (s = errStream.read()) != -1)
+                    {
+                        if (s == NEWLINE)
+                            break;
+                        readLineBuffer = append(readLineBuffer, index++,
+                                (byte) s);
+                    }
+                    if (returnString != null)
+                    {
+                        if (returnString.equals(""))
+                            returnString = new String(readLineBuffer, 0, index);
+                        else
+                            returnString = returnString.concat(new String(
+                                    readLineBuffer, 0, index));
+                        readLineBuffer = new byte[512];
+                        index = 0;
+                    } else
+                    {
+                        stream.print(new String(readLineBuffer, 0, index));
+                        System.out
+                                .println(new String(readLineBuffer, 0, index));
+                        this.readLineBuffer = new byte[512];
+                        index = 0;
+                    }
+                    if (in.available() == 0 && errStream.available() == 0)
+                    {
+                        i++;
+                    }
+
+                }
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    public void run2() {
+
 				try
             {
                 if (in != null)
@@ -407,20 +462,20 @@ public class ScriptServerConnection implements IServerConnection
 //                            + errStream.available());//(in.available() != 0) &&
                     try
                     {
-                        sleep(50);
+                        sleep(1050);
                     } catch (Exception e)
                     {
                         e.printStackTrace();
                     }
 
-                    while (r != -1 | s != -1 | exit < 20)
+                    while (r != -1 | s != -1 | exit < 120)
                     {
                         //						int test = errStream.available();
                         if (errStream != null && errStream.available() != 0)
                         {
                             while ((s = errStream.read()) != -1)
                             {
-                                //							if(s == NEWLINE) break;
+                                if(s == NEWLINE) break;
                                 readLineBuffer = append(readLineBuffer,
                                         index++, (byte) s);
                             }
@@ -434,7 +489,7 @@ public class ScriptServerConnection implements IServerConnection
                         {
                             while (in.available() != 0 & (r = in.read()) != -1)
                             {
-                                //							if(r == NEWLINE) break;
+                                if(r == NEWLINE) break;
                                 readLineBuffer = append(readLineBuffer,
                                         index++, (byte) r);
                             }
@@ -453,6 +508,7 @@ public class ScriptServerConnection implements IServerConnection
                                 returnString = returnString.concat(new String(
                                         readLineBuffer, 0, index));
                             readLineBuffer = new byte[512];
+                            index = 0;
                         }
 
                         else
