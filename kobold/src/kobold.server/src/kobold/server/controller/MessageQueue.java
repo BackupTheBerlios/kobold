@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageQueue.java,v 1.3 2004/05/18 19:13:07 vanto Exp $
+ * $Id: MessageQueue.java,v 1.4 2004/05/18 21:23:16 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -60,8 +60,8 @@ public class MessageQueue {
 	public MessageQueue(UserContext userContext) {
 		queue = new ArrayList();
 		this.userContext = userContext;
-		this.messageStore = userContext.getSessionId() +
-				System.getProperty("kobold.server.messageStore");
+		this.messageStore = System.getProperty("kobold.server.storePath") +
+								userContext.getUserName() + ".xml";
 		deserialize();
 	}
 	
@@ -84,10 +84,10 @@ public class MessageQueue {
 	 * @param koboldMessage the message to add.
 	 */
 	public void addMessage(AbstractKoboldMessage koboldMessage) {
+		System.out.println(GlobalMessageContainer.getInstance());
+		System.out.println(koboldMessage);
 		GlobalMessageContainer.getInstance().addMessage(koboldMessage);
-		//queue.add(-1, koboldMessage.getId());
-		// TODO anselm: Ans Ende einfügen? dann so!
-		queue.add(koboldMessage.getId());
+		queue.add(0, koboldMessage.getId());
 	}
 
 	/**
