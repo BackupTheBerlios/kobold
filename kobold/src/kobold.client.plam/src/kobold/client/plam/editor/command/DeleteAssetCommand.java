@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.6 2004/09/20 00:45:26 vanto Exp $
+ * $Id: DeleteAssetCommand.java,v 1.7 2004/09/20 06:40:39 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -44,6 +44,7 @@ import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.edges.EdgeContainer;
+import kobold.client.plam.model.edges.INode;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.ProductComponent;
 import kobold.client.plam.model.product.RelatedComponent;
@@ -87,6 +88,17 @@ public class DeleteAssetCommand extends Command
         }
     }
     
+    /**
+     * Delete recursivly all edges of an asset
+     */
+    public void deleteEdgesOfAsset(INode asset, EdgeContainer ec){
+        edges.addAll(ec.getEdgesTo(asset));
+        edges.addAll(ec.getEdgesFrom(asset));
+        for (Iterator ite = asset.getChildren().iterator(); ite.hasNext();) {
+            deleteEdgesOfAsset((INode) ite.next(), ec);
+        }
+    }
+    
     public void execute(int action)
     {
         this.action = action;
@@ -101,17 +113,7 @@ public class DeleteAssetCommand extends Command
             }
             return;
         }
-        if (parent != null) {
-            EdgeContainer ec = parent.getRoot().getEdgeContainer();
-            edges.addAll(ec.getEdgesTo(asset));
-            edges.addAll(ec.getEdgesFrom(asset));
-
-            Iterator it = edges.iterator();
-            while (it.hasNext()) {
-                Edge edge = (Edge)it.next();
-                ec.removeEdge(edge);
-            }
-        }
+        
 
         if (parent instanceof IComponentContainer
                 && asset instanceof Component) {
@@ -142,13 +144,26 @@ public class DeleteAssetCommand extends Command
         } else if( parent instanceof IProductComponentContainer &&
                    asset instanceof SpecificComponent) {
             IProductComponentContainer pcc =(IProductComponentContainer)parent;
+            ModelStorage.deleteProductComponentDirectory((ProductComponent)asset);
             index = pcc.getSpecificComponents().indexOf(asset);
             pcc.removeProductComponent((ProductComponent)asset);
         } else if (parent instanceof IProductComponentContainer
                 && asset instanceof RelatedComponent) {
             IProductComponentContainer pcc = (IProductComponentContainer) parent;
+            ModelStorage.deleteProductComponentDirectory((ProductComponent)asset);
             index = pcc.getRelatedComponents().indexOf(asset);
             pcc.removeProductComponent((ProductComponent) asset);
+        }
+        
+        if (parent != null) {
+            EdgeContainer ec = parent.getRoot().getEdgeContainer();
+            deleteEdgesOfAsset(asset, ec);                        
+
+            Iterator it = edges.iterator();
+            while (it.hasNext()) {
+                Edge edge = (Edge)it.next();
+                ec.removeEdge(edge);
+           }
         }
     }
    
@@ -204,12 +219,15 @@ public class DeleteAssetCommand extends Command
             pcc.addRelatedComponent((RelatedComponent)asset, index);
         }
         
+        ModelStorage.storeModel(asset.getRoot().getProductline());
+        
         EdgeContainer ec = parent.getRoot().getEdgeContainer();
         Iterator it = edges.iterator();
         while (it.hasNext()) {
             Edge edge = (Edge)it.next();
             ec.addEdge(edge);
         }
+        
     }
     
     private void makeAssetDeprecated(AbstractAsset asset) 
