@@ -40,32 +40,41 @@ public class ProductAlgorithm {
         
     }
     
-    public void ChangeStatus(AbstractAsset asset, String newStatus) {
+    public void setUsed(AbstractAsset node) {
         
     }
     
-    public boolean isUsed(){
+    public void setMustNotUse(AbstractAsset node){
+        
+    }
+    
+    public void setOpen(AbstractAsset node){
+        
+    }
+    
+    
+    public boolean isUsed(AbstractAsset node){
         return false;
     
     }
     
-    public boolean mustNotUse(){
+    public boolean mustNotUse(AbstractAsset node){
         return false;
     }
     
-    public boolean isOpen(){
+    public boolean isOpen(AbstractAsset node){
         return false;
     }
     
-    public boolean isToWorkOn() {
+    public boolean isToWorkOn(AbstractAsset node) {
         return false;
     }
     
-    public boolean hasWarning() {
+    public boolean hasWarning(AbstractAsset node) {
         return false;
     }
     
-    public String getWarning(){
+    public String getWarning(AbstractAsset node){
         return " ";
     }
     
