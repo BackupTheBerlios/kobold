@@ -8,6 +8,7 @@ package kobold.client.plam;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 
 import kobold.client.plam.model.AbstractAsset;
@@ -23,7 +24,9 @@ import kobold.common.data.User;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.HeaderFooter;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfWriter;
@@ -53,9 +56,24 @@ public class MetaInformation {
             // open the document
             document.open();
             
-            //add a paragraph to the document
+            // titlepage
             document.add(new Paragraph("Meta-Informations",
-                	FontFactory.getFont(FontFactory.HELVETICA, 16)));
+                	FontFactory.getFont(FontFactory.HELVETICA, 40, Font.ITALIC)));
+            document.add(new Paragraph(new Date().toString()));
+            
+           /* try 
+            {
+                Watermark watermark = new Watermark(Image.getInstance("icons/kobold_persp.gif"), 200, 420);
+                document.add(watermark);
+            }
+            catch(Exception e) {
+                System.err.println("Are you sure you have the file 'icons/kobold_persp.gif' in the right path?");
+            }
+           */ 
+            HeaderFooter footer = new HeaderFooter(new Phrase("Page: "), true);
+            	document.setFooter(footer);
+            // new page	
+            document.newPage();
             
             // determine which asset we create metainfo for
             if (asset instanceof Productline) {
@@ -98,14 +116,13 @@ public class MetaInformation {
     	throws DocumentException
     {
         document.add(new Paragraph("Productline:",
-        	FontFactory.getFont(FontFactory.HELVETICA, 14)));
+        	FontFactory.getFont(FontFactory.HELVETICA, 18)));
         document.add(new Phrase("Name: " + pl.getName() + "\n"));
         document.add(new Phrase("Discription: " + pl.getDescription()+"\n"));
         document.add(new Phrase("ID: " + pl.getId()+"\n"));
         
-        
         document.add(new Paragraph("Products:",
-            FontFactory.getFont(FontFactory.HELVETICA, 14)));
+            FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	for (Iterator ite = pl.getProducts().iterator(); 
 		ite.hasNext();)
         {
@@ -113,7 +130,8 @@ public class MetaInformation {
 			createMetaInfoForProduct (document, product);
 		}
     
-    	document.add(new Paragraph("Components"));
+    	document.add(new Paragraph("Components",
+            FontFactory.getFont(FontFactory.HELVETICA, 14)));
     	for (Iterator ite = pl.getComponents().iterator(); 
 		ite.hasNext();)
 		{
@@ -141,7 +159,8 @@ public class MetaInformation {
         
        	//product.getMaintainers();
     	
-        document.add(new Paragraph("RelatedComponents"));
+        document.add(new Paragraph("RelatedComponents",
+            FontFactory.getFont(FontFactory.HELVETICA, 14)));
     	for (Iterator ite = product.getRelatedComponents().iterator(); 
 		ite.hasNext();)
 		{
@@ -149,7 +168,8 @@ public class MetaInformation {
 			createMetaInfoForRelatedComponent(document, relComp);
 		}
     	
-    	document.add(new Paragraph("SpezificComponents"));
+    	document.add(new Paragraph("SpezificComponents",
+            FontFactory.getFont(FontFactory.HELVETICA, 14)));
     	for (Iterator ite = product.getSpecificComponents().iterator(); 
 		ite.hasNext();)
 		{
@@ -235,7 +255,8 @@ public class MetaInformation {
         	createMetaInfoForMaintainer (document, user);
         }
 		
-		document.add(new Paragraph("Variants"));
+		document.add(new Paragraph("Variants",
+            FontFactory.getFont(FontFactory.HELVETICA, 14)));
     	for (Iterator ite = comp.getVariants().iterator(); 
 		ite.hasNext();)
 		{
@@ -252,7 +273,8 @@ public class MetaInformation {
         document.add(new Phrase("Description: " + var.getDescription() + "\n"));
         document.add(new Phrase("ID: " + var.getId() + "\n"));		
 		
-        document.add(new Paragraph("Components"));
+        document.add(new Paragraph("Components",
+            FontFactory.getFont(FontFactory.HELVETICA, 14)));
 		for (Iterator ite = var.getComponents().iterator();
 		ite.hasNext();)
 		{
