@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.14 2004/06/24 11:06:21 grosseml Exp $
+ * $Id: ArchitectureEditor.java,v 1.15 2004/06/24 23:44:58 grosseml Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import kobold.client.action.GXLExportAction;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.PLAMProject;
 import kobold.client.plam.editor.model.IViewModelProvider;
@@ -197,10 +198,14 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     	action = new CopyTemplateAction(this);
     	registry.registerAction(action);
     
-    	action = new MatchWidthAction(this);
+    	action = new GXLExportAction(this);
     	registry.registerAction(action);
     	getSelectionActions().add(action.getId());
     	
+    	action = new MatchWidthAction(this);
+    	registry.registerAction(action);
+    	getSelectionActions().add(action.getId());
+
     	action = new MatchHeightAction(this);
     	registry.registerAction(action);
     	getSelectionActions().add(action.getId());

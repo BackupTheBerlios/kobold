@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldContextMenuProvider.java,v 1.1 2004/06/23 02:26:23 vanto Exp $
+ * $Id: KoboldContextMenuProvider.java,v 1.2 2004/06/24 23:44:05 grosseml Exp $
  *
  */
 
@@ -77,6 +77,9 @@ public class KoboldContextMenuProvider extends ContextMenuProvider
     	if (action.isEnabled())
     		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 
+    	action = getActionRegistry().getAction("kobold.client.action.GXLExportAction");
+    	menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+    	
     	// Alignment Actions
     	MenuManager submenu = new MenuManager("Alignment");
 
