@@ -38,38 +38,33 @@ public class WorkflowRules {
 			"kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
 			"answer.addParentId(msg.getId());"+	//add the actual parent as history
 			"answer.setSender(msg.getSender());"+	
-			"answer.setReceiver(msg.getReceiver());"+
+			//"answer.setReceiver(msg.getReceiver());"+
 			"answer.setSubject(\"Antrag auf Commit eines Coregroup Items\");"+
-			"answer.setMessageText(\"Der Mitarbeiter \"+msg.getSender() + \" würde gerne" +
-					"ein Commit in die Coregroup machen. Bitte wählen Sie daher in " +
+			
+			"kobold.common.data.WorkflowItem[] controls = msg.getWorkflowControls();"+
+			"answer.setReceiver(controls[2].getValue());" +
+				
+			
+			"answer.setMessageText(\"Der Mitarbeiter \"+msg.getSender() + \" würde gerne " +
+					"ein Commit der Datei \" + controls[0].getValue() + \" unter \" + controls[1].getValue() + \" "+
+					"in die Coregroup machen. Bitte wählen Sie daher in " +
 					"untenstehenden Optionen.\");"+
 			
 			//creating necessary workflow items
 			//containing 2 radio buttons (forward, deny)
-			//and a textbox for comments
-			"kobold.common.data.WorkflowItem text = new kobold.common.data.WorkflowItem(\"\",\"Ihr Kommentar:\",kobold.common.data.WorkflowItem.TEXT);"+
-			"kobold.common.data.WorkflowItem rb1 = new kobold.common.data.WorkflowItem(\"true\",\"An zuständigen PE weiterleiten\",kobold.common.data.WorkflowItem.RADIO);"+
+			"kobold.common.data.WorkflowItem rb1 = new kobold.common.data.WorkflowItem(\"true\",\"An zuständigen PLE weiterleiten\",kobold.common.data.WorkflowItem.RADIO);"+
 			"kobold.common.data.WorkflowItem rb2 = new kobold.common.data.WorkflowItem(\"false\",\"Ablehnen\", kobold.common.data.WorkflowItem.RADIO);"+
 			"kobold.common.data.WorkflowItem cont = new kobold.common.data.WorkflowItem(\"bla\",\"Entscheidung\",kobold.common.data.WorkflowItem.CONTAINER);"+
+			"kobold.common.data.WorkflowItem recip = new kobold.common.data.WorkflowItem(\"\",\"Recipient (PLE):\",kobold.common.data.WorkflowItem.TEXT);"+
 			"cont.addChild(rb1);"+
 			"cont.addChild(rb2);"+
-			
+			"answer.addWorkflowControl(control[0]);" +
+			"answer.addWorkflowControl(control[1]);" +
+			"answer.addWorkflowControl(recip);" +
 			"answer.addWorkflowControl(cont);"+
-			"answer.addWorkflowControl(text);"+
 			"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);"));
 		
-/*			"msg.addHistory(msg.newHistory());" +			"if (msg.getHistoryList().size() > 1) {" +			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setStep(msg.getHistoryList().get(msg.getHistoryList().size() - 2).getStep() + 1);" +			"}" +			"else {" +			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setStep(1);" +			"}" +			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setFiredRule(\"Core Group Suggestion - Step 1\");" +			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setSender(msg.getSender());" +			"msg.setRecipient(\"Recipient\");" +			"msg.setMessageText(\"<?xml version = \\\"1.0\\\"?>" + 
-				"<?xml-stylesheet type = \\\"text/xsl\\\" href = \\\"styleSheets/workflow.xsl\\\" ?>" +
-				"<workflow>" + 
-				"<line><header>Vorschlag für eine neue Core Group Datei</header></line>" + 
-				"<line></line>" + 
-				"<line><text>Würde gerne eine Datei in eine Core Group hinzufügen.</text></line>" + 
-				"<line><interaction name=\\\"radioButton\\\" value=\\\"yes\\\" type=\\\"radio\\\">weiterleiten</interaction></line>" +
-				"<line><interaction name=\\\"radioButton\\\" value=\\\"no\\\" type=\\\"radio\\\">ablehnen</interaction></line>" +
-				"<line><text>Ihr Kommentar: </text><textfield name=\\\"comment\\\"/></line>" +
-				"<line><interaction type=\\\"submit\\\">abschicken</interaction></line>" +
-				"</workflow>\");" +			"java.util.Hashtable hash = new Hashtable();" +			"hash = msg.getHistoryList().get(msg.getHistoryList().size() - 1).getHashtable();" +			"hash.put(\"radioButton\", \"yes\");" +			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setHashtable(hash);"));
-*/		
+
 		
 		
 		/**
@@ -91,34 +86,26 @@ public class WorkflowRules {
 		"java.lang.String decision = \"\";"+
 		"java.lang.String comment = \"\";"+
 		"kobold.common.data.WorkflowItem[] controls = msg.getWorkflowControls();"+
-		"for(int i = 0; i < controls.length;i++){"+
-			"if (controls[i].equals(kobold.common.data.WorkflowItem.TEXT)){"+
-				"comment = controls[i].getValue();"+
-			"}"+
-			"if (controls[i].equals(kobold.common.data.WorkflowItem.CONTAINER)){"+
-				"decision = controls[i].getValue();"+
 
-			"}"+
-		"}"+
-		
+		"decision = controls[3].getValue();" + 
 		"answer.setStep(msg.getStep()+1);"+
 
 		
-		"if (decision.equals(\"An zuständigen PE weiterleiten\")){"+
-			"answer.setReceiver(\"garbeam\");"+
+		"if (decision.equals(\"An zuständigen PLE weiterleiten\")){"+
+			"answer.setReceiver(controls[2].getValue());"+
 			"answer.setSubject(\"Ein Vorschlag für ein neues Core Group Item ist eingegangen\");"+
-			"answer.setMessageText(\"Es ist ein neuer Vorschlag für ein Core Group Item eingegangen,\" +"+
-					"\"der zuständige PE schrieb dazu: \" + comment);"+
+			"answer.setMessageText(\"Es ist ein neuer Vorschlag für das Core Group Item \" + controls[0].getValue() + \" unter \" + controls[1].getValue() + \" eingegangen, \" +"+
+					"\"der zuständige PE schrieb dazu: \" + msg.getComment());"+
 					"System.out.println(\"Alle Sets abgeschlossen\");"+
 
 			//add decisions for core group PE
-			"kobold.common.data.WorkflowItem radio1 = new kobold.common.data.WorkflowItem(\"false\",\"Vorschlag zustimmen\",kobold.common.data.kobold.common.data.WorkflowItem.RADIO);"+
-			"kobold.common.data.WorkflowItem radio2 = new kobold.common.data.WorkflowItem(\"true\",\"Vorschlag ablehnen\",kobold.common.data.kobold.common.data.WorkflowItem.RADIO);"+
-			"kobold.common.data.WorkflowItem comm = new kobold.common.data.WorkflowItem(\"\",\"Bitte hier ein Kommentar einfügen:\",kobold.common.data.kobold.common.data.WorkflowItem.TEXT);"+
-			"kobold.common.data.WorkflowItem container = new kobold.common.data.WorkflowItem(null,\"Entscheidung\",kobold.common.data.kobold.common.data.WorkflowItem.CONTAINER);"+
+			"kobold.common.data.WorkflowItem radio1 = new kobold.common.data.WorkflowItem(\"false\",\"Vorschlag zustimmen\",kobold.common.data.data.WorkflowItem.RADIO);"+
+			"kobold.common.data.WorkflowItem radio2 = new kobold.common.data.WorkflowItem(\"true\",\"Vorschlag ablehnen\",kobold.common.data.WorkflowItem.RADIO);"+
+			"kobold.common.data.WorkflowItem container = new kobold.common.data.WorkflowItem(null,\"Entscheidung\",kobold.common.data.WorkflowItem.CONTAINER);"+
 			"container.addChild(radio1);"+
 			"container.addChild(radio2);"+
-			"answer.addWorkflowControl(comm);"+
+			"answer.addWorkflowControl(controls[0]);" +
+			"answer.addWorkflowControl(controls[1]);" +
 			"answer.addWorkflowControl(container);"+
 
 		"}"+
@@ -129,45 +116,12 @@ public class WorkflowRules {
 			"answer.setReceiver(wfm.getSender());"+
 			"answer.setSubject(\"Ihre Anfrage wurde abgelehnt.\");"+
 			"answer.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" mit der Begründung '\" +"+
-					 "comment +\"' abgelehnt\");"+
+					 "msg.getComment() +\"' abgelehnt\");"+
 			
 		"}"+
 		"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);"));
 		
-		/*	"msg.addHistory(msg.newHistory());" +
-			"if (msg.getHistoryList().size() > 1) {" +
-				"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setStep(msg.getHistoryList().get(msg.getHistoryList().size() - 2).getStep() + 1);" +
-			"}" +
-			"else {" +
-				"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setStep(1);" +
-			"}" +
-			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setFiredRule(\"Core Group Suggestion - Step 2\");" +
-			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setSender(msg.getSender());" +			"java.util.Hashtable hash = msg.getHistoryList().get(msg.getHistoryList().size() - 2).getHashtable();" +			"java.lang.String str = (String) hash.get(\"radioButton\");" +			"if (str != null) {" +			"if (str.equals(\"yes\")) {" +				"msg.setRecipient(\"Recipient2\");" +
-				"msg.setMessageText(\"<?xml version = \\\"1.0\\\"?>" + 
-					"<?xml-stylesheet type = \\\"text/xsl\\\" href = \\\"styleSheets/workflow.xsl\\\" ?>" +
-					"<workflow>" + 
-					"<line><header>Vorschlag für eine neue Core Group Datei</header></line>" + 
-					"<line></line>" + 
-					"<line><text>Eine Datei wurde für eine Core Group vorgeschlagen.</text></line>" + 
-					"<line><interaction name=\\\"radioButton2\\\" value=\\\"yes\\\" type=\\\"radio\\\">zustimmen</interaction></line>" +
-					"<line><interaction name=\\\"radioButton2\\\" value=\\\"no\\\" type=\\\"radio\\\">ablehnen</interaction></line>" +
-					"<line><text>Ihr Kommentar: </text><textfield name=\\\"comment\\\"/></line>" +
-					"<line><interaction type=\\\"submit\\\">abschicken</interaction></line>" +
-					"</workflow>\");" +
-				"java.util.Hashtable hash = new Hashtable();" +
-				"hash = msg.getHistoryList().get(msg.getHistoryList().size() - 1).getHashtable();" +
-				"hash.put(\"radioButton2\", \"yes\");" +
-				"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setHashtable(hash);" +			"}" +			"else {" +				"msg.setRecipient(\"Recipient3\");" +
-				"msg.setMessageText(\"<?xml version = \\\"1.0\\\"?>" + 
-					"<?xml-stylesheet type = \\\"text/xsl\\\" href = \\\"styleSheets/workflow.xsl\\\" ?>" +
-					"<workflow>" + 
-					"<line><header>Ihr Vorschlag für eine neue Core Group Datei</header></line>" + 
-					"<line></line>" + 
-					"<line><text>Die Datei wurde leider abgelehnt.</text></line>" + 
-					"<line><interaction type=\\\"submit\\\">bestätigen</interaction></line>" +
-					"</workflow>\");" +			"}}" +			"else {" +			"	msg.setRecipient(\"Recipient3\");" +			"	msg.setMessageText(\"Der Button-Wert ist null.\");" +			"}"));
-		*/
-		
+
 		
 		
 		
@@ -185,6 +139,7 @@ public class WorkflowRules {
 				"kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
 				"answer.setSender(msg.getSender());"+
 				"answer.addParentId(msg.getId());"+
+				"answer.setStep(msg.getStep()+1);"+
 				
 				//analyzing the answer
 				"String decision = \"\";"+
@@ -204,7 +159,7 @@ public class WorkflowRules {
 				"answer.setReceiver(wfm.getSender());"+
 				"answer.setSubject(\"Ihr Vorschlag wurde akzeptiert.\");"+
 				"answer.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" akzeptiert. Weitere Anweisungen lauten: '\" +"+
-						 "comment +\"'\");"+
+						 "msg.getComment() +\"'\");"+
 			"}"+
 			"else if (decision.equals(\"Vorschlag ablehnen\")){"+
 				"kobold.server.controller.GlobalMessageContainer gmc = GlobalMessageContainer.getInstance();"+
@@ -212,54 +167,59 @@ public class WorkflowRules {
 				"answer.setReceiver(wfm.getSender());"+
 				"answer.setSubject(\"Ihre Anfrage wurde abgelehnt.\");"+
 				"answer.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" mit der Begründung '\" +"+
-					 "comment +\"' abgelehnt\");"+
+					 "msg.getComment() +\"' abgelehnt\");"+
 			"}"));
 
 
 				
-/*			"msg.addHistory(msg.newHistory());" +
-			"if (msg.getHistoryList().size() > 1) {" +
-				"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setStep(msg.getHistoryList().get(msg.getHistoryList().size() - 2).getStep() + 1);" +
-			"}" +
-			"else {" +
-				"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setStep(1);" +
-			"}" +
-			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setFiredRule(\"Core Group Suggestion - Step 3\");" +
-			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setSender(msg.getSender());" +
-			"java.util.Hashtable hash = msg.getHistoryList().get(msg.getHistoryList().size() - 2).getHashtable();" +
-			"java.lang.String str = (String) hash.get(\"radioButton2\");" +
-			"if (str != null) {" +
-			"if (str.equals(\"yes\")) {" +
-				"msg.setRecipient(\"Recipient4+5\");" +
-				"msg.setMessageText(\"<?xml version = \\\"1.0\\\"?>" + 
-					"<?xml-stylesheet type = \\\"text/xsl\\\" href = \\\"styleSheets/workflow.xsl\\\" ?>" +
-					"<workflow>" + 
-					"<line><header>Vorschlag für eine neue Core Group Datei</header></line>" + 
-					"<line></line>" + 
-					"<line><text>Der Vorschlag wurde angenommen.</text></line>" + 
-					"<line><interaction type=\\\"submit\\\">bestätigen</interaction></line>" +
-					"</workflow>\");" +
-			"}" +
-			"else {" +
-				"msg.setRecipient(\"Recipient5+4\");" +
-				"msg.setMessageText(\"<?xml version = \\\"1.0\\\"?>" + 
-					"<?xml-stylesheet type = \\\"text/xsl\\\" href = \\\"styleSheets/workflow.xsl\\\" ?>" +
-					"<workflow>" + 
-					"<line><header>Ihr Vorschlag für eine neue Core Group Datei</header></line>" + 
-					"<line></line>" + 
-					"<line><text>Die Datei wurde leider abgelehnt.</text></line>" + 
-					"<line><interaction type=\\\"submit\\\">bestätigen</interaction></line>" +
-					"</workflow>\");" +
-			"}}" +
-			"else {" +
-			"	msg.setRecipient(\"Recipient5+4\");" +
-			"	msg.setMessageText(\"Der Button-Wert ist null.\");" +
-			"}"));
-*/				
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/**
+		 * Rule No.4
+		 */
+		Rule no4 = new Rule("Text Mail");
+		
+		Declaration dec4 = new Declaration(new ClassObjectType(WorkflowMessage.class), "msg");
+		
+		no4.addCondition(new ExprCondition("(msg.getWorkflowType().equals(\"TextMail\")))", new Declaration[] {dec4}));
+		no4.addParameterDeclaration(dec4);
+		no4.setConsequence(new BlockConsequence(""+
+
+		"kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
+		"answer.setSender(msg.getSender());"+
+		"answer.addParentId(msg.getId());"+
+		
+		"kobold.common.data.WorkflowItem[] controls = msg.getWorkflowControls();"+
+
+		"answer.setStep(msg.getStep()+1);"+
+		"answer.setReceiver(controls[0].getValue());"+
+		"answer.setSubject(controls[1].getValue());"+
+		"answer.setMessageText(msg.getComment());"+
+
+		//add reply
+		"kobold.common.data.WorkflowItem recip = new kobold.common.data.WorkflowItem(\"\",\"Recipient: \",kobold.common.data.WorkflowItem.TEXT);"+
+		"kobold.common.data.WorkflowItem subj = new kobold.common.data.WorkflowItem(\"true\",\"Subject: \",kobold.common.data.WorkflowItem.TEXT);"+
+		"answer.addWorkflowControl(recip);"+
+		"answer.addWorkflowControl(subj);" +
+			
+		"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);"));
+		
+		
+		
+		
 		
 		set.addRule(no1);
 		set.addRule(no2);
 		set.addRule(no3);
+		set.addRule(no4);
 		return set;
 	}
 
