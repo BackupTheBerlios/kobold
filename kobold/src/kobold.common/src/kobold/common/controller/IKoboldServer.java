@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.9 2004/06/24 08:30:49 grosseml Exp $
+ * $Id: IKoboldServer.java,v 1.10 2004/06/24 08:45:23 grosseml Exp $
  *
  */
 
@@ -133,7 +133,7 @@ public interface IKoboldServer {
 	 * @param product the product. 
 	 */
 	public void applyProductModifications(UserContext userContext,
-															 Product product);
+			kobold.common.model.product.Product product);
     
     /**
      * Removes the specified user.
