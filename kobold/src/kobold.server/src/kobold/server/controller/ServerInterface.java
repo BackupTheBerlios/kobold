@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerInterface.java,v 1.4 2004/04/28 12:44:41 garbeam Exp $
+ * $Id: ServerInterface.java,v 1.5 2004/05/03 22:57:07 garbeam Exp $
  *
  */
 
@@ -30,8 +30,8 @@ package kobold.server.controller;
 import java.util.List;
 
 import kobold.common.data.KoboldMessage;
-import kobold.common.data.PInfo;
-import kobold.common.data.PLInfo;
+import kobold.common.data.Product;
+import kobold.common.data.Productline;
 import kobold.common.data.Role;
 import kobold.common.data.UserContext;
 
@@ -45,16 +45,18 @@ public interface ServerInterface {
     /**
      * A Kobold-Client has to call this method before making any
      * other requests.
-     *
-     * @see kobold.common.data.UserContext
+     * 
+     * @param userName the username
+     * @param password the password
+     * @returns {@link kobold.common.data.UserContext}
      */
-    public UserContext login(UserContext uc);
+    public UserContext login(String userName, String password);
 
     /**
-     * Called by Kobold-Clients to logout (the passed session-ID
-     * gets invalid).
+     * Logs out and invalidates the given userContext.
      */
-    public void logout(String sessionID);
+    public void logout(UserContext userContext);
+
 
 	/**
 	 * 
@@ -81,12 +83,12 @@ public interface ServerInterface {
     /**
      * @see kobold.server.model.ProductlineAdmin.getProductlineInfo(java.lang.String)
      */
-    public PLInfo getProductlineInfo(String sessionID, String pl);
+    public Productline getProductlineInfo(String sessionID, String pl);
 
     /**
      * @see kobold.server.model.ProductlineAdmin.getProductInfo(java.lang.String)
      */
-    public PInfo getProductInfo(String sessionID, String product);
+    public Product getProductInfo(String sessionID, String product);
 
     /**
      * @see kobold.server.model.ProductlineAdmin.addProduct(java.lang.String, java.lang.String)
@@ -107,12 +109,12 @@ public interface ServerInterface {
     /**
      * @see kobold.server.model.ProductlineAdmin.applyProductlineInfo(kobold.util.data.ProductlineInfo)
      */
-    public void applyPLInfo(String sessionID, PLInfo pi);
+    public void applyPLInfo(String sessionID, Productline pi);
 
     /**
      * @see kobold.server.model.ProductlineAdmin.applyProductInfo(kobold.util.data.ProductInfo)
      */
-    public void applyProductInfo(String sessionID, PInfo pi);
+    public void applyProductInfo(String sessionID, Product pi);
 
     /**
      * @see kobold.server.user.UserAdmin.applyUserInfo(kobold.util.data.UserInfo)

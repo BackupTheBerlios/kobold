@@ -21,15 +21,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserAdmin.java,v 1.2 2004/04/18 14:04:40 garbeam Exp $
+ * $Id: UserAdmin.java,v 1.1 2004/05/03 22:57:07 garbeam Exp $
  *
  */
+package kobold.server.controller;
 
+import java.util.HashMap;
+import java.util.Iterator;
 
-package kobold.server.user;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 
-import kobold.common.data.Role;
-import kobold.common.data.UserContext;
+import kobold.server.model.User;
 
 /**
  * This class stores user data on the server and provides authentification
@@ -39,64 +43,45 @@ import kobold.common.data.UserContext;
  */
 public class UserAdmin {
 
-    /**
-     * Adds a new user.
-     *
-     * @param username String containing the new user's username
-     */
-    public void addUser(String username) {
-    }
+	HashMap users;
 
-    /**
-     * Changes the stored information for the user specified in info.
-     *
-     * @param info userinfo that describes the new user info
-     */
-    public void applyUserInfo(UserContext uc) {
-    }
+	/**
+	 * Adds a new user.
+	 *
+	 * @param username String containing the new user's username
+	 */
+	public void addUser(User user) {
+		users.put(user.getUserName(), user);
+	}
 
-    /**
-     * @return the user's information
-     */
-    public UserContext getUserInfo(String user) {
-        return null;
-    }
+	/**
+	 * Changes the stored information for the user specified in info.
+	 *
+	 * @param username the name of the User.
+	 */
+	public User getUser(String username) {
+		return (User) users.get(username);
+	}
 
-    /**
-     * Adds a Role to a user (rigth user is specified by the Role-Object).
-     */
-    public void addRole(Role r) {
-    }
+	/**
+	 * Removes the specified user.
+	 */
+	public void removeUser(User user) {
+		users.remove(user);
+	}
 
-    /**
-     * Removes the geiven Role.
-     */
-    public void removeRole(Role r) {
-    }
+	public Document serialize() {
+		Document document = DocumentHelper.createDocument();
+		Element root = document.addElement("kobold");
 
-    /**
-     * Removes the specified user.
-     */
-    public void removeUser(String user) {
-    }
+		Element users = root.addElement("users");
 
-    /**
-     * Creates a sessionID for the specified user (login).
-     */
-    public String createSessionID(String username, String password) {
-        return null;
-    }
+		for (Iterator it = this.users.values().iterator(); it.hasNext();) {
+			User user = (User) it.next();
+			user.serialize(users);
+		}
 
-    /**
-     * Releases the given sessionID (logout).
-     */
-    public void releaseSessionID(String sessionID) {
-    }
+		return document;
+	}
 
-    /**
-     * @return the user that is associated with the given sessionID
-     */
-    public String getUserFromSessionID(String sessionID) {
-        return null;
-    }
 }

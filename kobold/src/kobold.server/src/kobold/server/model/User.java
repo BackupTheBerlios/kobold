@@ -21,12 +21,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.2 2004/04/18 14:04:40 garbeam Exp $
+ * $Id: User.java,v 1.1 2004/05/03 22:57:07 garbeam Exp $
  *
  */
 
 
-package kobold.server.user;
+package kobold.server.model;
+
+import java.util.List;
+import java.util.ListIterator;
+
+import org.dom4j.Element;
+
+import sun.misc.BASE64Encoder;
 
 import kobold.common.data.Role;
 import kobold.common.data.UserContext;
@@ -39,8 +46,11 @@ import kobold.common.data.UserContext;
  */
 public class User {
 
-    private UserContext context;
-
+	private List roles;
+	private String userName;
+	private String password;
+	private String realName;
+	
     /**
      *
      * Use to get the stored USerInfo
@@ -51,24 +61,13 @@ public class User {
     }
 
     /**
-     *
-     * Overwrites the stored UserInfo with "info". If you intend to change
-     * a user's data, first get the actual USerInfo by calling getInfo()
-     * then perform your changes on that object and pass it to this method.
-     *
-     * @param info the new UserInfo
-     */
-    public void applyUserContext(UserContext info) {
-    }
-
-    /**
      * Adds a new Role to this user's role list. NOTE: if the passed Role
      * object is not associated with this user (that is the Role's user-
      * attribute equals the user-object's username), addRole() is ignored.
      * 
      * @param r the Role to add
      */
-    public void addRole(Role r) {
+    public void addRole(Role role) {
     }
 
     /**
@@ -77,6 +76,83 @@ public class User {
      *
      * @param r the role to remove
      */
-    public void removeRole(Role r) {
+    public void removeRole(Role role) {
     }
+
+	/**
+	 * Serializes this User and returns the resulting DOM tree.
+	 * @return
+	 */
+	public void serialize(Element users) {
+		 
+		 Element user = users.addElement("user");
+
+		 Element username = users.addElement("username")
+			 .addText(userName);
+        
+		 Element realName = users.addElement("realname")
+			 .addText(this.realName);
+
+		 Element password = users.addElement("password")
+		 	.addText(new BASE64Encoder().encode(this.password.getBytes()));
+
+	     Element roles = users.addElement("roles");
+		 for (ListIterator it = (ListIterator) this.roles.iterator();
+		 			it.hasNext();)
+		 {
+		 	Role role = (Role) it.next();
+		 	role.serialize(roles);
+		 	
+		 }
+	 }
+
+	/**
+	 * @return
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getRealName() {
+		return realName;
+	}
+
+	/**
+	 * @return
+	 */
+	public List getRoles() {
+		return roles;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setPassword(String string) {
+		password = string;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setRealName(String string) {
+		realName = string;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setUserName(String string) {
+		userName = string;
+	}
+
 }
