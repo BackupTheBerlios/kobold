@@ -27,6 +27,7 @@ package kobold.client.plam.preferences;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.controller.SSLHelper;
+import kobold.client.plam.editor.dialog.PasswordFieldEditor;
 
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.FileFieldEditor;
@@ -60,9 +61,10 @@ public class SSLPreferencePage extends FieldEditorPreferencePage
                 "com.sun.net.ssl.internal.www.protocol");
         store.setDefault(SSLHelper.JAVA_DEBUG, "all");
         store.setDefault(SSLHelper.KEY_STORE, "[your keystore path]");
-        store.setDefault(SSLHelper.KEY_STORE_PASSWORD, "[your keystore passphrase]");
+        store.setDefault(SSLHelper.KEY_STORE_PASSWORD, "");
+//        store.setDefault(SSLHelper.KEY_STORE_PASSWORD, "[your keystore passphrase]");
         store.setDefault(SSLHelper.TRUST_STORE,"[your truststore path]");
-        store.setDefault(SSLHelper.TRUST_STORE_PASSWORD,"[your truststore passphrase]");
+        store.setDefault(SSLHelper.TRUST_STORE_PASSWORD,"");
     }
 
     /**
@@ -78,13 +80,13 @@ public class SSLPreferencePage extends FieldEditorPreferencePage
                 getFieldEditorParent()));
         addField(new FileFieldEditor(SSLHelper.KEY_STORE, "Keystore path:",
                 getFieldEditorParent()));
-
-        addField(new StringFieldEditor(SSLHelper.KEY_STORE_PASSWORD,
+//        addField(new PasswordFieldEditor(KOBOLD_VCM_PWD_STR, "User Password:", getFieldEditorParent()));
+        addField(new PasswordFieldEditor(SSLHelper.KEY_STORE_PASSWORD,
                 "Keystore password:", getFieldEditorParent()));
         	    addField(new FileFieldEditor(SSLHelper.TRUST_STORE, "Truststore path:",
         	        getFieldEditorParent()));
 
-        addField(new StringFieldEditor(SSLHelper.TRUST_STORE_PASSWORD, "Truststore password:" ,
+        addField(new PasswordFieldEditor(SSLHelper.TRUST_STORE_PASSWORD, "Truststore password:" ,
             	getFieldEditorParent()));
     }
 
