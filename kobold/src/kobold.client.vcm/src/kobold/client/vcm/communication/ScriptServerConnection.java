@@ -371,11 +371,11 @@ public class ScriptServerConnection implements IServerConnection
                 	else{
                 	    monitor = KoboldPolicy.monitorFor(null);
                 	}
-                while (in.available() == 0 && s < 50)
-                {
-                    sleep(5);   
-                    s++;
-                }
+//                while (in.available() == 0 && s < 50)
+//                {
+//                    sleep(5);   
+//                    s++;
+//                }
                 while ( lineCount == 50 || i < 50)
                 {
                     monitor.worked(1);
