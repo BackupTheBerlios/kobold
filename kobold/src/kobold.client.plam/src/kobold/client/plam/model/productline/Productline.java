@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.10 2004/07/29 16:33:51 rendgeor Exp $
+ * $Id: Productline.java,v 1.11 2004/07/29 16:36:56 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -191,11 +191,11 @@ public class Productline extends AbstractRootAsset
 	/**
 	 * returns a Serialized productline.
 	 */
-	public Element serialize(String path) {
+	private Element serialize(String path) {
 		return serialize (path, false);
 	}
 	
-	public Element serialize(String path, boolean serializeAll) {
+	private Element serialize(String path, boolean serializeAll) {
 		
 		createPlDirectory (path);
 		
@@ -246,7 +246,7 @@ public class Productline extends AbstractRootAsset
 		return root;
 	}
 	
-	public void createPlDirectory (String path) {
+	private void createPlDirectory (String path) {
 		//create directory for the PL
 		File newDir = new File(path + File.separatorChar + getName());
 
@@ -279,7 +279,7 @@ public class Productline extends AbstractRootAsset
 
 	}
 	
-	public void createProductDirectory (String path, Product product)
+	private void createProductDirectory (String path, Product product)
 	{
 		//create directory for every product			
 		File newDir = new File(path+ File.separatorChar +getName() + File.separator 
@@ -295,7 +295,7 @@ public class Productline extends AbstractRootAsset
 	}
 
 	
-	public void createComponentDirectory (String path, Component component)
+	private void createComponentDirectory (String path, Component component)
 	{
 	
 		//create directory for every component			
