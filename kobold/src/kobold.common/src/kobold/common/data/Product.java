@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.14 2004/08/26 10:57:45 neccaino Exp $
+ * $Id: Product.java,v 1.15 2004/08/31 11:52:10 neccaino Exp $
  *
  */
 
@@ -30,6 +30,7 @@ package kobold.common.data;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.HashMap;
 
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.data.Productline;
@@ -41,7 +42,12 @@ import org.dom4j.Element;
  */
 public class Product extends Asset {
 
-	private List components = new ArrayList(); //TODO: change to id mapping
+	private List components = new ArrayList(); //TODO: remove when finally changing to id mapping
+    
+    // change this to false to test server side id mapping
+    private static final boolean stickToNameMapping = true;
+
+    private HashMap componentsMap = new HashMap();
 	
 	/**
 	 * Basic constructor.
@@ -70,35 +76,85 @@ public class Product extends Asset {
      * @return List containing all registered components
 	 */
 	public List getComponents() {
-		return components;
+        // will be removed when change to id mapping can be made risklessly
+        if (stickToNameMapping) {
+            return getComponentsNameMapping();
+        }
+		
+        List ret = new ArrayList();
+        for (Iterator it = componentsMap.values().iterator(); it.hasNext();) {
+            ret.add(it.next());
+        }
+        
+        return ret;
 	}
 	
+    // will be removed when change to id mapping can be made risklessly
+	private List getComponentsNameMapping() {
+        return components;
+    }
+    
 	/**
-     * TODO: change to id mapping
 	 * Adds new component to this product.
 	 * @param component the component.
 	 */
-	public void addComponent(Component component) {
+    public void addComponent(Component component) {
+        // will be removed when change to id mapping can be made risklessly
+        if (stickToNameMapping) {
+            addComponentNameMapping(component);
+            return;
+        }
+        
+        componentsMap.put(component.getId(), component);
+    }
+    
+    // will be removed when change to id mapping can be made risklessly
+	private void addComponentNameMapping(Component component) {
 		components.add(component);
 	}
 
 	/**
-     * TODO: change to id mapping
 	 * Removes an existing component from this product.
 	 * @param component the component.
 	 */
 	public void removeComponent(Component component) {
+        // will be removed when change to id mapping can be made risklessly
+		if (stickToNameMapping) {
+            removeComponentNameMapping(component);
+            return;
+        }
+        
+        componentsMap.remove(component.getId());
+    }
+    
+    // will be removed when change to id mapping can be made risklessly
+    private void removeComponentNameMapping(Component component) {
 		components.remove(component);
 	}
+    
+    /**
+     * Returns a component by its id
+     * @param id id of the component to get
+     * @return the component with the specified id or null if no such component
+     *         exists
+     */
+    public Component getComponent(String id) {
+        return (Component) componentsMap.get(id);
+    }
 
 	/**
 	 * Serializes this product.
 	 */
 	public Element serialize() {
+        // will be removed when change to id mapping can be made risklessly
+		if (stickToNameMapping) {
+            return serializeNameMapping();
+        }
+        
 		Element element = super.serialize();
 		
 		Element compElements = element.addElement("components");
-		for (Iterator iterator = components.iterator(); iterator.hasNext(); ) {
+		for (Iterator iterator = componentsMap.values().iterator(); iterator.hasNext(); ) {
 			Component component = (Component) iterator.next();
 			compElements.add(component.serialize());
 		}
@@ -106,12 +162,46 @@ public class Product extends Asset {
 		return element;
 	}
 	
-	/**
+    // will be removed when change to id mapping can be made risklessly
+    public Element serializeNameMapping() {
+        Element element = super.serialize();
+        
+        Element compElements = element.addElement("components");
+        for (Iterator iterator = components.iterator(); iterator.hasNext(); ) {
+            Component component = (Component) iterator.next();
+            compElements.add(component.serialize());
+        }
+        
+        return element;
+    }
+
+    /**
 	 * Deserializes this product. It's asserted that super deserialization
 	 * is already finished.
 	 * @param element the DOM element representing this product.
 	 */
-	public void deserialize(Element element) {
+    public void deserialize(Element element) {
+        // will be removed when change to id mapping can be made risklessly
+        if (stickToNameMapping) {
+            deserializeNameMapping(element);
+            return;
+        }
+        
+        super.deserialize(element);
+        Element compElements = element.element("components");
+        
+        for (Iterator iterator = compElements.elementIterator(Asset.COMPONENT);
+             iterator.hasNext(); )
+        {
+            Element elem = (Element) iterator.next();
+            Component c = new Component(this, elem);
+            componentsMap.put(c.getId(), c);
+        }
+    }
+    
+    
+    // will be removed when change to id mapping can be made risklessly
+	private void deserializeNameMapping(Element element) {
 		super.deserialize(element);
 	    Element compElements = element.element("components");
 		
@@ -119,7 +209,7 @@ public class Product extends Asset {
 			 iterator.hasNext(); )
 		{
 			Element elem = (Element) iterator.next();
-			components.add(new Component(this, elem));
+			components.add(new Component(this, elem)); 
 		}
 	}
 }

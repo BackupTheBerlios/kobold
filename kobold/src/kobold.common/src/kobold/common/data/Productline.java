@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.21 2004/08/26 10:57:26 neccaino Exp $
+ * $Id: Productline.java,v 1.22 2004/08/31 11:52:36 neccaino Exp $
  *
  */
 package kobold.common.data;
@@ -54,6 +54,9 @@ public class Productline extends Asset {
 
 	private Map coreassets = new HashMap();
 	private Map products = new HashMap();
+    
+    // change this to false to test server side id mapping
+    private static final boolean stickToNameMapping = true;
 	
 	/**
 	 * Base constructor for productlines.
@@ -76,7 +79,6 @@ public class Productline extends Asset {
 	}
 
 	/**
-     * TODO: change to id mapping
 	 * Adds a new product to this productline. Please note that each registered
      * product needs to have its own (unique) name. Adding of a prodct with a
      * name that has already been registered will be refused. 
@@ -86,54 +88,93 @@ public class Productline extends Asset {
      *         false otherwise
 	 */
 	public boolean addProduct(Product product) {
-		Object o = products.put(product.getName(), product);
-		
-		if (o != null){
+        // will be removed when change to id mapping can be made risklessly
+        if (stickToNameMapping) {
+            return addProductNameMapping(product);
+        }
+        
+        // 1.) refuse adding if product's name is already registered
+        if (getProductByName(product.getName()) != null) {
+            return false;
+        }
+        
+        // 2.) set parent and add 
+        product.setParent(this);
+		products.put(product.getId(), product);
+		return true;
+	}
+	
+    // will be removed when change to id mapping can be made risklessly
+    private boolean addProductNameMapping(Product product) {
+        Object o = products.put(product.getName(), product);
+        
+        if (o != null){
             // a product with the same name as the one to add already exists
             // => undo the change and signal error
             products.put(product.getName(), o);
             return false;
-		}
+        }
         else{
-        	product.setParent(this);
+            product.setParent(this);
             return true;
         }
+    }
+    
+	/**
+	 * Gets a product by its id.
+     *  
+	 * @param productId the product's id.
+     * @return the product with the specified id or null if no product with
+     *         that id exists
+	 */
+	public Product getProduct(String productId) {
+	    return (Product)products.get(productId);
 	}
 	
+    /**
+     * Gets a product by its name
+     * 
+     * @param productName name of the product to get
+     * @return Product with the specified name or null if no product with that
+     *         name exists
+     */
+    public Product getProductByName(String productName) {
+        for(Iterator it = products.values().iterator(); it.hasNext();) {
+            Product p = (Product) it.next();
+            if (p.getName().equals(productName)) {
+                return p;
+            }
+        }
+        
+        return null; //no registered product with that name
+    }
+    
 	/**
-     * TODO: change to id mapping
-	 * Gets a product by its name. 
-	 * @param productName the product name.
-     * @return the product with the specified name or null if no product with
-     *         that name exists
+	 * Gets a coreasset by its id.
+	 * @param coreAssetId the coreasset's id.
+     * @return the coreasset with the specified id or null if no coreasset with
+     *         that id exists
 	 */
-	public Product getProduct(String productName) {
-	    return (Product)products.get(productName);
-	}
-	
-	/**
-     * TODO: change to id mapping
-	 * Gets a coreasset by its name.
-	 * @param coreAssetName the coreasset.
-     * @return the coreasset with the specified name or null if no coreasset with
-     *         that name exists
-	 */
-	public Component getCoreAsset(String coreAssetName) {
-	    return (Component)products.get(coreAssetName);
+	public Component getCoreAsset(String coreAssetId) {
+	    return (Component)products.get(coreAssetId);
 	}
     
     /**
      * Gets a coreasset by its name.
-     * 
-     * NOTE: not yet implemented
      *  
      * @param coreAssetName name of the coreasset to get.
      * @return the coreasset with the specified name or null if no coreasset 
      *         with that name exists
      */
     public Component getCoreAssetByName(String coreAssetName) {
-        //TODO: implement
-        return null;
+        for(Iterator it = coreassets.values().iterator(); it.hasNext();) {
+            Component c = (Component) it.next();
+            if (c.getName().equals(coreAssetName)) {
+                return c;
+            }
+        }
+        
+        return null; //no registered core asset with that name
     }
 	
 	/**
@@ -153,14 +194,13 @@ public class Productline extends Asset {
 	}
 	
 	/**
-     * TODO: change to id mapping
-	 * Removes the passed product from this productline if it is registered.
-	 * @param product the product to remove.
-     * @return the removed Product if it was part of this productline or null 
-     *         if not
+	 * Removes a product by its id.
+	 * @param productId the product's id.
+     * @return the removed Product if a product with the passed id existed, null 
+     *         otherwise
 	 */
-	public Product removeProduct(Product product) {
-		Product ret = (Product) products.remove(product.getName());
+	public Product removeProduct(String productId) {
+		Product ret = (Product) products.remove(productId);
         
         if (ret != null){
         	ret.setParent(null);
@@ -172,18 +212,26 @@ public class Productline extends Asset {
     /**
      * Removes a product by its name.
      * 
-     * NOTE: not yet implemented
-     * 
      * @param productName name of the product to remove
      * @return the removed Product object, or null if no product with the 
      *         specified name exists
      */
     public Product removeProductByName(String productName) {
-        return null; //TODO: implement
+        String id = getProductIdByName(productName);
+        return id == null ? null : removeProduct(id);
+    }
+    
+    /**
+     * @param productName name of the product whose id should be returned
+     * @return id of the product with the specified name or null if no such
+     *         product exists
+     */
+    public String getProductIdByName(String productName) {
+        Product p = getProductByName(productName);
+        return p == null ? null : p.getId();
     }
 
 	/**
-     * TODO: change to id mapping
 	 * Adds new core asset to this productline. Please note that each registered
      * coreasset needs to have its own (unique) name. Adding of a ca with a
      * name that has already been registered will be refused. 
@@ -193,6 +241,24 @@ public class Productline extends Asset {
      *         false otherwise
 	 */
 	public boolean addCoreAsset(Component coreasset) {
+        // will be removed when change to id mapping can be made risklessly
+        if (stickToNameMapping) {
+            return addCoreAssetNameMapping(coreasset);
+        }
+        
+        // 1.) refuse adding if coreasset's name is already registered
+        if (getCoreAssetByName(coreasset.getName()) != null) {
+            return false;
+        }
+        
+        // 2.) set parent and add
+        coreasset.setParent(this);
+        coreassets.put(coreasset.getId(), coreasset);
+        return true;
+	}
+    
+    // will be removed when change to id mapping can be made risklessly
+    private boolean addCoreAssetNameMapping(Component coreasset) {
         Object o = coreassets.put(coreasset.getName(), coreasset);
         
         if (o != null){
@@ -200,23 +266,22 @@ public class Productline extends Asset {
             return false;
         }
         else{
-        	coreasset.setParent(this);
+            coreasset.setParent(this);
             return true;
         }
-	}
+    }
 	
 	/**
-     * TODO: change to id mapping
-	 * Removes a coreasset from this productline, if it is registered.
+	 * Removes a coreasset by its id.
 	 * @param coreasset the coreassset to remove.
-     * @return the removed coreasset if it existed as part of this productline 
-     *         or null if not
+     * @return the removed coreasset if a core asset with the specified id 
+     *         existed, null otherwise 
 	 */
-	public Component removeCoreAsset(Component coreasset) {
-		Component ret = (Component) coreassets.remove(coreasset.getName());
+	public Component removeCoreAsset(String coreAssetId) {
+		Component ret = (Component) coreassets.remove(coreAssetId);
         
         if (ret != null){
-        	coreasset.setParent(null);
+        	ret.setParent(null);
         }
         
         return ret;
@@ -225,16 +290,25 @@ public class Productline extends Asset {
     /**
      * Removes a core asset by its name.
      * 
-     * NOTE: not yet implemented
-     * 
      * @param coreAssetName name of the core asset to remove
      * @return the removed core asset or null if no core asset with the 
      *         specified name exists
      */
     public Component removeCoreAssetByName(String coreAssetName) {
-        return null; //TODO: implement
+        String id = getCoreAssetIdByName(coreAssetName);
+        return id == null ? null : removeCoreAsset(id);
     }
 
+    /**
+     * @param coreAssetName name of the core asset whose id should be returned
+     * @return id of the core asset with the specified name or null if no such
+     *         product exists
+     */
+    public String getCoreAssetIdByName(String coreAssetName) {
+        Component c = getCoreAssetByName(coreAssetName);
+        return c == null ? null : c.getId();
+    }
+    
 	/**
 	 * Serializes this productline.
 	 */
@@ -262,14 +336,19 @@ public class Productline extends Asset {
 	 * @param element the DOM element representing this productline.
 	 */
 	public void deserialize(Element element) {
+        // will be removed when change to id mapping can be made risklessly
+        if (stickToNameMapping) {
+            deserializeNameMapping(element);
+            return;
+        }
+
 		super.deserialize(element);
 	    Element coreassetElements = element.element("coreassets");
 		for (Iterator iterator = coreassetElements.elementIterator(Asset.COMPONENT);
 			 iterator.hasNext(); )
 		{
 			Element elem = (Element) iterator.next();
-			Component component = new Component(this, elem);
-			coreassets.put(component.getName(), component);
+			addCoreAsset(new Component(this, elem));
 		}
 		
 		Element productElements = element.element("products");
@@ -277,8 +356,29 @@ public class Productline extends Asset {
 			 iterator.hasNext(); )
 		{
 			Element elem = (Element) iterator.next();
-			Product product = new Product(this, elem);
-			products.put(product.getName(), product);
+			addProduct(new Product(this, elem));
 		}
 	}
+    
+    // will be removed when change to id mapping can be made risklessly
+    private void deserializeNameMapping(Element element) {
+        super.deserialize(element);
+        Element coreassetElements = element.element("coreassets");
+        for (Iterator iterator = coreassetElements.elementIterator(Asset.COMPONENT);
+             iterator.hasNext(); )
+        {
+            Element elem = (Element) iterator.next();
+            Component component = new Component(this, elem);
+            coreassets.put(component.getName(), component);
+        }
+        
+        Element productElements = element.element("products");
+        for (Iterator iterator = productElements.elementIterator(Asset.PRODUCT);
+             iterator.hasNext(); )
+        {
+            Element elem = (Element) iterator.next();
+            Product product = new Product(this, elem);
+            products.put(product.getName(), product);
+        }
+    }
 }
