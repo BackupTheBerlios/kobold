@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.3 2004/05/06 23:07:20 garbeam Exp $
+ * $Id: UserManager.java,v 1.4 2004/05/06 23:30:23 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -141,7 +141,7 @@ public class UserManager {
 			log.error(e);
 		}
 		
-		List list = document.selectNodes( "//kobold/users" );
+		List list = document.selectNodes( "/users/user" );
 		for (Iterator iter = list.iterator(); iter.hasNext(); ) {
 			Element element = (Element) iter.next();
 			User user = new User(element);
