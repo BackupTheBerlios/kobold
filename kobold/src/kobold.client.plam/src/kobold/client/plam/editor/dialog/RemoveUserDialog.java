@@ -146,13 +146,17 @@ public class RemoveUserDialog extends TitleAreaDialog
     protected void okPressed()
     {
         Useractions acts = new Useractions();
+	    KoboldProject tmpProj = KoboldPLAMPlugin.getCurrentKoboldProject();
 
         //asset.getMaintainers().clear();
         Object[] checkedElems = allUserViewer.getCheckedElements();
         for (int i = 0; i < checkedElems.length; i++) {
             //asset.addMaintainer((User)checkedElems[i]);
         	User tmpUser = (User)checkedElems[i];
-        	acts.removeUser(tmpUser.getUsername());
+        	if (!tmpUser.getUsername().equals(tmpProj.getUserName())){
+        		acts.removeUser(tmpUser.getUsername());
+        	}
+        	
         }
         super.okPressed();
     }
