@@ -21,10 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposerCommand.java,v 1.1 2004/07/22 16:42:23 vanto Exp $
+ * $Id: ProductComposerCommand.java,v 1.2 2004/07/24 01:11:08 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
+
+import kobold.client.plam.editor.ProductAlgorithm;
+import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.gef.commands.Command;
 
@@ -37,16 +40,24 @@ import org.eclipse.gef.commands.Command;
  */
 public class ProductComposerCommand extends Command
 {
-    public ProductComposerCommand()
+    private AbstractAsset asset;
+    private ProductAlgorithm composer;
+
+    public ProductComposerCommand(AbstractAsset asset, ProductAlgorithm composer)
     {
         super("product composer command");
+        this.asset = asset;
+        this.composer = composer;
     }
     
     public void execute()
     {
-        // TODO Auto-generated method stub
-        super.execute();
-        System.out.println("Exec: "+this);
+        if (composer.isOpen(asset)) {
+            composer.setUsed(asset);
+        } else if (composer.isUsed(asset)) {
+            composer.setOpen(asset);
+        }
+
     }
     
     public void redo()

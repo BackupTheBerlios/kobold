@@ -21,12 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractComposableEditPart.java,v 1.1 2004/07/23 22:27:11 vanto Exp $
+ * $Id: AbstractComposableEditPart.java,v 1.2 2004/07/24 01:11:08 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
+import java.beans.PropertyChangeEvent;
+
+import kobold.client.plam.editor.KoboldGraphicalViewer;
 import kobold.client.plam.editor.figure.ComposableFigure;
+import kobold.client.plam.model.AbstractAsset;
 
 
 
@@ -45,10 +49,20 @@ public abstract class AbstractComposableEditPart extends AbstractAssetEditPart
 		String comp = (String)getViewer().getProperty("composing");
 		if (comp != null && comp.equals("true")) {
 		    ((ComposableFigure)getFigure()).startComposing();
+		    ((ComposableFigure)getFigure()).setState(((KoboldGraphicalViewer)getViewer()).getProductComposer().getState(getAsset()));
 		} else {
 		    ((ComposableFigure)getFigure()).stopComposing();
 		}
 	}
   
-
+    /**
+     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+     */
+    public void propertyChange(PropertyChangeEvent evt)
+    {
+		if (AbstractAsset.ID_COMPOSE.equals(evt.getPropertyName())) {
+			refreshVisuals();
+		}
+        super.propertyChange(evt);
+    }
 }

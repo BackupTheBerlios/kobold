@@ -21,17 +21,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposerTool.java,v 1.2 2004/07/23 20:31:54 vanto Exp $
+ * $Id: ProductComposerTool.java,v 1.3 2004/07/24 01:11:08 vanto Exp $
  *
  */
 package kobold.client.plam.editor.tool;
 
 import kobold.client.plam.editor.ArchitectureEditor;
+import kobold.client.plam.editor.KoboldGraphicalViewer;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.SharedCursors;
 import org.eclipse.gef.commands.Command;
@@ -148,13 +150,14 @@ public class ProductComposerTool extends TargetingTool
     public void deactivate()
     {
         super.deactivate();
+        
         ArchitectureEditor ae = (ArchitectureEditor)((DefaultEditDomain)getDomain()).getEditorPart();
-        ae.setComposing(false);
+        ((KoboldGraphicalViewer)ae.getAdapter(GraphicalViewer.class)).setComposing(false);
     }
     public void activate()
     {
         super.activate();
         ArchitectureEditor ae = (ArchitectureEditor)((DefaultEditDomain)getDomain()).getEditorPart();
-        ae.setComposing(true);
+        ((KoboldGraphicalViewer)ae.getAdapter(GraphicalViewer.class)).setComposing(true);
     }
 }

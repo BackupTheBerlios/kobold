@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.25 2004/07/23 23:35:18 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.26 2004/07/24 01:11:08 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -53,6 +53,7 @@ import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.LayerConstants;
@@ -123,8 +124,6 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	
 	private AbstractRootAsset model = new Productline();
 	
-	private boolean isComposing = false; 
-	
 	/**
 	 * Creates a architecture editor
 	 */
@@ -138,6 +137,19 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	public ViewModelContainer getViewModelContainer()
 	{
 	    return viewModel;
+	}
+
+	/**
+	 * Creates the GraphicalViewer on the specified <code>Composite</code>.
+	 * @param parent the parent composite
+	 */
+	protected void createGraphicalViewer(Composite parent) {
+		GraphicalViewer viewer = new KoboldGraphicalViewer();
+		viewer.createControl(parent);
+		setGraphicalViewer(viewer);
+		configureGraphicalViewer();
+		hookGraphicalViewer();
+		initializeGraphicalViewer();
 	}
 
 	/**
@@ -510,28 +522,5 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     			getGraphicalViewer().setContents(model);
     		}
     	}  
-    }
-    
-    /**
-     * @return Returns the isComposing.
-     */
-    public boolean isComposing()
-    {
-        return isComposing;
-    }
-    
-    /**
-     * @param isComposing The isComposing to set.
-     */
-    public void setComposing(boolean isComposing)
-    {
-        this.isComposing = isComposing;
-        getGraphicalViewer().setProperty("composing", (isComposing)?"true":"false");
-        Iterator it = getGraphicalViewer().getEditPartRegistry().values().iterator();
-        while (it.hasNext()) {
-            ((EditPart)it.next()).refresh();
-        }
-        //getGraphicalViewer().getRootEditPart().refresh();
-
     }
 }
