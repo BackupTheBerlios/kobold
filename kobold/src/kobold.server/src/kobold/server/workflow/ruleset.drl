@@ -57,14 +57,15 @@
         <java:condition>msg.getWorkflowType().equals("Core Group Suggestion")</java:condition>
         <java:condition>msg.getStep() == 2</java:condition>
         <java:consequence>
-            java.lang.String decision = "";
-			kobold.common.data.AbstractKoboldMessage answer;
+        	
 			// gets the sender's input
 			java.util.HashMap map = msg.getWorkflowData();
-			decision = map.get("decision");
+     		java.lang.String decision = map.get("decision");
 			//if the pe supports the suggestion
-			if (decision.equals("true")){
-				answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());
+			
+			if (decision.equals("true")) {
+				System.out.println("Punkt erreicht: " + decision);
+				kobold.common.data.AbstractKoboldMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());
 				answer.setSender(msg.getSender());
 				answer.addParentId(msg.getId());
 				answer.setStep(msg.getStep()+1);
@@ -87,13 +88,15 @@
 			}
 			// if the pe rejects
 			else if (decision.equals("false")){
-				answer = new kobold.common.data.KoboldMessage();
+				
+				kobold.common.data.AbstractKoboldMessage answer = new kobold.common.data.KoboldMessage();
 				answer.setSender(msg.getSender());
 				answer.setReceiver(map.get("P"));
 				answer.setSubject("Core Group suggestion rejected");"+
 				answer.setMessageText("Your suggestion was rejected by "+msg.getSender() + " due to the following reasons: " +
 					 msg.getComment());
 			}
+			
 			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);
         </java:consequence>
     </rule>
@@ -168,8 +171,8 @@
 			answer.setStep(msg.getStep()+1);
 			// gets the sender's inputs
 			java.util.HashMap map = msg.getWorkflowData();
-			answer.setReceiver(map.get(\"recipient\"));
-			answer.setSubject(map.get(\"subject\"));
+			answer.setReceiver(map.get("recipient"));
+			answer.setSubject(map.get("subject"));
 			answer.setMessageText(msg.getComment());
 			//add the possibility to reply
 			kobold.common.data.WorkflowItem subj = new kobold.common.data.WorkflowItem("subject","Subject: ",kobold.common.data.WorkflowItem.TEXT);
