@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ReleaseFigure.java,v 1.4 2004/08/05 20:42:31 vanto Exp $
+ * $Id: ReleaseFigure.java,v 1.5 2004/08/23 15:29:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -57,6 +57,7 @@ public class ReleaseFigure extends ComposableFigure
 		 setForegroundColor(ColorConstants.lightBlue);
 		 titleLabel = new Label();
 		 titleLabel.setIconAlignment(PositionConstants.RIGHT);
+		 titleLabel.setForegroundColor(ColorConstants.black);
 		 ToolbarLayout tbl = new ToolbarLayout();
 		 tbl.setVertical(false);
 		 setLayoutManager(tbl);

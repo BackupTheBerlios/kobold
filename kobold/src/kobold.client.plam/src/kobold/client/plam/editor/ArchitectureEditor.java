@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.31 2004/08/06 09:36:46 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.32 2004/08/23 15:29:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -69,6 +69,7 @@ import org.eclipse.gef.ui.actions.DirectEditAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.MatchHeightAction;
 import org.eclipse.gef.ui.actions.MatchWidthAction;
+import org.eclipse.gef.ui.actions.PrintAction;
 import org.eclipse.gef.ui.actions.ToggleGridAction;
 import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
 import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
@@ -219,6 +220,9 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     	IAction action;
     	
     	action = new CopyTemplateAction(this);
+    	registry.registerAction(action);
+    	
+    	action = new PrintAction(this);
     	registry.registerAction(action);
     
     	action = new GXLExportAction(this);
