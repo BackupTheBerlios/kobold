@@ -22,14 +22,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaNode.java,v 1.6 2004/08/23 01:27:28 martinplies Exp $
+ * $Id: MetaNode.java,v 1.7 2004/08/23 10:04:44 vanto Exp $
  *
  */ 
 package kobold.client.plam.model;
 
 import java.util.List;
 
-import net.sourceforge.gxl.GXLElement;
+import kobold.client.plam.model.edges.Edge;
 
 import org.dom4j.Element;
 
@@ -70,6 +70,12 @@ public class MetaNode  extends AbstractAsset {
         return type;
     }
     
+    /**
+     * Returns the type of the edges the node can get connected with.
+     * Returns null if type is undefined.
+     * 
+     * @return
+     */
     public String getEdgeType() 
     {
         return edgeType;
@@ -88,12 +94,22 @@ public class MetaNode  extends AbstractAsset {
         } else if (element.attributeValue("type").equals(MetaNode.OR)) {
             type = MetaNode.OR;
         }
+        
+        if (element.attributeValue("edgeType").equals(Edge.EXCLUDE)) {
+            edgeType = Edge.EXCLUDE;
+        } else if (element.attributeValue("edgeType").equals(Edge.INCLUDE)) {
+            edgeType = Edge.INCLUDE;
+        } else {
+            edgeType = null;
+        }
+
     }
     public Element serialize()
     {
         Element root = super.serialize();
 		root.setName(MetaNode.META_NODE);
         root.addAttribute("type", type);
+        root.addAttribute("edgeType", edgeType);
         
         return root;
     }
