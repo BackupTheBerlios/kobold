@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
+ * $Id: Product.java,v 1.2 2004/06/21 22:35:35 garbeam Exp $
  *
  */
 
@@ -30,39 +30,43 @@ package kobold.common.model.product;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.Iterator;
 
-import kobold.common.model.*;
-import kobold.common.model.product.*;
+import kobold.common.io.RepositoryDescriptor;
+import kobold.common.model.AbstractAsset;
+
 /**
- * @author garbeam
+ * This class represents a product.  
  */
 public class Product extends AbstractAsset {
 
-	//the components
-	private HashMap components;	
-	
-	//the repository-path
-	String repositoryPath;
-	
+	// containers
+	private List productReleases;
+	private List specificComponents;
+	private List relatedComponents;
+	private RepositoryDescriptor repositoryDescriptor = null;
+		
 	/**
 	 * Basic constructor.
 	 * @param productName
 	 * @param productLineName
 	 */
-	public Product (String productName) {
+	public Product(String productName) {
 		super(productName);
 		
-		components = new HashMap();
+		productReleases = new ArrayList();
+		specificComponents = new ArrayList();
+		relatedComponents = new ArrayList();
 	}
 	
 	/**
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Product (Element element) {
+	public Product(Element element) {
 		deserialize(element);
 	}
 	
@@ -72,30 +76,26 @@ public class Product extends AbstractAsset {
 	 */
 	public Element serialize() {
 		Element productElement = DocumentHelper.createElement("product");
-		productElement.addText(getName());
+		productElement.addAttribute("name", getName());
 
-		
-		//now all components
-		if (this.components.values().iterator().hasNext())
-		{
-			Element componentElement = productElement.addElement ("components");
-		
-			//serialize each component
-			
-			for (Iterator it = this.components.values().iterator(); it.hasNext();)
-			{
-				ComponentSpecific component = (ComponentSpecific) it.next ();
-				componentElement.add (component.serialize ());
-			}
-		}
-		
-		if (getRepositoryPath() != null)
-		{
-			Element repositoryPathElement = productElement.addElement ("repositoryPath");
-			repositoryPathElement.addText (getRepositoryPath());
+		Element prodRelElement = productElement.addElement("releases");
+		for (Iterator it = productReleases.iterator(); it.hasNext(); ) {
+			ProductRelease prodRelease = (ProductRelease) it.next();
+			prodRelElement.add(prodRelease.serialize());
 		}
 
-		
+		Element specCompElement = productElement.addElement("specific-components");
+		for (Iterator it = specificComponents.iterator(); it.hasNext(); ) {
+			SpecificComponent specificComponent = (SpecificComponent) it.next();
+			specCompElement.add(specificComponent.serialize());
+		}
+
+		Element relCompElement = productElement.addElement("related-components");
+		for (Iterator it = relatedComponents.iterator(); it.hasNext(); ) {
+			RelatedComponent relatedComponent = (RelatedComponent) it.next();
+			relCompElement.add(relatedComponent.serialize());
+		}
+	
 		return productElement;
 	}
 
@@ -104,18 +104,9 @@ public class Product extends AbstractAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		setName(element.getText());
-		//this.productLineName = element.elementText("productline");
+		setName(element.attributeValue("name"));
+		// TODO
 	}
-
-	/**
-	 * @return name of the dependent productline.
-
-	public String getDependsName() {
-		return productLineName;
-	}
-	 */
-
 
 	/**
 	 * @see kobold.common.data.AbstractProduct#getType()
@@ -123,31 +114,55 @@ public class Product extends AbstractAsset {
 	public String getType() {
 		return AbstractAsset.PRODUCT;
 	}
-
   
 	/**
 	 * Adds a new component.
 	 *
 	 * @param component contains the new component
 	 */
-	public void addComponent(ComponentSpecific component) {
-		components.put(component.getName(), component);
-		//set parent
-		component.setParent(this);
-
+	public void addComponent(AbstractAsset component) {
+		if (component instanceof SpecificComponent) {
+			specificComponents.add((SpecificComponent)component);
+		}
+		else if (component instanceof RelatedComponent) {
+			relatedComponents.add((RelatedComponent)component);
+		}
+		//component.setParent(this);
 	}
 
-    
 	/**
-	 * @return Returns the repositoryPath.
+	 * @return
 	 */
-	public String getRepositoryPath() {
-		return repositoryPath;
+	public List getProductReleases() {
+		return productReleases;
 	}
+
 	/**
-	 * @param repositoryPath The repositoryPath to set.
+	 * @return
 	 */
-	public void setRepositoryPath(String repositoryPath) {
-		this.repositoryPath = repositoryPath;
+	public List getRelatedComponents() {
+		return relatedComponents;
 	}
+
+	/**
+	 * @return
+	 */
+	public RepositoryDescriptor getRepositoryDescriptor() {
+		return repositoryDescriptor;
+	}
+
+	/**
+	 * @return
+	 */
+	public List getSpecificComponents() {
+		return specificComponents;
+	}
+
+	/**
+	 * @param descriptor
+	 */
+	public void setRepositoryDescriptor(RepositoryDescriptor descriptor) {
+		repositoryDescriptor = descriptor;
+	}
+
 }

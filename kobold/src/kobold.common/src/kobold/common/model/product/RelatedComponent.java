@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
+ * $Id: RelatedComponent.java,v 1.2 2004/06/21 22:35:35 garbeam Exp $
  *
  */
 
@@ -30,32 +30,34 @@ package kobold.common.model.product;
 import org.dom4j.Element;
 import org.dom4j.DocumentHelper;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import kobold.common.model.AbstractAsset;
+import kobold.common.model.Release;
+import kobold.common.model.productline.Component;
 
-import kobold.common.data.plam.AbstractComponent;
-import kobold.common.model.productline.CoreAsset;
-import kobold.common.model.productline.Variant;
 /**
- * @author garbeam
+ * Represents a related component. Related components are
+ * components of products which are related to a product
+ * lines component.
  */
-public class RelatedComponent extends AbstractComponent {
+public class RelatedComponent extends AbstractAsset {
 
-	private CoreAsset parent;
+	private Component relatedComponent;
+	private Release relatedRelease;
+	private Release componentRelease;
 	
-	//the variants
-	private HashMap variants;
-
 	/**
 	 * Basic constructor.
-	 * @param componentName
-	 * @param productLineName
+	 * @param component the related component.
+	 * @param relatedRelease the related release.
+	 * @param componentRelease this release. 
 	 */
-	public RelatedComponent (String componentName) {
-		super(componentName);
-		
-		variants = new HashMap ();
-
+	public RelatedComponent (Component component,
+							 Release relatedRelease,
+							 Release componentRelease) {
+		super(component.getName());
+		relatedComponent = component;
+		this.relatedRelease = relatedRelease;
+		this.componentRelease = componentRelease;
 	}
 	
 	/**
@@ -63,62 +65,38 @@ public class RelatedComponent extends AbstractComponent {
 	 * @param productName
 	 */
 	public RelatedComponent (Element element) {
-		super (element);
+		deserialize(element);
 	}
 	
-
-
-	/**
-	 * Adds a new variant.
-	 *
-	 * @param variant contains the new variant
-	 */
-	public void addVariant(Variant variant) {
-		variants.put(variant.getName(), variant);
-		//set parent
-		variant.setParent(this);
-
-	}
-
 	/**
 	 * Serializes the component.
 	 * @see kobold.common.data.plam.ComponentSpecific#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element componentElement = DocumentHelper.createElement("component");
-		componentElement.addText(getName());
+		Element componentElement = DocumentHelper.createElement("related-component");
+		componentElement.addAttribute("name", getName());
 
-		//now all variants
-		if (this.variants.values().iterator().hasNext())
-		{
-			Element variantElement = componentElement.addElement ("variants");
-			
-			//serialize each variant
-			for (Iterator it = this.variants.values().iterator(); it.hasNext();)
-			{
-				Variant variant = (Variant) it.next ();
-				variantElement.add (variant.serialize ());
-			}
-		}
+		Element releasesElement = componentElement.addElement("releases");
+		releasesElement.addElement("related").add(relatedRelease.serialize());
+		releasesElement.addElement("component").add(componentRelease.serialize());
+		
 		return componentElement;
 	}
 
 	/**
 	 * Deserializes this component.
-	 * @param componentName
+	 * @param element the DOM element representing this
+	 * 		  object.
 	 */
 	public void deserialize(Element element) {
-		setName(element.getText());
+		setName(element.attributeValue("name"));
 	}
-	
+
 	/**
-	 * @param parent The parent to set.
+	 * @see kobold.common.model.AbstractAsset#getType()
 	 */
-
-	public void setParent (CoreAsset parentAsset)
-	{
-		parent = parentAsset;
+	public String getType() {
+		return AbstractAsset.COMPONENT;
 	}
-
 	
 }

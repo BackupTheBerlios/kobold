@@ -21,35 +21,38 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductRelease.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
+ * $Id: ProductRelease.java,v 1.2 2004/06/21 22:35:35 garbeam Exp $
  *
  */
 
 package kobold.common.model.product;
 
-import kobold.common.model.FileDescriptor;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import kobold.common.data.ISerializable;
+import kobold.common.model.Release;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
-//import java.util.HashMap;
-
-//import java.util.Iterator;
 /**
- * @author garbeam
+ * This class represents a product release. 
  */
-public class ProductRelease extends AbstractAsset {
+public class ProductRelease implements ISerializable {
 
-	private FileDescriptor fileDescriptor;
+	// container
+	private List releases;
+	private Date creationDate;
+	
 	/**
 	 * Basic constructor.
-	 * @param versionName
+	 * @param creationDate the origin date when this release
+	 * 		  has been created.	
 	 */
-	public ProductRelease (String versionName) {
-		setName (versionName);
-		
-		//fileDescriptor = new FileDescriptor ("fd_unnamed");
-
+	public ProductRelease (Date creationDate) {
+		this.creationDate = creationDate;
 	}
 	
 	/**
@@ -57,9 +60,6 @@ public class ProductRelease extends AbstractAsset {
 	 * @param productName
 	 */
 	public ProductRelease (Element element) {
-
-		//fileDescriptor = new FileDescriptor ("fd_unnamed");
-		
 		deserialize(element);
 	}
 	
@@ -68,19 +68,16 @@ public class ProductRelease extends AbstractAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element versionElement = DocumentHelper.createElement("version");
-		versionElement.addText(getName());
-
-		if (fileDescriptor != null)
-		{
-			//now all fd'S
-			//Element fdElement = versionElement.addElement ("fds");
+		Element productRelease = DocumentHelper.createElement("product-release");
+		productRelease.addAttribute("created", creationDate.toLocaleString());
 		
-			//serialize the fd
-			versionElement.add (fileDescriptor.serialize ());
+		Element releasesElement = productRelease.addElement("releases");
+		for (Iterator it = releases.iterator(); it.hasNext(); ) {
+			Release release = (Release) it.next();
+			releasesElement.add(release.serialize());
 		}
-		return versionElement;
-
+		
+		return productRelease;
 	}
 
 	/**
@@ -88,37 +85,21 @@ public class ProductRelease extends AbstractAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		Element product = element.element("product");
-		setName (element.getText ());
-		//this.productLineName = element.elementText("productline");
+		creationDate = new Date(element.attributeValue("created"));
 	}
 
 	/**
-	 * @return name of the dependent productline.
-
-	public String getDependsName() {
-		return productLineName;
-	}
+	 * @return
 	 */
-
-
-	/**
-	 * @see kobold.common.data.AbstractProduct#getType()
-	 */
-	public String getType() {
-		return AbstractAsset.VERSION;
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
 	/**
-	 * Adds a new fileDescriptor.
-	 *
-	 * @param fileDescriptor contains the new fileDescriptor
+	 * @return
 	 */
-	public void addFileDescriptor(FileDescriptor fileDescriptor) {
-		this.fileDescriptor = fileDescriptor;
-		//set parent
-		fileDescriptor.setParent(this);
-
+	public List getReleases() {
+		return releases;
 	}
-    
+
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
+ * $Id: SpecificComponent.java,v 1.2 2004/06/21 22:35:35 garbeam Exp $
  *
  */
 
@@ -30,55 +30,46 @@ package kobold.common.model.product;
 import org.dom4j.Element;
 import org.dom4j.DocumentHelper;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-import kobold.common.data.plam.AbstractComponent;
-import kobold.common.model.*;
+import kobold.common.model.AbstractAsset;
+import kobold.common.model.Release;
+
+
 /**
- * @author garbeam
+ * Represents a product specific component.
  */
-public class SpecificComponent extends AbstractComponent {
+public class SpecificComponent extends AbstractAsset {
 
-	//the parent
-	private Product parent;
-
-	//the versions
-	private HashMap versions;
+	private List releases;
 	
 	/**
 	 * Basic constructor.
-	 * @param componentName
-	 * @param productLineName
+	 * @param componentName the component name.
 	 */
 	public SpecificComponent (String componentName) {
 		super(componentName);
-		
-		//p-spec type
-		versions = new HashMap ();
-		
+		releases = new ArrayList();
 	}
 	
 	/**
 	 * DOM constructor.
-	 * @param productName
+	 * @param element the DOM element representing this
+	 * 		  object.
 	 */
 	public SpecificComponent (Element element) {
-		super (element);
+		deserialize(element);
 	}
 	
-
-
-
 	/**
-	 * Adds a new version.
+	 * Adds a new release.
 	 *
-	 * @param version contains the new vversion
+	 * @param release contains the new release.
 	 */
-	public void addVersion(Version version) {
-		versions.put(version.getName(), version);
-		//set parent
-		version.setParent(this);
+	public void addVersion(Release release) {
+		releases.add(release);
 	}
 
 	
@@ -87,42 +78,31 @@ public class SpecificComponent extends AbstractComponent {
 	 * @see kobold.common.data.plam.ComponentSpecific#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element componentElement = DocumentHelper.createElement("component");
-		componentElement.addText(getName());
+		Element componentElement = DocumentHelper.createElement("specific-component");
+		componentElement.addAttribute("name", getName());
 
-		//now all versions
-		//if (versions != null) doesn't work?? why?? (mailto: rendgeor)
-		//but this work
-		if (this.versions.values().iterator().hasNext())
-		{
-			Element versionElement = componentElement.addElement ("versions");
-			
-			//serialize each component
-			for (Iterator it = this.versions.values().iterator(); it.hasNext();)
-			{
-				Version version = (Version) it.next ();
-				versionElement.add (version.serialize ());
-			}
+		Element releasesElement = componentElement.addElement("releases");
+		for (Iterator it = releases.iterator(); it.hasNext(); ) {
+			Release release = (Release) it.next();
+			releasesElement.add(release.serialize());
 		}
 		return componentElement;
 	}
 
 	/**
 	 * Deserializes this component.
-	 * @param componentName
+	 * @param element the DOM element representing this
+	 * 		  object.
 	 */
 	public void deserialize(Element element) {
-		setName(element.getText());
+		setName(element.attributeValue("name"));
 	}
-	
-	/**
-	 * @param parent The parent to set.
-	 */
 
-	/*public void setParent (Product parentProduct)
-	{
-		parent = parentProduct;
-	}*/
-	
+	/**
+	 * @see kobold.common.model.AbstractAsset#getType()
+	 */
+	public String getType() {
+		return AbstractAsset.COMPONENT;
+	}		
 }
 
