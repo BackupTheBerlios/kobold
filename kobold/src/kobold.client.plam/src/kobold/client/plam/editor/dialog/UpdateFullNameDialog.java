@@ -29,7 +29,7 @@ import java.util.Map;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
-import kobold.client.plam.useractions.Useractions;
+import kobold.client.plam.controller.UserManager;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -124,7 +124,7 @@ public class UpdateFullNameDialog extends TitleAreaDialog{
     protected void okPressed()
     {
 	    KoboldProject tmpProj = KoboldPLAMPlugin.getCurrentKoboldProject();
-        Useractions acts = new Useractions();
+        UserManager acts = new UserManager();
        	acts.updateFullName(tmpProj.getUserName(), textRealName.getText(), textPassword.getText());
         super.okPressed();
     }

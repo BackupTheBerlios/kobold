@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.7 2004/08/17 14:29:53 bettina Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.8 2004/08/24 10:43:19 garbeam Exp $
  *
  */
 package kobold.client.plam.view;
@@ -31,7 +31,6 @@ import kobold.client.plam.action.ChangePasswordAction;
 import kobold.client.plam.action.ConfigureAssetAction;
 import kobold.client.plam.action.NewUserAction;
 import kobold.client.plam.action.RefreshFileDescriptorsAction;
-import kobold.client.plam.action.RemoveUserAction;
 import kobold.client.plam.action.UpdateFullNameAction;
 import kobold.client.plam.action.SuggestFileAction;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
@@ -75,7 +74,6 @@ public class RoleTreeActionGroup extends ActionGroup
     private ConfigureAssetAction configureAssetAction;
     private DeleteResourceAction deleteAction;
     private ChangePasswordAction changePasswordAction;
-    private RemoveUserAction removeUserAction;
     private UpdateFullNameAction updateFullNameAction;
     private SuggestFileAction suggestFileAction;
     
@@ -85,9 +83,7 @@ public class RoleTreeActionGroup extends ActionGroup
         this.window = part.getSite().getWorkbenchWindow();
 		newUserAction = new NewUserAction(part.getSite().getShell());
 		changePasswordAction = new ChangePasswordAction(part.getSite().getShell());
-		removeUserAction = new RemoveUserAction(part.getSite().getShell());
 		updateFullNameAction = new UpdateFullNameAction(part.getSite().getShell());
-		
 		
 		refreshFDAction = new RefreshFileDescriptorsAction(part.getSite().getShell());
 		configureAssetAction = new ConfigureAssetAction(part.getSite().getShell());
@@ -132,7 +128,6 @@ public class RoleTreeActionGroup extends ActionGroup
 		manager.add(new Separator());
 		manager.add(newUserAction);
 		manager.add(changePasswordAction);
-		manager.add(removeUserAction);
 		manager.add(updateFullNameAction);
 		manager.add(refreshFDAction);
 		manager.add(new Separator());

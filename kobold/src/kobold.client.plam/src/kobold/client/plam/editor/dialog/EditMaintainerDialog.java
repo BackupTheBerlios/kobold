@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EditMaintainerDialog.java,v 1.4 2004/08/04 17:52:58 vanto Exp $
+ * $Id: EditMaintainerDialog.java,v 1.5 2004/08/24 10:43:19 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -80,6 +80,7 @@ public class EditMaintainerDialog extends TitleAreaDialog
 
     protected Control createDialogArea(Composite parent)
     {
+        getShell().setText("Edit Maintainer");
         setTitle("Edit Maintainer");
         setMessage("Manage the maintainers of this asset");
         Composite composite = (Composite) super.createDialogArea(parent);

@@ -27,8 +27,8 @@ package kobold.client.plam.editor.dialog;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
+import kobold.client.plam.controller.UserManager;
 import kobold.client.plam.model.AbstractMaintainedAsset;
-import kobold.client.plam.useractions.Useractions;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -124,7 +124,7 @@ public class ChangePasswordDialog extends TitleAreaDialog{
     
     protected void okPressed()
     {
-        Useractions acts = new Useractions();
+        UserManager acts = new UserManager();
         if (textPassword.getText().equals(textConfPass.getText())){
 		    KoboldProject tmpProj = KoboldPLAMPlugin.getCurrentKoboldProject();
         	acts.changePassword(tmpProj.getPassword(), textPassword.getText());
