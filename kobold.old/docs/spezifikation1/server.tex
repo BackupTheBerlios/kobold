@@ -18,25 +18,24 @@ Alle Informationen, die der Server bereitstellt, werden persistiert.
 
 Zur Realisierung des produktlinien\-übergreifenden Berechtigungskonzepts
 verwaltet der Server alle benutzer-, rollen-, produktlinien- und
-produkt-basierten Berechtigungen. Dabei kann ein Server produktlinien-übergreifend
+produktbasierten Berechtigungen. Dabei kann ein Server produktlinien-übergreifend
 verwendet werden.\par
 Der Server bietet ein auf diesen Berechtigungen basierenden
 Authentifizierungsmechanismus an, der von allen Clients verwendet wird. Wird ein Client gestartet, so muss
 sich der Benutzer über einen Dialog beim Server mit Benutzername und Passwort anmelden. Sind beide korrekt, 
-so werden in seinen Client die Daten der ihm unterstehenden Rollen und
-zugehörigen Produktlinien bzw. Produkte geladen. Der Benutzer
+so werden in seinen Client die Daten der ihm zugeteilten Rollen und den
+dazu gehörenden Produktlinien bzw. Produkte geladen. Der Benutzer
 kann dabei nur die Daten verändern, für die er auch eine Berechtigung besitzt.
 
 \subsubsection{Persistierung}
 
 Die Persistierung aller für das Berechtigungskonzept notwendigen Daten wird
-durch eine abstrakte, XML-basierte Persistenzschicht realisiert, die es ermöglicht, die
-Datenhaltung flexibel zu organisieren.\par
+durch eine abstrakte, XML-basierte Persistenzschicht realisiert, wodurch eine 
+flexible Datenhaltung ermöglicht wird.\par
 Die Persistenzschicht dient zur Speicherung aller Rollen-,
-Authentifizierungs-, Produktlinien- und Produktrelationen. Ihre Grundstruktur ist
-baumartig, sie ist im Speicher auf dem aktuellen Stand und
-wird innerhalb eines konfigurierbaren Timeouts persistiert
-(standardmäßig alle 10 Minuten).\par
+Authentifizierungs-, Produktlinien- und Produktrelationen. Die Grundstruktur dieser Schicht ist
+baumartig aufgebaut. Die im Speicher aktuelle Schicht wird nach Ablauf eines konfigurierbaren Zeitintervalls
+persistiert (standardmäßig alle 10 Minuten).\par
 In der XML-Struktur werden hierbei die folgenden Elemente persistiert:
 \begin{itemize}
 \item Benutzer
@@ -60,8 +59,7 @@ Für jeden Benutzer werden vom Kobold Serverdienst folgende Daten gespeichert:
 
 Der Kobold Serverdienst bildet für jeden Kobold-Benutzer eine Nachrichten-Queue. Werden Nachrichten oder 
 Workflow-Objekte an einen Benutzer geschickt, so werden diese in der Nachrichten-Queue 
-gespeichert und bei der nächsten Abfrage des Clients vom zugehörigen
-Benutzer an diesen weitergeleitet.\par
+gespeichert und bei der nächsten Abfrage des Benutzers an diesen weitergeleitet.\par
 Die vom Server angebotene Nachrichten-Queue ist zustandsbehaftet, das heißt bei
 nicht-physisch begründeten Ausfällen ist die Nachrichten-Queue in der Regel ohne Datenverlust
 wiederherstellbar.\par
@@ -82,9 +80,9 @@ Nachricht als Fakt auf eine kontextabhängige Regelmenge aus der Regelbasis an,
 die sich auf dem Server befindet. Ein Fakt ist dabei eine Mitteilung an den Server. 
 Es werden dabei alle Regeln der Regelmenge durchlaufen. Gilt eine
 Bedingung einer Regel, so wird die zugehörige Konsequenz ausgeführt.
-Im Implementierungsteil einer solchen Konsequenzen werden Modifikationen
+Im Implementierungsteil einer solchen Konsequenz werden Modifikationen
 an einem erzeugenden Workflow-Objekt durchgeführt (z.B. wird bei einem
-unauthorisierten Commit ein String "Unauthorisierter Commit" in das
+unauthorisierten Commit ein String "'Unauthorisierter Commit"' in das
 Workflow-Objekt geschrieben, sofern eine Regel dies definiert hat).
 \par
 Ein Workflow-Objekt ist eine XML-Struktur, die einen Titel und eine Liste
