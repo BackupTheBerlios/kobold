@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMTest.java,v 1.6 2004/07/29 16:33:51 rendgeor Exp $
+ * $Id: VCMTest.java,v 1.7 2004/09/01 09:22:33 garbeam Exp $
  *
  */
 package kobold.client.vcm.test;
@@ -76,7 +76,7 @@ public class VCMTest extends TestCase {
 		String[] command = {"perl", "/home/rendgeor/workspace/kobold.client.vcm/scripts/"+ 
 				"stats.pl", "/home/rendgeor/workspace/kobold.client.vcm/"};
 		
-		statUp.processConnection(command, var);
+		//statUp.processConnection(command, var);
 
 		
 		//assertTrue (productline.getName() == "office");
