@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.37 2004/08/25 14:59:13 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.38 2004/08/25 16:52:30 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -49,6 +49,7 @@ import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -265,12 +266,27 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 		System.err.println(event.getDelta().getAffectedChildren());
 	    try {
             event.getDelta().accept(new IResourceDeltaVisitor() {
+                private AbstractAsset asset = null;
                 public boolean visit(IResourceDelta delta) throws CoreException
                 {
                     //TODO: remember project, find assets for directory and 
                     // continue if next token is a IFolder. then refresh filedescs
                     // for the given asset.
-                    return true;
+                    if (delta.getResource() instanceof IFile) {
+                        return false;
+                    } else if (delta.getResource() instanceof IProject) {
+                        IProject p = (IProject) delta.getResource();
+                        if (KoboldProject.hasKoboldNature(p)) {
+                            asset = ((KoboldProject) p.getNature(KoboldProject.NATURE_ID)).getProductline();
+                        }
+                        return true;
+                    } else {
+                        if (asset != null) {
+                            List assets;
+                        }
+                        return true;
+                    }
+
                 }
             });
         } catch (CoreException e) {
