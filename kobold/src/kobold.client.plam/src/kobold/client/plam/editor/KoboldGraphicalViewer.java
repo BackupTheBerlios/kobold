@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldGraphicalViewer.java,v 1.6 2004/08/06 10:50:58 vanto Exp $
+ * $Id: KoboldGraphicalViewer.java,v 1.7 2004/09/21 10:24:19 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -98,6 +98,9 @@ public class KoboldGraphicalViewer extends ScrollingGraphicalViewer
                 EditPart ep = (EditPart)it.next();
                 if (ep instanceof AbstractAssetEditPart) {
                     composer.removePropertyChangeListener((AbstractAssetEditPart)ep);
+                    ep.refresh();
+                } else if (ep instanceof ProductlineEditPart) {
+                    ((ProductlineEditPart)ep).setComposer(null);
                     ep.refresh();
                 }
             }
