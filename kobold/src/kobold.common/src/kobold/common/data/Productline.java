@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.6 2004/05/15 21:57:02 vanto Exp $
+ * $Id: Productline.java,v 1.7 2004/05/16 21:27:35 garbeam Exp $
  *
  */
 package kobold.common.data;
 
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 /**
@@ -49,15 +50,14 @@ public class Productline extends AbstractAsset {
 	 * Serializes the productline.
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
-	public void serialize(Element root) {
-		Element productLine =
-			root.addElement("productline").addText(this.name);
+	public Element serialize() {
+		return DocumentHelper.createElement("productline").addText(this.name);
 	}
 
 	/**
 	 * @param productName
 	 */
-	protected void deserialize(Element element) {
+	public void deserialize(Element element) {
 		this.name = element.elementText("productline");
 	}
 

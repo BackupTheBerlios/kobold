@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.15 2004/05/16 02:28:17 vanto Exp $
+ * $Id: WorkflowMessage.java,v 1.16 2004/05/16 21:27:35 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -123,7 +123,7 @@ public class WorkflowMessage extends KoboldMessage {
 	/**
 	 * @see kobold.common.data.KoboldMessage#deserialize(org.dom4j.Element)
 	 */
-	protected void deserialize(Element data) 
+	public void deserialize(Element data) 
 	{
 		super.deserialize(data);
 		workflowId = data.elementTextTrim("workflow-id");

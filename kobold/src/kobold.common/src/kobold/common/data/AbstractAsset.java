@@ -21,12 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.1 2004/05/15 21:57:02 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.2 2004/05/16 21:27:35 garbeam Exp $
  *
  */
 package kobold.common.data;
-
-import java.io.Serializable;
 
 import org.dom4j.Element;
 
@@ -34,7 +32,7 @@ import org.dom4j.Element;
  * @author Tammo
  *
  */
-public abstract class AbstractAsset implements Serializable {
+public abstract class AbstractAsset implements ISerializable {
 
 	public static final String PRODUCT = "product";
 	public static final String PRODUCT_LINE = "productline";
@@ -69,6 +67,6 @@ public abstract class AbstractAsset implements Serializable {
 	 */
 	public abstract String getType();
 
-	public abstract void serialize(Element root);
-	protected abstract void deserialize(Element element);
+	public abstract Element serialize();
+	public abstract void deserialize(Element element);
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldMessage.java,v 1.9 2004/05/16 02:28:17 vanto Exp $
+ * $Id: KoboldMessage.java,v 1.10 2004/05/16 21:27:35 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -39,7 +39,7 @@ import org.dom4j.Element;
 /**
  * @author garbeam
  */
-public class KoboldMessage {
+public class KoboldMessage implements ISerializable {
 
 	private static final Log logger = LogFactory.getLog(KoboldMessage.class);
 	private DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSZ");
@@ -226,7 +226,7 @@ public class KoboldMessage {
 	/**
 	 * Deserializes message 
 	 */
-	protected void deserialize(Element data) {
+	public void deserialize(Element data) {
 		id = data.attributeValue("id");
 		priority = data.attributeValue("priority");
 		state = data.attributeValue("state");

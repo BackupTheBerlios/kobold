@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ISerializable.java,v 1.1 2004/05/16 20:36:41 garbeam Exp $
+ * $Id: ISerializable.java,v 1.2 2004/05/16 21:27:35 garbeam Exp $
  *  
  */
 package kobold.common.data;
@@ -37,12 +37,12 @@ public interface ISerializable {
 	 * Serialize method.
 	 * @return Element of the serialized object. 
 	 */
-	Element serialize();
+	public Element serialize();
 	
 	/**
 	 * Deserialize method.
 	 * @param element an element which represents the object.
 	 */
-	void deserialize(Element element);	
+	public void deserialize(Element element);	
 
 }
