@@ -11,25 +11,27 @@ rem %9 userdef
 
 cd /d %1
 
-if %2 == CVS goto CVS endif
+if %2 == CVS goto CVS
 goto END
 
 :CVS
-if %3 == local goto LOCAL endif
+if %3 == local goto LOCAL
 
-if %9 == ""
-    cvs -z3 -d :%3:%4:%5@%6:%7 co -d . %8
-else
-    cvs -z3 -d :%3:%4:%5@%6:%7 co -d . -r %9 %8
-endif
+if "%9" == "" goto EMPTYSTRING
+   cvs -z3 -d :%3:%4:%5@%6:%7 co -d . -r %9 %8
+goto END
 
+:EMPTYSTRING
+   cvs -z3 -d :%3:%4:%5@%6:%7 co -d . %8
 goto END
 
 :LOCAL
-if %9 == ""
-    cvs -z3 -d %7 co -d . %8
-else
-    cvs -z3 -d %7 co -d . -r %9 %8
-endif
+if "%9" == "" goto EMPTYSTRINGLOCAL
+   cvs -z3 -d %7 co -d . -r %9 %8
+goto END
+
+:EMPTYSTRINGLOCAL
+   cvs -z3 -d %7 co -d . %8
+goto END
 
 :END
