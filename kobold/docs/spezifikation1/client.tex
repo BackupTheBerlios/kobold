@@ -23,22 +23,25 @@ Die Oberfläche des Kobold-Clients wird in der nachfolgenden Abbildung prototypis
 \includegraphics[width=15cm]{../angebot/screenshot.png}
    \caption{Screenshot des Client-Prototypen}
 \end{figure}
-
 \subsubsection{Authentifizierung}
 Die Authentifizierung am Server ist RPC-basiert. Der Benutzer kann bei der Erstbenutzung des 
 Clients wählen, ob er sich bei jedem Programmstart authentifiziern will oder ob das Passwort
 und der Benutzername gespeichert werden sollen. Prinzipiell ist ein Ändern von Daten im nichtauthentifizierten
 Zustand nicht möglich. Mit der Authentifizierung werden die Rollen, die dem Benutzer zugeteilt sind,
 an den Client übergeben; der Client reagiert seinerseits mit dem Bereitstellen der relevanten Views für den Benutzer.
+\pagebreak
 
 \subsubsection{Der Produktlinienarchitektur Editor}
 In diesem View wird die je nach aktiver Rolle relevante Ansicht auf die Architektur der Produktlinie
-angezeigt. Der Editor bietet die Möglichkeit Grundlegenden Operationen die für die Erstellung einer Produktlinienarchitektur nötig sind durchzuführen.
+angezeigt. Der Editor bietet die Möglichkeit grundlegenden Operationen die für die Erstellung einer Produktlinienarchitektur nötig sind durchzuführen.
 Konkret bedeutet dies, es besteht die Möglichkeit neue Komponenten zu erstellen. Sobald eine Komponente existiert können ihr Varianten hinzugefügt werden.
 Zwischen einzelnen Architekturelementen können Beziehungen in Form von Kanten erstellt werden. Grundsätzlich hat eine Kante
 einen Anfangs- und einen Ausgangsknoten. Um komplexere Beziehungen modellieren zu können werden Meta-Knoten benutzt die mehrere
 eingehende und mehrere ausgehende Kanten haben können. Sie haben einen Typ der graphisch durch das mit der Beziehung korrespondierende
-logische Symbol in einem Kreis dargestellt wird.
+logische Symbol in einem Kreis dargestellt wird.  Es gibt die Möglichkeit, 
+bestimmte Beziehungen farblich hervorzuheben, bzw. in späteren Iterationen auch automatisch
+hervorheben zu lassen. Grundsätzlich kann die Farbe von Archtikturelementen gewählt werden. 
+Einige Farben werden aber Konflikten und ähnlichen Beziehungen vorbehalten.
 Die View bietet die Möglichkeit, verschiedene Zoomstufen einzustellen. Eine mögliche Folge daraus ist,
 dass im aktuellen Ausschnitt möglicherweise nicht die ganze Architektur zu sehen ist.\par
 Der Benutzer kann im Editor außerdem zwei Architekturen überlappen und in diesem Schnittgraphen deren Gemeinsamkeiten
@@ -53,11 +56,9 @@ In den folgenden Abschnitten  werden die 3 verschiedenen Ansichten auf die Produ
 Die grafische Notation orientiert sich dabei an der in dem Paper \cite{paper} festgelegten Struktur.
 \paragraph{Ansicht der Rolle Produktlinieningenieur}
 Der Produktlinieningenieur hat standardmäßig eine Ansicht auf die Architektur der gesamten Produktlinie, die
-sich grafisch sehr stark an die vom Paper \cite{paper} vorgeschlagene Ansicht lehnt. Es gibt die Möglichkeit, 
-bestimmte Beziehungen farblich hervorzuheben, bzw. in späteren Iterationen auch automatisch
-hervorheben zu lassen. Grundsätzlich kann die Farbe von Archtikturelementen gewählt werden. 
-Einige Farben werden aber Konflikten und ähnlichen Beziehungen vorbehalten.
-\begin{figure}[ht]
+sich grafisch sehr stark an die vom Paper \cite{paper} vorgeschlagene Ansicht lehnt. Er hat Schreibrechte auf allen Ebenen der
+Produkthierarchie. 
+\begin{figure}[h!]
 \includegraphics[width=15cm]{compiler-spl}
    \caption{Ansicht des Produktlinieningenieurs}
 \end{figure}
@@ -66,16 +67,16 @@ Der Produktingenieur kann in dem Produktlinienarchitektur Editor standardmäßig e
 Er kann im Rollen View die verschiedenen ihm zugeordneten Produktarchitekturen der
 verschiedenen Produkte zur Darstellung auswählen. Grafisch wird sich Kobold hier wiederum
 an der graphischen Darstellung im Paper \cite{paper} orientieren.
-\begin{figure}[ht]
+\begin{figure}[h!]
 \includegraphics[width=15cm]{compiler-pe}
    \caption{Ansicht des Produktingenieurs}
 \end{figure}
 \paragraph{Ansicht der Rolle eines Programmierers}
 Der Programmierer hat standardmäßig eine sehr flache Sicht auf ein einziges ihm zugeordnetes Produkt.
 Er kann die für ihn änderbaren Produktteile des Produktes von den nicht änderbaren unterscheiden.
-Es besteht die Möglichkeit, den aktuellen Stand des Produktes in seinen aktuellen "Workspace"
+Es besteht die Möglichkeit, den aktuellen Stand des Produktes in seinen aktuellen 'Workspace'
 auszuchecken.
-\begin{figure}[ht]
+\begin{figure}[h!]
 \includegraphics[width=15cm]{compiler-p}
    \caption{Ansicht des Programmierers}
 \end{figure}
@@ -84,7 +85,7 @@ auszuchecken.
 Auf der linken Seite der Ausgangsperspektive wird ein hierarchischer Baum angezeigt, der
 die momentan aktive Rolle und die mit Ihr verbundenen möglichen Sichten darstellt.
 \begin{figure}[htb]
-\includegraphics[width=15cm]{../angebot/praesentation/verwaltung}
+\includegraphics[width=7cm]{../angebot/praesentation/verwaltung}
    \caption{Prototypistische Darstellung des Rollen Views}
 \end{figure}
 
