@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.11 2004/09/20 15:55:47 vanto Exp $
+ * $Id: DeleteAssetCommand.java,v 1.12 2004/09/20 22:07:26 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -112,6 +112,16 @@ public class DeleteAssetCommand extends Command
             return;
         }
         
+        if (parent != null) {
+            EdgeContainer ec = asset.getRoot().getEdgeContainer();
+            deleteEdgesOfAsset(asset, ec);                        
+
+            Iterator it = edges.iterator();
+            while (it.hasNext()) {
+                Edge edge = (Edge)it.next();
+                ec.removeEdge(edge);
+           }
+        }
 
         if (parent instanceof IComponentContainer
                 && asset instanceof Component) {
@@ -153,16 +163,7 @@ public class DeleteAssetCommand extends Command
             pcc.removeProductComponent((ProductComponent) asset);
         }
         
-        if (parent != null) {
-            EdgeContainer ec = parent.getRoot().getEdgeContainer();
-            deleteEdgesOfAsset(asset, ec);                        
-
-            Iterator it = edges.iterator();
-            while (it.hasNext()) {
-                Edge edge = (Edge)it.next();
-                ec.removeEdge(edge);
-           }
-        }
+        
     }
    
     public void execute()
@@ -223,7 +224,7 @@ public class DeleteAssetCommand extends Command
         
         ModelStorage.storeModel(asset.getRoot().getProductline());
         
-        EdgeContainer ec = parent.getRoot().getEdgeContainer();
+        EdgeContainer ec = asset.getRoot().getEdgeContainer();
         Iterator it = edges.iterator();
         while (it.hasNext()) {
             Edge edge = (Edge)it.next();

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.17 2004/09/18 16:06:49 martinplies Exp $
+ * $Id: ProductComponent.java,v 1.18 2004/09/20 22:07:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -36,6 +36,7 @@ import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.IGXLExport;
+import kobold.client.plam.model.IProductComponentContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.common.data.Productline;
 import kobold.common.data.User;
@@ -49,7 +50,8 @@ import org.eclipse.core.runtime.IPath;
  */
 public abstract class ProductComponent extends AbstractMaintainedAsset 
 									   implements IGXLExport,
-									   			  IFileDescriptorContainer {
+									   			  IFileDescriptorContainer,
+									   			  IProductComponentContainer{
 
 	private List relatedComps = new ArrayList();
 	private List specificComps = new ArrayList();
@@ -249,5 +251,33 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 	{
 	    return getProductComponents();
 	}
+	
+	/* (non-Javadoc)
+     * @see kobold.common.model.IGXLExport#getGXLChildren()
+     */
+    public List getGXLChildren()
+    {
+        return this.getProductComponents();
+    }
+    
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.IProductComponentContainer#addSpecificComponent(kobold.client.plam.model.product.SpecificComponent, int)
+     */
+    public void addSpecificComponent(SpecificComponent component, int index) {        
+        this.specificComps.add(index, component);
+        component.setParent(this);
+		addToPool(component);
+		fireStructureChange(AbstractAsset.ID_CHILDREN, component);
+    }
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.IProductComponentContainer#addRelatedComponent(kobold.client.plam.model.product.RelatedComponent, int)
+     */
+    public void addRelatedComponent(RelatedComponent component, int index) {       
+        this.relatedComps.add(index, component); 
+        component.setParent(this);
+		addToPool(component);
+		fireStructureChange(AbstractAsset.ID_CHILDREN, component);
+    }
 
 }

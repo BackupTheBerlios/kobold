@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.10 2004/09/18 10:35:51 martinplies Exp $
+ * $Id: SpecificComponent.java,v 1.11 2004/09/20 22:08:04 martinplies Exp $
  *
  */
 
@@ -116,15 +116,7 @@ public class SpecificComponent extends ProductComponent
 	public String getType() {
 		return AbstractAsset.SPECIFIC_COMPONENT;
 	}
-
-    /* (non-Javadoc)
-     * @see kobold.common.model.IGXLExport#getGXLChildren()
-     */
-    public List getGXLChildren()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+   
 
     /* (non-Javadoc)
      * @see kobold.common.model.IGXLExport#getGXLType()
@@ -133,5 +125,7 @@ public class SpecificComponent extends ProductComponent
     {     
         return GXL_TYPE;
     }
+
+    
 }
 
