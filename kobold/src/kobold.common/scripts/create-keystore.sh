@@ -9,7 +9,7 @@ keytool -genkey \
         -keypass kobold1 \
         -keystore keystore \
         -storepass kobold1 \
-        -validity 60                
+        -validity 123
 
 echo "Creating certificate ..."
 
