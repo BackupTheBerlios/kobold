@@ -38,11 +38,21 @@ public class NewUserInquisitor extends BasicInquisitor {
     private static final String FULLNAME = "fullname";
     private static final String PASSWORD = "password";
     
+    private void setHelpMessage() {
+        helpMessage = "This action is used to create a new user on the " +
+        "currently associated Kobold\nserver. A Kobold user \"consists\" of " +
+        "her/his username (or loginname), her/his\nfull (or real) name and " +
+        "the initial password (which should be changed when\nthe new user " +
+        "logs in for the first time).";
+    }
+    
     public NewUserInquisitor() {
         containingAction = "new user";
         addQuestion("1", USERNAME, "unknown", false);
         addQuestion("2", FULLNAME, "nobody", false);
         addQuestion("3", PASSWORD, "", true);
+        
+        setHelpMessage();
     }
     
     public String getUsername(){

@@ -37,11 +37,23 @@ public class SetServerInquisitor extends BasicInquisitor {
     private static final String SERVER_PORT = "server port";
     private static final String PASSWORD = "password\t";
     
+    private void setHelpMessage() {
+        helpMessage = "With the administration tool you can only administrate" +
+        " one Kobold server at\nthe same time. Per default the administration" +
+        " tool tries to connect to a\nserver running at localhost on port " +
+        "23232. If this does not apply to you or\nif you wish to change to " +
+        "another server you must tell the tool which ip\nand port the server's"+
+        " running on. You also have to provide the administrartion\npassword " +
+		"if one is set for that server.";
+    }
+    
 	public SetServerInquisitor() {
         containingAction = "set server";
         addQuestion("1", SERVER_IP, "localhost", false);
         addQuestion("2", SERVER_PORT, "23232", false);
         addQuestion("3", PASSWORD, "", true);
+        
+        setHelpMessage();
     }
     
     public String getIp() {
