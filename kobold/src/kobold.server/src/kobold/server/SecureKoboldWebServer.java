@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.61 2004/07/29 09:15:31 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.62 2004/07/29 10:28:42 garbeam Exp $
  *
  */
 package kobold.server;
@@ -79,6 +79,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
                                               IKoboldServerAdministration{
 	
 	private static final Log logger = LogFactory.getLog(SecureKoboldWebServer.class);
+	private static String adminPassword = "";
 
 	// the xml-rpc webserver
 	private static SecureWebServer server;
@@ -88,8 +89,11 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	 */
 	public static void main(String args[]) throws Exception {
 		if (args.length < 1) {
-			System.err.println("Usage: java SecureKoboldWebServer port");
+			System.err.println("Usage: java SecureKoboldWebServer port [administrator password]");
 			System.exit(1);
+		}
+		if (args.length > 1) {
+		    adminPassword = args[1];
 		}
 		int port = 0;
 		try {
@@ -573,7 +577,9 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	 */
 	public String checkAdministrability(String adminPassword){
 		// 1.) Since no checking has to occur, signal success.
-		return IKoboldServerAdministration.RETURN_OK;
+	    return (adminPassword.equals(this.adminPassword)) ?
+		       IKoboldServerAdministration.RETURN_OK :
+		       IKoboldServerAdministration.RETURN_FAIL;
 	}
 	
 	/**
