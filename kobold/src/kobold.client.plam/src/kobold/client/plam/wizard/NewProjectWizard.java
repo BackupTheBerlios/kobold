@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.16 2004/07/02 12:33:58 vanto Exp $
+ * $Id: NewProjectWizard.java,v 1.17 2004/08/02 09:23:04 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -31,8 +31,10 @@ import java.lang.reflect.InvocationTargetException;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProjectNature;
 import kobold.client.plam.PLAMProject;
+import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.workflow.LocalMessageQueue;
 import kobold.common.data.KoboldMessage;
+import kobold.common.data.Productline;
 import kobold.common.data.WorkflowItem;
 import kobold.common.data.WorkflowMessage;
 
@@ -70,7 +72,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 	// cache of newly-created project
 	private IProject newProject;
 	private IConfigurationElement config;
-	private ProductLineChooserWizardPage chooserPage;
+	private ProductlineChooserWizardPage chooserPage;
 	
 	/**
 	 */
@@ -115,7 +117,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 		serverPage.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
 		this.addPage(serverPage);
 		
-		chooserPage = new ProductLineChooserWizardPage(); //$NON-NLS-1$
+		chooserPage = new ProductlineChooserWizardPage(); //$NON-NLS-1$
 		chooserPage.setTitle(Messages.getString("NewProjectWizard.ChooseThePLTitle")); //$NON-NLS-1$
 		chooserPage.setDescription(Messages.getString("NewProjectWizard.ChooseThePLDesc")); //$NON-NLS-1$
 		serverPage.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
@@ -185,6 +187,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			protected void execute(IProgressMonitor monitor)
 					throws CoreException {
 				createProject(description, newProjectHandle, monitor);
+				createProjectResources(newProject);
 			}
 		};
 		
@@ -199,8 +202,6 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 		}
 
 		newProject = newProjectHandle;
-		
-		createProjectResources(newProject);
 
 		try {
 			newProject.refreshLocal(IResource.DEPTH_INFINITE, null);
@@ -223,9 +224,13 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			p.setServerUrl(serverPage.getServerURL());
 			p.setUsername(serverPage.getUsername());
 			p.setPassword(serverPage.getPassword());
-			p.setProductlineName(chooserPage.getProductLineName());
+			p.setProductlineName(chooserPage.getProductlineName());
 			p.store();
 			
+			// fetch server PL
+			Productline pl = ServerHelper.fetchProductline(p);
+			System.out.println(pl.getRepositoryDescriptor());
+			System.out.println(pl.getId());
 			// create secure client
 			// -> moved lazy to KoboldProjectNature
 									

@@ -21,22 +21,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.20 2004/08/01 14:26:40 memyselfandi Exp $
+ * $Id: PLAMProject.java,v 1.21 2004/08/02 09:23:04 vanto Exp $
  *
  */
 package kobold.client.plam;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
+import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.editor.model.ViewModelContainer;
 import kobold.client.plam.model.ModelStorage;
+import kobold.client.plam.model.ProductlineFactory;
 import kobold.client.plam.model.productline.Productline;
+import kobold.common.data.User;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,6 +79,7 @@ public class PLAMProject
 	private String productline;
 	private Productline pl;
 
+	private Map userPool = new HashMap();
 	
 	/**
 	 * Creates a PLAM Project.
@@ -120,6 +128,8 @@ public class PLAMProject
 			logger.info("Error while parsing PLAM config.", e);
 		} catch (IOException e) {
 		}
+		
+		updateUserMap();
 	}
 	
 	public void store()
@@ -150,6 +160,21 @@ public class PLAMProject
 		
 	}
 	
+	private void updateUserMap()
+	{
+	    List users = ServerHelper.fetchAllUsers(this);
+	    
+	    if (users != null) {
+	        userPool = new HashMap();
+	        Iterator it = users.iterator();
+	        while (it.hasNext()) {
+	            User u = (User)it.next();
+	            userPool.put(u.getUsername(), u);
+	        }
+	    } else {
+	        logger.error("Could not fetch user pool - using old one");
+	    }
+	}
 	/**
 	 * @return Returns the password or null if not stored.
 	 */
@@ -206,14 +231,12 @@ public class PLAMProject
 		    pl = ModelStorage.loadModel(plamFile.getProject());
 	        
 		    if (pl == null) {
-		        pl = new Productline();
-		        pl.setName("New product line");
-		        pl.setDescription("(Please configure your product line properly)");
+		        pl = ProductlineFactory.create(ServerHelper.fetchProductline(this));
 		    }
 		    pl.setProject(this);
 	    }
 
-	    return pl;
+	    return null;
 	}
 	
 	/**
@@ -282,5 +305,19 @@ public class PLAMProject
      */
     public IProject getIProject() {
     	return project;
+    }
+    
+    /**
+     * Returns an unmodifiable user map (uid -> User object).
+     * 
+     * Refresh this map using update();
+     * @return
+     */
+    public Map getUserPool()
+    {
+        if (userPool == null) {
+            updateUserMap();
+        }
+        return Collections.unmodifiableMap(userPool);
     }
 }

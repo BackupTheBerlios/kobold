@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.7 2004/07/27 14:11:59 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.8 2004/08/02 09:23:04 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -64,6 +64,7 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
      */
     public AbstractRootAsset()
     {
+        super();
     }
 
     /**

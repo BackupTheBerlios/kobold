@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.20 2004/07/23 23:35:18 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.21 2004/08/02 09:23:04 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -153,7 +153,10 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     	if (parentElement instanceof IProject) {
     	 	try {
                 KoboldProjectNature nature = (KoboldProjectNature)((IProject)parentElement).getNature(KoboldProjectNature.NATURE_ID);
-                return new Productline[] {nature.getPLAMProject().getProductline()};
+                Productline pl = nature.getPLAMProject().getProductline(); 
+                if (pl != null) {
+                    return new Productline[] {pl};
+                }
             } catch (CoreException e) {
                 e.printStackTrace();
             }

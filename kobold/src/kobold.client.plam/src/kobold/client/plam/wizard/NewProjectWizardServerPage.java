@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.10 2004/07/21 17:07:07 garbeam Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.11 2004/08/02 09:23:04 vanto Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -165,8 +165,8 @@ public class NewProjectWizardServerPage extends WizardPage {
                         client = null;
                         serverOk = true;
 
-                        ProductLineChooserWizardPage chooserPage =
-                			(ProductLineChooserWizardPage)getWizard().getPage(ProductLineChooserWizardPage.PAGE_ID);
+                        ProductlineChooserWizardPage chooserPage =
+                			(ProductlineChooserWizardPage)getWizard().getPage(ProductlineChooserWizardPage.PAGE_ID);
 
                         chooserPage.setProductlines(productlines);
                         

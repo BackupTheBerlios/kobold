@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProjectNature.java,v 1.11 2004/08/01 14:26:40 memyselfandi Exp $
+ * $Id: KoboldProjectNature.java,v 1.12 2004/08/02 09:23:04 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -125,7 +125,9 @@ public class KoboldProjectNature implements IProjectNature, IResourceChangeListe
 		// lazy
 		if (plamProject == null) {
 			IFile pFile = getPLAMProjectFile();
+			
 			plamProject = new PLAMProject(pFile);
+			
 		}
 		
 		// update

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.28 2004/07/21 17:07:07 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.29 2004/08/02 09:23:04 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -88,7 +88,7 @@ public class SecureKoboldClient implements IKoboldServer {
 				return new UserContext(element);
 			}
 		} catch (Exception exception) {
-			log.error(exception);
+			log.error("login()", exception);
 		}
 		return null;
 	}
@@ -102,7 +102,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		try {
 			Object result = client.execute("logout", v);
 		} catch (Exception exception) {
-			log.error(exception);
+			log.error("logout()", exception);
 		}
 	}
 
@@ -155,7 +155,7 @@ public class SecureKoboldClient implements IKoboldServer {
 				return new Productline(RPCMessageTransformer.decode((String)result));
 			}
 		} catch (Exception exception) {
-			log.error(exception);
+			log.error("getProductline()", exception);
 		}
 		return null;
 	}
@@ -237,7 +237,7 @@ public class SecureKoboldClient implements IKoboldServer {
 			}
 		    log.info(result);
 		} catch (Exception exception) {
-			log.error(exception);
+			log.error("getAllUsers()", exception);
 		}
 		return result;
 	}
