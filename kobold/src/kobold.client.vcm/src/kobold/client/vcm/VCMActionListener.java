@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.20 2004/11/08 16:06:13 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.21 2004/11/09 11:55:07 memyselfandi Exp $
  *
  */
 package kobold.client.vcm;
@@ -453,7 +453,7 @@ public class VCMActionListener implements IVCMActionListener
 			for (Iterator it = release.getFileRevisions().iterator(); it.hasNext();) {
     			    
 			    Release.FileRevision fr = (Release.FileRevision) it.next();
-    			command[8] = localPath + IPath.SEPARATOR + fr.getPath();
+    			command[8] = localPath + /*IPath.SEPARATOR +*/ fr.getPath();
     			for (int j = 0; j < command.length; j++) {
 					if (logger.isDebugEnabled()) {
 						logger.debug("tagRelease(Release)" + command[j]);
