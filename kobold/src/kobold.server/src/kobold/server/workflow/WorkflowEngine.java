@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.12 2004/09/18 10:16:04 bettina Exp $
+ * $Id: WorkflowEngine.java,v 1.13 2004/09/18 12:37:57 bettina Exp $
  *
  */
 package kobold.server.workflow;
@@ -32,7 +32,10 @@ import java.util.List;
 
 import kobold.common.data.RPCSpy;
 import kobold.common.data.WorkflowMessage;
+import kobold.server.SecureKoboldWebServer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.drools.FactException;
 import org.drools.RuleBase;
 import org.drools.WorkingMemory;
@@ -46,6 +49,7 @@ import org.drools.WorkingMemory;
  */
 public class WorkflowEngine {
 
+	private static final Log logger = LogFactory.getLog(WorkflowEngine.class);
 	/**
 	 * Since drools is going to be of the Singleton concept, theInstance 
 	 * will be the only available instance of the class.
@@ -125,8 +129,10 @@ public class WorkflowEngine {
 			URL url = new File("ruleset.drl").toURL();
 			RuleBase ruleBase =  org.drools.io.RuleBaseBuilder.buildFromUrl( url );
 			this.setRuleBase(ruleBase);
+			logger.info("RULE BASE LOADED");
 		}
 		catch (Exception e) {
+			logger.info("RULE BASE NOT LOADED");
 			System.out.println(e.getMessage());
 		}
 	}
