@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.10 2004/07/25 21:26:34 garbeam Exp $
+ * $Id: Variant.java,v 1.11 2004/07/26 08:32:52 martinplies Exp $
  *
  */
 
@@ -53,7 +53,8 @@ import org.eclipse.core.resources.IResource;
  */
 public class Variant extends AbstractAsset 
 					 implements IGXLExport, IComponentContainer,
-					 			IReleaseContainer, IFileDescriptorContainer {
+					 			IReleaseContainer, IFileDescriptorContainer,
+					 			IProductlineNode{
 
 	private List components = new ArrayList();
 	private List releases = new ArrayList();
@@ -304,6 +305,15 @@ public class Variant extends AbstractAsset
 		IProject project = root.getProject().getIProject();
 		return project.getFolder(root.getProject().getPath().toString() + myPath());
 	}
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.productline.IProductlineNode#getChildren()
+     */
+    public List getChildren() {
+        List list = new ArrayList(this.components);
+        list.addAll(this.releases);
+        return list;
+    }
   
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getRemoteRepository()
