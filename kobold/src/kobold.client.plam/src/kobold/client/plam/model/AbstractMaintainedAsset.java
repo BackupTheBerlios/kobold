@@ -21,18 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractMaintainedAsset.java,v 1.4 2004/08/03 14:49:20 vanto Exp $
+ * $Id: AbstractMaintainedAsset.java,v 1.5 2004/08/03 17:35:47 vanto Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import kobold.common.data.User;
-
-import org.dom4j.Element;
 
 
 /**
@@ -87,33 +84,4 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
 	{
 	    return maintainers;
 	}
-
-    public void deserialize(Element element)
-    {
-        super.deserialize(element);
-        
-    	if (element.element("maintainers") != null) {
-    	    Iterator it = element.element("maintainers").elementIterator("maintainer");
-    	    while (it.hasNext()) {
-    	        Element maintEl = (Element)it.next();
-    	        addMaintainer(new User(maintEl.attributeValue("username"),
-    	                			   maintEl.attributeValue("fullname")));
-    	    }
-    	}
-    }
-    
-    public Element serialize()
-    {
-        Element element = super.serialize();
-        Element maintsEl = element.addElement("maintainers");
-        Iterator it = maintainers.iterator();
-        while (it.hasNext()) {
-            User user = (User) it.next();
-            Element maintEl = maintsEl.addElement("maintainer");
-            maintEl.addAttribute("username", user.getUsername()); 
-            maintEl.addAttribute("fullname", user.getFullname());
-        }
-
-        return element;
-    }
 }

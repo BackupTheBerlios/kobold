@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.5 2004/08/03 14:49:21 vanto Exp $
+ * $Id: KoboldProject.java,v 1.6 2004/08/03 17:35:47 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -393,14 +393,25 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
     	out.close();
     }
 
-    public ViewModelContainer restoreViewModelContainer() throws Exception 
+    public ViewModelContainer restoreViewModelContainer() 
     {
-        IFile vmFile = project.getFile("viewdata");
-        InputStream is = vmFile.getContents(false);
-		SAXReader reader = new SAXReader();
-	    Document document = reader.read(is);
-	    ViewModelContainer vmc = new ViewModelContainer(document.getRootElement());        
-        return vmc;
+        IFile vmFile = project.getFile(".viewdata");
+        if (vmFile.exists()) {
+            InputStream is;
+            try {
+                is = vmFile.getContents(false);
+                SAXReader reader = new SAXReader();
+                Document document;
+                document = reader.read(is);
+  
+                return new ViewModelContainer(document.getRootElement());
+            } catch (DocumentException e) {
+                logger.warn("Could not parse viewmodel", e);
+            } catch (CoreException e) {
+                logger.warn("Could not open view model", e);
+            }
+        }
+        return null;
     }
 
 	public boolean isConfigured() 

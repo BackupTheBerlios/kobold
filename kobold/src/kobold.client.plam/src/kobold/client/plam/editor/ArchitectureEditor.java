@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.28 2004/08/02 17:23:54 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.29 2004/08/03 17:35:47 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -505,12 +505,12 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 		model = getArchEditorInput().getAsset();
 
 	    KoboldProject pp = model.getKoboldProject();
-	    try {
-            viewModel = pp.restoreViewModelContainer();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+	    ViewModelContainer vmc = pp.restoreViewModelContainer(); 
+	    
+	    if (vmc != null) {
+	        viewModel = vmc;
+	    }
+	    	
 		setPartName(getArchEditorInput().getName());
 		//setTitle(getArchEditorInput().getName());
 
