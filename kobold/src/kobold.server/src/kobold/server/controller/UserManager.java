@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.20 2004/08/20 09:29:55 neccaino Exp $
+ * $Id: UserManager.java,v 1.21 2004/08/23 08:42:41 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -97,6 +97,7 @@ public class UserManager {
             return false;
         }
         else{
+            serialize();
         	return true;
         }
 	}
