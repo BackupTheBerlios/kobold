@@ -2,14 +2,14 @@
 %% StuPro A, Produktlinien (Kobold)
 %% Team Werkbold
 %% Spezifikation I
-%% $Id: spezifikation1.tex,v 1.1 2004/05/27 12:21:31 garbeam Exp $
+%% $Id: spezifikation1.tex,v 1.2 2004/05/30 16:47:58 rendgeor Exp $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[a4paper,titlepage,12pt,ngerman]{scrbook}
 \usepackage{../common/header}
 \usepackage{supertabular}
 
-\RCSdef $Revision: 1.1 $
-\RCSdef $Date: 2004/05/27 12:21:31 $
+\RCSdef $Revision: 1.2 $
+\RCSdef $Date: 2004/05/30 16:47:58 $
 
 %\newcommand\version{Version \today \xspace}
 \newcommand\version{Version 1.0\xspace}
@@ -66,11 +66,17 @@
 \tableofcontents
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \include{einleitung}
+%--client-------------------
 \include{client}
 \include{drools}
 \include{gxl}
 \include{teilspezi1}
+%---------------------------
+\include{usecases}
+\include{metadatenstruktur}
+%---------------------------
 \include{server}
+%----------------------------
 \include{nichtfunktional}
 
 
