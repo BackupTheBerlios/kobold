@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeFigure.java,v 1.3 2004/05/17 22:48:55 vanto Exp $
+ * $Id: AbstractNodeFigure.java,v 1.4 2004/05/18 00:12:29 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -31,11 +31,9 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.FreeformViewport;
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
-import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.ScrollPane;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.ToolbarLayout;
@@ -44,7 +42,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
@@ -69,14 +66,26 @@ public abstract class AbstractNodeFigure extends Shape {
 		titlebar = new TitleBarFigure();
 		add(titlebar);
 		
-		/*pane = new Figure();
-		pane.setBorder(new MarginBorder(5));
+		/*ScrollPane scrollpane = new ScrollPane();
+		pane = new FreeformLayer();
 		ToolbarLayout tl = new ToolbarLayout();
 		tl.setSpacing(5);
 		pane.setLayoutManager(tl);
-		add(pane);*/
 
-		init1();
+		//setLayoutManager(new StackLayout());
+		add(scrollpane);
+		scrollpane.setViewport(new FreeformViewport());
+		scrollpane.setContents(pane);*/
+
+		pane = new Figure();
+		pane.setBorder(new MarginBorder(5));
+		ToolbarLayout tl = new ToolbarLayout();
+		tl.setSpacing(15);
+		pane.setLayoutManager(tl);
+		
+		add(pane);
+
+		//init1();
 	}
 
 	public void init1() {
@@ -124,8 +133,7 @@ public abstract class AbstractNodeFigure extends Shape {
 			ToolbarLayout tbl = new ToolbarLayout();
 			tbl.setVertical(false);
 			setLayoutManager(tbl);
-			//setBorder(new MarginBorder(3));
-			setBorder(new MarginBorder(0));
+			setBorder(new MarginBorder(3));
 			
 			titleLabel = new Label();
 			titleLabel.setLabelAlignment(Label.LEFT);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LocalMessageQueue.java,v 1.5 2004/05/17 00:25:02 vanto Exp $
+ * $Id: LocalMessageQueue.java,v 1.6 2004/05/18 00:12:29 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -49,9 +49,6 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 
 /**
  * Stores/Manages all local kobold messages
@@ -83,7 +80,7 @@ public class LocalMessageQueue  {
 	{
 		messages.put(msg.getId(), msg);
 		store();
-		addMarker(msg);
+		//addMarker(msg);
 		fireAddEvent(msg);
 	}
 
@@ -91,7 +88,7 @@ public class LocalMessageQueue  {
 	{
 		messages.remove(msg.getId());
 		store();
-		removeMarker(msg);
+		//removeMarker(msg);
 		fireRemoveEvent(msg);
 	}
 	
@@ -126,19 +123,20 @@ public class LocalMessageQueue  {
 			}
 			
 			messages.clear();
-			clearMarkers();
+			//clearMarkers();
 
 			Iterator it = document.getRootElement().elementIterator("message");
 			while (it.hasNext()) {
 				Element msgEl = (Element)it.next();
 				KoboldMessage message = KoboldMessage.createMessage(msgEl);
-				addMessage(message);
+				//addMessage(message);
 				messages.put(message.getId(), message);
 				logger.info("add msg: "+message);
 				//addMarker(message);*/
 			}
 
 			in.close();
+			fireRebuildEvent();
 		} catch (DocumentException e) {
 			logger.info("Error while parsing PLAM config.", e);
 		} catch (IOException e) {
@@ -169,7 +167,7 @@ public class LocalMessageQueue  {
 		}
 	}
 
-	private void addMarker(KoboldMessage msg)
+	/*private void addMarker(KoboldMessage msg)
 	{
 		logger.info("add marker: " + msg);
 		IMarker marker;
@@ -213,7 +211,7 @@ public class LocalMessageQueue  {
 		} catch (CoreException e) {
 			logger.warn("Error during marker operation", e);
 		}	
-	}
+	}*/
 	
 	/**
 	 * Sorts Kobold Messages by Date
@@ -281,6 +279,6 @@ public class LocalMessageQueue  {
 	/**
 	 */
 	public void deactivate() {
-		clearMarkers();		
+		//clearMarkers();		
 	}
 }
