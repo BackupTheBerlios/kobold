@@ -113,7 +113,10 @@ Confirm with 'Run'.
 
 A new Eclipse instance will open with the Kobold feature set enabled.
 
-\section{Checking out a product}
+
+\section{Product-related}
+
+\subsection{Checking out a product}
 
 In the File menu select 'New' and then 'Kobold PLAM Project'. The Kobold wizard opens.
 Enter enter the url of your Kobold server, your username and password. The press
@@ -151,209 +154,7 @@ In the last step you have to enter the name of the project you want to create (s
 A new project has been created. You can open the different views through the Window menu
 and 'show view'. 
 
-
-\section{Writing a mail}
-
-In the menu of the Workflow View select "new mail". A Workflow window opens where
-you can enter your message, the subject and the recipient of the message. Send the
-message by pressing the "Send" button. Pressing the "Cancel" button will close the window
-without sending your message.
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=10cm]{writemail.png}
-   \caption{Write a new mail}
-\label{wizard3}
-\end{center}
-\end{figure}\par
-
-\section{Answering a mail}
-
-In the Workflow View double-click on the mail you want to answer. A Workflow
-window opens where you can see the message text of the mail. Below you can enter
-the subject and the text of your reply. Send the answer by pressing the "Send" 
-button. Pressing the "Cancel" button will close the window without sending 
-your message.
-
-%TODO: Screenshot einfügen
-
-%\section{Deleting a message}
-
-%Right-click on the message and choose "Delete message" in the context menu.
-%Alternatively you can select the message and press "Del" on your keyboard.
-
-\section {Fetching messages}
-
-Select a project. Right-click in the Workflow View or open the corresponding menu. Choose "Fetch message".
-Your new messages are being fetched and displayed in the Workflow View.
-
-\section {Filtering the Workflow View}
-
-(still undefined)
-
-\section{Suggesting a file for a Core Group}
-
-In the menu of the Workflow View select "Suggest file for core group". A Workflow
-window opens where you can enter the name of the file, its path and the username of the
-PE you want to send the message to. You can also enter an additional comment you want 
-the PE and PLE to read. Send the message by pressing the "Send" 
-button. Pressing the "Cancel" button will close the window without sending 
-your message.
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=10cm]{core1.png}
-   \caption{Suggesting a file for a Core Group}
-\label{wizard3}
-\end{center}
-\end{figure}\par
-
-\section{Dealing with a Core Group suggestion}
-
-In the Workflow View double-click on the Core Group suggestion message. A Workflow
-window opens where you can see the message of the programmer (and PE). Below you
-can select whether you agree to the suggestion or whether you decline it. You cam aösp
-enter an additional comment if you like. Send the message by pressing the "Send" 
-button. Pressing the "Cancel" button will close the window without sending 
-your message.\par
-Note: The file will not be automatically uploaded and committed. The PLE has to do
-this manually.
-
-%TODO: Screenshot einfügen
-
-\section{Exporting through GXL}
-
-Select the productline, product, component or variant you want to export. In the
-menu of the main window select "GXL-Export". A wizard opens where you can choose
-whether to create a jar-file of the selected source or not. You should then enter
-the path and names of the gxl-file and the jar-file. Alternatively you can enter 
-the data through the "save as" dialog. To start the export, press the finish button.
-You are able to see the status of your export in the wizard which will close after
-the export is finished. If you decide not to do the export, simply press the 
-"cancel" button.
-
-%TODO: Screenshot einfügen
-
-\section{Creating a Core Asset}
-
-In the pallete select the "core asset" tool. Click into the Architecture Editor and
-a core asset is inserted. A dialog opens where you can enter the meta data of
-the core asset. Per drag+drop you can simply change the size of the core
-asset. \par
-Note: Core assets can only be inserted on the top-level plane of the Architecture Editor.
-
-%TODO: Screenshot einfügen
-
-\section{Creating a variant}
-
-In the pallete select the "variant" tool. Click into a core asset or component in 
-the Architecture Editor. A variant is inserted. A dialog opens where you can enter the meta data of
-the variant. Per drag+drop you can simply change the size of the variant. \par
-Note: Variants can only be inserted into core assets or components.
-
-%TODO: Screenshot einfügen
-
-\section{Creating a component}
-
-In the pallete select the "component" tool. Click into a variant in 
-the Architecture Editor. A component is inserted. A dialog opens where you can enter the meta data of
-the component. Per drag+drop you can simply change the size of the component. \par
-Note: Components can only be inserted into variants.
-
-%TODO: Screenshot einfügen
-
-\section{Creating a version}
-
-In the pallete select the "version" tool. Click into a variant in 
-the Architecture Editor. A version is inserted. A dialog opens where you can enter the meta data of
-the version. For each file of the variant you can select the revision number you want to add to the version. 
-Per drag+drop you can simply change the size of the version. \par
-Note: Versions can only be inserted into variants.
-
-%TODO: Screenshot einfügen
-
-\section{Creating a meta node}
-
-In the pallete select the "metanode" tool. Click into the Architecture Editor. 
-A meta node is inserted. A dialog opens where you can select the type of the node.
-Possible types are AND, OR, XOR. 
-
-%TODO: Screenshot einfügen
-
-\section{Deleting a core asset, component, variant or version}
-
-Right-click on the item you want to delete and choose "delete" in the context
-menu. Alternatively you
-can select the item and press "Del" on your keyboard. Is the item used in other projects
-you will be notified and be able to cancel the deletion process.
-
-%TODO: Screenshot einfügen
-
-\section{Deleting a meta node}
-
-Right-click on the meta node you want to delete and choose "delete" in the context
-menu. Alternatively you
-can select the node and press "Del" on your keyboard.
-
-\section{Creating a dependency edge}
-
-In the pallete select the "dependency" tool. Select an item in the Architecture Editor
-as the starting point. The next item you select will be the aiming point.
-
-%TODO: Screenshot einfügen
-
-\section{Creating an exclusion edge}
-
-In the pallete select the "exclude" tool. Select an item in the Architecture Editor
-as the starting point. The next item you select will be the aiming point.
-
-%TODO: Screenshot einfügen
-
-\section{Deleting an edge}
-
-Right-click on the edge you want to delete and choose "delete" in the context menu.
-Alternatively you can select the edge and press "Del" on your keyboard.
-
-\section{Marking a component as "deprecated"}
-Right-click on the component and choose "mark as deprecated". Alternatively you 
-can select the component and press "D" on your keyboard. Deprecated components are
-indicated by a small flagg.
-
-%TODO: Screenshot einfügen
-
-\section{Moving an item}
-You can move any item per drag+drop.
-
-\section{Changing the size of an item}
-You can change the size of an item per drag+drop.
-
-\section{Filtering the Architecture View}
-
-The toolbar of the Architecture Editor provides you with the following filterings:
-\begin{itemize}
-	\item Show/hide dependency edges
-	\item Show/hide exclusion edges
-	\item Show/hide synthetical edges
-	\item Show/hide deprecated components
-\end{itemize}
-
-%TODO: Screenshot einfügen
-
-\section{Creating a custom component}
-
-In the pallete select the "custom component" tool. Click into the Architecture 
-Editor. A component is inserted. A dialog opens where you can enter the meta data of
-the component. Per drag+drop you can simply change the size of the component. \par
-
-%TODO: Screenshot einfügen
-
-\section{Deleting a custom component}
-
-Right-click on the component you want to delete and choose "delete" in the context
-menu. Alternatively you
-can select the component and press "Del" on your keyboard. 
-
-\section{Creating a product}
+\subsection{Creating a product}
 Right-click anywhere and choose "new product" in the context menu. A wizard opens where
 you can choose the productline the new product should belong to.
 
@@ -368,14 +169,14 @@ After you press "proceed", you are able
 to choose modules of other products from this product line. Press "Finish" and the
 new product is created.
 
-\section{Renaming a product}
+\subsection{Renaming a product}
 
 Right-click on the product and choose "rename product" in the context menu. You can
 now enter a new name which will be used in the repository and the product line tree.
 
 %TODO: Screenshot einfügen
 
-\section{Changing a product}
+\subsection{Changing a product}
 
 Right-click on the product and choose "change product". A wizard opens where you can
 change the CoreAssets for your product. 
@@ -386,7 +187,7 @@ After you press "proceed", you are able
 to choose modules of other products from this product line. Press "Finish" and the changes
 are saved.
 
-\section{Setting a product on deprecated}
+\subsection{Setting a product on deprecated}
 
 Right-click on the product and choose "set on deprecated". Confirm your choice in
 the upcoming dialog and the product is deprecated. Its modules can no longer be
@@ -394,7 +195,99 @@ used in a product.
 
 %TODO: Screenshot einfügen
 
-\section{Setting a module on deprecated}
+
+\section{Node-related}
+
+\subsection{Creating a Core Asset}
+
+In the pallete select the "core asset" tool. Click into the Architecture Editor and
+a core asset is inserted. A dialog opens where you can enter the meta data of
+the core asset. Per drag+drop you can simply change the size of the core
+asset. \par
+Note: Core assets can only be inserted on the top-level plane of the Architecture Editor.
+
+%TODO: Screenshot einfügen
+
+\subsection{Creating a variant}
+
+In the pallete select the "variant" tool. Click into a core asset or component in 
+the Architecture Editor. A variant is inserted. A dialog opens where you can enter the meta data of
+the variant. Per drag+drop you can simply change the size of the variant. \par
+Note: Variants can only be inserted into core assets or components.
+
+%TODO: Screenshot einfügen
+
+\subsection{Creating a component}
+
+In the pallete select the "component" tool. Click into a variant in 
+the Architecture Editor. A component is inserted. A dialog opens where you can enter the meta data of
+the component. Per drag+drop you can simply change the size of the component. \par
+Note: Components can only be inserted into variants.
+
+%TODO: Screenshot einfügen
+
+\subsection{Creating a version}
+
+In the pallete select the "version" tool. Click into a variant in 
+the Architecture Editor. A version is inserted. A dialog opens where you can enter the meta data of
+the version. For each file of the variant you can select the revision number you want to add to the version. 
+Per drag+drop you can simply change the size of the version. \par
+Note: Versions can only be inserted into variants.
+
+%TODO: Screenshot einfügen
+
+\subsection{Creating a meta node}
+
+In the pallete select the "metanode" tool. Click into the Architecture Editor. 
+A meta node is inserted. A dialog opens where you can select the type of the node.
+Possible types are AND, OR, XOR. 
+
+%TODO: Screenshot einfügen
+
+\subsection{Deleting a core asset, component, variant or version}
+
+Right-click on the item you want to delete and choose "delete" in the context
+menu. Alternatively you
+can select the item and press "Del" on your keyboard. Is the item used in other projects
+you will be notified and be able to cancel the deletion process.
+
+%TODO: Screenshot einfügen
+
+\subsection{Deleting a meta node}
+
+Right-click on the meta node you want to delete and choose "delete" in the context
+menu. Alternatively you
+can select the node and press "Del" on your keyboard.
+
+\subsection{Marking a component as "deprecated"}
+Right-click on the component and choose "mark as deprecated". Alternatively you 
+can select the component and press "D" on your keyboard. Deprecated components are
+indicated by a small flagg.
+
+%TODO: Screenshot einfügen
+
+\subsection{Moving an item}
+You can move any item per drag+drop.
+
+\subsection{Changing the size of an item}
+You can change the size of an item per drag+drop.
+
+\subsection{Creating a custom component}
+
+In the pallete select the "custom component" tool. Click into the Architecture 
+Editor. A component is inserted. A dialog opens where you can enter the meta data of
+the component. Per drag+drop you can simply change the size of the component. \par
+
+%TODO: Screenshot einfügen
+
+\subsection{Deleting a custom component}
+
+Right-click on the component you want to delete and choose "delete" in the context
+menu. Alternatively you
+can select the component and press "Del" on your keyboard. 
+
+
+\subsection{Setting a module on deprecated}
 
 Right-click on the product and choose "set on deprecated". Confirm your choice in
 the upcoming dialog and the module is deprecated. It can no longer be
@@ -402,7 +295,140 @@ used in a product.
 
 %TODO: Screenshot einfügen
 
-\section{Creating a user}
+
+
+\section{Edge-related}
+
+\subsection{Creating a dependency edge}
+
+In the pallete select the "dependency" tool. Select an item in the Architecture Editor
+as the starting point. The next item you select will be the aiming point.
+
+%TODO: Screenshot einfügen
+
+\subsection{Creating an exclusion edge}
+
+In the pallete select the "exclude" tool. Select an item in the Architecture Editor
+as the starting point. The next item you select will be the aiming point.
+
+%TODO: Screenshot einfügen
+
+\subsection{Deleting an edge}
+
+Right-click on the edge you want to delete and choose "delete" in the context menu.
+Alternatively you can select the edge and press "Del" on your keyboard.
+
+
+\section{Message-related}
+
+\subsection{Writing a mail}
+
+In the menu of the Workflow View select "new mail". A Workflow window opens where
+you can enter your message, the subject and the recipient of the message. Send the
+message by pressing the "Send" button. Pressing the "Cancel" button will close the window
+without sending your message.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{writemail.png}
+   \caption{Write a new mail}
+\label{wizard3}
+\end{center}
+\end{figure}\par
+
+\subsection{Answering a mail}
+
+In the Workflow View double-click on the mail you want to answer. A Workflow
+window opens where you can see the message text of the mail. Below you can enter
+the subject and the text of your reply. Send the answer by pressing the "Send" 
+button. Pressing the "Cancel" button will close the window without sending 
+your message.
+
+%TODO: Screenshot einfügen
+
+%\section{Deleting a message}
+
+%Right-click on the message and choose "Delete message" in the context menu.
+%Alternatively you can select the message and press "Del" on your keyboard.
+
+\subsection {Fetching messages}
+
+Select a project. Right-click in the Workflow View or open the corresponding menu. Choose "Fetch message".
+Your new messages are being fetched and displayed in the Workflow View.
+
+%\subsection {Filtering the Workflow View}
+
+%(still undefined)
+
+%\section{Suggesting a file for a Core Group}
+
+%In the menu of the Workflow View select "Suggest file for core group". A Workflow
+%window opens where you can enter the name of the file, its path and the username of the
+%PE you want to send the message to. You can also enter an additional comment you want 
+%the PE and PLE to read. Send the message by pressing the "Send" 
+%button. Pressing the "Cancel" button will close the window without sending 
+%your message.
+
+%\begin{figure}[h!]
+%\begin{center}
+%\includegraphics[width=10cm]{core1.png}
+%   \caption{Suggesting a file for a Core Group}
+%\label{wizard3}
+%\end{center}
+%\end{figure}\par
+
+%\section{Dealing with a Core Group suggestion}
+
+%In the Workflow View double-click on the Core Group suggestion message. A Workflow
+%window opens where you can see the message of the programmer (and PE). Below you
+%can select whether you agree to the suggestion or whether you decline it. You cam aösp
+%enter an additional comment if you like. Send the message by pressing the "Send" 
+%button. Pressing the "Cancel" button will close the window without sending 
+%your message.\par
+%Note: The file will not be automatically uploaded and committed. The PLE has to do
+%this manually.
+
+%TODO: Screenshot einfügen
+
+
+
+
+
+\section{Exporting through GXL}
+
+Select the productline, product, component or variant you want to export. In the
+menu of the main window select "GXL-Export". A wizard opens where you can choose
+whether to create a jar-file of the selected source or not. You should then enter
+the path and names of the gxl-file and the jar-file. Alternatively you can enter 
+the data through the "save as" dialog. To start the export, press the finish button.
+You are able to see the status of your export in the wizard which will close after
+the export is finished. If you decide not to do the export, simply press the 
+"cancel" button.
+
+%TODO: Screenshot einfügen
+
+
+
+
+
+
+\section{Filtering the Architecture View}
+
+The toolbar of the Architecture Editor provides you with the following filterings:
+\begin{itemize}
+	\item Show/hide dependency edges
+	\item Show/hide exclusion edges
+	\item Show/hide synthetical edges
+	\item Show/hide deprecated components
+\end{itemize}
+
+%TODO: Screenshot einfügen
+
+
+
+\section{User-related}
+
+\subsection{Creating a user}
 
 Right-click on the product the new user shall belong to. In the context menu choose
 "new" and then "user". A wizard opens where you can enter the username and the
@@ -417,7 +443,7 @@ project.
 
 Pressing "next" again finishes the process. The new user is created.
 
-\section{Changing a user role}
+\subsection{Changing a user role}
 
 Right-click on the corresponding product and choose "change role". A wizard opens.
 On the left side you can see a list of all existing users. On 
@@ -431,10 +457,10 @@ and your changes are saved.
 
 %TODO: Screenshot einfügen
 
-\section{Deleting a user}
+%\subsection{Deleting a user}
 
-(still undefined)
+%(still undefined)
 
-\section{Changing ones password}
+%\subsection{Changing ones password}
 
-(still undefined)
+%(still undefined)
