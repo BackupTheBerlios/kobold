@@ -1,12 +1,11 @@
-\section{Use Cases der Produktaktionen}
+\section{Architektureditor}
 
+\subsection{Produkt}
 
-Use Case Name		: Neues Produkt anlegen\\
-Akteur				: PLE\\
-Vorbedingung		: Kobold ist gestartet\\
+\subsubsection{Neues Produkt anlegen}
 
-Ablauf:\\
-Der Benutzer klickt irgendwo auf die Action Neues Produkt erstellen. Ein Wizard öffnet sich
+\usecase{Kobold ist gestartet}
+{Der Benutzer klickt irgendwo auf die Action Neues Produkt erstellen. Ein Wizard öffnet sich
 und zeigt eine Liste der für den Benutzer möglichen Produktlinien aus. Der Benutzer wählt
 nun eine der ihm zu Verfügung stehenden Produktlinien aus und klickt auf 'Weiter'. 
 Im nächsten Schritt bekommt er eine Liste aller CoreAssets zur Verfügung, welche Standard-
@@ -21,76 +20,64 @@ wird dem Benutzer eine kurze Beschreibung zum jeweils gewählten Modul angezeigt.
 Es ist möglich mehrere Module verschiedener Produkte gleichzeitig auszuwählen. Außerdem sind
 alle von den gewählten Modulen benötigten Produkte automatisch mit ausgewählt.
 Klickt der Benutzer nun auf 'Fertigstellen', werden die entsprechenden Module geladen, 
-ausgecheckt und dem Benutzer grafisch angezeigt.\\
+ausgecheckt und dem Benutzer grafisch angezeigt.}
+{Alle gewählten Module inklusive ihrer benötigten Referenzen sind ausgecheckt und werden dem
+Beutzer grafisch angezeigt.}
+{Nicht spezifiziert}
+{PLE}
 
-Nachbedingung:\\
-Alle gewählten Module inklusive ihrer benötigten Referenzen sind ausgecheckt und werden dem
-Beutzer grafisch angezeigt.\par
 
-
-
-Use Case Name		: Produkt umbenennen\\
-Akteur				: PE des Produktes\\
-Vorbedingung		: Es ist ein Produkt ausgewählt\\
-
-Ablauf:\\
-Der Benutzer klickt auf die rechte Maustaste und das Kontextmenü öffnet sich. Hier wird
+\subsubsection{Produkt umbenennen}
+\usecase{Es ist ein Produkt ausgewählt}
+{Der Benutzer klickt auf die rechte Maustaste und das Kontextmenü öffnet sich. Hier wird
 der Punkt Produkt umbenennen angezeigt. Wählt er diesen aus, so kann er das Produkt umbenennen,
 indem er einen neuen Namen eingibt. Der Name wird nun sowohl im Repository, als auch im
-Produktlinienbaum aktualisiert.\\
+Produktlinienbaum aktualisiert.}
+{Produkt ist umbenannt.}
+{Nicht spezifiziert}
+{PE}
 
-Nachbedingung:\\
-Produkt ist umbenannt.\par
 
-
-
-Use Case Name		: Produkt ändern\\
-Akteur				: PE des Produktes\\
-Vorraussetzung		:
-\begin{itemize}
-\item Es ist ein Produkt gewählt
-\item Benutzer ist mindestens PE des Produktes
-\end {itemize}\par
-
-Ablauf:\\
+\subsubsection{Produkt ändern}
+\usecase{
+Es ist ein Produkt selektiert und der
+Benutzer ist mindestens PE des Produktes
+}
+{
 Der Benutzer bekommt den Wizard wie in Produkt erstellen zu sehen, allerdings erst ab 
-Schritt 2. Alle von ihm ausgewählten Einstellungen sind übernommen.\\
+Schritt 2. Alle von ihm ausgewählten Einstellungen sind übernommen.}
+{
+Benutzer hat die von ihm gewünschten Änderungen vorgenommen,
+angezeigte Daten sind aktualisiert}
+{Nicht spezifiziert}
+{PE}
 
-Nachbedingung:\\
-\begin {itemize}
-\item Benutzer hat die von ihm gewünschten Änderungen vorgenommen
-\item Angezeigte Daten sind aktualisiert
-end {itemize}\par
-
-
-
-Use Case Name		: Produkt als veraltet markieren\\
-Akteur				: PLE einer Produktlinie\\
-Vorraussetzung		:
-Benutzer ist mindestens PLE für diese Produktlinie\\
-
-Ablauf:\\
+\subsubsection{Produkt als veraltet markieren}
+\usecase{
+Benutzer ist mindestens PLE für diese Produktlinie}
+{
 Der Benutzer klickt mit der rechten Maustaste auf das entsprechende Produkt. Innerhalb des
 Kontextmenüs hat er den Punkt 'Produkt als veraltet markieren' zur Auswahl. Bei Klick auf
 den Button erscheint eine Messagebox mit nochmaliger Nachfrage. Klickt er hier auf OK ist
-das Produkt auf deprecated gesetzt und seine Module stehen den PEs nicht mehr zur Auswahl.\\
-
-Nachbedingung:\\
+das Produkt auf deprecated gesetzt und seine Module stehen den PEs nicht
+mehr zur Auswahl.}
+{
 Produkt ist auf deprecated gesetzt, seine Module stehen für neue Produkte nicht mehr zur 
-Verfügung.\par
+Verfügung.}
+{Nicht spezifiziert}
+{PLE}
 
 
-
-Use Case Name		: Modul auf veraltet setzen\\
-Akteur				: PE eines Produkts\\
-Vorraussetzung		:
-enutzer ist mindestens PE des Produktes\\
-
-Ablauf:\\
+\subsubsection{Modul auf veraltet setzen}
+\usecase{Benutzer ist mindestens PE des Produktes}
+{
 Der Benutzer klickt mit der rechten Maustaste auf das Modul. Innerhalb des Kontextmenüs
 hat er den Punkt 'Modul auf deprecated setzen' zur Auswahl. Bei Klick auf diesen Punkt
 erscheint eine Messagebox und bei neuerlichem bestätigen ist das Modul auf deprecated 
-gesetzt und steht für neue Produkte nicht mehr zur Auswahl.\\
-
-Nachbedingung:\\
-Modul ist auf deprecated gesetzt und steht für neue Produkte nicht mehr zur Auswahl.\par
+gesetzt und steht für neue Produkte nicht mehr zur Auswahl.
+}
+{
+Modul ist auf deprecated gesetzt und steht für neue Produkte nicht mehr
+zur Auswahl.}
+{Nicht spezifiziert}
+{PE}
