@@ -23,7 +23,8 @@ use File::Spec::Functions;
 ##########
 
 
-if ($#ARGV == 1)
+#if ($#ARGV == 1)
+if ($#ARGV == 0)
 {
     #set the directory to work into
     #print "HALLO, working in: $currDir";
@@ -34,7 +35,8 @@ if ($#ARGV == 1)
 
 
     #dir-pattern to delete
-    my $dir = shift; # shifted at next argument in @_
+    #my $dir = shift; # shifted at next argument in @_
+    my $dir = "CVS";
 
     print "Delete dirs called: $dir\n";
 
@@ -80,5 +82,5 @@ if ($#ARGV == 1)
 
 else
 {
-    print "give me argument: dir to start with deletion, dir-pattern!\n";
+    print "give me argument: absolut-path to start with deletion!\n";# dir-pattern!\n";
 }
