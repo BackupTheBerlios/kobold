@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaInfoAction.java,v 1.2 2004/08/05 21:19:17 garbeam Exp $
+ * $Id: MetaInfoAction.java,v 1.3 2004/08/05 21:53:01 garbeam Exp $
  *
  */
 package kobold.client.plam.action;
@@ -34,6 +34,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.actions.ActionDelegate;
 import org.eclipse.ui.dialogs.SaveAsDialog;
@@ -44,18 +45,13 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
  */
 public class MetaInfoAction extends ActionDelegate
 {
-    private Shell shell;
     private AbstractAsset selectedAsset;
-    
-    public MetaInfoAction(Shell shell) 
-    {
-        this.shell = shell;
-    }
     
     public void run(IAction action)
     {
         if (selectedAsset != null) {
-    		SaveAsDialog saveAsDialog = new SaveAsDialog(shell);
+            Shell shell = Display.getDefault().getActiveShell(); 
+            SaveAsDialog saveAsDialog = new SaveAsDialog(shell);
     		saveAsDialog.setOriginalName("metainfo.pdf");
     		if (saveAsDialog.open() == SaveAsDialog.OK) {
     			IPath filePath = saveAsDialog.getResult();
