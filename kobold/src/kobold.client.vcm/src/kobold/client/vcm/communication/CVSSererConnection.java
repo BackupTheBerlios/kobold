@@ -267,44 +267,44 @@ public class CVSSererConnection implements IServerConnection
 	{
 		return outputStream;
 	}
-	public void readInputStreamsToConsole()
-	{
-		if (this.connected) 
-		{
-			ConsolePlugin.getDefault();
-			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
-			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
-				new IConsole[] {console});
-			MessageConsoleStream stream = console.newMessageStream();
-			InputStream err = this.errStream;// (InputStream)process.getErrorStream();
-			InputStream pis = this.inputStream; //(InputStream)process.getInputStream();
-//			OutputStream os1 = this.outputStream;//process.getOutputStream();
-//			stream.print("TESCHD");
-			int index = 0;
-			int r = 0;
-			try	{				
-				if (err != null) {
-					while ((err.available() != 0) && (r = err.read()) != -1 ) {
-						readLineBuffer = append(readLineBuffer, index++, (byte) r);
-					}
-				}
-				if(pis != null)
-				{
-					while ((pis.available() != 0) && (r = pis.read()) != -1 ) {
-						readLineBuffer = append(readLineBuffer, index++, (byte) r);
-					}
-				}
-
-				
-				stream.print(new String(readLineBuffer, 0, index));
-			}
-			catch(Exception e)
-			{
-				// problem reading the inputStreams of the process
-				e.printStackTrace();
-			}
-		}		
-	}
+//	public void readInputStreamsToConsole()
+//	{
+//		if (this.connected) 
+//		{
+//			ConsolePlugin.getDefault();
+//			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
+//			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
+//				new IConsole[] {console});
+//			MessageConsoleStream stream = console.newMessageStream();
+//			InputStream err = this.errStream;// (InputStream)process.getErrorStream();
+//			InputStream pis = this.inputStream; //(InputStream)process.getInputStream();
+////			OutputStream os1 = this.outputStream;//process.getOutputStream();
+////			stream.print("TESCHD");
+//			int index = 0;
+//			int r = 0;
+//			try	{				
+//				if (err != null) {
+//					while ((err.available() != 0) && (r = err.read()) != -1 ) {
+//						readLineBuffer = append(readLineBuffer, index++, (byte) r);
+//					}
+//				}
+//				if(pis != null)
+//				{
+//					while ((pis.available() != 0) && (r = pis.read()) != -1 ) {
+//						readLineBuffer = append(readLineBuffer, index++, (byte) r);
+//					}
+//				}
+//
+//				
+//				stream.print(new String(readLineBuffer, 0, index));
+//			}
+//			catch(Exception e)
+//			{
+//				// problem reading the inputStreams of the process
+//				e.printStackTrace();
+//			}
+//		}		
+//	}
 	
 	private static byte[] append(byte[] buffer, int index, byte b) {
 		if (index >= buffer.length) {
