@@ -22,7 +22,7 @@
  * DEALINGS IN THE SOFTWARE.
  *
  *
- */package kobold.client.plam.editor.action;
+ */package kobold.client.plam.action;
 
 import kobold.client.plam.editor.dialog.AddToProductDialog;
 import kobold.client.plam.model.productline.Variant;

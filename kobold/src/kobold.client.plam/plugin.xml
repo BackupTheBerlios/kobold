@@ -126,20 +126,20 @@
       <objectContribution
             adaptable="true"
             objectClass="kobold.client.plam.model.AbstractAsset"
-            id="kobold.client.plam.roletreecontribution">
+            id="AssetContrib">
          <action
                enablesFor="1"
                label="%action.GXLExport"
                class="kobold.client.plam.action.GXLExportAction"
                id="kobold.client.plam.action1"/>
          <action
-               label="Generate AssetInfo Document"
+               label="Generate Asset Documentation"
                class="kobold.client.plam.action.MetaInfoAction"
                id="kobold.client.plam.action2"/>
       </objectContribution>
       <objectContribution
             objectClass="kobold.client.plam.model.product.Product"
-            id="kobold.client.plam.roletreecontribution2">
+            id="ProductContrib">
             <action
                enablesFor="1"
                label="GXL Import..."
@@ -148,29 +148,29 @@
             </objectContribution>
       <objectContribution
             objectClass="org.eclipse.core.internal.resources.Project"
-            id="kobold.client.plam.roletreecontribution3">
+            id="ProjectContrib">
          <action
-               label="Update fullname"
+               label="Update Fullname"
                tooltip="Change your fullname here"
                icon="icons/user.gif"
                class="kobold.client.plam.action.UpdateFullNameAction"
                id="kobold.client.plam.action1"/>
          <action
-               label="Update password"
+               label="Update Password"
                tooltip="Change your current password here"
                icon="icons/user.gif"
                class="kobold.client.plam.action.ChangePasswordAction"
                id="kobold.client.plam.action2"/>
         <action
-               label="Create new &amp;users"
-               tooltip="Add new users"
-               icon="icons/user.gif"
-               class="kobold.client.plam.action.NewUserAction"
-               id="kobold.client.plam.action3"/>               
+              label="Create New &amp;Users"
+              class="kobold.client.plam.action.NewUserAction"
+              icon="icons/user.gif"
+              tooltip="Add new users"
+              id="kobold.client.plam.action3"/>               
       </objectContribution>
       <objectContribution
             objectClass="kobold.client.plam.model.AbstractAsset"
-            id="kobold.client.plam.roletreecontribution4">
+            id="AssetContribVisi">
          <action
                label="Delete Asset"
                class="kobold.client.plam.action.DeleteAssetAction"
@@ -195,10 +195,10 @@
       </objectContribution> -->
       <objectContribution
             objectClass="kobold.client.plam.model.productline.Variant"
-            id="kobold.client.plam.variantContribution">
+            id="VariantContrib">
          <action
-               label="Add to Product"
-               class="kobold.client.plam.editor.action.AddToProduct"
+               label="Add To Product"
+               class="kobold.client.plam.action.AddToProduct"
                id="kobold.client.plam.addProductAction"/>
       </objectContribution>
    </extension>

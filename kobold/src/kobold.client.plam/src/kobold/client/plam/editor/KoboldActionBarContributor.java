@@ -21,13 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldActionBarContributor.java,v 1.2 2004/09/21 12:58:25 vanto Exp $
+ * $Id: KoboldActionBarContributor.java,v 1.3 2004/10/06 16:11:32 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
-
-import kobold.client.plam.editor.action.LayoutAction;
-import kobold.client.plam.editor.action.LayoutRetargetAction;
 
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -90,8 +87,7 @@ public class KoboldActionBarContributor extends ActionBarContributor
     	addRetargetAction(new RetargetAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY, 
     			GEFMessages.ToggleGrid_Label, IAction.AS_CHECK_BOX));
 
-//    	addRetargetAction(new DirectEditRetargetAction());
-    	addRetargetAction(new LayoutRetargetAction());
+    	//addRetargetAction(new LayoutRetargetAction());
     	
     }
 
@@ -132,7 +128,7 @@ public class KoboldActionBarContributor extends ActionBarContributor
     											ZoomManager.FIT_WIDTH	};
     	tbm.add(new ZoomComboContributionItem(getPage(), zoomStrings));
     	
-    	tbm.add(getAction(LayoutAction.ID));
+    	//tbm.add(getAction(LayoutAction.ID));
     }
 
     /**
