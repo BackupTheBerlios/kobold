@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManagerDialog.java,v 1.1 2004/08/05 11:00:20 garbeam Exp $
+ * $Id: UserManagerDialog.java,v 1.2 2004/08/05 12:54:40 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -145,8 +145,10 @@ public class UserManagerDialog extends TitleAreaDialog
 		newUser.setText("&Create new user");
 		newUser.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				UINewUser nU = new UINewUser(parent.getShell()); 					
-				nU.open();
+				NewUserDialog nud = new NewUserDialog(parent.getShell());
+				nud.open();
+				//UINewUser nU = new UINewUser(parent.getShell()); 					
+				//nU.open();
 				refreshUserList();
 			}
 		});
