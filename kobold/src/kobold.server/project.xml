@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<project>
+
+
+  <id>kobold-server</id>
+  <currentVersion>1.0</currentVersion>
+
+  <inceptionYear>2004</inceptionYear>
+  <package>kobold.server</package>
+
+ <!-- ibiblio.org/maven : search for deps-->
+
+ <!-- or: -->
+
+      <!-- copy: kobold.common/contrib/* -->
+      <!-- manual: kobold.berlios.de/repository -->
+      <!-- Verz.: id/jars/id-version.jar -->
+
+      <!-- add to project.property the url -->
+
+  <!-- or use fat jar - plugin -->
+
+  <dependencies>
+    <dependency>
+      <id>jdom</id>
+      <version>b10</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+	<sourceDirectory>src</sourceDirectory>
+    <unitTestSourceDirectory>test-src</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+  	
+  	<resources>
+      <resource>
+        <directory>${basedir}/src/net/sf/statcvs/resources</directory>
+      	<targetPath>net/sf/statcvs/resources</targetPath>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/net/sf/statcvs</directory>
+		<includes>
+			<include>*.properties</include>
+		</includes>
+      	<targetPath>net/sf/statcvs</targetPath>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/de/berlios/statcvs/xml/resources</directory>
+      	<targetPath>de/berlios/statcvs/xml/resources</targetPath>
+      </resource>
+    </resources>
+  </build>
+  
+  <reports>
+<!--    <report>maven-jdepend-plugin</report> -->
+<!--    <report>maven-checkstyle-plugin</report> -->
+    <report>maven-changes-plugin</report>
+<!--	    <report>maven-changelog-plugin</report> -->
+<!--    <report>maven-clover-plugin</report> -->
+<!--    <report>maven-developer-activity-plugin</report> -->
+<!--    <report>maven-clover-plugin</report> -->
+    <report>maven-license-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jcoverage-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-junit-report-plugin</report>
+<!--    <report>maven-pmd-plugin</report> -->
+	<report>maven-statcvs-plugin</report>
+<!--    <report>maven-linkcheck-plugin</report> -->
+<!--    <report>maven-tasklist-plugin</report> -->
+  </reports>  
+</project>
