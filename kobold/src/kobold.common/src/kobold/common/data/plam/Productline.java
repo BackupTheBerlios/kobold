@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.3 2004/06/03 13:44:17 rendgeor Exp $
+ * $Id: Productline.java,v 1.4 2004/06/09 10:55:46 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -74,6 +74,9 @@ public class Productline {
 	public Productline(String name) {
 		this.name = name;
 		
+		products = new HashMap ();
+		coreAssets = new HashMap ();
+		
 	}
 
 
@@ -118,17 +121,19 @@ public class Productline {
 	
 	/**
 	 * Serializes the file specified
-	 * productlineStore.
+	 * @param serializeLevel defines the part of the metadata to serialize
+	 * 
 	 */
-	public void serialize() {
-		serialize(this.productlineStore);
+	public void serialize(int serializeLevel) {
+		serialize(this.productlineStore, serializeLevel);
 	}
 	
 	/**
 	 * Serializes the productline.
-	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
+	 * @see kobold.common.data.plam.Product#serialize(org.dom4j.Element)
+	 * @param serializeLevel defines the part of the metadata to serialize
 	 */
-	public void serialize(String path) {
+	public void serialize(String path, int serializeLevel) {
 
 		Document document = DocumentHelper.createDocument();
 		Element root = document.addElement("kobold-Productline");
