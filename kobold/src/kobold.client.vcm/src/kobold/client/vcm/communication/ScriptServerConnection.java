@@ -267,6 +267,10 @@ public class ScriptServerConnection implements IServerConnection
 	{
 		return outputStream;
 	}
+	
+	/*
+	 * prints the inputStream as string to the console
+	 */
 	public void readInputStreamsToConsole()
 	{
 		ConsolePlugin.getDefault();
@@ -279,6 +283,9 @@ public class ScriptServerConnection implements IServerConnection
 		stream.print(readInputStream());
 	}
 	
+	/*
+	 * Returns the input stream as string
+	 */
 	public String readInputStream ()
 	{
 		if (this.connected) 
