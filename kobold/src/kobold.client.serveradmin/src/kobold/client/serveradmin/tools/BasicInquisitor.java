@@ -47,12 +47,18 @@ public class BasicInquisitor {
     private Vector qv = new Vector();
     
     /*
+     * Stores the help message for this Inquisitor
+     */
+    protected String helpMessage;
+    
+    /*
      * @see printOptions()
      */
     protected String containingAction;
     
     public BasicInquisitor() {
         containingAction = "";
+        helpMessage = "No help available for this action.";
     }
 
     protected void addQuestion(String shortcut, 
@@ -97,7 +103,8 @@ public class BasicInquisitor {
         
         // 3.) print standard options
         System.out.print("\n\t(p) - perform action");
-        System.out.print("\n\t(c) - cancel action\n\n");
+        System.out.print("\n\t(c) - cancel action");
+        System.out.print("\n\t(h) - show help for this action\n\n");
     }
     
     /*
@@ -141,7 +148,13 @@ public class BasicInquisitor {
                 return true;
             }
             
-            // 4.) check if user's input is valid and perform action
+            // 4.) check if the user needs help
+            if (input.equals("h")) {
+                System.out.print("\nHelp for this action:\n" +
+                        "---------------------\n\n" + helpMessage + "\n\n");
+            }
+            
+            // 5.) check if user's input is valid and perform action
             InquisitorQuestion q = (InquisitorQuestion) questions.get(input);
             
             if (q == null) {                
