@@ -137,20 +137,23 @@ sub read_phys {
              #debug: 
                 #print ("XXXX $File::Find::name\n");
              #debug: 
-                #print ("YYYY $currDir\n");
+                print ("YYYY $currDir\n");
                 
 
                 my $newFile = "$File::Find::name";
                 my $currDirLength = length ($currDir);
+                print ("YYYY l= $currDirLength");
+                print ("YYYY newFile= $newFile\n");
 
 
                 #erase the currDir
-                #$newFile =~ s/\$currDir/g;
+                #$newFile =~ s/\$currDir//g;
 
                 #or:
                 #cut off the prefix
                 #$teilstring = substr(STRING,STARTPOS[,LAENGE])
                 $newFile = substr ($newFile, $currDirLength);
+                print "n=$newFile\n";
 
                 #directory?
                 if ( -d "$File::Find::name" ) {
