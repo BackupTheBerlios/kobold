@@ -1,1 +1,11 @@
 \chapter{Einleitung}
+Der Grobentwurf beschreibt die modulare Entwurfsidee des \product 
+Produktlinien-Managers.
+
+\section{Entwurfsidee}
+\product wird als 2-schichtige Client-/Server-Applikation entwickelt.
+Der Server wird globalen, strukturellen Daten verwalten und den Clients zur 
+Verfügung stellen. Diese arbeiten hauptsächlich mit Detail-Daten aus den 
+Repositories. Die Business-Logik befindet sich demnach auf beiden Seiten.
+Die Kommunkation zwischen Client und Server gestaltet sich nach dem Prinzip
+der Service Oriented Architecture mittel XML-RPC.

@@ -1,4 +1,127 @@
 \chapter{Client}
+Der Client wir streng nach dem Model-View-Controler-Konzept entwickelt. Dank
+der verwendeten Frameworkkomponenten lassen sich die Module eindeutig in 
+dieses Konzept integrieren.
 
 \section{Überblick}
 \includegraphics[width=15cm]{client.jpg}
+
+\subsection{MVC-Aufteilung}
+Idee des Model-View-Controler-Konzepts ist die Entkopplung der Komponenten
+in Gruppen die ausschließlich der Darstellung (View) bzw. Datenhaltung 
+(Model) dienen. Die Vermittlung zwischen beiden Gruppen übernimmt der 
+Controler, sodass die Views und Models keine direkten Abhängigkeiten haben.
+
+Für die Darstellung und Bearbeitung der Architektur ist es notwendig auch 
+view-spezifische Informationen für den Benutzer zu speichern (z.B. Position 
+der Architektur-Elemente), sodass hier ein View-Model zum Einsatz kommt, 
+welches das eigentliche Architektur-Model erweitert.\par
+
+Die Aufteilung in die Gruppen:\par
+
+{\bf View}
+\begin{itemize}
+    \item Komponente RollenView
+    \item Komponente ArchitekturEditor
+    \item Komponente Minimap
+    \item Komponente Task-/WorkflowView
+    \item Komponente TaskDetailView
+\end{itemize}\par
+
+{\bf Model}
+\begin{itemize}
+    \item Komponente ArchitekturModel
+    \item Komponente ArchitekturViewModel
+    \item Komponente GXL
+    \item Komponente MessageQueue
+\end{itemize}\par
+
+{\bf Controler}
+\begin{itemize}
+    \item Komponente Server-Kommunikation
+    \item Komponente VCM-Wrapper
+    \item Komponente GEF (teilweise 3rd-Party)
+    \item Komponente Eclipse-Plattform (teilweise 3rd-Party)
+    \item Komponente Team-Plugin (teilweise 3rd-Party)
+\end{itemize}\par
+
+\section{Viewkomponente RollenView}
+Die Rollenview zeigt in einem Baum die "Welt" des angemeldeten Benutzers an
+(siehe auch 2.1.1. und 2.2.4., Spezifikation I).\par
+
+Die Rollenview operiert über Eclipse-Plattform (ITreeContentProvider) auf der
+Komponente ArchitekturModel.
+
+Die Rollenview kann Aktionen auf der Komponente VCM-Wrapper auslösen sowie
+den Architektur-Editor steueren.
+
+\section{Viewkomponente ArchitekturEditor}
+Der Architektur-Editor wird mittels der Komponenten GEF realisiert und zeigt 
+die Produktlinienarchitektur gemäß 2.2.2., Spezifikation I an. Er operiert via
+GEF auf dem ArchitekturViewModel.
+Auch hier können Aktionen auf dem VCM-Wrapper ausgeführt werden.
+
+\section{Viewkomponente Minimap}
+Die Minimap (2.2.3., Spezifikation I) ist direkt mit dem Architektur-Editor 
+verknüpft.
+
+\section{Viewkomponente Task-/WorkflowView}
+Diese Komponente zeigt die Tasks und Workflows an. Sie operiert über die 
+Controlerkomponente Eclipse-Plattform (IMarker) auf der Komponente MessageQueue.
+
+\section{Viewkomponente TaskDetailView}
+Hier werden die Details zu einem Workflow angezeigt. Die Daten werden über die
+MessageQueue bezogen.
+
+\section{Modelkomponente ArchitekturModel}
+Das Architektur-Model enthält baumartig aufgebaut alle Informationen über die
+Produktlinie(n). Das umfasst Varianten, Komponenten, Assets und Benutzer.
+
+\section{Modelkomponente ArchitekturViewModel}
+Diese Komponente repräsentiert auf Model ebene all das, was im Architektur-
+Editor angezeigt wird. Das Viewmodel enthält zusätzlich noch Informationen 
+über die Position der einzelnen Viewelemente auf dem Canvas. Der Aufbau der
+ViewModel-Elemente erfolgt dynamisch auf Basis des Architektur-Models und 
+durchläuft Filter, die steuern, welche Elemente tatsächlich angezeigt werden 
+sollen. Somit wird eine performantere Darstellung gesichert.
+
+\section{Modelkomponente GXL}
+Import und Export der Architekturmodels von und nach GXL.
+
+\section{Modelkomponente MessageQueue}
+Diese Komponente ist die lokale Repräsentation der MessageQueue auf dem Server.
+Alle Nachrichten werden über die Server-Kommunikations-Komponente bezogen und 
+lokal gespeichert. Diese Komponente bedient über den Eclipse-Controler die
+Task-/Workflow-Viewkomponente.
+
+\section{Controlerkomponente Server-Kommunikation}
+Diese Komponente übernimmt die Kommunikation mit dem Kobold Server. Die 
+Kommunikation findet mittels HTTPS (SSL) und XML-RPC statt. Das Querschnitts-
+Interface ist unter Kapitel \ref{cha_interface} näher erläutert.
+
+\section{Controlerkomponente VCM-Wrapper}
+Der VCM-Wrapper spiegelt der Eclipse-Plattform ein vollfunktionsfähiges Team-
+Plugin vor, über das alle Repositoryoperationen durchgeführt werden. Intern
+gibt die Komponente die Aktionen jedoch an andere Team-Plugins weiter. Vor und
+nach jeder dieser Aktion wird die Kommunikations-Komponente konsultiert, um 
+den Server bzw. andere Clients über Veränderungen am Repository zu 
+informieren. Die VCM-Wrapper-Komponente kennt sowohl die Datei-Ebene und deren
+Repositories als auch die Abstraktion auf Produktlinien/Komponenten/Varianten.
+Für beide Ebenen lassen sich atomare (z.B. checkin) und komplexe VCM-
+Aktionen () ausführen. Die nötigen Informationen über 
+Repository-Positionen und Struktur bezieht der VCM-Wrapper über die Server-
+Kommunikations-Komponente sowie das Architekturmodel.
+
+\section{Controlerkomponente GEF}
+Das Graphical Editing Framework ist ein MVC-basiertes Editing-Framework von 
+Eclipse. Der Architektur-Editor setzt darauf auf und kommuniziert über darüber
+mit dem ArchitekturViewModel.
+
+\section{Controlerkomponente Eclipse-Plattform}
+Die Eclipse-Plattform bietet viele MVC-unterstützende Klassen und Komponenten
+mit deren Hilfe die Trennung zwischen Model und View ermöglicht wird.
+
+\section{Controlerkomponente Team-Plugin}
+Die Teamplugins sind die Team-Komponenten an die der VCM-Wrapper die Anfragen
+weiterdelegiert. In der Eclipse-Plattform ist das CVS-Team-Plugin bereits 
+enthalten. Weitere Plugins sind als 3rd-Party-Module verfügbar.

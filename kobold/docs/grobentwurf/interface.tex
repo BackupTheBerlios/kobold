@@ -1,0 +1,281 @@
+\chapter{Interface} \label{cha_interface}
+Die Kommunikation zwischen Client und Server erfolgt via XML-RPC. 
+Dazu muss auf beiden Seiten eine Schnittstelle definiert sein.
+
+\section{Synchrone Kommunikation}
+Die synchrone Kommunikation dient der direkten Abfrage des Servers sowie zum
+An- und Abmelden des Clients bzw. des Benutzers.
+
+Folgende Methoden sind definiert:\par
+
+\subsection{Authentifizierung}
+\verb+/**+\\
+\verb+ * Anmelden eines Benutzers.+\\
+\verb+ * Der Benutzer wird authentifiert und es wird eine Session angelegt.+\\
+\verb+ *+\\
+\verb+ * @param username - Benutzername+\\
+\verb+ * @param password - Passwort+\\
+\verb+ *+\\
+\verb+ * @return mixed   - Gemischte Datenstruktur, enthält Informationen+\\
+\verb+ *                   über den Benutzer, dessen Rollen, Produktlinien+\\
+\verb+ *                   und Produkten denen er angehört.+\\
+\verb+ *                   Ausserdem wird die Session-ID zurueckgegeben.+\\
+\verb+ *                   Ein Fehlschlag der Authentifizierung gibt false.+\\
+\verb+ *                   zurück.+\\
+\verb+ */+\\
+\verb+mixed login(String username, String password)+\\
+
+\verb+/**+\\
+\verb+ * Abmelden eines Benutzers.+\\
+\verb+ * Der Benutzer wird abgemeldet und die Session zerstört.+\\
+\verb+ *+\\
+\verb+ * @param sessionId - SessionId+\\
+\verb+ *+\\
+\verb+ */+\\
+\verb+void logout(String sessionId)+\\
+
+\subsection{Benutzerverwaltung}
+\verb+/**+\\
+\verb+ * Hinzufügen eines Benutzers.+\\
+\verb+ *+\\
+\verb+ * @param sessionId - SessionId+\\
+\verb+ * @param info      - Benutzerinformationen+\\
+\verb+ *+\\
+\verb+ * @return boolean  - Erfolgreich?+\\
+\verb+ */+\\
+\verb+boolean addUser(String sessionId, mixed info)+\\
+
+\verb+/**+\\
+\verb+ * Entfernen eines Benutzers.+\\
+\verb+ *+\\
+\verb+ * @param sessionId - SessionId+\\
+\verb+ * @param username  - Benutzername+\\
+\verb+ *+\\
+\verb+ * @return boolean  - Erfolgreich?+\\
+\verb+ */+\\
+\verb+boolean removeUser(String sessionId, String username)+\\
+
+\verb+/**+\\
+\verb+ * Abfrage eines Benutzers.+\\
+\verb+ *+\\
+\verb+ * @param sessionId - SessionId+\\
+\verb+ * @param username  - Benutzername+\\
+\verb+ *+\\
+\verb+ * @return mixed    - Benutzerinformationen+\\
+\verb+ */+\\
+\verb+mixed getUser(String sessionId, String username)+\\
+
+\verb+/**+\\
+\verb+ * Modifizieren eines Benutzers.+\\
+\verb+ *+\\
+\verb+ * @param sessionId - SessionId+\\
+\verb+ * @param username  - Benutzername+\\
+\verb+ * @param info      - Benutzerinformationen+\\
+\verb+ *+\\
+\verb+ * @return boolean  - Erfolgreich?+\\
+\verb+ */+\\
+\verb+boolean modifyUser(String sessionId, String username, mixed info)+\\
+
+\verb+/**+\\
+\verb+ * Liste der Benutzer abfragen.+\\
+\verb+ *+\\
+\verb+ * @param sessionId - SessionId+\\
+\verb+ *+\\
+\verb+ * @return list     - Liste aller Benutzernamen+\\
+\verb+ */+\\
+\verb+list getUsers(String sessionId)+\\
+
+\subsection{Produktlinienverwaltung}
+\verb+/**+\\
+\verb+ * Hinzufügen einer Produktlinie.+\\
+\verb+ *+\\
+\verb+ * @param sessionId - SessionId+\\
+\verb+ * @param info      - Produktlinieninformationen+\\
+\verb+ *+\\
+\verb+ * @return boolean  - Erfolgreich?+\\
+\verb+ */+\\
+\verb+boolean addProductline(String sessionId, mixed info)+\\
+
+\verb+/**+\\
+\verb+ * Entfernen einer Produktlinie.+\\
+\verb+ *+\\
+\verb+ * @param sessionId    - SessionId+\\
+\verb+ * @param productline  - ProduktlinienID+\\
+\verb+ *+\\
+\verb+ * @return boolean     - Erfolgreich?+\\
+\verb+ */+\\
+\verb+boolean removeProductline(String sessionId, String productline)+\\
+
+\verb+/**+\\
+\verb+ * Abfrage einer Produktlinie.+\\
+\verb+ *+\\
+\verb+ * @param sessionId    - SessionId+\\
+\verb+ * @param productline  - ProduktlinienID+\\
+\verb+ *+\\
+\verb+ * @return mixed       - Produktlinieninformationen+\\
+\verb+ */+\\
+\verb+mixed getProductline(String sessionId, String productline)+\\
+
+\verb+/**+\\
+\verb+ * Modifizieren einer Produktlinie.+\\
+\verb+ *+\\
+\verb+ * @param sessionId    - SessionId+\\
+\verb+ * @param productline  - ProduktlinienID+\\
+\verb+ * @param info         - Produktlinieninformationen+\\
+\verb+ *+\\
+\verb+ * @return boolean     - Erfolgreich?+\\
+\verb+ */+\\
+\verb+boolean modifyProductline(String sessionId, String productline,+\\
+\verb+                                            mixed info)+\\
+\verb+/**+\\
+\verb+ * Liste der Produktlinien abfragen.+\\
+\verb+ *+\\
+\verb+ * @param sessionId - SessionId+\\
+\verb+ *+\\
+\verb+ * @return list     - Liste aller Produktlinien+\\
+\verb+ */+\\
+\verb+list getProductlines(String sessionId)+\\
+
+\verb+/**+\\
+\verb+ * Benutzer zu der Produktlinie hinzufügen.+\\
+\verb+ *+\\
+\verb+ * @param session     - SessionId+\\
+\verb+ * @param productline - ProduktlinienId+\\
+\verb+ * @param user        - BenutzerId+\\
+\verb+ */+\\
+\verb+void addUserToPL(String sessionId, String productline, String user)+\\
+
+\verb+/**+\\
+\verb+ * Benutzer von der Produktlinie entfernen.+\\
+\verb+ *+\\
+\verb+ * @param session     - SessionId+\\
+\verb+ * @param productline - ProduktlinienId+\\
+\verb+ * @param user        - BenutzerId+\\
+\verb+ */+\\
+\verb+void removeUserFromPL(String sessionId, String productline,)+\\
+\verb+                                        String user)+\\
+
+\verb+/**+\\
+\verb+ * Liste der Produktlinien-Benutzer abfragen.+\\
+\verb+ *+\\
+\verb+ * @param sessionId   - SessionId+\\
+\verb+ * @param productline - ProduktlinienId+\\
+\verb+ *+\\
+\verb+ * @return list       - Liste aller Produktlinienbenutzer+\\
+\verb+ */+\\
+\verb+list getPLUsers(String sessionId, String productline)+\\
+
+
+
+\subsection{Produktverwaltung}
+\verb+/**+\\
+\verb+ * Hinzufügen eines Produkts zu einer Produktlinie.+\\
+\verb+ *+\\
+\verb+ * @param sessionId   - SessionId+\\
+\verb+ * @param productline - ProduktlinienID+\\
+\verb+ * @param info        - Produktinformationen+\\
+\verb+ *+\\
+\verb+ * @return String     - ProduktID+\\
+\verb+ */+\\
+\verb+String addProduct(String sessionId, String productline, mixed info)+\\
+
+\verb+/**+\\
+\verb+ * Entfernen eines Produkts aus einer Produktlinie.+\\
+\verb+ *+\\
+\verb+ * @param sessionId   - SessionId+\\
+\verb+ * @param productline - ProduktlinienID+\\
+\verb+ * @param product     - ProduktID+\\
+\verb+ *+\\
+\verb+ * @return boolean    - Erfolgreich?+\\
+\verb+ */+\\
+\verb+boolean removeProduct(String sessionId, String productline,)+\\
+\verb+                                        String product)+\\
+
+\verb+/**+\\
+\verb+ * Abfrage eines Produkt.+\\
+\verb+ *+\\
+\verb+ * @param sessionId - SessionId+\\
+\verb+ * @param product   - ProduktID+\\
+\verb+ *+\\
+\verb+ * @return mixed    - Produktlinieninformationen+\\
+\verb+ */+\\
+\verb+mixed getProduct(String sessionId, String product)+\\
+
+\verb+/**+\\
+\verb+ * Modifizieren eines Produkts.+\\
+\verb+ *+\\
+\verb+ * @param sessionId - SessionId+\\
+\verb+ * @param product   - ProduktID+\\
+\verb+ * @param info      - Produktinformationen+\\
+\verb+ *+\\
+\verb+ * @return boolean  - Erfolgreich?+\\
+\verb+ */+\\
+\verb+boolean modifyProduct(String sessionId, String product, mixed info)+\\
+
+\verb+/**+\\
+\verb+ * Liste der Produkte abfragen.+\\
+\verb+ *+\\
+\verb+ * @param sessionId   - SessionId+\\
+\verb+ * @param productline - ProduktlinienID+\\
+\verb+ *+\\
+\verb+ * @return list       - Liste aller Produkte in der Produktlinie+\\
+\verb+ */+\\
+\verb+list getProducts(String sessionId, String productline)+\\
+
+
+\verb+/**+\\
+\verb+ * Benutzer zu dem Produkt hinzufügen.+\\
+\verb+ *+\\
+\verb+ * @param session - SessionId+\\
+\verb+ * @param product - ProduktId+\\
+\verb+ * @param user    - BenutzerId+\\
+\verb+ */+\\
+\verb+void addUserToP(String sessionId, String product, String user)+\\
+
+\verb+/**+\\
+\verb+ * Benutzer von dem Produkt entfernen.+\\
+\verb+ *+\\
+\verb+ * @param session - SessionId+\\
+\verb+ * @param product - ProduktId+\\
+\verb+ * @param user    - BenutzerId+\\
+\verb+ */+\\
+\verb+void removeUserFromP(String sessionId, String product, String user)+\\
+
+\verb+/**+\\
+\verb+ * Liste der Produkt-Benutzer abfragen.+\\
+\verb+ *+\\
+\verb+ * @param sessionId - SessionId+\\
+\verb+ * @param product   - ProduktId+\\
+\verb+ *+\\
+\verb+ * @return list       - Liste aller Produktbenutzer+\\
+\verb+ */+\\
+\verb+list getPUsers(String sessionId, String product)+\\
+
+\section{Asynchrone Kommunikation}
+Die asynchrone Kommunikation wird zum Datenaustausch zwischen den Clients
+verwendet. Es werden Nachrichten/Workflows an den Server gesendet und in die 
+MessageQueue einsortiert. Die betreffenden Clients holen sich die Nachricht
+dort ab.
+
+Folgende Methoden sind definiert:\par
+
+\verb+/**+\\
+\verb+ * Nachricht/Workflow/Aktion versenden.+\\
+\verb+ * Zieladressen etc. werden mit in das Message-Object kodiert.+\\
+\verb+ *+\\
+\verb+ * @param session - SessionId+\\
+\verb+ * @param message - Nachricht/Aktion/Workflow+\\
+\verb+ */+\\
+\verb+void sendMessage(String sessionId,  mixed message)+\\
+
+\verb+/**+\\
+\verb+ * Nachrichten abfragen.+\\
+\verb+ * Es werden alle Nachrichten von der MessageQueue des Benutzers+\\
+\verb+ * an den Client übertragen. Die Nachrichten werden danach von+\\
+\verb+ * der MessageQueue gelöscht.+\\
+\verb+ *+\\
+\verb+ * @param sessionId - SessionId+\\
+\verb+ *+\\
+\verb+ * @return list     - Nachrichtenobjekte+\\
+\verb+ */+\\
+\verb+list getMessages(String sessionId)+\\
