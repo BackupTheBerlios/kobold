@@ -417,6 +417,22 @@ Prüfungszeit, in der die Mehrzahl der Team-Mitglieder ausfiehl.
 
 \section{Umfang der Module}
 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=15cm]{praesentation/modulgroessen}
+  \caption{Umfang der Module in Codezeilen}
+\end{figure}
+
+Dieses Diagramm zeigt Größenverhältnisse der Module, gemessen in
+Quellcodezeilen. Dabei fällt das PLAM-Modul besonders groß aus, da sich
+in diesem Modul die gesamte GUI-Implementierung befindet. Die Größen der
+VCM, Common und Server-Module spiegeln in keinem Fall den Aufwand wieder. 
+
+Die Daten des Tests befinden sich in dem Modul "other". Allerdings ist zu
+berücksichtigen, dass die meisten Testdaten dort nicht inbegriffen sind und
+der automatisierte Test in den Modulen des jeweils zu testenden Teiles enthalten
+sind. 
+
 %TODO!
 
 \section{Aufwand für die einzelnen Phasen}
@@ -424,7 +440,7 @@ Prüfungszeit, in der die Mehrzahl der Team-Mitglieder ausfiehl.
 \begin{figure}[h!]
   \centering
   \includegraphics[width=15cm]{praesentation/aufwand_pro_phase}
-  \caption{Uhrzeiten der CVS Repository Aktivität}
+  \caption{Aufwand pro Phase gemessen in Arbeitszeit}
 \end{figure}
 
 Das Diagramm zeigt den prozentuellen Anteil der Arbeitszeit, die für die einzelnen
