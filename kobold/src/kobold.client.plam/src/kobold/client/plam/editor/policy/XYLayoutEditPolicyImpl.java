@@ -21,15 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: XYLayoutEditPolicyImpl.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
+ * $Id: XYLayoutEditPolicyImpl.java,v 1.2 2004/08/23 14:36:58 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
 
 import kobold.client.plam.editor.command.SetConstraintCommand;
+import kobold.client.plam.editor.editpart.MetaEditPart;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.MetaNode;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DefaultEditDomain;
@@ -44,7 +46,7 @@ import org.eclipse.gef.requests.CreateRequest;
  * XYLayoutEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: XYLayoutEditPolicyImpl.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
+ * @version $Id: XYLayoutEditPolicyImpl.java,v 1.2 2004/08/23 14:36:58 vanto Exp $
  */
 public class XYLayoutEditPolicyImpl 
 	extends org.eclipse.gef.editpolicies.XYLayoutEditPolicy {
@@ -60,10 +62,16 @@ public class XYLayoutEditPolicyImpl
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
-		SetConstraintCommand locationCommand = new SetConstraintCommand();
+        SetConstraintCommand locationCommand = new SetConstraintCommand();
 	    IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getHost().getViewer().getEditDomain()).getEditorPart();
 		ViewModel vp = vmp.getViewModelContainer().getViewModel((AbstractAsset)child.getModel());
 		locationCommand.setViewModel(vp);
+
+		// dont resize meta nodes
+        if (child instanceof MetaEditPart) {
+            ((Rectangle)constraint).setSize(-1, -1);
+        }
+
 		locationCommand.setLocation((Rectangle)constraint);
 		return locationCommand;
     }
@@ -72,12 +80,18 @@ public class XYLayoutEditPolicyImpl
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
      */
     protected Command getCreateCommand(CreateRequest request) {
-		SetConstraintCommand locationCommand = new SetConstraintCommand();
+        SetConstraintCommand locationCommand = new SetConstraintCommand();
 
 	    IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getHost().getViewer().getEditDomain()).getEditorPart();
 		ViewModel vp = vmp.getViewModelContainer().getViewModel((AbstractAsset)request.getNewObject());
 		locationCommand.setViewModel(vp);
 		Rectangle constraint = (Rectangle)getConstraintFor(request);
+
+		// dont resize meta nodes
+        if (request.getNewObject() instanceof MetaNode) {
+            constraint.setSize(-1, -1);
+        }
+
 		locationCommand.setLocation(constraint);
 		return locationCommand;
     }

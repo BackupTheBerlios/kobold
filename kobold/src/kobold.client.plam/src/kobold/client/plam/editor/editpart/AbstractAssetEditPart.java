@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAssetEditPart.java,v 1.8 2004/08/06 01:30:02 vanto Exp $
+ * $Id: AbstractAssetEditPart.java,v 1.9 2004/08/23 14:36:58 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -131,7 +131,7 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
 		return (AbstractAsset)getModel();
 	}
 	
-	private ViewModel getViewModel()
+	protected ViewModel getViewModel()
 	{
 	    IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getViewer().getEditDomain()).getEditorPart();
 	    return vmp.getViewModelContainer().getViewModel(getAsset());

@@ -22,7 +22,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaNode.java,v 1.7 2004/08/23 10:04:44 vanto Exp $
+ * $Id: MetaNode.java,v 1.8 2004/08/23 14:36:58 vanto Exp $
  *
  */ 
 package kobold.client.plam.model;
@@ -95,15 +95,15 @@ public class MetaNode  extends AbstractAsset {
             type = MetaNode.OR;
         }
         
-        if (element.attributeValue("edgeType").equals(Edge.EXCLUDE)) {
+        if (element.attributeValue("edgeType", "").equals(Edge.EXCLUDE)) {
             edgeType = Edge.EXCLUDE;
-        } else if (element.attributeValue("edgeType").equals(Edge.INCLUDE)) {
+        } else if (element.attributeValue("edgeType", "").equals(Edge.INCLUDE)) {
             edgeType = Edge.INCLUDE;
         } else {
             edgeType = null;
         }
-
     }
+    
     public Element serialize()
     {
         Element root = super.serialize();

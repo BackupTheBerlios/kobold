@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.12 2004/08/06 10:50:58 vanto Exp $
+ * $Id: KoboldProject.java,v 1.13 2004/08/23 14:36:58 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -210,6 +210,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	        p.addComponent(new SpecificComponent("test"));
 	        p.addComponent(new SpecificComponent("test2"));
 	        p.setProject(this);
+	        p.setResource("testp");
 	        productline.addProduct(p);
 
 

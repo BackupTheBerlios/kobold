@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.12 2004/08/22 12:44:56 memyselfandi Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.13 2004/08/23 14:36:58 vanto Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -47,6 +47,7 @@ import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -69,7 +70,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -93,6 +96,17 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     
     private TableViewer viewer;
     private Table maintainer;
+    
+	private Listener textModifyListener = new Listener() {
+		public void handleEvent(Event e) {
+			if (validatePage()) {
+			    getButton(IDialogConstants.OK_ID).setEnabled(true);
+			} else {
+			    getButton(IDialogConstants.OK_ID).setEnabled(false);
+			}
+		}
+	};
+	
     /**
      * @param parentShell
      */
@@ -143,11 +157,14 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
 			| GridData.FILL_HORIZONTAL);
 		resource.setLayoutData(gd);
+
     		
 		if (asset.getResource() != null) {
 		    resource.setText(asset.getResource());
+		} else {
+		    resource.setText(asset.getName());
 		}
-		else resource.setText(asset.getName());
+		
 		label = new Label(panel, SWT.NONE);
 		label.setText(IDEWorkbenchMessages
 				.getString("Description:")); //$NON-NLS-1$
@@ -178,6 +195,9 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 			    deprecated.setEnabled(true);
 			}
 		}
+
+		name.addListener(SWT.Modify, textModifyListener);
+		resource.addListener(SWT.Modify, textModifyListener);
 		
 		if (asset instanceof AbstractMaintainedAsset) {
 		    createMaintainerArea(panel);
@@ -480,5 +500,24 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         while (it.hasNext()) {
             makeAssetDeprecated((AbstractAsset)it.next());
         }
+    }
+    
+    private boolean validatePage()
+    {
+        String str = resource.getText();
+        if (str.length() == 0) {
+            setErrorMessage("Resource must not be empty - please choose an unique resource name.");
+            return false;
+        }
+        
+        str = name.getText();
+        if (str.length() == 0) {
+            setMessage("Name should not be empty.",  IMessageProvider.WARNING);
+            return false;
+        }
+        
+    	setErrorMessage(null);
+		setMessage(null);
+        return true;
     }
 }
