@@ -21,12 +21,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.7 2004/06/17 13:30:31 rendgeor Exp $
+ * $Id: ProductLineTest.java,v 1.8 2004/06/22 12:50:55 vanto Exp $
  *
  */
 package kobold.common.data.plam;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
+
 import junit.framework.TestCase;
-import kobold.common.exceptions.BogusProductlineException;
+import kobold.common.model.FileDescriptor;
+import kobold.common.model.Release;
+import kobold.common.model.productline.Component;
+import kobold.common.model.productline.Productline;
+import kobold.common.model.productline.Variant;
 
 
 
@@ -54,7 +62,7 @@ public class ProductLineTest extends TestCase {
 		
 		/////--------Product----------------
 		//add a product
-		Product productA = new Product ("me");
+		/*Product productA = new Product ("me");
 		productA.setRepositoryPath("cvs.berlios.de");
 		Product productB = new Product ("xp");
 		productA.setRepositoryPath("svn.berlios.de");
@@ -66,90 +74,91 @@ public class ProductLineTest extends TestCase {
 		ComponentSpecific componentC = new ComponentSpecific ("compC");
 		productA.addComponent(componentC);
 		
-		//--add version
-		Version versionA = new Version ("versA");
-		Version versionB = new Version ("versB");
+		//--add Release
+		Release releaseA = new Release ("versA");
+		Release releaseB = new Release ("versB");
 
-		componentC.addVersion(versionA);
-		componentC.addVersion(versionB);
+		componentC.addRelease(releaseA);
+		componentC.addRelease(releaseB);
 
 		//--add FD
 		FileDescriptor fd1 = new FileDescriptor ("fd1");
 		fd1.setPath("/tmp/");
-		versionA.addFileDescriptor(fd1);
+		releaseA.addFileDescriptor(fd1);
 		
 		//--add a second FD
 		FileDescriptor fd1_1 = new FileDescriptor ("fd1_1");
 		FileDescriptor fd1_2 = new FileDescriptor ("fd1_2");
 		fd1_2.setLastAuthor("garbeam");
-		fd1_2.setLastChangeDate("11.12.2323");
-		fd1_2.setVersion("1.2.3");
+		fd1_2.setLastChanged(new Date());
+		fd1_2.setRevision("1.2.3");
 		fd1_2.setPath("hallo.dat");
 		
 		fd1.addFileDescriptor(fd1_1);
 		fd1.addFileDescriptor(fd1_2);
 		
-		
+		*/
 
-		//versionB has no FD!
+		//ReleaseB has no FD!
 		
 		/////--------CoreAsset--------------------------------------------------
 		//add a component
-		CoreAsset coreAssetA = new CoreAsset ("coreAssetA");
+		Component coreAssetA = new Component("coreAssetA");
 		coreAssetA.setRepositoryPath("cvs.berlios.de");
-		CoreAsset coreAssetB = new CoreAsset ("coreAssetB");
+		Component coreAssetB = new Component("coreAssetB");
 		coreAssetB.setRepositoryPath("svn.berlios.de");
 		
 		pl.addCoreAsset(coreAssetA);
 		pl.addCoreAsset(coreAssetB);
 
-		//--add component
-		ComponentRelated componentA = new ComponentRelated ("compA");
-		ComponentRelated componentB = new ComponentRelated ("compB");
-
-		coreAssetA.addComponent(componentA);
-		coreAssetA.addComponent(componentB);
-		
 		//--add variant--\\
 		Variant variantA = new Variant ("varA");
 		Variant variantB = new Variant ("varB");
 		
-		componentA.addVariant(variantA);
-		componentA.addVariant(variantB);
+		coreAssetA.addVariant(variantA);
+		coreAssetA.addVariant(variantB);
 
-		//--add version		
-		Version versionC = new Version ("versC");
-		Version versionD = new Version ("versD");
+		//--add Release		
+		Release ReleaseC = new Release ("versC");
+		Release ReleaseD = new Release ("versD");
 
-		variantA.addVersion(versionC);
-		variantA.addVersion(versionD);
+		variantA.addRelease(ReleaseC);
+		variantA.addRelease(ReleaseD);
 
 		//--add FD
 		FileDescriptor fd2 = new FileDescriptor ("fd2");
 		
-		versionC.addFileDescriptor(fd2);
+		ReleaseC.addFileDescriptor(fd2);
 
-		//versionB has no FD!
+		//ReleaseB has no FD!
 		
 		//\\--add component to a variant
-		ComponentRelated componentD = new ComponentRelated ("compC");
+		Component componentD = new Component("compC");
 		variantA.addComponent(componentD);
 		
 		//getParents and Roots
-		Version versionGet = (Version) fd2.getParent();
-		try
-		{
+		Release releaseGet = (Release) fd2.getParent();
 		Productline plGet = (Productline) fd2.getRoot ();
-		}
-		catch (BogusProductlineException e)
-		{
-		System.out.print("ERROR_WHILE_GET_ROOT");	
-		}
 		
 		//------------------------------
 		//serialize the whole product-line (all included)
 		// .productlinemetainfo 
-		pl.serialize("test-productlinemetainfo.xml", 0);
+		Element ser = pl.serialize();
+		try {
+			XMLWriter w = new XMLWriter(System.out, OutputFormat.createPrettyPrint());
+			w.write(ser);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		ser = coreAssetA.serialize();
+		try {
+			XMLWriter w = new XMLWriter(System.out, OutputFormat.createPrettyPrint());
+			w.write(ser);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		//.productmetainfo 
 		//pl.serialize("test-productmetainfo.xml", 1);
 		//.coreassetmetainfo 

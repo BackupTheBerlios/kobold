@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.3 2004/06/22 11:29:15 vanto Exp $
+ * $Id: Productline.java,v 1.4 2004/06/22 12:50:55 vanto Exp $
  *
  */
 package kobold.common.model.productline;
@@ -64,6 +64,7 @@ public class Productline extends AbstractAsset{
 	public void addProduct(Product product) {
 		products.add(product);
 		product.setParent(this);
+		fireStructureChange(AbstractAsset.ID_CHILDREN, product);
 	}
 
 	/**
@@ -74,6 +75,7 @@ public class Productline extends AbstractAsset{
 	public void removeProduct(Product product){
 		products.remove(product);
 		product.setParent(null);
+		fireStructureChange(AbstractAsset.ID_CHILDREN, product);
 	}
 		
 	/**
@@ -92,6 +94,7 @@ public class Productline extends AbstractAsset{
 	public void addCoreAsset(Component coreAsset) {
 		coreAssets.add(coreAsset);
 		coreAsset.setParent(this);
+		fireStructureChange(AbstractAsset.ID_CHILDREN, coreAsset);
 	}
 
 	/**
@@ -102,6 +105,7 @@ public class Productline extends AbstractAsset{
 	public void removeProduct (Component coreAsset){
 		coreAssets.remove(coreAsset);
 		coreAsset.setParent(null);
+		fireStructureChange(AbstractAsset.ID_CHILDREN, coreAsset);
 	}
 	
 	
@@ -191,5 +195,6 @@ public class Productline extends AbstractAsset{
 	 */
 	public void setRepositoryPath(String repositoryPath) {
 		this.repositoryPath = repositoryPath;
+		firePropertyChange(AbstractAsset.ID_DATA, null, repositoryPath);
 	}
 }

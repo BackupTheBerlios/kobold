@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.3 2004/06/22 11:29:15 vanto Exp $
+ * $Id: Component.java,v 1.4 2004/06/22 12:50:55 vanto Exp $
  *
  */
 
@@ -122,6 +122,7 @@ public class Component extends AbstractAsset {
 	{
 		variants.add(variant);
 		variant.setParent(this);
+		fireStructureChange(AbstractAsset.ID_CHILDREN, variant);
 	}
     
 	/**
@@ -133,6 +134,7 @@ public class Component extends AbstractAsset {
 	{
 	    variants.remove(variant);
 	    variant.setParent(null);
+	    fireStructureChange(AbstractAsset.ID_CHILDREN, variant);
 	}
 	
 	/**
@@ -157,5 +159,6 @@ public class Component extends AbstractAsset {
 	 */
 	public void setRepositoryPath(String repositoryPath) {
 		this.repositoryPath = repositoryPath;
+		firePropertyChange(ID_DATA, null, repositoryPath);
 	}
 }

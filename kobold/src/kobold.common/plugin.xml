@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
 <plugin
    id="kobold.commons"
    name="Kobold Commons Plug-in"
@@ -33,10 +34,12 @@
       </library>
    </runtime>
    <requires>
+      <import plugin="org.eclipse.core.runtime.compatibility"/>
       <import plugin="org.eclipse.osgi"/>
       <import plugin="org.eclipse.osgi.services"/>
       <import plugin="org.eclipse.osgi.util"/>
       <import plugin="org.junit"/>
+      <import plugin="org.eclipse.ui"/>
    </requires>
 
 

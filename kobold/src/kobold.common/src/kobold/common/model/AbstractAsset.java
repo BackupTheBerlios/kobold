@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.3 2004/06/22 11:29:15 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.4 2004/06/22 12:50:55 vanto Exp $
  *
  */
 package kobold.common.model;
@@ -55,6 +55,13 @@ public abstract class AbstractAsset implements ISerializable
 
     protected transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     
+	public static final String
+		ID_CHILDREN = "children", 	//$NON-NLS-1$
+		ID_SIZE = "size",         //$NON-NLS-1$
+		ID_LOCATION = "location", //$NON-NLS-1$
+		ID_DATA = "data", //$NON-NLS-1$
+		ID_STATUS = "status"; //$NON-NLS-1$
+
     private String name;
     private String id;
     private AbstractAsset parent;
@@ -71,8 +78,6 @@ public abstract class AbstractAsset implements ISerializable
         this.name = name;
         this.id = IdManager.getInstance().getModelId(getType());
         this.parent = null;
-        //sets the parent
-        //setParent ();
     }
 
     /**
@@ -97,6 +102,7 @@ public abstract class AbstractAsset implements ISerializable
     public void setName(String name)
     {
         this.name = name;
+        firePropertyChange(ID_DATA, null, name);
     }
 
     /**
@@ -107,6 +113,7 @@ public abstract class AbstractAsset implements ISerializable
     public void setDescription(String description)
     {
         this.description = description;
+        firePropertyChange(ID_DATA, null, description);
     }
 
     /**
@@ -127,6 +134,7 @@ public abstract class AbstractAsset implements ISerializable
     public void addStatus(AbstractStatus status)
     {
         statusSet.add(status);
+        fireStructureChange(ID_STATUS, status);
     }
 
     /**
@@ -137,6 +145,7 @@ public abstract class AbstractAsset implements ISerializable
     public void removeStatus(AbstractStatus status)
     {
         statusSet.remove(status);
+        fireStructureChange(ID_STATUS, status);
     }
 
     /**
@@ -186,7 +195,7 @@ public abstract class AbstractAsset implements ISerializable
     public Element serialize() 
     {
         Element element = DocumentHelper.createElement(getType());
-        element.addElement("id").setText(id);
+        element.addAttribute("id", id);
         
         Element nameEl = element.addElement("name");
         if (name != null) {
@@ -210,7 +219,16 @@ public abstract class AbstractAsset implements ISerializable
     
     public void deserialize(Element element) 
     {
-      //TODO    
+        id = element.attributeValue("id");
+        //FIXME: Notify IdManager about the usage of this id
+        name = element.elementTextTrim("name");
+        description = element.elementTextTrim("description");
+        
+    	Iterator it = element.element("states").elementIterator("status");
+		while (it.hasNext()) {
+		    Element stEl = (Element)it.next();
+		    addStatus(AbstractStatus.createStatus(stEl));
+		}
     }
     
     /**
@@ -231,11 +249,11 @@ public abstract class AbstractAsset implements ISerializable
 		listeners.removePropertyChangeListener(l);
 	}
 
-	protected void firePropertyChange(String prop, Object old, Object newValue){
+	protected final void firePropertyChange(String prop, Object old, Object newValue){
 		listeners.firePropertyChange(prop, old, newValue);
 	}
 
-	protected void fireStructureChange(String prop, Object child){
+	protected final void fireStructureChange(String prop, Object child){
 		listeners.firePropertyChange(prop, null, child);
 	}
 }
