@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
  * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
  * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.37 2004/11/22 21:51:54 garbeam Exp $
+ * $Id: KoboldProject.java,v 1.38 2004/11/25 22:37:56 garbeam Exp $
  *
  */
 package kobold.client.plam;
