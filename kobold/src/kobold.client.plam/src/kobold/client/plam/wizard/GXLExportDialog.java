@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.14 2004/08/23 08:33:34 martinplies Exp $
+ * $Id: GXLExportDialog.java,v 1.15 2004/08/24 13:30:38 martinplies Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -290,15 +290,14 @@ public class GXLExportDialog extends TitleAreaDialog {
                       // add MetaNode       
                       GXLNode gxlNode = ((MetaNode)node).createGXLGraph(nodeMap);
                       graph.add(gxlNode); 
-                      
-                      nodeMap.put(node, gxlNode);
+                                            
                       addEdge(edge, graph, nodeMap, addedEdges);                       
                   }                  
                 } else if(nodeMap.containsKey(edge.getTargetNode())) {
-                    edgesAdd = true;
                     if (! MetaNode.class.equals(edge.getStartNode().getClass())){
                        addEdge(edge, graph, nodeMap, addedEdges);
                     }
+                    return true;
                 }
             }
         }
@@ -331,7 +330,7 @@ public class GXLExportDialog extends TitleAreaDialog {
                     .getTargetNode());
             GXLEdge gxlEdge = new GXLEdge(form, to);
             graph.add(gxlEdge);
-          //  addedEdges.add(edge); 
+            addedEdges.add(edge); 
         }
     }  
     
