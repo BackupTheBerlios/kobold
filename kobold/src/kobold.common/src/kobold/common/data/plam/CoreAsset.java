@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CoreAsset.java,v 1.1 2004/06/03 12:01:50 rendgeor Exp $
+ * $Id: CoreAsset.java,v 1.2 2004/06/03 13:44:17 rendgeor Exp $
  *
  */
 
@@ -68,7 +68,7 @@ public class CoreAsset implements IAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element product = DocumentHelper.createElement("product");
+		Element product = DocumentHelper.createElement("coreAsset");
 		product.addText(this.coreAssetName);
 		//product.addElement("productline").addText(this.productLineName);
 		return product;
@@ -79,7 +79,7 @@ public class CoreAsset implements IAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		Element product = element.element("product");
+		Element product = element.element("coreAsset");
 		this.coreAssetName = element.getText();
 		//this.productLineName = element.elementText("productline");
 	}

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptor.java,v 1.1 2004/06/03 12:01:50 rendgeor Exp $
+ * $Id: FileDescriptor.java,v 1.2 2004/06/03 13:44:17 rendgeor Exp $
  *
  */
 
@@ -167,4 +167,6 @@ public class FileDescriptor implements IAsset {
 	public void setVersion(String version) {
 		this.version = version;
 	}
+	
+
 }
