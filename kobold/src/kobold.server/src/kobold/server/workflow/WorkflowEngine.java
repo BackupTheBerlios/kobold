@@ -21,20 +21,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.3 2004/05/05 20:32:05 bettina Exp $
+ * $Id: WorkflowEngine.java,v 1.4 2004/05/06 23:07:20 garbeam Exp $
  *
  */
 package kobold.server.workflow;
 
+import java.net.URL;
+import java.util.List;
+
 import kobold.common.data.WorkflowMessage;
 
-import org.drools.*;
+import org.drools.FactException;
+import org.drools.RuleBase;
+import org.drools.WorkingMemory;
 import org.drools.io.RuleBaseBuilder;
-import org.drools.rule.*;
-import org.drools.conflict.*;
-
-import java.util.*;
-import java.net.*;
 
 /**
  * This class mediates between Kobold and drools. 

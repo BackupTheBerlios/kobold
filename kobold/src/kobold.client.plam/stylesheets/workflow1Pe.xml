@@ -1,0 +1,12 @@
+<?xml version = "1.0"?>
+<?xml-stylesheet type = "text/xsl" href = "styleSheets/workflow.xsl" ?>
+<workflow>
+<line> <header> File fur CoreGroup Vorschlag </header> </line>
+<line></line>
+<line> <sender>Herr Hugo DD </sender><text> <text><reciver>hans Muller</reciver></line>
+<line><text> Wurde gerne Datei Glucks. in coreGroup hinzufugen </text></line>
+<line> <textfield namen="t1"/> 
+<line> <interaction name="radioB" value="a" type="radio"> weiterleiten</interaction></line>
+<line> <interaction name="radioB" value="b" type="radio"> ablehnen</interaction></line>
+<line> <interaction type="submit"> abschicken</interaction></line>
+</workflow>
