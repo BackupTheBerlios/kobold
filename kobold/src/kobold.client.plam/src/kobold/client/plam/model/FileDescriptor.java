@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.16 2004/08/24 13:12:56 rendgeor Exp $
+ * $Id: FileDescriptor.java,v 1.17 2004/08/25 04:08:08 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -229,7 +229,11 @@ public class FileDescriptor implements IFileDescriptorContainer, INode, IGXLExpo
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
 	 */
 	public IPath getLocalPath() {
-	    return new Path(getParent().getLocalPath().toString() + filename);
+	    if (parent != null){
+	       return new Path(getParent().getLocalPath().toString() + filename);
+	    } else {
+	        return new Path( this.parentAsset.getLocalPath().toString() + filename);
+	    }
 	}
 
 	/**
