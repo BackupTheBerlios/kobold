@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.12 2004/08/24 14:51:04 garbeam Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.13 2004/08/25 01:35:37 martinplies Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -37,6 +37,8 @@ import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.product.RelatedComponent;
+import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
@@ -75,7 +77,7 @@ public class RoleTreeLabelProvider extends LabelProvider
 		    return ((TreeContainer)element).getName();
 		} else if (element instanceof AbstractAsset) {
 		    return ((AbstractAsset)element).getName();
-		} else if (element instanceof IFileDescriptorContainer) {
+		} else if (element instanceof FileDescriptor) {
 		    FileDescriptor fd = (FileDescriptor) element;
 		    String result = fd.getFilename();
 		    if (fd.getRevision().length() > 0) {
@@ -116,7 +118,11 @@ public class RoleTreeLabelProvider extends LabelProvider
 		    id = KoboldPLAMPlugin.getImageDescriptor("icons/container.gif");
 		} else if (element instanceof ArchitectureItem) {
 		    id = KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif");
-		} else if (element instanceof IFileDescriptorContainer) {
+		} else if (element instanceof RelatedComponent) {
+		    id = KoboldPLAMPlugin.getImageDescriptor("icons/component.gif");
+		} else if (element instanceof SpecificComponent){
+		    id = KoboldPLAMPlugin.getImageDescriptor("icons/variant.gif");
+		} else if (element instanceof FileDescriptor) {
 		    FileDescriptor fd = (FileDescriptor) element;
 		    if (fd.isDirectory()) {
     		    id = WorkbenchPlugin.getDefault().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJ_FOLDER);
