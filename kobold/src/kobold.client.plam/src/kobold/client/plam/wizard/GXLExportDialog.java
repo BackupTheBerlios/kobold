@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.15 2004/08/24 13:30:38 martinplies Exp $
+ * $Id: GXLExportDialog.java,v 1.16 2004/08/24 19:13:06 martinplies Exp $
  *
  */
 package kobold.client.plam.wizard;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -260,61 +261,62 @@ public class GXLExportDialog extends TitleAreaDialog {
             this.setMessage(e.getLocalizedMessage(), IMessageProvider.ERROR);
             return false;
         }
-        catch (Exception e) {            
+     /*   catch (Exception e) {            
             String message;
             logger.error(e.getLocalizedMessage(), e);
             if(e.getLocalizedMessage() == null) {
                 this.setMessage("An unexpected error has been occured.", IMessageProvider.ERROR);
             } else {
                 this.setMessage(e.getLocalizedMessage(), IMessageProvider.ERROR);
-            }
+            } 
             return false;
-        }
+        }*/
         
         this.setMessage("Graph is exported", IMessageProvider.NONE);//delete old error Messages
         return true;
     }
     
-    private boolean createEdges(INode node, GXLGraph graph, Map nodeMap, Set visited,
-            Set addedEdges, EdgeContainer cont) throws GXLException {
+    private boolean createEdges(INode node, GXLGraph graph, Map nodeMap,
+            Set visited, Set addedEdges, EdgeContainer cont)
+            throws GXLException {
         // collect all exported to asset
         boolean edgesAdd = false;
         for (Iterator ite = cont.getEdgesFrom(node).iterator(); ite.hasNext();) {
             Edge edge = (Edge) ite.next();
-            if (! visited.contains(edge.getTargetNode())) {
-                visited.add(node);                                            
-                if ( edge.getTargetNode() instanceof MetaNode) {
-                  boolean b = createEdges(edge.getTargetNode(), graph, nodeMap, visited, addedEdges, cont);
-                  if (b){
-                      edgesAdd = true;                      
-                      // add MetaNode       
-                      GXLNode gxlNode = ((MetaNode)node).createGXLGraph(nodeMap);
-                      graph.add(gxlNode); 
-                                            
-                      addEdge(edge, graph, nodeMap, addedEdges);                       
-                  }                  
-                } else if(nodeMap.containsKey(edge.getTargetNode())) {
-                    if (! MetaNode.class.equals(edge.getStartNode().getClass())){
-                       addEdge(edge, graph, nodeMap, addedEdges);
+            if (!visited.contains(edge.getTargetNode())) {
+                visited.add(node);
+                if (edge.getTargetNode() instanceof MetaNode) {
+                    boolean b = createEdges(edge.getTargetNode(), graph,
+                            nodeMap, visited, addedEdges, cont);
+                    if (b) {
+                        edgesAdd = true;
                     }
-                    return true;
+                } else if (nodeMap.containsKey(edge.getTargetNode())) {
+                    edgesAdd = true;
+                }
+                // create MetaNode if not exists
+                if (node.getClass().equals(MetaNode.class)
+                        && !nodeMap.containsKey(node)) {
+                    GXLNode gxlNode = ((MetaNode) node).createGXLGraph(nodeMap);
+                    graph.add(gxlNode);
+                }
+                if (edgesAdd) {
+                    addEdge(edge, graph, nodeMap, addedEdges);
                 }
             }
         }
-       if (edgesAdd) {
+        if (edgesAdd) {
             // => node is in gxlgraph
-            // add the missing edges of loops  
-            for (Iterator ite = cont.getEdges(node).iterator(); ite
-                    .hasNext();) {
+            // add the missing edges of loops
+            for (Iterator ite = cont.getEdges(node).iterator(); ite.hasNext();) {
                 Edge edge = (Edge) ite.next();
-                if (!addedEdges.contains(edge)
-                        && nodeMap.containsKey(edge.getTargetNode())
-                        && nodeMap.containsKey(edge.getStartNode())) {                    
-                    addEdge(edge, graph, nodeMap, addedEdges);                    
+                if (nodeMap.containsKey(edge.getTargetNode())
+                        && nodeMap.containsKey(edge.getStartNode())) {
+                    addEdge(edge, graph, nodeMap, addedEdges);
                 }
             }
         }
-       return edgesAdd;
+        return edgesAdd;
     }
     
     /**
@@ -329,6 +331,7 @@ public class GXLExportDialog extends TitleAreaDialog {
             GXLGraphElement to = (GXLGraphElement) nodeMap.get(edge
                     .getTargetNode());
             GXLEdge gxlEdge = new GXLEdge(form, to);
+            gxlEdge.setType(URI.create(edge.getGXLType()));
             graph.add(gxlEdge);
             addedEdges.add(edge); 
         }
