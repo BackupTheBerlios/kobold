@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: WorkflowEditor.java,v 1.1 2004/05/15 02:10:23 vanto Exp $
+ * $Id: WorkflowEditor.java,v 1.2 2004/05/16 02:27:55 vanto Exp $
  *  
  */
 package kobold.client.plam.workflow;
@@ -47,8 +47,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -62,7 +62,9 @@ public class WorkflowEditor extends EditorPart {
 
 	private static final Log logger = LogFactory.getLog(WorkflowEditor.class);
 	private LocalMessageQueue mqueue;
-
+	private Composite itemsWidget;
+	private Composite control;
+	
 	private List viewItems = new ArrayList();
 
 	/**
@@ -80,7 +82,11 @@ public class WorkflowEditor extends EditorPart {
 	 */
 	public void gotoMarker(IMarker marker) 
 	{
-		
+		try {
+			String id = (String)marker.getAttribute("msgid");
+			KoboldProjectNature n = (KoboldProjectNature)marker.getResource().getProject().getNature(KoboldProjectNature.NATURE_ID);
+			renderMessage(n.getMessageQueue().getMessageById(id));
+		} catch (CoreException e) {}
 
 	}
 
@@ -121,6 +127,7 @@ public class WorkflowEditor extends EditorPart {
 	 */
 	public void createPartControl(Composite parent) 
 	{
+		this.control = parent;
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		parent.setLayout(gridLayout);		
@@ -134,58 +141,13 @@ public class WorkflowEditor extends EditorPart {
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		title.setLayoutData(data);
 
-		Composite itemsWidget = new Composite(parent, SWT.NONE);
+		itemsWidget = new Composite(parent, SWT.NONE);
 		gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		itemsWidget.setLayout(gridLayout);
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		itemsWidget.setLayoutData(data);
 		
-		
-		if (mqueue != null) {
-			KoboldMessage msg = mqueue.getMessageById("test");
-			if (msg != null) {
-				
-				Composite header = new Composite(itemsWidget, SWT.NONE);
-				gridLayout = new GridLayout();
-				gridLayout.numColumns = 2;
-				header.setLayout(gridLayout);
-				
-				new Label(header, SWT.NONE).setText("Sender:");
-				new Label(header, SWT.NONE).setText(msg.getSender());
-				new Label(header, SWT.NONE).setText("Receiver:");
-				new Label(header, SWT.NONE).setText(msg.getReceiver());
-				new Label(header, SWT.NONE).setText("Subject:");
-				new Label(header, SWT.NONE).setText(msg.getSubject());
-				
-				if (msg instanceof WorkflowMessage) {
-					//WorkflowItem item = new WorkflowItem("true", "TestxCheck", WorkflowItem.CHECK);
-					//((WorkflowMessage)msg).addWorkflowControl(item);
-					WorkflowItem[] items = ((WorkflowMessage)msg).getWorkflowControls();
-				
-					for (int i = 0; i < items.length; i++) {
-						AbstractViewItem vi = null;
-						if (items[i].getType().equals(WorkflowItem.CHECK)) {
-							vi = new CheckboxViewItem(items[i]);	
-						} else if (items[i].getType().equals(WorkflowItem.CONTAINER)) {
-							//TODO
-						} if (items[i].getType().equals(WorkflowItem.TEXT)) {
-							//TODO
-						}
-						
-						if (vi != null) {
-							vi.createViewControl(itemsWidget);
-							viewItems.add(vi);					
-						}
-					}
-				} 
-			}
-			
-		} else {
-			logger.info("null");
-		}
-	
-	
 		Composite buttons = new Composite(parent, SWT.NONE);		
 		gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
@@ -198,23 +160,49 @@ public class WorkflowEditor extends EditorPart {
 		close.setText("Close");
 	}
 
-	public void createTextItem(Composite parent, WorkflowItem item) 
+	
+	private void renderMessage(final KoboldMessage msg) 
 	{
-		Label title = new Label(parent, SWT.NONE);
-		title.setText(item.getDescription());
-		
-		Text text = new Text(parent, SWT.MULTI);
-		text.setText(item.getValue());
-		
-		GridData data = new GridData();
-		data.widthHint = 60;
-		title.setLayoutData(data);
+		Display.getDefault ().asyncExec (new Runnable () {
+			public void run () {
+				System.out.println(msg);
+				Composite header = new Composite(itemsWidget, SWT.NONE);
+				GridLayout gridLayout = new GridLayout();
+				gridLayout.numColumns = 2;
+				header.setLayout(gridLayout);
+				
+				new Label(header, SWT.NONE).setText("Sender:");
+				new Label(header, SWT.NONE).setText(msg.getSender());
+				new Label(header, SWT.NONE).setText("Receiver:");
+				new Label(header, SWT.NONE).setText(msg.getReceiver());
+				new Label(header, SWT.NONE).setText("Subject:");
+				new Label(header, SWT.NONE).setText(msg.getSubject());
+				
+				if (msg instanceof WorkflowMessage) {
+					WorkflowItem[] items = ((WorkflowMessage)msg).getWorkflowControls();
+				
+					for (int i = 0; i < items.length; i++) {
+						AbstractViewItem vi = null;
+						if (items[i].getType().equals(WorkflowItem.CHECK)) {
+							vi = new CheckboxViewItem(items[i]);	
+						} else if (items[i].getType().equals(WorkflowItem.CONTAINER)) {
+							//TODO
+						} if (items[i].getType().equals(WorkflowItem.TEXT)) {
+							//TODO
+						}
+				
+						if (vi != null) {
+							vi.createViewControl(itemsWidget);
+							viewItems.add(vi);					
+						}
+					}
+				}
+				control.redraw(); 
+			}
+		  });
 
-		data = new GridData(GridData.FILL_HORIZONTAL);
-		data.heightHint = 60;
-		text.setLayoutData(data);
 	}
-
+	
 	/**
 	 * @see org.eclipse.ui.IWorkbenchPart#setFocus()
 	 */

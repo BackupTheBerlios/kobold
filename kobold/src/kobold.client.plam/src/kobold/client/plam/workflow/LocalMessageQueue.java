@@ -21,22 +21,23 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LocalMessageQueue.java,v 1.3 2004/05/15 21:56:04 vanto Exp $
+ * $Id: LocalMessageQueue.java,v 1.4 2004/05/16 02:27:55 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import kobold.client.plam.listeners.IMessageQueueListener;
 import kobold.common.data.KoboldMessage;
-import kobold.common.data.WorkflowItem;
-import kobold.common.data.WorkflowMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,6 +63,8 @@ public class LocalMessageQueue  {
 	private static final Log logger = LogFactory.getLog(LocalMessageQueue.class);
 	private static final String MARKER_ID = "kobold.client.plam.messagemarker";
 	
+	protected final HashSet listeners = new HashSet(5);
+	
 	private IFile queueFile;
 	
 	//TODO: Sorted!
@@ -73,18 +76,7 @@ public class LocalMessageQueue  {
 	{
 		this.queueFile = queueFile;
 		update();
-		
-		/*//TODO: Remove test stuff
-		WorkflowMessage msg = new WorkflowMessage();
-		msg.setWorkflowId("testwf");
-		msg.setSender("vanto");
-		msg.setReceiver("vanto");
-		msg.setSubject("Test workflow");
-		msg.setMessageText("Das ist die Erklärung");
-		msg.addWorkflowControl(new WorkflowItem("false", "Kobold ist doof", WorkflowItem.CHECK));
-		msg.addWorkflowControl(new WorkflowItem("true", "Kobold ist toll", WorkflowItem.CHECK));
-		addMarker(msg);
-		messages.put("test", msg);*/
+		fireRebuildEvent();
 	}
 	
 	public synchronized void addMessage(KoboldMessage msg)
@@ -92,6 +84,7 @@ public class LocalMessageQueue  {
 		messages.put(msg.getId(), msg);
 		store();
 		addMarker(msg);
+		fireAddEvent(msg);
 	}
 
 	public synchronized void removeMessage(KoboldMessage msg)
@@ -99,6 +92,7 @@ public class LocalMessageQueue  {
 		messages.remove(msg.getId());
 		store();
 		removeMarker(msg);
+		fireRemoveEvent(msg);
 	}
 	
 	public KoboldMessage[] getMessages()
@@ -120,7 +114,8 @@ public class LocalMessageQueue  {
 		}
 			
 		try {
-			InputStream in = queueFile.getContents();
+			//InputStream in = new FileInputStream(queueFile.getLocation().toOSString());//queueFile.getContents();
+			Reader in = new FileReader(queueFile.getLocation().toOSString());
 			SAXReader reader = new SAXReader();
 			Document document = reader.read(in);
 		    
@@ -132,21 +127,20 @@ public class LocalMessageQueue  {
 			
 			messages.clear();
 			clearMarkers();
-			
+			System.out.println("x");
 			Iterator it = document.getRootElement().elementIterator("message");
 			while (it.hasNext()) {
 				Element msgEl = (Element)it.next();
 				KoboldMessage message = KoboldMessage.createMessage(msgEl);
+				addMessage(message);
 				messages.put(message.getId(), message);
 				logger.info("add msg: "+message);
-				addMarker(message);
+				//addMarker(message);*/
 			}
 
 			in.close();
-		} catch (CoreException e) {
-			logger.debug("Error while reading PLAM config.", e);
 		} catch (DocumentException e) {
-			logger.debug("Error while parsing PLAM config.", e);
+			logger.info("Error while parsing PLAM config.", e);
 		} catch (IOException e) {
 		}
 	}
@@ -163,7 +157,6 @@ public class LocalMessageQueue  {
 				KoboldMessage msg = (KoboldMessage)it.next();
 				root.add(msg.serialize()); 
 			}
-			
 			
 			XMLWriter writer = new XMLWriter(new FileWriter(queueFile.getLocation().toOSString()),
 						OutputFormat.createPrettyPrint());
@@ -237,6 +230,47 @@ public class LocalMessageQueue  {
 		}
 
 	}
+
+	protected void fireAddEvent(KoboldMessage msg) 
+	{
+		for (Iterator it = listeners.iterator(); it.hasNext();) {
+			IMessageQueueListener listener = (IMessageQueueListener) it.next();
+			listener.addMessage(msg);
+		}
+	}
+	
+	protected void fireRemoveEvent(KoboldMessage msg) 
+	{
+		for (Iterator it = listeners.iterator(); it.hasNext();) {
+			IMessageQueueListener listener = (IMessageQueueListener) it.next();
+			listener.removeMessage(msg);
+		}
+	}
+
+	protected void fireRebuildEvent() 
+	{
+		for (Iterator it = listeners.iterator(); it.hasNext();) {
+			IMessageQueueListener listener = (IMessageQueueListener) it.next();
+			listener.rebuild();
+		}
+	}
+
+	/**
+	 * Adds a listener for add/remove events.
+	 */
+	public void addListener(IMessageQueueListener listener) 
+	{
+		listeners.add(listener);
+	}
+
+	/**
+	 * Removes a listener for project change events.
+	 */
+	public void removeListener(IMessageQueueListener listener) 
+	{
+		listeners.remove(listener);
+	}
+
 
 	/**
 	 */

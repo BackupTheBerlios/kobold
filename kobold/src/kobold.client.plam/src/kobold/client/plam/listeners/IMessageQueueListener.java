@@ -21,22 +21,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldConstants.java,v 1.2 2004/05/16 02:27:55 vanto Exp $
+ * $Id: IMessageQueueListener.java,v 1.1 2004/05/16 02:27:55 vanto Exp $
  *
  */
-package kobold.client.plam;
+package kobold.client.plam.listeners;
+
+import java.util.EventListener;
+
+import kobold.common.data.KoboldMessage;
 
 /**
- * Kobold Constants
+ * An interface to be implemented by objects interested in add and remove events 
+ * on the message queue.
  * 
  * @author Tammo
  */
-public class KoboldConstants {
+public interface IMessageQueueListener extends EventListener {
 
-	/** RoleTreeView ID */
-	public static final String ID_ROLE_TREE_VIEW = "kobold.client.plam.view.RoleTreeViewPart";
-	
-	/** WorkflowView ID */
-	public static final String ID_WORKFLOW_VIEW = "kobold.client.plam.view.workflowview";
-	
+	void addMessage(KoboldMessage msg);
+	void removeMessage(KoboldMessage msg);
+	void rebuild();
 }

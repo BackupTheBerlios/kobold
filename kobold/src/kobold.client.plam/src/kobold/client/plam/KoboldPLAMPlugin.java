@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.5 2004/05/15 21:56:04 vanto Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.6 2004/05/16 02:27:55 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -63,7 +63,7 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 	// current kobold-natured project
 	private IProject currentProject;
 	
-	protected final HashSet projectChangeListeners = new HashSet(); 
+	protected final HashSet projectChangeListeners = new HashSet(5); 
 	
 	/**
 	 * The constructor.

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.8 2004/05/15 16:37:06 garbeam Exp $
+ * $Id: NewProjectWizard.java,v 1.9 2004/05/16 02:27:55 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -33,6 +33,8 @@ import kobold.client.plam.KoboldProjectNature;
 import kobold.client.plam.PLAMProject;
 import kobold.client.plam.workflow.LocalMessageQueue;
 import kobold.common.data.KoboldMessage;
+import kobold.common.data.WorkflowItem;
+import kobold.common.data.WorkflowMessage;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -231,6 +233,18 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			welcome.setSubject("Welcome");
 			welcome.setMessageText("Just have fun!");
 			mq.addMessage(welcome);
+			
+			//TODO: Remove test stuff
+			WorkflowMessage msg = new WorkflowMessage();
+			msg.setWorkflowId("testwf");
+			msg.setSender("vanto");
+			msg.setReceiver("vanto");
+			msg.setSubject("Test workflow");
+			msg.setMessageText("Das ist die Erklärung");
+			msg.addWorkflowControl(new WorkflowItem("false", "Kobold ist doof", WorkflowItem.CHECK));
+			msg.addWorkflowControl(new WorkflowItem("true", "Kobold ist toll", WorkflowItem.CHECK));
+			mq.addMessage(msg);
+
 		}
 	}
 	

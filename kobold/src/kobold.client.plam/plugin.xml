@@ -16,6 +16,7 @@
       <import plugin="org.eclipse.gef"/>
       <import plugin="org.eclipse.swt"/>
       <import plugin="kobold.commons"/>
+      <import plugin="org.eclipse.ui.views"/>
    </requires>
 
 
@@ -50,6 +51,13 @@
             category="KoboldViewCategory"
             class="kobold.client.plam.view.RoleTreeViewPart"
             id="kobold.client.plam.view.RoleTreeViewPart">
+      </view>
+      <view
+            name="%view.Workflows"
+            icon="icons/kobold_persp.png"
+            category="KoboldViewCategory"
+            class="kobold.client.plam.workflow.WorkflowView"
+            id="kobold.client.plam.view.workflowview">
       </view>
    </extension>
    <extension
