@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureView.java,v 1.1 2004/05/16 23:41:46 vanto Exp $
+ * $Id: ArchitectureView.java,v 1.2 2004/05/17 00:25:02 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -31,31 +31,52 @@ import java.util.List;
 
 import kobold.client.plam.model.ModelFactory;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.LightweightSystem;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.Viewport;
+import org.eclipse.draw2d.parts.ScrollableThumbnail;
+import org.eclipse.draw2d.parts.Thumbnail;
 import org.eclipse.gef.EditDomain;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
+import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
+import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
+import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.part.IPageSite;
+import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 /**
+ * Provides the Architecture Graph Editor View
+ * 
  * @author Tammo
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class ArchitectureView extends ViewPart {
 	private GraphicalViewer graphicalViewer;
 	private EditDomain editDomain;
+	private ActionRegistry actionRegistry;
 	
 	public ArchitectureView()
 	{
 		editDomain = new EditDomain();
+		actionRegistry = new ActionRegistry();
 	}
 	
 	public void createPartControl(Composite parent) {
@@ -76,8 +97,8 @@ public class ArchitectureView extends ViewPart {
 
 		IAction zoomIn = new ZoomInAction(root.getZoomManager());
 		IAction zoomOut = new ZoomOutAction(root.getZoomManager());
-		//getActionRegistry().registerAction(zoomIn);
-		//getActionRegistry().registerAction(zoomOut);
+		actionRegistry.registerAction(zoomIn);
+		actionRegistry.registerAction(zoomOut);
 		getSite().getKeyBindingService().registerAction(zoomIn);
 		getSite().getKeyBindingService().registerAction(zoomOut);
 
@@ -119,6 +140,116 @@ public class ArchitectureView extends ViewPart {
 		this.editDomain.addViewer(viewer);
 		this.graphicalViewer = viewer;
 	}
+
+
+	/**
+	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+	 */
+	public Object getAdapter(Class adapter) {
+		/*if (adapter == CommandStackInspectorPage.class) {
+			return new CommandStackInspectorPage(getCommandStack());
+		}*/
+
+		if (adapter == IContentOutlinePage.class) {
+			return new OutlinePage(new TreeViewer());
+		}
+
+		if (adapter == ZoomManager.class) {
+			return ((ScalableFreeformRootEditPart) getGraphicalViewer()
+													   .getRootEditPart()).getZoomManager();
+		}
+
+		return super.getAdapter(adapter);
+	}
+
+
+	class OutlinePage extends ContentOutlinePage implements IAdaptable
+	 {
+		 static final int ID_OUTLINE = 0;
+		 static final int ID_OVERVIEW = 1;
+		 private Canvas overview;
+		 private Control outline;
+		 private IAction showOutlineAction;
+		 private IAction showOverviewAction;
+		 private PageBook pageBook;
+		 private Thumbnail thumbnail;
+
+		 public OutlinePage(EditPartViewer viewer)
+		 {
+			 super(viewer);
+		 }
+
+		 public Object getAdapter(Class type)
+		 {
+			 if (type == ZoomManager.class) {
+				 return ((ScalableFreeformRootEditPart) getGraphicalViewer()
+															.getRootEditPart()).getZoomManager();
+			 }
+
+			 return null;
+		 }
+
+		 public Control getControl()
+		 {
+			 return pageBook;
+		 }
+
+		 public void createControl(Composite parent)
+		 {
+			 pageBook = new PageBook(parent, SWT.NONE);
+			 overview = new Canvas(pageBook, SWT.NONE);
+
+			 initializeOverview();
+			 pageBook.showPage(overview);
+			 thumbnail.setVisible(true);
+			 configureOutlineViewer();
+		 }
+
+		 public void dispose()
+		 {
+			 if (thumbnail != null) {
+				 thumbnail.deactivate();
+			 }
+
+			 super.dispose();
+		 }
+
+		 public void init(IPageSite pageSite)
+		 {
+			 super.init(pageSite);
+
+			 ActionRegistry registry = actionRegistry;
+			 IActionBars bars = pageSite.getActionBars();
+			 String id = IWorkbenchActionConstants.UNDO;
+			 bars.setGlobalActionHandler(id, registry.getAction(id));
+			 id = IWorkbenchActionConstants.REDO;
+			 bars.setGlobalActionHandler(id, registry.getAction(id));
+			 id = IWorkbenchActionConstants.DELETE;
+			 bars.setGlobalActionHandler(id, registry.getAction(id));
+			 bars.updateActionBars();
+		 }
+
+		 protected void configureOutlineViewer()
+		 {
+			 getViewer().setEditDomain(editDomain);
+			 getViewer().setEditPartFactory(new GraphicalPartFactory());
+		 }
+
+		 protected void initializeOverview()
+		 {
+			 LightweightSystem lws = new LightweightSystem(overview);
+			 RootEditPart rep = getGraphicalViewer().getRootEditPart();
+
+			 if (rep instanceof ScalableFreeformRootEditPart) {
+				 ScalableFreeformRootEditPart root = (ScalableFreeformRootEditPart) rep;
+				 thumbnail = new ScrollableThumbnail((Viewport) root.getFigure());
+				 thumbnail.setBorder(new MarginBorder(3));
+				 thumbnail.setSource(root.getLayer(
+						 LayerConstants.PRINTABLE_LAYERS));
+				 lws.setContents(thumbnail);
+			 }
+		 }
+	 }
 
 
 }

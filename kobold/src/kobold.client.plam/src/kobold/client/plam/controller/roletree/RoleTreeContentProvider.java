@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.8 2004/05/16 22:25:55 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.9 2004/05/17 00:25:02 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -176,7 +176,6 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	public void resourceChanged(IResourceChangeEvent event) {
 		viewer.getControl().getDisplay().syncExec(new Runnable() {		
 			public void run() {		
-				System.out.println("x");
 				viewer.refresh();
 			}
 		});

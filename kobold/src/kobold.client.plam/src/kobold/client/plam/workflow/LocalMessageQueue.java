@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LocalMessageQueue.java,v 1.4 2004/05/16 02:27:55 vanto Exp $
+ * $Id: LocalMessageQueue.java,v 1.5 2004/05/17 00:25:02 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -127,7 +127,7 @@ public class LocalMessageQueue  {
 			
 			messages.clear();
 			clearMarkers();
-			System.out.println("x");
+
 			Iterator it = document.getRootElement().elementIterator("message");
 			while (it.hasNext()) {
 				Element msgEl = (Element)it.next();
