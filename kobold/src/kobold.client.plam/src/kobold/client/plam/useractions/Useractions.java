@@ -43,51 +43,50 @@ public class Useractions {
 	}
 	
 	public void removeUser(String userName){
-        SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();		
+        User user = new User("Username","mismatch"); //the user to be removed
+		
+		SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();		
         UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-        client.removeUser(currUser,userName);
+
+        client.removeUser(currUser,getOneUser(userName));
 	}
 	
-	public void changePassword(String password, String confirmPassword){
-		if(password.equals(confirmPassword)){
+	public void changePassword(String newPassword, String confirmPassword){
+		if(newPassword.equals(confirmPassword)){
 			SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();
 			UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-			client.changeUserPassword(currUser, password);
+			client.updateUserPassword(currUser,getOneUser(currUser.getUserName()), confirmPassword,newPassword);
 		}
 	}
 	
-	/**
-	 * Creates a new role and makes then the call to add a role
-	 * @author grosseml
-	 *
+	public void updateFullName(String userName, String newName, String password){
+		
+		SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();		
+        UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
+        
+        client.updateUserFullName(currUser, getOneUser(userName), password);
+		
+	}
+	
+	
+	/*
+	 * returns one User
 	 */
-	public void addRole(String userName, String productName, String roleType){
-		SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();
-		UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
+	private User getOneUser(String userName){
+        User user = new User("Username","mismatch"); //the user to be removed
 		
-		Role newRole;
-		
-		if(roleType.equals("P")){
-			newRole = new RoleP(productName);
-		}
-		else if (roleType.equals("PE")){
-			newRole = new RolePE(productName);
-		}
-		else newRole = null;
-		
-		if (newRole!=null){
-			client.addRole(currUser, userName, newRole);
-		}
-	}
-	
-	public void removeRole(String userName, String productName){
-		SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();
-		UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-		
-		Role oldRole;
-		
-		oldRole = client.getProductRole(currUser, userName, productName);
-		client.removeRole(currUser,userName,oldRole);
+		SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();		
+        UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
+        java.util.List userList = client.getAllUsers(currUser);
+        for (int i = 0; i<userList.size();i++)
+        {
+        	User tempUser = (User)userList.get(i);
+        	if(tempUser.getUsername().equals(userName))
+        	{
+        		user = tempUser;
+        	}
+        }
+        return user;
 	}
 	
 }
