@@ -1,0 +1,132 @@
+\section{Use Cases des Server-Administrations-Tools}
+
+Use Case Name      : Fehleingabe tätigen\\
+Akteur             : Kobold Administrator\\
+Vorbedingung       : Der Kobold Server ist gestartet, die Eingabeaufforderung der Administartionskonsole ist zu sehen.\\
+Regulärer Ablauf   : \\
+\begin{itemize}
+\item Der Kobold Administartor gibt ein ungültiges Kommando ein.
+\item Eine Fehlermeldung wird auf der Konsole ausgegeben.
+\end{itemize}
+Nachbedingung      : Die Eingabeaufforderung der
+Administartionskonsole ist zu sehen.\par
+
+Use Case Name      : Kommandoübersicht anzeigen\\
+Akteur             : Kobold Administartor\\
+Vorbedingung       : Der Kobold Server ist gestartet, die Eingabeaufforderung der Administartionskonsole ist zu sehen.\\
+Regulärer Ablauf   : \\
+\begin{itemize}
+\item Der Koboldadministartor gibt das Kommando "help" ein.
+\item Eine Übersicht über die verfügbaren Kommandos erscheint auf
+der Konsole, mit einer kurzen Beschreibung jedes Kommandos.
+\end{itemize}
+Nachbedingung      : Die Eingabeaufforderung der
+Administartionskonsole ist zu sehen.\par
+
+Use Case Name      : Neue Produktlinie anlegen\\
+Akteur             : Kobold Administrator\\
+Vorbedingung       : Der Kobold Server ist gestartet, die Eingabeaufforderung der Administartionskonsole ist zu sehen.\\
+Regulärer Ablauf   : \\
+\begin{itemize}
+\item Der Koboldadministartor gibt das Kommando "create
+productline" ein. \item Der Koboldadministartor wird aufgefordert
+einen Namen für die neue Produktlinie anzugeben. \item Der
+Koboldadministrator gibt einen gültigen Namen für die neue
+Produktlinie an. \item Eine Erfolgsmeldung wird ausgegeben.
+\end{itemize}
+Alternative Abläufe: \\
+Falls der eingegebene Name ungültig ist (leere Eingabe,
+Produktlinie bereits vorhanden), wird eine entsprechende
+Fehlermeldung ausgegeben und die Bearbeitung abgebrochen.\\
+Nachbedingung      : Die Eingabeaufforderung der
+Administartionskonsole ist zu sehen.\par
+
+Use Case Name      : Produktlinie entfernen\\
+Akteur             : Kobold Administrator\\
+Vorbedingung       : Der Kobold Server ist gestartet, die Eingabeaufforderung der Administartionskonsole ist zu sehen.\\
+Regulärer Ablauf   : \\
+\begin{itemize}
+\item Der Koboldadministartor gibt das Kommando "remove
+productline" ein. \item Der Koboldadministrator wird aufgefordert
+den Namen der zu entfernenden Produktlinie einzugeben. \item Der
+Kobold Administrator gibt einen gültigen Produktliniennamen an.
+\item Die angegebene Produktlinie wird aus dem System eintfernt
+und eine kurze Erfolgsmeldung ausgegeben.
+\end{itemize}
+Alternative Abläufe: \\
+Falls der eingegebene Produktlinien-Name ungültig ist (leere
+Eingabe, Produktlinie nicht vorhanden), wird eine entsprechende
+Fehlermeldung ausgegeben und die Bearbeitung abgebrochen.\\
+Nachbedingung      : Die Eingabeaufforderung der
+Administartionskonsole ist zu sehen.\par
+
+Use Case Name      : Neuen PLE anlegen\\
+Akteur             : Kobold Administrator\\
+Vorbedingung       : Der Kobold Server ist gestartet, die Eingabeaufforderung der Administartionskonsole ist zu sehen.\\
+Regulärer Ablauf   : \\
+\begin{itemize}
+\item Der Koboldadministartor gibt das Kommando "add ple" ein.
+\item Der Koboldadministrator wird aufgefordert den Namen des neu
+anzulegenden PLE einzugeben. \item Der Kobold Administrator gibt
+einen gültigen PLE-Namen an. \item Der Kobold Administartor wird
+aufgefordert ein Passwort für den neuen PLE anzugeben.\item Der
+Kobold Administrator gibt ein Passwort ein.\item Ein neuer PLE mit
+dem angegebenen Namen wird im System angelegt.
+\end{itemize}
+Alternative Abläufe: \\
+Falls der eingegebene PLE-Name ungültig ist (leere Eingabe, Name
+bereits vergeben), wird eine entsprechende
+Fehlermeldung ausgegeben und die Bearbeitung abgebrochen.\\
+Nachbedingung      : Die Eingabeaufforderung der
+Administartionskonsole ist zu sehen.\par
+
+Use Case Name      : PLE aus System entfernen\\
+Akteur             : Kobold Administrator\\
+Vorbedingung       : Der Kobold Server ist gestartet, die Eingabeaufforderung der Administartionskonsole ist zu sehen.\\
+Regulärer Ablauf   : \\
+\begin{itemize}
+\item Der Koboldadministartor gibt das Kommando "remove ple" ein.
+\item Der Koboldadministrator wird aufgefordert den Namen des zu
+entfernenden PLEs einzugeben. \item Der Kobold Administrator gibt
+einen gültigen PLE-Namen an. \item Der angegebene PLE wird aus dem
+System entfernt.
+\end{itemize}
+Alternative Abläufe: \\
+Falls der eingegebene PLE-Name ungültig ist (leere Eingabe, Name
+nicht vergeben), wird eine entsprechende
+Fehlermeldung ausgegeben und die Bearbeitung abgebrochen.\\
+Nachbedingung      : Die Eingabeaufforderung der
+Administartionskonsole ist zu sehen.\par
+
+Use Case Name      : PLE einer Produktlinie zuweisen\\
+Akteur             : Kobold Administrator\\
+Vorbedingung       : Der Kobold Server ist gestartet, die Eingabeaufforderung der Administartionskonsole ist zu sehen.\\
+Regulärer Ablauf   : \\
+\begin{itemize}
+\item Der Koboldadministartor gibt das Kommando "assign ple" ein.
+\item Der Koboldadministrator wird aufgefordert den Namen des
+zuzuordnenden PLEs einzugeben. \item Der Kobold Administrator gibt
+einen gültigen PLE-Namen an. \item Der Kobold Administartor wird
+aufgefordert den Namen der Produktlinie anzugeben, der der
+angegebene PLE zugeordnet werden soll. \item Der Kobold
+Administartor gibt einen gültigen PLE-Namen ein. \item Der PLE
+wird der Produktlinie zugewiesen.
+\end{itemize}
+Alternative Abläufe: \\
+Falls der eingegebene PLE-oder Produktlinienname ungültig ist
+(leere Eingabe, Name nicht vergeben) , wird eine entsprechende
+Fehlermeldung ausgegeben und die Bearbeitung abgebrochen.\\
+Nachbedingung      : Die Eingabeaufforderung der
+Administartionskonsole ist zu sehen.\par
+
+Use Case Name      : Kobold Server beenden\\
+Akteur             : Kobold Administrator\\
+Vorbedingung       : Der Kobold Server ist gestartet, die Eingabeaufforderung der Administartionskonsole ist zu sehen.\\
+Regulärer Ablauf   : \\
+\begin{itemize}
+\item Der Koboldadministartor gibt das Kommando "exit" ein. \item
+Der Kobold-Server wird beendet.
+\end{itemize}
+Nachbedingung      : Die Eingabeaufforderung der
+Administartionskonsole ist nicht mehr zu sehen, Eingaben werden
+von System nicht mehr entgegengenommen.\par
