@@ -143,7 +143,7 @@ private void addFileDescsToMap(Map map, FileDescriptor filedesc){
   
  
  public EdgeContainer importGraph(File gxlGraph, Product product) throws DocumentException{
-     EdgeContainer edgeContainer = new EdgeContainer();
+     EdgeContainer edgeContainer = new EdgeContainer(product);
      
      // parse xml
      SAXReader xmlReader = new SAXReader();
@@ -178,7 +178,7 @@ private void addFileDescsToMap(Map map, FileDescriptor filedesc){
            Element  type = gxlEdge.element("type");
            if (type != null &&  type.attributeValue("href") != null){
              // create new Edge
-             edgeContainer.addBauhausEdge((INode) nodes.get(fromId), (INode) nodes.get(toId), type.attributeValue("href"), edgeCount);
+             edgeContainer.addEdge((INode) nodes.get(fromId), (INode) nodes.get(toId), type.attributeValue("href"), edgeCount);
            }          
         }
      } 
