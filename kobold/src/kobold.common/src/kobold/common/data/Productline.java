@@ -21,13 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.15 2004/07/29 09:54:14 neccaino Exp $
+ * $Id: Productline.java,v 1.16 2004/08/01 12:43:33 garbeam Exp $
  *
  */
 package kobold.common.data;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.dom4j.Element;
@@ -104,6 +107,32 @@ public class Productline extends Asset {
 	 */
 	public Product getProduct(String productName) {
 	    return (Product)products.get(productName);
+	}
+	
+	/**
+	 * Gets a coreasset by its name.
+	 * @param coreAssetName the coreasset.
+     * @return the coreasset with the specified name or null if no coreasset with
+     *         that name exists
+	 */
+	public Component getCoreAsset(String coreAssetName) {
+	    return (Component)products.get(coreAssetName);
+	}
+	
+	/**
+	 * Gets all products.
+     * @return the products
+	 */
+	public List getProducts() {
+	    return new ArrayList(products.values());
+	}
+	
+	/**
+	 * Gets all coreassets.
+     * @return the coreassets
+	 */
+	public List getCoreAssets() {
+	    return new ArrayList(coreassets.values());
 	}
 	
 	/**

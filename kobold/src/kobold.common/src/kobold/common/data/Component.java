@@ -21,15 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.1 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: Component.java,v 1.2 2004/08/01 12:43:33 garbeam Exp $
  *
  */
 
 package kobold.common.data;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import kobold.common.io.RepositoryDescriptor;
 
@@ -41,8 +37,6 @@ import org.dom4j.Element;
  */
 public class Component extends Asset {
 
-	private List components = new ArrayList();
-	
 	/**
 	 * Basic constructor.
 	 * @param parent the parent asset, e.g. a product or productline.
@@ -61,23 +55,6 @@ public class Component extends Asset {
 	 */
 	public Component (Asset parent, Element element) {
 		super (parent, element);
-		deserialize(element);
-	}
-	
-	/**
-	 * Adds new component to this product.
-	 * @param component the component.
-	 */
-	public void addComponent(Component component) {
-		components.add(component);
-	}
-
-	/**
-	 * Removes an existing component from this product.
-	 * @param component the component.
-	 */
-	public void removeComponent(Component component) {
-		components.remove(component);
 	}
 	
 	/**
@@ -85,28 +62,6 @@ public class Component extends Asset {
 	 */
 	public Element serialize() {
 		Element element = super.serialize();
-
-		Element compElements = element.addElement("components");
-		for (Iterator iterator = components.iterator(); iterator.hasNext();) {
-			Component component = (Component) iterator.next();
-			compElements.add(component.serialize());
-		}
-		
 		return element;
-	}
-
-	/**
-	 * Deserializes this product.
-	 * @param productName
-	 */
-	public void deserialize(Element element) {
-		Element compElements = element.element("components");
-		
-		for (Iterator iterator = compElements.elementIterator(Asset.COMPONENT);
-			 iterator.hasNext(); )
-		{
-			Element elem = (Element) iterator.next();
-			components.add(new Component(this, elem));
-		}
 	}
 }
