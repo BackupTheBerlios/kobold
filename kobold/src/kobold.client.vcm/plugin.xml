@@ -72,7 +72,7 @@
                label="Version Control"
                id="kobold.client.vcm.menu1"/>
          <action
-               label="checkout"
+               label="Checkout"
                class="kobold.client.vcm.popup.action.CheckoutAction"
                menubarPath="kobold.client.vcm.menu1/group1"
                id="kobold.client.vcm.checkoutaction"/>
