@@ -33,23 +33,27 @@ import kobold.client.serveradmin.tools.BasicInquisitor;
  * @author contan
  */
 public class SetServerInquisitor extends BasicInquisitor {
+    private static final String SERVER_IP = "server ip\t";
+    private static final String SERVER_PORT = "server port";
+    private static final String PASSWORD = "password\t";
+    
 	public SetServerInquisitor() {
         containingAction = "set server";
-        addQuestion("1", "server ip\t", "localhost", false);
-        addQuestion("2", "server port", "23232", false);
-        addQuestion("3", "password\t", "", true);
+        addQuestion("1", SERVER_IP, "localhost", false);
+        addQuestion("2", SERVER_PORT, "23232", false);
+        addQuestion("3", PASSWORD, "", true);
     }
     
     public String getIp() {
-        return getAnswer("server ip");
+        return getAnswer(SERVER_IP);
     }
     
     public String getPort() {
-        return getAnswer("server port");
+        return getAnswer(SERVER_PORT);
     }
     
     public String getPassword() {
-        return getAnswer("password");
+        return getAnswer(PASSWORD);
     }
     
     public String getUrl() {

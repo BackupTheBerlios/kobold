@@ -34,20 +34,24 @@ import kobold.client.serveradmin.tools.BasicInquisitor;
  * @author contan
  */
 public class NewUserInquisitor extends BasicInquisitor {
+    private static final String USERNAME = "username";
+    private static final String FULLNAME = "fullname";
+    private static final String PASSWORD = "password";
+    
     public NewUserInquisitor() {
         containingAction = "new user";
-        addQuestion("1", "username", "unknown", false);
-        addQuestion("2", "fullname", "nobody", false);
-        addQuestion("3", "password", "", true);
+        addQuestion("1", USERNAME, "unknown", false);
+        addQuestion("2", FULLNAME, "nobody", false);
+        addQuestion("3", PASSWORD, "", true);
     }
     
     public String getUsername(){
-        return getAnswer("username");
+        return getAnswer(USERNAME);
     }
     public String getFullName() {
-        return getAnswer("fullname");
+        return getAnswer(FULLNAME);
     }
     public String getPassword() {
-        return getAnswer("password");
+        return getAnswer(PASSWORD);
     }
 }
