@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Edge.java,v 1.11 2004/08/23 13:00:42 vanto Exp $
+ * $Id: Edge.java,v 1.12 2004/08/25 00:19:50 martinplies Exp $
  *
  */
 package kobold.client.plam.model.edges;
@@ -57,7 +57,9 @@ public class Edge {
     // kobold edge types
     public static final String INCLUDE = "edge.include";
     public static final String EXCLUDE = "edge.exclude";
-    
+    public static final String GXL_INCLUDE = "http://kobold.berlios.de/types#includeEdge";
+    public static final String GXL_EXCLUDE = "http://kobold.berlios.de/types#exlcudeEdge";
+    public static final String GXL_EXTERN = "http://kobold.berlios.de/types#externEdge";
     /**
      * @param startNode2
      * @param targetNode2
@@ -67,6 +69,7 @@ public class Edge {
         this.targetNode = targetNode;
         this.type = KOBOLD_EDGE;
     }
+    
     
     public Edge(INode startNode, INode targetNode, String type, int number) {
         this.startNode = startNode;
@@ -175,6 +178,16 @@ public class Edge {
         startNode =  prodline.getAssetById(fromAssetId);
         targetNode = prodline.getAssetById(toAssetId);   
         ;int a =0;
+    }
+    
+    public String getGXLType(){ 
+        if (this.type.equals(INCLUDE)){
+            return GXL_INCLUDE;            
+        } else if(this.type.equals(EXCLUDE)) {
+            return GXL_EXCLUDE;
+        } else {
+            return GXL_EXTERN;
+        }
     }
     
 

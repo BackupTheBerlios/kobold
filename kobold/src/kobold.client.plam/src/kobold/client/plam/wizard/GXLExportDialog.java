@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.17 2004/08/24 20:05:21 garbeam Exp $
+ * $Id: GXLExportDialog.java,v 1.18 2004/08/25 00:20:44 martinplies Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -261,7 +261,7 @@ public class GXLExportDialog extends TitleAreaDialog {
             this.setMessage(e.getLocalizedMessage(), IMessageProvider.ERROR);
             return false;
         }
-     /*   catch (Exception e) {            
+        catch (Exception e) {            
             String message;
             logger.error(e.getLocalizedMessage(), e);
             if(e.getLocalizedMessage() == null) {
@@ -270,7 +270,7 @@ public class GXLExportDialog extends TitleAreaDialog {
                 this.setMessage(e.getLocalizedMessage(), IMessageProvider.ERROR);
             } 
             return false;
-        }*/
+        }
         
         this.setMessage("Graph is exported", IMessageProvider.NONE);//delete old error Messages
         return true;
@@ -331,7 +331,7 @@ public class GXLExportDialog extends TitleAreaDialog {
             GXLGraphElement to = (GXLGraphElement) nodeMap.get(edge
                     .getTargetNode());
             GXLEdge gxlEdge = new GXLEdge(form, to);
-//FIXME:            gxlEdge.setType(URI.create(edge.getGXLType()));
+            gxlEdge.setType(URI.create(edge.getGXLType()));
             graph.add(gxlEdge);
             addedEdges.add(edge); 
         }
