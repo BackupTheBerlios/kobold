@@ -11,6 +11,16 @@ cd $1
 #$3 userpassword: *******
 #$4 cvs repository server: cvs.berlios.de
 #$5 cvs repository path: /cvsroot/kobold
+
+if [ $4 = "local" ] ; then
+
+    cvs -z3 -d $5 co $6
+
+fi
+
+if [ $4 != "local" ] ; then
+
+
 #$6 module: kobold
 #IMPORTANT: use "-r tag"
 #$7 -r tag
@@ -19,3 +29,4 @@ cd $1
 #cvs -d :pserver:anonymous@cvs.berlios.de:/cvsroot/kobold login 
 cvs -z3 -d :pserver:$2:$3@$4:$5 co $7 $6
 
+fi

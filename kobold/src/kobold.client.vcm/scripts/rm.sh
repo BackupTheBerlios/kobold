@@ -11,6 +11,15 @@ cd $1
 #$3 userpassword: *******
 #$4 cvs repository server: cvs.berlios.de
 #$5 cvs repository path: /cvsroot/kobold
+
+if [ $4 = "local" ] ; then
+
+    cvs -z3 -d $5 rm $6
+
+fi
+
+if [ $4 != "local" ] ; then
+
 #$6 files/directory to add (NOTE directories are not added recursive)
 
 #LOGIN wird vorrausgestzt-->erzeugt .cvspass
@@ -19,3 +28,4 @@ cvs -z3 -d :pserver:$2:$3@$4:$5 rm $6
 
 #NOTE: after add use commit!
 
+fi

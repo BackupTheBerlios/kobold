@@ -12,9 +12,19 @@ cd $1
 
 #$4 cvs repository server: cvs.berlios.de
 #$5 cvs repository path: /cvsroot/kobold
+
+if [ $4 = "local" ] ; then
+
+    cvs -z3 -d $5 up -dPA $6
+
+fi
+
+if [ $4 != "local" ] ; then
+
 #$6 "-r tag"
 
 #LOGIN wird vorrausgestzt-->erzeugt .cvspass
 #cvs -d :pserver:anonymous@cvs.berlios.de:/cvsroot/kobold login 
 cvs -z3 -d :pserver:$2:$3@$4:$5 up -dPA $6
 
+fi
