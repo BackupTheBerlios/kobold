@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.13 2004/09/18 12:37:57 bettina Exp $
+ * $Id: WorkflowEngine.java,v 1.14 2004/09/22 12:49:29 bettina Exp $
  *
  */
 package kobold.server.workflow;
@@ -126,7 +126,7 @@ public class WorkflowEngine {
 	 */
 	private void loadRuleBase() {
 		try {
-			URL url = new File("ruleset.drl").toURL();
+			URL url = new File(System.getProperty("kobold.server.ruleset")).toURL();
 			RuleBase ruleBase =  org.drools.io.RuleBaseBuilder.buildFromUrl( url );
 			this.setRuleBase(ruleBase);
 			logger.info("RULE BASE LOADED");
