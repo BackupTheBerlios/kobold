@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.1 2004/03/30 23:17:56 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.2 2004/03/30 23:36:08 vanto Exp $
  *
  */
 package kobold.client.controller.roletree;
@@ -31,7 +31,9 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 
 /**
  * RoleTreeContentProvider
- * 
+ *
+ * Provides the mapping from the architecture model to the tree structure
+ * displayed by the role tree.
  * @author Tammo van Lessen
  */
 public class RoleTreeContentProvider implements IStructuredContentProvider, 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.1 2004/03/30 23:17:56 vanto Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.2 2004/03/30 23:36:08 vanto Exp $
  *
  */
 package kobold.client.controller.roletree;
@@ -30,6 +30,9 @@ import org.eclipse.jface.viewers.LabelProvider;
 
 /**
  * RoleTreeLabelProvider
+ * 
+ * This label provider maps an element of the architecture model to an 
+ * image and text string used to display the element in the viewer's control.
  * 
  * @author Tammo van Lessen
  */

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTree.java,v 1.1 2004/03/30 23:17:56 vanto Exp $
+ * $Id: RoleTree.java,v 1.2 2004/03/30 23:31:10 vanto Exp $
  *
  */
 package kobold.client.view;
@@ -30,6 +30,9 @@ import org.eclipse.ui.part.ViewPart;
 
 /**
  * RoleTree
+ * 
+ * Provides an eclipse tree view containing all product lines, their products 
+ * and assets as well as every component and variant in a tree structure.
  * 
  * @author Tammo van Lessen
  */
