@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.15 2004/08/24 15:45:45 vanto Exp $
+ * $Id: KoboldProject.java,v 1.16 2004/08/24 17:13:49 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -47,8 +47,6 @@ import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.ProductlineFactory;
-import kobold.client.plam.model.product.Product;
-import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.workflow.LocalMessageQueue;
 import kobold.common.data.User;
@@ -193,6 +191,10 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 		        productline = ProductlineFactory.create(spl);
 			    productline.setProject(this);
 			    productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
+			    //check out from repo
+			    logger.debug("checkout pl");
+			    checkOutProductline(productline);
+			    
 		        ModelStorage.storeModel(productline);
 		    } else {
 		        productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
@@ -526,8 +528,21 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 
 	public void refreshResources(IFileDescriptorContainer fdCont)
 	{
-	    for (int i = 0; i < vcmListeners.size(); i++) {
-	        ((IVCMActionListener)vcmListeners.get(i)).refreshFiledescriptors(fdCont);
+	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
+	    if (l != null) {
+	        l.refreshFiledescriptors(fdCont);
+	    } else {
+	        logger.error("no vcm listener registered");
+	    }
+	}
+	
+	public void checkOutProductline(Productline pl) 
+	{
+	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
+	    if (l != null) {
+	        l.checkoutProductline(pl);
+	    } else {
+	        logger.error("no vcm listener registered");
 	    }
 	}
 	

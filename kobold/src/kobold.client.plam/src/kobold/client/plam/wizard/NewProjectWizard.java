@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.24 2004/08/03 14:49:20 vanto Exp $
+ * $Id: NewProjectWizard.java,v 1.25 2004/08/24 17:13:49 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -234,10 +234,10 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			// create local message queue.
 			LocalMessageQueue mq = kNature.getMessageQueue();
 			KoboldMessage welcome = new KoboldMessage();
-			welcome.setSender("null");
+			welcome.setSender("Kobold Message Agent");
 			welcome.setReceiver(kNature.getUserName());
 			welcome.setSubject("Welcome");
-			welcome.setMessageText("Just have fun!");
+			welcome.setMessageText("Please enjoy your ride with the Kobold Productline Manager!\n\nYou will be served orange juice and prosecco. If the stuart does not arrive, please call your system administrator.");
 			mq.addMessage(welcome);
 			
 			//TODO: Remove test stuff

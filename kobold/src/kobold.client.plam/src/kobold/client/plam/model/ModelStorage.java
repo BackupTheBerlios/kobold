@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.23 2004/08/22 12:44:56 memyselfandi Exp $
+ * $Id: ModelStorage.java,v 1.24 2004/08/24 17:13:49 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -54,6 +54,7 @@ import org.dom4j.io.XMLWriter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -457,6 +458,22 @@ public class ModelStorage
 
 	        }
 		}
+	
+	public static IFileDescriptorContainer getAssetByPath(IResource resource)
+	{
+	    IFileDescriptorContainer asset = null;
+	    
+	    if (resource instanceof IFile) {
+	        resource = resource.getParent();
+	    }
+	    
+	    String[] segs = resource.getProjectRelativePath().segments();
+	    for (int i = 0; i < segs.length; i++) {
+	        logger.info(segs[i]);
+	    }
+	    
+	    return asset;
+	}
 
 	public static void serializeVariants (Component co, IProgressMonitor monitor)
 	{

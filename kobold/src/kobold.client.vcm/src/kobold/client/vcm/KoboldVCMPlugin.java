@@ -80,61 +80,15 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		Plugin plugin = KoboldPLAMPlugin.getDefault();
-		IProject projects[] = KoboldPLAMPlugin.getWorkspace().getRoot().getProjects();
-		if (projects != null) {
-			for (int i = 0; i < projects.length; i++) {
-			    IProjectNature nature = null;
-			    if (projects[i].isAccessible())
-			    {
-			        try
-                    {
-			            nature = projects[i].getNature(KoboldProject.NATURE_ID);
-                    } catch (Exception e)
-                    {
-                        // shit on it
-                    }
-			        
-			    }
-				if (nature != null) {
-					((KoboldProject)nature).addVCMActionListener(new IVCMActionListener() {
-						public void refreshFiledescriptors(
-								IFileDescriptorContainer container) {
-							StatusUpdater st = new StatusUpdater();
-							st.updateFileDescriptors(container);
-							System.out.println("TEST STATUS");
-						}
-
-						public void checkoutProductline(AbstractRootAsset rootAsset) {
-							KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
-							try
-							{
-								AbstractAsset tmpAsset[] = {rootAsset};
-								repoAccess.checkout(tmpAsset,IResource.DEPTH_INFINITE,null);
-							}
-							catch (Exception e)
-							{
-								// TODO: handle exception
-							}
-							
-							
-						}
-					});
-				}
-			}
-			
-		} else {
-
-		} 
-
-		
+		KoboldPLAMPlugin.getDefault().setVCMListener(new VCMActionListener());
 	}
 
 	/**
 	 * This method is called when the plug-in is stopped
 	 */
 	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
+	    KoboldPLAMPlugin.getDefault().setVCMListener(null);
+	    super.stop(context);
 	}
 	
 	/**

@@ -21,36 +21,51 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVCMActionListener.java,v 1.3 2004/08/24 17:13:49 vanto Exp $
+ * $Id: VCMActionListener.java,v 1.1 2004/08/24 17:13:55 vanto Exp $
  *
  */
-package kobold.client.plam.listeners;
+package kobold.client.vcm;
 
+import org.eclipse.core.resources.IResource;
+
+import kobold.client.plam.listeners.IVCMActionListener;
+import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
-
+import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
+import kobold.client.vcm.controller.StatusUpdater;
 
 /**
- * Provides an interface to all vcm action. Due to information hiding issues,
- * the VCM Plugin should implement this listener and has to register itself to
- * all active productlines, which invoke action via this interface.
- * 
  * @author Tammo
  */
-public interface IVCMActionListener
+public class VCMActionListener implements IVCMActionListener
 {
-    /**
-     * Refreshes all filedescriptors in this container.
-     * 
-     * @param container
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.listeners.IVCMActionListener#refreshFiledescriptors(kobold.client.plam.model.IFileDescriptorContainer)
      */
-    void refreshFiledescriptors(IFileDescriptorContainer container);
-    
-    /**
-     * Refreshes all filedescriptors in this container.
-     * 
-     * @param container
+    public void refreshFiledescriptors(IFileDescriptorContainer container)
+    {
+		StatusUpdater st = new StatusUpdater();
+		st.updateFileDescriptors(container);
+		//System.out.println("TEST STATUS");
+    }
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.listeners.IVCMActionListener#checkoutProductline(kobold.client.plam.model.AbstractRootAsset)
      */
-    void checkoutProductline(AbstractRootAsset rootAsset);
-    //TODO: To be continued.
+    public void checkoutProductline(AbstractRootAsset rootAsset)
+    {
+		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
+		try
+		{
+			AbstractAsset tmpAsset[] = {rootAsset};
+			repoAccess.checkout(tmpAsset,IResource.DEPTH_INFINITE,null);
+		}
+		catch (Exception e)
+		{
+			// TODO: handle exception
+		}
+    }
+
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.22 2004/08/06 09:21:43 garbeam Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.23 2004/08/24 17:13:49 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -36,6 +36,7 @@ import java.util.ResourceBundle;
 
 import kobold.client.plam.controller.SSLHelper;
 import kobold.client.plam.listeners.IProjectChangeListener;
+import kobold.client.plam.listeners.IVCMActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,9 +49,7 @@ import org.eclipse.core.resources.IResourceStatus;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -70,6 +69,7 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 	private ResourceBundle resourceBundle;
 	// current kobold-natured project
 	private IProject currentProject;
+	private IVCMActionListener vcmListener;
 	
 	protected final HashSet projectChangeListeners = new HashSet(5); 
 	
@@ -90,6 +90,20 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 		}
 	}
 
+	/**
+	 * Returns the registered VCM-Plugin or null if none has been registered.
+	 * @return
+	 */
+	public IVCMActionListener getVCMListener()
+	{
+	    return vcmListener;
+	}
+	
+	public void setVCMListener(IVCMActionListener l)
+	{
+	    this.vcmListener = l;
+	}
+	
 	/**
 	 * Convenience method for logging statuses to the plugin log
 	 * 

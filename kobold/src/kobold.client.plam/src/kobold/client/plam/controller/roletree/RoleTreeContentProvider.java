@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.32 2004/08/23 13:00:42 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.33 2004/08/24 17:13:49 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -36,9 +36,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
+import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
@@ -48,6 +51,8 @@ import kobold.common.data.User;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -70,7 +75,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	private IWorkspace input;
 	protected TreeViewer viewer;
 	private List listenRootAssets = new LinkedList();
-	
+	private boolean ignoreModelChanges = false; 
 	
     private IProject[] getKoboldProjects() 
     {
@@ -194,6 +199,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     	    List list = new ArrayList();
     	    list.addAll(((Variant)parentElement).getComponents());
     	    list.addAll(((Variant)parentElement).getReleases());
+    	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
     	    list.addAll(((Variant)parentElement).getFileDescriptors());
     	    return list.toArray();
 
@@ -240,7 +246,22 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     }
 
 	public void resourceChanged(IResourceChangeEvent event) {
-		viewer.getControl().getDisplay().syncExec(new Runnable() {		
+		System.err.println(event.getDelta().getAffectedChildren());
+	    try {
+            event.getDelta().accept(new IResourceDeltaVisitor() {
+                public boolean visit(IResourceDelta delta) throws CoreException
+                {
+                    System.err.println(delta.getResource().getName());
+                    return true;
+                }
+            });
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
+		
+		ModelStorage.getAssetByPath(event.getDelta().getResource());
+
+	    viewer.getControl().getDisplay().syncExec(new Runnable() {		
 			public void run() {		
 				viewer.refresh();
 			}
@@ -310,13 +331,11 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public void propertyChange(final PropertyChangeEvent event) {
+	    if (ignoreModelChanges)
+	        return;
 	    viewer.getControl().getDisplay().syncExec(new Runnable() {		
 			public void run() {		
 			    viewer.refresh();
-				// FIXME: restore expanded nodes.
-//				if (KoboldPLAMPlugin.getCurrentProject() != null) {
-//				    viewer.expandToLevel(KoboldPLAMPlugin.getCurrentProject(),AbstractTreeViewer.ALL_LEVELS);
-//				}
 			}
 		});
 	}
