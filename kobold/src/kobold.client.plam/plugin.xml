@@ -179,6 +179,10 @@
          <visibility>
                <objectClass name="kobold.client.plam.model.AbstractAsset"/>
          </visibility>
+         <action
+               label="Update"
+               class="kobold.client.plam.action.UpdateRelatedComponentAction"
+               id="kobold.client.plam.updateRelatedComponetAction"/>
          
       </objectContribution>
 <!--      <objectContribution

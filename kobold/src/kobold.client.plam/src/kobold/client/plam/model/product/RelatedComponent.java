@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.12 2004/09/21 12:58:25 vanto Exp $
+ * $Id: RelatedComponent.java,v 1.13 2004/10/05 17:56:27 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -127,5 +127,18 @@ public class RelatedComponent extends ProductComponent
 	{
 	    return relatedRelease;
 	}
+
+
+
+    /**
+     *  Update Release of this ReleatedComponent.
+     */
+    public void updateRelease() {
+       Release head = relatedVariant.getHead();
+       if (head != null && head != this.getRelatedRelease()) {
+            this.relatedRelease = head;
+            //FIXME add files to productrepository
+       }           
+    }
 
 }

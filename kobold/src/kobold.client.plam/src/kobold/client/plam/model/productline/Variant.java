@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.27 2004/08/31 20:14:07 vanto Exp $
+ * $Id: Variant.java,v 1.28 2004/10/05 17:56:39 martinplies Exp $
  *
  */
 
@@ -327,5 +327,12 @@ public class Variant extends AbstractAsset
 	    l.addAll(getReleases());
 	    return l;
 	}
+
+    /**
+     * Returns the latest release
+     */
+    public Release getHead() {
+       return (Release) releases.get(releases.size() -1);
+    }
 
 }
