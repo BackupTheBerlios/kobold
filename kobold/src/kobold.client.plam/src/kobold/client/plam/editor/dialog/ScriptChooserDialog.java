@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptChooserDialog.java,v 1.4 2004/08/30 14:06:04 garbeam Exp $
+ * $Id: ScriptChooserDialog.java,v 1.5 2004/08/30 14:11:48 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -30,7 +30,6 @@ import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.AbstractAsset;
-import kobold.common.data.User;
 import kobold.common.io.ScriptDescriptor;
 
 import org.apache.commons.logging.Log;
