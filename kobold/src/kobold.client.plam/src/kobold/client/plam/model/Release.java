@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Release.java,v 1.2 2004/07/07 01:50:36 vanto Exp $
+ * $Id: Release.java,v 1.3 2004/07/26 08:19:32 martinplies Exp $
  *
  */
 
@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import kobold.client.plam.model.productline.IProductlineNode;
 import kobold.common.data.ISerializable;
 
 import org.dom4j.DocumentHelper;
@@ -42,7 +43,7 @@ import org.dom4j.Element;
  * TODO: Kopfkommentar
  * @author garbeam
  */
-public class Release extends AbstractAsset {
+public class Release extends AbstractAsset implements IProductlineNode {
 
     private List revisions = new ArrayList();
     private boolean released = false;
@@ -219,6 +220,13 @@ public class Release extends AbstractAsset {
             revision = element.elementTextTrim("revision");
         }
 	}
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.productline.IProductlineNode#getChildren()
+     */
+    public List getChildren() {
+        return new ArrayList();
+    }
 	
 
 }
