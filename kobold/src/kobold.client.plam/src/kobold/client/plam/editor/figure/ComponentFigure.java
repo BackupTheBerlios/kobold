@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentFigure.java,v 1.7 2004/07/23 22:27:11 vanto Exp $
+ * $Id: ComponentFigure.java,v 1.8 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -30,13 +30,14 @@ import kobold.client.plam.editor.KoboldColors;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 
 
 /**
  * ComponentFigure
  * 
  * @author Tammo van Lessen
- * @version $Id: ComponentFigure.java,v 1.7 2004/07/23 22:27:11 vanto Exp $
+ * @version $Id: ComponentFigure.java,v 1.8 2004/08/05 20:42:31 vanto Exp $
  */
 public class ComponentFigure extends AbstractNodeFigure {
     
@@ -47,7 +48,8 @@ public class ComponentFigure extends AbstractNodeFigure {
 		//((ToolbarLayout)getContentPane().getLayoutManager()).setVertical(false);
     }
 
-	/**
+	
+    /**
 	 * @see org.eclipse.draw2d.Shape#fillShape(org.eclipse.draw2d.Graphics)
 	 */
 	protected void fillShape(Graphics graphics) {
@@ -66,4 +68,13 @@ public class ComponentFigure extends AbstractNodeFigure {
 		int h = r.height - lineWidth;
 		graphics.drawRectangle(x, y, w, h);
 	}
+
+
+    /**
+     * @see kobold.client.plam.editor.figure.AbstractNodeFigure#getAssetColor()
+     */
+    protected Color getAssetColor()
+    {
+        return KoboldColors.component;
+    }
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposerTool.java,v 1.4 2004/08/04 08:50:12 vanto Exp $
+ * $Id: ProductComposerTool.java,v 1.5 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor.tool;
@@ -154,6 +154,7 @@ public class ProductComposerTool extends TargetingTool
         ArchitectureEditor ae = (ArchitectureEditor)((DefaultEditDomain)getDomain()).getEditorPart();
         ((KoboldGraphicalViewer)ae.getAdapter(GraphicalViewer.class)).setComposing(false);
     }
+    
     public void activate()
     {
         super.activate();

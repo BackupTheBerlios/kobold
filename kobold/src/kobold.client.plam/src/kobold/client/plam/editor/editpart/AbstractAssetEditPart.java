@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAssetEditPart.java,v 1.6 2004/08/05 14:19:33 vanto Exp $
+ * $Id: AbstractAssetEditPart.java,v 1.7 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -31,6 +31,8 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
+import kobold.client.plam.editor.figure.AbstractNodeFigure;
+import kobold.client.plam.editor.figure.ReleaseFigure;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.editor.policy.ComponentEditPolicyImpl;
@@ -92,8 +94,8 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
 			refreshSourceConnections();
 		} else if (EdgeContainer.ID_TARGET_CHANGED.equals(prop)) {
 			refreshTargetConnections();
-		} else if (prop.equals(ViewModel.ID_SIZE) || prop.equals(ViewModel.ID_LOCATION) 
-		        || prop.equals(AbstractAsset.ID_DATA)) {
+		} else /*if (prop.equals(ViewModel.ID_SIZE) || prop.equals(ViewModel.ID_LOCATION) 
+		        || prop.equals(AbstractAsset.ID_DATA))*/ {
 			refreshVisuals();
 		}
 	}
@@ -149,6 +151,13 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
 
 		((GraphicalEditPart) getParent()).setLayoutConstraint(
 			this, getFigure(), r);
+		
+		IFigure f = getFigure();
+		if (f instanceof AbstractNodeFigure) {
+		    ((AbstractNodeFigure)f).setStatusSet(getAsset().getStatusSet());
+		} else if (f instanceof ReleaseFigure) {
+		    ((ReleaseFigure)f).setStatusSet(getAsset().getStatusSet());
+		}
 	}
 
 	/**

@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.29 2004/08/03 17:35:47 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.30 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +103,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * @author Tammo
  */
 public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette 
-	implements IViewModelProvider {
+	implements IViewModelProvider, PropertyChangeListener {
 
     protected static final String PALETTE_DOCK_LOCATION = "Dock location"; //$NON-NLS-1$
     protected static final String PALETTE_SIZE = "Palette Size"; //$NON-NLS-1$
@@ -118,6 +120,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	private PaletteRoot root;
 	private KeyHandler keyHandler;
 	private boolean isSaving = false;
+	private boolean isDirty = false;
 	private OutlinePage outlinePage;
 	
 	private AbstractRootAsset model = new Productline();
@@ -286,6 +289,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 		    KoboldProject pp = model.getKoboldProject();
 			pp.storeViewModelContainer(viewModel, monitor);
 			pp.store();
+			isDirty = false;
 			//pp.getProductline().serializeAll();
 			getCommandStack().markSaveLocation();
 		} 
@@ -313,14 +317,14 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	 * @see org.eclipse.ui.ISaveablePart#isDirty()
 	 */
 	public boolean isDirty() {
-		return getCommandStack().isDirty();
+		return getCommandStack().isDirty() && isDirty;
 	}
 
 	/**
 	 * @see org.eclipse.ui.ISaveablePart#isSaveAsAllowed()
 	 */
 	public boolean isSaveAsAllowed() {
-		return false;
+		return true;
 	}
 
 
@@ -501,9 +505,12 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	
     protected void setInput(IEditorInput input)
     {
-    	super.setInput(input);
+    	if (model != null) {
+    	    model.removeModelChangeListener(this);
+    	}
+        super.setInput(input);
 		model = getArchEditorInput().getAsset();
-
+		model.addModelChangeListener(this);
 	    KoboldProject pp = model.getKoboldProject();
 	    ViewModelContainer vmc = pp.restoreViewModelContainer(); 
 	    
@@ -519,5 +526,13 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     			getGraphicalViewer().setContents(model);
     		}
     	}  
+    }
+
+    /**
+     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+     */
+    public void propertyChange(PropertyChangeEvent arg0)
+    {
+        isDirty = true;
     }
 }

@@ -21,10 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeFigure.java,v 1.7 2004/07/23 20:31:54 vanto Exp $
+ * $Id: AbstractNodeFigure.java,v 1.8 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
+
+import java.text.MessageFormat;
+import java.util.Iterator;
+import java.util.Set;
+
+import kobold.client.plam.model.AbstractStatus;
 
 import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.ColorConstants;
@@ -32,6 +38,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.FreeformViewport;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
@@ -42,8 +49,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * @author Tammo
@@ -82,15 +87,25 @@ public abstract class AbstractNodeFigure extends ComposableFigure {
 		setOpaque(true);
 	}
 	
-	public void showScriptLabel(boolean s)
-	{
-		titlebar.showScriptLabel(s);
-	}
-
 	public void setTitle(String title)
 	{
 		titlebar.setTitle(title);
 	}
+
+	public void setStatusSet(Set status) {
+	    titlebar.setStatusSet(status);
+	    
+	    if (status.contains(AbstractStatus.DEPRECATED_STATUS)) {
+	        setLineStyle(Graphics.LINE_DOT);
+	        setBackgroundColor(ColorConstants.lightGray);
+	    } else {
+	        setLineStyle(Graphics.LINE_SOLID);
+	        setBackgroundColor(getAssetColor());
+	    }
+	    invalidate();
+	}
+	
+	protected abstract Color getAssetColor(); 
 	
 	/**
 	 * @return
@@ -102,9 +117,11 @@ public abstract class AbstractNodeFigure extends ComposableFigure {
 	public static class TitleBarFigure extends Figure
 	{
 		private Label titleLabel;
-		private IFigure iconWidget;
+		private Figure iconWidget;
 		
 		private Label scriptLabel;
+		private Set statusSet;
+		private String title;
 		
 		private static Font font;
 		static {
@@ -133,10 +150,11 @@ public abstract class AbstractNodeFigure extends ComposableFigure {
 			iconWidget.setLayoutManager(tbl);
 			add(iconWidget);
 			
-			scriptLabel = new Label(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJS_INFO_TSK));
-			scriptLabel.setTextAlignment(Label.RIGHT);
-			scriptLabel.setToolTip(new Label("This Asset contains Scripts"));
-			iconWidget.add(scriptLabel);	
+			
+//			scriptLabel = new Label(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJS_INFO_TSK));
+//			scriptLabel.setTextAlignment(Label.RIGHT);
+//			scriptLabel.setToolTip(new Label("This Asset contains Scripts"));
+//			iconWidget.add(scriptLabel);	
 		}
 		
 		/* Eats too much cpu
@@ -153,14 +171,30 @@ public abstract class AbstractNodeFigure extends ComposableFigure {
 			//setForegroundColor(fC);
 		}*/
 
-		public void setTitle(String title)
-		{
-			titleLabel.setText(title);
+		public void setTitle(String title) {
+		    this.title = title;
+		    titleLabel.setText(title);
 		}
 		
-		public void showScriptLabel(boolean b)
+		public void setStatusSet(Set statusSet)
 		{
-			scriptLabel.setVisible(b);
+			this.statusSet = statusSet;
+			iconWidget.removeAll();
+
+			if (statusSet != null) {
+			    Iterator it = statusSet.iterator();
+			    while (it.hasNext()) {
+			        AbstractStatus s = (AbstractStatus)it.next();
+			        Label si = new Label(); 
+			        if (s.getIcon() == null) {
+			            si.setText(s.getId());
+			        } else {
+			            si.setIcon(s.getIcon().createImage());
+			        }
+			        si.setToolTip(new Label(MessageFormat.format(s.getDescription(), new String[] {title})));
+			        iconWidget.add(si);
+			    }
+			}
 		}
 	}
 }

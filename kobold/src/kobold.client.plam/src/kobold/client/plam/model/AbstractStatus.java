@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractStatus.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: AbstractStatus.java,v 1.2 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -39,6 +39,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 public abstract class AbstractStatus implements ISerializable
 {
     public static final String DEPRECATED_ID = "deprecated";
+    
+    public static final AbstractStatus DEPRECATED_STATUS = new DeprecatedStatus();
     
     /**
      * Returns the unique id of this status object.
@@ -97,5 +99,34 @@ public abstract class AbstractStatus implements ISerializable
         }
         
         return null;
+    }
+    
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj)
+    {
+        if (obj == this) {
+            return true;
+        }
+        
+        if (obj instanceof AbstractStatus) {
+            return ((AbstractStatus)obj).getId().equals(getId());
+        }
+        
+        return false;
+    }
+    
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode()
+    {
+        return getId().hashCode();
+    }
+    
+    public static boolean isDeprecated(AbstractAsset asset)
+    {
+        return asset.getStatusSet().contains(DEPRECATED_STATUS);
     }
 }

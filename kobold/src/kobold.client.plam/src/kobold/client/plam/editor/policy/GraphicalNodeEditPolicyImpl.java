@@ -21,13 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalNodeEditPolicyImpl.java,v 1.6 2004/08/03 15:16:40 vanto Exp $
+ * $Id: GraphicalNodeEditPolicyImpl.java,v 1.7 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
 
 import kobold.client.plam.editor.command.ConnectionCommand;
-import kobold.client.plam.editor.editpart.MetaEditPart;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.edges.EdgeContainer;
@@ -41,7 +40,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * GraphicalNodeEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.6 2004/08/03 15:16:40 vanto Exp $
+ * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.7 2004/08/05 20:42:31 vanto Exp $
  */
 public class GraphicalNodeEditPolicyImpl
     extends org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy {
@@ -84,6 +83,11 @@ public class GraphicalNodeEditPolicyImpl
             if (parent == (AbstractAsset)getHost().getModel()) {
                 return null;
             }
+        }
+        
+        // dont allow self-connection
+        if (parent == getHost().getModel()) {
+            return null;
         }
         
         command.setTargetNode((INode)getHost().getModel());

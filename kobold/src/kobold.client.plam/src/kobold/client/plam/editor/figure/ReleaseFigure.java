@@ -21,17 +21,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ReleaseFigure.java,v 1.3 2004/07/23 22:27:11 vanto Exp $
+ * $Id: ReleaseFigure.java,v 1.4 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
 
+import java.util.Set;
+
 import kobold.client.plam.editor.KoboldColors;
+import kobold.client.plam.model.AbstractStatus;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Rectangle;
 
@@ -52,6 +56,7 @@ public class ReleaseFigure extends ComposableFigure
 		 setBackgroundColor(KoboldColors.release);
 		 setForegroundColor(ColorConstants.lightBlue);
 		 titleLabel = new Label();
+		 titleLabel.setIconAlignment(PositionConstants.RIGHT);
 		 ToolbarLayout tbl = new ToolbarLayout();
 		 tbl.setVertical(false);
 		 setLayoutManager(tbl);
@@ -64,6 +69,19 @@ public class ReleaseFigure extends ComposableFigure
         titleLabel.setText(title);
     }
 
+	public void setStatusSet(Set status) {
+	    if (status.contains(AbstractStatus.DEPRECATED_STATUS)) {
+	        setLineStyle(Graphics.LINE_DOT);
+	        setBackgroundColor(ColorConstants.lightGray);
+	        titleLabel.setIcon(AbstractStatus.DEPRECATED_STATUS.getIcon().createImage());
+	    } else {
+	        setLineStyle(Graphics.LINE_SOLID);
+	        setBackgroundColor(KoboldColors.release);
+	        titleLabel.setIcon(null);
+	    }
+	    invalidate();
+	}
+    
     /**
      * @see org.eclipse.draw2d.Shape#fillShape(org.eclipse.draw2d.Graphics)
      */

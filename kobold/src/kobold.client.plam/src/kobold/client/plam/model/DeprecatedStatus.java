@@ -21,12 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeprecatedStatus.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: DeprecatedStatus.java,v 1.2 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.model;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 
 
 /**
@@ -63,6 +65,7 @@ public class DeprecatedStatus extends AbstractStatus
      */
     public ImageDescriptor getIcon()
     {
-        return null;
+        ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
+        return images.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE);
     }
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ConfigureAssetAction.java,v 1.3 2004/08/05 13:13:05 vanto Exp $
+ * $Id: ConfigureAssetAction.java,v 1.4 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor.action;
@@ -73,8 +73,8 @@ public class ConfigureAssetAction extends SelectionAction
     protected boolean calculateEnabled()
     {
         if ((getSelectedObjects().size() == 1)
-                && (getSelectedObjects().get(0) instanceof AbstractAssetEditPart)
-                && (getSelectedObjects().get(0) instanceof ProductlineEditPart)
+                && ((getSelectedObjects().get(0) instanceof AbstractAssetEditPart)
+                || (getSelectedObjects().get(0) instanceof ProductlineEditPart))
                 && !(getSelectedObjects().get(0) instanceof MetaEditPart)) {
 
             return true;

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantEditPart.java,v 1.11 2004/07/23 22:27:11 vanto Exp $
+ * $Id: VariantEditPart.java,v 1.12 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -33,6 +33,7 @@ import kobold.client.plam.editor.figure.VariantFigure;
 import kobold.client.plam.editor.policy.VariantContainerEditPolicy;
 import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IReleaseContainer;
+import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;
@@ -44,7 +45,7 @@ import org.eclipse.gef.GraphicalEditPart;
  * VariantEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: VariantEditPart.java,v 1.11 2004/07/23 22:27:11 vanto Exp $
+ * @version $Id: VariantEditPart.java,v 1.12 2004/08/05 20:42:31 vanto Exp $
  */
 public class VariantEditPart extends AbstractComposableEditPart 
 {
@@ -107,7 +108,8 @@ public class VariantEditPart extends AbstractComposableEditPart
     {
     	IFigure child = ((GraphicalEditPart)childEditPart).getFigure();
         if (childEditPart instanceof ReleaseEditPart) {
-            getReleasePane().add(child, index);
+            int i = ((Variant)getAsset()).getReleases().indexOf(((ReleaseEditPart)childEditPart).getAsset());
+            getReleasePane().add(child, i);
     	} else {
     	    getContentPane().add(child, index);
     	}

@@ -21,21 +21,28 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.7 2004/08/05 14:19:36 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.8 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
 import java.io.File;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
+import kobold.client.plam.model.AbstractStatus;
 import kobold.client.plam.model.FileDescriptor;
+import kobold.client.plam.model.IComponentContainer;
+import kobold.client.plam.model.IReleaseContainer;
+import kobold.client.plam.model.IVariantContainer;
 import kobold.client.plam.model.Release;
+import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 
@@ -82,6 +89,8 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     private Text resource;
     private Text name;
     private Text description;
+    private Button deprecated;
+    
     private TableViewer viewer;
     private Table maintainer;
     /**
@@ -153,6 +162,22 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		    description.setText(asset.getDescription());
 		}
 
+		if (!(asset instanceof Productline)) {
+		    label = new Label(panel, SWT.NONE);
+		    label.setText("Deprecated:");
+		    
+		    deprecated = new Button(panel, SWT.CHECK);
+			deprecated.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
+					| GridData.FILL_HORIZONTAL));
+			
+			deprecated.setSelection(AbstractStatus.isDeprecated(asset));
+			if (AbstractStatus.isDeprecated(asset.getParent())) {
+			    deprecated.setEnabled(false);
+			} else {
+			    deprecated.setEnabled(true);
+			}
+		}
+		
 		if (asset instanceof AbstractMaintainedAsset) {
 		    createMaintainerArea(panel);
 		}
@@ -433,6 +458,33 @@ public class AssetConfigurationDialog extends TitleAreaDialog
             asset.setDescription(description.getText());
         }
 
+        boolean dep = AbstractStatus.isDeprecated(asset); 
+        if (deprecated.getSelection() && !dep) {
+            makeAssetDeprecated(asset);
+        } else if (!deprecated.getSelection() && dep) {
+            asset.removeStatus(AbstractStatus.DEPRECATED_STATUS);
+        }
+        
         super.okPressed();
+    }
+    
+    private void makeAssetDeprecated(AbstractAsset asset) 
+    {
+        asset.addStatus(AbstractStatus.DEPRECATED_STATUS);
+        List assetList = new ArrayList();
+        if (asset instanceof IComponentContainer) {
+            assetList.addAll(((IComponentContainer)asset).getComponents());
+        }
+        if (asset instanceof IVariantContainer) {
+            assetList.addAll(((IVariantContainer)asset).getVariants());
+        }
+        if (asset instanceof IReleaseContainer) {
+            assetList.addAll(((IReleaseContainer)asset).getReleases());
+        }
+
+        Iterator it = assetList.iterator();
+        while (it.hasNext()) {
+            makeAssetDeprecated((AbstractAsset)it.next());
+        }
     }
 }

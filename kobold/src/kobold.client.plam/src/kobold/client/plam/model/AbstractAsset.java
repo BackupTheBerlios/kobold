@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.13 2004/08/05 19:09:16 grosseml Exp $
+ * $Id: AbstractAsset.java,v 1.14 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -116,9 +116,9 @@ public abstract class AbstractAsset implements ISerializable, INode
      * Removes this asset from the id pool. 
      */
     public void remove(){
-        AbstractRootAsset ara = this.getRoot();
-        Productline pl = ara.getProductline();
-        pl.removeAsset(this.getId());
+//        AbstractRootAsset ara = this.getRoot();
+//        Productline pl = ara.getProductline();
+//        pl.removeAsset(this.getId());
     }
     
     /**
@@ -225,7 +225,7 @@ public abstract class AbstractAsset implements ISerializable, INode
     public void addStatus(AbstractStatus status)
     {
         statusSet.add(status);
-        fireStructureChange(ID_STATUS, status);
+        firePropertyChange(ID_STATUS, null, status);
     }
 
     /**
@@ -236,7 +236,7 @@ public abstract class AbstractAsset implements ISerializable, INode
     public void removeStatus(AbstractStatus status)
     {
         statusSet.remove(status);
-        fireStructureChange(ID_STATUS, status);
+        firePropertyChange(ID_STATUS, null, status);
     }
 
     /**

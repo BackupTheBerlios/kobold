@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldGraphicalViewer.java,v 1.4 2004/08/01 18:23:06 martinplies Exp $
+ * $Id: KoboldGraphicalViewer.java,v 1.5 2004/08/05 20:42:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -30,6 +30,8 @@ import java.util.Iterator;
 
 import kobold.client.plam.editor.editpart.AbstractAssetEditPart;
 import kobold.client.plam.editor.tool.ProductComposer;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.AbstractStatus;
 import kobold.client.plam.model.productline.Productline;
 
 import org.eclipse.gef.EditPart;
@@ -79,6 +81,10 @@ public class KoboldGraphicalViewer extends ScrollingGraphicalViewer
                         oldComp.removePropertyChangeListener((AbstractAssetEditPart)ep);
                     }
                     composer.addPropertyChangeListener((AbstractAssetEditPart)ep);
+                    if (((AbstractAsset)ep.getModel()).getStatusSet()
+                            .contains(AbstractStatus.DEPRECATED_STATUS)) {
+                        composer.setMustNotUse((AbstractAsset)ep.getModel());
+                    }
                     ep.refresh();
                 }
             }
