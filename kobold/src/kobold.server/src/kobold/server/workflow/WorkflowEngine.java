@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.5 2004/05/12 14:47:29 bettina Exp $
+ * $Id: WorkflowEngine.java,v 1.6 2004/06/23 13:28:31 garbeam Exp $
  *
  */
 package kobold.server.workflow;
 
+import kobold.common.data.RPCSpy;
 import kobold.common.data.WorkflowMessage;
 import org.drools.*;
 import org.drools.rule.*;
@@ -130,10 +131,10 @@ public class WorkflowEngine {
 	 * Adds a workflowmessage object to the workingmemory.
 	 * @param msg a workflowmessage object
 	 */
-	private void assertObject(WorkflowMessage msg) {
+	private void assertObject(Object obj) {
 		WorkingMemory memory = this.getWorkingMemory();
 		try {
-			memory.assertObject(msg);
+			memory.assertObject(obj);
 		} catch (FactException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -142,13 +143,13 @@ public class WorkflowEngine {
 
 	/**
 	 * Deletes a workflowmessage object from the workingmemory.
-	 * @param msg a workflowmessage object
+	 * @param obj a workflowmessage object
 	 */
-	private void retractObject(WorkflowMessage msg) {
+	private void retractObject(Object obj) {
 		WorkingMemory memory = this.getWorkingMemory();
 		List list = memory.getObjects();
-		if (list.contains(msg)) {
-			list.remove(msg);
+		if (list.contains(obj)) {
+			list.remove(obj);
 		}
 		else {
 			
@@ -170,6 +171,31 @@ public class WorkflowEngine {
 	public void refreshRuleBase() {
 	}
 
+	/**
+	 * The interface that allows Kobold to transfer a 
+	 * RPCSpy object. It adds the object to the 
+	 * workingmemory and fires all rules. Afterwards the method
+	 * determines what will happen to the object. It will *always*
+	 * be deleted. You've to apply new Workflows within the rule
+	 * which may match this RPCSpy object.
+	 * @param rpcSpy the sniffed RPC call object.
+	 */
+	public static void applRPCSpy(RPCSpy rpcSpy) {
+		WorkflowEngine engine = getInstance();
+		engine.assertObject(rpcSpy);
+		WorkingMemory memory = engine.getWorkingMemory();
+		try {
+			memory.fireAllRules();
+		} catch (FactException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//if (!(msg.getReciever().equals(""))) {
+
+		//}
+		engine.retractObject(rpcSpy);
+	}
+	
 	/**
 	 * The interface that allows Kobold to transfer a 
 	 * workflowmessage object. It adds the object to the 

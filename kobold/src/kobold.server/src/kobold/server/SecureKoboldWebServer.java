@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.27 2004/06/23 11:59:27 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.28 2004/06/23 13:28:31 garbeam Exp $
  *
  */
 package kobold.server;
@@ -36,6 +36,7 @@ import kobold.common.controller.RPCMessageTransformer;
 import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
+import kobold.common.data.RPCSpy;
 import kobold.common.data.Role;
 import kobold.common.data.RoleP;
 import kobold.common.data.RolePE;
@@ -52,6 +53,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlrpc.XmlRpcHandler;
 import org.apache.xmlrpc.secure.SecureWebServer;
+import org.dom4j.Element;
 
 /**
  * @author garbeam, contan
@@ -65,7 +67,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 
 	// the xml-rpc webserver
 	private static SecureWebServer server;
-
+	
 	/**
 	 * main method
 	 */
@@ -100,15 +102,19 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	public Object execute(String methodName, Vector arguments)
 		throws Exception
 	{
+		Vector sniffArgs = new Vector();
 		try {
 			if (methodName.equals("login")) {
+				sniffArgs.add(new String((String)arguments.elementAt(0)));
+				sniffArgs.add(new String((String)arguments.elementAt(1)));
 				UserContext userContext = login((String)arguments.elementAt(0), (String)arguments.elementAt(1));
 				if (userContext !=  null) {
 					return RPCMessageTransformer.encode(userContext.serialize());
 				}
 			}
 			else if (methodName.equals("logout")) {
-			    UserContext uc = new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				sniffArgs.add(RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+			    UserContext uc = new UserContext((Element)sniffArgs.elementAt(0));
 			    logout(uc);
 			}
 			else if (methodName.equals("getRoles")) {
@@ -193,6 +199,8 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			logger.info("Exception during execute()", e);
 			throw e;	
 		}
+		
+		WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 		return IKoboldServer.NO_RESULT;
 	}
 	
