@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ScriptServerConnection.java,v 1.55 2004/11/08 15:55:29 memyselfandi Exp $
+ * $Id: ScriptServerConnection.java,v 1.56 2004/11/09 11:55:25 memyselfandi Exp $
  */
 package kobold.client.vcm.communication;
 
@@ -392,10 +392,10 @@ public class ScriptServerConnection implements IServerConnection
                         stream.println(new String(readLineBuffer, 0, index));
                     }
                     
-					if (logger.isDebugEnabled()) {
-						logger.debug("run()"
-								+ new String(readLineBuffer, 0, index));
-					}
+//					if (logger.isDebugEnabled()) {
+//						logger.debug("run()"
+//								+ new String(readLineBuffer, 0, index));
+//					}
                     this.readLineBuffer = new byte[512];
                     index = 0;
                     
