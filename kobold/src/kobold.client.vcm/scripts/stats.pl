@@ -55,13 +55,18 @@ sub read_entries {
         #convert date from: Thu Jul  1 09:36:12 2004
         #             to: year,month,date,hour,minutes,seconds
 
-        #returns a unix time value
-        my $time = str2time($date);
-        $date = $time;
+        #returns a unix time value, but what'S that??
+        #my $time = str2time($date);
+        #$date = $time;
 
         #or instead:
-        #my ($ss,$mm,$hh,$day,$month,$year,$zone) = strptime($date);
-        #$year = $year + 1900;
+        my ($ss,$mm,$hh,$day,$month,$year,$zone) = strptime($date);
+        
+        #fixes
+        $year = $year + 1900;
+        $month = $month + 1;
+
+        $date = "$year,$month,$day,$hh,$mm,$ss";
         #print "HALLO: $ss,$mm,$hh,$day,$month,$year\n";
 
         #if the actual line ($_) represent a file
