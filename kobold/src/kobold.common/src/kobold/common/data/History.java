@@ -6,8 +6,6 @@
  */
 package kobold.common.data;
 
-import java.util.HashMap;
-
 /**
  * @author grosseml
  *

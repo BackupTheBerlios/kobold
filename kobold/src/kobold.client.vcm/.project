@@ -3,7 +3,6 @@
 	<name>kobold.client.vcm</name>
 	<comment></comment>
 	<projects>
-		<project>kobold.common</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
