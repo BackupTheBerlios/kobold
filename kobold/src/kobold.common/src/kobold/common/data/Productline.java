@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.8 2004/05/18 11:19:27 vanto Exp $
+ * $Id: Productline.java,v 1.9 2004/06/02 15:51:38 rendgeor Exp $
  *
  */
 package kobold.common.data;
@@ -29,17 +29,36 @@ package kobold.common.data;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
+import java.util.HashMap;
+
+import kobold.common.data.Product;
 /**
- * @author garbeam
+ * @author rendgeor
  */
 public class Productline implements IAsset {
 
+	//name of the PL
 	private String name;
 	
-	/**
+	//the products and core-assets
+	private HashMap products;
+	private HashMap coreAssets;
+	
+	//create a instance
+	static private Productline instance;
+
+	static public Productline getInstance() {
+		 if (instance == null ) {
+		 	 instance = new Productline("PL");
+		 }
+		 return instance;
+	}	
+	
+	/**Basic constructor of this singleton.
 	 */
-	public Productline(String name) {
+	private Productline(String name) {
 		this.name = name;
+		
 	}
 
 	/**
@@ -48,6 +67,25 @@ public class Productline implements IAsset {
 		deserialize(element);
 	}
 
+	
+	/**
+	 * Adds a new product.
+	 *
+	 * @param product String containing the new productname
+	 */
+	public void addProduct(Product product) {
+		products.put(product.getName(), product);
+	}
+
+	/**
+	 * Adds a new coreAsset.
+	 *
+	 * @param coreAsset String containing the new coreAssetname
+	 */
+	public void addCoreAsset(Product coreAsset) {
+		products.put(coreAsset.getName(), coreAsset);
+	}
+	
 	/**
 	 * Serializes the productline.
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
@@ -79,4 +117,12 @@ public class Productline implements IAsset {
         return name;
     }
 
+	/**
+	 * @param name The name to set.
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 }
