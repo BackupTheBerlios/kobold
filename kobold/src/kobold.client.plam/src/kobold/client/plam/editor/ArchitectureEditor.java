@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.17 2004/06/28 14:50:04 martinplies Exp $
+ * $Id: ArchitectureEditor.java,v 1.18 2004/06/29 15:50:38 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -106,6 +106,8 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     protected static final String PALETTE_STATE = "Palette state"; //$NON-NLS-1$
     protected static final int DEFAULT_PALETTE_SIZE = 130;
     
+    private double[] zoomLevelValues = {0.0625, 0.125, 0.25, .5, .75, 1.0, 1.5, 2.0, 2.5, 3, 4, 5, 8};
+    
     static {
     	KoboldPLAMPlugin.getDefault().getPreferenceStore().setDefault(
     			PALETTE_SIZE, DEFAULT_PALETTE_SIZE);
@@ -159,6 +161,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 		zoomLevels.add(ZoomManager.FIT_WIDTH);
 		zoomLevels.add(ZoomManager.FIT_HEIGHT);
 		root.getZoomManager().setZoomLevelContributions(zoomLevels);
+		root.getZoomManager().setZoomLevels(zoomLevelValues);
 
 		IAction zoomIn = new ZoomInAction(root.getZoomManager());
 		IAction zoomOut = new ZoomOutAction(root.getZoomManager());
