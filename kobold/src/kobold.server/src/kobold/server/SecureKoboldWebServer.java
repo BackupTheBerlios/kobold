@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.59 2004/07/28 15:13:43 memyselfandi Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.60 2004/07/29 08:56:36 neccaino Exp $
  *
  */
 package kobold.server;
@@ -297,6 +297,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			 ******************************************************************/
             else if (methodName.equals("checkAdministrability")){
                 try{
+                   logger.info("Recieved admincall \"" + methodName + "\"\n");
                    // admin method so leave without noticing the WorkflowEngine
                    return checkAdministrability((String)arguments.elementAt(0));
                 }
@@ -307,6 +308,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
             }
             else if (methodName.equals("newProductline")){
                 try{
+                    logger.info("Recieved admincall \"" + methodName + "\"\n");
                     // admin method so leave without noticing the WorkflowEngine
                     return newProductline((String)arguments.elementAt(0),
                                           (String)arguments.elementAt(1),
@@ -319,6 +321,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
             }
             else if (methodName.equals("invalidateProductline")){
                 try{
+                   logger.info("Recieved admincall \"" + methodName + "\"\n");
                    // admin method so leave without noticing the WorkflowEngine
                    return invalidateProductline((String)arguments.elementAt(0),
                                                 (String)arguments.elementAt(1));
@@ -330,6 +333,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
             }
             else if (methodName.equals("assignPle")){
                 try{
+                    logger.info("Recieved admincall \"" + methodName + "\"\n");
                     // admin method so leave without noticing the WorkflowEngine
                     return assignPle((String)arguments.elementAt(0),
                                      (String)arguments.elementAt(1),
@@ -342,6 +346,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
             }
             else if (methodName.equals("unassignPle")){
                 try{
+                    logger.info("Recieved admincall \"" + methodName + "\"\n");
                     // admin method so leave without noticing the WorkflowEngine
                     return unassignPle((String)arguments.elementAt(0),
                                        (String)arguments.elementAt(1),
@@ -354,6 +359,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
             }
             else if (methodName.equals("getPles")){
                 try{
+                    logger.info("Recieved admincall \"" + methodName + "\"\n");
                     // admin method so leave without noticing the WorkflowEngine
                     return getPles((String)arguments.elementAt(0),
                                    (String)arguments.elementAt(1));
@@ -365,6 +371,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
             }
             else if (methodName.equals("getProductlines")){
                 try{
+                    logger.info("Recieved admincall \"" + methodName + "\"\n");
                     // admin method so leave without noticing the WorkflowEngine
                     return getProductlines((String)arguments.elementAt(0));
                 }
