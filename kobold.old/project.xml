@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project>
 
   <!-- the version of maven's project object model -->
@@ -23,7 +23,7 @@
   
   <!-- the year the project started -->
   <inceptionYear>2004</inceptionYear>
-  <!--<package>de.berlios.kobold</package>-->
+  <package>kobold</package>
   <logo>http://developer.berlios.de/bslogo.php?group_id=1364</logo>
   <description>
     Kobold is a client-server based system for visualization and maintenance of software product lines.
@@ -83,7 +83,7 @@
       </roles>
     </developer>
     <developer>
-      <name>Bettina Druckenmüller</name>
+      <name>Bettina Druckenmueller</name>
       <id>bettina</id>
       <roles>
         <role>Developer</role>
@@ -134,12 +134,27 @@
 
   </developers>
 
-<!-- jar files the project is dependent on -->
-  <dependencies/>
-  
+  <!-- jar files the project is dependent on -->
+  <dependencies>
+     <dependency>
+       <id>gxl</id>
+       <version>0.91</version>
+     </dependency>
+  </dependencies>
+
   <!-- build information for the project -->
   <build>
+	<sourceDirectory>src</sourceDirectory>
+    <unitTestSourceDirectory>tests-src</unitTestSourceDirectory>
+
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+
   </build>
+
   <reports>
     <report>maven-changes-plugin</report>
     <report>maven-changelog-plugin</report>
