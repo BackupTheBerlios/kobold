@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.24 2004/06/23 11:48:08 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.25 2004/06/23 11:54:19 grosseml Exp $
  *
  */
 package kobold.server;
@@ -262,6 +262,12 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 		User user = manager.getUser(userName);
 		user.setUserName(userName);
 		user.setRealName(realName);
+	}
+	
+	public void changeUserPassword(UserContext userContext, String password){
+		UserManager manager = UserManager.getInstance();
+		User user = manager.getUser(userContext.getUserName());
+		user.setPassword(password);
 	}
 
 	/**
