@@ -21,14 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SetConstraintCommand.java,v 1.3 2004/06/22 23:30:12 vanto Exp $
+ * $Id: SetConstraintCommand.java,v 1.4 2004/09/21 20:54:30 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
 
 
 
-import kobold.client.plam.editor.model.ViewModel;
+import kobold.client.plam.editor.model.AssetView;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -39,11 +39,11 @@ import org.eclipse.gef.commands.Command;
  * SetConstraintCommand
  * 
  * @author Tammo van Lessen
- * @version $Id: SetConstraintCommand.java,v 1.3 2004/06/22 23:30:12 vanto Exp $
+ * @version $Id: SetConstraintCommand.java,v 1.4 2004/09/21 20:54:30 vanto Exp $
  */
 public class SetConstraintCommand extends Command {
 
-    private ViewModel model;
+    private AssetView model;
     private Point newPos;
     private Dimension newSize;
 	private Point oldPos;
@@ -65,7 +65,7 @@ public class SetConstraintCommand extends Command {
 		newSize = p;
 	}
 
-	public void setViewModel(ViewModel model) {
+	public void setViewModel(AssetView model) {
 		this.model = model;
 	}
 

@@ -21,97 +21,59 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ViewModel.java,v 1.8 2004/09/21 12:58:25 vanto Exp $
+ * $Id: ViewModel.java,v 1.9 2004/09/21 20:54:30 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.common.data.ISerializable;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
 
 
 /**
- * @author Tammo
+ * @author vanto
  */
-public class ViewModel implements ISerializable
+public class ViewModel implements ISerializable 
 {
-	public static final String
-		ID_SIZE = "size",         //$NON-NLS-1$
-		ID_LOCATION = "location"; //$NON-NLS-1$
-
-    private Dimension size;
-	private Point location;
-	
-	protected transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-	private AbstractAsset model;
-	private ViewModelContainer parent;
- 
-    public ViewModel(ViewModelContainer parent) 
-    {
-    	size = new Dimension(150,100);
-    	location = new Point(5,5);
-    	this.parent = parent;
-    }
+    private Map propertyByModelId = new HashMap();
+    private boolean modified = false;
     
-    public ViewModel(ViewModelContainer parent, Element element)
+    public ViewModel() {}
+    public ViewModel(Element element)
     {
-        size = new Dimension();
-        location = new Point();
-        this.parent = parent;
         deserialize(element);
     }
     
-    public Point getLocation()
-    {
-        return location;
+    public AssetView getAssetView(AbstractAsset node) {
+        AssetView prop = (AssetView)propertyByModelId.get(node.getId());
+        if (prop == null) {
+            prop = new AssetView(this);
+            propertyByModelId.put(node.getId(), prop);
+        }
+        
+        return prop;
     }
-    
-    public void setLocation(Point location)
-    {
-        this.location = location;
-        firePropertyChange(ID_LOCATION, null, location);
-        parent.setModified(true);
-    }
-    
-    
-    /**
-     * @return Returns the dimension.
-     */
-    public Dimension getSize()
-    {
-        return size;
-    }
-    
-    
-    /**
-     * @param dimension The dimension to set.
-     */
-    public void setSize(Dimension size)
-    {
-        this.size = size;
-        firePropertyChange(ID_SIZE, null, size);
-        parent.setModified(true);
-    }
-    
+
     /**
      * @see kobold.common.data.ISerializable#serialize()
      */
     public Element serialize()
     {
-        Element element = DocumentHelper.createElement("prop");
+        Element element = DocumentHelper.createElement("viewmodel");
         
-        element.addAttribute("x", ""+location.x);
-        element.addAttribute("y", ""+location.y);
-        element.addAttribute("h", ""+size.height);
-        element.addAttribute("w", ""+size.width);
+        Iterator it = propertyByModelId.keySet().iterator();
+        while (it.hasNext()) {
+            String id = (String)it.next();
+            AssetView prop = (AssetView)propertyByModelId.get(id);
+            element.add(prop.serialize().addAttribute("id", id));
+        }
         
         return element;
     }
@@ -121,24 +83,21 @@ public class ViewModel implements ISerializable
      */
     public void deserialize(Element element)
     {
-        location.setLocation(Integer.parseInt(element.attributeValue("x")),
-            Integer.parseInt(element.attributeValue("y")));
-        size.height = Integer.parseInt(element.attributeValue("h"));
-        size.width = Integer.parseInt(element.attributeValue("w"));
+        Iterator it = element.elementIterator("prop");
+        while (it.hasNext()) {
+            Element el = (Element)it.next();
+            propertyByModelId.put(el.attributeValue("id"), new AssetView(this, el));
+        }
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener l)
-	{
-		listeners.addPropertyChangeListener(l);
-	}
-
-	public void removePropertyChangeListener(PropertyChangeListener l)
-	{
-		listeners.removePropertyChangeListener(l);
-	}
-
-	protected final void firePropertyChange(String prop, Object old, Object newValue){
-		listeners.firePropertyChange(prop, old, newValue);
-	}
-
+    public void setModified(boolean mod) 
+    {
+        modified = mod;
+    }
+    
+    public boolean isDirty()
+    {
+        return modified;
+    }
+   
 }

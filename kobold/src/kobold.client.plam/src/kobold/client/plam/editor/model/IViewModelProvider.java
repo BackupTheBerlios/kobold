@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IViewModelProvider.java,v 1.2 2004/06/22 23:30:11 vanto Exp $
+ * $Id: IViewModelProvider.java,v 1.3 2004/09/21 20:54:30 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -32,5 +32,5 @@ package kobold.client.plam.editor.model;
  */
 public interface IViewModelProvider
 {
-    ViewModelContainer getViewModelContainer();
+    ViewModel getViewModel();
 }

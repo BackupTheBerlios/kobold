@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.24 2004/09/21 16:24:50 garbeam Exp $
+ * $Id: KoboldProject.java,v 1.25 2004/09/21 20:54:30 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import kobold.client.plam.controller.ServerHelper;
-import kobold.client.plam.editor.model.ViewModelContainer;
+import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
@@ -468,7 +468,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
      * @param viewModel
      * @param monitor
      */
-    public void storeViewModelContainer(AbstractRootAsset root, ViewModelContainer viewModel, IProgressMonitor monitor) 
+    public void storeViewModelContainer(AbstractRootAsset root, ViewModel viewModel, IProgressMonitor monitor) 
     		throws Exception
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -488,7 +488,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
     	out.close();
     }
 
-    public ViewModelContainer restoreViewModelContainer(AbstractRootAsset root) 
+    public ViewModel restoreViewModelContainer(AbstractRootAsset root) 
     {
         IFile vmFile = project.getFile(calcViewModelLoadPath(root));
         if (vmFile.exists()) {
@@ -499,7 +499,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
                 Document document;
                 document = reader.read(is);
   
-                return new ViewModelContainer(document.getRootElement());
+                return new ViewModel(document.getRootElement());
             } catch (DocumentException e) {
                 logger.warn("Could not parse viewmodel", e);
             } catch (CoreException e) {

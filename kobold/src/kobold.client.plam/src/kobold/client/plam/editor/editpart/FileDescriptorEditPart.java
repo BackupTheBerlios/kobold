@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorEditPart.java,v 1.5 2004/09/21 20:13:24 vanto Exp $
+ * $Id: FileDescriptorEditPart.java,v 1.6 2004/09/21 20:54:30 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -35,7 +35,7 @@ import kobold.client.plam.editor.figure.AbstractNodeFigure;
 import kobold.client.plam.editor.figure.FileDescriptorFigure;
 import kobold.client.plam.editor.figure.ReleaseFigure;
 import kobold.client.plam.editor.figure.SpecificComponentFigure;
-import kobold.client.plam.editor.model.ViewModel;
+import kobold.client.plam.editor.model.AssetView;
 import kobold.client.plam.editor.policy.FlowLayoutEditPolicyImpl;
 import kobold.client.plam.editor.policy.GraphicalNodeEditPolicyImpl;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LayoutAction.java,v 1.2 2004/09/21 12:59:32 vanto Exp $
+ * $Id: LayoutAction.java,v 1.3 2004/09/21 20:54:30 vanto Exp $
  *
  */
 package kobold.client.plam.editor.action;
@@ -33,8 +33,8 @@ import java.util.List;
 import java.util.Map;
 
 import kobold.client.plam.editor.ArchitectureEditor;
+import kobold.client.plam.editor.model.AssetView;
 import kobold.client.plam.editor.model.ViewModel;
-import kobold.client.plam.editor.model.ViewModelContainer;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.edges.Edge;
@@ -96,13 +96,13 @@ public class LayoutAction extends WorkbenchPartAction
         List mnodes = new ArrayList();
         mnodes.addAll(root.getChildren());
         
-        ViewModelContainer vmc = editor.getViewModelContainer();
+        ViewModel vmc = editor.getViewModel();
         
         Map m = new HashMap();
         
         for (int i = 0; i < mnodes.size(); i++) {
             AbstractAsset a = (AbstractAsset)mnodes.get(i);
-            ViewModel vm = vmc.getViewModel(a);
+            AssetView vm = vmc.getAssetView(a);
             Node n = new Node(a);
             n.x = vm.getLocation().x;
             n.y = vm.getLocation().y;
@@ -138,7 +138,7 @@ public class LayoutAction extends WorkbenchPartAction
         it = cdg.nodes.iterator();
         while (it.hasNext()) {
             Node n = (Node)it.next();
-            ViewModel vm = vmc.getViewModel((AbstractAsset)n.data);
+            AssetView vm = vmc.getAssetView((AbstractAsset)n.data);
             vm.setLocation(new Point(n.x+10, n.y+40));
             vm.setSize(new Dimension(n.width, n.height));
         }

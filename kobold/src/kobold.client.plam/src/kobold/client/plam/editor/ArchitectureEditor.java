@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.38 2004/09/21 12:58:25 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.39 2004/09/21 20:54:30 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -36,7 +36,7 @@ import kobold.client.plam.editor.action.ConfigureAssetAction;
 import kobold.client.plam.editor.action.GXLExportAction;
 import kobold.client.plam.editor.action.LayoutAction;
 import kobold.client.plam.editor.model.IViewModelProvider;
-import kobold.client.plam.editor.model.ViewModelContainer;
+import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Productline;
@@ -121,7 +121,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     	KoboldPLAMPlugin.getDefault().getPreferenceStore().setDefault(
     			PALETTE_SIZE, DEFAULT_PALETTE_SIZE);
     }
-	private ViewModelContainer viewModel;
+	private ViewModel viewModel;
 	private PaletteRoot root;
 	private KeyHandler keyHandler;
 	private boolean isSaving = false;
@@ -136,10 +136,10 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	{
 		super();
 		setEditDomain(new DefaultEditDomain(this));
-		viewModel = new ViewModelContainer();
+		viewModel = new ViewModel();
 	}
 
-	public ViewModelContainer getViewModelContainer()
+	public ViewModel getViewModel()
 	{
 	    return viewModel;
 	}
@@ -533,7 +533,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 		model = getArchEditorInput().getRootAsset();
 
 	    KoboldProject pp = model.getKoboldProject();
-	    ViewModelContainer vmc = pp.restoreViewModelContainer(model); 
+	    ViewModel vmc = pp.restoreViewModelContainer(model); 
 	    
 	    if (vmc != null) {
 	        viewModel = vmc;

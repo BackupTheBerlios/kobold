@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantContainerEditPolicy.java,v 1.3 2004/07/23 22:27:11 vanto Exp $
+ * $Id: VariantContainerEditPolicy.java,v 1.4 2004/09/21 20:54:30 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
@@ -29,7 +29,7 @@ package kobold.client.plam.editor.policy;
 import kobold.client.plam.editor.command.CreateComponentCommand;
 import kobold.client.plam.editor.command.CreateReleaseCommand;
 import kobold.client.plam.editor.model.IViewModelProvider;
-import kobold.client.plam.editor.model.ViewModelContainer;
+import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IReleaseContainer;
@@ -60,7 +60,7 @@ public class VariantContainerEditPolicy extends ContainerEditPolicy
         Object parent = getHost().getModel();
         
         IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getHost().getViewer().getEditDomain()).getEditorPart();
-        ViewModelContainer vmc = vmp.getViewModelContainer(); 
+        ViewModel vmc = vmp.getViewModel(); 
         
         if (request.getNewObjectType().equals(AbstractAsset.COMPONENT)
                 && parent instanceof IComponentContainer) {

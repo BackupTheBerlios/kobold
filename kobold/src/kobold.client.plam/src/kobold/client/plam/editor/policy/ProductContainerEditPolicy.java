@@ -21,14 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductContainerEditPolicy.java,v 1.1 2004/09/21 20:13:24 vanto Exp $
+ * $Id: ProductContainerEditPolicy.java,v 1.2 2004/09/21 20:54:30 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
 
 import kobold.client.plam.editor.command.CreateProductComponentCommand;
 import kobold.client.plam.editor.model.IViewModelProvider;
-import kobold.client.plam.editor.model.ViewModelContainer;
+import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.IProductComponentContainer;
 import kobold.client.plam.model.product.ProductComponent;
@@ -57,7 +57,7 @@ public class ProductContainerEditPolicy extends ContainerEditPolicy
         Object parent = getHost().getModel();
         
         IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getHost().getViewer().getEditDomain()).getEditorPart();
-        ViewModelContainer vmc = vmp.getViewModelContainer(); 
+        ViewModel vmc = vmp.getViewModel(); 
         
         if (request.getNewObjectType().equals(AbstractAsset.SPECIFIC_COMPONENT)
                 && parent instanceof IProductComponentContainer) {

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: XYLayoutEditPolicyImpl.java,v 1.2 2004/08/23 14:36:58 vanto Exp $
+ * $Id: XYLayoutEditPolicyImpl.java,v 1.3 2004/09/21 20:54:30 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
@@ -29,7 +29,7 @@ package kobold.client.plam.editor.policy;
 import kobold.client.plam.editor.command.SetConstraintCommand;
 import kobold.client.plam.editor.editpart.MetaEditPart;
 import kobold.client.plam.editor.model.IViewModelProvider;
-import kobold.client.plam.editor.model.ViewModel;
+import kobold.client.plam.editor.model.AssetView;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.MetaNode;
 
@@ -46,7 +46,7 @@ import org.eclipse.gef.requests.CreateRequest;
  * XYLayoutEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: XYLayoutEditPolicyImpl.java,v 1.2 2004/08/23 14:36:58 vanto Exp $
+ * @version $Id: XYLayoutEditPolicyImpl.java,v 1.3 2004/09/21 20:54:30 vanto Exp $
  */
 public class XYLayoutEditPolicyImpl 
 	extends org.eclipse.gef.editpolicies.XYLayoutEditPolicy {
@@ -64,7 +64,7 @@ public class XYLayoutEditPolicyImpl
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
         SetConstraintCommand locationCommand = new SetConstraintCommand();
 	    IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getHost().getViewer().getEditDomain()).getEditorPart();
-		ViewModel vp = vmp.getViewModelContainer().getViewModel((AbstractAsset)child.getModel());
+		AssetView vp = vmp.getViewModel().getAssetView((AbstractAsset)child.getModel());
 		locationCommand.setViewModel(vp);
 
 		// dont resize meta nodes
@@ -83,7 +83,7 @@ public class XYLayoutEditPolicyImpl
         SetConstraintCommand locationCommand = new SetConstraintCommand();
 
 	    IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getHost().getViewer().getEditDomain()).getEditorPart();
-		ViewModel vp = vmp.getViewModelContainer().getViewModel((AbstractAsset)request.getNewObject());
+		AssetView vp = vmp.getViewModel().getAssetView((AbstractAsset)request.getNewObject());
 		locationCommand.setViewModel(vp);
 		Rectangle constraint = (Rectangle)getConstraintFor(request);
 

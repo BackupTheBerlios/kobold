@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAssetEditPart.java,v 1.14 2004/09/21 20:13:24 vanto Exp $
+ * $Id: AbstractAssetEditPart.java,v 1.15 2004/09/21 20:54:30 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -34,7 +34,7 @@ import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
 import kobold.client.plam.editor.figure.AbstractNodeFigure;
 import kobold.client.plam.editor.figure.ReleaseFigure;
 import kobold.client.plam.editor.model.IViewModelProvider;
-import kobold.client.plam.editor.model.ViewModel;
+import kobold.client.plam.editor.model.AssetView;
 import kobold.client.plam.editor.policy.ComponentEditPolicyImpl;
 import kobold.client.plam.editor.policy.GraphicalNodeEditPolicyImpl;
 import kobold.client.plam.model.AbstractAsset;
@@ -131,10 +131,10 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
 		return (AbstractAsset)getModel();
 	}
 	
-	protected ViewModel getViewModel()
+	protected AssetView getViewModel()
 	{
 	    IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getViewer().getEditDomain()).getEditorPart();
-	    return vmp.getViewModelContainer().getViewModel(getAsset());
+	    return vmp.getViewModel().getAssetView(getAsset());
 	}
 
 	/**
@@ -142,7 +142,7 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
 	 */
 	protected void refreshVisuals() 
 	{
-	    ViewModel vm = getViewModel();
+	    AssetView vm = getViewModel();
 		Point loc = vm.getLocation();
 		Dimension size= vm.getSize();
 		Rectangle r = new Rectangle(loc ,size);
