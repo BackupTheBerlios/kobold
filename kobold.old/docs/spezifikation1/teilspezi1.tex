@@ -1,41 +1,65 @@
-\section{Metainformationskomponente}
+\subsection{Metainformationskomponente}
 
-Für die Elemente in Kobold werden unterschiedliche Metainformationen gespeichert. Dieses Kapitel liefert eine genaue Auflistung der geplanten Metadaten.\newline
+Um zusätzliche Informationen zu den unten aufgeführten Elementen in Kobold zu speichern, bietet Kobold eine 
+Metainformationskomponente, das heißt einen Abschnitt in Kobold, der die Metainformationen verwaltet. Diese 
+ermöglicht außerdem eine gezielte Suche nach Elementen mit bestimmten Eigenschaften. Metainformationen 
+werden außerdem für eine genaue Zuordnung und Identifikation eines Elementes benötigt.
+Dieses Kapitel liefert eine genaue Auflistung der geplanten Metainformationen.\newline
 
 \paragraph{Produkt:}
-Das Produkt wird vom Produktingenieur bearbeitet und entsteht aus der Architektur der Produktlinie. 
+Das Produkt wird vom Produktingenieur bearbeitet. Dieser lässt sich vom Produktlinieningenieur die Varianten 
+und Abhängigkeiten zuordnen, die er für sein Produkt benötigt. Diese Funktionalität wird allerdings erst 
+in einer Folgeiteration entwickelt. Die geplanten Metainformationen für diese Iteration sind:
 \begin{itemize}
-\item letztes Release
+\item Name
+\item Liste aller Releases
 \end{itemize}
 
 \paragraph{Release:}
-Ein Release besteht aus einer Gruppe von Objekten (Source Code, Dokumentation, etc.) in einem Zustand, in dem sie als Teil des fertigen Produktes eingesetzt werden kann.
+Ein Release besteht aus einer Gruppe von Objekten (Source Code, Dokumentation, etc.). Diese werden in einem 
+Release zusammengefasst, wenn sie zusammen ein Produkt bilden, das den Anforderungen für eine 
+Veröffentlichung genügt. Ein Release wird manuell vom Produktlinieningenieur oder vom Produktingenieur 
+gesetzt. Diese Funktionalität wird allerdings erst in einer Folgeiteration entwickelt. Ein Release besitzt 
+folgende Metainformationen:
 \begin{itemize}
-\item Liste der Dateien (mit Versionsangabe)
-\item Liste der zusätzlichen Objekte
-\item Liste der Skripte
+\item Liste der Objekte (mit Versionsangabe)
 \item Erstellungsdatum
 \end{itemize}
 
 \paragraph{Version:}
-Objekte (Source Code, Dokumentation, etc.) sind in unterschiedlichen Versionen verfügbar. Die Versionskontrolle übernimmt dabei eine Standard Versionsverwaltungssystem wie zum Beispiel CVS, RCS, etc.
+Objekte sind in unterschiedlichen Versionen verfügbar. Die Versionskontrolle übernimmt dabei eine Standard 
+Versionsverwaltungssystem wie zum Beispiel CVS, RCS, etc. Für eine Version werden folgende Metainformationen 
+gespeichert:
 \begin{itemize}
-\item Liste der Skripte
+\item interne Versionsnummer
 \item Status
 \end{itemize}
 
-\paragraph{Datei:}
-Eine Datei ist ein Objekt, das Source Code enthält.
+\paragraph{Objekt:}
+Ein Objekt ist ein von Menschen geschaffenes Software Objekt wie zum Beispiel Quelltext uns Dokumentation. 
+Als Metainformationen über ein Objekt wird gespeichert:
 \begin{itemize}
 \item Liste der Versionen
+\item Liste der releasefähigen Versionen
 \item ID
 \item Name
 \item binär (ja/nein)
 \item Beschreibung
+\item Zuständiger
+\end{itemize}
+
+\paragraph{Skript:}
+Ein Skript wird bei der angegeben Aktion ausgeführt. Dies kann auch mit Parameterübergabe geschehen. 
+Diese Funktionalität wird allerdings erst in einer Folgeiteration entwickelt.
+\begin{itemize}
+\item Aktion
+\item Parameter
+\item Ausführen vor Aktion (ja/nein)
 \end{itemize}
 
 \paragraph{Variante:}
-Eine Variante besteht entweder aus weiteren Komponenten oder aus Releases.
+Eine Variante besteht entweder aus weiteren Komponenten oder aus Releases. Sie besitzt dabei immer 
+folgende Metainformationen:
 \begin{itemize}
 \item Liste aller Dateien
 \item Versionsnummer
@@ -48,7 +72,8 @@ Eine Variante besteht entweder aus weiteren Komponenten oder aus Releases.
 \end{itemize}
 
 \paragraph{Komponente:}
-Eine Komponente besteht aus einer oder mehreren Varianten.
+Eine Komponente besteht aus einer oder mehreren Varianten. Zusätzlich werden für jede Komponente noch 
+folgende Metainformationen gespeichert:
 \begin{itemize}
 \item Liste aller Varianten
 \item Name
@@ -60,7 +85,8 @@ Eine Komponente besteht aus einer oder mehreren Varianten.
 \end{itemize}
 
 \paragraph{Abhängigkeit:}
-Eine Abhängigkeit besteht zwischen zwei Knoten der Architektur. Für Abhängigkeiten zwischen mehr als zwei Knoten werden Metaknoten verwendet.
+Eine Abhängigkeit besteht zwischen zwei Knoten der Architektur. Für Abhängigkeiten zwischen mehr als zwei 
+Knoten werden Metaknoten verwendet. Für eine Abhängigkeit werden folgene Metainformationen gespeichert:
 \begin{itemize}
 \item Typ
 \item Richtung
@@ -70,14 +96,15 @@ Eine Abhängigkeit besteht zwischen zwei Knoten der Architektur. Für Abhängigkeit
 \end{itemize}
 
 \paragraph{Metaknoten:}
-Metaknoten werden für Mehrfachbeziehungen verwendet.
+Metaknoten werden für Mehrfachbeziehungen verwendet. Für sie werden nur folgende Metainformationen benötigt:
 \begin{itemize}
 \item Typ
 \item ID
 \end{itemize}
 
 \paragraph{Architektur:}
-Eine Architektur stellt sowohl ein Produkt als auch eine Produktlinie graphisch dar.
+Eine Architektur stellt sowohl ein Produkt als auch eine Produktlinie graphisch dar. Zum verlustfreien 
+Speichern eine Architektur werden folgenden Metainformationen benötigt:
 \begin{itemize}
 \item Liste der Metaknoten
 \item Liste der Abhängigkeiten
@@ -91,9 +118,14 @@ Eine Architektur stellt sowohl ein Produkt als auch eine Produktlinie graphisch 
 \end{itemize}
 
 
-\section{Repository Abstraction Layer:}
+\subsection{Repository Abstraction Layer:}
 
-Zur besseren Kommunikation mit der Server, soll ein Repository Abstraction Layer erstellt werden, das mit der Authentifizierung am Server umgehen kann. Dieses vermittelt zwischen Kobold und dem VCM der Eclipse-Komponente.\newline
+Zur besseren Kommunikation mit dem Kobold Server wird ein Repository Abstraction Layer erstellt. 
+Dieses authentifiziert VCM-Aktionen zwischen Kobold und dem VCM des Kobold Clients.\newline
 
-Das Repository Abstraction Layer behandelt Anfragen an den Server, indem es diese entweder an das eigentliche VCM weiterleitet, oder mit einer passenden Meldung ablehnt.\par
-Ist in der Eclipse-Komponente noch nicht der Pfad eines Repositories gespeichert, so holt sich das Repository Abstraction Layer die nötigen Informationen vom Server und speichert diese in der Eclipse-Komponente.
+Das Repository Abstraction Layer behandelt Anfragen vom Kobold Client an den Kobold Server, indem es diese 
+entweder an das eigentliche VCM weiterleitet oder mit einer passenden Meldung ablehnt.\par
+Ist im Client noch nicht der Pfad eines Repositories gespeichert, so holt sich das 
+Repository Abstraction Layer die nötigen Informationen vom Kobold Server und speichert diese im Client. 
+Es importiert dabei automatisch rollen- und produktabhängige 
+Repository-Zugriffskonfigurationen.
