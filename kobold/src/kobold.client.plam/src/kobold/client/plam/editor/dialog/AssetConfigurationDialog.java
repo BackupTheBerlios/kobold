@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.21 2004/08/25 16:37:16 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.22 2004/08/27 16:28:03 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -93,6 +93,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     private Text name;
     private Text description;
     private Button deprecated;
+	private Button released;
     
     private CheckboxTableViewer cbViewer;
     private TableViewer viewer;
@@ -201,7 +202,9 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		}
 
 		name.addListener(SWT.Modify, textModifyListener);
-		resource.addListener(SWT.Modify, textModifyListener);
+		if (!(asset instanceof Release)) {
+    		resource.addListener(SWT.Modify, textModifyListener);
+		}
 		
 		if (asset instanceof AbstractMaintainedAsset) {
 		    createMaintainerArea(panel);
@@ -407,7 +410,11 @@ public class AssetConfigurationDialog extends TitleAreaDialog
                 }
             });
             cbViewer.setInput(variant);
-        }
+            label = new Label(composite, SWT.NONE);
+            label.setText("Release:");
+    		released = new Button(composite, SWT.CHECK);
+    		released.setText("");
+	    }
     }
     
     private void createMaintainerArea (final Composite composite) {
@@ -475,9 +482,6 @@ public class AssetConfigurationDialog extends TitleAreaDialog
             asset.setDescription(description.getText());
         }
         
-        if (!resource.getText().equals(asset.getResource())) {
-            asset.setResource(resource.getText());
-        }
         if (deprecated != null) {
 	        boolean dep = AbstractStatus.isDeprecated(asset); 
 	        if (deprecated.getSelection() && !dep) {
@@ -497,8 +501,13 @@ public class AssetConfigurationDialog extends TitleAreaDialog
                         new Release.FileRevision(fd.getFilename(),
                         						 fd.getRevision()));
                 }
-                release.setReleased(true);
+                if ((released != null) && released.getSelection()) {
+                    release.setReleased(true);
+                }
             }
+        }
+        else if (!resource.getText().equals(asset.getResource())) {
+            asset.setResource(resource.getText());
         }
         
         if (!asset.isResourceDefined()) {

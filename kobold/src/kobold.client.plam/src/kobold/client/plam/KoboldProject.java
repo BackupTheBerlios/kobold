@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.18 2004/08/25 14:59:13 vanto Exp $
+ * $Id: KoboldProject.java,v 1.19 2004/08/27 16:28:03 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -50,6 +50,7 @@ import kobold.client.plam.model.ProductlineFactory;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.workflow.LocalMessageQueue;
 import kobold.common.data.User;
+import kobold.common.io.ScriptDescriptor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -96,6 +97,8 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	private Productline productline;
 
 	private Map userPool;
+	private Map beforeScripts;
+	private Map afterScripts;
 
     protected transient List vcmListeners = new LinkedList();
     
@@ -303,7 +306,21 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 				    setUserName(root.elementTextTrim("username"));
 				    setPassword(root.elementTextTrim("password"));
 				    setProductlineId(root.elementTextTrim("pl-id"));
-
+        
+				    Element befScripts = root.element("before-scripts");
+				    for (Iterator iterator = befScripts.elementIterator("script-descriptor");
+				         iterator.hasNext(); )
+				    {
+				        addBeforeScript(new ScriptDescriptor((Element)iterator.next()));
+				    }
+				    
+				    Element aftScripts = root.element("aft-scripts");
+				    for (Iterator iterator = aftScripts.elementIterator("script-descriptor");
+				         iterator.hasNext(); )
+				    {
+				        addAfterScript(new ScriptDescriptor((Element)iterator.next()));
+				    }
+            	    
 				} catch (CoreException e) {
 					
 				} finally {
@@ -329,6 +346,18 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	    root.addElement("username").setText(userName);
 	    root.addElement("password").setText(password);
 	    root.addElement("pl-id").setText(productlineId);
+	    
+	    Element befScripts = root.addElement("before-scripts");
+	    for (Iterator iterator = beforeScripts.values().iterator(); iterator.hasNext(); ) {
+	        ScriptDescriptor scriptDescriptor = (ScriptDescriptor) iterator.next();
+	        befScripts.add(scriptDescriptor.serialize());
+	    }
+	    
+        Element afScripts = root.addElement("after-scripts");
+	    for (Iterator iterator = afterScripts.values().iterator(); iterator.hasNext(); ) {
+	        ScriptDescriptor scriptDescriptor = (ScriptDescriptor) iterator.next();
+	        afScripts.add(scriptDescriptor.serialize());
+	    }
 	    
 	    IProgressService progressService = PlatformUI.getWorkbench().getProgressService();
 	    
@@ -547,4 +576,39 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	    }
 	}
 	
+    public void addAfterScript(ScriptDescriptor scriptDescriptor) {
+        if (afterScripts == null) {
+            afterScripts = new HashMap();
+        }
+        afterScripts.put(scriptDescriptor.getName(), scriptDescriptor);
+    }
+    
+    public void removeAfterScript(ScriptDescriptor scriptDescriptor) {
+        afterScripts.remove(scriptDescriptor.getName());
+    }
+    
+    public Map getAfterScripts() {
+        if (afterScripts == null) {
+            afterScripts = new HashMap();
+        }
+        return afterScripts;
+    }
+    
+    public void addBeforeScript(ScriptDescriptor scriptDescriptor) {
+        if (beforeScripts == null) {
+            beforeScripts = new HashMap();
+        }
+        beforeScripts.put(scriptDescriptor.getName(), scriptDescriptor);
+    }
+     
+    public void removeBeforeScript(ScriptDescriptor scriptDescriptor) {
+        beforeScripts.remove(scriptDescriptor.getName());
+    }
+   
+    public Map getBeforeScripts() {
+        if (beforeScripts == null) {
+            beforeScripts = new HashMap();
+        }
+        return beforeScripts;
+    }
 }

@@ -21,13 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptDescriptor.java,v 1.5 2004/07/25 23:17:48 vanto Exp $
+ * $Id: ScriptDescriptor.java,v 1.6 2004/08/27 16:28:03 garbeam Exp $
  *
  */
 package kobold.common.io;
 
 import java.net.URI;
 
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
+import kobold.common.data.ISerializable;
 import kobold.common.data.IdManager;
 
 /**
@@ -38,21 +42,25 @@ import kobold.common.data.IdManager;
  *
  * @author garbeam
  */
-public class ScriptDescriptor 
+public class ScriptDescriptor  implements ISerializable
 {
 	public static final String BASE_URI = "http://kobold.berlios.de/scripts#";
 	
 	private String id;
+	// absolute path to the specific script
+	private String path;
+	private String name;
     
+	public ScriptDescriptor(Element sd) {
+	    deserialize(sd);
+	}
+	
     public ScriptDescriptor(String name) 
     {
 		id = IdManager.nextId(name);
+		this.name = name;
     }
     
-    private ScriptDescriptor()
-    {
-    }
-     
     private void setId(URI id)
     {
     	this.id = id.getFragment();
@@ -63,15 +71,40 @@ public class ScriptDescriptor
     	return URI.create(BASE_URI + id);
     }
     
-    public static ScriptDescriptor getById(URI id)
-    {
-    	if (id == null) 
-    		return null;
-    		
-    	// TODO: create SD and fill load the right script!
-    	ScriptDescriptor sd = new ScriptDescriptor();
-		sd.setId(id);    	
-    	return sd;	
+    public String getPath() {
+        return path;
     }
-    	
+    
+    public void setPath(String path) {
+        this.path = path;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @see kobold.common.data.ISerializable#serialize()
+     */
+    public Element serialize() {
+        Element sd = DocumentHelper.createElement("script-descriptor");
+        sd.addAttribute("id", id);
+        sd.addAttribute("name", name);
+        sd.addAttribute("path", path);
+        
+        return sd;
+    }
+
+    /**
+     * @see kobold.common.data.ISerializable#deserialize(org.dom4j.Element)
+     */
+    public void deserialize(Element element) {
+        id = element.attributeValue("id");
+        name = element.attributeValue("name");
+        path = element.attributeValue("path");
+    }
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EditMaintainerDialog.java,v 1.5 2004/08/24 10:43:19 garbeam Exp $
+ * $Id: EditMaintainerDialog.java,v 1.6 2004/08/27 16:28:03 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -55,8 +55,7 @@ import org.eclipse.swt.widgets.TableColumn;
 
 
 /**
- * Provides a Dialog for importing a new certificate.
- * 
+ * Dialog for adding/removing maintainers to assets.
  * @author garbeam
  */
 public class EditMaintainerDialog extends TitleAreaDialog
