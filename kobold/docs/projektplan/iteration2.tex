@@ -2,7 +2,7 @@
 %% StuPro A, Produktlinien (Kobold)
 %% Team Werkbold
 %% Projektplan
-%% $Id: iteration2.tex,v 1.1 2004/06/02 19:14:51 garbeam Exp $
+%% $Id: iteration2.tex,v 1.2 2004/06/02 20:04:36 garbeam Exp $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Iteration II}
@@ -21,6 +21,7 @@ Folgende UseCases sind für die Iteration II geplant:
 \item UC Auslösen von Workflows an IKoboldServer
 \item UC Administrationstool Kobold Server
 \item UC GXL-Export inkl. JAR-Export
+\item UC Metainformations-Persistierung im Repository
 \end{itemize}
 
 Darüber hinaus werden in der ersten Iterationen folgende Dokumente erstellt:
@@ -43,14 +44,14 @@ investieren werden.
 
 \begin{tabular}{llrll}\\
 \bf ID & \bf Arbeitspaket & \bf Aufwand & \bf Termin & \bf Meilenstein \\ \hline
-25 & Spezifikation II der zu entwickelnden UseCases & 100 & KW22 & \\
+25 & Spezifikation II der UseCases & 100 & KW22 & \\
 26 & Review der Spezifikation II & 50 & KW24 & \\
 26 & Korrektur der Spezifikation II & 50 & KW24 & \\
 27 & Auslieferung der Spezifikation II & & KW24 & M7 \\
 26 & Implementierung der UseCases & 500 & KW26 & \\
 26 & Test der UseCases & 50 & KW26 & \\
 26 & Erweitertes Handbuch UseCases & 100 & KW26 & \\
-26 & Auslieferung des zweiten Kobold Systems & & 24.6. (KW26) & M8 \\
+26 & Auslieferung Kobold II System & & 24.6. (KW26) & M8 \\ \hline
    & \bf Gesamt & \bf 850 & 5 Wochen &\\
 \end{tabular}
 
@@ -79,10 +80,11 @@ umfangreicher OpenSource Projekte im C++ und J2SE-Umfeld.\par
 Nach Abzug der Aufwände für das Vorprojekt und der Iteration I 
 und unter Zugrundelegung eines Gesamtaufwands für die Projektdurchführung
 von {\bf 500 Stunden} pro Team-Mitglied (entspricht {\bf 4500 Stunden}
-Gesamtaufwand) verbleiben für das Hauptprojekt {\bf XXXX Stunden}.\par
-Der Iteration II wird nach Anpassung der Detailaufwändeein Aufwand von
+Gesamtaufwand) verbleiben für das Hauptprojekt {\bf 2781,25 Stunden}
+(abzüglich der geplanten Stunden für die Iteration II 1871.25 Stunden).\par
+Der Iteration II wird nach Anpassung der Detailaufwände ein Aufwand von
 {\bf 850 Stunden} zugrundegelegt, dies entspricht einem prozentualem Anteil
-von ca. {\bf 25\%} vom Gesamtaufwand, wenn {\bf 4500 Stunden} für den
+von ca. {\bf 20\%} vom Gesamtaufwand, wenn {\bf 4500 Stunden} für den
 Gesamtaufwand angesetzt werden. Legt man einer Arbeitsstunde
 einen Preis von {\bf 100 EUR} zugrunde, entspricht dies {\bf 85.000 EUR}.
 Die Kosten für die einzelnen Arbeitspakete ergeben sich aus dem Produkt des
@@ -116,13 +118,13 @@ Auftraggeber geprüft.
 \subsubsection{M8: Erweitertetes Kobold System}
 
 {\bf Ergebnis: } Lauffähiges und um UseCases erweitertes Rahmensystem\par
-Die Auslieferung des erweiterten Rahmensystems stellt das Ende der
+Die Auslieferung des erweiterten Kobold Systems stellt das Ende der
 Iteration II dar.
 Ziel ist es ein lauffähiges und zuverlässiges System zu erstellen,
 dass die spezifizierten UseCases (priorisierte Anforderungen) aufsetzend
 auf das bereits vorhandene Rahmensystem implementiert. 
 
-Die Auslieferung des erweiterten Rahmensystems enthält (wie unter Lieferumfang
+Die Auslieferung des erweiterten Kobold Systems enthält (wie unter Lieferumfang
 angegeben), neben dem Source- und Bytecode (inkl. notwendiger
 Komponenten von Drittanbietern) auch eine
 Installationsanleitung sowie alle Testfälle, den Testplan und die
@@ -131,13 +133,13 @@ erweiterten Rahmensystems unterstrichen.
 
 \subsection{Lieferumfang}
 
-Ziel der Iteration II ist die Auslieferung eines lauffähigen erweiterten Rahmensystems,
-das die priorisierten UseCases verwirklicht. Im Einzelnen werden folgende Dokumente
-und Software-Pakete ausgeliefert:
+Ziel der Iteration II ist die Auslieferung eines lauffähigen erweiterten Kobold
+Systems, das die priorisierten UseCases verwirklicht. Im Einzelnen werden
+folgende Dokumente und Software-Pakete ausgeliefert:
 
 \begin{itemize}
 \item Spezifikation der UserCases
-\item Entwurf der UseCases
+\item Entwurf der UseCases (Javadoc, UML)
 \item Source- und Bytecode des Clients und Servers
 \item Source- und Bytecode notwendiger Komponenten von Drittanbietern
 \item Testfälle, Testplan und Testresultate des Clients und Servers
