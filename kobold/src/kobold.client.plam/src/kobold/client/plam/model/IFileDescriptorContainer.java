@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IFileDescriptorContainer.java,v 1.6 2004/07/22 10:28:55 rendgeor Exp $
+ * $Id: IFileDescriptorContainer.java,v 1.7 2004/07/22 16:12:53 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -76,5 +76,11 @@ public interface IFileDescriptorContainer
      * @return
      */
     IFolder getLocalPath();
+    
+    /**
+     * Retruns the root Asset.
+     * @return
+     */
+    AbstractRootAsset getRoot();
 
 }

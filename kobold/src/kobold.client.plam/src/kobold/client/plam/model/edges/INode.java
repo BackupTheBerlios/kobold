@@ -25,10 +25,20 @@
  */
 package kobold.client.plam.model.edges;
 
+import kobold.client.plam.model.AbstractRootAsset;
+
 /**
  * @author pliesmn
  *
  * Objects, that are start or target nodes in the graph
  * must implemnet this interface.
  */
-public interface INode {}
+public interface INode {
+
+    /**
+     * Returns the root of the model tree, an AbstractRootAsset
+     * @return 
+     */
+    AbstractRootAsset getRoot();
+    
+}

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.7 2004/07/22 10:28:55 rendgeor Exp $
+ * $Id: FileDescriptor.java,v 1.8 2004/07/22 16:12:53 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -251,4 +251,11 @@ public class FileDescriptor implements IFileDescriptorContainer, INode {
 	public void setLastChange(Date lastChange) {
 		this.lastChange = lastChange;
 	}
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.edges.INode#getRoot()
+     */
+    public AbstractRootAsset getRoot() {
+        return this.getParentAsset().getRoot();
+    }
 }
