@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.13 2004/08/31 20:14:07 vanto Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.14 2004/09/19 22:27:01 martinplies Exp $
  *
  */
 package kobold.client.plam.view;
@@ -30,10 +30,12 @@ import kobold.client.plam.KoboldConstants;
 import kobold.client.plam.action.ConfigureAssetAction;
 import kobold.client.plam.action.RefreshFileDescriptorsAction;
 import kobold.client.plam.action.SuggestFileAction;
+import kobold.client.plam.controller.roletree.OpenFileAction;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
 import kobold.client.plam.editor.ArchitectureEditorInput;
 import kobold.client.plam.model.AbstractAsset;
-
+import kobold.client.plam.model.FileDescriptor;
+ 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -70,6 +72,8 @@ public class RoleTreeActionGroup extends ActionGroup
     private ConfigureAssetAction configureAssetAction;
     private DeleteResourceAction deleteAction;
     private SuggestFileAction suggestFileAction;
+    private OpenFileAction openFileAction;
+   
     
     public RoleTreeActionGroup(RoleTreeViewPart part) 
     {
@@ -85,6 +89,8 @@ public class RoleTreeActionGroup extends ActionGroup
 		deleteAction.setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
 		
 		suggestFileAction = new SuggestFileAction(part.getSite().getShell());
+		
+		openFileAction = new OpenFileAction(part.getSite().getPage());
     }
     
     
@@ -148,6 +154,7 @@ public class RoleTreeActionGroup extends ActionGroup
         configureAssetAction.handleSelectionChanged(event);
         deleteAction.selectionChanged(((IStructuredSelection)event.getSelection()));
         suggestFileAction.handleSelectionChanged(event);
+        openFileAction.selectionChanged(event);
     }
     
     public void handleDoubleClick(DoubleClickEvent event)
@@ -171,9 +178,11 @@ public class RoleTreeActionGroup extends ActionGroup
 		    }
 		} else if (obj instanceof AbstractAsset && configureAssetAction.isEnabled()) { 
 		    configureAssetAction.run();
-    	}else {
-		    viewer.setExpandedState(obj, !viewer.getExpandedState(obj));
+    	} 
+		else if(obj instanceof FileDescriptor) {			
+				openFileAction.run();				
 		}
+		
     }
 
 }
