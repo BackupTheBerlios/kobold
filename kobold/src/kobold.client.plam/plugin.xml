@@ -168,6 +168,12 @@
                icon="icons/user.gif"
                class="kobold.client.plam.action.ChangePasswordAction"
                id="kobold.client.plam.action2"/>
+        <action
+               label="Create new &amp;users"
+               tooltip="Add new users"
+               icon="icons/user.gif"
+               class="kobold.client.plam.action.NewUserAction"
+               id="kobold.client.plam.action3"/>               
       </objectContribution>
       <objectContribution
             objectClass="kobold.client.plam.model.AbstractAsset"

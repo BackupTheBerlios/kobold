@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptChooserDialog.java,v 1.6 2004/08/31 11:03:45 garbeam Exp $
+ * $Id: ScriptChooserDialog.java,v 1.7 2004/08/31 21:06:14 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
@@ -36,16 +38,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TableLayout;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TextCellEditor;
-
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -56,11 +53,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.internal.WorkbenchPlugin;
 
 
 /**
@@ -73,10 +68,12 @@ public class ScriptChooserDialog extends TitleAreaDialog
     public static final Log logger = LogFactory.getLog(ScriptChooserDialog.class);
  
     private AbstractAsset asset;
-    private TableViewer beforeScriptsViewer; 
-    private TableViewer afterScriptsViewer; 
-    private Table beforeScriptsTable;
-    private Table afterScriptsTable;
+    protected TreeViewer viewer;
+	private SDTreeItem befRoot;
+	private SDTreeItem afRoot;
+    
+    private Button add;
+    private Button remove;
     
     /**
      * @param parentShell
@@ -95,7 +92,7 @@ public class ScriptChooserDialog extends TitleAreaDialog
         Composite root = (Composite) super.createDialogArea(parent);
         Composite panel = new Composite(root, SWT.NONE);
         
-    	GridLayout layout = new GridLayout(2, true);
+    	GridLayout layout = new GridLayout(1, false);
 		layout.marginHeight =
 		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
 		layout.marginWidth =
@@ -108,104 +105,73 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
 		panel.setFont(parent.getFont());
 
-		Label label = new Label(panel, SWT.NONE);
-		label.setText("Invoke before VCM action");
-		
-		label = new Label(panel, SWT.NONE);
-		label.setText("Invoke after VCM action");
-		
-		/// Before Scripts table
-		beforeScriptsTable = new Table(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP 
-		        				   | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
-		beforeScriptsTable.setLinesVisible(false);
-		TableColumn colScriptNames = new TableColumn(beforeScriptsTable, SWT.NONE);
-		TableColumn colActionType = new TableColumn(beforeScriptsTable, SWT.NONE);
-		colScriptNames.setText("Script");
-		colActionType.setText("VCM Action");
-		TableLayout tableLayout = new TableLayout();
-		beforeScriptsTable.setLayout(tableLayout);
-		tableLayout.addColumnData(new ColumnWeightData(70));
-		tableLayout.addColumnData(new ColumnWeightData(30));
-	    colScriptNames.pack();
-	    colActionType.pack();
-		
-		beforeScriptsViewer = new TableViewer(beforeScriptsTable);
-		beforeScriptsViewer.setUseHashlookup(true);
-		
-	    // Create the cell editors
-	    CellEditor[] editors = new CellEditor[2];
-	          
-	    // Column 1 : Script name
-	    TextCellEditor textEditor = new TextCellEditor(beforeScriptsTable);
-	    editors[0] = textEditor;
-
-        // Column 2 : Owner (Combo Box) 
-	    editors[1] = new ComboBoxCellEditor(beforeScriptsTable,
-	            				new String[] { ScriptDescriptor.VCM_CHECKOUT,
-	            							   ScriptDescriptor.VCM_UPDATE,
-	            							   ScriptDescriptor.VCM_ADD,
-	            							   ScriptDescriptor.VCM_DELETE,
-	            							   ScriptDescriptor.VCM_COMMIT,
-	            							   ScriptDescriptor.VCM_IMPORT },
-	            				SWT.READ_ONLY);
-		
-	    beforeScriptsViewer.setCellEditors(editors);
-		beforeScriptsViewer.setLabelProvider(new LabelProvider() {
-		    private Image image;
-		    public String getText(Object element) {
-		        ScriptDescriptor sd = (ScriptDescriptor)element;
-                return sd.getName();
+		viewer = new TreeViewer(panel);
+		viewer.setContentProvider(new ITreeContentProvider() {
+        	protected TreeViewer viewer;	    
+            public Object[] getChildren(Object parentElement) {
+                if (parentElement instanceof SDTreeItem) {
+                    SDTreeItem item = (SDTreeItem)parentElement;
+                    if (item.getSDItems().length > 0) {
+                        return item.getSDItems();
+                    }
+                }
+                return new Object[0];
+            }
+            public Object getParent(Object element) {
+                if (element instanceof SDTreeItem) {
+                    SDTreeItem item = (SDTreeItem) element;
+                    return item.getParent();
+                }
+                return null;
+            }
+            public boolean hasChildren(Object element) {
+                return getChildren(element).length > 0;
             }
             
+            public Object[] getElements(Object inputElement) {
+                return getChildren(inputElement);
+            }
+            public void dispose() {
+            }
+            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+                this.viewer = (TreeViewer)viewer;
+            }
+		});
+		viewer.setLabelProvider(new LabelProvider() {
+		    private Image sdImage =
+    		        WorkbenchPlugin.getDefault().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJ_FILE).createImage();
+		    private Image tImage =
+        			KoboldPLAMPlugin.getImageDescriptor("icons/container.gif").createImage();
+		    public String getText(Object element) {
+		        if (element instanceof SDTreeItem) {
+		            SDTreeItem item = (SDTreeItem) element;
+		            return item.getName();
+		        }
+		        return "unknown";
+            }
             public Image getImage(Object element) {
-                if (image == null) {
-        			image = KoboldPLAMPlugin.getImageDescriptor("icons/package.gif").createImage();
-        		}
-        		return image;
+                if (element instanceof SDTreeItem) {
+                    SDTreeItem item = (SDTreeItem) element;
+                    if (item.getSd() != null) {
+                        return sdImage;
+                    }
+                    else {
+                        return tImage;
+                    }
+                }
+        		return null;
             }
         });
+  
+		viewer.setInput(getInitialInput());
+		viewer.expandAll();
+		
 		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
-		        				   | GridData.FILL_HORIZONTAL);
-		gd.heightHint = 200;
-		beforeScriptsTable.setLayoutData(gd);
-        
-		/// After Scripts table
-		afterScriptsTable = new Table(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP 
-		        				   | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
-		afterScriptsTable.setLinesVisible(false);
-		colScriptNames = new TableColumn(beforeScriptsTable, SWT.NONE);
-		colActionType = new TableColumn(beforeScriptsTable, SWT.NONE);
-		colScriptNames.setText("Script");
-		colActionType.setText("VCM Action");
-		tableLayout = new TableLayout();
-		beforeScriptsTable.setLayout(tableLayout);
-		tableLayout.addColumnData(new ColumnWeightData(70));
-		tableLayout.addColumnData(new ColumnWeightData(30));
-	    colScriptNames.pack();
-	    colActionType.pack();
+				   | GridData.FILL_HORIZONTAL);
+        gd.heightHint = 200;
+        viewer.getTree().setLayoutData(gd);
 		
-		afterScriptsViewer = new TableViewer(afterScriptsTable);
-		afterScriptsViewer.setUseHashlookup(true);
-		afterScriptsViewer.setLabelProvider(new LabelProvider() {
-		    private Image image;
-		    public String getText(Object element) {
-		        ScriptDescriptor sd = (ScriptDescriptor)element;
-                return sd.getName();
-            }
-            
-            public Image getImage(Object element) {
-                if (image == null) {
-        			image = KoboldPLAMPlugin.getImageDescriptor("icons/package.gif").createImage();
-        		}
-        		return image;
-            }
-        });
-		gd = new GridData(GridData.GRAB_HORIZONTAL
-		        				   | GridData.FILL_HORIZONTAL);
-		gd.heightHint = 200;
-		afterScriptsTable.setLayoutData(gd);
-	    
-		Composite leftButtons = new Composite(panel, SWT.NONE);
+		Composite buttons = new Composite(panel, SWT.NONE);
     	layout = new GridLayout(2, true);
 		layout.marginHeight =
 		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
@@ -215,10 +181,10 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
 		layout.horizontalSpacing =
 		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
-		leftButtons.setLayout(layout);
-		leftButtons.setLayoutData(new GridData(GridData.FILL_BOTH));
-		leftButtons.setFont(parent.getFont());
-		Button add = new Button(leftButtons, SWT.NONE);
+		buttons.setLayout(layout);
+		buttons.setLayoutData(new GridData(GridData.FILL_BOTH));
+		buttons.setFont(parent.getFont());
+		add = new Button(buttons, SWT.NONE);
 		add.setText("&Add...");
 		add.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -226,78 +192,170 @@ public class ScriptChooserDialog extends TitleAreaDialog
 			    fd.setText("Choose your script to add");
 			    String result = fd.open();
 			    if (result != null) {
-			        ScriptDescriptor sd = new ScriptDescriptor(result, ScriptDescriptor.VCM_CHECKOUT);
-			        sd.setPath(result);
-			        beforeScriptsViewer.add(sd);
+			        IStructuredSelection sel = (IStructuredSelection)viewer.getSelection();
+			        if (sel != null) {
+    			        SDTreeItem sdItem = (SDTreeItem) sel.getFirstElement();
+    			        ScriptDescriptor sd = new ScriptDescriptor(result, sdItem.getType());
+    			        sd.setPath(result);
+    			        sdItem.addSDItem(new SDTreeItem(sd.getName(), sd.getVcmActionType(), sd));
+    			        viewer.refresh();
+			        }
 			    }
 			}
 		});
-		Button remove = new Button(leftButtons, SWT.NONE);
-		remove.setText("Remove");
+		remove = new Button(buttons, SWT.NONE);
+		remove.setText("&Remove");
 		remove.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-			    IStructuredSelection selection = (IStructuredSelection)beforeScriptsViewer.getSelection();
-			    if (selection != null && selection.size() > 0) {
-			        beforeScriptsViewer.remove(selection.toArray());
+			    IStructuredSelection sel = (IStructuredSelection)viewer.getSelection();
+			    if (sel != null) {
+			        SDTreeItem item = (SDTreeItem) sel.getFirstElement();
+			        item.getParent().removeSDItem(item);
+			        viewer.refresh();
 			    }
 			}
 		});
-		
-        Composite rightButtons = new Composite(panel, SWT.NONE);
-    	layout = new GridLayout(2, true);
-		layout.marginHeight =
-		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
-		layout.marginWidth =
-		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
-		layout.verticalSpacing =
-		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
-		layout.horizontalSpacing =
-		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
-		rightButtons.setLayout(layout);
-		rightButtons.setLayoutData(new GridData(GridData.FILL_BOTH));
-		rightButtons.setFont(parent.getFont());
-		add = new Button(rightButtons, SWT.NONE);
-		add.setText("&Add...");
-		add.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-			    FileDialog fd = new FileDialog(getShell());
-			    fd.setText("Choose your script to add");
-			    String result = fd.open();
-			    if (result != null) {
-			        ScriptDescriptor sd = new ScriptDescriptor(result, ScriptDescriptor.VCM_CHECKOUT);
-			        sd.setPath(result);
-			        afterScriptsViewer.add(sd);
-			    }
-			}
-		});
-		remove = new Button(rightButtons, SWT.NONE);
-		remove.setText("Remove");
-		remove.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-			    IStructuredSelection selection = (IStructuredSelection)afterScriptsViewer.getSelection();
-			    if (selection != null && selection.size() > 0) {
-			        afterScriptsViewer.remove(selection.toArray());
-			    }
-			}
-		});
-		
-		beforeScriptsViewer.add(asset.getBeforeScripts().toArray());
-		afterScriptsViewer.add(asset.getAfterScripts().toArray());
 		
         return panel;
     }
     
+	private  void fillItemWithSDs(SDTreeItem item, List scripts) {
+		for (Iterator iterator = scripts.iterator(); iterator.hasNext(); ) {
+		    ScriptDescriptor sd = (ScriptDescriptor) iterator.next();
+		    if (sd.getVcmActionType().equals(item.getType())) {
+		        item.addSDItem(new SDTreeItem(sd.getName(), sd.getVcmActionType(), sd));
+		    }
+		}
+	}
+	
+    private SDTreeItem getInitialInput() {
+    
+        SDTreeItem root = new SDTreeItem("root","root", null);
+        
+		befRoot = new SDTreeItem("Before VCM action", "", null);
+		SDTreeItem item = new SDTreeItem(ScriptDescriptor.VCM_ADD, ScriptDescriptor.VCM_ADD, null);
+		fillItemWithSDs(item, asset.getBeforeScripts());
+		befRoot.addSDItem(item);
+        item = new SDTreeItem(ScriptDescriptor.VCM_CHECKOUT, ScriptDescriptor.VCM_CHECKOUT, null);
+		fillItemWithSDs(item, asset.getBeforeScripts());
+		befRoot.addSDItem(item);
+        item = new SDTreeItem(ScriptDescriptor.VCM_COMMIT, ScriptDescriptor.VCM_COMMIT, null);
+		fillItemWithSDs(item, asset.getBeforeScripts());
+		befRoot.addSDItem(item);
+        item = new SDTreeItem(ScriptDescriptor.VCM_DELETE, ScriptDescriptor.VCM_DELETE, null);
+		fillItemWithSDs(item, asset.getBeforeScripts());
+		befRoot.addSDItem(item);
+        item = new SDTreeItem(ScriptDescriptor.VCM_IMPORT, ScriptDescriptor.VCM_IMPORT, null);
+		fillItemWithSDs(item, asset.getBeforeScripts());
+		befRoot.addSDItem(item);
+        item = new SDTreeItem(ScriptDescriptor.VCM_UPDATE, ScriptDescriptor.VCM_UPDATE, null);
+		fillItemWithSDs(item, asset.getBeforeScripts());
+		befRoot.addSDItem(item);
+		root.addSDItem(befRoot);
+				
+        afRoot = new SDTreeItem("After VCM action", "", null);
+        item = new SDTreeItem(ScriptDescriptor.VCM_ADD, ScriptDescriptor.VCM_ADD, null);
+		fillItemWithSDs(item, asset.getAfterScripts());
+		afRoot.addSDItem(item);
+        item = new SDTreeItem(ScriptDescriptor.VCM_CHECKOUT, ScriptDescriptor.VCM_CHECKOUT, null);
+		fillItemWithSDs(item, asset.getAfterScripts());
+		afRoot.addSDItem(item);
+        item = new SDTreeItem(ScriptDescriptor.VCM_COMMIT, ScriptDescriptor.VCM_COMMIT, null);
+		fillItemWithSDs(item, asset.getAfterScripts());
+		afRoot.addSDItem(item);
+        item = new SDTreeItem(ScriptDescriptor.VCM_DELETE, ScriptDescriptor.VCM_DELETE, null);
+		fillItemWithSDs(item, asset.getAfterScripts());
+		afRoot.addSDItem(item);
+        item = new SDTreeItem(ScriptDescriptor.VCM_IMPORT, ScriptDescriptor.VCM_IMPORT, null);
+		fillItemWithSDs(item, asset.getAfterScripts());
+		afRoot.addSDItem(item);
+        item = new SDTreeItem(ScriptDescriptor.VCM_UPDATE, ScriptDescriptor.VCM_UPDATE, null);
+		fillItemWithSDs(item, asset.getAfterScripts());
+		afRoot.addSDItem(item);
+		root.addSDItem(afRoot);
+		
+		return root;
+    }
+
     protected void okPressed() {
-        List befScripts = asset.getBeforeScripts();
-        List afScripts = asset.getAfterScripts();
-        befScripts.clear();
-        afScripts.clear();
-        for (int i = 0; i < beforeScriptsViewer.getTable().getItemCount(); i++) {
-            befScripts.add(beforeScriptsViewer.getElementAt(i));
+    
+        asset.getBeforeScripts().clear();
+        for (Iterator iterator = befRoot.getIterator(); iterator.hasNext(); ) {
+            SDTreeItem item = (SDTreeItem) iterator.next();
+            for (Iterator it = item.getIterator(); it.hasNext();) {
+                ScriptDescriptor sd = ((SDTreeItem) it.next()).getSd();
+                if (sd != null) {
+                    asset.getBeforeScripts().add(sd);
+                }
+            }
         }
-        for (int i = 0; i < afterScriptsViewer.getTable().getItemCount(); i++) {
-            afScripts.add(afterScriptsViewer.getElementAt(i));
+    
+        asset.getAfterScripts().clear();
+        for (Iterator iterator = afRoot.getIterator(); iterator.hasNext(); ) {
+            SDTreeItem item = (SDTreeItem) iterator.next();
+            for (Iterator it = item.getIterator(); it.hasNext();) {
+                ScriptDescriptor sd = ((SDTreeItem) it.next()).getSd();
+                if (sd != null) {
+                    asset.getAfterScripts().add(sd);
+                }
+            }
         }
+       
         super.okPressed();
+    }
+}
+
+class SDTreeItem {
+    
+    private String name;
+    private String type;
+    private List scripts = new ArrayList();
+    private List sdItems = new ArrayList();
+    private ScriptDescriptor sd;
+    private SDTreeItem parent;
+
+    public SDTreeItem(String name, String type, ScriptDescriptor sd)
+    {
+        this.name = name;
+        this.type = type;
+        this.sd = sd;
+    }
+    
+    public void addSDItem(SDTreeItem item) {
+        item.setParent(this);
+        sdItems.add(item);
+    }
+    
+    public void removeSDItem(SDTreeItem item) {
+        item.setParent(null);
+        sdItems.remove(item);
+    }
+    
+    public Iterator getIterator() {
+        return sdItems.iterator();
+    }
+    
+    public Object[] getSDItems() {
+        return sdItems.toArray();
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public String getType() {
+        return type;
+    }
+    
+    public SDTreeItem getParent() {
+        return parent;
+    }
+    
+    public void setParent(SDTreeItem parent) {
+        this.parent = parent;
+    }
+    
+    public ScriptDescriptor getSd() {
+        return sd;
     }
 }
