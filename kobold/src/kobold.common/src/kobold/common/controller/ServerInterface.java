@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerInterface.java,v 1.3 2004/05/13 23:45:07 garbeam Exp $
+ * $Id: ServerInterface.java,v 1.4 2004/05/15 01:23:40 garbeam Exp $
  *
  */
 
@@ -33,7 +33,6 @@ import kobold.common.data.KoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.Role;
-import kobold.common.data.User;
 import kobold.common.data.UserContext;
 
 /**
@@ -70,10 +69,13 @@ public interface ServerInterface {
 	 * @param userContext the user context of the valid creator of the
 	 * 			  new user (if the new user is a P, than the userContext
 	 * 			  must be at least a PE).
-	 * @param user the new user, it is not allowed to create a user with
-	 * 		      more permissions than the user defined by userContext.
+	 * @param userName the user name.
+	 * @param password the password.
+	 * @param realName the real name.
 	 */
-	public void addUser(UserContext userContext, User newUser);
+	public void addUser(UserContext userContext,
+									String userName, String password,
+									String realName);
 		
     /**
      * Fetches a productline by its name.

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.5 2004/05/14 18:45:20 vanto Exp $
+ * $Id: NewProjectWizard.java,v 1.6 2004/05/15 01:22:34 garbeam Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -31,9 +31,11 @@ import java.lang.reflect.InvocationTargetException;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProjectNature;
 import kobold.client.plam.PLAMProject;
+import kobold.client.plam.controller.SecureKoboldClient;
 import kobold.client.plam.workflow.LocalMessageQueue;
 import kobold.common.data.KoboldMessage;
 
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
@@ -220,6 +222,15 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			p.setProductline(chooserPage.getProductLineName());
 			p.store();
 			
+			// create secure client
+			try {
+				SecureKoboldClient client = new SecureKoboldClient(p.getServerUrl());
+				kNature.setSecureKoboldClient(client);
+			} catch (Exception exception) {
+				LogFactory.getLog("kobold.client.plam.NewProjectWizard").
+					error(exception);
+			}
+						
 			// create local message queue.
 			LocalMessageQueue mq = kNature.getMessageQueue();
 			KoboldMessage welcome = new KoboldMessage();

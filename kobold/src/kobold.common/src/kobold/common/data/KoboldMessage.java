@@ -1,8 +1,28 @@
 /*
- * Created on 16.04.2004
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: KoboldMessage.java,v 1.8 2004/05/15 01:23:40 garbeam Exp $
+ *
  */
 package kobold.common.data;
 
@@ -15,11 +35,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+
 /**
  * @author garbeam
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class KoboldMessage {
 
@@ -28,7 +46,10 @@ public class KoboldMessage {
 	
 	/** this field must be changed if you subclass this class */
 	protected static final String TYPE = "kobold";
-
+	public static final String STATE_UN_FETCHED = "UN_FETCHED"; 
+	public static final String STATE_FETCHED = "FETCHED";
+	public static final String STATE_INVALID = "INVALID";
+	
 	private String sender;
 	private String receiver;
 	private String messageText;
@@ -36,6 +57,7 @@ public class KoboldMessage {
 	private String priority;
 	private String subject;
 	private String id;
+	private String state = STATE_UN_FETCHED;
 
 	/**
 	 * Creates a new Kobold Message with a new unique id. (type = kmesg).
@@ -64,6 +86,14 @@ public class KoboldMessage {
 		id = IdManager.getInstance().getMessageId(type);
 	}
 
+	/**
+	 * Returns the state.
+	 * @return state.
+	 */
+	public String getState() {
+		return state;	
+	}
+	
 	/**
 	 * @return
 	 */
@@ -176,7 +206,8 @@ public class KoboldMessage {
 		xmsg.addAttribute("type", getType());
 		xmsg.addAttribute("id", id);
 		xmsg.addAttribute("priority", priority);
-
+		xmsg.addAttribute("state", state);
+		
 		xmsg.addElement("sender").setText(sender);
 		xmsg.addElement("receiver").setText(receiver);
 
@@ -194,6 +225,7 @@ public class KoboldMessage {
 	protected void deserialize(Element data) {
 		id = data.attributeValue("id");
 		priority = data.attributeValue("priority");
+		state = data.attributeValue("state");
 				
 		sender = data.elementTextTrim("sender");
 		receiver = data.elementTextTrim("receiver");
@@ -237,6 +269,7 @@ public class KoboldMessage {
 	{
 		StringBuffer sb = new StringBuffer(getClass().getName());
 		sb.append("\n\t[id:       " + getId() + "]\n");
+		sb.append("\t[state:   "  + getState() + "]\n");
 		sb.append("\t[sender:   " + getSender() + "]\n");
 		sb.append("\t[receiver: " + getReceiver() + "]\n");
 		sb.append("\t[subject:  " + getSubject() + "]\n");
@@ -254,7 +287,6 @@ public class KoboldMessage {
 	public static KoboldMessage createMessage(Element el)
 	{
 		String type = el.attributeValue("type");
-
 		if (type == null)
 			return null;
 		
@@ -265,5 +297,13 @@ public class KoboldMessage {
 			return new WorkflowMessage(el);
 		}
 		else return null;	
+	}
+
+	/**
+	 * Sets the state.
+	 * @param state the state.
+	 */
+	public void setState(String state) {
+		this.state = state;
 	}
 }

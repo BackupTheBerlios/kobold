@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Role.java,v 1.5 2004/05/04 22:31:12 garbeam Exp $
+ * $Id: Role.java,v 1.6 2004/05/15 01:25:50 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -46,9 +46,9 @@ public abstract class Role {
 	public static Role createRole(Element element) {
 
 		String roleType = element.selectSingleNode("//roles/role").getText();
-		if (roleType == "PLE") {
+		if (roleType.equals("PLE")) {
 			return new RolePLE(element);
-		} else if (roleType == "PE") {
+		} else if (roleType.equals("PE")) {
 			return new RolePE(element);
 		} else {
 			return new RoleP(element);

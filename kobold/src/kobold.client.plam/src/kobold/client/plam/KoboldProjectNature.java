@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProjectNature.java,v 1.4 2004/05/14 18:45:20 vanto Exp $
+ * $Id: KoboldProjectNature.java,v 1.5 2004/05/15 01:22:34 garbeam Exp $
  *
  */
 package kobold.client.plam;
 
+import kobold.client.plam.controller.SecureKoboldClient;
 import kobold.client.plam.workflow.LocalMessageQueue;
 
 import org.eclipse.core.resources.IFile;
@@ -45,6 +46,7 @@ public class KoboldProjectNature implements IProjectNature {
 	private IProject project;
 	private PLAMProject plamProject = null;
 	private LocalMessageQueue mqueue = null;
+	private SecureKoboldClient client = null;
 	
 	/**
 	 *
@@ -121,4 +123,15 @@ public class KoboldProjectNature implements IProjectNature {
 		return plamProject;
 	}			
 
+	public SecureKoboldClient getClient() {
+		return client;
+	}
+
+	/**
+	 * Sets the SecureKoboldClient.
+	 * @param client
+	 */
+	public void setSecureKoboldClient(SecureKoboldClient client) {
+		this.client = client;
+	}
 }

@@ -21,17 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.7 2004/05/13 23:45:24 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.8 2004/05/15 01:24:17 garbeam Exp $
  *
  */
 package kobold.server;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
 import kobold.common.controller.ServerInterface;
-import kobold.common.data.IdManager;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
@@ -40,7 +38,9 @@ import kobold.common.data.RoleP;
 import kobold.common.data.RolePE;
 import kobold.common.data.User;
 import kobold.common.data.UserContext;
+import kobold.server.controller.MessageManager;
 import kobold.server.controller.ProductManager;
+import kobold.server.controller.SessionManager;
 import kobold.server.controller.UserManager;
 
 import org.apache.xmlrpc.XmlRpcHandler;
@@ -55,8 +55,6 @@ import org.apache.xmlrpc.secure.SecureWebServer;
 public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 	// the xml-rpc webserver
 	private static SecureWebServer server;
-	
-	private List sessionIds = new ArrayList();
 
 	/**
 	 * main method
@@ -88,61 +86,63 @@ public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 	public Object execute(String methodName, Vector arguments)
 		throws Exception
 	{
-		if (methodName == "login") {
+		if (methodName.equals("login")) {
 			return login((String)arguments.elementAt(0), (String)arguments.elementAt(1));
 		}
-		else if (methodName == "logout") {
+		else if (methodName.equals("logout")) {
 			logout((UserContext)arguments.elementAt(0));
 		}
-		else if (methodName == "getRoles") {
+		else if (methodName.equals("getRoles")) {
 			return getRoles((UserContext)arguments.elementAt(0));
 		}
-		else if (methodName == "addUser") {
+		else if (methodName.equals("addUser")) {
 			addUser((UserContext)arguments.elementAt(0),
-						  (User)arguments.elementAt(1));
+						  (String)arguments.elementAt(1),
+						  (String)arguments.elementAt(2),
+						  (String)arguments.elementAt(3));
 		}
-		else if (methodName == "getProductline") {
+		else if (methodName.equals("getProductline")) {
 			return getProductline((UserContext)arguments.elementAt(0),
 											  (String)arguments.elementAt(1));
 		}
-		else if (methodName == "getProduct") {
+		else if (methodName.equals("getProduct")) {
 			return getProduct((UserContext)arguments.elementAt(0),
 										 (String)arguments.elementAt(1));
 		}
-		else if (methodName == "addProduct") {
+		else if (methodName.equals("addProduct")) {
 			addProduct((UserContext)arguments.elementAt(0),
 							  (Product)arguments.elementAt(1));
 		}
-		else if (methodName == "addRole") {
+		else if (methodName.equals("addRole")) {
 			addRole((UserContext)arguments.elementAt(0),
 						 (String)arguments.elementAt(1), 
 						 (Role)arguments.elementAt(2));
 		}
-		else if (methodName == "removeRole") {
+		else if (methodName.equals("removeRole")) {
 			removeRole((UserContext)arguments.elementAt(0),
 							   (String)arguments.elementAt(1),
 								(Role)arguments.elementAt(2));
 		}
-		else if (methodName == "applyProductlineModifications") {
+		else if (methodName.equals("applyProductlineModifications")) {
 			applyProductlineModifications((UserContext)arguments.elementAt(0),
 														(Productline)arguments.elementAt(1));
 		}
-		else if (methodName == "applyProductModifications") {
+		else if (methodName.equals("applyProductModifications")) {
 			applyProductModifications((UserContext)arguments.elementAt(0),
 													(Product)arguments.elementAt(1));
 		}
-		else if (methodName == "removeUser") {
+		else if (methodName.equals("removeUser")) {
 			removeUser((UserContext)arguments.elementAt(0),
 								(String)arguments.elementAt(1));
 		}
-		else if (methodName == "sendMessage") {
+		else if (methodName.equals("sendMessage")) {
 			sendMessage((UserContext)arguments.elementAt(0),
 								 (KoboldMessage)arguments.elementAt(1));
 		}
-		else if (methodName == "fetchMessage") {
+		else if (methodName.equals("fetchMessage")) {
 			return fetchMessage((UserContext)arguments.elementAt(0));
 		}
-		else if (methodName == "invalidateMessage") {
+		else if (methodName.equals("invalidateMessage")) {
 			invalidateMessage((UserContext)arguments.elementAt(0),
 										(KoboldMessage)arguments.elementAt(1));
 		}	
@@ -157,16 +157,7 @@ public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 	 * 			  is valid. 
 	 */
 	public UserContext login(String userName, String password) {
-		IdManager idManager = IdManager.getInstance();
-		UserManager userManager = UserManager.getInstance();
-		
-		User user = userManager.getUser(userName);
-		if (user != null) {
-			String sessionId = idManager.getSessionId(userName);
-			sessionIds.add(sessionId);
-			return user.getInitialUserContext(sessionId);
-		}
-		return null;
+		return SessionManager.getInstance().login(userName, password);
 	}
 
 
@@ -176,11 +167,7 @@ public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 	 * @param userContext the user context.
 	 */
 	public void logout(UserContext userContext) {
-		String sessionId = userContext.getSessionId();
-		if (sessionIds.contains(sessionId)) {
-			sessionIds.remove(sessionId);
-		}
-		userContext.setSessionId(null);
+		SessionManager.getInstance().logout(userContext);
 	}
 
 	/**
@@ -198,12 +185,19 @@ public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 	 * @param userContext the user context of the valid creator of the
 	 * 			  new user (if the new user is a P, than the userContext
 	 * 			  must be at least a PE).
-	 * @param user the new user, it is not allowed to create a user with
-	 * 		      more permissions than the user defined by userContext.
+	 * @param userName the user name.
+	 * @param password the password.
+	 * @param realName the real name.
 	 */
-	public void addUser(UserContext userContext, User newUser) {
+	public void addUser(UserContext userContext, String userName,
+									String password, String realName)
+	{
+		User user = new User();
+		user.setUserName(userName);
+		user.setRealName(realName);
+		user.setPassword(password);
 		UserManager manager = UserManager.getInstance();
-		manager.addUser(newUser);
+		manager.addUser(user);
 	}
 
 	/**
@@ -342,8 +336,8 @@ public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 	 * @param koboldMessage the message.
 	 */
 	public void sendMessage(UserContext userContext, KoboldMessage koboldMessage) {
-		// TODO Auto-generated method stub
-		
+		MessageManager.getInstance().sendMessage(userContext,
+																			koboldMessage);
 	}
 
 	/**
@@ -354,8 +348,7 @@ public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 	 * @param userContext the user context.
 	 */
 	public KoboldMessage fetchMessage(UserContext userContext) {
-		// TODO Auto-generated method stub
-		return null;
+		return MessageManager.getInstance().fetchMessage(userContext);
 	}
 
 	/**
@@ -366,9 +359,7 @@ public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 	 * @param koboldMessage the message.
 	 */
 	public void invalidateMessage(UserContext userContext, KoboldMessage koboldMessage) {
-		// TODO Auto-generated method stub
-
+		MessageManager.getInstance().invalidateMessage(userContext,
+																					koboldMessage);
 	}
-
-
 }
