@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVariantContainer.java,v 1.1 2004/06/23 12:59:05 vanto Exp $
+ * $Id: IVariantContainer.java,v 1.2 2004/06/23 13:34:58 vanto Exp $
  *
  */
 package kobold.common.model;
 
 import java.util.List;
 
+import kobold.common.model.productline.Component;
 import kobold.common.model.productline.Variant;
 
 
@@ -44,6 +45,14 @@ public interface IVariantContainer
     void addVariant(Variant var);
 
 	/**
+	 * Adds a variant at the given index and has to set its 
+	 * parent to this asset.
+	 *
+	 * @param variant to add
+	 */
+    void addVariant(Variant var, int index);
+
+    /**
 	 * Removes a variant and has to set its parent to null.
 	 *
 	 * @param variant to remove

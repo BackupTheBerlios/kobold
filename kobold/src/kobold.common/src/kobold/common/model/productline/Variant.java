@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.5 2004/06/23 12:59:05 vanto Exp $
+ * $Id: Variant.java,v 1.6 2004/06/23 13:34:58 vanto Exp $
  *
  */
 
@@ -120,13 +120,22 @@ public class Variant extends AbstractAsset
 		return AbstractAsset.VARIANT;
 	}
 
+	public void addComponent(Component comp)
+	{
+	    addComponent(comp, -1);
+	}
+	
 	/**
 	 * Adds a component and sets its parent to this.
 	 *
 	 * @param component contains the new component
 	 */
-	public void addComponent(Component component) {
-		components.add(component);
+	public void addComponent(Component component, int index) {
+		if (index >= 0)
+			components.add(index, component);
+		else
+			components.add(component);
+
 		component.setParent(this);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, component);
 	}
@@ -152,15 +161,23 @@ public class Variant extends AbstractAsset
 	{
 	    return Collections.unmodifiableList(components);
 	}
-
+	
+	public void addRelease(Release release)
+	{
+	    addRelease(release, -1);
+	}
 	
 	/**
 	 * Adds a version and sets its parent to this
 	 *
 	 * @param version contains the new version
 	 */
-	public void addRelease(Release release) {
-		releases.add(release);
+	public void addRelease(Release release, int index) {
+		if (index >= 0)
+			releases.add(index, release);
+		else
+			releases.add(release);
+
 		release.setParent(this);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, release);
 	}

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteCommand.java,v 1.1 2004/06/23 12:58:10 vanto Exp $
+ * $Id: DeleteCommand.java,v 1.2 2004/06/23 13:37:00 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -58,6 +58,11 @@ public class DeleteCommand extends Command
     
     public void execute()
     {
+        redo();
+    }
+
+    public void redo()
+    {
         if (parent instanceof IComponentContainer
                 && asset instanceof Component) {
             IComponentContainer cc = (IComponentContainer)parent;
@@ -75,15 +80,23 @@ public class DeleteCommand extends Command
             rc.removeRelease((Release)asset);
         }
     }
-
-    public void redo()
-    {
-        // TODO Auto-generated method stub
-        super.redo();
-    }
     public void undo()
     {
-        // TODO Auto-generated method stub
-        super.undo();
+        if (parent instanceof IComponentContainer
+                && asset instanceof Component) {
+            IComponentContainer cc = (IComponentContainer)parent;
+
+            cc.addComponent((Component)asset, index);
+        } else if (parent instanceof IVariantContainer
+                && asset instanceof Variant) {
+            IVariantContainer vc = (IVariantContainer)parent;
+
+            vc.addVariant((Variant)asset, index);
+        } else if (parent instanceof IReleaseContainer
+                && asset instanceof Release) {
+            IReleaseContainer rc = (IReleaseContainer)parent;
+
+            rc.addRelease((Release)asset, index);
+        }
     }
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.5 2004/06/23 12:59:05 vanto Exp $
+ * $Id: Component.java,v 1.6 2004/06/23 13:34:58 vanto Exp $
  *
  */
 
@@ -115,14 +115,22 @@ public class Component extends AbstractAsset
 	}
 
 
+	public void addVariant(Variant var){
+		addVariant(var, -1);
+	}
+
 	/**
 	 * Adds a variant and sets its parent to this.
 	 *
 	 * @param variant new variant
 	 */
-	public void addVariant(Variant variant) 
+	public void addVariant(Variant variant, int index) 
 	{
-		variants.add(variant);
+		if (index >= 0)
+			variants.add(index, variant);
+		else
+			variants.add(variant);
+
 		variant.setParent(this);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, variant);
 	}

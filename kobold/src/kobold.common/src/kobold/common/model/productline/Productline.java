@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.6 2004/06/23 12:59:05 vanto Exp $
+ * $Id: Productline.java,v 1.7 2004/06/23 13:34:58 vanto Exp $
  *
  */
 package kobold.common.model.productline;
@@ -89,12 +89,21 @@ public class Productline extends AbstractAsset
 	    return Collections.unmodifiableList(products);
 	}
 	
+	public void addComponent(Component coreAsset)
+	{
+	    addComponent(coreAsset, -1);
+	}
+	
 	/**
 	 * Adds a CoreAsset (Component) and sets its parent to this.
 	 *
 	 */
-	public void addComponent(Component coreAsset) {
-		coreAssets.add(coreAsset);
+	public void addComponent(Component coreAsset, int index) {
+		if (index >= 0)
+			coreAssets.add(index, coreAsset);
+		else
+			coreAssets.add(coreAsset);
+
 		coreAsset.setParent(this);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, coreAsset);
 	}

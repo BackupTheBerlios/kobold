@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IReleaseContainer.java,v 1.1 2004/06/23 12:59:05 vanto Exp $
+ * $Id: IReleaseContainer.java,v 1.2 2004/06/23 13:34:58 vanto Exp $
  *
  */
 package kobold.common.model;
@@ -42,6 +42,14 @@ public interface IReleaseContainer
     void addRelease(Release release);
 
 	/**
+	 * Adds a release at the given index and has to set its 
+	 * parent to this asset.
+	 *
+	 * @param release to add
+	 */
+    void addRelease(Release release, int index);
+
+    /**
 	 * Removes a release and has to set its parent to null.
 	 *
 	 * @param release to remove

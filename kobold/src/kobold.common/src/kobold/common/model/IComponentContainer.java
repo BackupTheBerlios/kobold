@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IComponentContainer.java,v 1.1 2004/06/23 12:59:05 vanto Exp $
+ * $Id: IComponentContainer.java,v 1.2 2004/06/23 13:34:58 vanto Exp $
  *
  */
 package kobold.common.model;
@@ -44,6 +44,14 @@ public interface IComponentContainer
     void addComponent(Component comp);
 
 	/**
+	 * Adds a component at the given index and has to set its 
+	 * parent to this asset.
+	 *
+	 * @param component to add
+	 */
+    void addComponent(Component comp, int index);
+
+    /**
 	 * Removes a component and has to set its parent to null.
 	 *
 	 * @param component to remove
