@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteConnectionCommand.java,v 1.1 2004/07/23 23:25:15 vanto Exp $
+ * $Id: DeleteConnectionCommand.java,v 1.2 2004/07/26 18:39:16 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -51,7 +51,7 @@ public class DeleteConnectionCommand extends Command
      */
     public void execute()
     {
-        root.getEdgeConatainer().removeEdge(edge);
+        root.getEdgeContainer().removeEdge(edge);
     }
     
     /**
@@ -59,7 +59,7 @@ public class DeleteConnectionCommand extends Command
      */
     public void redo()
     {
-        root.getEdgeConatainer().removeEdge(edge);
+        root.getEdgeContainer().removeEdge(edge);
     }
     
     /**
@@ -67,6 +67,6 @@ public class DeleteConnectionCommand extends Command
      */
     public void undo()
     {
-        root.getEdgeConatainer().addEdge(edge);
+        root.getEdgeContainer().addEdge(edge);
     }
 }

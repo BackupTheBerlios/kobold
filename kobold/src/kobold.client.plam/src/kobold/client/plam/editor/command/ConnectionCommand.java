@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ConnectionCommand.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
+ * $Id: ConnectionCommand.java,v 1.2 2004/07/26 18:39:16 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -49,7 +49,7 @@ public class ConnectionCommand extends Command
      */
     public void execute()
     {
-        EdgeContainer ec = sourceNode.getRoot().getEdgeConatainer();
+        EdgeContainer ec = sourceNode.getRoot().getEdgeContainer();
         edge = ec.addEdge(sourceNode, targetNode, type);
     }
     
@@ -58,7 +58,7 @@ public class ConnectionCommand extends Command
      */
     public void redo()
     {
-        EdgeContainer ec = sourceNode.getRoot().getEdgeConatainer();
+        EdgeContainer ec = sourceNode.getRoot().getEdgeContainer();
         ec.addEdge(edge.getStartNode(), edge.getTargetNode(), edge.getType());
     }
     
@@ -67,7 +67,7 @@ public class ConnectionCommand extends Command
      */
     public void undo()
     {
-        EdgeContainer ec = sourceNode.getRoot().getEdgeConatainer();
+        EdgeContainer ec = sourceNode.getRoot().getEdgeContainer();
         ec.removeEdge(edge.getStartNode(), edge.getTargetNode(), edge.getType());
     }
     

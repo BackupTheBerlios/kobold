@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.5 2004/07/25 21:26:34 garbeam Exp $
+ * $Id: AbstractRootAsset.java,v 1.6 2004/07/26 18:39:16 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -54,7 +54,7 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     protected transient PropertyChangeSupport changeListeners = new PropertyChangeSupport(this); 
     protected transient List vcmListeners = new LinkedList();
     private List metaNodes = new ArrayList();
-    private EdgeContainer edgeConatainer = new EdgeContainer(this);
+    private EdgeContainer edgeContainer = new EdgeContainer(this);
     
     // TODO: set the repository descriptor on instantiation!
 	private RepositoryDescriptor repositoryDescriptor = null;
@@ -129,9 +129,9 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     /**
      * @return Returns the edgeConatainer.
      */
-    public EdgeContainer getEdgeConatainer()
+    public EdgeContainer getEdgeContainer()
     {
-        return edgeConatainer;
+        return edgeContainer;
     }
 
     public void addMetaNode(MetaNode mn)

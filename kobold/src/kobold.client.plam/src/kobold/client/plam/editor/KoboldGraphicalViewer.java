@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldGraphicalViewer.java,v 1.1 2004/07/24 01:11:08 vanto Exp $
+ * $Id: KoboldGraphicalViewer.java,v 1.2 2004/07/26 18:39:16 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -29,6 +29,7 @@ package kobold.client.plam.editor;
 import java.util.Iterator;
 
 import kobold.client.plam.editor.editpart.AbstractAssetEditPart;
+import kobold.client.plam.model.productline.Productline;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
@@ -60,11 +61,14 @@ public class KoboldGraphicalViewer extends ScrollingGraphicalViewer
         if (this.isComposing == isComposing)
             return;
         
+        if (!(getContents().getModel() instanceof Productline))
+            return;
+        
         this.isComposing = isComposing;
         setProperty("composing", (isComposing)?"true":"false");
         if (isComposing) {
             ProductAlgorithm oldComp = composer;
-            composer = new ProductAlgorithm();
+            composer = new ProductAlgorithm((Productline)getContents().getModel());
 
             Iterator it = getEditPartRegistry().values().iterator();
             while (it.hasNext()) {

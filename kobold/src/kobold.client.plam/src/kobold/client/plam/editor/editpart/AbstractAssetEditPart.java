@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAssetEditPart.java,v 1.2 2004/07/24 01:11:08 vanto Exp $
+ * $Id: AbstractAssetEditPart.java,v 1.3 2004/07/26 18:39:16 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -38,6 +38,7 @@ import kobold.client.plam.editor.policy.ComposeEditPolicy;
 import kobold.client.plam.editor.policy.GraphicalNodeEditPolicyImpl;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.edges.EdgeContainer;
 
 import org.apache.commons.logging.Log;
@@ -158,7 +159,7 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
         if (isActive() == false) {
             super.activate();
             getAsset().addPropertyChangeListener(this);
-            getAsset().getRoot().getEdgeConatainer().addPropertyChangeListener(this);
+            getAsset().getRoot().getEdgeContainer().addPropertyChangeListener(this);
             getViewModel().addPropertyChangeListener(this);
         }
     }
@@ -171,7 +172,7 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
         if (isActive()) {
             super.deactivate();
             getAsset().removePropertyChangeListener(this);
-            getAsset().getRoot().getEdgeConatainer().removePropertyChangeListener(this);
+            getAsset().getRoot().getEdgeContainer().removePropertyChangeListener(this);
             getViewModel().removePropertyChangeListener(this);
         }
     }
@@ -208,7 +209,10 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
     protected List getModelSourceConnections()
     {
         AbstractAsset asset = getAsset();
-        return asset.getRoot().getEdgeConatainer().getEdgesFrom(asset);
+        AbstractRootAsset root = asset.getRoot();
+        EdgeContainer ec = root.getEdgeContainer();
+        List l = ec.getEdgesFrom(asset);
+        return asset.getRoot().getEdgeContainer().getEdgesFrom(asset);
     }
     
     /**
@@ -217,6 +221,6 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
     protected List getModelTargetConnections()
     {
         AbstractAsset asset = getAsset();
-        return asset.getRoot().getEdgeConatainer().getEdgesTo(asset);
+        return asset.getRoot().getEdgeContainer().getEdgesTo(asset);
     }
 }

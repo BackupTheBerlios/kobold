@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalNodeEditPolicyImpl.java,v 1.2 2004/07/23 23:25:15 vanto Exp $
+ * $Id: GraphicalNodeEditPolicyImpl.java,v 1.3 2004/07/26 18:39:16 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
@@ -39,7 +39,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * GraphicalNodeEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.2 2004/07/23 23:25:15 vanto Exp $
+ * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.3 2004/07/26 18:39:16 vanto Exp $
  */
 public class GraphicalNodeEditPolicyImpl
     extends org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy {
@@ -52,7 +52,7 @@ public class GraphicalNodeEditPolicyImpl
 
         // dont allow connection if there is already a connection between source and target
         // and of the same type.
-        EdgeContainer ec = ((INode)getHost().getModel()).getRoot().getEdgeConatainer();
+        EdgeContainer ec = ((INode)getHost().getModel()).getRoot().getEdgeContainer();
         if (ec.containsEdge(command.getSourceNode(), (INode)getHost().getModel(), command.getType())) {
             return null;
         }
