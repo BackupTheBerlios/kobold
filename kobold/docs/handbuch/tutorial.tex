@@ -57,8 +57,10 @@ kobold.client.serveradmin/sat.properties
 
 \section{Setting the Kobold preferences}
 In the Kobold Client menu, select 'Window' and then 'Preferences'. The preferences
-dialog opens (see \ref{pref}). Select 'Kobold' and enter the properties for the Kobold Client.
-They resemble your SAT properties (see chapter 'Installation').
+dialog opens (see \ref{pref}). Open the Kobold tree. In the SSL tab you can enter the 
+properties for the Kobold Client. They resemble your SAT properties (see chapter 'Installation').
+The VCM Configuration allows you to save your username, password and script for the
+communication with the projects' repositories.
 
 \begin{figure}[h!]
 \begin{center}
@@ -70,7 +72,7 @@ They resemble your SAT properties (see chapter 'Installation').
 
 \section{Product-related}
 
-\subsection{Checking out a product(line)}
+\subsection{Checking out a productline}
 
 In the File menu select 'New' and then 'Kobold PLAM Project'. The Kobold wizard opens.
 Enter the url of your Kobold server, your username and password. Then press
@@ -84,7 +86,7 @@ Enter the url of your Kobold server, your username and password. Then press
 \end{center}
 \end{figure}\par
 
-After that you choose the product(line) you want to check out (see \ref{wizard2}).
+After that you choose the productline you want to check out (see \ref{wizard2}).
 
 \begin{figure}[h!]
 \begin{center}
@@ -111,7 +113,10 @@ and 'show view'.
 
 In the palette press 'compose product'. The components, etc. in the architecture view turn
 grey. You can now select the components, variants and releases you want to include into
-you new product. The chosen objects turn blue (see \ref{compose}).
+you new product. The chosen objects turn blue (see \ref{compose}). When done press the 
+'create product' button in the Architecture Editor. A dialog opens where you can enter
+the name and metainfo of your new product. After confirming the dialog, you can see
+your new product in the Role View.
 
 \begin{figure}[h!]
 \begin{center}
@@ -121,7 +126,6 @@ you new product. The chosen objects turn blue (see \ref{compose}).
 \end{center}
 \end{figure}\par
 
-%TODO: wie geht's weiter!
 
 %\subsection{Renaming a product}
 
@@ -165,7 +169,7 @@ you new product. The chosen objects turn blue (see \ref{compose}).
 
 \subsection{Creating a component}
 
-In the pallete select the "component" tool. Click and drag within a variant or top-level in 
+In the pallete select the "component" tool. Click within a variant or top-level in 
 the Architecture Editor. A component is inserted (see \ref{component}) and a dialog opens where you can enter the meta data of
 the component. Per drag+drop you can simply change the size of the component. \par
 Note: Components can only be inserted top-level or into variants.
@@ -181,7 +185,7 @@ Note: Components can only be inserted top-level or into variants.
 
 \subsection{Creating a variant}
 
-In the pallete select the "variant" tool. Click and drag within a component in 
+In the pallete select the "variant" tool. Click within a component in 
 the Architecture Editor. A variant is inserted (see \ref{variant}) and a dialog opens where you can enter the meta data of
 the variant. Per drag+drop you can simply change the size of the variant. \par
 Note: Variants can only be inserted into components.
@@ -197,7 +201,7 @@ Note: Variants can only be inserted into components.
 
 \subsection{Creating a release}
 
-In the pallete select the "release" tool. Click and drag within a variant in 
+In the pallete select the "release" tool. Click within a variant in 
 the Architecture Editor. A release is inserted (see \ref{release}) and a dialog opens where you can enter the meta data of
 the release. For each file of the variant you can select the revision number you want to add to the release. 
 Per drag+drop you can simply change the size of the release. \par
@@ -213,7 +217,7 @@ Note: Releases can only be inserted into variants.
 
 \subsection{Creating a meta node}
 
-In the pallete select the "meta node" tool. Click and drag within the Architecture Editor. 
+In the pallete select the "meta node" tool. Click within the Architecture Editor. 
 A meta node is inserted (see \ref{meta}). Possible meta node types are AND and OR. Be careful with
 the direction of the edges that are linked to a meta node! In the following architecture component A
 needs components B and C. But components B and C are independent of component A (see \ref{example}).
@@ -405,13 +409,26 @@ Your new messages are being fetched and displayed in the Workflow View.
 
 %(still undefined)
 
-\subsection{Suggesting a file for a Core Group}
+\subsection{Suggesting an asset for a Core Group}
 
-Note: This option should only be used by programmers!\par
-In the menu of the Workflow View select "Suggest file for core group". A Workflow
-window opens where you can enter the name of the file, its path and the username of the
-PE you want to send the message to. You can also enter an additional comment you want 
-the PE to read. Send the message by pressing the "Send" 
+There are two way to suggest an asset for a Core Group.
+
+In the menu of the Workflow View select 'Suggest asset for core group'. A dialog opens where
+ you can select the type of recipient, i.d. whether the suggestion is to be sent to a PE or a PLE. After
+ that decision a Workflow
+window opens where you can enter the name of the asset and the username of the
+PE/PLE you want to send the message to. You can also enter an additional comment you want 
+the PE/PLE to read. Send the message by pressing the "Send" 
+button. Pressing the "Cancel" button will close the window without sending 
+your message (see \ref{core1}).
+
+In the Role View, select the asset you want to suggest and right-click on it. The context menu opens where
+ you choose the option 'Suggest asset for core group'. A dialog opens where
+ you can select the type of recipient, i.d. whether the suggestion is to be sent to a PE or a PLE. After
+ that decision a Workflow
+window opens where you can enter the name of the asset and the username of the
+PE/PLE you want to send the message to. You can also enter an additional comment you want 
+the PE/PLE to read. Send the message by pressing the "Send" 
 button. Pressing the "Cancel" button will close the window without sending 
 your message (see \ref{core1}).
 
@@ -453,9 +470,8 @@ this manually.
 \section{Exporting through GXL}
 
 Select the productline, product, component or variant you want to export. In the
-context menu of the object select "export" (see \ref{archcontext}). A wizard opens (see \ref{export}) where you can choose
-whether to create a jar-file of the selected source or not. You should then enter
-the path and names of the gxl-file and the jar-file. Alternatively you can enter 
+context menu of the object select "export" (see \ref{archcontext}). A wizard opens (see \ref{export}) where you can enter
+the path and name of the gxl-file. Alternatively you can enter 
 the data through the "browse" dialog. To start the export, press the OK button.
 You are able to see the status of your export in the wizard which will close after
 the export is finished. If you decide not to do the export, simply press the 
@@ -508,14 +524,12 @@ $<$/rule$>$\par
 
 
 The rule will only be fired when its conditions are true. If there are several conditions,
-all of the have to be true. Conditions and consequence are written in Java.\par
+all of them have to be true. Conditions and consequence are written in Java.\par
 
 For your own rules, the rule's parameter will always be an RPCSpy object of the package
 kobold.common.data. Such an object is created whenever an action is being executed by the server.
 These are in detail (using their actual method names):
 \begin{itemize}
-	\item login
-	\item logout
 	\item addUser
 	\item getAllUsers
 	\item removeUser
@@ -556,20 +570,12 @@ After that, rebuild the usermanual.pdf.
 %TODO: Screenshot einfügen
 
 \section{Generating a metainfo document}
-In the role tree right-click on the object (product line, component, variant, release) you want the metainfo document about
+In the role tree right-click on the object (productline, product, component, variant, release) you want the metainfo document about
 and select 'generate document...'. A 'Save as' dialog opens where you can select the parent folder into which the pdf-file
-will be saved (see \ref{generate}). Confirm by pressing the 'OK' button and the pdf-file is created.
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=10cm]{generate.png}
-   \caption{Generate a metainfo document}
-\label{generate}
-\end{center}
-\end{figure}\par
+will be saved. Confirm by pressing the 'OK' button and the pdf-file is created.
 
 \section{Configuring an asset}
-In the role tree right-click on the object (product line, component, variant, release) you want to configure
+In the role tree right-click on the object (productline, product, component, variant, release) you want to configure
 and select 'configure asset...'. The corresponding 'Asset Configuration' dialog opens where you can make your
 changes (see \ref{config} and \ref{config2}).
 
@@ -587,7 +593,7 @@ can see the new user in the list of the User Manager.
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{createuser1.png}
-   \caption{Create a new user}
+   \caption{Create a new user - step 1}
 \label{createuser1}
 \end{center}
 \end{figure}\par
@@ -595,7 +601,7 @@ can see the new user in the list of the User Manager.
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{createuser2.png}
-   \caption{Create a new user}
+   \caption{Create a new user - step 2}
 \label{createuser2}
 \end{center}
 \end{figure}\par
@@ -641,31 +647,68 @@ enter your new password (see \ref{password}). Confirm the password and press 'OK
 \end{center}
 \end{figure}\par
 
+\subsection{Updating ones full name}
+Right-click in the role tree and select 'update full name'. A dialog opens where you can
+enter your new full name (see \ref{fullname}). Confirm the changes with your password and press 'OK'. Your full name has been changed.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{updatefullname.png}
+   \caption{Update your full name}
+\label{fullname}
+\end{center}
+\end{figure}\par
 
 \section{SAT-related}
 
 \subsection{Creating a product line}
-Enter the command "createpl". You are asked to enter the name of the new product
+Enter the command 'newpl'. You are asked to enter the name of the new product
 line and its meta data. Once you confirmed your entry, the product line is created.
 
 \subsection{Deleting a product line}
-Enter the command "removepl". You are then asked to enter the name of the product
+Enter the command 'rempl'. You are then asked to enter the name of the product
 line you want to remove. Once you confirmed your entry, the product line is deleted.
 
 \subsection{Upgrading an existing user to PLE status}
-Enter the command "addple". You are asked to enter the name of the person you want
+Enter the command 'assignple'. You are asked to enter the name of the person you want
 to upgrade as PLE. Finally, enter the name of the product line you want to assign
 the new PLE to. Once you confirmed your entry, the user has PLE rights.
 
 \subsection{Removing PLE rights}
-Enter the command "removeple". You are asked to enter the name of the user who shall 
+Enter the command 'unassignple'. You are asked to enter the name of the user who shall 
 no longer have PLE rights. Also, enter the name of the product line you want to
 remove the PLE from. Once you confirmed your entry, the user is no longer PLE of
 the entered product line.
 
 \subsection{Getting a list of all existing commands}
-Enter the command "help" and you get a list of all the commands of this tool and
+Enter the command 'help' and you get a list of all the commands of this tool and
 their meanings.
+
+\subsection{Getting information about SAT's version and licence}
+Enter the command 'about' and you get information about the programm's version and licence.
+
+\subsection{Changing the URL}
+Enter the command 'seturl'. Enter a new url to change the current url.
+
+\subsection{Changing the password}
+Enter the command 'setpasswd' and then a new password in order to change the password that is used to access
+the current server.
+
+\subsection{Creating a new user}
+Enter the command 'newuser'. Enter the name, username and password of the new user and confirm.
+
+\subsection{Deleting a user}
+Enter the command 'remuser'. Enter the username of the user in order to remove him/her from the server.
+
+\subsection{Getting a list of all productlines}
+Enter the command 'pllist' in order to get a list of all existing productlines.
+
+\subsection{Getting a list of all ples of a productline}
+Enter the command 'plelist' and then the name of the productline in order to get a list
+ of the assigned ples.
+ 
+\subsection{Getting a list of all registered users}
+Enter the command 'userlist' in order to get a list of all existing users.
 
 \subsection{Exiting the tool}
 Enter the command "exit".
