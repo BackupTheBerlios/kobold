@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateUserDataDialog.java,v 1.3 2004/08/24 13:17:57 garbeam Exp $
+ * $Id: UpdateUserDataDialog.java,v 1.4 2004/08/25 00:36:26 neco Exp $
  */
 package kobold.client.plam.editor.dialog;
 
@@ -31,6 +31,8 @@ import kobold.client.plam.controller.UserManager;
 import kobold.common.data.User;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -100,7 +102,7 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
         if (isEditFullName) {
             //RealName
             labelRealName = new Label(panel,SWT.NONE);
-            labelRealName.setText("Full Name:");
+            labelRealName.setText("Full name:");
             textRealName = new Text(panel, SWT.BORDER);		
             textRealName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             textRealName.setText(user.getFullname());
@@ -133,23 +135,40 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
         }
     
     }
-    
+   
     protected void okPressed()
     {
     
 	    KoboldProject tmpProj = KoboldPLAMPlugin.getCurrentKoboldProject();
         UserManager acts = new UserManager();
+       
+        String pass = textPassword.getText();
         
         if (isEditFullName) {
+        	if (pass.equals(tmpProj.getPassword())){
            	acts.updateFullName(tmpProj.getUserName(), textRealName.getText(), textPassword.getText());
+           	
+        	}
+        	else {
+        		MessageDialog.openError(getShell(), "Kobold Error", 
+        				"Can't update full name, because the entered password don't match.      "
+						+ "Please try again.");
+        	}
         }
-        else {
-           	acts.changePassword(textOldPassword.getText(), textNewPassword.getText());
+        else if (textOldPassword.getText().equals(tmpProj.getPassword())){
+        		acts.changePassword(textOldPassword.getText(), textNewPassword.getText());
         }
+        else{
+        	MessageDialog.openError(getShell(), "Kobold Error", 
+    			"Can't update password, because the entered old password don't match. " 
+       			+ "Please try again.");
+        }
+        
         super.okPressed();
     }
     
     protected void cancelPressed(){
     	super.cancelPressed();
     }
+ 
 }

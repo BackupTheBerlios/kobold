@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManagerDialog.java,v 1.6 2004/08/24 19:24:53 neco Exp $
+ * $Id: UserManagerDialog.java,v 1.7 2004/08/25 00:35:16 neco Exp $
  */
  
 package kobold.client.plam.editor.dialog;
@@ -205,12 +205,16 @@ public class UserManagerDialog extends TitleAreaDialog
 				String user = textUserName.getText();
 				String real = textRealName.getText();
 				UserManager acts = new UserManager();
-			    if (real.length() == 0 || user.length() == 0) {
-			    	MessageDialog.openError(getShell(), "Kobold Error", "user name and full name should not be empty.");
+			    if (real.length() == 0 || user.length() == 0 || 
+			    		textPassword.getText().length() == 0) {
+			    	MessageDialog.openError(getShell(), "Kobold Error", 
+			    	"User name, full name and password should not be empty.");
 			    }
                 
                 else if (textPassword.getText().equals(textConfPass.getText())){
-                	acts.createUser(textRealName.getText(),textUserName.getText(), textPassword.getText(), textConfPass.getText());
+                	acts.createUser(textRealName.getText(),textUserName.getText(), 
+                		textPassword.getText(), textConfPass.getText());
+                	
                 	textRealName.setText("");
                 	textUserName.setText("");
                 	textPassword.setText("");
@@ -218,7 +222,8 @@ public class UserManagerDialog extends TitleAreaDialog
                 	refreshUserList();
                 }
                 else {
-                    MessageDialog.openError(getShell(), "Kobold Error", "Can't add user, because the entered passwords don't match.");
+                    MessageDialog.openError(getShell(), "Kobold Error", 
+                    "Can't add user, because the entered passwords don't match.");
                 }
                 
 			}

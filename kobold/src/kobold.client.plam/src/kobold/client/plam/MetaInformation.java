@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaInformation.java,v 1.16 2004/08/06 10:58:04 neco Exp $
+ * $Id: MetaInformation.java,v 1.17 2004/08/25 00:34:15 neco Exp $
  *
  */
 package kobold.client.plam;
@@ -90,7 +90,7 @@ public class MetaInformation {
             document.open();
             
             // titlepage
-            document.add(new Paragraph("Meta-Informations",
+            document.add(new Paragraph("Asset-Informations",
                 	FontFactory.getFont(FontFactory.HELVETICA, 40, Font.ITALIC)));
             document.add(new Paragraph(new Date().toString()));
             document.add(new Phrase("\n\n\n\n\n\n"));
@@ -99,15 +99,7 @@ public class MetaInformation {
 //            logo.scaleAbsolute(500, 300);
 //            logo.setAlignment(Image.MIDDLE);
 //            document.add(logo);
-           /* try 
-            {
-                Watermark watermark = new Watermark(Image.getInstance("icons/kobold_persp.gif"), 200, 420);
-                document.add(watermark);
-            }
-            catch(Exception e) {
-                System.err.println("Are you sure you have the file 'icons/kobold_persp.gif' in the right path?");
-            }
-           */ 
+ 
             HeaderFooter footer = new HeaderFooter(new Phrase("Page: "), true);
             	document.setFooter(footer);
             // new page	
@@ -246,7 +238,7 @@ public class MetaInformation {
     	throws DocumentException
     {	
     	document.add(new Phrase("\n"));
-    	document.add(new Phrase("SpecificComponent: ",
+    	document.add(new Phrase("Specific Component: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(spComp.getName(),
 	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
@@ -285,7 +277,7 @@ public class MetaInformation {
     	throws DocumentException
     {
     	document.add(new Phrase("\n"));
-    	document.add(new Phrase("RelatedComponent: ",
+    	document.add(new Phrase("Related Component: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(relComp.getName(),
 	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
@@ -334,7 +326,7 @@ public class MetaInformation {
 		throws DocumentException
 	{
 		document.add(new Phrase("\n"));
-		document.add(new Phrase("Component: ",
+		document.add(new Phrase("Core Asset: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(comp.getName(),
 	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
@@ -426,7 +418,7 @@ public class MetaInformation {
 	private void createMetaInfoForFileDescriptors(Document document, FileDescriptor fileDes)
 		throws DocumentException
 	{
-		document.add(new Phrase("FileDescriptor: ",
+		document.add(new Phrase("File Descriptor: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(fileDes.getFilename(),
 	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
