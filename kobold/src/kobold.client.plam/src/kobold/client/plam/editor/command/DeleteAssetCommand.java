@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.9 2004/09/20 14:41:14 neco Exp $
+ * $Id: DeleteAssetCommand.java,v 1.10 2004/09/20 15:45:34 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -44,7 +44,6 @@ import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.edges.EdgeContainer;
-import kobold.client.plam.model.edges.INode;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.ProductComponent;
 import kobold.client.plam.model.product.RelatedComponent;
@@ -54,7 +53,6 @@ import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
@@ -169,22 +167,12 @@ public class DeleteAssetCommand extends Command
    
     public void execute()
     {
-    	if (asset instanceof MetaNode)
-    	{ 
-    		DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
-            deleteCommand.setAsset(asset);
-//            if (MessageDialog.openQuestion(Display.getDefault().getActiveShell(), 
-//                	"Delete Selected Asset", "Are you sure to delete this asset?")) 
-//            {
-                deleteCommand.execute(DeleteAssetCommand.DELETE);
-//            } 
-
-    	} 
-    	else{
-    	
-        Shell shell = Display.getDefault().getActiveShell();
-		DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, this); 
-		dialog.open();
+    	if (asset instanceof MetaNode) { 
+    	    execute(DeleteAssetCommand.DELETE);
+    	} else {
+    	    Shell shell = Display.getDefault().getActiveShell();
+    	    DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, this); 
+    	    dialog.open();
     	}
     }
     
