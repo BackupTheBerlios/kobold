@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.4 2004/09/18 16:30:06 neco Exp $
+ * $Id: DeleteAssetCommand.java,v 1.5 2004/09/19 00:58:08 neco Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -70,7 +70,7 @@ public class DeleteAssetCommand extends Command
     private List edges = new ArrayList();
     private List depAssets = new ArrayList();
     private int action;
-    private AbstractAsset selection;
+ //   private AbstractAsset selection;
     AbstractAsset parent;
     
 
@@ -155,7 +155,7 @@ public class DeleteAssetCommand extends Command
     public void execute()
     {
         Shell shell = Display.getDefault().getActiveShell();
-		DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, selection); 
+		DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, asset); 
 		dialog.open();
     }
     
