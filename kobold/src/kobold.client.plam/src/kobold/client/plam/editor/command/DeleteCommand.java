@@ -21,16 +21,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteCommand.java,v 1.4 2004/07/01 11:27:25 vanto Exp $
+ * $Id: DeleteCommand.java,v 1.5 2004/08/05 14:19:33 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.IVariantContainer;
+import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.Release;
+import kobold.client.plam.model.edges.Edge;
+import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Variant;
 
@@ -44,6 +52,7 @@ public class DeleteCommand extends Command
 {
     private AbstractAsset asset, parent;
     private int index = -1;
+    private List edges = new ArrayList();
     
     public DeleteCommand()
     {
@@ -63,6 +72,18 @@ public class DeleteCommand extends Command
 
     public void redo()
     {
+        if (parent != null) {
+            EdgeContainer ec = parent.getRoot().getEdgeContainer();
+            edges.addAll(ec.getEdgesTo(asset));
+            edges.addAll(ec.getEdgesFrom(asset));
+
+            Iterator it = edges.iterator();
+            while (it.hasNext()) {
+                Edge edge = (Edge)it.next();
+                ec.removeEdge(edge);
+            }
+        }
+
         if (parent instanceof IComponentContainer
                 && asset instanceof Component) {
             IComponentContainer cc = (IComponentContainer)parent;
@@ -78,6 +99,9 @@ public class DeleteCommand extends Command
             IReleaseContainer rc = (IReleaseContainer)parent;
             index = rc.getReleases().indexOf(asset);
             rc.removeRelease((Release)asset);
+        } else if (parent instanceof AbstractRootAsset
+                && asset instanceof MetaNode) {
+            ((AbstractRootAsset)parent).removeMetaNode((MetaNode)asset);
         }
     }
     public void undo()
@@ -97,6 +121,16 @@ public class DeleteCommand extends Command
             IReleaseContainer rc = (IReleaseContainer)parent;
 
             rc.addRelease((Release)asset, index);
+        } else if (parent instanceof AbstractRootAsset
+                && asset instanceof MetaNode) {
+            ((AbstractRootAsset)parent).addMetaNode((MetaNode)asset);
+        }
+        
+        EdgeContainer ec = parent.getRoot().getEdgeContainer();
+        Iterator it = edges.iterator();
+        while (it.hasNext()) {
+            Edge edge = (Edge)it.next();
+            ec.addEdge(edge);
         }
     }
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractComposableEditPart.java,v 1.2 2004/07/24 01:11:08 vanto Exp $
+ * $Id: AbstractComposableEditPart.java,v 1.3 2004/08/05 14:19:33 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -30,6 +30,7 @@ import java.beans.PropertyChangeEvent;
 
 import kobold.client.plam.editor.KoboldGraphicalViewer;
 import kobold.client.plam.editor.figure.ComposableFigure;
+import kobold.client.plam.editor.policy.ComposeEditPolicy;
 import kobold.client.plam.model.AbstractAsset;
 
 
@@ -64,5 +65,15 @@ public abstract class AbstractComposableEditPart extends AbstractAssetEditPart
 			refreshVisuals();
 		}
         super.propertyChange(evt);
+    }
+    
+    
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies()
+    {
+        super.createEditPolicies();
+		installEditPolicy("composer", new ComposeEditPolicy());
     }
 }
