@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductManagerTest.java,v 1.1 2004/05/12 18:07:20 rendgeor Exp $
+ * $Id: ProductManagerTest.java,v 1.2 2004/05/13 15:15:56 garbeam Exp $
  *
  */
 
@@ -53,10 +53,10 @@ public class ProductManagerTest extends TestCase {
 	public void testSerialize() {
 		
 		Product product = new Product();
-		product.setProductName("windoof");
+		product.setName("windoof");
 		
 		Productline productline = new Productline();
-		productline.setProductLineName("office");
+		productline.setName("office");
 		
 		ProductManager manager = ProductManager.getInstance();
 		
@@ -69,10 +69,10 @@ public class ProductManagerTest extends TestCase {
 		manager.deserialize("test.xml");
 		
 		product = manager.getProduct("windoof");
-		assertTrue (product.getProductName() == "windoof");
+		assertTrue (product.getName() == "windoof");
 		//...
 		productline = manager.getProductLine("office");
-		assertTrue (productline.getProductLineName() == "office");
+		assertTrue (productline.getName() == "office");
 		
 	}
 }

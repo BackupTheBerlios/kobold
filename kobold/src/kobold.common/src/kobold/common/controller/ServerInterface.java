@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerInterface.java,v 1.1 2004/05/12 16:56:34 garbeam Exp $
+ * $Id: ServerInterface.java,v 1.2 2004/05/13 15:15:44 garbeam Exp $
  *
  */
 
@@ -33,130 +33,138 @@ import kobold.common.data.KoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.Role;
+import kobold.common.data.User;
 import kobold.common.data.UserContext;
 
-
 /**
- * This class acts as an interface for Kobold-clients.
- *
- * @author Armin Cont
+ * This class acts as an interface between kobold clients and a
+ * kobold server.
  */
 public interface ServerInterface {
 
-    /**
-     * A Kobold-Client has to call this method before making any
-     * other requests.
-     * 
-     * @param userName the username
-     * @param password the password
-     * @returns {@link kobold.common.data.UserContext}
-     */
+	/**
+	 * Login handler.
+	 * @param userName the username.
+	 * @param password the plain text password.
+	 * @return UserContext, if the userName and password
+	 * 			  is valid. 
+	 */
     public UserContext login(String userName, String password);
 
-    /**
-     * Logs out and invalidates the given userContext.
-     */
+	/**
+	 * Logout handler.
+	 * Invalidates the given user context.
+	 * @param userContext the user context.
+	 */
     public void logout(UserContext userContext);
 
-
 	/**
-	 * 
-	 * @param sessionID
-	 * @param name
+     * Fetches all roles for the given user context from the server.
+	 * @param userContext the user context.
+	 * @return List of Roles.
 	 */
 	public List getRoles(UserContext userContext);
 	
-        /**
-     * @see kobold.server.model.ProductlineAdmin.addProductline(java.lang.String)
+	/**
+	 * Adds an new user to the server.
+	 * @param userContext the user context of the valid creator of the
+	 * 			  new user (if the new user is a P, than the userContext
+	 * 			  must be at least a PE).
+	 * @param user the new user, it is not allowed to create a user with
+	 * 		      more permissions than the user defined by userContext.
+	 */
+	public void addUser(UserContext userContext, User newUser);
+		
+    /**
+     * Fetches a productline by its name.
+     * @param userContext the user context.
+     * @param plName the name of the productline.
+     * @return the product line.
      */
-    public void addProductline(String sessionID, String name);
+    public Productline getProductline(UserContext userContext, String plName);
 
     /**
-     * @see kobold.server.user.UserAdmin.addUser(java.lang.String)
+     * Fetches a product by its name.
+     * @param userContext the user context.
+     * @param productName the name of the productline.
+     * @return the product line.
      */
-    public void addUser(String sessionID, String username);
+    public Product getProduct(UserContext userContext, String productName);
 
     /**
-     * @see kobold.server.model.ProductlineAdmin.getProductlineList()
+     * Adds a new product.
+     * @param userContext the user context.
+     * @param product the product.
      */
-    public List getProductlineList(String sessionID);
+    public void addProduct(UserContext userContext, Product product);
 
     /**
-     * @see kobold.server.model.ProductlineAdmin.getProductlineInfo(java.lang.String)
+     * Adds a new role.
+     * @param userContext the user context.
+     * @param user the specified user.
+     * @param role the new role.
      */
-    public Productline getProductlineInfo(String sessionID, String pl);
-
-    /**
-     * @see kobold.server.model.ProductlineAdmin.getProductInfo(java.lang.String)
-     */
-    public Product getProductInfo(String sessionID, String product);
-
-    /**
-     * @see kobold.server.model.ProductlineAdmin.addProduct(java.lang.String, java.lang.String)
-     */
-    public void addProduct(String sessionID, String name, String pl);
-
-    /**
-     * @see kobold.server.user.UserAdmin.getUserInfo(java.lang.String)
-     */
-    public UserContext getUserContext(String sessionID, String username);
-
-    /**
-     * @see kobold.server.model.ProductlineAdmin.addRole(kobold.util.data.Role)
-     * @see kobold.server.user.UserAdmin.addRole(kobold.util.data.Role)
-     */
-    public void addRole(String sessionID, Role r);
-
-    /**
-     * @see kobold.server.model.ProductlineAdmin.applyProductlineInfo(kobold.util.data.ProductlineInfo)
-     */
-    public void applyPLInfo(String sessionID, Productline pi);
-
-    /**
-     * @see kobold.server.model.ProductlineAdmin.applyProductInfo(kobold.util.data.ProductInfo)
-     */
-    public void applyProductInfo(String sessionID, Product pi);
-
-    /**
-     * @see kobold.server.user.UserAdmin.applyUserInfo(kobold.util.data.UserInfo)
-     */
-    public void applyUserInfo(String sessionID, UserContext uc);
-
-    /**
-     * @see kobold.server.model.ProductlineAdmin.removeProductline(java.lang.String)
-     */
-    public void removeProductline(String sessionID, String pl);
-
-    /**
-     * @see kobold.server.model.ProductlineAdmin.removeProduct(java.lang.String)
-     */
-    public void removeProduct(String sessionID, String product);
-
-    /**
-     * @see kobold.server.model.ProductlineAdmin.removeRole(kobold.util.data.Role)
-     * @see kobold.server.user.UserAdmin.removeRole(kobold.util.data.Role)
-     */
-    public void removeRole(Role r);
-
-    /**
-     * @see kobold.server.user.UserAdmin.removeUser(java.lang.String)
-     */
-    public void removeUser(String sessionID, String username);
+    public void addRole(UserContext userContext, User user, Role role);
 
 	/**
-	 * Commits a single Message.
-	 * 
-	 * @param uc the UserContext, @see kobold.common.data.UserContext
-	 * @param koboldMessage, @see kobold.common.data.KoboldMessage
+	 * Removes the role from the user.
+	 * @param userContext the user context.
+	 * @param user the specified user.
+	 * @param role the new role.
 	 */
-	public void commitMessage(UserContext uc,
+	public void removeRole(UserContext userContext, User user, Role role);
+
+	/**
+	 * Applies modifications to the given Productline.
+	 * @param userContext the user context.
+	 * @param productline the productline. 
+	 */
+	public void applyProductlineModfiications(UserContext userContext,
+																 Productline productline);
+    
+	/**
+	 * Applies modifications to the given Product.
+	 * @param userContext the user context.
+	 * @param product the product. 
+	 */
+	public void applyProductModfiications(UserContext userContext,
+															 Product product);
+    
+    /**
+     * Removes the specified user.
+     * @param userContext the user context.
+     * @param user the user to remove.
+     */
+    public void removeUser(UserContext userContext,
+    									 User user);
+
+	/**
+	 * Sends a KoboldMessage or WorkflowMessage.
+	 * 
+	 * @param userContext the user context.
+	 * @param koboldMessage the message.
+	 */
+	public void sendMessage(UserContext userContext,
 												KoboldMessage koboldMessage);
 	
+	
 	/**
-	 * Fetches a single Message.
+	 * Fetches a single KoboldMessage. Should be put to a queue.
+	 * Note: to remove the message from Servers message queue,
+	 * it has to be invalidated using invalidateMessage!
 	 * 
-	 * @param uc the UserContext, @see kobold.common.data.UserContext
-	 * @return of WorkflowMessages.
+	 * @param userContext the user context.
 	 */
-	public KoboldMessage fetchMessage(UserContext uc);
+	public KoboldMessage fetchMessage(UserContext userContext);
+	
+
+	/**
+	 * Invalidates the specified message. This method will remove the message
+	 * from Servers message queue.
+	 * 
+	 * @param userContext the user context.
+	 * @param koboldMessage the message.
+	 */
+	public KoboldMessage invalidateMessage(UserContext userContext,
+																  KoboldMessage koboldMessage);
 }

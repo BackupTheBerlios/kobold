@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.5 2004/05/12 16:58:26 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.6 2004/05/13 15:16:05 garbeam Exp $
  *
  */
 package kobold.server;
@@ -34,6 +34,7 @@ import kobold.common.data.KoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.Role;
+import kobold.common.data.User;
 import kobold.common.data.UserContext;
 
 import org.apache.xmlrpc.XmlRpcHandler;
@@ -71,6 +72,7 @@ public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 		server.start();
 		System.err.println("Listening on port " + port);
 	}
+
 	/**
 	 * Basic delegation of RPC to the specific handler method.
 	 * @see org.apache.xmlrpc.XmlRpcHandler#execute(java.lang.String, java.util.Vector)
@@ -109,168 +111,109 @@ public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 		
 	}
 
-
 	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#getRoles(kobold.common.data.UserContext)
+	 * @see kobold.common.controller.ServerInterface#getRoles(kobold.common.data.UserContext)
 	 */
 	public List getRoles(UserContext userContext) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#addProductline(java.lang.String, java.lang.String)
+	 * @see kobold.common.controller.ServerInterface#addUser(kobold.common.data.UserContext, kobold.common.data.User)
 	 */
-	public void addProductline(String sessionID, String name) {
+	public void addUser(UserContext userContext, User newUser) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.ServerInterface#getProductline(kobold.common.data.UserContext, java.lang.String)
+	 */
+	public Productline getProductline(UserContext userContext, String plName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#addUser(java.lang.String, java.lang.String)
+	 * @see kobold.common.controller.ServerInterface#getProduct(kobold.common.data.UserContext, java.lang.String)
 	 */
-	public void addUser(String sessionID, String username) {
+	public Product getProduct(UserContext userContext, String productName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.ServerInterface#addProduct(kobold.common.data.UserContext, kobold.common.data.Product)
+	 */
+	public void addProduct(UserContext userContext, Product product) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.ServerInterface#addRole(kobold.common.data.UserContext, kobold.common.data.User, kobold.common.data.Role)
+	 */
+	public void addRole(UserContext userContext, User user, Role role) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#getProductlineList(java.lang.String)
+	 * @see kobold.common.controller.ServerInterface#removeRole(kobold.common.data.UserContext, kobold.common.data.User, kobold.common.data.Role)
 	 */
-	public List getProductlineList(String sessionID) {
+	public void removeRole(UserContext userContext, User user, Role role) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.ServerInterface#applyProductlineModfiications(kobold.common.data.UserContext, kobold.common.data.Productline)
+	 */
+	public void applyProductlineModfiications(UserContext userContext, Productline productline) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.ServerInterface#applyProductModfiications(kobold.common.data.UserContext, kobold.common.data.Product)
+	 */
+	public void applyProductModfiications(UserContext userContext, Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.ServerInterface#removeUser(kobold.common.data.UserContext, kobold.common.data.User)
+	 */
+	public void removeUser(UserContext userContext, User user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.ServerInterface#sendMessage(kobold.common.data.UserContext, kobold.common.data.KoboldMessage)
+	 */
+	public void sendMessage(UserContext userContext, KoboldMessage koboldMessage) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.ServerInterface#fetchMessage(kobold.common.data.UserContext)
+	 */
+	public KoboldMessage fetchMessage(UserContext userContext) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.ServerInterface#invalidateMessage(kobold.common.data.UserContext, kobold.common.data.KoboldMessage)
+	 */
+	public KoboldMessage invalidateMessage(UserContext userContext, KoboldMessage koboldMessage) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#getProductlineInfo(java.lang.String, java.lang.String)
-	 */
-	public Productline getProductlineInfo(String sessionID, String pl) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#getProductInfo(java.lang.String, java.lang.String)
-	 */
-	public Product getProductInfo(String sessionID, String product) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#addProduct(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	public void addProduct(String sessionID, String name, String pl) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#getUserContext(java.lang.String, java.lang.String)
-	 */
-	public UserContext getUserContext(String sessionID, String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#addRole(java.lang.String, kobold.common.data.Role)
-	 */
-	public void addRole(String sessionID, Role r) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#applyPLInfo(java.lang.String, kobold.common.data.PLInfo)
-	 */
-	public void applyPLInfo(String sessionID, Productline pi) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#applyProductInfo(java.lang.String, kobold.common.data.PInfo)
-	 */
-	public void applyProductInfo(String sessionID, Product pi) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#applyUserInfo(java.lang.String, kobold.common.data.UserContext)
-	 */
-	public void applyUserInfo(String sessionID, UserContext uc) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#removeProductline(java.lang.String, java.lang.String)
-	 */
-	public void removeProductline(String sessionID, String pl) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#removeProduct(java.lang.String, java.lang.String)
-	 */
-	public void removeProduct(String sessionID, String product) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#removeRole(kobold.common.data.Role)
-	 */
-	public void removeRole(Role r) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#removeUser(java.lang.String, java.lang.String)
-	 */
-	public void removeUser(String sessionID, String username) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#commitMessage(kobold.common.data.UserContext, kobold.common.data.KoboldMessage)
-	 */
-	public void commitMessage(UserContext uc, KoboldMessage koboldMessage) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#fetchMessage(kobold.common.data.UserContext)
-	 */
-	public KoboldMessage fetchMessage(UserContext uc) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	
 }
