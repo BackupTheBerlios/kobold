@@ -26,10 +26,6 @@
 package kobold.client.vcm.dialog;
 
 import org.apache.log4j.Logger;
-
-import kobold.client.vcm.KoboldVCMPlugin;
-import kobold.client.vcm.preferences.VCMPreferencePage;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -50,6 +46,7 @@ public class PasswordDialog extends Dialog{
     private Label labelPassword;
     
     private Text textPassword;
+    private String password;
 
     /**
      * @param parentShell
@@ -100,15 +97,17 @@ public class PasswordDialog extends Dialog{
     }
     
     public String getPassword() {
-        return textPassword.getText();
+        return password;
     }
    
     protected void okPressed() {
+        password = textPassword.getText();
         super.setReturnCode(Dialog.OK);
     	super.okPressed();
     }
     
     protected void cancelPressed(){
+        password = textPassword.getText();
     	super.cancelPressed();
     }
 }
