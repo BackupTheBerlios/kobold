@@ -1,0 +1,84 @@
+\chapter{Nichtfunktionale Anforderungen}
+\section{Leistungsanforderungen}
+Das System wird zunächst so ausgelegt, dass mind. 50 Benutzer gleichzeitig mit dem Produkt arbeiten können.
+Die Skalierbarkeit hängt ausschliesslich von dem Server ab, dessen Leistungsfähigkeit von der Hardware und
+der verwendeten Persistenzschicht-Implementierung beeinflusst wird. Garantiert wird die Bereitstellung von 
+10 Produktlinien zu je 50 Produkten. Pro Produktlinie können 100 Benutzer verwaltet werden.
+
+\section{Minimale Hardwareanforderungen}
+Das Softwaresystem wird auf einem Pentium II basierten PC mit 400 Mhz CPU-Takt, 256 MB Hauptspeicher
+und mind. 200 MB freien Festplattenspeicher (oder unter einer vergleichbaren Unix-Workstation)
+unter den Betriebssystemen Windows, Solaris und Linux lauffähig sein.
+
+\section{Entwurfseinschränkungen}
+Das Produkt wird in Java 2 Version 1.4 implementiert. Als Workbench-Framework wird die 
+Eclipse Plattform\footnote{http://www.eclipse.org/, http://www.eclipse.org/platform/}
+verwendet, sowie deren Widgettoolkit SWT\footnote{Standard Widget Toolkit, http://www.eclipse.org/swt/}
+und GEF\footnote{Graphical Editing Framework, http://www.eclipse.org/gef/}.
+Zudem werden Bibliotheken von der Apache Software
+Foundation\footnote{http://www.apache.org/} benutzt. Die
+Generierung der Dokumenation setzt auf iText\footnote{http://www.lowagie.com/iText/} auf.
+
+\section{Verfügbarkeit}
+Für den Client gibt es keine besonderen Anforderungen bzgl. der Verfügbarkeit. Die Verfügbarkeit des Servers
+hängt maßgeblich von der Konfiguration des Rechners ab, der den Serverdienst zur Vefügung stellt.
+
+\section{Sicherheit}
+Die Daten, die der Server bereitstellt, werden bei jeder Änderung sofort auf dem Datenträger gespeichert.
+Somit wird die Gefahr eines Datenverlusts beim Eintritt von unvorhersehbaren Ereignissen minimiert.
+Alle Client-spezifischen Daten werden in den Produktlinien- bzw.
+Produkt-Repositories gespeichert und unterliegen  den Sicherheitsregeln des verwendeten
+Versionskontrollsystems.
+
+\section{Robustheit}
+Fehleingaben und Fehler im System werden erkannt und dem Benutzer mit einer aussagekräftigen 
+Fehlermeldung mitgeteilt.
+Sie führen nicht zum Programmabsturz.
+
+\section{Wartbarkeit}
+Durch die ständige Überprüfung des Programmquellcodes mit Metriken auf Kopplung, Zusammenhalt und
+Styleguide-Konformität wird die hohe Wartbarkeit des 
+Produkts gewährleistet. Zudem wird das Produkt mit einer umfangreichen
+Regression-Testsuite für die Nicht-GUI-Komponenten ausgeliefert.
+
+\section{Performance}
+%Das Softwaresystem soll laut Kundenangaben auf einem handelsüblichen
+%Pentium II PC mit mind. 400 Mhz CPU-Takt, mind. 256 MB Hauptspeicher
+%und 200 MB freien Festplattenspeicher (oder auf einer vergleichbare Unix-Workstation)
+%unter den Betriebssystemen Windows, Solaris oder Linux lauffähig sein.
+%Das System soll es ermöglichen die Produkt(-linien) Architekturen als Graph zu
+%visualisieren.
+%Es wurde nicht gefordert den ganzen Graphen, der unter Umständen sehr komplex und 
+%groß werden kann, auf einmal performant zu visualisieren.\par
+%Es genügt die für die 
+%jeweilige Architekturansicht relevanten Teile des Graphen zu visualisieren.
+%Diese Ausschnitte werden sich der Übersichtlichkeit halber wahrscheinlich in einer 
+%Größenordnung bis zu 125 Knoten bewegen. Die Anzeige der Teilgraphen sollte 
+%eine Grenze von 8 Sekunden zur Berechnung der Darstellung nicht überschreiten.
+Es wurde nicht gefordert den ganzen Graphen, der unter Umständen sehr komplex
+werden kann, performant zu visualisieren.\par
+Es soll genügen, die für die jeweilige Architekturansicht relevanten
+Ausschnitte des Graphen zu visualisieren.
+Diese werden sich der Übersichtlichkeit proforma in einer 
+Größenordnung bis zu 125 Knoten bewegen. Die Anzeige der Teilgraphen sollte 
+eine Grenze von 8 Sekunden zur Berechnung der Darstellung nicht überschreiten.
+
+\section{Portabilität}
+Der Server stützt sich auf keine nativen Schnittstellen sondern benutzt ausschließlich 
+\emph{pure java}. Somit ist er laut Sun Microsystems 
+Inc.\footnote{unter http://java.sun.com/j2se/1.4.2/system-configurations.html} unter 
+Solaris-SPARC, Solaris-Intel, Windows NT/2000/XP und Linux lauffähig.
+
+Der Client basiert grundlegend auf der Eclipse Plattform und deren Widgettoolkit und ist
+dadurch von dessen nativer Schnittstelle abhängig. Laut dem Eclipse Consortium werden die folgenden 
+Plattformen und Betriebssysteme unterstützt:
+\begin{itemize}
+    \item Windows NT/2000/XP
+    \item Linux (x86/Motif)
+    \item Linux (x86/GTK 2)
+    \item Solaris 8 (SPARC/Motif)
+    \item QNX (x86/Photon)
+    \item AIX (PPC/Motif) 
+    \item HP-UX (HP9000/Motif)
+    \item Mac OSX (Mac/Carbon)
+\end{itemize}

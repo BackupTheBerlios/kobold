@@ -1,0 +1,77 @@
+\chapter{Server}
+Der Server wird als HTTP-basierter {\it XML-RPC Server}
+\footnote{Nähere Informationen: http://ws.apache.org/xmlrpc/}
+implementiert und ist SSL-basiert. Ausserdem ermöglicht
+der Server eine Client-zu-Client-Kommunikation über eine Nachrichten-Queue, welche
+in regelmässigen Abständen von den Clients abgefragt wird (Request/Response).
+Alle Informationen, die der Server bereitstellt sind persistent.\par
+Die Wartung des Servers wird durch ein kommandozeilen-orientiertes
+Administrationstool realisiert.\newline
+
+Für jeden Benutzer werden folgende Daten gespeichert:
+\begin{itemize}
+\item Benutzername
+\item Passwort
+\item eMail
+\item Name
+\item Liste von Rollen
+\end{itemize}
+
+Eine Rolle besteht aus einer Liste von Produkten und Produktlinien.\newline
+Für jedes Element in der Liste wird außerdem noch eine Liste der zugehörigen Repositories angehängt. 
+Ist das Element ein Produkt, so werden auch die Daten der dazugehörigen Produktlinie erfasst.\newline
+
+Für ein Repository werden folgende Daten gespeichert:
+\begin{itemize}
+\item Pfad
+\item Passwort
+\item Benutzername
+\item Schreibrecht (ja/nein)
+\end{itemize}
+
+\section{Berechtigungskonzept}
+
+Zur Realisierung des produktlinien\-übergreifenden Berechtigungskonzepts
+verwaltet der Server alle benutzer-, rollen-, produktlinien- und
+produkt-basierten Berechtigungen. Dabei kann ein Server produktlinien-übergreifend
+verwendet werden.\par
+Der Server bietet ein auf diesen Berechtigungen basierenden
+Authentifizierungsmechanismus an, der von allen Clients verwendet wird.
+
+\section{Persistierung}
+
+Die Persistierung aller für das Berechtigungskonzept notwendigen Daten wird
+durch eine abstrakte Persistenzschicht realisiert, die es ermöglicht, die
+Datenhaltung flexibel zu organisieren. Im Rahmen dieses Angebotes wird die
+Persistierung XML-basiert angeboten.
+
+\section{Nachrichten-Queue}
+
+Die vom Server angebotene Nachrichten-Queue ist zustandsbehaftet, d.h. nach einem
+Stromausfall oder anderen unvorhersehbaren Ereignissen ist die Nachrichten-Queue
+in der Regel ohne Datenverlust wiederherstellbar.\par
+Dadurch wird ein hoher Grad an Konsistenztreue und Zuverlässigkeit erreicht.\newline
+
+Für die Nachrichten-Queue werden folgende Daten benötigt:
+\begin{itemize}
+\item von wem
+\item an wen
+\item Inhalt
+\item Datum
+\item ID
+\item Priorität
+\end{itemize}
+
+
+
+\section{Web-basierte Statusinformationen}
+
+Es ist jederzeit für einen authentifizierten Systemadministrator möglich,
+den Status des Servers über einen Webbrowser abzufragen.
+
+\section{Administrationstool}
+
+Zur Administration des Servers wird ein kommandozeilen-orientiertes 
+Administrationstool angeboten, dass es ermöglicht, Produktlinien-Ingenieur-Accounts
+anzulegen bzw. zu entfernen, die Nachrichten-Queue zu
+leeren und den Server zu starten oder zu stoppen.
