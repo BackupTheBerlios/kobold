@@ -42,7 +42,7 @@ public class KoboldPlamPreferencePage
 	implements IWorkbenchPreferencePage {
 	public static final String PROTOKOL_HANDLER = "java.protocol.handler.pkgs";
 	public static final String JAVA_DEBUG = "javax.net.debug";
-	public static final String JAVA_SSL  = "javax.net.ssl.keyStore";
+	public static final String KEY_STORE  = "javax.net.ssl.keyStore";
 	public static final String KEY_STORE_PASSWORD = "javax.net.ssl.keyStorePassword";
 	public static final String TRUST_STORE = "javax.net.ssl.trustStore";
     public static final String TRUST_STORE_PASSWORD = "javax.net.ssl.trustStorePassword";
@@ -60,7 +60,7 @@ public class KoboldPlamPreferencePage
 		IPreferenceStore store = getPreferenceStore();
 		store.setDefault(PROTOKOL_HANDLER, "com.sun.net.ssl.internal.www.protocol");
 		store.setDefault(JAVA_DEBUG,"all");
-		store.setDefault(JAVA_SSL ,"[your keystore path]");
+		store.setDefault(KEY_STORE ,"[your keystore path]");
 		store.setDefault(KEY_STORE_PASSWORD,"[your keystore passphrase]");
 		store.setDefault(TRUST_STORE,"[your truststore path]");
 	    store.setDefault(TRUST_STORE_PASSWORD,"[your truststore passphrase]");
@@ -78,7 +78,7 @@ public class KoboldPlamPreferencePage
 				new StringFieldEditor(PROTOKOL_HANDLER, "Java protokol handler:", getFieldEditorParent()));
 	    addField(
 				new StringFieldEditor(JAVA_DEBUG, "Debug:", getFieldEditorParent()));
-	    addField(new FileFieldEditor(JAVA_SSL, "Keystore path:", getFieldEditorParent()));
+	    addField(new FileFieldEditor(KEY_STORE, "Keystore path:", getFieldEditorParent()));
 	    
 	    addField(
 				new StringFieldEditor(KEY_STORE_PASSWORD, "Keystore password:", getFieldEditorParent()));
