@@ -21,12 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EditMaintainerDialog.java,v 1.2 2004/08/04 08:20:06 vanto Exp $
+ * $Id: EditMaintainerDialog.java,v 1.3 2004/08/04 16:21:05 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import kobold.client.plam.model.AbstractMaintainedAsset;
@@ -36,14 +35,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
+
+import org.eclipse.jface.viewers.LabelProvider;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 
 
 /**
@@ -56,9 +60,9 @@ public class EditMaintainerDialog extends TitleAreaDialog
     public static final Log logger = LogFactory.getLog(EditMaintainerDialog.class);
  
     private AbstractMaintainedAsset asset;
-    private List maintainer;
-    private List allUser;
+    private CheckboxTableViewer allUserViewer; 
     private Map userPool;
+    private Table allUser;
     
     /**
      * @param parentShell
@@ -84,56 +88,54 @@ public class EditMaintainerDialog extends TitleAreaDialog
         
 		Composite panel = new Composite(parent, SWT.NONE);
 
-		GridLayout layout = new GridLayout(3, false);
-		layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
-		layout.marginWidth = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
-		layout.verticalSpacing = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
-		layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+		GridLayout layout = new GridLayout(1, false);
+		layout.marginHeight =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+		layout.marginWidth =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+		layout.verticalSpacing =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
+		layout.horizontalSpacing =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
 		panel.setLayout(layout);
 		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
 		panel.setFont(parent.getFont());
 
 		Label label = new Label(panel, SWT.NONE);
-		label.setText("All Users");
+		label.setText("Available users");
 		
-	    allUser = new List(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP 
-	            				  | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
-	    GridData gd = new GridData(GridData.GRAB_HORIZONTAL
-	            		| GridData.FILL_HORIZONTAL);
-	    gd.heightHint = 50;
-	    allUser.setLayoutData(gd);
-
-	    if (userPool != null) {
-	        for (Iterator iterator = userPool.values().iterator();
-	        	 iterator.hasNext(); )
-	        {
-	            allUser.add(((User)iterator.next()).getUsername());
-	        }
+		allUser = new Table(panel, SWT.CHECK | SWT.BORDER | SWT.LEAD | SWT.WRAP 
+		        				   | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
+		allUser.setLinesVisible(true);
+		TableColumn colUserNames = new TableColumn(allUser, SWT.NONE);
+		colUserNames.setText("User");
+	
+	    colUserNames.pack();
+		
+		allUserViewer = new CheckboxTableViewer(allUser);
+		allUserViewer.setLabelProvider(new LabelProvider() {
+            public String getText(Object element) {
+                User user = (User)element;     
+                return user.getUsername() + " (" + user.getFullname() + ")";
+            }
+        });
+		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
+		        				   | GridData.FILL_HORIZONTAL);
+		gd.heightHint = 200;
+		allUser.setLayoutData(gd);
+	    
+		if (userPool != null) {
+		    allUserViewer.add(userPool.values().toArray());
 	    }
-	    
-	    maintainer = new List(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP 
-				  | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
-        gd = new GridData(GridData.GRAB_HORIZONTAL
-                | GridData.FILL_HORIZONTAL);
-        gd.heightHint = 50;
-        maintainer.setLayoutData(gd);
-
-        for (Iterator iterator = asset.getMaintainers().iterator();
-             iterator.hasNext();)
-        {
-            User user = (User) iterator.next();
-            maintainer.add(user.getFullname());
-        }
-	    
-     
+	    allUserViewer.setCheckedElements(asset.getMaintainers().toArray());
     }
  
     protected void okPressed()
     {
         asset.clearMaintainer();
-        String[] maint = maintainer.getItems();
-        for (int i = 0; i < maint.length; i++) {
-            asset.addMaintainer((User)userPool.get(maint[i]));
+        Object[] checkedElems = allUserViewer.getCheckedElements();
+        for (int i = 0; i < checkedElems.length; i++) {
+            asset.addMaintainer((User)checkedElems[i]);
         }
         super.okPressed();
     }

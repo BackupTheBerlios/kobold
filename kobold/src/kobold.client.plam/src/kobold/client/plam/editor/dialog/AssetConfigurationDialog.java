@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.2 2004/08/03 18:41:33 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.3 2004/08/04 16:21:05 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -130,15 +130,10 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		                           | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
 			gd = new GridData(GridData.GRAB_HORIZONTAL
 					| GridData.FILL_HORIZONTAL);
-			gd.heightHint = 50;
+			gd.heightHint = 100;
 			list.setLayoutData(gd);
-			
-			for (Iterator iterator = maintainedAsset.getMaintainers().iterator();
-			     iterator.hasNext(); )
-			{
-			    User user = (User) iterator.next();
-			    list.add(user.getFullname());
-			}
+		
+			refreshMaintainers(maintainedAsset);
 			
 			Button edit = new Button(panel, SWT.NONE);
 			edit.setText("&Edit...");
@@ -147,8 +142,19 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 				    EditMaintainerDialog dlg =
 				        new EditMaintainerDialog(parent.getShell(), maintainedAsset);
 				    dlg.open();
+					refreshMaintainers(maintainedAsset);
 				}
 			});
+		}
+    }
+    
+    private void refreshMaintainers(AbstractMaintainedAsset asset) {
+        list.removeAll();
+		for (Iterator iterator = asset.getMaintainers().iterator();
+			 iterator.hasNext(); )
+		{
+		    User user = (User) iterator.next();
+		    list.add(user.getFullname());
 		}
     }
 
