@@ -12,21 +12,21 @@ Plattformen und Betriebssysteme unterstützt:
     \item HP-UX (HP9000/Motif)
     \item Mac OSX (Mac/Carbon)
 \end{itemize}
-Er wird als Feature-Set implementiert und mit eigenem Product Branding versehen.
-Das Product Branding umfasst die Änderung der Fensternamen und der Produkticons, sowie
+Er wird als "Feature-Set" implementiert und mit "Product Branding" versehen.
+"Product Branding" umfasst die Änderung der Fensternamen und der Produktsymbole, sowie
 einer Willkommensseite, die einen kurzen Überblick über Funktionalität und Zweck des Kobold Tools geben soll.
 
 Das Feature-Set wird als Set von internationalisierbaren Eclipse Plugins implementiert.
 Die Ausgangsperspektive besteht aus 4 Teilen:
 \begin{itemize}
-	\item Der Produktlinienarchitektur View/Editor
-	\item Der Rollen View
-	\item Der Worklflow/Task View
+	\item Der Produktlinienarchitektur Editor (View)
+	\item Die Rollen View
+	\item Die Worklflow/Task View
 	\item Die Minimap
 \end{itemize}
 Diese werden in den jeweiligen Unterkapiteln näher beschrieben.
 Um das Rollenprinzip konsistent durchzusetzen, ist eine zentrale Anmeldung an einem Server nötig.
-Details zu der Serverseitigen Lösung finden Sie in Kapitel 5.
+Details zu der serverseitigen Lösung finden Sie in Kapitel 5.
 
  \begin{figure}[ht]
 \includegraphics[width=15cm]{../angebot/screenshot.png}
@@ -34,15 +34,14 @@ Details zu der Serverseitigen Lösung finden Sie in Kapitel 5.
 \end{figure}
 
 \section{Authentifizierung}
-Die Authentifizierung am Server erfolgt durch einen RPC. Der Benutzer kann bei der Erstbenutzung des 
+Die Authentifizierung am Server erfolgt durch RPC. Der Benutzer kann bei der Erstbenutzung des 
 Clients wählen, ob er sich bei jedem Programmstart authentifiziern will oder ob das Passwort
 und der Benutzername gespeichert werden sollen. Prinzipiell ist ein Ändern von Daten im nichtauthentifizierten
 Zustand nicht möglich. Mit der Authentifizierung werden die Rollen, die dem Benutzer zugeteilt sind,
-an den Client übergeben; der Client reagiert seinerseits mit dem Bereitstellen der relevanten Sichten/
-Views für den Benutzer.
+an den Client übergeben; der Client reagiert seinerseits mit dem Bereitstellen der relevanten Sichten für den Benutzer.
 
-\section{Der Produktlinienarchitektur View/Editor}
-In diesem View wird die je nach aktiver Rolle relevante Sicht auf die Architektur der Produktlinie
+\section{Der Produktlinienarchitektur Editor}
+In dieser Ansicht wird die je nach aktiver Rolle relevante Sicht auf die Architektur der Produktlinie
 angezeigt. Die grafische Notation orientiert sich dabei an der in dem Paper \cite{paper} festgelegten Struktur.
 Um dies grafisch darzustellen, hier noch einmal die 3 verschiedenen Sichten auf die
 Produktlinien- bzw. Produktarchitektur.
