@@ -195,7 +195,7 @@ public class WorkflowRules {
 		
 		Declaration dec4 = new Declaration(new ClassObjectType(WorkflowMessage.class), "msg");
 		
-		no4.addCondition(new ExprCondition("(msg.getWorkflowType().equals(\"TextMail\")))", new Declaration[] {dec4}));
+		no4.addCondition(new ExprCondition("(msg.getWorkflowType().equals(\"TextMail\"))", new Declaration[] {dec4}));
 		no4.addParameterDeclaration(dec4);
 		no4.setConsequence(new BlockConsequence(""+
 
