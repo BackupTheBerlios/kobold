@@ -31,6 +31,8 @@ import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.core.TeamException;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
@@ -61,8 +63,10 @@ public class CommitAction extends KoboldAction {
 		IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 		try
 		{
-		    // TODO open Message dialog
-			repoAccess.commit(testAssets, null);
+  			InputDialog messageInput = new InputDialog(new Shell(),"Please enter a message for the repository","VCM Message :",null, null);
+			messageInput.open();
+			String message = "\"" + messageInput.getValue() + "\"";
+			repoAccess.commit(testAssets, null, message);
 		}
 		catch (Exception e)
 		{

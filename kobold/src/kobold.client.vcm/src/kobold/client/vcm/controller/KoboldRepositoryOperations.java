@@ -54,7 +54,8 @@ public interface KoboldRepositoryOperations {
 	 * @param progress
 	 * @throws TeamException
 	 */
-	public void commit(AbstractAsset[] assets, IProgressMonitor progress)
+	public void commit(AbstractAsset[] assets, IProgressMonitor progress,
+	        		   String msg)
 		throws TeamException; 
 	
 	/**
@@ -76,7 +77,7 @@ public interface KoboldRepositoryOperations {
 	 * @throws TeamException
 	 */
 	public void importing(AbstractAsset[] resources, IProgressMonitor progress,
-	        			  boolean isPl) throws TeamException;
+	        			  String msg, boolean isPl) throws TeamException;
 	
 	/**
 	 * Updates all assets.

@@ -32,6 +32,8 @@ import kobold.client.vcm.controller.StatusUpdater;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.core.TeamException;
 import org.eclipse.ui.IActionDelegate;
 
@@ -53,7 +55,10 @@ public class ImportAction extends KoboldAction {
 		StatusUpdater st = new StatusUpdater();
 		
 		try {
-			repoAccess.importing(testAssets, null, (testAssets[0] instanceof Productline));
+			InputDialog messageInput = new InputDialog(new Shell(),"Please enter a message for the repository","VCM Message :",null, null);
+			messageInput.open();
+			String message = "\"" + messageInput.getValue() + "\"";
+			repoAccess.importing(testAssets, null, message, (testAssets[0] instanceof Productline));
 		}
 		catch (Exception e)
 		{

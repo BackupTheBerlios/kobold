@@ -21,12 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.3 2004/09/22 13:38:03 memyselfandi Exp $
+ * $Id: VCMActionListener.java,v 1.4 2004/09/22 13:58:12 garbeam Exp $
  *
  */
 package kobold.client.vcm;
-
-import org.eclipse.core.resources.IResource;
 
 import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.AbstractAsset;
@@ -41,7 +39,7 @@ import kobold.client.vcm.controller.StatusUpdater;
 public class VCMActionListener implements IVCMActionListener
 {
 
-    /* (non-Javadoc)
+    /**
      * @see kobold.client.plam.listeners.IVCMActionListener#refreshFiledescriptors(kobold.client.plam.model.IFileDescriptorContainer)
      */
     public void refreshFiledescriptors(IFileDescriptorContainer container)

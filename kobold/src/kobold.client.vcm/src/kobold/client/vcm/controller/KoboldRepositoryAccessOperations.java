@@ -156,6 +156,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
     	}
     	return uP;
     }
+    
     /**
      * Sets the new userName
      * @param userPassword, the userPassword to store
@@ -164,6 +165,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
     {
     	KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_PWD_STR,userPassword);
     }
+    
     /**
      * Opens a input Dialog to enter the user-data
      * @param type, the variableName to get of the user
@@ -335,11 +337,12 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
     /**
      * @see kobold.client.vcm.controller.KoboldRepositoryOperations#commit(kobold.client.plam.model.AbstractAsset[], org.eclipse.core.runtime.IProgressMonitor)
      */
-    public void commit(AbstractAsset[] assets, IProgressMonitor progress) throws TeamException {
+    public void commit(AbstractAsset[] assets, IProgressMonitor progress,
+            		   String msg) throws TeamException {
         try {
 			progress = KoboldPolicy.monitorFor(progress);
 			performVCMAction(assets, progress, scriptPath.toOSString().concat(COMMIT).concat(scriptExtension),
-			                 null, ScriptDescriptor.VCM_COMMIT);
+			                 msg, ScriptDescriptor.VCM_COMMIT);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -367,16 +370,17 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
     /**
      * @see kobold.client.vcm.controller.KoboldRepositoryOperations#importing(kobold.client.plam.model.AbstractAsset[], org.eclipse.core.runtime.IProgressMonitor, boolean)
      */
-    public void importing(AbstractAsset[] assets, IProgressMonitor progress, boolean isPl) throws TeamException {
+    public void importing(AbstractAsset[] assets, IProgressMonitor progress,
+            			  String msg, boolean isPl) throws TeamException {
         try {
 			progress = KoboldPolicy.monitorFor(progress);
 			if (isPl) {
     			performVCMAction(assets, progress, scriptPath.toOSString().concat(IMPORT).concat("pl").concat(scriptExtension),
-    			                 null, ScriptDescriptor.VCM_IMPORT);
+    			                 msg, ScriptDescriptor.VCM_IMPORT);
 			}
 			else {
 	  			performVCMAction(assets, progress, scriptPath.toOSString().concat(IMPORT).concat(scriptExtension),
-    			                 null, ScriptDescriptor.VCM_IMPORT);
+    			                 msg, ScriptDescriptor.VCM_IMPORT);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
