@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.15 2004/08/02 10:59:47 garbeam Exp $
+ * $Id: IKoboldServer.java,v 1.16 2004/08/02 14:00:55 garbeam Exp $
  *
  */
 
 package kobold.common.controller;
 
+import java.net.URL;
 import java.util.Vector;
 
 import kobold.common.data.AbstractKoboldMessage;
@@ -44,12 +45,13 @@ public interface IKoboldServer {
 
 	/**
 	 * Login handler.
+	 * @param url the server url.
 	 * @param userName the username.
 	 * @param password the plain text password.
 	 * @return UserContext, if the userName and password
 	 * 			  is valid. 
 	 */
-    public UserContext login(String userName, String password);
+    public UserContext login(URL url, String userName, String password);
 
 	/**
 	 * Logout handler.

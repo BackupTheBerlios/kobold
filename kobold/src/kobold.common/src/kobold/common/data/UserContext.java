@@ -21,10 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: UserContext.java,v 1.9 2004/05/18 11:19:27 vanto Exp $
+ * $Id: UserContext.java,v 1.10 2004/08/02 14:00:55 garbeam Exp $
  */
 
 package kobold.common.data;
+
+import java.net.URL;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -37,6 +39,10 @@ import org.dom4j.Element;
  * @author garbeam
  */
 public class UserContext implements ISerializable {
+	// members
+	private String userName;
+	private String sessionId;
+	private URL serverUrl = null;
 	
     /**
      * DOM constructor for user contexts.
@@ -46,10 +52,7 @@ public class UserContext implements ISerializable {
 		deserialize(element);
 	}
 
-	// members
-	private String userName;
-	private String sessionId;
-	 
+
     /**
      * Default constructor, which provides basic info
      * about the user context.
@@ -96,6 +99,7 @@ public class UserContext implements ISerializable {
 		Element userContext = DocumentHelper.createElement("usercontext");
 		userContext.addElement("username").addText(this.userName);
 		userContext.addElement("session-id").addText(this.sessionId);
+		
 		return userContext;
 	}
 	
@@ -107,4 +111,12 @@ public class UserContext implements ISerializable {
 		this.userName = element.elementText("username");
 		this.sessionId = element.elementText("session-id");
 	}
+	
+    public URL getServerUrl() {
+        return serverUrl;
+    }
+    
+    public void setServerUrl(URL serverUrl) {
+        this.serverUrl = serverUrl;
+    }
 }
