@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.9 2004/06/02 15:51:38 rendgeor Exp $
+ * $Id: Productline.java,v 1.10 2004/06/02 15:56:11 rendgeor Exp $
  *
  */
 package kobold.common.data;
@@ -56,7 +56,7 @@ public class Productline implements IAsset {
 	
 	/**Basic constructor of this singleton.
 	 */
-	private Productline(String name) {
+	public Productline(String name) {
 		this.name = name;
 		
 	}
