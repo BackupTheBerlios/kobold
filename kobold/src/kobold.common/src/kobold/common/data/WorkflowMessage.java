@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.20 2004/05/18 13:43:59 martinplies Exp $
+ * $Id: WorkflowMessage.java,v 1.21 2004/05/18 14:11:22 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -38,7 +38,7 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 	public static final String TYPE = "workflow";
 	public static final String DATA_VALUE_TRUE = "TRUE";
 	public static final String DATA_VALUE_FALSE= "FALSE";
-	private String workflowType;
+	private String workflowType = new String();
 	private String comment = "";
 	private Set parents = new HashSet();
 	private List controlItems = new LinkedList();
@@ -143,7 +143,7 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 		//parents = new HashSet();
 		//controlItems = new LinkedList();
 		
-		workflowId = data.elementTextTrim("workflow-id");
+		workflowType = data.elementTextTrim("workflow-id");
 		comment = data.elementTextTrim("comment");
 
 		Element history = data.element("history");
