@@ -269,13 +269,20 @@ public class ScriptServerConnection implements IServerConnection
 	}
 	public void readInputStreamsToConsole()
 	{
+		ConsolePlugin.getDefault();
+		MessageConsole console= new MessageConsole("Kobold VCM Console",null);
+		ConsolePlugin.getDefault().getConsoleManager().addConsoles(
+			new IConsole[] {console});
+		MessageConsoleStream stream = console.newMessageStream();
+
+		
+		stream.print(readInputStream());
+	}
+	
+	public String readInputStream ()
+	{
 		if (this.connected) 
 		{
-			ConsolePlugin.getDefault();
-			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
-			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
-				new IConsole[] {console});
-			MessageConsoleStream stream = console.newMessageStream();
 			InputStream err = this.errStream;// (InputStream)process.getErrorStream();
 			InputStream pis = this.inputStream; //(InputStream)process.getInputStream();
 //			OutputStream os1 = this.outputStream;//process.getOutputStream();
@@ -295,15 +302,18 @@ public class ScriptServerConnection implements IServerConnection
 					}
 				}
 
-				
-				stream.print(new String(readLineBuffer, 0, index));
+				return new String(readLineBuffer, 0, index);
+
 			}
 			catch(Exception e)
 			{
 				// problem reading the inputStreams of the process
 				e.printStackTrace();
 			}
-		}		
+		}
+		return null;
+
+		
 	}
 	
 	private static byte[] append(byte[] buffer, int index, byte b) {
