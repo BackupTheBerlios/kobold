@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.31 2004/08/27 17:47:59 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.32 2004/08/30 12:43:55 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -135,7 +135,7 @@ public class StatusUpdater {
 		java.util.StringTokenizer line = new java.util.StringTokenizer(inputString, "\n");
 		while(line.hasMoreTokens()) 
 		{ 
-		    //for each line (divided by tabs)
+		    //for each line (all elements divided by tabs)
 		    java.util.StringTokenizer localLine = new java.util.StringTokenizer(line.nextToken(), "\t");
 		    while(localLine.hasMoreTokens()) 
 		    { 
@@ -155,6 +155,11 @@ public class StatusUpdater {
 //		        else
 //		        {
 
+	        		//erase the "/t" in windows!!
+	        		if (revision.endsWith("\r"))
+	        		{
+	        			revision = revision.substring(0, revision.length()-2);
+	        		}
 		        	
 		        	//not checked in directory or file
 		            if (revision.endsWith("*")) {
