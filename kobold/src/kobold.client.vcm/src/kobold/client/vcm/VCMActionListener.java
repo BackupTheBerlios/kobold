@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.31 2004/11/25 14:59:20 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.32 2005/02/06 03:59:48 martinplies Exp $
  *
  */
 package kobold.client.vcm;
@@ -58,9 +58,11 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException;
 
@@ -154,150 +156,10 @@ public class VCMActionListener implements IVCMActionListener
 		return command;
     }
 
-    /**
-     */
-    public void addToVariant(Variant v, ProductComponent pc) {
-        
-        // First we create a temporary folder into which we want to check out the product 
-        ResourceInfo test = null;
-        IFolder tmpFolder = null;
-        KoboldProject koboldProject = KoboldPLAMPlugin.getCurrentKoboldProject();
-        IProject project = koboldProject.getProject();
-        try
-        {
-            IWorkspace workspace = ResourcesPlugin.getWorkspace();
-            tmpFolder = project.getFolder("VCMtmp");
-            if (!tmpFolder.exists())
-            {
-                tmpFolder.create(false, true, null);
-            }
-            else
-            {
-                tmpFolder.delete(false, null);
-                tmpFolder.create(false, true, null);
-            }
-        } catch (Exception e)
-        {
-            e.printStackTrace();// TODO: handle exception
-        }
-        IProgressMonitor progress = KoboldPolicy.monitorFor(null);
-		String userName = KoboldRepositoryHelper.getUserName();
-		String password = KoboldRepositoryHelper.getUserPassword();
-		ScriptServerConnection connection =
-		    ScriptServerConnection.getConnection();
-		if (connection != null) {
-		    /**
-             * # $1 working directory # $2 repo type # $3 protocoal type # $4
-             * username # $5 password # $6 host # $7 root # $8 module # $9
-             * userdef
-             */
-		    String localPath = KoboldRepositoryHelper.localPathForAsset(pc);
-    		String command[] = new String[9];
-    		RepositoryDescriptor rd = pc.getRoot().getRepositoryDescriptor();
-            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
-		    command[1] = tmpFolder.getLocation().toOSString();
-		    command[2] = rd.getType();
-		    command[3] = rd.getProtocol();
-		    command[4] = userName;
-		    command[5] = password; 
-			command[6] = rd.getHost();
-			command[7] = rd.getRoot();
-			command[8] = pc.getRoot().getResource() + "/" + pc.getResource();
-			try {
-			    connection.open(KoboldPolicy.monitorFor(null),command);
-			    connection.close();
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-// XXX
-            // TODO: implement addtovariant.sh script
-            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat("addtovariant.").concat(KoboldRepositoryHelper.getScriptExtension());
-		    command[1] = tmpFolder.getLocation().toOSString();
-			command[2] = pc.getRoot().getResource() + "/" + pc.getResource();
-			command[3] = KoboldRepositoryHelper.localPathForAsset(v);
-			try {
-			    connection.open(KoboldPolicy.monitorFor(null),command);
-			    connection.close();
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-		}
-    }
     
-    /**
-     * @see kobold.client.plam.listeners.IVCMActionListener#addToProduct(kobold.client.plam.model.product.Product)
-     */
-    public void addToProduct(kobold.client.plam.model.product.Product product, Release release) {
-
-        // First we create a temporary folder into which we want to check out the product 
-        ResourceInfo test = null;
-        IFolder tmpFolder = null;
-        KoboldProject koboldProject = KoboldPLAMPlugin.getCurrentKoboldProject();
-        IProject project = koboldProject.getProject();
-        try
-        {
-            IWorkspace workspace = ResourcesPlugin.getWorkspace();
-            tmpFolder = project.getFolder("VCMtmp");
-            if (!tmpFolder.exists())
-            {
-                tmpFolder.create(false, true, null);
-            }
-            else
-            {
-                tmpFolder.delete(false, null);
-                tmpFolder.create(false, true, null);
-            }
-        } catch (Exception e)
-        {
-            e.printStackTrace();// TODO: handle exception
-        }
-        IProgressMonitor progress = KoboldPolicy.monitorFor(null);
-		String userName = KoboldRepositoryHelper.getUserName();
-		String password = KoboldRepositoryHelper.getUserPassword();
-		ScriptServerConnection connection =
-		    ScriptServerConnection.getConnection();
-		if (connection != null) {
-		    /**
-             * # $1 working directory # $2 repo type # $3 protocoal type # $4
-             * username # $5 password # $6 host # $7 root # $8 module # $9
-             * userdef
-             */
-		    String localPath = KoboldRepositoryHelper.localPathForAsset(release);
-    		String command[] = new String[10];
-    		RepositoryDescriptor rd = release.getRoot().getRepositoryDescriptor();
-            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
-		    command[1] = tmpFolder.getLocation().toOSString();
-		    command[2] = rd.getType();
-		    command[3] = rd.getProtocol();
-		    command[4] = userName;
-		    command[5] = password; 
-			command[6] = rd.getHost();
-			command[7] = rd.getRoot();
-			command[8] = release.getRoot().getResource() + "/" + release.getResource();
-			try {
-			    connection.open(KoboldPolicy.monitorFor(null),command);
-			    connection.close();
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-// XXX
-            // TODO: implement addtoproduct.sh script
-            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat("addtoproduct.").concat(KoboldRepositoryHelper.getScriptExtension());
-		    command[1] = tmpFolder.getLocation().toOSString();
-			command[2] = release.getRoot().getResource() + "/" + release.getResource();
-			command[3] = KoboldRepositoryHelper.localPathForAsset(product);
-			try {
-			    connection.open(KoboldPolicy.monitorFor(null),command);
-			    connection.close();
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-		}   
-    }
+       
+    
+    
 
     /**
      * @see kobold.client.plam.listeners.IVCMActionListener#commitProductline(kobold.client.plam.model.productline.Productline)
@@ -452,21 +314,65 @@ public class VCMActionListener implements IVCMActionListener
 			}
 		}
     }
+    
+    
+    /**
+     * @see kobold.client.plam.listeners.IVCMActionListener#addToProduct(kobold.client.plam.model.product.Product)
+     */
+    public void addToProduct(RelatedComponent rc, Release release) {
+    	addReleaseToOtherRep(release, rc.getRemoteRepository(), ModelStorage.getRepositoryDescriptorForAsset(release.getParent()), rc.getLocalPath());
+    }
 
+    
+    
+    /**
+     * r: release to add
+     */ 
+    public void addToVariant(Variant v, Release r) {
+    	addReleaseToOtherRep(r, 
+    			ModelStorage.getRepositoryDescriptorForAsset(v),
+				((ProductComponent) r.getParent()).getRemoteRepository(), 				
+				v.getLocalPath());
+    }
+    
     /**
      * @see kobold.client.plam.listeners.IVCMActionListener#updateRelease(kobold.client.plam.model.product.RelatedComponent, kobold.client.plam.model.Release)
      */
     public void updateRelease(RelatedComponent rc, Release newRelease) {
+    	addReleaseToOtherRep(newRelease, 
+    			rc.getRemoteRepository(), 
+				ModelStorage.getRepositoryDescriptorForAsset(newRelease.getParent()), 
+				rc.getLocalPath());
+    }
+    
+    
+    
+    /**
+     * @see kobold.client.plam.listeners.IVCMActionListener#updateRelease(kobold.client.plam.model.product.RelatedComponent, kobold.client.plam.model.Release)
+     */
+    public void addReleaseToOtherRep(Release newRelease,  RepositoryDescriptor remoteRepository, RepositoryDescriptor releaseRepository, IPath localTargetPath) {
         final String cleanVCMCmd = "cleanvcmdata.pl";
-        String cleanDir = rc.getLocalPath().toOSString();
+        String cleanDir = localTargetPath.toOSString();
 		String userName = KoboldRepositoryHelper.getUserName();
 		String password = KoboldRepositoryHelper.getUserPassword();
-		RepositoryDescriptor rd = ModelStorage.getRepositoryDescriptorForAsset(newRelease.getParent());
+		RepositoryDescriptor rd = releaseRepository;
 		ScriptServerConnection connection =
 		    ScriptServerConnection.getConnection();
         IProgressMonitor progress = new SubProgressMonitor(KoboldPolicy.monitorFor(null), newRelease.getFileRevisions().size());
         
 		if (connection != null) {
+			   // create Folder if it not exists.
+			   KoboldProject koboldProject = KoboldPLAMPlugin.getCurrentKoboldProject();
+		        IProject project = koboldProject.getProject();
+			   if (! project.getFolder(cleanDir).exists())
+	            {
+			      	try {
+						project.getFolder(cleanDir).create(false, true, null);
+					} catch (CoreException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	            }
     		String command[] = new String[10];
 		    // First clean existing component directory from existing VCM data
 		    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(cleanVCMCmd);
@@ -478,6 +384,7 @@ public class VCMActionListener implements IVCMActionListener
 			catch (Exception e) {
 				logger.error("tagRelease(Release)", e);
 			}
+			
 			// Next checkout component to cleanDir
 		    /**
 		     * 	# $1 working directory
@@ -519,7 +426,7 @@ public class VCMActionListener implements IVCMActionListener
 				logger.error("tagRelease(Release)", e);
 			}
 			// Finally import the subdirectory
-			rd = rc.getRemoteRepository();
+			rd = remoteRepository;			
             command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.COMMIT).concat(KoboldRepositoryHelper.getScriptExtension());
 		    command[1] = cleanDir;
 		    command[2] = rd.getType();

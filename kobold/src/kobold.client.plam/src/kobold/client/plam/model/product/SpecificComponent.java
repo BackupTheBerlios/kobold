@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.14 2004/11/05 10:32:32 grosseml Exp $
+ * $Id: SpecificComponent.java,v 1.15 2005/02/06 03:59:32 martinplies Exp $
  *
  */
 
@@ -84,6 +84,10 @@ public class SpecificComponent extends ProductComponent
 		setParent(this);
 		addToPool(release
 		        );
+	}
+	
+	public Release getHead(){
+		return (Release) this.releases.get(releases.size() -1);
 	}
 
 	

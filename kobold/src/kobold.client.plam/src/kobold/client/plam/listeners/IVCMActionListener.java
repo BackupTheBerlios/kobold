@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVCMActionListener.java,v 1.15 2004/11/22 21:51:54 garbeam Exp $
+ * $Id: IVCMActionListener.java,v 1.16 2005/02/06 03:58:53 martinplies Exp $
  *
  */
 package kobold.client.plam.listeners;
@@ -92,14 +92,14 @@ public interface IVCMActionListener
      * 
      * @param product
      */
-    void addToProduct(Product product, Release release);
+    void addToProduct(RelatedComponent rc, Release release);
     
     /**
      * Add product component to variant of productline.
      * @param v the variant.
      * @param pc the product component.
      */
-    public void addToVariant(Variant v, ProductComponent pc);
+    public void addToVariant(Variant v, Release r);
     
      /**
      * Commit product.
