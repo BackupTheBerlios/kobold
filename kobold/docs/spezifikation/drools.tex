@@ -32,9 +32,12 @@ Der Workflow-Mechanismus ist eine Querschnittskomponente zwischen dem
 Kobold Serverdienst und dem Kobold-Client.
 
 \subsubsection{Mechanismus auf dem Kobold Client}
-Der Kobold Client ruft zu bestimmten Zeitintervallen (Standard:
-im Minutentakt) Nachrichten vom Server ab. Nachrichten können
-RPC-Resultate sein, aber auch Workflow-Objekte. Wird ein
+%Der Kobold Client ruft zu bestimmten Zeitintervallen (Standard:
+%im Minutentakt) Nachrichten vom Server ab. Nachrichten können
+%RPC-Resultate sein, aber auch Workflow-Objekte. 
+
+
+Wird ein
 Workflow-Objekt abgerufen, so erscheint dieses Objekt in der
 Workflow/Task View und kann per Doppelklick detailliert betrachtet
 werden.\par 
@@ -52,6 +55,4 @@ kann. Er muss dabei eine neue Regel erstellen und sie der
 Regelbasis hinzufügen. Die Konsequenzen solcher Regeln müssen
 nicht notwendigerweise Workflow-Objekte erzeugen, sondern können
 auch andere Aktionen ausführen. Der
-Mechanismus ist sehr flexibel erweiterbar. \par Zur Erstellung
-einer neuen Regel kann der Workflow-Editor verwendet werden, der
-in einer späteren Iterationen realisiert wird.
+Mechanismus ist sehr flexibel erweiterbar. \par 

@@ -5,32 +5,45 @@ Akteur             : Benutzer\\
 Vorbedingung       : Der Kobold Client ist gestartet, die Workflow/Task View ist zu sehen.\\
 Regulärer Ablauf   : \\
 \begin{itemize}
-\item Im Menü der Workflow/Task View wird der Punkt "Nachricht schreiben" ausgewählt.
+\item Im Menü der Workflow/Task View wird der Punkt 'Nachricht schreiben"' ausgewählt.
 \item Ein Dialog öffnet sich.
 \item Der Akteur gibt die zu versendende Nachricht und den Empfänger an.
-\item Über den "Senden"-Button wird die Mail versendet; der "Abbrechen"-Button beendet die Aktion.
+\item Über den 'Senden'-Button wird die Mail versendet; der 'Abbrechen'-Button beendet die Aktion.
 \item Es erfolgt eine Bestätigung bei erfolgreichem Versand.
 \end{itemize}
 Nachbedingung      : Der Dialog schließt sich; der Anfangszustand ist erreicht.\\
-Alternativer Ablauf: Fehlt der Empfänger der Nachricht, so erscheint eine Fehlermeldung.\par
 
 
+Use Case Name      : Nachricht beantworten\\
+Akteur             : Benutzer\\
+Vorbedingung       : Der Kobold Client ist gestartet, die Workflow/Task View ist zu sehen.\\
+Regulärer Ablauf   : \\
+\begin{itemize}
+\item Im Menü der Workflow/Task View wird eine Nachricht doppelgeklickt.
+\item Ein Dialog öffnet sich, in dem die Nachricht abgebildet ist.
+\item Der Akteur gibt die zu versendende Nachricht und an.
+\item Über den 'Senden'-Button wird die Mail versendet; der 'Abbrechen'-Button beendet die Aktion.
+\item Es erfolgt eine Bestätigung bei erfolgreichem Versand.
+\end{itemize}
+Nachbedingung      : Der Dialog schließt sich; der Anfangszustand ist erreicht.\\
 
-Use Case Name      : Datei für eine Core Group vorschlagen\\
+
+Use Case Name      : Asset für eine Core Group vorschlagen (Workflow-Sicht)\\
 Akteur             : Benutzer\\
 Erster Schritt     : \\
 Vorbedingung       : Der Kobold Client ist gestartet, die Workflow/Task View ist zu sehen.\\
 Regulärer Ablauf   : \\
 \begin{itemize}
-\item Im Menü der Workflow/Task View wird der Punkt "Datei für Core Group vorschlagen" ausgewählt.
-\item Ein Dialog öffnet sich.
-\item Der Akteur gibt den Namen und Pfad der Datei an und einen Kommentar.
-\item Über den "Vorschlagen"-Button wird die Workflow-Nachricht versendet; der "Abbrechen"-Button beendet die Aktion.
-\item Es erfolgt eine Bestätigung bei erfolgreichem Versand.
+\item Im Menü der Workflow/Task View wird der Punkt 'Asset für Core Group vorschlagen' ausgewählt.
+\item Ein Dialog öffnet sich. 
+\item Der Benutzer gibt an, ob der Vorschlag an einen PE oder direkt an den PE gesendet
+werden soll.
+\item Er bestätigt mit 'OK' und ein weiterer Dialog öffnet sich.
+\item Der Akteur gibt den Namen des Assets, den Empfänger und einen Kommentar an.
+\item Über den 'Senden'-Button wird die Workflow-Nachricht versendet; der 'Abbrechen'-Button beendet die Aktion.
 \end{itemize}
 Nachbedingung      : Der Dialog schließt sich; der Anfangszustand ist erreicht. 
-Die Workflow-Nachricht wurde an den zuständigen PE geschickt.\\
-Alternativer Ablauf: Fehlen die Angaben über die Datei, so erscheint eine Fehlermeldung.\par
+Die Workflow-Nachricht wurde an den angegebenen PE oder PLE geschickt.\\
 
 Zweiter Schritt    : \\
 Vorbedingung       : Der Kobold Client ist gestartet, die Workflow/Task View ist zu sehen; in ihr 
@@ -41,30 +54,47 @@ Regulärer Ablauf   : \\
 \item Ein Dialog öffnet sich, in dem die Nachricht des Programmierers steht.
 \item Der Akteur entscheidet über einen Radiobutton, ob er dem Vorschlag zustimmt oder ihn ablehnt.
 \item In einem Textfeld kann er einen zusätzlichen Kommentar eintragen.
-\item Über den "Senden"-Button wird die Workflow-Nachricht versendet; der "Abbrechen"-Button beendet die Aktion.
+\item Über den 'Senden'-Button wird die Workflow-Nachricht versendet; der 'Abbrechen'-Button beendet die Aktion.
 \item Es erfolgt eine Bestätigung bei erfolgreichem Versand.
 \end{itemize}
 Nachbedingung      : Der Dialog schließt sich; der Anfangszustand ist erreicht.
 Bei Vorschlagsablehnung wird eine Nachricht an den Programmierer geschickt. Ansonsten wird die 
 Workflow-Nachricht an den zuständigen PLE geschickt.\\
-Alternativer Ablauf: Wurde kein Radio-Button selektiert, so erscheint eine Fehlermeldung.\par
+
 
 Dritter Schritt    : \\
 Vorbedingung       : Der Kobold Client ist gestartet, die Workflow/Task View ist zu sehen; in ihr 
-befindet sich die Nachricht aus Schritt 2, der Akteur ist der PLE.\\
+befindet sich die Nachricht aus Schritt 1 oder 2, der Akteur ist der PLE.\\
 Regulärer Ablauf   : \\
 \begin{itemize}
 \item Die Workflow-Nachricht wird doppelt-geklickt.
 \item Ein Dialog öffnet sich, in dem die Nachrichten des P und PE stehen.
 \item Der Akteur entscheidet über einen Radiobutton, ob er dem Vorschlag zustimmt oder ihn ablehnt.
-\item Über den "Senden"-Button wird die Workflow-Nachricht versendet; der "Abbrechen"-Button beendet die Aktion.
+\item Über den 'Senden'-Button wird die Workflow-Nachricht versendet; der 'Abbrechen'-Button beendet die Aktion.
 \item Es erfolgt eine Bestätigung bei erfolgreichem Versand.
 \end{itemize}
 Nachbedingung      : Der Dialog schließt sich; der Anfangszustand ist erreicht.
 Die Entscheidung des PLE wird in einer Nachricht an den PE und P geschickt.\\
-Alternativer Ablauf: Wurde kein Radio-Button selektiert, so erscheint eine Fehlermeldung.\par
 
 
+
+Use Case Name      : Asset für eine Core Group vorschlagen (RollenView)\\
+Akteur             : Benutzer\\
+Erster Schritt     : \\
+Vorbedingung       : Der Kobold Client ist gestartet, die Rollen View ist zu sehen.\\
+Regulärer Ablauf   : \\
+\begin{itemize}
+\item Im Kontextmenü eines Assets wid der Punkt 'Asset für Core Group vorschlagen' ausgewählt.
+\item Ein Dialog öffnet sich. 
+\item Der Benutzer gibt an, ob der Vorschlag an einen PE oder direkt an den PE gesendet
+werden soll.
+\item Er bestätigt mit 'OK' und ein weiterer Dialog öffnet sich.
+\item Der Akteur gibt den Empfänger und einen Kommentar an.
+\item Über den 'Senden'-Button wird die Workflow-Nachricht versendet; der 'Abbrechen'-Button beendet die Aktion.
+\end{itemize}
+Nachbedingung      : Der Dialog schließt sich; der Anfangszustand ist erreicht. 
+Die Workflow-Nachricht wurde an den angegebenen PE oder PLE geschickt.\\
+Schritt 2 und 3 verlaufen analog zum UseCase 'Asset für eine Core Group vorschlagen (Workflow)'.
 
 
 
@@ -84,11 +114,16 @@ Vorbedingung       : Der Kobold Client ist gestartet.\\
 Regulärer Ablauf   : \\
 Die nachfolgenden Aktionen kreieren eine neue WorkflowMessage, die an den Server geschickt wird:
 \begin{itemize}
-\item commit
-\item checkout
-\item update
-\item add to version control
-\item delete (aus Repository)
+	\item addUser
+	\item getAllUsers
+	\item removeUser
+	\item updateUserPassword
+	\item updateUserFullName
+	\item getProductlineNames
+	\item getProductline
+	\item updateProductline
+	\item updateProduct
+	\item updateComponent
 \end{itemize}
 Nachbedingung      : Eine WorkflowMessage wurde an den Server und somit an die WorkflowEngine 
 weitergeleitet. Der Benutzer kann entsprechende Regeln für die Aktionen schreiben, die in

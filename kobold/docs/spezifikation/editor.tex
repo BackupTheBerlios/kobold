@@ -1,25 +1,13 @@
 
 \subsection{Produktlinien}
 
-\subsubsection{Core-Asset erstellen}
-\usecase{Produktlinienarchitektur geöffnet}
-{Über den Palette wird das Werkzeug ''Core-Asset'' ausgewählt
-  und durch einen Klick in den Editor-Bereich ein Core-Asset mit
-  fester Größe eingefügt. Mittels Klicken\&Ziehen kann zusätzlich die
-Größe des Core-Assets eingestellt werden. Core-Assets können nur auf
-der Top-Level-Ebene im Editor erstellt werden.}
-{Es wird ein Dialog angezeigt. In diesen werden die Metadaten für das
-  Core-Asset eingetragen.}
-{Nicht spezifiziert}
-{PLE}
-
 \subsubsection{Variante erstellen}
 \usecase{Produktlinienarchitektur geöffnet}
 {Über den Palette wird das Werkzeug ''Variant'' ausgewählt
-  und durch einen Klick in ein Core-Asset oder eine Komponente eine
+  und durch einen Klick in eine Komponente eine
   Variante mit fester Größe eingefügt. Mittels Klicken\&Ziehen kann
   zusätzlich die Größe der Variante eingestellt werden. Varianten
-  können nur in Core-Assets oder Komponenten erstellt werden.}
+  können nur in Komponenten erstellt werden.}
 {Es wird ein Dialog angezeigt. In diesen werden die Metadaten für die
   Variante eingetragen.}
 {Nicht spezifiziert}
@@ -28,9 +16,9 @@ der Top-Level-Ebene im Editor erstellt werden.}
 \subsubsection{Komponente erstellen}
 \usecase{Produktlinienarchitektur geöffnet}
 {Über den Palette wird das Werkzeug ''Component'' ausgewählt
-  und durch einen Klick in eine Variante dort mit fester Größe
+  und durch einen Klick in eine Variante oder in die Architektur dort mit fester Größe
   eingefügt. Mittels Klicken\&Ziehen kann zusätzlich die
-Größe der Komponente eingestellt werden. Komponenten können nur in
+Größe der Komponente eingestellt werden. Komponenten können nur top-level oder in
 Varianten erstellt werden.}
 {Es wird ein Dialog angezeigt. In diesen werden die Metadaten für die
   Komponente eingetragen.}
@@ -39,7 +27,7 @@ Varianten erstellt werden.}
 
 \subsubsection{Version erstellen}
 \usecase{Produktlinienarchitektur geöffnet}
-{Über den Palette wird das Werkzeug ''Version'' ausgewählt
+{Über den Palette wird das Werkzeug ''Release'' ausgewählt
   und durch einen Klick in eine Variante dort mit fester Größe
   eingefügt. Mittels Klicken\&Ziehen kann zusätzlich die 
 Größe der Version eingestellt werden. Versionen können in Varianten
@@ -53,16 +41,16 @@ werden.}
 
 \subsubsection{Metaknoten erstellen}
 \usecase{Produktlinienarchitektur geöffnet}
-{Über die Palette wird das Werkzeug ''Metanode'' ausgewählt und durch
+{Über die Palette wird das Werkzeug ''AND Node'' bzw. ''OR Node'' ausgewählt und durch
   einen Klick in den Editor-Bereich ein Metaknoten eingefügt.}
 {Es öffnet sich ein Dialog. In diesem wird der Typ des Knoten
-  ausgewählt. Mögliche Typen sind ''AND'', ''OR'', ''XOR''.
+  ausgewählt. Mögliche Typen sind ''AND'', ''OR''.
 % mehr?
 }
 {nicht spezifiziert.}
 {PLE}
 
-\subsubsection{Core-Asset, Komponente, Variante, Version löschen}
+\subsubsection{Komponente, Variante, Version löschen}
 \usecase{Produktlinienarchitektur geöffnet, Element ausgewählt}
 {Über das Kontextmenu wird die Aktion ''Löschen''
   ausgewählt. Alternativ kann auch die Taste ''Del'' bzw. ''Entf''
@@ -72,13 +60,12 @@ werden.}
   angezeigt, der ihn über diese Situation aufklärt und ihm die
   Möglichkeit gibt, den Vorgang abzubrechen, das gewählte Element als
   ''deprecated'' zu markieren oder wirklich zu löschen. Dazu wird es
-  auch aus allen Produkten entfernt. Dazu wird jeweils ein Workflow
-  ausgelöset. Wird das Element nicht verwendet,
+  auch aus allen Produkten entfernt. Wird das Element nicht verwendet,
 wird es aus der Architektur entfernt.}
 {Element bleibt in der Architektur.}
 {PLE}
 
-\subsection{Metaknoten löschen}
+\subsubsection{Metaknoten löschen}
 \usecase{Produktlinienarchitektur geöffnet, Metaknoten ausgewählt}
 {Über das Kontextmenu wird die Aktion ''Löschen''
   ausgewählt. Alternativ kann auch die Taste ''Del'' bzw. ''Entf''
@@ -90,7 +77,7 @@ wird es aus der Architektur entfernt.}
 
 \subsubsection{Abhängigkeitskante erstellen (graphisch)}
 \usecase{Produktlinienarchitektur geöffnet}
-{Über die Palette wird das Werkzeug ''Dependency'' ausgewählt. Durch
+{Über die Palette wird das Werkzeug ''Include Edge'' ausgewählt. Durch
   einen Klick auf ein Blockelement wird der Startpunkt der Kante
   ausgewählt. Der zweite Klick definiert das Zielelement.}
 {Die Kante wird eingefügt. Wenn die Kante eine Abhängigkeit von
@@ -103,7 +90,7 @@ wird es aus der Architektur entfernt.}
 
 \subsubsection{Unverträglichkeitskante erstellen (graphisch)}
 \usecase{Produktlinienarchitektur geöffnet}
-{Über die Palette wird das Werkzeug ''Exclude'' ausgewählt. Durch
+{Über die Palette wird das Werkzeug ''Exclude Edge'' ausgewählt. Durch
   einen Klick auf ein Blockelement wird der Startpunkt der Kante
   ausgewählt. Der zweite Klick definiert das Zielelement.}
 {Die Kante wird eingefügt. Wenn die Kante eine Unverträglichkeit von
@@ -126,10 +113,10 @@ wird es aus der Architektur entfernt.}
 
 \subsubsection{Komponente als \emph{deprecated} markieren}
 \usecase{Produktlinienarchitektur geöffnet, Komponente ausgewählt}
-{Über das Kontextmenu wird die Aktion ''als deprecated markieren''
-  ausgewählt. Alternativ kann auch die Taste ''D'' gedrückt werden.}
+{Der Benutzer doppeltklickt auf die Komponente. Ein Dialog öffnet sich,
+in dem er die Komponente als ''deprecated'' markieren kann.}
 {Die Komponente wird als \emph{deprecated} markiert und mit einem
-  Fähnchen gekennzeichnet. %IT3 Workflow
+  Kreuz gekennzeichnet. %IT3 Workflow
 }
 {nicht spezifiziert.}
 {PLE}
@@ -149,22 +136,23 @@ wird es aus der Architektur entfernt.}
 {nicht spezifiziert.}
 {PLE}
 
-\subsubsection{Ansicht filtern}
-\nopagebreak
-\textbf{Vorbedingung}\\
-Produktlinienarchitektur geöffnet \\
-\textbf{Beschreibung}\\
-{Über die Toolbar stehen mehrere Filterfunktionen zur Verfügung. Dazu
-  gehören:
-\begin{itemize}
-  \item Abhängigkeitskanten anzeigen/verstecken
-  \item Unverträglichkeitskanten anzeigen/verstecken
-  \item Synthetische Kanten anzeigen/verstecken
-  \item als \emph{deprecated} markierte Komponenten anzeigen/verstecken
-\end{itemize}
-}
-\textbf{Interaktionen}\\
-PLE\\
+
+%\subsubsection{Ansicht filtern}
+%\nopagebreak
+%\textbf{Vorbedingung}\\
+%Produktlinienarchitektur geöffnet \\
+%\textbf{Beschreibung}\\
+%{Über die Toolbar stehen mehrere Filterfunktionen zur Verfügung. Dazu
+%  gehören:
+%\begin{itemize}
+%  \item Abhängigkeitskanten anzeigen/verstecken
+%  \item Unverträglichkeitskanten anzeigen/verstecken
+%  \item Synthetische Kanten anzeigen/verstecken
+%  \item als \emph{deprecated} markierte Komponenten anzeigen/verstecken
+%\end{itemize}
+%}
+%\textbf{Interaktionen}\\
+%PLE\\
 
 
 \subsection{Produkt}
@@ -191,22 +179,22 @@ Hängt ab von UC Neues Produkt erstellen.
 {Die Komponente wird nicht entfernt.}
 {PE}
 
-\subsubsection{Ansicht filtern}
-\nopagebreak
-\textbf{Vorbedingung}\\
-Produktlinienarchitektur geöffnet \\
-\textbf{Beschreibung}\\
-{Über die Toolbar stehen mehrere Filterfunktionen zur Verfügung. Dazu
-  gehören:
-\begin{itemize}
-  \item Abhängigkeitskanten anzeigen/verstecken
-  \item Unverträglichkeitskanten anzeigen/verstecken
-  \item Synthetische Kanten anzeigen/verstecken
-  \item als \emph{deprecated} markierte Komponenten anzeigen/verstecken
-\end{itemize}
-}
-\textbf{Interaktionen}\\
-PE, P\\
+%\subsubsection{Ansicht filtern}
+%\nopagebreak
+%\textbf{Vorbedingung}\\
+%Produktlinienarchitektur geöffnet \\
+%\textbf{Beschreibung}\\
+%{Über die Toolbar stehen mehrere Filterfunktionen zur Verfügung. Dazu
+%  gehören:
+%\begin{itemize}
+%  \item Abhängigkeitskanten anzeigen/verstecken
+%  \item Unverträglichkeitskanten anzeigen/verstecken
+%  \item Synthetische Kanten anzeigen/verstecken
+%  \item als \emph{deprecated} markierte Komponenten anzeigen/verstecken
+%\end{itemize}
+%}
+%\textbf{Interaktionen}\\
+%PE, P\\
 
 \subsubsection{Blockelemente verschieben}
 \usecase{Produktlinienarchitektur geöffnet}

@@ -70,11 +70,14 @@ Vorbedingung      : Das Administrationstool ist gestartet und die
 Eingabeaufforderung ist zu sehen.\\
 Regulärer Ablauf  : \\
 \begin{itemize}
-\item Der Koboldadministartor gibt das Kommando 'createpl' ein. \item
+\item Der Koboldadministartor gibt das Kommando 'newpl' ein. \item
 Der Koboldadministartor wird aufgefordert
 einen Namen fär die neue Produktlinie anzugeben. \item Der
-Koboldadministrator gibt einen gältigen Namen fär die neue
-Produktlinie an. \item Eine Erfolgsmeldung wird ausgegeben.
+Koboldadministrator gibt einen gültigen Namen fär die neue
+Produktlinie an. 
+\item In den nachfolgenden Schritten wird der Administrator aufgefordert folgende
+Daten anzugeben: resource, repository type, protocol, hostname,repository root, module path.
+\item Eine Erfolgsmeldung wird ausgegeben.
 \end{itemize}
 Alternative Abläufe: \\
 Falls der eingegebene Name ungältig ist (leere Eingabe,
@@ -98,7 +101,7 @@ an.
 kurze Erfolgsmeldung ausgegeben.
 \end{itemize}
 Alternative Abläufe: \\
-Falls der eingegebene Produktlinien-Name ungältig ist (leere Eingabe,
+Falls der eingegebene Produktlinien-Name ungültig ist (leere Eingabe,
 Produktlinie nicht vorhanden) 
 oder die zu entfernende Produktlinie nicht leer ist, wird eine
 entsprechende Fehlermeldung ausgegeben 
@@ -112,11 +115,11 @@ Vorbedingung      : Das Administrationstool ist gestartet und die
 Eingabeaufforderung ist zu sehen.\\
 Regulärer Ablauf  : \\
 \begin{itemize}
-\item Der Koboldadministartor gibt das Kommando 'addple' ein.
+\item Der Koboldadministartor gibt das Kommando 'assignple' ein.
 \item Der Koboldadministrator wird aufgefordert, den Namen des Users
 einzugeben, dem die neu anzulegende
 PLE-Rolle zugewiesen werden soll. 
-\item Der Kobold Administrator gibt einen gältigen PLE-Namen an. 
+\item Der Kobold Administrator gibt einen gültigen PLE-Namen an. 
 \item Der Kobold Administartor wird aufgefordert, die Produktlinie
 anzugeben, der der angegebene User als
 PLE zugewiesen werden soll.
@@ -126,7 +129,7 @@ PLE-Rolle zugewiesen.
 \end{itemize}
 Alternative Abläufe: \\
 \begin{itemize}
-\item Falls der eingegebene Benutzername ungältig ist (z.B. leere
+\item Falls der eingegebene Benutzername ungültig ist (z.B. leere
 Eingabe), wird eine entsprechende 
 Fehlermeldung ausgegeben und die Bearbeitung abgebrochen.
 \item Falls der eingegebene Benutzername noch nicht vergeben ist, wird
@@ -143,11 +146,11 @@ Vorbedingung      : Das Administrationstool ist gestartet und die
 Eingabeaufforderung ist zu sehen.\\
 Regulärer Ablauf  : \\
 \begin{itemize}
-\item Der Koboldadministartor gibt das Kommando 'removeple' ein.
+\item Der Koboldadministartor gibt das Kommando 'unassignple' ein.
 \item Der Koboldadministrator wird aufgefordert den Namen des Users
 einzugeben, dessen PLE-Rolle entfernt 
 werden soll. 
-\item Der Kobold Administrator gibt einen gältigen Benutzernamen an. 
+\item Der Kobold Administrator gibt einen gültigen Benutzernamen an. 
 \item Der Kobold Administrator wird aufgefordert, den Namen der
 Produktlinie anzugeben, für den der angegebene
 Benutzer die PLE-Rolle verlieren soll.
@@ -157,7 +160,7 @@ ein.
 \end{itemize}
 Alternative Abläufe: \\
 \begin{itemize}
-\item Falls der eingegebene Benutzer-Name ungältig ist (leere Eingabe,
+\item Falls der eingegebene Benutzer-Name ungültig ist (leere Eingabe,
 Name nicht vergeben), wird eine 
 entsprechende Fehlermeldung ausgegeben und die Bearbeitung abgebrochen.
 \item Falls der eingegebene Produktlinienname ungültig ist (leere

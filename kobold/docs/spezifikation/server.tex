@@ -6,8 +6,10 @@ passenden Passwort. Dieser ist dadurch bei seiner Arbeit nicht an einen
 festen Rechner gebunden, sondern kann von jedem Rechner mit einem Kobold
 Client über den Kobold Serverdienst an seine Daten gelangen und diese
 bearbeiten. Ausserdem ermöglicht der Server eine
-Client-zu-Client Kommunikation über eine Nachrichten-Queue, welche
-im Minutentakt von den Clients abgefragt wird.\par
+Client-zu-Client Kommunikation über eine Nachrichten-Queue.
+
+%, welche
+%im Minutentakt von den Clients abgefragt wird.\par
 
 Der Server wird als HTTPS-basierter {\it XML-RPC Server}
 \footnote{Nähere Informationen: http://ws.apache.org/xmlrpc/}
@@ -17,11 +19,11 @@ Alle Informationen, die der Server bereitstellt, werden gespeichert.
 \subsection{Berechtigungskonzept}
 
 Zur Realisierung des produktlinien\-übergreifenden Berechtigungskonzepts
-verwaltet der Server alle benutzer-, rollen-, produktlinien- und
+verwaltet der Server alle benutzer-, produktlinien- und
 produktbasierten Berechtigungen. Dabei kann ein Server produktlinien-übergreifend
 verwendet werden.\par
 Der Server bietet ein auf diesen Berechtigungen basierenden
-Authentifizierungsmechanismus an, der von allen Clients verwendet wird. Wird ein Client gestartet, so muss
+Authentifizierungsmechanismus an, der von allen Clients verwendet wird. Wird ein Projekt im Client ausgecheckt, so muss
 sich der Benutzer über einen Dialog beim Server mit Benutzername und Passwort anmelden. Sind beide korrekt,
 so werden in seinen Client die Daten der ihm zugeteilten Rollen und den
 dazu gehörenden Produktlinien bzw. Produkte geladen. Der Benutzer
@@ -39,7 +41,6 @@ gespeichert (standardmäßig alle 10 Minuten).\par
 In der XML-Struktur werden hierbei die folgenden Elemente gespeichert:
 \begin{itemize}
 \item Benutzer
-\item Rollen
 \item Repositories
 \item Produktlinien
 \item Produkte

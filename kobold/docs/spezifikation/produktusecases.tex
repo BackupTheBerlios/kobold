@@ -5,22 +5,11 @@
 \subsubsection{Neues Produkt anlegen}
 
 \usecase{Kobold ist gestartet}
-{Der Benutzer klickt irgendwo auf die Action Neues Produkt erstellen. Ein Wizard öffnet sich
-und zeigt eine Liste der für den Benutzer möglichen Produktlinien aus. Der Benutzer wählt
-nun eine der ihm zu Verfügung stehenden Produktlinien aus und klickt auf 'Weiter'. 
-Im nächsten Schritt bekommt er eine Liste aller CoreAssets zur Verfügung, welche Standard-
-mässig alle per Häckchen selektiert sind. Sollte er eines hiervon nicht wünschen, so
-klickt er einfach auf das entsprechende Häckchen. Sobald er damit fertig ist, klickt er 
-wiederrum auf 'Weiter'.
-Im darauffolgenden Schritt kann er sich aus den für diese Produktlinie bestehenden Produkten
-noch weitere Module aussuchen. 
-Die Auswahl sieht folgendermaßen aus. Alle Produkte dieser Produktlinie sind als Dateibaum
-dargestellt und der Benutzer wählt die von ihm gewünschten Teilmodule aus. Neben dem Dateibaum
-wird dem Benutzer eine kurze Beschreibung zum jeweils gewählten Modul angezeigt.
-Es ist möglich mehrere Module verschiedener Produkte gleichzeitig auszuwählen. Außerdem sind
-alle von den gewählten Modulen benötigten Produkte automatisch mit ausgewählt.
-Klickt der Benutzer nun auf 'Fertigstellen', werden die entsprechenden Module geladen, 
-ausgecheckt und dem Benutzer grafisch angezeigt.}
+{Der Benutzer öffnet die Palette im Architektureditor und wählt das Werkzeug 'compose product' aus. 
+Daraufhin ändern alle Objekte im Editor ihre Farbe in grau. Der Benutzer klick auf die Objekte, die er
+in seinem Produkt enthalten haben möchte. Diese färben sich daraufhin blau. Ist der Benutzer mit seiner
+Auswahl zufrieden, betätigt er den 'create Product' Button im Editor. Ein Dialog öffnet sich, in dem der 
+Benutzer die Metainformationen für das neue Produkt eingeben kann.}
 {Alle gewählten Module inklusive ihrer benötigten Referenzen sind ausgecheckt und werden dem
 Beutzer grafisch angezeigt.}
 {Nicht spezifiziert}
@@ -29,36 +18,33 @@ Beutzer grafisch angezeigt.}
 
 \subsubsection{Produkt umbenennen}
 \usecase{Es ist ein Produkt ausgewählt}
-{Der Benutzer klickt auf die rechte Maustaste und das Kontextmenü öffnet sich. Hier wird
-der Punkt Produkt umbenennen angezeigt. Wählt er diesen aus, so kann er das Produkt umbenennen,
-indem er einen neuen Namen eingibt. Der Name wird nun sowohl im Repository, als auch im
-Produktlinienbaum aktualisiert.}
+{Der Benutzer doppelklickt auf das Produkt im RoleTree. Ein Dialog öffnet sich, in dem er den Namen
+ ändern kann. Der Benutzer bestätigt mit 'OK'.}
 {Produkt ist umbenannt.}
 {Nicht spezifiziert}
 {PE}
 
 
-\subsubsection{Produkt ändern}
-\usecase{
-Es ist ein Produkt selektiert und der
-Benutzer ist mindestens PE des Produktes
-}
-{
-Der Benutzer bekommt den Wizard wie in Produkt erstellen zu sehen, allerdings erst ab 
-Schritt 2. Alle von ihm ausgewählten Einstellungen sind übernommen.}
-{
-Benutzer hat die von ihm gewünschten Änderungen vorgenommen,
-angezeigte Daten sind aktualisiert}
-{Nicht spezifiziert}
-{PE}
+%\subsubsection{Produkt ändern}
+%\usecase{
+%Es ist ein Produkt selektiert und der
+%Benutzer ist mindestens PE des Produktes
+%}
+%{
+%Der Benutzer bekommt den Wizard wie in Produkt erstellen zu sehen, allerdings erst ab 
+%Schritt 2. Alle von ihm ausgewählten Einstellungen sind übernommen.}
+%{
+%Benutzer hat die von ihm gewünschten Änderungen vorgenommen,
+%angezeigte Daten sind aktualisiert}
+%{Nicht spezifiziert}
+%{PE}
 
 \subsubsection{Produkt als veraltet markieren}
 \usecase{
 Benutzer ist mindestens PLE für diese Produktlinie}
 {
-Der Benutzer klickt mit der rechten Maustaste auf das entsprechende Produkt. Innerhalb des
-Kontextmenüs hat er den Punkt 'Produkt als veraltet markieren' zur Auswahl. Bei Klick auf
-den Button erscheint eine Messagebox mit nochmaliger Nachfrage. Klickt er hier auf OK ist
+Der Benutzer doppeltklickt auf das entsprechende Produkt. Es öffnet sich ein Dialog,
+in dem er das Produkt auf deprecated setzen kann. Klickt er hier auf OK ist
 das Produkt auf deprecated gesetzt und seine Module stehen den PEs nicht
 mehr zur Auswahl.}
 {
@@ -66,18 +52,3 @@ Produkt ist auf deprecated gesetzt, seine Module stehen für neue Produkte nicht 
 Verfügung.}
 {Nicht spezifiziert}
 {PLE}
-
-
-\subsubsection{Modul auf veraltet setzen}
-\usecase{Benutzer ist mindestens PE des Produktes}
-{
-Der Benutzer klickt mit der rechten Maustaste auf das Modul. Innerhalb des Kontextmenüs
-hat er den Punkt 'Modul auf deprecated setzen' zur Auswahl. Bei Klick auf diesen Punkt
-erscheint eine Messagebox und bei neuerlichem bestätigen ist das Modul auf deprecated 
-gesetzt und steht für neue Produkte nicht mehr zur Auswahl.
-}
-{
-Modul ist auf deprecated gesetzt und steht für neue Produkte nicht mehr
-zur Auswahl.}
-{Nicht spezifiziert}
-{PE}
