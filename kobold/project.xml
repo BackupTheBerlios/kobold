@@ -36,7 +36,7 @@
   <!-- the project home page -->
   <url>http://kobold.berlios.de/</url>
   <!-- <issueTrackingUrl>http://test.klintox.net:8080/jira/secure/Dashboard.jspa</issueTrackingUrl> -->
-  <siteAddress>cvs.berlios.de</siteAddress>
+  <siteAddress>shell.berlios.de</siteAddress>
   <siteDirectory>/home/groups/kobold/htdocs</siteDirectory>
   <distributionDirectory/>
 
