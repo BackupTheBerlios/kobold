@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.16 2004/05/19 13:46:28 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.17 2004/05/19 15:38:19 garbeam Exp $
  *
  */
 package kobold.server;
@@ -82,7 +82,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			System.exit(1);
 		}
 
-		Properties props = new Properties();
+		Properties props = new Properties(System.getProperties());
 		props.load(new FileInputStream("server.properties"));
 		System.setProperties(props);
 		
