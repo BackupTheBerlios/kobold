@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.3 2004/07/19 11:46:15 neccaino Exp $
+ * $Id: ProductlineManager.java,v 1.4 2004/07/20 12:04:20 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -46,9 +46,13 @@ import kobold.common.data.Productline;
 import kobold.common.io.RepositoryDescriptor;
 
 /**
- * This class stores user data on the server and provides authentification
- * services for user interaction with the Server (sessionIDs). It's a
- * singleton class.
+ * This singelton class stores all the productlines for a Kobold server. New
+ * productlines can be added (as Productline-object) and removed. Note that
+ * every productline needs a unique name. Adding of new productlines will be
+ * refused if their name has already been registered with another productline.
+ * This class is serializable.
+ * 
+ * @see Productline    
  */
 public class ProductlineManager {
 
@@ -66,7 +70,7 @@ public class ProductlineManager {
 	
 	/**
 	 * Basic constructor of this singleton.
-	 * @param path
+     * TODO: delete call of dummy prods before delivery
 	 */
 	private ProductlineManager() {
 		productlines = new HashMap();
@@ -78,7 +82,8 @@ public class ProductlineManager {
 	}
 	
 	/**
-	 * Adds a new productline.
+	 * Adds a productline. Note that this will be refused if there has already 
+     * been added a productline with the same name as the one to add.
 	 *
 	 * @param productline the productline to add
      * @return true, if the new productline has been added successfully, false,
@@ -100,9 +105,10 @@ public class ProductlineManager {
 	}
 
 	/**
-	 * Changes the stored information for the user specified in info.
+	 * Gets a productline by its name.
 	 *
 	 * @param productlineName the name of the productLine.
+     * @return Productline with the passed name, null if it doesn't exist
 	 */
 	public Productline getProductline(String productlineName) {
 		return (Productline) productlines.get(productlineName);
@@ -112,7 +118,7 @@ public class ProductlineManager {
 	 * Removes the specified productline.
 	 * 
 	 * @param productline String containing the name the productline to remove.
-     * @return true, if the productloine with the specified name existed, false
+     * @return true, if the productline with the specified name existed, false
      *         otherwise
 	 */
 	public boolean removeProductline(String productlineName) {
@@ -120,8 +126,8 @@ public class ProductlineManager {
 	}
 
 	/**
-	 * Serializes all users with its roles to the file specified
-	 * productStore.
+	 * Serializes all products and productlines to the file specified
+     * by productStore.
 	 */
 	public void serialize() {
 		serialize(this.productStore);
@@ -191,7 +197,9 @@ public class ProductlineManager {
 	}
 
 	/**
-	 * Returns list of all productline names.
+	 * Returns a list of Strings which contain all the productline's names.
+     * 
+     * @return List of String-Objects with all productline's names
 	 */
 	public List getProductlineNames() {
 	    List result = new ArrayList();
@@ -205,7 +213,7 @@ public class ProductlineManager {
 	    return result;
 	}
 	
-	// DEBUG
+	// DEBUG, TODO: delete before delivery
 	public void dummyProds() {
 		
 	    addProductline(new Productline("kobold2",
