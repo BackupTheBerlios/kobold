@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.7 2004/06/24 00:12:51 rendgeor Exp $
+ * $Id: Component.java,v 1.8 2004/06/24 01:26:37 vanto Exp $
  *
  */
 
@@ -107,7 +107,7 @@ public class Component extends AbstractAsset
 		//write it to an xml-file
 			 XMLWriter writer;
 			try {
-				writer = new XMLWriter(new FileWriter(path+ File.separatorChar + getParent().getName() 
+				writer = new XMLWriter(new FileWriter(path+ File.separatorChar + ((AbstractAsset)getParent()).getName() 
 													+ File.separatorChar + "CAS" 
 													+ File.separatorChar + getName () + File.separatorChar 
 													+ ".productlinemetainfo.xml"));

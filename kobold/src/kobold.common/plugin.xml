@@ -17,6 +17,9 @@
       <library name="contrib/dom4j/dom4j-1.5-beta-1.jar">
          <export name="*"/>
       </library>
+      <library name="contrib/dom4j/jaxen-1.1-beta-2/jaxen-1.1-beta-2.jar">
+         <export name="*"/>
+      </library>
       <library name="contrib/jakarta-commons/commons-logging.jar">
          <export name="*"/>
       </library>

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.7 2004/06/24 00:44:11 rendgeor Exp $
+ * $Id: AbstractAsset.java,v 1.8 2004/06/24 01:26:37 vanto Exp $
  *
  */
 package kobold.common.model;
@@ -62,7 +62,7 @@ public abstract class AbstractAsset implements ISerializable
 
     private String name;
     private String id;
-    private AbstractAsset parent;
+    private Object parent;
     private String description;
     private String owner;
     private Set statusSet = new HashSet();
@@ -171,21 +171,28 @@ public abstract class AbstractAsset implements ISerializable
      */
     public AbstractAsset getRoot()
     {
-        AbstractAsset parent = getParent();
+        if (!(getParent() instanceof AbstractAsset)) {
+            return null;
+        }
+        
+        AbstractAsset parent = (AbstractAsset)getParent();
         while (parent != null) {
-            parent = parent.getParent();
+            if (!(parent.getParent() instanceof AbstractAsset)) {
+                return parent;
+            }
+            parent = (AbstractAsset)parent.getParent();
         }
 
         return parent;
     }
 
     /**
-     * Sets the parent asset.
+     * Sets the parent asset or the PLAMProject as root object.
      * This should be set in every add/remove operation in this package
      * 
      * @param parent
      */
-    public void setParent(AbstractAsset parent)
+    public void setParent(Object parent)
     {
         this.parent = parent;
     }
@@ -235,7 +242,7 @@ public abstract class AbstractAsset implements ISerializable
     /**
      * @return Returns the parent.
      */
-    public AbstractAsset getParent()
+    public Object getParent()
     {
         return parent;
     }

@@ -21,14 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVariantContainer.java,v 1.2 2004/06/23 13:34:58 vanto Exp $
+ * $Id: IVariantContainer.java,v 1.3 2004/06/24 01:26:37 vanto Exp $
  *
  */
 package kobold.common.model;
 
 import java.util.List;
 
-import kobold.common.model.productline.Component;
 import kobold.common.model.productline.Variant;
 
 

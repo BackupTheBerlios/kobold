@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.6 2004/05/19 16:15:24 neco Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.7 2004/06/24 01:26:42 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -29,12 +29,19 @@ package kobold.client.plam.controller.roletree;
 import java.util.Hashtable;
 import java.util.Map;
 
-import kobold.common.data.Product;
-import kobold.common.data.Productline;
+import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
+import kobold.client.plam.controller.roletree.RoleTreeContentProvider.TreeContainer;
 import kobold.common.data.RoleP;
 import kobold.common.data.RolePE;
 import kobold.common.data.RolePLE;
 import kobold.common.data.User;
+import kobold.common.model.AbstractAsset;
+import kobold.common.model.Release;
+import kobold.common.model.product.Product;
+import kobold.common.model.productline.Component;
+import kobold.common.model.productline.Productline;
+import kobold.common.model.productline.Variant;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -71,6 +78,12 @@ public class RoleTreeLabelProvider extends LabelProvider
 			return ((Product)element).getName();
 		} else if (element instanceof IProject) {
 			return ((IProject)element).getName();
+		} else if (element instanceof TreeContainer) {
+		    return ((TreeContainer)element).getName();
+		} else if (element instanceof AbstractAsset) {
+		    return ((AbstractAsset)element).getName();
+		} else if (element instanceof ArchitectureItem) {
+		    return "Architecture";
 		} else {
 			return "unkown";
 			//throw unknownElement(element);
@@ -91,7 +104,21 @@ public class RoleTreeLabelProvider extends LabelProvider
 			id = wa.getImageDescriptor(element);
 		} else if (element instanceof User) {
 			id = PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_UP);
+		} else if (element instanceof Productline) {
+		    id = KoboldPLAMPlugin.getImageDescriptor("icons/pl.gif");
+		} else if (element instanceof Component) {
+		    id = KoboldPLAMPlugin.getImageDescriptor("icons/component.gif");
+		} else if (element instanceof Variant) {
+		    id = KoboldPLAMPlugin.getImageDescriptor("icons/variant.gif");
+		} else if (element instanceof Release) {
+		    id = KoboldPLAMPlugin.getImageDescriptor("icons/release.gif");
+		} else if (element instanceof TreeContainer) {
+		    id = KoboldPLAMPlugin.getImageDescriptor("icons/container.gif");
+		} else if (element instanceof ArchitectureItem) {
+		    id = KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif");
 		}
+
+
 		
 		if (id == null) {
 			return null;

@@ -21,22 +21,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.10 2004/05/19 16:15:24 neco Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.11 2004/06/24 01:26:42 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import kobold.client.plam.KoboldProjectNature;
-import kobold.common.data.IAsset;
-import kobold.common.data.Product;
-import kobold.common.data.Productline;
 import kobold.common.data.RoleP;
 import kobold.common.data.RolePE;
 import kobold.common.data.RolePLE;
 import kobold.common.data.User;
+import kobold.common.model.productline.Component;
+import kobold.common.model.productline.Productline;
+import kobold.common.model.productline.Variant;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -132,15 +134,41 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     public Object[] getChildren(Object parentElement) {
     	
     	Productline testPL = new Productline("PLine_A");
-    	Product testP = new Product("PLine_A","ProductA");
+    	//Product testP = new Product("PLine_A","ProductA");
     	User testUser = new User();
  		testUser.setUserName("neco");
  		testUser.setRealName("Necati Aydin");
  		testUser.addRole(new RolePLE("test"));
  		
     	if (parentElement instanceof IProject) {
-    	 	return new Productline[] {testPL};
+    	 	try {
+                KoboldProjectNature nature = (KoboldProjectNature)((IProject)parentElement).getNature(KoboldProjectNature.NATURE_ID);
+                return new Productline[] {nature.getPLAMProject().getProductline()};
+            } catch (CoreException e) {
+                e.printStackTrace();
+            }
+    	    return new Object[0];
+    	    
+    	} else if(parentElement instanceof Productline) {
+    	    Productline pl = (Productline)parentElement;
+    	    return new Object[] {new ArchitectureItem(pl),
+    	            			 new TreeContainer("users", pl), 
+    	            			 new TreeContainer("assets", pl),
+    	            			 new TreeContainer("products", pl)};
     	 	
+    	} else if ((parentElement instanceof TreeContainer) 
+    	        && ((TreeContainer)parentElement).id.equals("assets")) {
+    	    return ((TreeContainer)parentElement).productline.getComponents().toArray();
+    	
+    	} else if (parentElement instanceof Component) {
+    	    return ((Component)parentElement).getVariants().toArray();
+    	
+    	} else if (parentElement instanceof Variant) {
+    	    List list = new ArrayList();
+    	    list.addAll(((Variant)parentElement).getComponents());
+    	    list.addAll(((Variant)parentElement).getReleases());
+    	    return list.toArray();
+
     	} else if(parentElement instanceof User) {
     		
     		User aUser = (User)parentElement;
@@ -163,7 +191,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     		return aUser.getRoles().toArray();
     	}
     	     
-        return null;
+        return new Object[0];
     }
 
     /**
@@ -195,7 +223,39 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 		});
 	}
 
-/*
+	public class TreeContainer
+	{
+	    private Productline productline;
+	    private String id;
+	    
+	    TreeContainer(String id, Productline pl) {
+	        this.productline = pl;
+	        this.id = id;
+	    }
+	    
+	    public String getName()
+	    {
+	        if (id.equals("users"))
+	            return "Users";
+	        else if (id.equals("assets"))
+	            return "Core-Assets";
+	        if (id.equals("products"))
+	            return "Products";
+	        else return "unkown id";
+	    }
+	}
+	
+	public class ArchitectureItem 
+	{
+	    private Productline pl;
+
+        ArchitectureItem(Productline pl)
+	    {
+	        this.pl = pl;
+	    }
+	}
+	
+	/*
 	public class ItemContainer {
 		private Object treeParent;
 		private Object item;

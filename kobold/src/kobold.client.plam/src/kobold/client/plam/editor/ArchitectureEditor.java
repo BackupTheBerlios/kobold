@@ -21,20 +21,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.10 2004/06/23 12:58:10 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.11 2004/06/24 01:26:42 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.PLAMProject;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModelContainer;
-import kobold.common.model.productline.Component;
+import kobold.common.model.AbstractAsset;
 import kobold.common.model.productline.Productline;
-import kobold.common.model.productline.Variant;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IAdaptable;
@@ -84,6 +85,7 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.IPageSite;
@@ -110,6 +112,9 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	private ViewModelContainer viewModel;
 	private PaletteRoot root;
 	private KeyHandler keyHandler;
+	private boolean isSaving = false;
+	
+	private AbstractAsset model = new Productline("");
 	
 	/**
 	 * Creates a architecture editor
@@ -134,26 +139,6 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 		getGraphicalViewer().addDropTargetListener(
 			new KoboldTemplateTransferDropTargetListener(getGraphicalViewer()));
 		
-	    Productline model = new Productline("PL Compiler");
-		
-		Component ca1 = new Component("CA Frontend");
-		Component ca2 = new Component("CA Backend");
-		model.addComponent(ca1);
-		model.addComponent(ca2);
-		
-		Variant va1 = new Variant("VA Java");
-		Variant va2 = new Variant("VA C++");
-		Variant va3 = new Variant("VA ADA");
-		
-		Variant va4 = new Variant("VA x86");
-		Variant va5 = new Variant("VA PPC");
-		
-		ca1.addVariant(va1);
-		ca1.addVariant(va2);
-		ca1.addVariant(va3);
-		
-		ca2.addVariant(va4);
-		ca2.addVariant(va5);
 	    getGraphicalViewer().setContents(model);
 	}
 
@@ -265,7 +250,20 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	 * @see org.eclipse.ui.ISaveablePart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void doSave(IProgressMonitor monitor) {
-		System.out.println("save!");
+	    try {
+			isSaving = true;
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			if (model.getRoot().getParent() instanceof PLAMProject) {
+			    PLAMProject pp = (PLAMProject)model.getRoot().getParent();
+			    pp.storeViewModelContainer(viewModel, monitor);
+				getCommandStack().markSaveLocation();
+			}
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			isSaving = false;
+		}
 	}
 
 	/**
@@ -285,7 +283,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	 * @see org.eclipse.ui.ISaveablePart#isDirty()
 	 */
 	public boolean isDirty() {
-		return false;
+		return getCommandStack().isDirty();
 	}
 
 	/**
@@ -465,5 +463,11 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 				 lws.setContents(thumbnail);
 			 }
 		 }
-	 }
+	}
+	
+    protected void setInput(IEditorInput input)
+    {
+        super.setInput(input);
+        //model = KoboldPLAMPlugin.getCurrentProjectNature().getPLAMProject().getProductline();
+    }
 }

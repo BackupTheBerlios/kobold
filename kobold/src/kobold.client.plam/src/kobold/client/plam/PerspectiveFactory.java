@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PerspectiveFactory.java,v 1.5 2004/05/16 23:41:46 vanto Exp $
+ * $Id: PerspectiveFactory.java,v 1.6 2004/06/24 01:26:42 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -65,14 +65,14 @@ public class PerspectiveFactory implements IPerspectiveFactory {
 		//outputfolder.addPlaceholder(JavaUI.ID_JAVADOC_VIEW);
 
 		// put architecture view to the big right area, below the hidden editor
-		layout.addView(KoboldConstants.ID_ARCHITECTURE_VIEW, IPageLayout.BOTTOM, (float)0.7, editorArea);
+		//layout.addView(KoboldConstants.ID_ARCHITECTURE_VIEW, IPageLayout.BOTTOM, (float)0.7, editorArea);
 
 		// place outline below role tree
 		IFolderLayout outlineFolder = layout.createFolder("outline", IPageLayout.BOTTOM, (float)0.75, "left");
 		outlineFolder.addView(IPageLayout.ID_OUTLINE);
 		
-		// hide editors
-		layout.setEditorAreaVisible(false);
+		// show editors
+		layout.setEditorAreaVisible(true);
 		
 		// views shortcuts
 		layout.addShowViewShortcut(KoboldConstants.ID_ROLE_TREE_VIEW);

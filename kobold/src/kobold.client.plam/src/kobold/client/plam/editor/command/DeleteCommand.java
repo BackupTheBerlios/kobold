@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteCommand.java,v 1.2 2004/06/23 13:37:00 vanto Exp $
+ * $Id: DeleteCommand.java,v 1.3 2004/06/24 01:26:42 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -53,7 +53,7 @@ public class DeleteCommand extends Command
     public void setAsset(AbstractAsset asset)
     {
         this.asset = asset;
-        parent = asset.getParent();
+        parent = (AbstractAsset)asset.getParent();
     }
     
     public void execute()
