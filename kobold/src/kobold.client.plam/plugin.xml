@@ -133,10 +133,22 @@
             id="kobold.client.plam.roletreecontribution">
          <action
                enablesFor="1"
+               label="%action.ImportGraph"
+               class="kobold.client.plam.action.ImportGXLGraphAction"
+               id="kobold.client.plam.action3"/>
+         <action
+               enablesFor="1"
                label="%action.GXLExport"
                class="kobold.client.plam.action.GXLExportAction"
                id="kobold.client.plam.action1"/>
       </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="kobold.client.plam.KoboldPlamPreferencePage"
+            name="Kobold"
+            id="kobold.client.plam.KoboldPlamPreferencePage"/>
    </extension>
 
 </plugin>

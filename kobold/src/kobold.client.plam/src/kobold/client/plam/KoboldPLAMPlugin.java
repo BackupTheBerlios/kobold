@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.12 2004/07/07 01:50:36 vanto Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.13 2004/07/21 23:06:39 martinplies Exp $
  *
  */
 package kobold.client.plam;
@@ -86,8 +86,16 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 		    resourceBundle = null;
 		}
 		
+		// set properties
 		try {
 		    Properties props = new Properties(System.getProperties());
+		    props.setProperty("path", getPluginPreferences().getString("path"));
+		    props.setProperty(KoboldPlamPreferencePage.PROTOKOL_HANDLER, getPluginPreferences().getString(KoboldPlamPreferencePage.PROTOKOL_HANDLER));
+		    props.setProperty(KoboldPlamPreferencePage.JAVA_DEBUG, getPluginPreferences().getString(KoboldPlamPreferencePage.JAVA_DEBUG));
+		    props.setProperty(KoboldPlamPreferencePage.JAVA_SSL, getPluginPreferences().getString(KoboldPlamPreferencePage.JAVA_SSL));
+		    props.setProperty(KoboldPlamPreferencePage.KEY_STORE_PASSWORD, getPluginPreferences().getString(KoboldPlamPreferencePage.KEY_STORE_PASSWORD));
+		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE, getPluginPreferences().getString(KoboldPlamPreferencePage.TRUST_STORE));
+		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE_PASSWORD, getPluginPreferences().getString(KoboldPlamPreferencePage.KEY_STORE_PASSWORD));
 		    props.load(new FileInputStream(System.getProperty("kobold.client.configFile")));
 		    System.setProperties(props);
         } catch (Exception e) {
