@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.4 2004/07/25 21:26:34 garbeam Exp $
+ * $Id: Component.java,v 1.5 2004/07/29 15:56:56 garbeam Exp $
  *
  */
 
@@ -40,6 +40,8 @@ import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.IVariantContainer;
+import kobold.client.plam.model.ModelStorage;
+import kobold.common.io.RepositoryDescriptor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -47,6 +49,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.XMLWriter;
+import org.eclipse.core.runtime.IPath;
 
 /**
  * Represents a component of a productline.
@@ -196,4 +199,14 @@ public class Component extends AbstractMaintainedAsset
 	public String getGXLType() {
 		return GXL_TYPE;
 	}
+	
+	public IPath getLocalPath() {
+	    return ModelStorage.getPathForAsset(this);
+	}
+	
+	public RepositoryDescriptor getRemoteRepository() {
+	    return ModelStorage.getRepositoryDescriptorForAsset(this);
+	}
+	
+	
 }

@@ -6,6 +6,8 @@
  */
 package kobold.client.plam.useractions;
 
+import java.util.List;
+
 import kobold.client.plam.controller.*;
 import kobold.common.data.*;
 import kobold.client.plam.*;
@@ -83,7 +85,7 @@ public class Useractions {
 		
 		SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();		
         UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-        java.util.List userList = client.getAllUsers(currUser);
+        List userList = client.getAllUsers(currUser);
         for (int i = 0; i<userList.size();i++)
         {
         	User tempUser = (User)userList.get(i);
