@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ViewModel.java,v 1.7 2004/09/18 13:19:24 vanto Exp $
+ * $Id: ViewModel.java,v 1.8 2004/09/21 12:58:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -52,17 +52,20 @@ public class ViewModel implements ISerializable
 	
 	protected transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 	private AbstractAsset model;
+	private ViewModelContainer parent;
  
-    public ViewModel() 
+    public ViewModel(ViewModelContainer parent) 
     {
     	size = new Dimension(150,100);
     	location = new Point(5,5);
+    	this.parent = parent;
     }
     
-    public ViewModel(Element element)
+    public ViewModel(ViewModelContainer parent, Element element)
     {
         size = new Dimension();
         location = new Point();
+        this.parent = parent;
         deserialize(element);
     }
     
@@ -75,6 +78,7 @@ public class ViewModel implements ISerializable
     {
         this.location = location;
         firePropertyChange(ID_LOCATION, null, location);
+        parent.setModified(true);
     }
     
     
@@ -94,6 +98,7 @@ public class ViewModel implements ISerializable
     {
         this.size = size;
         firePropertyChange(ID_SIZE, null, size);
+        parent.setModified(true);
     }
     
     /**

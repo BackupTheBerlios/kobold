@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.37 2004/09/21 10:53:59 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.38 2004/09/21 12:58:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -34,6 +34,7 @@ import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.editor.action.ConfigureAssetAction;
 import kobold.client.plam.editor.action.GXLExportAction;
+import kobold.client.plam.editor.action.LayoutAction;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModelContainer;
 import kobold.client.plam.model.AbstractRootAsset;
@@ -227,6 +228,9 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     	action = new PrintAction(this);
     	registry.registerAction(action);
     
+    	action = new LayoutAction(this);
+    	registry.registerAction(action);
+    	
     	action = new GXLExportAction(this);
     	registry.registerAction(action);
     	getSelectionActions().add(action.getId());
@@ -296,7 +300,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 			pp.store();
 			getCommandStack().markSaveLocation();
 			pp.storeViewModelContainer(model, viewModel, monitor);
-
+			viewModel.setModified(false);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -323,7 +327,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	 */
 	public boolean isDirty() {
 	    logger.debug("editor state: isDirty? commandstack: " + getCommandStack().isDirty() + ", model: " + model.getKoboldProject().isDirty());
-	    return getCommandStack().isDirty() || model.getKoboldProject().isDirty();
+	    return getCommandStack().isDirty() || model.getKoboldProject().isDirty() || viewModel.isDirty();
 	}
 
 	/**
@@ -518,7 +522,12 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 		 }
 	}
 	
-    protected void setInput(IEditorInput input)
+	public AbstractRootAsset getModel()
+	{
+	    return model;
+	}
+	
+	protected void setInput(IEditorInput input)
     {
         super.setInput(input);
 		model = getArchEditorInput().getRootAsset();

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineEditPart.java,v 1.12 2004/09/20 05:39:01 martinplies Exp $
+ * $Id: ProductlineEditPart.java,v 1.13 2004/09/21 12:58:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -69,7 +69,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
@@ -81,7 +80,7 @@ import org.eclipse.ui.PlatformUI;
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductlineEditPart.java,v 1.12 2004/09/20 05:39:01 martinplies Exp $
+ * @version $Id: ProductlineEditPart.java,v 1.13 2004/09/21 12:58:25 vanto Exp $
  */
 public class ProductlineEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {

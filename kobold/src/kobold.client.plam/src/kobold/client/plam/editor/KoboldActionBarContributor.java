@@ -21,10 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldActionBarContributor.java,v 1.1 2004/06/23 02:26:23 vanto Exp $
+ * $Id: KoboldActionBarContributor.java,v 1.2 2004/09/21 12:58:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
+
+import kobold.client.plam.editor.action.LayoutAction;
+import kobold.client.plam.editor.action.LayoutRetargetAction;
 
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -45,7 +48,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 
@@ -89,6 +91,8 @@ public class KoboldActionBarContributor extends ActionBarContributor
     			GEFMessages.ToggleGrid_Label, IAction.AS_CHECK_BOX));
 
 //    	addRetargetAction(new DirectEditRetargetAction());
+    	addRetargetAction(new LayoutRetargetAction());
+    	
     }
 
     /**
@@ -127,6 +131,8 @@ public class KoboldActionBarContributor extends ActionBarContributor
     											ZoomManager.FIT_HEIGHT, 
     											ZoomManager.FIT_WIDTH	};
     	tbm.add(new ZoomComboContributionItem(getPage(), zoomStrings));
+    	
+    	tbm.add(getAction(LayoutAction.ID));
     }
 
     /**
@@ -144,6 +150,6 @@ public class KoboldActionBarContributor extends ActionBarContributor
     	viewMenu.add(new Separator());
     	viewMenu.add(getAction(GEFActionConstants.MATCH_WIDTH));
     	viewMenu.add(getAction(GEFActionConstants.MATCH_HEIGHT));
-    	menubar.insertAfter(IWorkbenchActionConstants.M_EDIT, viewMenu);
+    	//menubar.insertAfter(IWorkbenchActionConstants.M_EDIT, viewMenu);
     }
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponentEditPart.java,v 1.8 2004/09/19 22:34:52 vanto Exp $
+ * $Id: RelatedComponentEditPart.java,v 1.9 2004/09/21 12:58:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -71,6 +71,8 @@ public class RelatedComponentEditPart extends AbstractAssetEditPart
     {
         super.refreshVisuals();
         figure.setTitle((getAsset().getName() == null) ? "" : getAsset().getName());
+        figure.setDescription(((RelatedComponent)getAsset()).getRelatedRelease().getName()
+            + ": " + ((RelatedComponent)getAsset()).getRelatedRelease().getName());
 		Set set = new HashSet(getAsset().getStatusSet());
 		set.add(new RelatedStatus());
 		figure.setStatusSet(set);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.11 2004/08/31 20:50:25 vanto Exp $
+ * $Id: RelatedComponent.java,v 1.12 2004/09/21 12:58:25 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -118,5 +118,14 @@ public class RelatedComponent extends ProductComponent
 		return relatedVariant.getGXLType();
 	}
 
+	public Variant getRelatedVariant()
+	{
+	    return relatedVariant;
+	}
+
+	public Release getRelatedRelease()
+	{
+	    return relatedRelease;
+	}
 
 }

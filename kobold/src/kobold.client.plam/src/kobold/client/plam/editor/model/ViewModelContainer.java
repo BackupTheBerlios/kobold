@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ViewModelContainer.java,v 1.8 2004/09/20 11:36:18 martinplies Exp $
+ * $Id: ViewModelContainer.java,v 1.9 2004/09/21 12:58:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -31,7 +31,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.edges.INode;
 import kobold.common.data.ISerializable;
 
 import org.dom4j.DocumentHelper;
@@ -44,6 +43,7 @@ import org.dom4j.Element;
 public class ViewModelContainer implements ISerializable 
 {
     private Map propertyByModelId = new HashMap();
+    private boolean modified = false;
     
     public ViewModelContainer() {}
     public ViewModelContainer(Element element)
@@ -54,7 +54,7 @@ public class ViewModelContainer implements ISerializable
     public ViewModel getViewModel(AbstractAsset node) {
         ViewModel prop = (ViewModel)propertyByModelId.get(node.getId());
         if (prop == null) {
-            prop = new ViewModel();
+            prop = new ViewModel(this);
             propertyByModelId.put(node.getId(), prop);
         }
         
@@ -86,11 +86,18 @@ public class ViewModelContainer implements ISerializable
         Iterator it = element.elementIterator("prop");
         while (it.hasNext()) {
             Element el = (Element)it.next();
-            propertyByModelId.put(el.attributeValue("id"), new ViewModel(el));
+            propertyByModelId.put(el.attributeValue("id"), new ViewModel(this, el));
         }
     }
 
-
-
+    public void setModified(boolean mod) 
+    {
+        modified = mod;
+    }
+    
+    public boolean isDirty()
+    {
+        return modified;
+    }
    
 }
