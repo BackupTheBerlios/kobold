@@ -21,23 +21,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Drools.java,v 1.3 2004/03/30 23:52:26 vanto Exp $
+ * $Id: WorkflowEngine.java,v 1.1 2004/04/01 00:17:14 garbeam Exp $
  *
  */
-package kobold.server.drools;
+package kobold.server.workflow;
+
 import org.drools.*;
 
 /**
  * This class mediates between Kobold and drools. 
  * @author Bettina Druckenmueller
  */
-public class Drools {
+public class WorkflowEngine {
 
 	/**
 	 * Since drools is going to be of the Singleton concept, theInstance 
 	 * will be the only available instance of the class.
 	 */
-	private Drools theInstance;
+	private WorkflowEngine theInstance;
 
 	/**
 	 * The rulebase for the Kobold rules
@@ -54,7 +55,7 @@ public class Drools {
 	 * drools instance.
 	 * @return the current instance of drools
 	 */
-	public Drools getTheInstance() {
+	public WorkflowEngine getTheInstance() {
 		return theInstance;
 	}
 
