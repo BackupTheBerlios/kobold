@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.14 2004/08/04 13:54:22 memyselfandi Exp $
+ * $Id: ModelStorage.java,v 1.15 2004/08/04 14:47:06 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -38,6 +38,7 @@ import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.common.io.RepositoryDescriptor;
 
@@ -67,8 +68,8 @@ public class ModelStorage
 {
     public static final String COREASSETS_FOLDER_NAME = "CAS";
     public static final String PRODUCTS_FOLDER_NAME = "PRODUCTS";
-    public static final String PRODUCTLINE_META_FILE = ".productlinemetainfo";
-    public static final String PRODUCT_META_FILE = ".productmetainfo";
+    public static final String PRODUCTLINE_META_FILE = ".productlinemetainfo.xml";
+    public static final String PRODUCT_META_FILE = ".productmetainfo.xml";
     
     public static final Logger logger = Logger.getLogger(ModelStorage.class);
     
@@ -202,6 +203,7 @@ public class ModelStorage
                     
                     //write the products metafile
                     serializeProduct(pl, monitor);
+                    serializeCoreassets(pl, monitor);
                     
                 }
             });
@@ -352,4 +354,41 @@ public class ModelStorage
 		}
 
 	}
-}
+	
+	public static void serializeCoreassets (Productline pl, IProgressMonitor monitor)
+	{
+		//get the CAS-directory
+		//the PL directory
+        IProject project = pl.getKoboldProject().getProject();
+       	IFolder casFolder = project.getFolder(pl.getName());
+        //CAS-dir
+        casFolder = casFolder.getFolder(COREASSETS_FOLDER_NAME);
+        
+		//get all cas
+    	List cas = pl.getComponents();
+    	
+        //for each product
+		for (Iterator it = cas.iterator(); it.hasNext();) {
+			Component component = (Component) it.next();
+		       
+	        //create the dir
+	        IFolder specialComponentFolder = casFolder.getFolder(component.getName());
+
+			
+			//createDirectory
+	        try {
+		        if (!specialComponentFolder.exists()) {
+		            specialComponentFolder.create(true, true, monitor);
+		        }
+	        } catch (CoreException e) {
+	            KoboldPLAMPlugin.log(e);
+	        }
+	        finally {
+	            monitor.done();
+	        }	    	
+
+	        }
+		}
+
+	}
+
