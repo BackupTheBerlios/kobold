@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.18 2004/08/24 20:03:56 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.19 2004/08/24 20:11:01 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -248,10 +248,10 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         final Release release = (Release) asset;
         final Variant variant = (Variant) release.getParent();
   	    Label label = new Label(composite, SWT.NONE);
-	    label.setText("Select resources:");
 	      
 	    if (release.isReleased()) {
 	        
+    	    label.setText("File revision:");
             Table table = new Table(composite, SWT.BORDER | SWT.MULTI
                     				| SWT.FULL_SELECTION | SWT.LEAD | SWT.WRAP
                     				| SWT.V_SCROLL | SWT.VERTICAL);
@@ -323,6 +323,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
             tbViewer.setInput(release);
 	    }
 	    else {
+    	    label.setText("Select resources:");
             Table table = new Table(composite, SWT.CHECK | SWT.BORDER | SWT.MULTI
                     				| SWT.FULL_SELECTION | SWT.LEAD | SWT.WRAP
                     				| SWT.V_SCROLL | SWT.VERTICAL);
