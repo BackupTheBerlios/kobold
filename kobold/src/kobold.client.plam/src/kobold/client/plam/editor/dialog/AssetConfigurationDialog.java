@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.40 2004/11/22 17:10:25 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.41 2005/02/04 15:50:19 neco Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -182,7 +182,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		//FIX for products --> doen't work??
 		//release/product
 		if (asset instanceof Release) {
-			asset.setName("product");
+			//asset.setName("product");
 		}
 
 		
@@ -468,6 +468,10 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 	                    for (Iterator it = fds.iterator(); it.hasNext();) {
 	                        prepList(l, (FileDescriptor)it.next());
 	                    }
+                    }
+                    //to avoid directories in the list
+                    if(fd.isDirectory()){
+                    	return;
                     }
                     l.add(fd);
                 }
