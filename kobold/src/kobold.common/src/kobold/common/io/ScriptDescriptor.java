@@ -21,10 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptDescriptor.java,v 1.2 2004/04/16 12:39:46 garbeam Exp $
+ * $Id: ScriptDescriptor.java,v 1.3 2004/04/28 16:24:18 vanto Exp $
  *
  */
 package kobold.common.io;
+
+import java.net.URI;
+
+import kobold.common.data.IdManager;
 
 /**
  * Base descriptor class for invocation of scripts before and after
@@ -34,9 +38,20 @@ package kobold.common.io;
  *
  * @author garbeam
  */
-public class ScriptDescriptor {
-
-    public ScriptDescriptor() {
-
+public class ScriptDescriptor 
+{
+	public static final String BASE_URI = "http://kobold.berlios.de/scripts#";
+	
+	private String id;
+    
+    public ScriptDescriptor(String name) 
+    {
+		id = IdManager.getInstance().getScriptId(name);
     }
+    
+    public URI getId()
+    {
+    	return URI.create(BASE_URI + id);
+    }
+    	
 }

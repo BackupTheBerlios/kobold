@@ -21,14 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantNode.java,v 1.8 2004/04/28 15:17:08 vanto Exp $
+ * $Id: VariantNode.java,v 1.9 2004/04/28 16:23:56 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * VariantNode
@@ -41,8 +40,6 @@ public class VariantNode extends AbstractNode
 
 	private List versions = new ArrayList();
 	private List components = new ArrayList();
-
-	private Vector scripts;
 
 	/**
 	 */
@@ -73,21 +70,6 @@ public class VariantNode extends AbstractNode
 		components.remove(component);
 		remove(component);
 	}
-
-	/**
-	 */
-	public Vector getScripts() 
-	{
-		return scripts;
-	}
-
-	/**
-	 */
-	public void addScript() {}
-
-	/**
-	 */
-	public void removeScript() {}
 
 	/**
 	 */

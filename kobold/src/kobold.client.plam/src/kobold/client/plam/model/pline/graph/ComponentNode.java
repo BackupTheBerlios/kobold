@@ -21,14 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentNode.java,v 1.6 2004/04/28 15:17:08 vanto Exp $
+ * $Id: ComponentNode.java,v 1.7 2004/04/28 16:23:56 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * ComponentNode
@@ -41,7 +40,6 @@ public class ComponentNode extends AbstractNode
 	public static final String TYPE = "http://kobold.berlios.de/types#component";
 
 	private List variants = new ArrayList();
-	private Vector scripts;
 
 	/**
 	 */
@@ -49,21 +47,6 @@ public class ComponentNode extends AbstractNode
 	{
 		super(name, TYPE);
 	}
-
-	/**
-	 */
-	public Vector getScripts() 
-	{
-		return scripts;
-	}
-
-	/**
-	 */
-	public void addScript() {}
-
-	/**
-	 */
-	public void removeScript() {}
 
 	/**
 	 */
@@ -78,6 +61,7 @@ public class ComponentNode extends AbstractNode
 	{
 		variants.add(variant);
 		add(variant);
+		
 	}
 
 	/**

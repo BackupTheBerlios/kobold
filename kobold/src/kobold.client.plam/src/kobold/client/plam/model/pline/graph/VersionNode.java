@@ -21,10 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VersionNode.java,v 1.5 2004/04/28 15:17:08 vanto Exp $
+ * $Id: VersionNode.java,v 1.6 2004/04/28 16:23:56 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.gxl.GXLString;
 
@@ -37,6 +40,8 @@ public class VersionNode extends AbstractNode
 {
 	public static final String TYPE = "http://kobold.berlios.de/types#version";
 
+	private List filedescs = new ArrayList();
+	
 	/**
 	 */
 	public VersionNode(String name) 
@@ -68,4 +73,20 @@ public class VersionNode extends AbstractNode
 		setAttr("versionId", new GXLString(version));
 	}
 
+	public void addFileDescriptor(FileDescriptorNode desc)
+	{
+		filedescs.add(desc);
+		add(desc);	
+	}
+	
+	public void removeFileDescriptor(FileDescriptorNode desc)
+	{
+		filedescs.remove(desc);
+		remove(desc);
+	}
+	
+	public FileDescriptorNode[] getFileDescriptors()
+	{
+		return (FileDescriptorNode[])filedescs.toArray(new FileDescriptorNode[0]);
+	}
 }

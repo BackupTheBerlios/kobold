@@ -21,10 +21,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Model.java,v 1.2 2004/04/21 15:36:44 memyselfandi Exp $
+ * $Id: Model.java,v 1.3 2004/04/28 16:23:56 vanto Exp $
  *
  */
 package kobold.client.plam.model;
+
+import java.io.IOException;
+
+import kobold.client.plam.model.pline.graph.ComponentNode;
+import kobold.client.plam.model.pline.graph.VariantNode;
+import kobold.client.plam.model.pline.graph.VersionNode;
+import kobold.common.io.ScriptDescriptor;
+import net.sourceforge.gxl.GXLDocument;
+import net.sourceforge.gxl.GXLGraph;
 
 /**
  * @author schneipk
@@ -91,4 +100,43 @@ public class Model {
 	{
 		
 	}
+	
+	// test stuff
+	public static void main(String[] args) 
+	{
+		//Model model = new Model(new ProductLine());
+		ComponentNode componentNode = new ComponentNode("Compiler");
+		ComponentNode c2 = new ComponentNode("Compiler");
+		c2.setDescription("Testdescription");
+		c2.setOwner("Tammo");
+		
+		VariantNode var1 = new VariantNode("V1");
+		VariantNode var2 = new VariantNode("V2");
+		
+		ComponentNode c2c = new ComponentNode("Something");
+		VariantNode var3 = new VariantNode("V1");
+		c2.addVariant(var1);
+		c2.addVariant(var2);
+		var2.addComponent(c2c);
+		c2c.addVariant(var3);
+	
+		VersionNode version = new VersionNode("1.0");
+		var2.addVersion(version);
+		version.setScriptDescriptor(new ScriptDescriptor("MyScript"));
+		
+		GXLGraph graph = new GXLGraph("koboldgraph");
+		GXLDocument doc = new GXLDocument();
+		graph.add(componentNode);
+		graph.add(c2);
+		
+		doc.getDocumentElement().add(graph);
+		
+		try {
+			doc.write(System.out);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }
