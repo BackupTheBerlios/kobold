@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldAssetFactory.java,v 1.6 2004/08/04 14:53:37 rendgeor Exp $
+ * $Id: KoboldAssetFactory.java,v 1.7 2004/08/04 17:31:16 memyselfandi Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -40,6 +40,7 @@ import org.eclipse.gef.requests.CreationFactory;
  */
 public class KoboldAssetFactory implements CreationFactory
 {
+	public static int iter = 0;
     private String id;
     
     public KoboldAssetFactory(String id) 
@@ -52,18 +53,20 @@ public class KoboldAssetFactory implements CreationFactory
      */
     public Object getNewObject()
     {
+    	iter++;
+    	
         if (id.equals(AbstractAsset.COMPONENT)) {
             Component c = new Component();
-            c.setName("component"+id);
+            c.setName(id+iter);
             return c;
         } else if (id.equals(AbstractAsset.VARIANT)) {
             Variant c = new Variant();
-            c.setName("variant"+id);
-            return new Variant();
+            c.setName(id+iter);
+            return c;
         } else if (id.equals(AbstractAsset.RELEASE)) {
             Release c = new Release();
-            c.setName("release"+id);
-            return new Release();
+            c.setName(id+iter);
+            return c;
         } else if (id.equals(MetaNode.AND)) {
             return new MetaNode(MetaNode.AND);
         } else if (id.equals(MetaNode.OR)) {
