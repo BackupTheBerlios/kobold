@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.21 2004/08/31 20:14:07 vanto Exp $
+ * $Id: Product.java,v 1.22 2004/09/01 01:07:37 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -105,7 +105,10 @@ public class Product extends AbstractRootAsset
 			RelatedComponent relatedComponent = (RelatedComponent) it.next();
 			relCompElement.add(relatedComponent.serialize());
 		}
-	
+
+		// serialize EdgeContainer
+		productElement.add(getEdgeContainer().serialize());
+
 		return productElement;
 	}
 
@@ -118,9 +121,6 @@ public class Product extends AbstractRootAsset
 	public void deserialize(Element element) {
 		super.deserialize(element);
 		//setName(element.attributeValue("name"));
-
-		
-		System.out.println ("start deserializing!");
 	    
 		Iterator it = element.element("releases").elementIterator(AbstractAsset.PRODUCT_RELEASE);
 		while (it.hasNext()) {
@@ -145,6 +145,9 @@ public class Product extends AbstractRootAsset
 		    addComponent(new RelatedComponent(this, pEl));	
 		}
 
+		// edges must deserialize at last. Otherwise the other nodes are missing in the ie pool. 
+		Element edges = element.element("edges");
+		this.getEdgeContainer().deserialize(edges);
 
 	}
 	

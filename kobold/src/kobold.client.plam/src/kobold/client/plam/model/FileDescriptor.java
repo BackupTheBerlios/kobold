@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.19 2004/08/31 20:50:25 vanto Exp $
+ * $Id: FileDescriptor.java,v 1.20 2004/09/01 01:07:36 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -33,7 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.model.edges.INode;
-import kobold.client.plam.model.product.SpecificComponent;
+import kobold.client.plam.model.product.ProductComponent;
 import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 import kobold.common.io.RepositoryDescriptor;
@@ -141,8 +141,9 @@ public class FileDescriptor implements IFileDescriptorContainer,
     public void setParentAsset(IFileDescriptorContainer parentAsset)
     {
         if (!((parentAsset instanceof Variant)
-               || (parentAsset instanceof SpecificComponent))) {
-            throw new IllegalArgumentException("parent must be an instance of Variant or SpecificComponent");
+               || (parentAsset instanceof ProductComponent))) {
+            
+            throw new IllegalArgumentException("parent must be an instance of Variant or ProductComponent");
         }
         this.parentAsset = parentAsset;
 

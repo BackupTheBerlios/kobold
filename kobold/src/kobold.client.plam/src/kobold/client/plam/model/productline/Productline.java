@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.28 2004/08/31 20:14:07 vanto Exp $
+ * $Id: Productline.java,v 1.29 2004/09/01 01:07:37 vanto Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -190,7 +190,14 @@ public class Productline extends AbstractRootAsset
 	    super.deserialize(element);
 	    //repositoryPath = element.attributeValue("repositoryPath");
 	    
-		Iterator it = element.element("products").elementIterator(AbstractAsset.PRODUCT);
+		Iterator it = element.element("components").elementIterator(AbstractAsset.COMPONENT);
+		while (it.hasNext()) {
+		    Element compEl = (Element)it.next();
+		    addComponent(new Component(this, compEl));
+		}
+		
+		// products must deserialize after the assets because of id-dependencies.
+		it = element.element("products").elementIterator(AbstractAsset.PRODUCT);
 		while (it.hasNext()) {
 		    Element pEl = (Element)it.next();
 		    String refId = pEl.attributeValue("refid");
@@ -200,17 +207,10 @@ public class Productline extends AbstractRootAsset
 		        addProduct(p);
 		    }
 		}
-		
-		it = element.element("components").elementIterator(AbstractAsset.COMPONENT);
-		while (it.hasNext()) {
-		    Element compEl = (Element)it.next();
-		    addComponent(new Component(this, compEl));
-		}
-		
+
 		// edges must deserialize at last. Otherwise the other nodes are missing in the ie pool. 
 		Element edges = element.element("edges");
-		this.getEdgeContainer().deserialize(edges);		
-		
+		this.getEdgeContainer().deserialize(edges);
 	}
 	
 	/**
