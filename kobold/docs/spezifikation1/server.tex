@@ -1,9 +1,9 @@
 \chapter{Der Kobold Server}
 
 Der Kobold Server koordiniert die Arbeit der Benutzer von Kobold. Ein Benutzer ist dabei jede Person
-mit einem Benutzernamen und dem dazu passenden Passwort. Diese sind dadurch bei ihrer Arbeit nicht an einen
-festen Rechner gebunden, sondern können von jedem Rechner mit einem Kobold Client über den Kobold Server an 
-ihre Daten gelangen und diese bearbeiten. Ausserdem ermöglicht
+mit einem Benutzernamen und dem dazu passenden Passwort. Dieser ist dadurch bei seiner Arbeit nicht an einen
+festen Rechner gebunden, sondern kann von jedem Rechner mit einem Kobold Client über den Kobold Server an 
+seine Daten gelangen und diese bearbeiten. Ausserdem ermöglicht
 der Server eine Client-zu-Client-Kommunikation über eine Nachrichten-Queue, welche
 in regelmässigen Abständen von den Clients abgefragt wird (Request/Response).\par
 
@@ -34,7 +34,7 @@ Für jedes Produkt und jede Produktlinie in dieser Liste wird außerdem noch eine 
 Repositories angehängt. 
 Ist das Element ein Produkt, so werden auch die Daten der dazugehörigen Produktlinie erfasst.\par
 
-Für ein Repository werden folgende Daten gespeichert:
+Für ein Repository werden dabei folgende Daten gespeichert:
 \begin{itemize}
 \item Pfad
 \item Passwort
@@ -75,7 +75,8 @@ In der XML-Struktur werden hierbei die folgenden Elemente persistiert:
 
 \section{Nachrichten-Queue}
 
-Der Kobold Server bildet für jeden Kobold-Benutzer eine Nachrichten-Queue. Werden Nachrichten oder Workflow-Objekte an einen Benutzer geschickt, so werden dieser in der Nachrichten-Queue in Form einer Warteschlange 
+Der Kobold Server bildet für jeden Kobold-Benutzer eine Nachrichten-Queue. Werden Nachrichten oder 
+Workflow-Objekte an einen Benutzer geschickt, so werden diese in der Nachrichten-Queue 
 gespeichert und beim nächsten Login des Benutzers an den zuständigen Client weitergeleitet.
 Die vom Server angebotene Nachrichten-Queue ist zustandsbehaftet, d.h. nach einem
 Stromausfall oder anderen unvorhersehbaren Ereignissen ist die Nachrichten-Queue
@@ -101,4 +102,4 @@ Workflow-Objekt zusammengefügt (zum Beispiel eine Reihe von Anweisungen). Ein Wo
 eine Art XML-Struktur, die einen Titel und eine Liste aller Regelresultate 
 besitzt. Diese Workflow-Objekt wird 
 dann auf die Message-Queues der Clients gelegt, für die das Workflow-Objekt relevant ist. \par
-Siehe auch Kapitel 3 - Drools.
+Siehe auch Kapitel 4 - Drools.

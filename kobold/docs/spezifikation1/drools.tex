@@ -5,8 +5,8 @@ Entwicklungsprozesses unterstützt. Dieser führt Konsistenzprüfungen durch, die i
 automatisch Workflows  anstoßen, um die Inkonsistenz zu beheben.
 Zur Realisierung des Workflow-Mechanismus wird die Rule Engine Drools\footnote{http://www.drools.org} 
 verwendet.\par
-Dafür wird eine Regelbasis in XML für drool erzeugt. Diese besteht aus einer Menge aller Regelmengen und wird
-sich auf dem Server befinden. Eine Regelmenge wiederum besteht aus Regeln. Eine solche Regel gliedert 
+Dafür wird eine Regelbasis in XML für drool erzeugt. Diese besteht aus einer Menge aller Regelmengen und 
+befindet sich auf dem Server. Eine Regelmenge wiederum besteht aus Regeln. Eine solche Regel gliedert 
 sich in drei Teile: Parameter, Bedingung und Konsequenz. Dabei bilden die Parameter eventuell benötigte 
 Parameter für die Regel. Die Bedingung überprüft, ob die Regel angewendet wird oder nicht. Die Konsequenz
 beeinhaltet die Aktionen, die durchgeführt werden, falls die Bedingung erfüllt ist.\par
@@ -35,7 +35,7 @@ informiert.\newline
 Kobold wird in dieser Iteration eine Anfangsregelbasis zur Verfügung stellen, die vom Anwender jederzeit erweitert werden 
 kann. Er muss dabei eine neue Regel erstellen und sie der Regelbasis hinzufügen. Diese Regeln müssen dann 
 nicht unbedingt zum 
-Workflow-Objekt hinzugefügt werden sondern können in ihrem Konsequenzteil auch andere Aktionen ausführen. 
-Dies bleibt dem Anwender überlassen. Zur Erstellung einer neuen Regel wird ihm außerden ein Editor 
+Workflow-Objekt hinzugefügt werden, sondern können in ihrer Konsequenz auch andere Aktionen ausführen. 
+Dies bleibt dem Anwender überlassen. Zur Erstellung einer neuen Regel wird ihm außerdem ein Editor 
 zur Verfügung stehen, 
 der in einer der kommenden Iterationen entstehen wird. 
