@@ -43,6 +43,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.core.TeamException;
@@ -269,8 +270,16 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			progress.beginTask("import working", 2);
 			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 			// @  FIXME this needs to be changes to the given skript not the usual!
-			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
+			connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 			initConnection(connection,resources);
+			String tempString[] = new String[argString.length+1];
+			for (int i = 0; i < argString.length; i++) {
+				tempString[i] = argString[i];
+			}
+			InputDialog messageInput = new InputDialog(new Shell(),"Please enter a message for the repository","VCM Message :",null, null);
+			messageInput.open();
+			tempString[tempString.length-1] = messageInput.getValue(); 
+			
 			connection.open(progress);
 			connection.close();	
 			progress.done();
@@ -292,7 +301,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			connection.setSkriptName(skriptPath.toOSString().concat(CHECKOUT).concat(skriptExtension));
 			initConnection(connection,resources);
 			connection.open(progress, argString);
-//			connection.close();	
+			connection.close();	
 			progress.done();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -309,7 +318,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 			connection.setSkriptName(skriptPath.toOSString().concat(COMMIT).concat(skriptExtension));
 			initConnection(connection,resources);
-			connection.open(progress);
+			connection.open(progress,argString);
 			connection.close();	
 			progress.done();
 		} catch (Exception e) {
@@ -396,10 +405,55 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	}
 	
 	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#add(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
+	 */
+	public void add(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
+		try {
+			progress = KoboldPolicy.monitorFor(progress);
+			progress.beginTask("checkout working", 2);
+			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
+			initConnection(connection,assets);
+			connection.setSkriptName(skriptPath.toOSString().concat(ADD).concat(skriptExtension));
+			initConnection(connection,assets);
+			connection.open(progress, argString);
+			connection.close();	
+			progress.done();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#preAdd(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
+	 */
+	public void preAdd(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
+		// TODO Auto-generated method stub
+		
+	}
+	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postAdd(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
+	 */
+	public void postAdd(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#update(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void update(AbstractAsset[] resources, int depth, IProgressMonitor progress) throws TeamException {
-		// TODO Auto-generated method stub
+		try {
+			progress = KoboldPolicy.monitorFor(progress);
+			progress.beginTask("update working", 2);
+			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
+			initConnection(connection,resources);
+			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
+			initConnection(connection,resources);
+			connection.open(progress, argString);
+			connection.close();	
+			progress.done();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	/* (non-Javadoc)
@@ -480,4 +534,5 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		// TODO NOT IN USE / IN ITERATION I
 		return false;
 	}
+
 }

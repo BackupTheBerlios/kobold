@@ -74,19 +74,13 @@ public class AddAction extends KoboldAction {
 				
 				
 				//update FD(s)
-				StatusUpdater statUp = new StatusUpdater ();
-
-				String[] command = {"perl", "/home/rendgeor/workspace/kobold.client.vcm/scripts/"+ 
-						"stats.pl", "/home/rendgeor/workspace/kobold.client.vcm/"};
-				
-				statUp.processConnection(command, var);
-
-		////		
-				
-//				((Component)testAssets[0])
-
-				
-				repoAccess.preCheckout(testAssets,IResource.DEPTH_INFINITE,null,true);
+//				StatusUpdater statUp = new StatusUpdater ();
+//
+//				String[] command = {"perl", "/home/rendgeor/workspace/kobold.client.vcm/scripts/"+ 
+//						"stats.pl", "/home/rendgeor/workspace/kobold.client.vcm/"};
+//				
+//				statUp.processConnection(command, var);
+				repoAccess.add(testAssets,IResource.DEPTH_INFINITE,null,true);
 			}
 			catch (Exception e)
 			{

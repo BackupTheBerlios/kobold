@@ -70,21 +70,21 @@ public class CommitAction extends KoboldAction {
 			{
 				// TODO: handle exception
 			}
-			Shell shell = new Shell();
-			MessageDialog.openInformation(
-				shell,
-				"Kobold VCM Plug-in",
-				"precommit (precheckin) was executed.");
-//			repoAccess.checkin();
-			MessageDialog.openInformation(
-					shell,
-					"Kobold VCM Plug-in",
-					"commit was executed.");
-//			repoAccess.postcheckin();
-			MessageDialog.openInformation(
-					shell,
-					"Kobold VCM Plug-in",
-					"postcommit was executed.");
+//			Shell shell = new Shell();
+//			MessageDialog.openInformation(
+//				shell,
+//				"Kobold VCM Plug-in",
+//				"precommit (precheckin) was executed.");
+////			repoAccess.checkin();
+//			MessageDialog.openInformation(
+//					shell,
+//					"Kobold VCM Plug-in",
+//					"commit was executed.");
+////			repoAccess.postcheckin();
+//			MessageDialog.openInformation(
+//					shell,
+//					"Kobold VCM Plug-in",
+//					"postcommit was executed.");
 		}
 //			run(new WorkspaceModifyOperation() {
 //				public void execute(IProgressMonitor monitor) throws InterruptedException {

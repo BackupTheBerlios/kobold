@@ -30,6 +30,7 @@ package kobold.client.vcm.communication;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Iterator;
 
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.common.io.RepositoryDescriptor;
@@ -95,6 +96,7 @@ public class ScriptServerConnection implements IServerConnection
 	
 	// The two Threads created for error and input reading
 	private Thread errorThread, inputThread;
+	public static final char NEWLINE= 0xA;
 	
 	
 	
@@ -238,29 +240,27 @@ public class ScriptServerConnection implements IServerConnection
 		try {
 			process = Util.createProcess(actualCommand, monitor);
 
-//			inputStream = new PollingInputStream(new TimeoutInputStream(process.getInputStream(),
-//					32768 /*16384 bufferSize*/, -1 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
-//			outputStream = new PollingOutputStream(new TimeoutOutputStream(process.getOutputStream(),
-//					16384 /*8192buffersize*/, 4000 /*writeTimeout*/, 4000 /*closeTimeout*/), 60, monitor);
-//			// XXX need to do something more useful with stderr
-//			// discard the input to prevent the process from hanging due to a full pipe
-//	
+			inputStream = new PollingInputStream(new TimeoutInputStream(process.getInputStream(),
+					32768 /*16384 bufferSize*/, -1 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
+			outputStream = new PollingOutputStream(new TimeoutOutputStream(process.getOutputStream(),
+					16384 /*8192buffersize*/, 4000 /*writeTimeout*/, 4000 /*closeTimeout*/), 60, monitor);
+			// XXX need to do something more useful with stderr
+			// discard the input to prevent the process from hanging due to a full pipe
+	
 			MessageConsoleStream stream1,stream2 = null;
 			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
 				new IConsole[] {console});
-			stream1 = console.newMessageStream();
 			stream2 = console.newMessageStream();
 			connected = true;
 			errorThread = new InputThreadToConsole(process.getErrorStream(), stream2);
 //			errorThread.
-			Thread inputThread = new InputThreadToConsole(process.getInputStream(), stream1);
+			inputThread = new InputThreadToConsole(process.getInputStream(), stream2);
 			
 //			readInpuStreamsToConsole();
-			errorThread.run();
-			
-			inputThread.run();
 
+			errorThread.run();
+			inputThread.run();
 //			readInpuStreamsToConsole();
 		} finally {
 			if (! connected) {
@@ -292,8 +292,24 @@ public class ScriptServerConnection implements IServerConnection
 			{
 				outputStream = null;
 				if (process != null) process.destroy();
-//				if (errorThread != null) errorThread = null;
-//				if (inputThread != null) inputThread = null;
+				if (errorThread != null) 
+					{
+					while (errorThread.isAlive()) {
+						System.out.println("lal");
+						
+					}
+					errorThread.stop();
+					errorThread = null;
+					}
+				if (inputThread != null) 
+				{
+				while (inputThread.isAlive()) {
+					System.out.println("lal");
+					
+				}
+				inputThread.stop();
+				inputThread = null;
+				}
 			}
 		} 
 	}
@@ -380,30 +396,32 @@ public class ScriptServerConnection implements IServerConnection
 			
 				try {
 					if (in != null) {
-					int r,index = 0;
+					int r = 0,index = 0;
 //					sleep(2500);
 //					System.out.println(in.toString()+" :"+in.available());(in.available() != 0) && 
-					while ((r = in.read()) != -1 ) {
-						readLineBuffer = append(readLineBuffer, index++, (byte) r);
-//						try {
-//							sleep(1);
-//							
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
+					while(r != -1 )
+					{
+						while ((in != null && (r = in.read()) != -1 ) ) {
+//							if(r == NEWLINE) break;
+							readLineBuffer = append(readLineBuffer, index++, (byte) r);
+						}
+
+						
 					}
-//					stream.getConsole().
 					if(returnString != null)
 						returnString = new String(readLineBuffer, 0, index);
 					else{
 						stream.print(new String(readLineBuffer, 0, index));
 					}
+//					stream.getConsole().
+	
 				} 
 				} catch (IOException e) {
+					e.printStackTrace();
 			    } finally {
 					try {
                         in.close();
-                    } catch (IOException e1) {}
+                    } catch (IOException e1) {e1.printStackTrace();}
 				}
 		}
 		private static byte[] append(byte[] buffer, int index, byte b) {

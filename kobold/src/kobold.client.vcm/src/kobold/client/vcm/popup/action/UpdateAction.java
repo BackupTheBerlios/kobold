@@ -51,27 +51,27 @@ public class UpdateAction extends KoboldAction {
 		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 		try
 		{
-			repoAccess.get(currentSelection,IResource.DEPTH_INFINITE,null);
+			repoAccess.update(testAssets,IResource.DEPTH_INFINITE,null);
 		}
 		catch (Exception e)
 		{
 			// TODO: handle exception
 		}
-		Shell shell = new Shell();
-		MessageDialog.openInformation(
-			shell,
-			"Kobold VCM Plug-in",
-			"preupdate (precheckout) was executed.");
-//		repoAccess.checkout();
-		MessageDialog.openInformation(
-				shell,
-				"Kobold VCM Plug-in",
-				"update (checkout) was executed.");
-//		repoAccess.postcheckout();
-		MessageDialog.openInformation(
-				shell,
-				"Kobold VCM Plug-in",
-				"postupdate (postcheckout) was executed.");
+//		Shell shell = new Shell();
+//		MessageDialog.openInformation(
+//			shell,
+//			"Kobold VCM Plug-in",
+//			"preupdate (precheckout) was executed.");
+////		repoAccess.checkout();
+//		MessageDialog.openInformation(
+//				shell,
+//				"Kobold VCM Plug-in",
+//				"update (checkout) was executed.");
+////		repoAccess.postcheckout();
+//		MessageDialog.openInformation(
+//				shell,
+//				"Kobold VCM Plug-in",
+//				"postupdate (postcheckout) was executed.");
 	}
 
 }
