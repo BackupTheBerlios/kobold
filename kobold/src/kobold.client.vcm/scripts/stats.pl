@@ -29,14 +29,17 @@ my %data;
 #the path to start to parse
 my $currDir = $ARGV[0];
 
+my $root =shift; # shifted at next argument in @_
+my $rootLocalDirStructure;
+
+my $debug = 0;
+
 sub read_entries {
 
-    my $root = shift; # shifted at next argument in @_
+    if ($debug eq "1") {print "ROOT $root\n";}
 
     my $filename = "$root/CVS/Entries";
     my @temp;
-
-
 
     #empty directories with no included data aren't
     #checked out! --> don't display a message
@@ -86,7 +89,9 @@ sub read_entries {
 
                 #absolut path:
                 #    $data {"$root/$path"} = "$rev\t$date\t";
-                    $data {"$path"} = "$rev\t$date\t$tag";
+                $data {"$rootLocalDirStructure/$path"} = "$rev\t$date\t$tag";
+
+
             }
         }
         
@@ -103,6 +108,7 @@ sub read_entries {
                 #push (@temp, "$root/$path");
 
                 #local path:
+                if ($debug eq "1") {print "TEMP_STORE $path\n";}
                 push (@temp, "$path");
                 #doesn't work recursive: read_entries("$root/$path");
             }
@@ -110,6 +116,12 @@ sub read_entries {
             
     }
     close (FILE);
+    #my $currDirActual = $currDir;
+    my $currDirActual = $root;
+    my $localDirStructure = $rootLocalDirStructure;
+
+    if ($debug eq "1") {print "NEW currDirActual, $root\n";}
+
 
     #now do all subdirectories
     #print "ALLE: @temp\n";
@@ -117,19 +129,42 @@ sub read_entries {
     {
         #print the directory name
         #directories: no need to store here!
-        #!print "$array_element\n";
+        if ($debug eq "1") {print "ARRAY_EL $array_element\n";}
 
+        my $currDirActualOld = $currDirActual;
+        $currDirActual = "$currDirActual/$array_element";
+
+        my $localDirStructureOld = "$localDirStructure";
+        $localDirStructure = "$localDirStructure/$array_element";
+
+        if ($debug eq "1") {print "CURR_DIR_ACT $currDirActual\n";}
+        chdir "$currDirActual";# or die "Can't cd to $currDirActual: $!\n";
+        $root = $currDirActual;
+        $rootLocalDirStructure = $localDirStructure;
 
         #process all directories stored in @temp
-        read_entries ($array_element);
+
+        if ($debug eq "1") {print "LOCAL_PATH: $localDirStructure\n";}
+
+
+        read_entries ($currDirActual);
+        $currDirActual = $currDirActualOld;
+        $localDirStructure = $localDirStructureOld;
+
     }
-
+    #array finished!   
+    #$currDirActual = $currDir;
+    if ($debug eq "1") {print "TEMP_ARRAY END, $currDirActual, $localDirStructure\n";}
 }
+############################################
 
+
+#scan all files which aren't version controlled
 sub read_phys {
         ########ALL physical files and directories
         sub show{
             
+            if ($debug eq "1") {print "SHOW_BEGIN\n";}
             #to avoid that the currDir is printed too!
             my $myFilename = "$File::Find::name";
             if ($myFilename ne "$currDir")
@@ -142,6 +177,8 @@ sub read_phys {
 
                 my $newFile = "$File::Find::name";
                 my $currDirLength = length ($currDir) + 1;
+                
+                #DEBUG:
                 #print ("YYYY l= $currDirLength");
                 #print ("YYYY newFile= $newFile\n");
 
@@ -182,15 +219,16 @@ sub read_phys {
 #my $currDir = cwd;#`pwd`; 
 #chomp $currDir;
 
-if ($#ARGV == 0)
+if ($#ARGV == -1)
 {
     #set the directory to work into
     #print "HALLO, working in: $currDir";
     chdir "$currDir" or die "Can't cd to $currDir: $!\n";
 
-    my $root = shift; # shifted at next argument in @_
+    #my $root = shift; # shifted at next argument in @_
     #print "beginning with: $currDir\n";
-    read_phys;
+    #!!!!!!!!TEST!!!!!read_phys;
+
     read_entries($currDir);
 
 
