@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.5 2004/08/04 18:28:39 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.6 2004/08/05 11:00:20 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -29,14 +29,11 @@ package kobold.client.plam.editor.dialog;
 import java.io.File;
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Iterator;
 
+import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
-import kobold.client.plam.model.AbstractRootAsset;
-import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.Release;
-import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -48,8 +45,10 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -61,10 +60,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
@@ -83,8 +79,8 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     private Text resource;
     private Text name;
     private Text description;
-    private List list;
-    
+    private TableViewer viewer;
+    private Table maintainer;
     /**
      * @param parentShell
      */
@@ -130,8 +126,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		label = new Label(panel, SWT.NONE);
 		label.setText("Resource:");
     
-		resource = new Text(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP
-		                              | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
+		resource = new Text(panel, SWT.BORDER | SWT.LEAD);
 		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
 			| GridData.FILL_HORIZONTAL);
 		resource.setLayoutData(gd);
@@ -267,13 +262,36 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 	    Label label = new Label(composite, SWT.NONE);
 	    label.setText("Maintainer:");
 	
-	    list = new List(composite, SWT.BORDER | SWT.LEAD | SWT.WRAP 
-	                           | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
-		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
-				| GridData.FILL_HORIZONTAL);
-		gd.heightHint = 100;
-		list.setLayoutData(gd);
-	
+		maintainer = new Table(composite, SWT.BORDER | SWT.LEAD | SWT.WRAP 
+				   | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
+		maintainer.setLinesVisible(false);
+        TableColumn colUserNames = new TableColumn(maintainer, SWT.NONE);
+        colUserNames.setText("User");
+        TableLayout tableLayout = new TableLayout();
+        maintainer.setLayout(tableLayout);
+        tableLayout.addColumnData(new ColumnWeightData(100));
+        colUserNames.pack();
+
+        viewer = new TableViewer(maintainer);
+        //allUserViewer.getTable().getLayoutData().
+        viewer.setLabelProvider(new LabelProvider() {
+        private Image image;
+        public String getText(Object element) {
+        User user = (User)element;     
+        return user.getUsername() + " (" + user.getFullname() + ")";
+        }
+        
+        public Image getImage(Object element) {
+        if (image == null) {
+        	image = KoboldPLAMPlugin.getImageDescriptor("icons/user.gif").createImage();
+        }
+        return image;
+        }
+        });
+        GridData gd = new GridData(GridData.GRAB_HORIZONTAL
+        				   | GridData.FILL_HORIZONTAL);
+        gd.heightHint = 100;
+        maintainer.setLayoutData(gd);
 		refreshMaintainers(maintainedAsset);
 		
 		Button edit = new Button(composite, SWT.NONE);
@@ -289,13 +307,8 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     }
     
     private void refreshMaintainers(AbstractMaintainedAsset asset) {
-        list.removeAll();
-		for (Iterator iterator = asset.getMaintainers().iterator();
-			 iterator.hasNext(); )
-		{
-		    User user = (User) iterator.next();
-		    list.add(user.getFullname());
-		}
+        viewer.getTable().removeAll();
+        viewer.add(asset.getMaintainers().toArray());
     }
 
     protected void okPressed()

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EditUserManager.java,v 1.3 2004/08/05 10:19:05 grosseml Exp $
+ * $Id: UserManagerDialog.java,v 1.1 2004/08/05 11:00:20 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -32,24 +32,30 @@ import java.util.Map;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.model.AbstractMaintainedAsset;
+import kobold.client.plam.useractions.UINewUser;
 import kobold.common.data.User;
-import kobold.client.plam.useractions.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.TableLayout;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 
 
 /**
@@ -57,19 +63,19 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * @author garbeam
  */
-public class EditUserManager extends TitleAreaDialog
+public class UserManagerDialog extends TitleAreaDialog
 {
-    public static final Log logger = LogFactory.getLog(EditUserManager.class);
+    public static final Log logger = LogFactory.getLog(UserManagerDialog.class);
  
     private AbstractMaintainedAsset asset;
-    private List maintainer;
-    private List allUser;
+    private TableViewer viewer;
+    private Table user;
     private Map userPool;
     
     /**
      * @param parentShell
      */
-    public EditUserManager(Shell parentShell)
+    public UserManagerDialog(Shell parentShell)
     {
         super(parentShell);
         KoboldProject kp = KoboldPLAMPlugin.getCurrentKoboldProject();
@@ -103,36 +109,53 @@ public class EditUserManager extends TitleAreaDialog
 		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
 		panel.setFont(parent.getFont());
 		
-	    
+		user = new Table(parent, SWT.BORDER | SWT.LEAD | SWT.WRAP 
+				   | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
+		user.setLinesVisible(false);
+        TableColumn colUserNames = new TableColumn(user, SWT.NONE);
+        colUserNames.setText("User");
+        TableLayout tableLayout = new TableLayout();
+        user.setLayout(tableLayout);
+        tableLayout.addColumnData(new ColumnWeightData(100));
+        colUserNames.pack();
+
+        viewer = new TableViewer(user);
+        //allUserViewer.getTable().getLayoutData().
+        viewer.setLabelProvider(new LabelProvider() {
+            private Image image;
+            public String getText(Object element) {
+            User user = (User)element;     
+            return user.getUsername() + " (" + user.getFullname() + ")";
+            }
+            
+            public Image getImage(Object element) {
+            if (image == null) {
+            	image = KoboldPLAMPlugin.getImageDescriptor("icons/user.gif").createImage();
+            }
+            return image;
+            }
+            });
+        GridData gd = new GridData(GridData.GRAB_HORIZONTAL
+        				   | GridData.FILL_HORIZONTAL);
+        gd.heightHint = 100;
+        user.setLayoutData(gd);
+		refreshUserList();	    
+		
 		Button newUser = new Button(panel, SWT.NONE);
 		newUser.setText("&Create new user");
 		newUser.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				UINewUser nU = new UINewUser(parent.getShell()); 					
 				nU.open();
-				refillList(panel);
+				refreshUserList();
 			}
 		});
 
     }
     
-    private void refillList(Composite panel){
-    	allUser.removeAll();
-	    allUser = new List(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP 
-				  | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
-	    GridData gd = new GridData(GridData.GRAB_HORIZONTAL
-	    			| GridData.FILL_HORIZONTAL);
-	    gd.heightHint = 50;
-	    allUser.setLayoutData(gd);
-
-	    if (userPool != null) {
-
-	    	for (Iterator iterator = userPool.values().iterator();
-	    		iterator.hasNext(); )
-	    	{
-	    		allUser.add(((User)iterator.next()).getUsername());
-	    	}
-	    }
+    private void refreshUserList(){
+        viewer.getTable().removeAll();
+        viewer.add(userPool.values().toArray());
     }
  
     protected void okPressed()

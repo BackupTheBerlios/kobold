@@ -21,13 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewUserAction.java,v 1.1 2004/08/04 20:53:08 vanto Exp $
+ * $Id: NewUserAction.java,v 1.2 2004/08/05 11:00:20 garbeam Exp $
  *
  */
 package kobold.client.plam.action;
 
 import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.editor.dialog.EditUserManager;
+import kobold.client.plam.editor.dialog.UserManagerDialog;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Shell;
@@ -51,7 +51,7 @@ public class NewUserAction extends Action
     
     public void run()
     {
-		EditUserManager eum = new EditUserManager(shell);
+		UserManagerDialog eum = new UserManagerDialog(shell);
 		eum.open();
     }
 }
