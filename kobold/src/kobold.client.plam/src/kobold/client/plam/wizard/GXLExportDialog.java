@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.20 2004/08/28 11:31:10 vanto Exp $
+ * $Id: GXLExportDialog.java,v 1.21 2004/09/22 15:35:46 martinplies Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -184,7 +184,10 @@ public class GXLExportDialog extends TitleAreaDialog {
                     GXLExportDialog.this.setMessage(null, IMessageProvider.NONE);//delete old error Messages
                     FileDialog fd = new FileDialog(GXLExportDialog.this
                             .getShell(), SWT.SAVE);
-                    GXLExportDialog.this.textGxlFile.setText(fd.open());
+                    String path = fd.open();
+                    if (path != null){
+                       GXLExportDialog.this.textGxlFile.setText(path);
+                    }
                     GXLExportDialog.this.textGxlFile.redraw();
                 }
             });
