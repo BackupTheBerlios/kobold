@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.9 2004/06/06 15:51:32 bettina Exp $
+ * $Id: WorkflowView.java,v 1.10 2004/06/22 14:12:07 bettina Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -231,8 +231,8 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 				msg.setReceiver("-");
 				msg.setSubject("-");
 				msg.setMessageText("Enter the data for your mail:");
-				WorkflowItem recipient = new WorkflowItem("", "Recipient: ", WorkflowItem.TEXT);
-				WorkflowItem subject = new WorkflowItem ("", "Subject: ", WorkflowItem.TEXT);
+				WorkflowItem recipient = new WorkflowItem("recipient", "Recipient: ", WorkflowItem.TEXT);
+				WorkflowItem subject = new WorkflowItem ("subject", "Subject: ", WorkflowItem.TEXT);
 				msg.addWorkflowControl(recipient);
 				msg.addWorkflowControl(subject);
 				WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
@@ -255,9 +255,9 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 				msg.setReceiver("PE");
 				msg.setSubject("Core Group Suggestion");
 				msg.setMessageText("Enter the data of the file you want to suggest:");
-				WorkflowItem file = new WorkflowItem("", "File: ", WorkflowItem.TEXT);
-				WorkflowItem path = new WorkflowItem ("", "Path: ", WorkflowItem.TEXT);
-				WorkflowItem recipient = new WorkflowItem("", "Recipient (PE): ", WorkflowItem.TEXT);
+				WorkflowItem file = new WorkflowItem("file", "File: ", WorkflowItem.TEXT);
+				WorkflowItem path = new WorkflowItem ("path", "Path: ", WorkflowItem.TEXT);
+				WorkflowItem recipient = new WorkflowItem("recipient", "Recipient (PE): ", WorkflowItem.TEXT);
 				msg.addWorkflowControl(file);
 				msg.addWorkflowControl(path);
 				msg.addWorkflowControl(recipient);

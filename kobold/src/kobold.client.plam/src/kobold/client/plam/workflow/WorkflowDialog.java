@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.15 2004/06/22 10:21:25 bettina Exp $
+ * $Id: WorkflowDialog.java,v 1.16 2004/06/22 14:10:42 bettina Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -122,10 +122,10 @@ public class WorkflowDialog extends Dialog {
 		   wm.setComment(comment.getText());
 		   try {
 		   	UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-		   	msg.setSender(user.getUserName());
+		   	wm.setSender(user.getUserName());
 		   	KoboldPLAMPlugin.getCurrentClient().sendMessage(user, wm);
 		   } catch (Exception e) {
-			msg.setSender("unknown");
+			wm.setSender("unknown");
 			KoboldPLAMPlugin.getCurrentClient().sendMessage(null, wm);
 		   }
 		}
