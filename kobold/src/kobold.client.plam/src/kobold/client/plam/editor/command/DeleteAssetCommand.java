@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.10 2004/09/20 15:45:34 vanto Exp $
+ * $Id: DeleteAssetCommand.java,v 1.11 2004/09/20 15:55:47 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -68,7 +68,7 @@ public class DeleteAssetCommand extends Command
     private int index = -1;
     private List edges = new ArrayList();
     private List depAssets = new ArrayList();
-    private int action;
+    private int action = 0;
  //   private AbstractAsset selection;
     AbstractAsset parent;
     
@@ -257,6 +257,12 @@ public class DeleteAssetCommand extends Command
         Iterator it = assetList.iterator();
         while (it.hasNext()) {
             makeAssetDeprecated((AbstractAsset)it.next());
+        }
+    }
+    public void redo()
+    {
+        if (action != 0) {
+            execute(action);
         }
     }
 }
