@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.11 2004/06/25 18:05:30 bettina Exp $
+ * $Id: WorkflowView.java,v 1.12 2004/06/26 17:06:24 bettina Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -224,19 +224,19 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 				try {
 					UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
 					msg.setSender(user.getUserName());
+					msg.setStep(1);
+					msg.setReceiver("-");
+					msg.setSubject("-");
+					msg.setMessageText("");
+					WorkflowItem recipient = new WorkflowItem("recipient", "Recipient: ", WorkflowItem.TEXT);
+					WorkflowItem subject = new WorkflowItem ("subject", "Subject: ", WorkflowItem.TEXT);
+					msg.addWorkflowControl(recipient);
+					msg.addWorkflowControl(subject);
+					WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
+					wfDialog.open();	
 				} catch (Exception e) {
-					msg.setSender("unknown");	
+					showMessage("A Project must be selected!");
 				}
-				msg.setStep(1);
-				msg.setReceiver("-");
-				msg.setSubject("-");
-				msg.setMessageText("");
-				WorkflowItem recipient = new WorkflowItem("recipient", "Recipient: ", WorkflowItem.TEXT);
-				WorkflowItem subject = new WorkflowItem ("subject", "Subject: ", WorkflowItem.TEXT);
-				msg.addWorkflowControl(recipient);
-				msg.addWorkflowControl(subject);
-				WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
-				wfDialog.open();	 
 			}
 		};
 		messageAction.setText("New mail");
@@ -246,22 +246,21 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 			public void run() {
 				WorkflowMessage msg = new WorkflowMessage("Core Group Suggestion");
 				try {
-					UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-					
-					msg.setSender(user.getUserName());
+					UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();					
+					msg.setSender(user.getUserName());	
+					msg.setStep(1);
+					msg.setReceiver("PE");
+					msg.setSubject("Core Group Suggestion");
+					msg.setMessageText("Enter the data of the file you want to suggest:");
+					WorkflowItem file = new WorkflowItem("file", "File: ", WorkflowItem.TEXT);
+					WorkflowItem component = new WorkflowItem ("component", "Component: ", WorkflowItem.TEXT);
+					msg.addWorkflowControl(file);
+					msg.addWorkflowControl(component);
+					WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
+					wfDialog.open();
 				} catch (Exception e) {
-					msg.setSender("unknown");
-				}	
-				msg.setStep(1);
-				msg.setReceiver("PE");
-				msg.setSubject("Core Group Suggestion");
-				msg.setMessageText("Enter the data of the file you want to suggest:");
-				WorkflowItem file = new WorkflowItem("file", "File: ", WorkflowItem.TEXT);
-				WorkflowItem component = new WorkflowItem ("component", "Component: ", WorkflowItem.TEXT);
-				msg.addWorkflowControl(file);
-				msg.addWorkflowControl(component);
-				WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
-				wfDialog.open();
+					showMessage("A Project must be selected!");
+				}
 			}
 		};
 		coreGroupAction.setText("Suggest file for core group");
