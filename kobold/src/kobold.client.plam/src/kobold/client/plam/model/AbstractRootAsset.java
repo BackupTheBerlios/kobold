@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.16 2004/08/06 03:42:22 martinplies Exp $
+ * $Id: AbstractRootAsset.java,v 1.17 2004/08/07 23:13:07 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -117,6 +117,7 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
         metaNodes.add(mn);
         mn.setParent(this);
         fireStructureChange(ID_META, mn);
+        this.addToPool(mn);
     }
     
     public void removeMetaNode(MetaNode mn)
