@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalNodeEditPolicyImpl.java,v 1.4 2004/07/27 16:23:11 vanto Exp $
+ * $Id: GraphicalNodeEditPolicyImpl.java,v 1.5 2004/08/03 14:53:05 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
@@ -40,7 +40,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * GraphicalNodeEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.4 2004/07/27 16:23:11 vanto Exp $
+ * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.5 2004/08/03 14:53:05 vanto Exp $
  */
 public class GraphicalNodeEditPolicyImpl
     extends org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy {
@@ -85,12 +85,6 @@ public class GraphicalNodeEditPolicyImpl
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
      */
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-    	
-        if (getHost() instanceof MetaEditPart) {
-            // dont allow edges from a meta node
-    	    return null;
-    	}
-        
         ConnectionCommand command = new ConnectionCommand();
     	command.setSourceNode((INode)getHost().getModel());
         command.setType((String)request.getNewObjectType());
