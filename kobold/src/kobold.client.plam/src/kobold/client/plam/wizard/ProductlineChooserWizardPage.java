@@ -21,13 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ProductlineChooserWizardPage.java,v 1.4 2004/08/03 16:46:36 garbeam Exp $
+ * $Id: ProductlineChooserWizardPage.java,v 1.5 2004/08/03 19:39:20 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;

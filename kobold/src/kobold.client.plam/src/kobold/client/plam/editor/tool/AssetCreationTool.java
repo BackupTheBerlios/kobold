@@ -21,75 +21,57 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldTemplateTransferDropTargetListener.java,v 1.2 2004/08/03 19:39:20 vanto Exp $
+ * $Id: AssetCreationTool.java,v 1.1 2004/08/03 19:39:20 vanto Exp $
  *
  */
-package kobold.client.plam.editor;
+package kobold.client.plam.editor.tool;
 
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
-import kobold.client.plam.editor.model.KoboldAssetFactory;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.MetaNode;
 
-import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.requests.CreationFactory;
+import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.jface.dialogs.Dialog;
 
 
 /**
- * This listener handles asset templates that are dropped onto
- * the logic editor.
+ * Provides an Asset Creation Tool for the Graphical Editor.
+ * 
+ * @author Tammo
  */
-public class KoboldTemplateTransferDropTargetListener extends
-        TemplateTransferDropTargetListener
+public class AssetCreationTool extends CreationTool
 {
 
     /**
-     * Creates a new TransferDropTargetListener with the given viewer.
-     * 
-     * @param viewer
+     * Constructs a new AbstractCreationTool with the given factory.
+     * @param aFactory the creation factory
      */
-    public KoboldTemplateTransferDropTargetListener(EditPartViewer viewer) 
-    {
-    	super(viewer);
+    public AssetCreationTool(CreationFactory factory) {
+    	super(factory);
     }
     
     /**
-     * Creates a new Asset using the KoboldAssetFactory.
+     * Creates the asset and shows the configuration dialog. If the dialog
+     * gets canceled, an undo will be performed to get the previous state.
      * 
-     * @see org.eclipse.gef.dnd.TemplateTransferDropTargetListener#getFactory(java.lang.Object)
+     * @see org.eclipse.gef.tools.CreationTool#performCreation(int)
      */
-    protected CreationFactory getFactory(Object template) 
+    protected void performCreation(int button)
     {
-    	if (template instanceof String) {
-    		return new KoboldAssetFactory((String)template);
-    	}
-    	return null;
-    }
-
-    /**
-     * Handles the asset drop and shows the asset dialog only if the command is valid.
-     * 
-     * For MetaNodes no dialog will be displayed. 
-     * 
-     * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#handleDrop()
-     */
-    protected void handleDrop()
-    {
-        super.handleDrop();
+        Command thisCommand = getCurrentCommand();
+        super.performCreation(button);
         
     	final Object model = getCreateRequest().getNewObject();
-    	if ((getCommand().canExecute()) && (model != null) && (model instanceof AbstractAsset) 
-    	        && !(model instanceof MetaNode)) {
-    	    AssetConfigurationDialog dlg = new AssetConfigurationDialog(getViewer().getControl().getShell(), (AbstractAsset)model);
-    	    CommandStack cs = getViewer().getEditDomain().getCommandStack();
+    	if ((model != null) && (model instanceof AbstractAsset) && !(model instanceof MetaNode)) {
+    	    AssetConfigurationDialog dlg = new AssetConfigurationDialog(getCurrentViewer().getControl().getShell(), (AbstractAsset)model);
+    	    CommandStack cs = getDomain().getCommandStack();
     	    if (dlg.open() == Dialog.CANCEL && cs.canUndo()
-    	            && cs.getUndoCommand() == getCommand()) {
+    	            && cs.getUndoCommand() == thisCommand) {
     	        cs.undo();
     	    }
     	}
-
     }
 }

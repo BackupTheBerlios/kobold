@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PaletteHelper.java,v 1.7 2004/07/23 23:25:15 vanto Exp $
+ * $Id: PaletteHelper.java,v 1.8 2004/08/03 19:39:20 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -31,13 +31,13 @@ import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.editor.model.KoboldAssetFactory;
+import kobold.client.plam.editor.tool.AssetCreationToolEntry;
 import kobold.client.plam.editor.tool.ProductComposerToolEntry;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.edges.Edge;
 
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
-import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteDrawer;
@@ -50,6 +50,8 @@ import org.eclipse.gef.palette.ToolEntry;
 
 
 /**
+ * Constructs the palette entries of the graphical editor.
+ * 
  * @author Tammo
  */
 public class PaletteHelper
@@ -110,18 +112,29 @@ public class PaletteHelper
 
     	List entries = new ArrayList();
     	
-       	CreationToolEntry combined = new CreationToolEntry(
+//       	CreationToolEntry combined = new CreationToolEntry(
+//    		"Component",
+//    		"Insert a new Component.",
+//    		new KoboldAssetFactory(AbstractAsset.COMPONENT),
+//    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
+//    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
+//    	);
+//    	entries.add(combined);
+
+       	AssetCreationToolEntry combined = new AssetCreationToolEntry(
     		"Component",
     		"Insert a new Component.",
+    		AbstractAsset.COMPONENT,
     		new KoboldAssetFactory(AbstractAsset.COMPONENT),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
     	);
     	entries.add(combined);
 
-    	combined = new CreationToolEntry(
+    	combined = new AssetCreationToolEntry(
     		"Variant",
     		"Insert a new Variant.",
+    		AbstractAsset.VARIANT,
     		new KoboldAssetFactory(AbstractAsset.VARIANT),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
@@ -130,9 +143,10 @@ public class PaletteHelper
     	
     	entries.add(new PaletteSeparator());
 
-    	combined = new CreationToolEntry(
+    	combined = new AssetCreationToolEntry(
     		"Release",
     		"Insert a new Release.",
+    		AbstractAsset.RELEASE,
     		new KoboldAssetFactory(AbstractAsset.RELEASE),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
@@ -141,18 +155,20 @@ public class PaletteHelper
     	
     	entries.add(new PaletteSeparator());
 
-    	combined = new CreationToolEntry(
+    	combined = new AssetCreationToolEntry(
     	    "AND Node",
-    		"Insert a new Release.",
+    		"Insert a new AND node.",
+    		MetaNode.AND,
     		new KoboldAssetFactory(MetaNode.AND),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
     	);
     	entries.add(combined);
 
-    	combined = new CreationToolEntry(
+    	combined = new AssetCreationToolEntry(
     	    "OR Node",
-    		"Insert a new Release.",
+    		"Insert a new OR node.",
+    		MetaNode.OR,
     		new KoboldAssetFactory(MetaNode.OR),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.6 2004/08/03 17:35:47 vanto Exp $
+ * $Id: KoboldProject.java,v 1.7 2004/08/03 19:39:20 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -383,7 +383,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
    		writer = new XMLWriter(out, OutputFormat.createPrettyPrint());
    		writer.write(viewModel.serialize());
    		writer.close();
-   		IFile vmFile = project.getFile("viewdata");
+   		IFile vmFile = project.getFile(".viewdata");
    		if (vmFile.exists()) {
    		    vmFile.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, monitor);
    		} else {

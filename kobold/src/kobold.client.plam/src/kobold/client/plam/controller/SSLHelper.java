@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SSLHelper.java,v 1.3 2004/08/03 15:07:19 garbeam Exp $
+ * $Id: SSLHelper.java,v 1.4 2004/08/03 19:39:20 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -37,7 +37,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-import java.security.cert.TrustAnchor;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 

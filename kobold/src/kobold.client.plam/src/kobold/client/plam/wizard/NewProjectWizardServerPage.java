@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.15 2004/08/03 15:07:19 garbeam Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.16 2004/08/03 19:39:20 vanto Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -53,7 +53,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * Wizard page to get the kobold server address 
+ * Wizard page to get the kobold server address. 
  * 
  * @author Tammo
  */
