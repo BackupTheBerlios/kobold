@@ -3,16 +3,19 @@
   <document>
 
     <properties>
-      <title>Seminars</title>
+      <title>Talks</title>
     </properties>
 
     <body>
 
-      <section name="Seminars">
+      <section name="Talks">
 
         <table>
           <tr>
             <th colspan="2">Dates and Topics</th>
+          </tr>
+          <tr>
+            <td colspan="2">&#x160;</td>
           </tr>
           <tr>
             <td>02.02.04</td><td>Eclipse SDK (Patrick Schneider) [SunTrec]<!-- <a href="ftp://ftp.berlios.de/pub/poa/seminar/programmierbare_logik.pdf">Presentation</a>--></td>
