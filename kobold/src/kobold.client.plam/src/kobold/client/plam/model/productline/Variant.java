@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.14 2004/07/28 17:28:41 memyselfandi Exp $
+ * $Id: Variant.java,v 1.15 2004/07/29 11:08:21 garbeam Exp $
  *
  */
 
@@ -48,6 +48,8 @@ import org.dom4j.Element;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 
 /**
  * @author garbeam
@@ -298,12 +300,12 @@ public class Variant extends AbstractAsset
 			asset = asset.getParent();
 	    }
 		if (asset.getType() == AbstractAsset.PRODUCT_LINE) {
-			path = asset.getParent().getName() + File.separator + "CAS" + File.separator + path;
+			path = asset.getName() + File.separator + "CAS" + File.separator + path;
 		}
 		else if (asset.getType() == AbstractAsset.PRODUCT) {
 			path = asset.getParent().getName() + File.separator + "PRODUCTS" + asset.getName() + File.separator + path;
 		}
-		System.out.println("***********MyPath: "+ path);
+ 		System.out.println("***********MyPath: "+ path);
 		return path;
 	}
 	
@@ -314,6 +316,12 @@ public class Variant extends AbstractAsset
 		
 		AbstractRootAsset root = getRoot();
 		IProject project = root.getProject().getIProject();
+		try {
+		    project.getFolder(myPath()).create(true,true,new NullProgressMonitor());
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+		
 		return project.getFolder(myPath());//"/jh/Component 1/Variant 2"); //root.getProject().getPath().toString() + File.separator + myPath());
 		
 	}
