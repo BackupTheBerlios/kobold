@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.17 2004/07/22 09:52:05 vanto Exp $
+ * $Id: PLAMProject.java,v 1.18 2004/07/25 21:26:34 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -272,5 +272,14 @@ public class PLAMProject
     public IFolder getPath() 
     {
         return project.getFolder("/");
+    }
+    
+    /**
+     * HACK:
+     * Returns base interface, because it's not implemented by PLAMProject.
+     * @return
+     */
+    public IProject getIProject() {
+    	return project;
     }
 }

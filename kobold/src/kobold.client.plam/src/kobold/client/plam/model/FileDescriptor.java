@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.8 2004/07/22 16:12:53 martinplies Exp $
+ * $Id: FileDescriptor.java,v 1.9 2004/07/25 21:26:34 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -36,8 +36,10 @@ import kobold.client.plam.model.edges.INode;
 import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
+import kobold.common.io.RepositoryDescriptor;
 
-import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IProject;
 
 /**
  * Base class for locating working copies.
@@ -221,10 +223,14 @@ public class FileDescriptor implements IFileDescriptorContainer, INode {
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
 	 */
-	public IFolder getLocalPath() {
-		//FIXME: calc localpath
-		//IFolder root = getRoot().getProject().getPath();
-	    return null;
+	public IResource getLocalPath() {
+		IProject project = getRoot().getProject().getIProject();
+		if (isDirectory) {
+			return project.getFolder(getParent().getLocalPath().toString() + filename);
+		}
+		else {
+			return project.getFile(getParent().getLocalPath().toString() + filename);
+		}
 	}
 
 	/**
@@ -252,10 +258,20 @@ public class FileDescriptor implements IFileDescriptorContainer, INode {
 		this.lastChange = lastChange;
 	}
 
-    /* (non-Javadoc)
+    /**
      * @see kobold.client.plam.model.edges.INode#getRoot()
      */
     public AbstractRootAsset getRoot() {
         return this.getParentAsset().getRoot();
     }
+
+	/**
+	 * @see kobold.client.plam.model.IFileDescriptorContainer#getRemoteRepository()
+	 */
+	public RepositoryDescriptor getRemoteRepository() {
+		RepositoryDescriptor repositoryDescriptor =
+			new RepositoryDescriptor(getParent().getRemoteRepository().serialize());
+		repositoryDescriptor.setPath(repositoryDescriptor.getPath() + filename);
+		return repositoryDescriptor;
+	}
 }

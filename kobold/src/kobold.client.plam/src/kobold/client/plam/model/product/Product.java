@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.5 2004/07/23 20:31:54 vanto Exp $
+ * $Id: Product.java,v 1.6 2004/07/25 21:26:34 garbeam Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -39,7 +39,6 @@ import java.util.Map;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IGXLExport;
-import kobold.common.io.RepositoryDescriptor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,7 +59,7 @@ public class Product extends AbstractRootAsset
 	private List productReleases = new ArrayList();
 	private List specificComponents = new ArrayList();
 	private List relatedComponents = new ArrayList();
-	private RepositoryDescriptor repositoryDescriptor = null;
+
 	private String localPath;
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#Product";
 		
@@ -248,25 +247,11 @@ public class Product extends AbstractRootAsset
 	/**
 	 * @return
 	 */
-	public RepositoryDescriptor getRepositoryDescriptor() {
-		return repositoryDescriptor;
-	}
-
-	/**
-	 * @return
-	 */
 	public List getSpecificComponents() {
 		return Collections.unmodifiableList(specificComponents);
 	}
 
 	/**
-	 * @param descriptor
-	 */
-	public void setRepositoryDescriptor(RepositoryDescriptor descriptor) {
-		repositoryDescriptor = descriptor;
-	}
-
-    /**
      * @return Returns the localPath.
      */
     public String getLocalPath()

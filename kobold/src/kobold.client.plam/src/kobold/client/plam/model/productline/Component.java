@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.3 2004/07/22 16:04:40 martinplies Exp $
+ * $Id: Component.java,v 1.4 2004/07/25 21:26:34 garbeam Exp $
  *
  */
 
@@ -47,8 +47,9 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.XMLWriter;
+
 /**
- * @author garbeam
+ * Represents a component of a productline.
  */
 public class Component extends AbstractMaintainedAsset 
 	                   implements IGXLExport, IVariantContainer {
@@ -189,7 +190,7 @@ public class Component extends AbstractMaintainedAsset
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see kobold.common.model.AbstractAsset#getGXLType()
 	 */
 	public String getGXLType() {

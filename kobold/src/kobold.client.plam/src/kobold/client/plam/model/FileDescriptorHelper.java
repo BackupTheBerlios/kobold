@@ -21,15 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptorHelper.java,v 1.2 2004/07/22 10:28:55 rendgeor Exp $
+ * $Id: FileDescriptorHelper.java,v 1.3 2004/07/25 21:26:34 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.util.Date;
-import java.util.Iterator;
-
-import kobold.client.plam.model.product.Product;
 
 import org.eclipse.core.runtime.IPath;
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.9 2004/07/22 16:04:50 martinplies Exp $
+ * $Id: Variant.java,v 1.10 2004/07/25 21:26:34 garbeam Exp $
  *
  */
 
@@ -34,15 +34,18 @@ import java.util.List;
 import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.Release;
+import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.Element;
-import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 
 /**
  * @author garbeam
@@ -276,12 +279,40 @@ public class Variant extends AbstractAsset
 	}
 
 	/**
+	 * Returns path structure of this variant.
+	 * Used by getLocalPath and getRemoteRepository methods.
+	 * Note that local path and remote repository path structures
+	 * have to be correlant.
+	 */
+	private String myPath() {
+		AbstractRootAsset root = getRoot();
+		AbstractAsset asset = this;
+		String path = "";
+		while (asset != root) {
+			path = asset.getName() + "/" + path;
+			asset = asset.getParent();
+	    }
+		return path;
+	}
+	
+	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
 	 */
-	public IFolder getLocalPath() {
-		//FIXME: calc localpath
-		//IFolder root = getRoot().getProject().getPath();
-	    return null;
+	public IResource getLocalPath() {
+		
+		AbstractRootAsset root = getRoot();
+		IProject project = root.getProject().getIProject();
+		return project.getFolder(root.getProject().getPath().toString() + myPath());
 	}
   
+	/**
+	 * @see kobold.client.plam.model.IFileDescriptorContainer#getRemoteRepository()
+	 */
+	public RepositoryDescriptor getRemoteRepository() {
+		Productline productline = (Productline)getRoot();
+		RepositoryDescriptor repositoryDescriptor =
+			new RepositoryDescriptor(productline.getRepositoryDescriptor().serialize());
+		repositoryDescriptor.setPath(repositoryDescriptor.getPath() + myPath());
+		return repositoryDescriptor;
+	}
 }

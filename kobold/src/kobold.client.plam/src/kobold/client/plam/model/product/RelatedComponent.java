@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.3 2004/07/11 12:38:34 vanto Exp $
+ * $Id: RelatedComponent.java,v 1.4 2004/07/25 21:26:34 garbeam Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -105,14 +105,14 @@ public class RelatedComponent extends ProductComponent
 		deserialize(element);
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
 	 */
 	public Map getGXLAttributes() {
 		return relatedComponent.getGXLAttributes();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
 	 */
 	public List getGXLChildren() {
@@ -122,12 +122,12 @@ public class RelatedComponent extends ProductComponent
 		return children;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see kobold.common.model.AbstractAsset#getGXLType()
 	 */
 	public String getGXLType() {
 		return relatedComponent.getGXLType();
 	}
 
-	
+
 }

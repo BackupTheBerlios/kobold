@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.4 2004/07/23 20:31:54 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.5 2004/07/25 21:26:34 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -38,6 +38,7 @@ import java.util.Map;
 import kobold.client.plam.PLAMProject;
 import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.edges.EdgeContainer;
+import kobold.common.io.RepositoryDescriptor;
 
 
 /**
@@ -54,6 +55,9 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     protected transient List vcmListeners = new LinkedList();
     private List metaNodes = new ArrayList();
     private EdgeContainer edgeConatainer = new EdgeContainer(this);
+    
+    // TODO: set the repository descriptor on instantiation!
+	private RepositoryDescriptor repositoryDescriptor = null;
     
     /**
      * Default constructor. 
@@ -148,5 +152,20 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     {
         return Collections.unmodifiableList(metaNodes);
     }
+
+	/**
+	 * @return
+	 */
+	public RepositoryDescriptor getRepositoryDescriptor() {
+		return repositoryDescriptor;
+	}
+
+	/**
+	 * @param descriptor
+	 */
+	public void setRepositoryDescriptor(RepositoryDescriptor descriptor) {
+		repositoryDescriptor = descriptor;
+	}
+    
 
 }

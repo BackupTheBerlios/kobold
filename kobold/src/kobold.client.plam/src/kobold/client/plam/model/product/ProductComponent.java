@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.4 2004/07/22 10:28:55 rendgeor Exp $
+ * $Id: ProductComponent.java,v 1.5 2004/07/25 21:26:34 garbeam Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -36,9 +36,12 @@ import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.IGXLExport;
+import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.Element;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 
 /**
  * @author rendgeor
@@ -156,12 +159,23 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 		return null;
 	}
 
-    
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
 	 */
-	public IFolder getLocalPath() {
-		//FIXME: calc localpath
-		return null;
+	public IResource getLocalPath() {
+		IProject project = getRoot().getProject().getIProject();
+		IFolder projectFolder = getRoot().getProject().getPath();
+		return project.getFolder(projectFolder.toString() + getName());
+	}
+	
+	/**
+	 * @see kobold.client.plam.model.IFileDescriptorContainer#getRemoteRepository()
+	 */
+	public RepositoryDescriptor getRemoteRepository() {
+		Product product = (Product)getRoot();
+		RepositoryDescriptor repositoryDescriptor =
+			new RepositoryDescriptor(product.getRepositoryDescriptor().serialize());
+		repositoryDescriptor.setPath(repositoryDescriptor.getPath() + getName());
+		return repositoryDescriptor;
 	}
 }

@@ -21,17 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IFileDescriptorContainer.java,v 1.7 2004/07/22 16:12:53 martinplies Exp $
+ * $Id: IFileDescriptorContainer.java,v 1.8 2004/07/25 21:26:34 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
 
-import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.runtime.IPath;
+import kobold.common.io.RepositoryDescriptor;
 
+import org.eclipse.core.resources.IResource;
 
 
 /**
@@ -67,15 +66,18 @@ public interface IFileDescriptorContainer
      */
     FileDescriptor getFileDescriptor (String name);
    
-
     
-  
+    /**
+     * Returns the remote repository descriptor.
+     * @return
+     */
+    RepositoryDescriptor getRemoteRepository();
     
     /**
      * Returns the local path of this.
      * @return
      */
-    IFolder getLocalPath();
+    IResource getLocalPath();
     
     /**
      * Retruns the root Asset.
