@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2004 Armin Cont, Anselm R. Garbe, Bettina Druckenmueller,
  *                    Martin Plies, Michael Grosse, Necati Aydin,
@@ -22,14 +21,16 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.36 2004/09/09 11:52:57 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.37 2004/09/19 22:32:35 vanto Exp $
  * 
  */
 package kobold.client.vcm.controller;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 import kobold.client.plam.model.FileDescriptorHelper;
 import kobold.client.plam.model.IFileDescriptorContainer;
@@ -46,6 +47,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
+import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.internal.progress.ProgressManager;
 
 /**
@@ -71,7 +75,8 @@ public class StatusUpdater {
 		final String[] command = {"perl", getScriptPath() + 
 							"stats.pl", tmpString.substring(0,tmpString.length()-1)};
 	    try {
-	        ProgressManager.getInstance().busyCursorWhile(new IRunnableWithProgress() {
+	        
+	        ProgressManager.getInstance().runInUI(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), new WorkspaceModifyDelegatingOperation(new IRunnableWithProgress() {
 	            public void run(IProgressMonitor monitor)
 	            throws InvocationTargetException, InterruptedException
 	            {
@@ -99,7 +104,7 @@ public class StatusUpdater {
 	                }
 	                
 	            }
-	        });
+	        }),IDEWorkbenchPlugin.getPluginWorkspace().getRoot());
 	    } catch (InvocationTargetException e) {
 	    } catch (InterruptedException e) {
 	        logger.info("FD Update cancelled.");
@@ -192,11 +197,12 @@ public class StatusUpdater {
 		            	if(localLine.hasMoreTokens())
 		            	{   		            
 		            		try {
-		            		    
-		            				java.util.StringTokenizer localDate = new java.util.StringTokenizer(localLine.nextToken(), ",");
-		            				date = new Date(Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
-		            						Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
-		            						Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()));
+	            				StringTokenizer localDate = new StringTokenizer(localLine.nextToken(), ",");
+	            				Calendar cal = Calendar.getInstance();
+	            				cal.set(Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
+	            				    Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
+	            				    Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()));
+	            				date = cal.getTime();
 		            		}
 		            		catch (NumberFormatException ex) {
 		            			System.out.println("Date parse exception");

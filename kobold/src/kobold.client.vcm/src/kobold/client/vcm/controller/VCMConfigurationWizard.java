@@ -50,7 +50,7 @@ public class VCMConfigurationWizard extends Wizard implements IConfigurationWiza
 	public boolean performFinish()  {
 		try {
 			if (currentProject != null) {
-				RepositoryProvider.map(currentProject,KoboldVCMPlugin.getPROVIDER_ID());
+				RepositoryProvider.map(currentProject,KoboldVCMPlugin.PROVIDER_ID);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

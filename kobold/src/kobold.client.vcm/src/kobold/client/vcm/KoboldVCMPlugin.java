@@ -30,21 +30,12 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.KoboldProject;
-import kobold.client.plam.listeners.IVCMActionListener;
-import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.AbstractRootAsset;
-import kobold.client.plam.model.IFileDescriptorContainer;
-import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
-import kobold.client.vcm.controller.StatusUpdater;
-import kobold.client.vcm.popup.action.AddAction;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectNature;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Plugin;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -62,6 +53,8 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	//The Provider ID as set in the plugin.xml
 	public static final String PROVIDER_ID = "kobold.client.vcm.controller.WrapperProvider";
 	
+	private MessageConsole console;
+	
 	/**
 	 * The constructor.
 	 */
@@ -75,6 +68,7 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 			resourceBundle = null;
 		}
 	}
+	
 	/**
 	 * This method is called upon plug-in activation
 	 */
@@ -124,16 +118,13 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	public ResourceBundle getResourceBundle() {
 		return resourceBundle;
 	}
-	/**
-	 * @return Returns the iD.
-	 */
-	public static String getID() {
-		return ID;
-	}
-	/**
-	 * @return Returns the PROVIDER_ID.
-	 */
-	public static String getPROVIDER_ID() {
-		return PROVIDER_ID;
+	
+	public MessageConsole getConsole() {
+	    if (console == null) {
+	        console = new MessageConsole("Kobold VCM", KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"));
+	        ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[] {console});
+	    }
+	    
+	    return console;
 	}
 }

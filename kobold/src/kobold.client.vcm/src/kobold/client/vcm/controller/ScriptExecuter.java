@@ -1,11 +1,32 @@
 /*
- * Created on 31.08.2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Copyright (c) 2004 Armin Cont, Anselm R. Garbe, Bettina Druckenmueller,
+ *                    Martin Plies, Michael Grosse, Necati Aydin,
+ *                    Oliver Rendgen, Patrick Schneider, Tammo van Lessen
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * $Id: ScriptExecuter.java,v 1.2 2004/09/19 22:32:35 vanto Exp $
+ * 
  */
 package kobold.client.vcm.controller;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,6 +35,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.team.internal.ccvs.core.util.Util;
 import org.eclipse.team.internal.core.streams.PollingInputStream;
 import org.eclipse.team.internal.core.streams.TimeoutInputStream;
+import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * @author Tammo
@@ -87,13 +109,16 @@ public class ScriptExecuter
 
 			// XXX need to do something more useful with stderr
 			// discard the input to prevent the process from hanging due to a full pipe
-			Thread othread = new StringInputThread(inputStream);
+			Thread othread = new StringInputThread(new BufferedInputStream(inputStream));
 			Thread ethread = new DiscardInputThread(process.getErrorStream());
 			connected = true;
 			othread.start();
 			ethread.start();
 			process.waitFor();
-			return ((StringInputThread)othread).getResult();
+			String res = ((StringInputThread)othread).getResult();
+			othread = null;
+			ethread = null;
+			return res;
 		} catch (InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -125,12 +150,15 @@ public class ScriptExecuter
 		}
 	}
 
-	private static class StringInputThread extends Thread {
+	private class StringInputThread extends Thread {
 		private InputStream in;
 		private StringBuffer result = new StringBuffer();
+		private MessageConsoleStream mcs;
+		
 		public StringInputThread(InputStream in) {
 			this.in = in;
 		}
+
 		public void run() {
 		    try {
 		        try {
@@ -141,7 +169,8 @@ public class ScriptExecuter
 		        } finally {
 		            in.close();
 		        }
-		    } catch (IOException e) {
+		    } catch (Exception e) {
+		        e.printStackTrace();
 		    }
 		}
 		

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: WrapperProvider.java,v 1.3 2004/05/13 15:18:33 memyselfandi Exp $
+ * $Id: WrapperProvider.java,v 1.4 2004/09/19 22:32:35 vanto Exp $
  */
 
 package kobold.client.vcm.controller;
@@ -60,7 +60,7 @@ public class WrapperProvider extends RepositoryProvider {
      * Answer the id of this provider instance.
      */
     public String getID() {
-		return KoboldVCMPlugin.getPROVIDER_ID();
+		return KoboldVCMPlugin.PROVIDER_ID;
 
     }
 
