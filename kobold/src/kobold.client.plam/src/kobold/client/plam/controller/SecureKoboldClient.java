@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.17 2004/06/23 11:59:59 grosseml Exp $
+ * $Id: SecureKoboldClient.java,v 1.18 2004/06/23 13:45:25 neccaino Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -401,6 +401,26 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(adminPassword);
 		try {
 			return (String) client.execute("validateSATAccessibility", v);			
+		}
+		catch(Exception e){
+			return IKoboldServer.NO_RESULT;
+		}
+	}
+	
+	/**
+	 * this method is used by SAT-Clients to create a new productline
+	 * on the KoboldServer
+	 * @param adminPassword server administartion password
+	 * @param plname name of the new productline
+	 * @return IKoboldServer::NO_RESULT if the server is not
+	 *				   accessible that way, "" otherwise 
+	 */
+	public String satCreateNewProductline(String adminPassword, String plname){
+		Vector v = new Vector();
+		v.add(adminPassword);
+		v.add(plname);
+		try {
+			return (String) client.execute("satCreateNewProductline", v);			
 		}
 		catch(Exception e){
 			return IKoboldServer.NO_RESULT;

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.5 2004/06/23 11:48:55 neccaino Exp $
+ * $Id: IKoboldServer.java,v 1.6 2004/06/23 13:40:36 neccaino Exp $
  *
  */
 
@@ -176,7 +176,18 @@ public interface IKoboldServer {
 	 * the Kobold server with the passed password.
 	 *  
 	 * @param adminPassword server administration password
-	 * @return true, if the passed password is valid, false otherwise
+	 * @return IKoboldServer::NO_RESULT if the server is not
+	 *				   accessible that way, "" otherwise
 	 */
 	public String validateSATAccessibility(String adminPassword); 
+	
+	/**
+	 * this method is used by SAT-Clients to create a new productline
+	 * on the KoboldServer
+	 * @param adminPassword server administartion password
+	 * @param plname name of the new productline
+	 * @return IKoboldServer::NO_RESULT if the server is not
+	 *				   accessible that way, "" otherwise 
+	 */
+	public String satCreateNewProductline(String adminPassword, String plname);
 }
