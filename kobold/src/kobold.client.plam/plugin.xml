@@ -180,9 +180,9 @@
                <objectClass name="kobold.client.plam.model.AbstractAsset"/>
          </visibility>
          <action
-               label="Update"
+               label="Update Releases"
                class="kobold.client.plam.action.UpdateRelatedComponentAction"
-               id="kobold.client.plam.updateRelatedComponetAction"/>
+               id="kobold.client.plam.updateRelatedComponentAction"/>
          
       </objectContribution>
 <!--      <objectContribution
