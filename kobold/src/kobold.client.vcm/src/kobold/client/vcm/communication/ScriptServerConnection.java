@@ -179,57 +179,57 @@ public class ScriptServerConnection implements IServerConnection
 			}
 		}
 	}
-	/**
-	 * This method allows the caller to run a given command as a
-	 * runtime excecution call
-	 * @param command
-	 * @throws IOException
-	 * @throws CVSAuthenticationException
-	 */
-	public String open(String[] command, String returnStr) throws IOException,
-	CVSAuthenticationException
-{
-		IProgressMonitor progress = KoboldPolicy.monitorFor(null);
-		connected = false;
-		try {
-			process = Util.createProcess(command,progress);
-
-//			inputStream = new PollingInputStream(new TimeoutInputStream(process
-//					.getInputStream(), 8192 /* bufferSize */,
-//					2900 /* readTimeout */, -1 /* closeTimeout */), 60, null);
-//			outputStream = new PollingOutputStream(new TimeoutOutputStream(
-//					process.getOutputStream(), 8192 /* buffersize */,
-//					1000 /* writeTimeout */, 1000 /* closeTimeout */), 60,
-//					null);
-
-			
-			// discard the input to prevent the process from hanging due to a
-			// full pipe
-			errStream = (process.getErrorStream());
-			connected = true;
-//			errorThread = new InputThreadToConsole(errStream,null);
-			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, null);
-			((InputThreadToConsole)inputThread).setReturnString(returnStr);
-
-			try
-            {
-			    Workbench.getInstance().getProgressService().run(true,false,(InputThreadToConsole)inputThread) ;
-            } catch (Exception e)
-            {
-                // TODO: handle exception
-            }
-//			errorThread.run();
-			return ((InputThreadToConsole)inputThread).getReturnString();
-		} finally {
-			if (!connected) {
-				try {
-					close();
-				} finally {
-					// Ignore any exceptions during close
-				}
-			}
-		}
-}	
+//	/**
+//	 * This method allows the caller to run a given command as a
+//	 * runtime excecution call
+//	 * @param command
+//	 * @throws IOException
+//	 * @throws CVSAuthenticationException
+//	 */
+//	public String open(String[] command, String returnStr) throws IOException,
+//	CVSAuthenticationException
+//{
+//		IProgressMonitor progress = KoboldPolicy.monitorFor(null);
+//		connected = false;
+//		try {
+//			process = Util.createProcess(command,progress);
+//
+////			inputStream = new PollingInputStream(new TimeoutInputStream(process
+////					.getInputStream(), 8192 /* bufferSize */,
+////					2900 /* readTimeout */, -1 /* closeTimeout */), 60, null);
+////			outputStream = new PollingOutputStream(new TimeoutOutputStream(
+////					process.getOutputStream(), 8192 /* buffersize */,
+////					1000 /* writeTimeout */, 1000 /* closeTimeout */), 60,
+////					null);
+//
+//			
+//			// discard the input to prevent the process from hanging due to a
+//			// full pipe
+//			errStream = (process.getErrorStream());
+//			connected = true;
+////			errorThread = new InputThreadToConsole(errStream,null);
+//			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, null);
+//			((InputThreadToConsole)inputThread).setReturnString(returnStr);
+//
+//			try
+//            {
+//			    Workbench.getInstance().getProgressService().run(true,false,(InputThreadToConsole)inputThread) ;
+//            } catch (Exception e)
+//            {
+//                // TODO: handle exception
+//            }
+////			errorThread.run();
+//			return ((InputThreadToConsole)inputThread).getReturnString();
+//		} finally {
+//			if (!connected) {
+//				try {
+//					close();
+//				} finally {
+//					// Ignore any exceptions during close
+//				}
+//			}
+//		}
+//}	
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.ccvs.core.IServerConnection#open(org.eclipse.core.runtime.IProgressMonitor)
@@ -237,21 +237,23 @@ public class ScriptServerConnection implements IServerConnection
 	public void open(IProgressMonitor monitor,String[] command) throws IOException,
 			CVSAuthenticationException
 	{
-		String[] actualCommand = new String[command.length + 3];
+		String[] actualCommand = new String[command.length + 5];
+ 
 		actualCommand[0] = skriptName; 
 		actualCommand[1] = command[0];
-		actualCommand[2] = this.user;
-		actualCommand[3] = this.password;
+		actualCommand[2] = repositoryDescriptor.getType();
+		actualCommand[3] = repositoryDescriptor.getProtocol();
+		actualCommand[4] = this.user;
+		actualCommand[5] = this.password;
 		for (int i = 1; i < command.length; i++) {
-			actualCommand[i + 3] = command[i];
+			actualCommand[i + 5] = command[i];
 			
 		}
 		for (int i = 0; i < actualCommand.length; i++) {
 			System.out.print(actualCommand[i]);
 			System.out.print("**");
 		}
-//		String[] command = ((CVSRepositoryLocation)location).getExtCommand(password);
-//		String[] command = {"C:\\Temp\\test","marvin"};
+
 		try {
 			process = Util.createProcess(actualCommand, monitor);
 
@@ -265,15 +267,14 @@ public class ScriptServerConnection implements IServerConnection
 			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
 			errorThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
 			((InputThreadToConsole)errorThread).setErrProccessing(true);
-			
 			try
             {
 			    errorThread.start();
 			    Workbench.getInstance().getProgressService().run(true,false,(InputThreadToConsole)inputThread) ;
-				process.waitFor();			    
+				process.waitFor();			   
             } catch (Exception e)
             {
-                // TODO: handle exception
+                e.printStackTrace();
             }
 
 
@@ -414,19 +415,19 @@ public class ScriptServerConnection implements IServerConnection
             }
 		}
 		public void run(){
-		    int index = 0, r = 0, s = 0, i = 0, lineCount = 250;
+		    int index = 0, r = 0, s = 0, i = 0, lineCount = 100;
             try
             {
                 if(monitor != null)monitor.beginTask("VCM Action....",1000000);
                 	else{
                 	    monitor = KoboldPolicy.monitorFor(null);
                 	}
-                while (in.available() == 0 && s < 250)
+                while (in.available() == 0 && s < 100)
                 {
                     sleep(5);   
                     s++;
                 }
-                while ( lineCount == 250 || i < 250)
+                while ( lineCount == 100 || i < 100)
                 {
                     monitor.worked(1);
                     try
@@ -457,8 +458,6 @@ public class ScriptServerConnection implements IServerConnection
                             if(index != 0)returnString = returnString.concat("\n");
                             returnString = returnString.concat(new String(
                                     readLineBuffer, 0, index));
-                            	
-                            
                         }
                         readLineBuffer = new byte[512];
                         index = 0;
@@ -473,9 +472,9 @@ public class ScriptServerConnection implements IServerConnection
                         this.readLineBuffer = new byte[512];
                         index = 0;
                     }
-                    if (in.available() == 0  && lineCount != 250)
+                    if (in.available() == 0  && lineCount != 100)
                     {
-                        monitor.worked(1);
+                        monitor.worked(3);
                         i++;
                     }
                 }
