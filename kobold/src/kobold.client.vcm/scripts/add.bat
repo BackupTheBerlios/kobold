@@ -9,7 +9,7 @@ rem %7 root
 rem %8 module
 rem %9 userdef
 
-echo cd /d %1
+cd /d "%1"
 
 IF %2==CVS GOTO CVS
 

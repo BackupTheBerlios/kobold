@@ -15,7 +15,7 @@ if [ $2 != "CVS" ] ; then
     exit;
 fi
 
-cd $1
+cd "$1"
 
 if [ $3 = "local" ] ; then
 
