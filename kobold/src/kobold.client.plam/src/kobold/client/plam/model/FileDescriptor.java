@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.29 2004/11/05 10:32:32 grosseml Exp $
+ * $Id: FileDescriptor.java,v 1.30 2004/11/09 15:02:02 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model;
@@ -254,7 +254,8 @@ public class FileDescriptor implements IFileDescriptorContainer,
 	 */
 	public IPath getLocalPath() {
 	    if (parent != null){
-     	    return new Path(getParent().getLocalPath().toString() + filename);
+	        // @ FIXME added +IPath.SEPARATOR  due to failure in scriptupdater and pathcomputation seems to cause other failures!
+     	    return new Path(getParent().getLocalPath().append(filename).toString());
 	    } else if (parentAsset != null) {
 	        return new Path(parentAsset.getLocalPath().toString() + filename);
 	    }
