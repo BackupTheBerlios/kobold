@@ -38,7 +38,7 @@
 			answer.putWorkflowData("file", map.get("file"));
 			answer.putWorkflowData("component", map.get("component"));
 			answer.addWorkflowControl(cont);
-			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);
+			kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
         </java:consequence>
     </rule>
 
@@ -90,7 +90,7 @@
 				answer.setMessageText("Your suggestion was rejected by "+msg.getSender() + " due to the following reasons: " +
 					 msg.getComment());
 			}			
-			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);			
+			kobold.server.controller.MessageManager.getInstance().sendMessage(answer);			
         </java:consequence>
     </rule>
 
@@ -140,8 +140,8 @@
 				answerPE.setMessageText("Your suggestion was accepted by "+msg.getSender() +" due to the following reasons: " +
 					msg.getComment());
 			}
-			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answerP);
-			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answerPE);
+			kobold.server.controller.MessageManager.getInstance().sendMessage(answerP);
+			kobold.server.controller.MessageManager.getInstance().sendMessage(answerPE);
         </java:consequence>
     </rule>
 
@@ -172,7 +172,7 @@
 			answer.addWorkflowControl(subj);
 			//set recipient of the reply
 			answer.putWorkflowData("recipient", msg.getSender());
-			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);
+			kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
         </java:consequence>
     </rule>
 
