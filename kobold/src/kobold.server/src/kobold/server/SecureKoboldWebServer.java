@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.47 2004/07/14 14:57:30 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.48 2004/07/14 15:08:05 neccaino Exp $
  *
  */
 package kobold.server;
@@ -212,6 +212,8 @@ IKoboldServerAdministration{
 				sniffArgs.add(productline);
 				
 				updateProductline(uc, productline);
+				
+			
 			}
 			else if (methodName.equals("updateProduct")) {
 				UserContext uc = new UserContext(
@@ -627,7 +629,7 @@ IKoboldServerAdministration{
 		}
 		
 		// 2.) unassign the ple
-		
+        //TODO: s.o.
 		return IKoboldServerAdministration.RETURN_FAIL;
 	}
 }
