@@ -59,6 +59,13 @@
             class="kobold.client.plam.workflow.WorkflowView"
             id="kobold.client.plam.view.workflowview">
       </view>
+      <view
+            name="%view.ArchitectureView"
+            icon="icons/kobold_persp.gif"
+            category="KoboldViewCategory"
+            class="kobold.client.plam.editor.ArchitectureView"
+            id="kobold.client.plam.archview">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
