@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaInformation.java,v 1.17 2004/08/25 00:34:15 neco Exp $
+ * $Id: MetaInformation.java,v 1.18 2004/08/25 09:52:00 neco Exp $
  *
  */
 package kobold.client.plam;
@@ -168,27 +168,27 @@ public class MetaInformation {
         document.add(table);
         document.add(new Phrase("\n\n"));
                 
+        for (Iterator ite = pl.getMaintainers().iterator();
+        ite.hasNext();)
+        {
+        	User user = (User) ite.next();
+        	createMetaInfoForMaintainer (document, user);
+        }
+        
+    	for (Iterator ite = pl.getComponents().iterator(); 
+		ite.hasNext();)
+		{
+			Component comp = (Component) ite.next();
+			createMetaInfoForComponent (document, comp);
+		}
+    	    	    
     	for (Iterator ite = pl.getProducts().iterator(); 
 		ite.hasNext();)
         {
 			Product product = (Product) ite.next();
 			createMetaInfoForProduct (document, product);
 		}
-    
-    	for (Iterator ite = pl.getComponents().iterator(); 
-		ite.hasNext();)
-		{
-			Component comp = (Component) ite.next();
-			createMetaInfoForComponent (document, comp);
-		}	
-		
-    	for (Iterator ite = pl.getMaintainers().iterator();
-        ite.hasNext();)
-        {
-        	User user = (User) ite.next();
-        	createMetaInfoForMaintainer (document, user);
-        }
-	
+    	
     }
     
     // MetaInformation for Products
