@@ -111,8 +111,12 @@ if ($#ARGV == 0)
     sub show{
         #print ("$File::Find::name \n");
         
-        #store all in the hash map instead
-        $data {"$File::Find::name"} = "";
+        #to avoid that the currDir is printed too!
+        if ("$File::Find::name" ne $currDir)
+        {
+            #store all in the hash map instead
+            $data {"$File::Find::name"} = "*";
+        }
     }
     find (\&show,$currDir);
 
