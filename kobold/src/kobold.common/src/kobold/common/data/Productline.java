@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.16 2004/08/01 12:43:33 garbeam Exp $
+ * $Id: Productline.java,v 1.17 2004/08/02 09:20:05 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -71,7 +71,7 @@ public class Productline extends Asset {
 	 * @param element the DOM element representing this productline.
 	 */
 	public Productline(Element element) {
-		super(null, element);
+		super(null);
 		deserialize(element);
 	}
 
@@ -216,7 +216,8 @@ public class Productline extends Asset {
 	 * @param element the DOM element representing this productline.
 	 */
 	public void deserialize(Element element) {
-		Element coreassetElements = element.element("coreassets");
+		super.deserialize(element);
+	    Element coreassetElements = element.element("coreassets");
 		for (Iterator iterator = coreassetElements.elementIterator(Asset.COMPONENT);
 			 iterator.hasNext(); )
 		{

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.2 2004/08/01 12:43:33 garbeam Exp $
+ * $Id: Component.java,v 1.3 2004/08/02 09:20:05 vanto Exp $
  *
  */
 
@@ -54,7 +54,8 @@ public class Component extends Asset {
 	 * @param element the DOM element representing this component.
 	 */
 	public Component (Asset parent, Element element) {
-		super (parent, element);
+		super (parent);
+		deserialize(element);
 	}
 	
 	/**

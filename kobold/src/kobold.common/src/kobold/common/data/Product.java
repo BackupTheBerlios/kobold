@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.10 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: Product.java,v 1.11 2004/08/02 09:20:05 vanto Exp $
  *
  */
 
@@ -59,7 +59,7 @@ public class Product extends Asset {
 	 * @param the DOM element representing this asset.
 	 */
 	public Product (Productline productline, Element element) {
-		super(productline, element);
+		super(productline);
 		deserialize(element);
 	}
 	
@@ -107,7 +107,8 @@ public class Product extends Asset {
 	 * @param element the DOM element representing this product.
 	 */
 	public void deserialize(Element element) {
-		Element compElements = element.element("components");
+		super.deserialize(element);
+	    Element compElements = element.element("components");
 		
 		for (Iterator iterator = compElements.elementIterator(Asset.COMPONENT);
 			 iterator.hasNext(); )

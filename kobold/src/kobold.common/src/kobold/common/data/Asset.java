@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Asset.java,v 1.2 2004/07/25 23:17:48 vanto Exp $
+ * $Id: Asset.java,v 1.3 2004/08/02 09:20:05 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -80,13 +80,19 @@ public class Asset implements ISerializable {
 		this.id = IdManager.nextId(name);
 	}
 
+	
+	public Asset(Asset parent) 
+	{
+	    this.parent = parent;
+	}
+	
 	/**
 	 * DOM constructor for deserialization.
 	 */
-	public Asset(Asset parent, Element element) {
-		this.parent = parent;
-		deserialize(element);
-	}
+//	public Asset(Asset parent, Element element) {
+//		this.parent = parent;
+//		deserialize(element);
+//	}
 	
 	/**
 	 * Serializes this asset.
