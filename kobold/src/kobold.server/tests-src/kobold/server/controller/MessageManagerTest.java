@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageManagerTest.java,v 1.1 2004/07/29 17:18:25 garbeam Exp $
+ * $Id: MessageManagerTest.java,v 1.2 2004/08/02 11:12:45 garbeam Exp $
  *
  */
 
@@ -78,10 +78,8 @@ public class MessageManagerTest extends TestCase {
 		man.serialize();
 		man.deserialize();
 		
-		KoboldMessage msg = (KoboldMessage) man.fetchMessage("conatn");
-		if (msg != null) {
-		    assertTrue(msg.getMessageText().equals("Hallo"));
-		}
+		KoboldMessage msg = (KoboldMessage) man.fetchMessage("contan");
+	    assertTrue(msg.getMessageText().equals("Hallo"));
 	}
 	
 }

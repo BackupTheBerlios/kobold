@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageQueue.java,v 1.6 2004/07/29 17:18:25 garbeam Exp $
+ * $Id: MessageQueue.java,v 1.7 2004/08/02 11:12:45 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -75,7 +75,9 @@ public class MessageQueue {
 	 * @return the oldest message in the queue, does not remove it! 
 	 */
 	public AbstractKoboldMessage getMessage() {
-	    return (AbstractKoboldMessage) queue.getLast();
+	    Object result = queue.getLast();
+	    
+	    return (result == null) ? null : (AbstractKoboldMessage) result;
 	}
 
 	/**
@@ -119,12 +121,12 @@ public class MessageQueue {
 		try {
 			queue.clear();
 		    document = reader.read(messageStore);
-		    Element root = document.elementByID("message-queue");
+		    Element root = document.getRootElement();
 		    if (root != null) {
 		        Iterator iter = root.elementIterator("message");
 		        for (; iter.hasNext(); ) {
 		            Element element = (Element) iter.next();
-		            queue.add(AbstractKoboldMessage.createMessage(element));
+		            queue.add(0, AbstractKoboldMessage.createMessage(element));
 		        }
 		    }
 		} catch (DocumentException e) {
