@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.9 2004/06/23 12:59:05 vanto Exp $
+ * $Id: ProductLineTest.java,v 1.10 2004/06/23 15:00:39 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -138,7 +138,7 @@ public class ProductLineTest extends TestCase {
 		
 		//getParents and Roots
 		Release releaseGet = (Release) fd2.getParent();
-		Productline plGet = (Productline) fd2.getRoot ();
+		//Productline plGet = (Productline) fd2.getRoot ();
 		
 		//------------------------------
 		//serialize the whole product-line (all included)

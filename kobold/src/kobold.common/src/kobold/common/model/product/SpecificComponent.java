@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.2 2004/06/21 22:35:35 garbeam Exp $
+ * $Id: SpecificComponent.java,v 1.3 2004/06/23 15:00:39 rendgeor Exp $
  *
  */
 
@@ -68,7 +68,7 @@ public class SpecificComponent extends AbstractAsset {
 	 *
 	 * @param release contains the new release.
 	 */
-	public void addVersion(Release release) {
+	public void addRelease (Release release) {
 		releases.add(release);
 	}
 

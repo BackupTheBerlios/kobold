@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.2 2004/06/21 22:35:35 garbeam Exp $
+ * $Id: RelatedComponent.java,v 1.3 2004/06/23 15:00:39 rendgeor Exp $
  *
  */
 
@@ -61,14 +61,6 @@ public class RelatedComponent extends AbstractAsset {
 	}
 	
 	/**
-	 * DOM constructor.
-	 * @param productName
-	 */
-	public RelatedComponent (Element element) {
-		deserialize(element);
-	}
-	
-	/**
 	 * Serializes the component.
 	 * @see kobold.common.data.plam.ComponentSpecific#serialize(org.dom4j.Element)
 	 */
@@ -97,6 +89,14 @@ public class RelatedComponent extends AbstractAsset {
 	 */
 	public String getType() {
 		return AbstractAsset.COMPONENT;
+	}
+
+	/**
+	 * DOM constructor.
+	 * @param productName
+	 */
+	public RelatedComponent (Element element) {
+		deserialize(element);
 	}
 	
 }
