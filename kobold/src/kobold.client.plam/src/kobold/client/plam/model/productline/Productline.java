@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.24 2004/08/23 01:28:00 martinplies Exp $
+ * $Id: Productline.java,v 1.25 2004/08/23 13:00:42 vanto Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -56,11 +56,12 @@ public class Productline extends AbstractRootAsset
 	//the products and core-assets
 	private List products = new ArrayList();
 	private List coreAssets = new ArrayList();
-	private Map idPool = Collections.synchronizedMap(new HashMap()); 
+	private Map idPool = new HashMap(); 
 	
     public Productline() 
 	{
 	    super();
+	    addToPool(this);
 	}
 
     public Productline(String name) 
@@ -249,7 +250,7 @@ public class Productline extends AbstractRootAsset
 		it = element.element("components").elementIterator(AbstractAsset.COMPONENT);
 		while (it.hasNext()) {
 		    Element compEl = (Element)it.next();
-		    addComponent(new Component(compEl));
+		    addComponent(new Component(this, compEl));
 		}
 		
 		// edges must deserialize at last. Otherwise the other nodes are missing in the ie pool. 
@@ -341,7 +342,7 @@ public class Productline extends AbstractRootAsset
 	 * @param id
 	 * @return Returns asset with this id or null.
 	 */
-	public AbstractAsset getAsset(String id){
+	public AbstractAsset getAssetById(String id){
 	    return (AbstractAsset) idPool.get(id);
 	}
 	
@@ -349,16 +350,20 @@ public class Productline extends AbstractRootAsset
 	 * Add asset to idpool.
 	 * @param asset
 	 */
-	public void addAssetToPool(AbstractAsset asset){
-	    idPool.put(asset.getId(), asset);
+	public void addAssetToPool(AbstractAsset asset) {
+	    synchronized (idPool) {
+	        idPool.put(asset.getId(), asset);
+	    }
 	}
 	
 	/**
 	 * Delete asset with this id from the id pool.
 	 * @param id 
 	 */
-	public void removeAsset(String id){
-	    this.idPool.remove(id);
+	public void removeAsset(String id) {
+	    synchronized (idPool) {
+	        idPool.remove(id);
+	    }
 	}
 
     /* (non-Javadoc)

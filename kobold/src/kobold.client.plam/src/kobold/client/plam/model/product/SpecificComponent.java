@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.8 2004/08/23 01:28:24 martinplies Exp $
+ * $Id: SpecificComponent.java,v 1.9 2004/08/23 13:00:42 vanto Exp $
  *
  */
 
@@ -62,8 +62,9 @@ public class SpecificComponent extends ProductComponent
 	 * @param element the DOM element representing this
 	 * 		  object.
 	 */
-	protected SpecificComponent (Element element) {
+	protected SpecificComponent(AbstractAsset parent, Element element) {
 		super();
+		setParent(parent);
 	    deserialize(element);
 	}
 	
@@ -105,7 +106,7 @@ public class SpecificComponent extends ProductComponent
 		Iterator it = element.element("releases").elementIterator(AbstractAsset.RELEASE);
 		while (it.hasNext()) {
 			Element relEl = (Element)it.next();
-			addRelease(new Release(relEl));
+			addRelease(new Release(this, relEl));
 		}
 	}
 

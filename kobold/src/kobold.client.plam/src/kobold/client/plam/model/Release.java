@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Release.java,v 1.6 2004/08/23 01:27:28 martinplies Exp $
+ * $Id: Release.java,v 1.7 2004/08/23 13:00:42 vanto Exp $
  *
  */
 
@@ -63,8 +63,9 @@ public class Release extends AbstractAsset{
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Release (Element element) {
+	public Release (AbstractAsset parent, Element element) {
 		super();
+		setParent(parent);
 	    deserialize(element);
 	}
 	

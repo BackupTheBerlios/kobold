@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.31 2004/08/06 01:57:29 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.32 2004/08/23 13:00:42 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -36,7 +36,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
@@ -52,7 +51,6 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -220,7 +218,9 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
      */
     public Object getParent(Object element) 
     {
-        if (element instanceof AbstractAsset) {
+        if (element instanceof Productline) {
+            return ((Productline)element).getKoboldProject().getProject();
+        } else if (element instanceof AbstractAsset) {
             return ((AbstractAsset)element).getParent();
         } else if (element instanceof User) {
             return null; //fix
@@ -252,13 +252,17 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	    private Productline productline;
 	    private String id;
 	    
-	    TreeContainer(String id, Productline pl) {
+	    public TreeContainer(String id, Productline pl) {
 	        this.productline = pl;
 	        this.id = id;
 	    }
 	    
 	    public Productline getPL() {
 	        return productline;
+	    }
+	    
+	    public String getId() {
+	        return id;
 	    }
 	    
 	    public String getName()
@@ -271,6 +275,20 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	            return "Products";
 	        else return "unkown id";
 	    }
+	    
+	    
+        public boolean equals(Object obj)
+        {
+            if (obj instanceof TreeContainer) {
+                return getId().equals(((TreeContainer)obj).getId());    
+            } else {
+                return false;
+            }
+        }
+        public int hashCode()
+        {
+            return id.hashCode();
+        }
 	}
 	
 	public class ArchitectureItem 
@@ -296,9 +314,9 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 			public void run() {		
 			    viewer.refresh();
 				// FIXME: restore expanded nodes.
-				if (KoboldPLAMPlugin.getCurrentProject() != null) {
-				    viewer.expandToLevel(KoboldPLAMPlugin.getCurrentProject(),AbstractTreeViewer.ALL_LEVELS);
-				}
+//				if (KoboldPLAMPlugin.getCurrentProject() != null) {
+//				    viewer.expandToLevel(KoboldPLAMPlugin.getCurrentProject(),AbstractTreeViewer.ALL_LEVELS);
+//				}
 			}
 		});
 	}

@@ -21,14 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.9 2004/08/23 01:29:01 martinplies Exp $
+ * $Id: RelatedComponent.java,v 1.10 2004/08/23 13:00:42 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.IGXLExport;
@@ -83,7 +82,7 @@ public class RelatedComponent extends ProductComponent
 	public void deserialize(Element element) {
 		super.deserialize(element);
 		String variantId = element.element("ref").attributeValue("ref-id");
-	    this.relatedVariant = (Variant) this.getRoot().getProductline().getAsset(variantId);
+	    this.relatedVariant = (Variant) this.getRoot().getProductline().getAssetById(variantId);
 	}
 
 	/**
@@ -97,8 +96,9 @@ public class RelatedComponent extends ProductComponent
 	 * DOM constructor.
 	 * @param productName
 	 */
-	protected RelatedComponent (Element element) {
+	protected RelatedComponent (AbstractAsset parent, Element element) {
 		super();
+		setParent(parent);
 		deserialize(element);
 	}	
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductRelease.java,v 1.2 2004/08/23 01:29:27 martinplies Exp $
+ * $Id: ProductRelease.java,v 1.3 2004/08/23 13:00:42 vanto Exp $
  *
  */
 
@@ -57,6 +57,7 @@ public class ProductRelease extends AbstractAsset
 	 * 		  has been created.	
 	 */
 	public ProductRelease (Date creationDate) {
+	    super();
 		this.creationDate = creationDate;
 	}
 	
@@ -64,7 +65,9 @@ public class ProductRelease extends AbstractAsset
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public ProductRelease (Element element) {
+	public ProductRelease (AbstractAsset parent, Element element) {
+	    super();
+	    setParent(parent);
 		deserialize(element);
 	}
 	

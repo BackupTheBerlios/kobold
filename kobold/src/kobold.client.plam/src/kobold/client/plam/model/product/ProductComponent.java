@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.11 2004/08/06 03:40:59 martinplies Exp $
+ * $Id: ProductComponent.java,v 1.12 2004/08/23 13:00:42 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -88,7 +88,7 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 		Iterator it = element.elementIterator("product-components");
 		while (it.hasNext()) {
 			Element el = (Element)it.next();
-			addProductComponent(createProductComponent(el));
+			addProductComponent(createProductComponent(this, el));
 		}
 	}
 	
@@ -108,12 +108,12 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 		return element;
 	}
 	
-	public static ProductComponent createProductComponent(Element element)
+	public static ProductComponent createProductComponent(AbstractAsset parent, Element element)
 	{
 		if (element.getName().equals(AbstractAsset.RELATED_COMPONENT)) {
-			return new RelatedComponent(element);
+			return new RelatedComponent(parent, element);
 		} else if (element.getName().equals(AbstractAsset.SPECIFIC_COMPONENT)) {
-			return new SpecificComponent(element);
+			return new SpecificComponent(parent, element);
 		}
 		throw new IllegalArgumentException("Unkown product component type");
 	}

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.25 2004/08/23 01:28:00 martinplies Exp $
+ * $Id: Variant.java,v 1.26 2004/08/23 13:00:42 vanto Exp $
  *
  */
 
@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.FileDescriptor;
@@ -77,8 +76,9 @@ public class Variant extends AbstractAsset
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Variant(Element element) {
+	public Variant(AbstractAsset parent, Element element) {
 	    super();
+	    setParent(parent);
 	    deserialize(element);
 	}
 	
@@ -116,13 +116,13 @@ public class Variant extends AbstractAsset
 		Iterator it = element.element("components").elementIterator(AbstractAsset.COMPONENT);
 		while (it.hasNext()) {
 		    Element varEl = (Element)it.next();
-		    addComponent(new Component(varEl));
+		    addComponent(new Component(this, varEl));
 		}
 		
 		it = element.element("releases").elementIterator(AbstractAsset.RELEASE);
 		while (it.hasNext()) {
 		    Element varEl = (Element)it.next();
-		    addRelease(new Release(varEl));
+		    addRelease(new Release(this, varEl));
 		}
 
 		

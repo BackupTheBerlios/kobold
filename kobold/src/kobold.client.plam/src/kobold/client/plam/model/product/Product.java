@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.18 2004/08/23 01:29:41 martinplies Exp $
+ * $Id: Product.java,v 1.19 2004/08/23 13:00:42 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -29,10 +29,8 @@ package kobold.client.plam.model.product;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
@@ -123,7 +121,7 @@ public class Product extends AbstractRootAsset
 		    /* load and create the product by finding its local path and 
 		     		  deserializing it from there.
 		    */
-		    addProductRelease(new ProductRelease (pEl));
+		    addProductRelease(new ProductRelease(this, pEl));
 		}
 		it = element.elementIterator("specific-components");
 		while (it.hasNext()) {
@@ -131,7 +129,7 @@ public class Product extends AbstractRootAsset
 		    /* load and create the product by finding its local path and 
 		     		  deserializing it from there.
 		    */
-			addComponent(new SpecificComponent (pEl));
+			addComponent(new SpecificComponent(this, pEl));
 		}
 
 		it = element.elementIterator("releated-component");
@@ -140,7 +138,7 @@ public class Product extends AbstractRootAsset
 		    /* load and create the product by finding its local path and 
 		     		  deserializing it from there.
 		    */
-		    addComponent(new RelatedComponent (pEl));	
+		    addComponent(new RelatedComponent(this, pEl));	
 		}
 
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.15 2004/08/23 01:28:00 martinplies Exp $
+ * $Id: Component.java,v 1.16 2004/08/23 13:00:42 vanto Exp $
  *
  */
 
@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
@@ -70,8 +69,9 @@ public class Component extends AbstractMaintainedAsset
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Component(Element element) {
+	public Component(AbstractAsset parent, Element element) {
 		super();
+		setParent(parent);
 	    deserialize(element);
 	}
 	
@@ -103,7 +103,7 @@ public class Component extends AbstractMaintainedAsset
 		Iterator it = element.element("variants").elementIterator(AbstractAsset.VARIANT);
 		while (it.hasNext()) {
 		    Element varEl = (Element)it.next();
-		    addVariant(new Variant(varEl));
+		    addVariant(new Variant(this, varEl));
 		}
 	}
 

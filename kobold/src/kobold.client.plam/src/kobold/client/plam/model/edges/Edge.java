@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Edge.java,v 1.10 2004/08/22 10:47:58 martinplies Exp $
+ * $Id: Edge.java,v 1.11 2004/08/23 13:00:42 vanto Exp $
  *
  */
 package kobold.client.plam.model.edges;
@@ -172,8 +172,8 @@ public class Edge {
         if (type == null){
             logger.error("Doesn't get \"type\" attribute form:" + element);
          }
-        startNode =  prodline.getAsset(fromAssetId);
-        targetNode = prodline.getAsset(toAssetId);   
+        startNode =  prodline.getAssetById(fromAssetId);
+        targetNode = prodline.getAssetById(toAssetId);   
         ;int a =0;
     }
     
