@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaInformation.java,v 1.18 2004/08/25 09:52:00 neco Exp $
+ * $Id: MetaInformation.java,v 1.19 2004/08/31 20:35:25 neco Exp $
  *
  */
 package kobold.client.plam;
@@ -426,9 +426,9 @@ public class MetaInformation {
     	document.add(new Phrase("    Local path: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC))); 
 	    document.add(new Phrase(fileDes.getLocalPath().toString() + "\n"));
-	    document.add(new Phrase("    Date of last change: ",
-	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
-	    document.add(new Phrase(fileDes.getLastChange().toString() + "\n"));   
+//	    document.add(new Phrase("    Date of last change: ",
+//	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+//	    document.add(new Phrase(fileDes.getLastChange().toString() + "\n"));   
 	    document.add(new Phrase("    Revision: ",
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(fileDes.getRevision()+"\n\n"));
