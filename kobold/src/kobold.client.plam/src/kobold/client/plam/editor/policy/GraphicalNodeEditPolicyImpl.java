@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalNodeEditPolicyImpl.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
+ * $Id: GraphicalNodeEditPolicyImpl.java,v 1.2 2004/07/23 23:25:15 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
 
 import kobold.client.plam.editor.command.ConnectionCommand;
-import kobold.client.plam.model.edges.Edge;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.edges.INode;
 
 import org.eclipse.gef.commands.Command;
@@ -38,7 +39,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * GraphicalNodeEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
+ * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.2 2004/07/23 23:25:15 vanto Exp $
  */
 public class GraphicalNodeEditPolicyImpl
     extends org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy {
@@ -48,8 +49,34 @@ public class GraphicalNodeEditPolicyImpl
      */
     protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
         ConnectionCommand command = (ConnectionCommand)request.getStartCommand();
+
+        // dont allow connection if there is already a connection between source and target
+        // and of the same type.
+        EdgeContainer ec = ((INode)getHost().getModel()).getRoot().getEdgeConatainer();
+        if (ec.containsEdge(command.getSourceNode(), (INode)getHost().getModel(), command.getType())) {
+            return null;
+        }
+
+        // dont allow connection if source node is an ancestor of target
+        AbstractAsset parent = (AbstractAsset)getHost().getModel();
+        while (parent != null) {
+            parent = parent.getParent();
+            if (parent == command.getSourceNode()) {
+                return null;
+            }
+        }
+
+        // dont allow connection if target node is an ancestor of source
+        parent = (AbstractAsset)command.getSourceNode();
+        while (parent != null) {
+            parent = parent.getParent();
+            if (parent == (AbstractAsset)getHost().getModel()) {
+                return null;
+            }
+        }
+        
         command.setTargetNode((INode)getHost().getModel());
-        command.setType(Edge.INCLUDE);
+
         return command;
     }
 
@@ -59,8 +86,8 @@ public class GraphicalNodeEditPolicyImpl
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
     	ConnectionCommand command = new ConnectionCommand();
     	command.setSourceNode((INode)getHost().getModel());
+        command.setType((String)request.getNewObjectType());
     	request.setStartCommand(command);
-    	System.out.println((INode)getHost().getModel());
     	return command;
     }
 

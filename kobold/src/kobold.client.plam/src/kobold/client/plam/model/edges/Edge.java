@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Edge.java,v 1.4 2004/07/23 20:31:54 vanto Exp $
+ * $Id: Edge.java,v 1.5 2004/07/23 23:25:14 vanto Exp $
  *
  */
 package kobold.client.plam.model.edges;
@@ -42,9 +42,9 @@ public class Edge {
     private int edgeCount; // Number of edges, that this this edge represent
     
     // kobold edge types
-    public static final String INCLUDE = "include";
-    public static final String EXCLUDE = "exclude";
-    public static final String BAUHAUS = "bauhaus";
+    public static final String INCLUDE = "edge.include";
+    public static final String EXCLUDE = "edge.exclude";
+    public static final String BAUHAUS = "edge.bauhaus";
     
     /**
      * @param startNode2

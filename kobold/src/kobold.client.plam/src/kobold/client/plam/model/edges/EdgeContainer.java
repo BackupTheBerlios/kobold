@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.5 2004/07/23 20:31:54 vanto Exp $
+ * $Id: EdgeContainer.java,v 1.6 2004/07/23 23:25:14 vanto Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -192,7 +192,7 @@ public class EdgeContainer implements ISerializable {
      * @param type
      * @return returns true, if an edge with this type exists form the start node to the target node , otherwise flase.
      */
-    private boolean containsEdge (INode startNode, INode targetNode, String type){
+    public boolean containsEdge (INode startNode, INode targetNode, String type){
         if (this.startNodesList.containsKey(startNode)){
             return containsEdge((List) this.startNodesList.get(startNode), targetNode, type);
         } else { 
@@ -233,7 +233,7 @@ public class EdgeContainer implements ISerializable {
             for (ListIterator ite = edges.listIterator(); ite.hasNext();){
                 Edge edge = (Edge) ite.next();
                 if(edge.getTargetNode().equals(targetNode) && edge.getType().equals(type)){
-                    edges.remove(edge); 
+                    ite.remove(); 
                 }
             }
             // removes also from targetNodesList
@@ -241,12 +241,33 @@ public class EdgeContainer implements ISerializable {
             for (ListIterator ite = edges.listIterator(); ite.hasNext();){
                 Edge edge = (Edge) ite.next();
                 if(edge.getStartNode().equals(startNode) && edge.getType().equals(type)){
-                    edges.remove(edge);
+                    ite.remove();
                 }
             }
         }  
     }
     
+    public void removeEdge(Edge edge) {
+        List sourceEdges = (List)startNodesList.get(edge.getStartNode());
+        List targetEdges = (List)targetNodesList.get(edge.getTargetNode());
+        sourceEdges.remove(edge);
+        listeners.firePropertyChange(ID_SOURCE_CHANGED, null, edge);
+        targetEdges.remove(edge);
+        listeners.firePropertyChange(ID_TARGET_CHANGED, null, edge);
+    }
+    
+    public Edge addEdge(Edge edge) {
+        if (containsEdge(edge.getStartNode(), edge.getTargetNode(), edge.getType())) {
+            return null;
+        }
+        List sourceEdges = (List)startNodesList.get(edge.getStartNode());
+        List targetEdges = (List)targetNodesList.get(edge.getTargetNode());
+        sourceEdges.add(edge);
+        listeners.firePropertyChange(ID_SOURCE_CHANGED, null, edge);
+        targetEdges.add(edge);
+        listeners.firePropertyChange(ID_TARGET_CHANGED, null, edge);
+        return edge;
+    }
     
     /**
      * 

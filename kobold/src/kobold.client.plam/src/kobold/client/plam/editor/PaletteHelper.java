@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PaletteHelper.java,v 1.6 2004/07/23 22:27:11 vanto Exp $
+ * $Id: PaletteHelper.java,v 1.7 2004/07/23 23:25:15 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -34,6 +34,7 @@ import kobold.client.plam.editor.model.KoboldAssetFactory;
 import kobold.client.plam.editor.tool.ProductComposerToolEntry;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.MetaNode;
+import kobold.client.plam.model.edges.Edge;
 
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
@@ -82,11 +83,21 @@ public class PaletteHelper
     	tool = new ConnectionCreationToolEntry(
     		"Include Edge",
     		"Include Edge",
-    		null,
+    		new KoboldAssetFactory(Edge.INCLUDE),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
     	);
     	entries.add(tool);
+    	tool = new ConnectionCreationToolEntry(
+    		"Exclude Edge",
+    		"Exclude Edge",
+    		new KoboldAssetFactory(Edge.EXCLUDE),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
+    	);
+    	entries.add(tool);
+
+    	
     	controlGroup.addAll(entries);
     	return controlGroup;
     }

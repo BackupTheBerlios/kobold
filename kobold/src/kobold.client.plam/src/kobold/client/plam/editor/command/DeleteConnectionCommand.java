@@ -21,32 +21,52 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ConnectionEditPolicyImpl.java,v 1.2 2004/07/23 23:25:15 vanto Exp $
+ * $Id: DeleteConnectionCommand.java,v 1.1 2004/07/23 23:25:15 vanto Exp $
  *
  */
-package kobold.client.plam.editor.policy;
+package kobold.client.plam.editor.command;
 
-import kobold.client.plam.editor.command.DeleteConnectionCommand;
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.edges.Edge;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
-import org.eclipse.gef.requests.GroupRequest;
 
 
 /**
  * @author Tammo
  */
-public class ConnectionEditPolicyImpl extends ConnectionEditPolicy
+public class DeleteConnectionCommand extends Command
 {
+    private Edge edge;
+    private AbstractRootAsset root;
 
-    /**
-     * @see org.eclipse.gef.editpolicies.ConnectionEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
-     */
-    protected Command getDeleteCommand(GroupRequest request)
+    public DeleteConnectionCommand(Edge edge) 
     {
-		Edge edge = (Edge)getHost().getModel();
-		return new DeleteConnectionCommand(edge);
+        this.edge = edge;
+        this.root = edge.getStartNode().getRoot();
     }
-
+    
+    /**
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
+    public void execute()
+    {
+        root.getEdgeConatainer().removeEdge(edge);
+    }
+    
+    /**
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
+    public void redo()
+    {
+        root.getEdgeConatainer().removeEdge(edge);
+    }
+    
+    /**
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
+    public void undo()
+    {
+        root.getEdgeConatainer().addEdge(edge);
+    }
 }

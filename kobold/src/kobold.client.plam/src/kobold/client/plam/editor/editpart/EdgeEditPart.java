@@ -21,14 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeEditPart.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
+ * $Id: EdgeEditPart.java,v 1.2 2004/07/23 23:25:15 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
 import kobold.client.plam.editor.policy.BendpointEditPolicyImpl;
 import kobold.client.plam.editor.policy.ConnectionEditPolicyImpl;
+import kobold.client.plam.model.edges.Edge;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
@@ -48,9 +50,21 @@ public class EdgeEditPart extends AbstractConnectionEditPart
 		PolylineConnection fig = new PolylineConnection();
 		PolygonDecoration dec = new PolygonDecoration();
 		fig.setTargetDecoration(dec);
+
 		return fig;
 	}
 	
+    protected void refreshVisuals()
+	{
+		Edge edge = (Edge)getModel();
+		PolylineConnection fig = (PolylineConnection)getConnectionFigure();
+		if (edge.getType().equals(Edge.INCLUDE)) {
+		    fig.setForegroundColor(ColorConstants.green);
+		} else if (edge.getType().equals(Edge.EXCLUDE)) {
+		    fig.setForegroundColor(ColorConstants.red);
+		}
+	}
+    
     /**
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
@@ -58,7 +72,6 @@ public class EdgeEditPart extends AbstractConnectionEditPart
     {
         installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionEditPolicyImpl());
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
-		installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, new BendpointEditPolicyImpl());
-
+		//installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, new BendpointEditPolicyImpl());
     }
 }
