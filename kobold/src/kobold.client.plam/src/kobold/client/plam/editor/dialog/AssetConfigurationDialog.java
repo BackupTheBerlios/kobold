@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.24 2004/08/31 04:03:52 grosseml Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.25 2004/08/31 11:03:45 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -41,6 +41,7 @@ import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.IVariantContainer;
 import kobold.client.plam.model.Release;
+import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
@@ -226,17 +227,17 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 			}
 		});
         
-		Button repDesc = new Button(panel, SWT.NONE);
-		repDesc.setText("&Repository...");
-		repDesc.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-			    EditRepositoryDescriptorDialog erdd =
-			        new EditRepositoryDescriptorDialog(panel.getShell(), asset);
-			    erdd.open();
-			}
-		});
-
-    
+		if (asset instanceof Product) {
+    		Button repDesc = new Button(panel, SWT.NONE);
+    		repDesc.setText("&Repository...");
+    		repDesc.addSelectionListener(new SelectionAdapter() {
+    			public void widgetSelected(SelectionEvent event) {
+    			    EditRepositoryDescriptorDialog erdd =
+    			        new EditRepositoryDescriptorDialog(panel.getShell(), asset);
+    			    erdd.open();
+    			}
+    		});
+		}
     }
     
 	/**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptChooserDialog.java,v 1.5 2004/08/30 14:11:48 garbeam Exp $
+ * $Id: ScriptChooserDialog.java,v 1.6 2004/08/31 11:03:45 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -36,10 +36,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TextCellEditor;
 
 import org.eclipse.jface.viewers.LabelProvider;
 
@@ -57,6 +60,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Text;
 
 
 /**
@@ -115,14 +119,37 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		        				   | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
 		beforeScriptsTable.setLinesVisible(false);
 		TableColumn colScriptNames = new TableColumn(beforeScriptsTable, SWT.NONE);
+		TableColumn colActionType = new TableColumn(beforeScriptsTable, SWT.NONE);
 		colScriptNames.setText("Script");
+		colActionType.setText("VCM Action");
 		TableLayout tableLayout = new TableLayout();
 		beforeScriptsTable.setLayout(tableLayout);
-		tableLayout.addColumnData(new ColumnWeightData(100));
-		
+		tableLayout.addColumnData(new ColumnWeightData(70));
+		tableLayout.addColumnData(new ColumnWeightData(30));
 	    colScriptNames.pack();
+	    colActionType.pack();
 		
 		beforeScriptsViewer = new TableViewer(beforeScriptsTable);
+		beforeScriptsViewer.setUseHashlookup(true);
+		
+	    // Create the cell editors
+	    CellEditor[] editors = new CellEditor[2];
+	          
+	    // Column 1 : Script name
+	    TextCellEditor textEditor = new TextCellEditor(beforeScriptsTable);
+	    editors[0] = textEditor;
+
+        // Column 2 : Owner (Combo Box) 
+	    editors[1] = new ComboBoxCellEditor(beforeScriptsTable,
+	            				new String[] { ScriptDescriptor.VCM_CHECKOUT,
+	            							   ScriptDescriptor.VCM_UPDATE,
+	            							   ScriptDescriptor.VCM_ADD,
+	            							   ScriptDescriptor.VCM_DELETE,
+	            							   ScriptDescriptor.VCM_COMMIT,
+	            							   ScriptDescriptor.VCM_IMPORT },
+	            				SWT.READ_ONLY);
+		
+	    beforeScriptsViewer.setCellEditors(editors);
 		beforeScriptsViewer.setLabelProvider(new LabelProvider() {
 		    private Image image;
 		    public String getText(Object element) {
@@ -146,15 +173,19 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		afterScriptsTable = new Table(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP 
 		        				   | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
 		afterScriptsTable.setLinesVisible(false);
-		colScriptNames = new TableColumn(afterScriptsTable, SWT.NONE);
+		colScriptNames = new TableColumn(beforeScriptsTable, SWT.NONE);
+		colActionType = new TableColumn(beforeScriptsTable, SWT.NONE);
 		colScriptNames.setText("Script");
+		colActionType.setText("VCM Action");
 		tableLayout = new TableLayout();
-		afterScriptsTable.setLayout(tableLayout);
-		tableLayout.addColumnData(new ColumnWeightData(100));
-		
+		beforeScriptsTable.setLayout(tableLayout);
+		tableLayout.addColumnData(new ColumnWeightData(70));
+		tableLayout.addColumnData(new ColumnWeightData(30));
 	    colScriptNames.pack();
+	    colActionType.pack();
 		
 		afterScriptsViewer = new TableViewer(afterScriptsTable);
+		afterScriptsViewer.setUseHashlookup(true);
 		afterScriptsViewer.setLabelProvider(new LabelProvider() {
 		    private Image image;
 		    public String getText(Object element) {
@@ -195,7 +226,7 @@ public class ScriptChooserDialog extends TitleAreaDialog
 			    fd.setText("Choose your script to add");
 			    String result = fd.open();
 			    if (result != null) {
-			        ScriptDescriptor sd = new ScriptDescriptor(result);
+			        ScriptDescriptor sd = new ScriptDescriptor(result, ScriptDescriptor.VCM_CHECKOUT);
 			        sd.setPath(result);
 			        beforeScriptsViewer.add(sd);
 			    }
@@ -233,7 +264,7 @@ public class ScriptChooserDialog extends TitleAreaDialog
 			    fd.setText("Choose your script to add");
 			    String result = fd.open();
 			    if (result != null) {
-			        ScriptDescriptor sd = new ScriptDescriptor(result);
+			        ScriptDescriptor sd = new ScriptDescriptor(result, ScriptDescriptor.VCM_CHECKOUT);
 			        sd.setPath(result);
 			        afterScriptsViewer.add(sd);
 			    }

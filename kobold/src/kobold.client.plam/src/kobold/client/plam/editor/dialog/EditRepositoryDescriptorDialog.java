@@ -21,20 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- *MiG31.08.2004
+ * $Id: EditRepositoryDescriptorDialog.java,v 1.2 2004/08/31 11:03:45 garbeam Exp $
  */
 package kobold.client.plam.editor.dialog;
 
-import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.KoboldProject;
-import kobold.client.plam.controller.UserManager;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.product.Product;
-import kobold.common.data.User;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -82,15 +77,11 @@ public class EditRepositoryDescriptorDialog extends TitleAreaDialog{
         setMessage("Add or edit the settings of the repository.");
         Composite composite = (Composite) super.createDialogArea(parent);
         
-        //if abAsset instance of kobold.client.plam.model.Product
-        if (abAsset instanceof Product){
-        	prod = (Product)abAsset;
-            createContent(composite);
-            return composite;      	
-        } else {
-        	cancelPressed();
-        	return composite;
-        }
+    	prod = (Product)abAsset;
+		//getting the RepositoryDescriptor from the product
+		tmpDesc = prod.getRepositoryDescriptor();
+        createContent(composite);
+        return composite;      	
     }
     
     private void createContent(Composite parent){
@@ -109,12 +100,9 @@ public class EditRepositoryDescriptorDialog extends TitleAreaDialog{
 		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
 		panel.setFont(parent.getFont());
 		
-		//getting the RepositoryDescriptor from the product
-		tmpDesc = prod.getRepositoryDescriptor();
-		
 		//Type
 		labelType = new Label(panel, SWT.NONE);
-		labelType.setText("Type (e.g.:cvs, svn, arch):");
+		labelType.setText("Type:");
 		labelType.setToolTipText("Defines the repository type, e.g. cvs, svn, arch, ...");
 		textType = new Text(panel, SWT.BORDER);
 		textType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -125,7 +113,7 @@ public class EditRepositoryDescriptorDialog extends TitleAreaDialog{
 		
 		//Protocol
 		labelProtocol = new Label(panel, SWT.NONE);
-		labelProtocol.setText("Protocol (e.g. ssh, pserver, svn, WebDAV, ...):");
+		labelProtocol.setText("Protocol:");
 		labelProtocol.setToolTipText("Defines the protocol, e.g. ssh, pserver, svn, WebDAV, ...");
 		textProtocol = new Text(panel, SWT.BORDER);
 		textProtocol.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -134,7 +122,7 @@ public class EditRepositoryDescriptorDialog extends TitleAreaDialog{
 		
 		//Host
 		labelHost = new Label(panel, SWT.NONE);
-		labelHost.setText("Host (e.g. cvs.berlios.de):");
+		labelHost.setText("Host:");
 		labelHost.setToolTipText("Defines the hostname, e.g. cvs.berlios.de");
 		textHost = new Text(panel, SWT.BORDER);
 		textHost.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -143,7 +131,7 @@ public class EditRepositoryDescriptorDialog extends TitleAreaDialog{
 		
 		//Root
 		labelRoot = new Label(panel, SWT.NONE);
-		labelRoot.setText("Root (e.g. /cvsroot/kobold/):");
+		labelRoot.setText("Repository root:");
 		labelRoot.setToolTipText("Defines the repository root, e.g. /cvsroot/kobold/");
 		textRoot = new Text(panel, SWT.BORDER);
 		textRoot.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -152,7 +140,7 @@ public class EditRepositoryDescriptorDialog extends TitleAreaDialog{
 		
 		//Path
 		labelPath = new Label(panel, SWT.NONE);
-		labelPath.setText("Path (e.g. kobold):");
+		labelPath.setText("Path:");
 		labelPath.setToolTipText("Defines the module path without repository root, e.g. kobold");
 		textPath = new Text(panel, SWT.BORDER);
 		textPath.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -160,24 +148,20 @@ public class EditRepositoryDescriptorDialog extends TitleAreaDialog{
 		textPath.setText(tmpDesc.getPath());
     }
    
-    protected void okPressed()
-    {
+    protected void okPressed() {
     
-	    KoboldProject tmpProj = KoboldPLAMPlugin.getCurrentKoboldProject();
-	    
-	    tmpDesc.setHost(textHost.getText());
-	    tmpDesc.setPath(textPath.getText());
-	    tmpDesc.setProtocol(textProtocol.getText());
-	    tmpDesc.setRoot(textRoot.getText());
-	    tmpDesc.setType(textType.getText());
+        RepositoryDescriptor tmpDesc =
+            new RepositoryDescriptor(textType.getText(),
+            					     textProtocol.getText(),
+                                     textHost.getText(),
+                                     textRoot.getText(),
+                                     textPath.getText());
 	    
 	    prod.setRepositoryDescriptor(tmpDesc);
-	    
         super.okPressed();
     }
-    
+   
     protected void cancelPressed(){
     	super.cancelPressed();
     }
- 
 }
