@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.4 2004/07/25 21:26:34 garbeam Exp $
+ * $Id: RelatedComponent.java,v 1.5 2004/08/05 22:49:35 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -34,6 +34,7 @@ import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.productline.Component;
+import kobold.client.plam.model.productline.Variant;
 
 import org.dom4j.Element;
 
@@ -46,24 +47,23 @@ import org.dom4j.Element;
 public class RelatedComponent extends ProductComponent 
                               implements IGXLExport {
 
-	private Component relatedComponent;
+	private Variant  relatedVariant;
 	private Release plCompRelease;
 	private Release pCompRelease;
 	
 	/**
 	 * Basic constructor.
-	 * @param component the related component.
+	 * @param variant the related variant.
 	 * @param plCompRelease the release of the corresponding component in the productline.
-	 * @param pCompRelease the product-instance of the productline-component release. 
-	 */
-	public RelatedComponent (Component component,
-							 Release plCompRelease,
-							 Release pCompRelease) {
-		super(component.getName());
-		relatedComponent = component;
+	 **/
+	public RelatedComponent (Variant variant,
+							 Release plCompRelease) {
+		super(variant.getParent().getName());
+		relatedVariant = variant;
 		this.plCompRelease = plCompRelease;
-		this.pCompRelease = pCompRelease;
 	}
+	
+	
 	
 	/**
 	 * Serializes the component.
@@ -109,7 +109,7 @@ public class RelatedComponent extends ProductComponent
 	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
 	 */
 	public Map getGXLAttributes() {
-		return relatedComponent.getGXLAttributes();
+		return relatedVariant.getGXLAttributes();
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class RelatedComponent extends ProductComponent
 	 * @see kobold.common.model.AbstractAsset#getGXLType()
 	 */
 	public String getGXLType() {
-		return relatedComponent.getGXLType();
+		return relatedVariant.getGXLType();
 	}
 
 
