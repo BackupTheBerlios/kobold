@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.19 2004/08/05 14:19:36 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.20 2004/08/06 00:44:31 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -226,7 +226,6 @@ public class ModelStorage
      *       the repository descriptor of it.
      * @param asset the asset you're gaining the repository descriptor for.
      */
-    
     public static RepositoryDescriptor getRepositoryDescriptorForAsset(AbstractAsset asset) {
 
         // checks special cases first
@@ -261,7 +260,6 @@ public class ModelStorage
      * be calculated.
      * @param theAsset an abstract asset
      */
-
     public static IPath getPathForAsset(AbstractAsset asset) {
         
         AbstractRootAsset root = asset.getRoot();
@@ -293,7 +291,34 @@ public class ModelStorage
                         + "" + IPath.SEPARATOR + thePath);
     }
     
-	
+	public static IFolder getFolderForAsset(AbstractAsset asset) {
+        AbstractRootAsset root = asset.getRoot();
+        String thePath = "";
+        while (asset != null) {
+             
+            if (asset.getType() == AbstractAsset.COMPONENT) {
+                if (asset.getParent().getType() != AbstractAsset.VARIANT) {
+                    thePath = COREASSETS_FOLDER_NAME + IPath.SEPARATOR +
+                    		  asset.getName() + IPath.SEPARATOR + thePath;
+                }
+                else {
+                    thePath = asset.getName() + IPath.SEPARATOR + thePath;
+                }
+            }
+            else if ((asset.getType() == AbstractAsset.SPECIFIC_COMPONENT) ||
+                     (asset.getType() == AbstractAsset.RELATED_COMPONENT)) {
+                thePath = PRODUCTS_FOLDER_NAME + IPath.SEPARATOR +
+                		  asset.getName() + IPath.SEPARATOR + thePath;
+            }
+            else {
+                thePath = asset.getName() + IPath.SEPARATOR + thePath;
+            }
+            
+            asset = asset.getParent();
+        }
+        
+        return root.getKoboldProject().getProject().getFolder(thePath);
+	}
 	
 	public static void serializeProduct (Productline pl, IProgressMonitor monitor)
 	{

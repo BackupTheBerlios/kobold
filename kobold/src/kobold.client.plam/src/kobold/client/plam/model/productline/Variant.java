@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.22 2004/08/05 20:50:54 vanto Exp $
+ * $Id: Variant.java,v 1.23 2004/08/06 00:43:59 vanto Exp $
  *
  */
 
@@ -44,6 +44,8 @@ import kobold.client.plam.model.Release;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.Element;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 
 /**
@@ -52,7 +54,8 @@ import org.eclipse.core.runtime.IPath;
  */
 public class Variant extends AbstractAsset 
 					 implements IGXLExport, IComponentContainer,
-					 			IReleaseContainer, IFileDescriptorContainer{
+					 			IReleaseContainer, IFileDescriptorContainer,
+					 			IAdaptable {
 
 	private List components = new ArrayList();
 	private List releases = new ArrayList();
@@ -309,5 +312,16 @@ public class Variant extends AbstractAsset
      */
     public void clear() {
         filedescs.clear();
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+     */
+    public Object getAdapter(Class adapter)
+    {
+        if (adapter == IResource.class) {
+            return ModelStorage.getFolderForAsset(this);
+        }
+        return null;
     }
 }
