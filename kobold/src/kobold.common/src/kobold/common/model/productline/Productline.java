@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.17 2004/06/24 11:06:20 grosseml Exp $
+ * $Id: Productline.java,v 1.18 2004/06/24 11:37:22 rendgeor Exp $
  *
  */
 package kobold.common.model.productline;
@@ -172,11 +172,13 @@ public class Productline extends AbstractAsset
 			if (newDir.mkdir()==true)
 			{
 				System.out.println("Directory was created");
-				if (level == 1)
-				product.serializeProduct(path);
 			}
 			else
 			System.out.println("Directory already existed");
+
+			if (level == 1)
+			product.serializeProduct(path);
+
 			
 			// Store only a file reference to the product here. 
 			productsEl.addElement(product.getName());
@@ -198,13 +200,13 @@ public class Productline extends AbstractAsset
 			if (newDir.mkdir()==true)
 			{
 				System.out.println("Directory was created");
-				if (level == 1)
-				component.serializeComponent(path);
 			}
 
 			else
 			System.out.println("Directory already existed");
 
+			if (level == 1)
+				component.serializeComponent(path);
 			
 			
 			// Store only a file reference to the product here.
