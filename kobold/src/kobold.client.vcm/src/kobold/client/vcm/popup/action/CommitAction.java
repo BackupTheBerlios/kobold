@@ -37,7 +37,7 @@ import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
-public class CommitAction extends TeamAction {
+public class CommitAction extends KoboldAction {
 
 	//The selected Object
 	IResource currentSelection = null;

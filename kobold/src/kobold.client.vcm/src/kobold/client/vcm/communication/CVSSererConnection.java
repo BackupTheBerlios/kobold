@@ -57,8 +57,11 @@ public class CVSSererConnection implements IServerConnection
 	// The variable for verifiying the connection is establisched
 	private static boolean connected = false;
 
-	// cvs format for the repository (e.g. :extssh:user@host:/home/cvs/repo)
-	private String location;
+	// cvs format for the repository without connection detail information(e.g. host:/home/cvs/repo)
+	private String repositoryLocation = "";
+	private String localPath = "";
+	// The user name for the VCM
+	private String user;
 	private String password;
 
 	// The buffer for reading the InputStreams
@@ -91,9 +94,10 @@ public class CVSSererConnection implements IServerConnection
 	 * @param location the location of the cvs repository @see ICVSRepositoryLocation
 	 * @param password the password of the current user
 	 */
-	public CVSSererConnection(String location, String password) {
-		this.location = location;
+	public CVSSererConnection(String location, String user, String password) {
+		this.repositoryLocation = location;
 		this.password = password;
+		this.user = user;
 	}
 	
 	
@@ -326,7 +330,7 @@ public class CVSSererConnection implements IServerConnection
 			
 			try {
 				try {
-					
+					if (in != null) {
 					int r,index = 0;
 					System.out.println(in.toString()+" :"+in.available());
 					while ((in.available() != 0) && (r = in.read()) != -1 ) {
@@ -334,6 +338,7 @@ public class CVSSererConnection implements IServerConnection
 					}
 				
 					stream.print(new String(readLineBuffer, 0, index));
+				}
 				} finally {
 					in.close();
 				}
@@ -362,5 +367,11 @@ public class CVSSererConnection implements IServerConnection
 	 */
 	public void setSkriptName(String skriptName) {
 		this.skriptName = skriptName;
+	}
+	/**
+	 * @param localPath The localPath to set.
+	 */
+	public void setLocalPath(String localPath) {
+		this.localPath = localPath;
 	}
 }
