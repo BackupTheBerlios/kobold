@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.18 2004/08/24 15:49:30 garbeam Exp $
+ * $Id: WorkflowDialog.java,v 1.19 2004/08/24 16:15:30 garbeam Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -41,7 +41,6 @@ import kobold.common.data.UserContext;
 import kobold.common.data.WorkflowItem;
 import kobold.common.data.WorkflowMessage;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
@@ -52,6 +51,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
 /**
  * @author scheglov_ke
  */
@@ -91,21 +91,14 @@ public class WorkflowDialog extends TitleAreaDialog {
 		header.setLayout(gridLayout);
 		
 		new Label(header, SWT.NONE).setText("Sender:");
-		
-		if (msg.getSender() != null) {
-    		new Label(header, SWT.NONE).setText(msg.getSender());
-		}
-		else {
-    		new Label(header, SWT.NONE).setText("Kobold System");
-		}
-		
+		new Label(header, SWT.NONE).setText(msg.getSender());
 		new Label(header, SWT.NONE).setText("Receiver:");
 		new Label(header, SWT.NONE).setText(msg.getReceiver());
 		new Label(header, SWT.NONE).setText("Subject:");
 		new Label(header, SWT.NONE).setText(msg.getSubject());
 		
 		// add Mesagetext
-		Text mt = new Text(area,SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		Text mt = new Text(area, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		mt.setText(msg.getMessageText());
 	
 		if (msg instanceof WorkflowMessage) {
@@ -122,14 +115,21 @@ public class WorkflowDialog extends TitleAreaDialog {
            gd.heightHint = 150;
            gd.widthHint = 350;           
            comment.setLayoutData(gd);  			 
-    	}  	   	
+           comment.setFocus();
+    	}
       	return area;
 	}
 
-//	protected void createButtonsForButtonBar(Composite parent) {
-//        createButton(parent, IDialogConstants.OK_ID, "Send", true);
-//		createButton(parent, IDialogConstants.CANCEL_ID, "Close", false);		
-//	}
+	protected void createButtonsForButtonBar(Composite parent) {
+        if (msg instanceof WorkflowMessage) {
+            createButton(parent, IDialogConstants.OK_ID, "&Transmit", true);
+            createButton(parent, IDialogConstants.CANCEL_ID, "&Cancel", true);
+        }
+        else {
+            createButton(parent, IDialogConstants.OK_ID, "O&K", true);
+    		getButton(IDialogConstants.OK_ID).setFocus();
+        }
+	}
 	
 	public void okPressed(){
 		if (msg instanceof WorkflowMessage) {
@@ -166,5 +166,4 @@ public class WorkflowDialog extends TitleAreaDialog {
 		super.configureShell(newShell);
 		newShell.setText("Workflow Dialog");
 	}	
-
 }
