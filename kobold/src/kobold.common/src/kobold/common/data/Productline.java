@@ -21,73 +21,122 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.12 2004/06/24 00:38:52 garbeam Exp $
+ * $Id: Productline.java,v 1.13 2004/07/05 15:59:32 garbeam Exp $
  *
  */
 package kobold.common.data;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import kobold.common.io.RepositoryDescriptor;
 
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 /**
- * @author garbeam
+ * Represents a server side productline. Used for client-server interchange.
  */
-public class Productline implements IAsset {
+public class Productline extends Asset {
 
-	private String name;
-	private RepositoryDescriptor repositoryDescriptor;
+	private List coreassets = new ArrayList();
+	private List products = new ArrayList();
 	
 	/**
+	 * Base constructor for productlines.
+	 * @param name the name of this productline.
+	 * @param repositoryDescriptor the repository descriptor.
 	 */
-	public Productline(String name,
-					   RepositoryDescriptor repDescr)
-	{
-		this.name = name;
-		this.repositoryDescriptor = repDescr;
+	public Productline(String name, RepositoryDescriptor repositoryDescriptor) {
+		super(null, Asset.PRODUCT_LINE, name, repositoryDescriptor);
 	}
 
 	/**
+	 * DOM constructor for server-side productlines.
+	 * @param element the DOM element representing this productline.
 	 */
 	public Productline(Element element) {
+		super(null, element);
 		deserialize(element);
 	}
 
 	/**
-	 * Serializes the productline.
-	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
+	 * Adds new product to this productline.
+	 * @param product the product to add.
+	 */
+	public void addProduct(Product product) {
+		products.add(product);
+		product.setParent(this);
+	}
+	
+	/**
+	 * Removes existing product from this productline.
+	 * @param product the product to remove.
+	 */
+	public void removeProduct(Product product) {
+		products.remove(product);
+		product.setParent(null);
+	}
+
+	/**
+	 * Adds new core asset to this productline.
+	 * @param coreasset the coreasset to add.
+	 */
+	public void addCoreAsset(Component coreasset) {
+		coreassets.add(coreasset);
+		coreasset.setParent(this);
+	}
+	
+	/**
+	 * Removes existing coreasset from this productline.
+	 * @param coreasset the coreassset to remove.
+	 */
+	public void removeCoreAsset(Component coreasset) {
+		coreassets.remove(coreasset);
+		coreasset.setParent(null);
+	}
+
+	/**
+	 * Serializes this productline.
 	 */
 	public Element serialize() {
-		Element element = DocumentHelper.createElement("productline");
-		element.addAttribute("name", name);
-		element.add(repositoryDescriptor.serialize());
+		Element element = super.serialize();
+
+		Element coreassetElements = element.addElement("coreassets");
+		for (Iterator iterator = coreassets.iterator(); iterator.hasNext(); ) {
+			Component component = (Component) iterator.next();
+			coreassetElements.add(component.serialize());
+		}
 		
+		Element productElements = element.addElement("products");
+		for (Iterator iterator = products.iterator(); iterator.hasNext(); ) {
+			Product product = (Product) iterator.next();
+			productElements.add(product.serialize());
+		}
+
 		return element;
 	}
 
 	/**
-	 * @param productName
+	 * Deserializes this productline. It's asserted that super deserialization
+	 * is already finished.
+	 * @param element the DOM element representing this productline.
 	 */
 	public void deserialize(Element element) {
-		this.name = element.attributeValue("name");
-		this.repositoryDescriptor =
-			new RepositoryDescriptor(element.element("repository-descriptor"));
+		Element coreassetElements = element.element("coreassets");
+		for (Iterator iterator = coreassetElements.elementIterator(Asset.COMPONENT);
+			 iterator.hasNext(); )
+		{
+			Element elem = (Element) iterator.next();
+			coreassets.add(new Component(this, elem));
+		}
+		
+		Element productElements = element.element("products");
+		for (Iterator iterator = coreassetElements.elementIterator(Asset.PRODUCT);
+			 iterator.hasNext(); )
+		{
+			Element elem = (Element) iterator.next();
+			products.add(new Product(this, elem));
+		}
 	}
-
-	/**
-	 * @see kobold.common.data.IAsset#getType()
-	 */
-	public String getType() {
-		return IAsset.PRODUCT_LINE;
-	}
-
-    /**
-     * @see kobold.common.data.IAsset#getName()
-     */
-    public String getName()
-    {
-        return name;
-    }
-
 }

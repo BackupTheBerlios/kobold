@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: RepositoryDescriptor.java,v 1.3 2004/06/24 00:38:52 garbeam Exp $
+ * $Id: RepositoryDescriptor.java,v 1.4 2004/07/05 15:59:32 garbeam Exp $
  */
 
 package kobold.common.io;
@@ -40,10 +40,19 @@ import kobold.common.data.ISerializable;
  */
 public class RepositoryDescriptor implements ISerializable {
 	
+	public static final String CVS_REPOSITORY = "CVS";
+	public static final String SVN_REPOSITORY = "SVN";
+	
+	// Defines the repository type, e.g. cvs, svn, arch, ...
+	private String type = null;
+	// Defines the protocol, e.g. ssh, pserver, svn, WebDAV, ...
 	private String protocol = null;
+	// Defines the hostname, e.g. cvs.berlios.de
 	private String host = null;
+	// Defines the repository root, e.g. /cvsroot/kobold/
+	private String root = null;
+	// Defines the module path without repository root, e.g. kobold
 	private String path = null;
-
 
 	/**
 	 * Basic default constructor.
@@ -54,12 +63,16 @@ public class RepositoryDescriptor implements ISerializable {
 	/**
 	 * Convenient (initial) constructor.
 	 */
-	public RepositoryDescriptor(String protocol,
+	public RepositoryDescriptor(String type,
+								String protocol,
 								String host,
+								String root,
 								String path)
 	{
+		this.type = type;
 		this.protocol = protocol;
 		this.host = host;
+		this.root = root;
 		this.path = path;
 	}
 
@@ -76,8 +89,10 @@ public class RepositoryDescriptor implements ISerializable {
 	 */
 	public Element serialize() {
 		Element element = DocumentHelper.createElement("repository-descriptor");
+		element.addAttribute("type", type);
 		element.addAttribute("host", host);
 		element.addAttribute("protocol", protocol);
+		element.addAttribute("root", root);
 		element.addAttribute("path", path);
 		
 		return element;
@@ -87,11 +102,25 @@ public class RepositoryDescriptor implements ISerializable {
 	 * @see kobold.common.data.ISerializable#deserialize(org.dom4j.Element)
 	 */
 	public void deserialize(Element element) {
+		type = element.attributeValue("type");
 		host = element.attributeValue("host");
 		protocol = element.attributeValue("protocol");
+		root = element.attributeValue("root");
 		path = element.attributeValue("path");
 	}
 	
+	public String getRoot() {
+		return root;
+	}
+	public void setRoot(String root) {
+		this.root = root;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	/**
 	 * @return host name where the repository is located.
 	 */

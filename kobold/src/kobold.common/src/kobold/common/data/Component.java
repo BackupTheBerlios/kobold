@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.10 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: Component.java,v 1.1 2004/07/05 15:59:32 garbeam Exp $
  *
  */
 
@@ -32,42 +32,36 @@ import java.util.Iterator;
 import java.util.List;
 
 import kobold.common.io.RepositoryDescriptor;
-import kobold.common.data.Productline;
 
 import org.dom4j.Element;
 
 /**
- * Represents a server side product. Used for client-server interchange.
+* Represents a server-side component. If the parent is a productline this class
+* represents a server-side coreasset. Used for client-server interchange. 
  */
-public class Product extends Asset {
+public class Component extends Asset {
 
 	private List components = new ArrayList();
 	
 	/**
 	 * Basic constructor.
-	 * @param productline the parent productline.
-	 * @param name the name of this product.
-	 * @param repositoryDescriptor the repository descriptor of this product.
+	 * @param parent the parent asset, e.g. a product or productline.
+	 * @param name the name of this component.
+	 * @param repositoryDescriptor the repository descriptor of this
+	 * 		  component.
 	 */
-	public Product (Productline productline, String name, RepositoryDescriptor repositoryDescriptor) {
-		super(productline, Asset.PRODUCT, name, repositoryDescriptor);
+	public Component(Asset parent, String name, RepositoryDescriptor repositoryDescriptor) {
+		super(parent, Asset.COMPONENT, name, repositoryDescriptor);
 	}
 	
 	/**
 	 * DOM constructor.
-	 * @param productline the parent productline.
-	 * @param the DOM element representing this asset.
+	 * @param parent the parent of this component.
+	 * @param element the DOM element representing this component.
 	 */
-	public Product (Productline productline, Element element) {
-		super(productline, element);
+	public Component (Asset parent, Element element) {
+		super (parent, element);
 		deserialize(element);
-	}
-	
-	/**
-	 * Returns all components of this product.
-	 */
-	public List getComponents() {
-		return components;
 	}
 	
 	/**
@@ -85,26 +79,25 @@ public class Product extends Asset {
 	public void removeComponent(Component component) {
 		components.remove(component);
 	}
-
+	
 	/**
-	 * Serializes this product.
+	 * Serializes this component.
 	 */
 	public Element serialize() {
 		Element element = super.serialize();
-		
+
 		Element compElements = element.addElement("components");
-		for (Iterator iterator = components.iterator(); iterator.hasNext(); ) {
+		for (Iterator iterator = components.iterator(); iterator.hasNext();) {
 			Component component = (Component) iterator.next();
 			compElements.add(component.serialize());
 		}
 		
 		return element;
 	}
-	
+
 	/**
-	 * Deserializes this product. It's asserted that super deserialization
-	 * is already finished.
-	 * @param element the DOM element representing this product.
+	 * Deserializes this product.
+	 * @param productName
 	 */
 	public void deserialize(Element element) {
 		Element compElements = element.element("components");

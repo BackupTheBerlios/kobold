@@ -21,18 +21,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.11 2004/06/24 09:58:57 grosseml Exp $
+ * $Id: IKoboldServer.java,v 1.12 2004/07/05 15:59:32 garbeam Exp $
  *
  */
 
 package kobold.common.controller;
 
-import java.util.Vector;
+import java.util.List;
 
 import kobold.common.data.AbstractKoboldMessage;
+import kobold.common.data.Component;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
-import kobold.common.data.Role;
+import kobold.common.data.User;
 import kobold.common.data.UserContext;
 import kobold.common.io.RepositoryDescriptor;
 
@@ -59,13 +60,6 @@ public interface IKoboldServer {
 	 * @param userContext the user context.
 	 */
     public void logout(UserContext userContext);
-
-	/**
-     * Fetches all roles for the given user context from the server.
-	 * @param userContext the user context.
-	 * @return List of Roles.
-	 */
-	public Vector getRoles(UserContext userContext);
 	
 	/**
 	 * Adds an new user to the server.
@@ -77,9 +71,32 @@ public interface IKoboldServer {
 	 * @param realName the real name.
 	 */
 	public void addUser(UserContext userContext,
-									String userName, String password,
+									String userName,
+									String password,
 									String realName);
 		
+    /**
+     * Get list of all users.
+     * @param userContext
+     */
+    public List getAllUsers(UserContext userContext);
+    
+	/**
+     * Applies modifications to the specified user.
+	 * @param userContext the user context
+	 * @param user the user name
+	 * @param password the new password
+     */
+    public void updateUser(UserContext userContext,
+    					   User user, String password);
+    
+	/**
+     * Removes the specified user.
+     * @param userContext the user context.
+     * @param user the user to remove.
+     */
+    public void removeUser(UserContext userContext, User user);
+
     /**
      * Fetches a productline by its name.
      * @param userContext the user context.
@@ -89,59 +106,43 @@ public interface IKoboldServer {
     public Productline getProductline(UserContext userContext, String plName);
 
     /**
-     * Fetches a product by its name.
+     * Fetches all product line names.
      * @param userContext the user context.
-     * @param productName the name of the productline.
-     * @return the product line.
+     * @return {@see java.util.List} of the productline names.
      */
-    public Product getProduct(UserContext userContext, String productName);
+    public List getProductlineNames(UserContext userContext);
 
     /**
-     * Adds a new product.
-     * @param userContext the user context.
-     * @param product the product.
-     */
-    public void addProduct(UserContext userContext, Product product);
-
-    /**
-     * Adds a new role.
-     * @param userContext the user context.
-     * @param userName the specified user.
-     * @param role the new role.
-     */
-    public void addRole(UserContext userContext, String userName, Role role);
-
-	/**
-	 * Removes the role from the user.
-	 * @param userContext the user context.
-	 * @param userName the specified user.
-	 * @param role the new role.
-	 */
-	public void removeRole(UserContext userContext, String userName, Role role);
-
-	/**
 	 * Applies modifications to the given Productline.
+	 * If you make changes to a specific product or component,
+	 * use the specific method instead.
 	 * @param userContext the user context.
 	 * @param productline the productline. 
 	 */
-	public void applyProductlineModifications(UserContext userContext,
-																 Productline productline);
+	public void updateProductline(UserContext userContext,
+								  Productline productline);
     
 	/**
 	 * Applies modifications to the given Product.
+	 * If you make changes to a specific component, use the
+	 * applComponentModification() method instead.
+	 * @param userContext the user context.
+	 * @param productlineName th
+	 * @param product the product. 
+	 */
+	public void updateProduct(UserContext userContext,
+							  String productlineName,
+							  Product product);
+    
+	/**
+	 * Applies modifications to the given Component.
 	 * @param userContext the user context.
 	 * @param product the product. 
 	 */
-	public void applyProductModifications(UserContext userContext,
-			Product product);
-    
-    /**
-     * Removes the specified user.
-     * @param userContext the user context.
-     * @param user the user to remove.
-     */
-    public void removeUser(UserContext userContext, String userName);
-
+	public void updateComponent(UserContext userContext,
+								String productName,
+								Component component);
+	
 	/**
 	 * Sends a KoboldMessage or WorkflowMessage.
 	 * 
@@ -149,7 +150,7 @@ public interface IKoboldServer {
 	 * @param koboldMessage the message.
 	 */
 	public void sendMessage(UserContext userContext,
-												AbstractKoboldMessage koboldMessage);
+							AbstractKoboldMessage koboldMessage);
 	
 	
 	/**
@@ -170,7 +171,7 @@ public interface IKoboldServer {
 	 * @param koboldMessage the message.
 	 */
 	public void invalidateMessage(UserContext userContext,
-												  AbstractKoboldMessage koboldMessage);
+								  AbstractKoboldMessage koboldMessage);
 	
 	/**
 	 * This method is used by SAT-Clients to validate the accessibility of
