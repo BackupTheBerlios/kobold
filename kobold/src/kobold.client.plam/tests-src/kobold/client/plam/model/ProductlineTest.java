@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineTest.java,v 1.7 2004/08/04 17:41:03 neco Exp $
+ * $Id: ProductlineTest.java,v 1.8 2004/08/05 18:04:21 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -72,7 +72,7 @@ public class ProductlineTest extends TestCase {
 
 		/////--------Product----------------
 		//add a product
-		Product productA = new Product ();
+		Product productA = new Product (pl);
 		productA.setName("me");
 		
 		RepositoryDescriptor descriptor = new RepositoryDescriptor ();
@@ -80,7 +80,7 @@ public class ProductlineTest extends TestCase {
 		
 		productA.addProductRelease(new ProductRelease(new Date(10,10,04)));
 		
-		Product productB = new Product ();
+		Product productB = new Product (pl);
 		productB.setName("xp");
 		
 		pl.addProduct(productA);
