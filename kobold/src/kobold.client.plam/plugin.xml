@@ -201,6 +201,16 @@
                class="kobold.client.plam.action.AddToProduct"
                id="kobold.client.plam.addProductAction"/>
       </objectContribution>
+      <objectContribution
+            adaptable="false"
+            objectClass="kobold.client.plam.model.product.ProductComponent"
+            id="ProductComponentContrib">
+         <action
+               enablesFor="1"
+               label="%PromoteToProductline"
+               class="kobold.client.plam.action.PromoteProductComponentAction"
+               id="kobold.client.plam.PromoteAction"/>
+      </objectContribution>
    </extension>
    <extension
          id="ccc"
