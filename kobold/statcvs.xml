@@ -16,7 +16,7 @@
         <setting key="memyselfandi">Patrick Schneider</setting>
     </authors>
     
-<!--    <authorPics type="map">
+    <authorPics type="map">
         <setting key="neco">neco.png</setting>
         <setting key="neccaino">neccaino.png</setting>
         <setting key="bettina">bettina.png</setting>
@@ -26,9 +26,9 @@
         <setting key="martinplies">martinplies.png</setting>
         <setting key="rendgeor">rendgeor.png</setting>
         <setting key="memyselfandi">memyselfandi.png</setting>
-    </authorPics> -->
+    </authorPics>
     
-	<showImages>true</showImages>
+    <showImages>true</showImages>
     <projectName>Kobold PLAM</projectName>
     <outputDir>xdocs/statcvs-xml</outputDir>
     <renderer>xdoc</renderer>
