@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.20 2004/08/06 00:44:31 vanto Exp $
+ * $Id: ModelStorage.java,v 1.21 2004/08/06 09:36:46 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -171,7 +171,7 @@ public class ModelStorage
                 	monitor.beginTask("Storing PLAM Model", 1000);
             		//get the PL directory
                     IProject project = pl.getKoboldProject().getProject();
-                 	IFolder plmeta = project.getFolder(pl.getName());
+                 	IFolder plmeta = project.getFolder(pl.getResource());
                 	
                 	//create the PL,PRODUCTS,CAS directories
                 	createPlDirectory(pl, new SubProgressMonitor(monitor, 500));
@@ -295,7 +295,7 @@ public class ModelStorage
         AbstractRootAsset root = asset.getRoot();
         String thePath = "";
         while (asset != null) {
-             
+
             if (asset.getType() == AbstractAsset.COMPONENT) {
                 if (asset.getParent().getType() != AbstractAsset.VARIANT) {
                     thePath = COREASSETS_FOLDER_NAME + IPath.SEPARATOR +

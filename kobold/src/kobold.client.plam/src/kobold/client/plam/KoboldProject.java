@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.10 2004/08/06 01:57:29 vanto Exp $
+ * $Id: KoboldProject.java,v 1.11 2004/08/06 09:36:46 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -43,6 +43,7 @@ import java.util.Map;
 import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.editor.model.ViewModelContainer;
 import kobold.client.plam.listeners.IVCMActionListener;
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.ProductlineFactory;
@@ -67,7 +68,9 @@ import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressService;
@@ -380,11 +383,73 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	    return Collections.unmodifiableMap(userPool);
 	}
 	
+	private Path calcViewModelStorePath(AbstractRootAsset root) 
+	{
+   		String path = "";
+   		boolean isManager = false;
+   		Iterator it = root.getMaintainers().iterator(); 
+   		while (it.hasNext()) {
+   		    User u = (User)it.next();
+   		    if (u.getUsername().equals(getUserName())) {
+   		        isManager = true;
+   		        break;
+   		    }
+   		}
+   		
+   		if (isManager) {
+   		    if (root instanceof Productline) {
+   		        path = root.getResource() + IPath.SEPARATOR;
+   		    } else {
+   		        path = ModelStorage.PRODUCTS_FOLDER_NAME + IPath.SEPARATOR
+   		    		+ root.getResource() + IPath.SEPARATOR;
+   		    }
+   		}
+   		
+   		path = path + root.getResource() + ".vm";
+   		
+   		return new Path(path);
+	}
+	
+	private Path calcViewModelLoadPath(AbstractRootAsset root) 
+	{
+   		String path = "";
+
+   		boolean isManager = false;
+   		Iterator it = root.getMaintainers().iterator(); 
+   		while (it.hasNext()) {
+   		    User u = (User)it.next();
+   		    if (u.getUsername().equals(getUserName())) {
+   		        isManager = true;
+   		        break;
+   		    }
+   		}
+   		
+	    String mPath = "";
+   		if (root instanceof Productline) {
+	        mPath = root.getResource() + IPath.SEPARATOR;
+	    } else {
+	        mPath = ModelStorage.PRODUCTS_FOLDER_NAME + IPath.SEPARATOR
+	    		+ root.getResource() + IPath.SEPARATOR;
+	    }
+
+   		Path p = new Path(mPath + root.getResource() + ".vm");
+   		if (isManager) {
+   		    return p;
+   		} else {
+   		    Path lp = new Path(root.getResource() + ".vm");
+   		    if (project.getFile(lp).exists()) {
+   		        return lp;
+   		    } else {
+   		        return p;
+   		    }
+   		}
+	}
+	
 	/**
      * @param viewModel
      * @param monitor
      */
-    public void storeViewModelContainer(ViewModelContainer viewModel, IProgressMonitor monitor) 
+    public void storeViewModelContainer(AbstractRootAsset root, ViewModelContainer viewModel, IProgressMonitor monitor) 
     		throws Exception
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -392,7 +457,10 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
    		writer = new XMLWriter(out, OutputFormat.createPrettyPrint());
    		writer.write(viewModel.serialize());
    		writer.close();
-   		IFile vmFile = project.getFile(".viewdata");
+   		
+   		
+   		IFile vmFile = project.getFile(calcViewModelStorePath(root));
+   		System.err.println("S"+vmFile.getLocation().toOSString());
    		if (vmFile.exists()) {
    		    vmFile.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, monitor);
    		} else {
@@ -402,9 +470,10 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
     	out.close();
     }
 
-    public ViewModelContainer restoreViewModelContainer() 
+    public ViewModelContainer restoreViewModelContainer(AbstractRootAsset root) 
     {
-        IFile vmFile = project.getFile(".viewdata");
+        IFile vmFile = project.getFile(calcViewModelLoadPath(root));
+        System.err.println("L"+vmFile.getLocation().toOSString());
         if (vmFile.exists()) {
             InputStream is;
             try {

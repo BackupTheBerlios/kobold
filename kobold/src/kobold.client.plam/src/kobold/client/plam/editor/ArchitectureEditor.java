@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.30 2004/08/05 20:42:31 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.31 2004/08/06 09:36:46 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -287,7 +287,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 			isSaving = true;
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 		    KoboldProject pp = model.getKoboldProject();
-			pp.storeViewModelContainer(viewModel, monitor);
+			pp.storeViewModelContainer(model, viewModel, monitor);
 			pp.store();
 			isDirty = false;
 			//pp.getProductline().serializeAll();
@@ -317,7 +317,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	 * @see org.eclipse.ui.ISaveablePart#isDirty()
 	 */
 	public boolean isDirty() {
-		return getCommandStack().isDirty() && isDirty;
+		return getCommandStack().isDirty() || isDirty;
 	}
 
 	/**
@@ -512,7 +512,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 		model = getArchEditorInput().getAsset();
 		model.addModelChangeListener(this);
 	    KoboldProject pp = model.getKoboldProject();
-	    ViewModelContainer vmc = pp.restoreViewModelContainer(); 
+	    ViewModelContainer vmc = pp.restoreViewModelContainer(model); 
 	    
 	    if (vmc != null) {
 	        viewModel = vmc;

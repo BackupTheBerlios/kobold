@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.17 2004/08/06 03:41:34 martinplies Exp $
+ * $Id: AbstractAsset.java,v 1.18 2004/08/06 09:36:46 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -287,6 +287,10 @@ public abstract class AbstractAsset implements ISerializable, INode
         Element element = DocumentHelper.createElement(getType());
         element.addAttribute("id", id);
         
+        if (resource != null) {
+            element.addAttribute("resource", resource);
+        }
+        
         Element nameEl = element.addElement("name");
         if (name != null) {
             nameEl.setText(name);
@@ -310,7 +314,8 @@ public abstract class AbstractAsset implements ISerializable, INode
     public void deserialize(Element element) 
     {
     	id = element.attributeValue("id");
-
+    	resource = element.attributeValue("resource");
+    	
     	name = element.elementTextTrim("name");
     	description = element.elementTextTrim("description");
 
@@ -388,6 +393,7 @@ public abstract class AbstractAsset implements ISerializable, INode
     public String getResource() {
         return resource;
     }
+    
     public void setResource(String resource) {
         this.resource = resource;
     }
