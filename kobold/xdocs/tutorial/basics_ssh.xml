@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <document>
   <properties>
     <title>Tutorial: Basics</title>
@@ -19,7 +19,7 @@
                 >  chmod o+r hallo_datei_fuer_alle.pdf
                 
               </source>
-      <p> Mit dem Server shell.berlios.de wird hierbei eine Verbindung hergestellt. Die Webpage-Daten und die FTP-Daten liegen in verschiedenen Verzeichnissen. Damit die Welt auf Dateien zugreifen kann müssen die Rechte für Verzeichnisse und Dateien gesetzt werden.
+      <p> Mit dem Server shell.berlios.de wird hierbei eine Verbindung hergestellt. Die Webpage-Daten und die FTP-Daten liegen in verschiedenen Verzeichnissen. Damit die Welt auf Dateien zugreifen kann müssen die Rechte für Verzeichnisse und Dateien gesetzt werden.</p>
   </td></tr></table></subsection>
 
   <subsection name="cvs (without Eclipse)"><table><tr><td>
@@ -43,6 +43,6 @@
   </td></tr></table></subsection>
 
 
-
+</section>
   </body>
 </document>
