@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.1 2004/08/04 20:53:08 vanto Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.2 2004/08/04 21:05:45 vanto Exp $
  *
  */
 package kobold.client.plam.view;
@@ -43,12 +43,14 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.actions.ActionGroup;
+import org.eclipse.ui.actions.DeleteResourceAction;
 import org.eclipse.ui.actions.NewWizardMenu;
 import org.eclipse.ui.part.DrillDownAdapter;
 
@@ -67,6 +69,7 @@ public class RoleTreeActionGroup extends ActionGroup
     private NewUserAction newUserAction;
     private RefreshFileDescriptorsAction refreshFDAction;
     private ConfigureAssetAction configureAssetAction;
+    private DeleteResourceAction deleteAction;
     
     public RoleTreeActionGroup(RoleTreeViewPart part) 
     {
@@ -75,6 +78,11 @@ public class RoleTreeActionGroup extends ActionGroup
 		newUserAction = new NewUserAction(part.getSite().getShell());
 		refreshFDAction = new RefreshFileDescriptorsAction(part.getSite().getShell());
 		configureAssetAction = new ConfigureAssetAction(part.getSite().getShell());
+		
+		ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
+		deleteAction = new DeleteResourceAction(part.getSite().getShell());
+		deleteAction.setDisabledImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE_DISABLED));
+		deleteAction.setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));		
     }
     
     
@@ -105,6 +113,7 @@ public class RoleTreeActionGroup extends ActionGroup
 			}
 		}		
 		
+		manager.add(deleteAction);
 		manager.add(new Separator());
 		manager.add(newUserAction);
 		manager.add(refreshFDAction);
@@ -133,10 +142,9 @@ public class RoleTreeActionGroup extends ActionGroup
 
     public void handleSelectionChanged(SelectionChangedEvent event)
     {
-        if (refreshFDAction != null) {
-            refreshFDAction.handleSelectionChanged(event);
-            configureAssetAction.handleSelectionChanged(event);
-        }
+        refreshFDAction.handleSelectionChanged(event);
+        configureAssetAction.handleSelectionChanged(event);
+        deleteAction.selectionChanged(((IStructuredSelection)event.getSelection()));
     }
     
     public void handleDoubleClick(DoubleClickEvent event)
