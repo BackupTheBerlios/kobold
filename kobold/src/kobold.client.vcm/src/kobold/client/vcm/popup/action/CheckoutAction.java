@@ -56,7 +56,7 @@ public class CheckoutAction extends KoboldAction {
 
 		    repoAccess.preCheckout(testAssets,IResource.DEPTH_INFINITE,null,true);
 		    repoAccess.checkout(testAssets,IResource.DEPTH_INFINITE,null);
-			repoAccess.postCheckout(testAssets,IResource.DEPTH_INFINITE,null,true);
+			repoAccess.postcheckout(testAssets,IResource.DEPTH_INFINITE,null,true);
 		}
 		catch (Exception e)
 		{
