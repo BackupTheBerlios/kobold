@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.70 2004/08/03 16:46:34 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.71 2004/08/04 09:26:13 neccaino Exp $
  *
  */
 package kobold.server;
@@ -364,6 +364,17 @@ public class SecureKoboldWebServer implements IKoboldServer,
                     return IKoboldServerAdministration.RETURN_FAIL;
                 }
             }
+            else if (methodName.equals("getGeneralUsers")){
+                try{
+                    logger.info("Recieved admincall \"" + methodName + "\"\n");
+                    // admin method so leave without noticing the WorkflowEngine
+                    return getRegisteredUsers((String)arguments.elementAt(0));
+                }
+                catch(Exception e){
+                    logger.info("Exception during execute()", e);
+                    return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }            
 		} catch (Exception e) {
 			logger.info("Exception during execute()", e);
 			throw e;	
@@ -739,7 +750,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
         // 2.) get productline list and convert it to string
         List pllist = ProductlineManager.getInstance().getProductlineNames();
         String ret = "";
-        
+                
         int sizeOfList = pllist.size();
         if (sizeOfList == 0){
             ret += "no productlines on the server\n";
@@ -750,4 +761,31 @@ public class SecureKoboldWebServer implements IKoboldServer,
         
         return ret; 
     }
+    
+    /**
+     * This method returns the usernames of all registered users.
+     * 
+     * @param adminPassword the Kobold server's administration password
+     * @return String containing all registered usernames (seperated by '\n')
+     *         or one of the IKoboldServerAdministration error strings
+     */
+    public String getRegisteredUsers(String adminPassword){
+        // 1.) check the password
+        if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
+        
+        // 2.) get userlist and convert it to string
+        UserManager um = UserManager.getInstance();
+        List ul = um.getAllUsers();
+        Iterator it = ul.iterator();
+        String ret = "";
+        
+        while(it.hasNext()){
+            ret += ((kobold.common.data.User)it.next()).getUsername() + "\n";
+        }
+        
+        return ret;
+    }
+    
 }
