@@ -2,7 +2,7 @@
 %% StuPro A, Produktlinien (Kobold)
 %% Team Werkbold
 %% Projektplan
-%% $Id: iteration1.tex,v 1.2 2004/02/02 08:05:54 garbeam Exp $
+%% $Id: iteration1.tex,v 1.3 2004/02/02 09:26:47 garbeam Exp $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Iteration I}
@@ -18,8 +18,8 @@ höherer Aufwand zugrundegelegt.\par
 Folgende Basistechnologien sind für die erste Iteration geplant:
 
 \begin{itemize}
-\item Funktionsfähiger Server mit Stateful Event-Queue und Persistierung von
-Benutzern und Rollen (XML-RPC basiert)
+\item Funktionsfähiger Server mit Nachrichten-Queue und Persistierung von
+Benutzern und Rollen (Apache XML-RPC basiert)
 \item Funktionsfähiger Client mit folgenden Basiskomponenten:
 \begin{itemize}
 \item Arbeitsbereich Komponente (Eclipse-basiert)
@@ -39,23 +39,71 @@ Darüber hinaus werden in der ersten Iterationen folgende Dokumente erstellt:
 \item Entwurf der Basiskomponenten
 \item Source- und Bytecode der Basiskomponenten
 \item Source- und Bytecode aller notwendigen Komponenten von Drittherstellern
-\item Entwickler Howtos zu Basiskomponenten
-\item Testfälle, Testplan und Testresultate zu Basiskomponenten
+\item Entwickler Howtos zu Basiskomponenten (Apache Maven/XDOC basiert)
+\item Testfälle, Testplan und Testresultate zu
+Basiskomponenten\footnote{Blackbox-Tests des Rahmensystems werden in Absprache
+mit dem Auftraggeber vom AssetDevel-Team durchgeführt.}
 \end{itemize}
 
-\subsection{Arbeitsplan}
-
 \subsection {Zeitplan}
-Eine Zeitplanung im Voraus unterliegt einer gewissen Unsicherheit, da
-die Team- Zusammensetzung im Hauptprojekt und die daraus resultierende
-Terminsynchronisation noch nicht genau ermittelt werden kann. Deshalb
-wird der Zeitplanung im Rahmen dieses Angebotes eine kontinuierliche
-Vorgehensweise zugrundegelegt. Eine Verfeinerung der Zeitplanung wird
-nach der Anpassung des Projektplanes im Rahmen der Neuformierung im
-Hauptprojekt dem Auftraggeber zur Verfügung gestellt.\par
-Als Gesamtaufwand für die Projektdurchführung werden {\bf 500}
-Arbeitsstunden pro Team-Mitglied veranschlagt. Ausgehend von 9
-Team-Mitgliedern entspricht das {\bf 4500} Arbeitsstunden für das
+
+Durch die Neuformierung des Werkbold-Teams und Ermittlung aller Prüfungs- und
+Urlaubstermine der Team-Mitglieder ergibt sich für die erste Iteration ein 
+detaillierter Zeitplan. Wie bereits oben erwähnt, wurde der Aufwand der ersten
+Iteration mit der ursprünglich angebotenen Iteration II verschmolzen. Dies
+beruht vor allem auf den hohen Qualitätsanforderungen für das zu entwickelnde
+\product - Rahmensystem, aber auch auf dem identifizierten Schulungs- bzw.
+Einarbeitungsbedarf sowie der eingeplanten Prüfungsvorbereitungszeit
+, die im März 2004 zu einer eingeschränkten Arbeitsfähigkeit des Werkbold-Teams 
+führen wird.\par
+Aufgrund der durch die Neuformierung ermittelten Risiken bzgl. des Ausfalls von
+Team-Mitgliedern durch Nicht-Erreichen des Vordiploms unterliegt auch die im
+Folgenden aufgeführte Detailplanung einer gewissen Unsicherheit. Es wird
+in der aktuellen Planung davon ausgegangen, dass alle 9 Team-Mitglieder bis zum
+Iterationsende zur Verfügung stehen. Sollte dbzgl. eine Anpassung durch das
+Risikomanagement nach Bekanntwerden der Prüfungsergebnisse Ende März notwendig
+werden, wird die weitere Vorgehensweise mit dem Auftraggeber im Rahmen einer
+Revision des Projektplans und des Anforderungsumfanges für die erste Iteration
+nachverhandelt.\par
+Der ersten Iteration wird ein Aufwand von {\bf 1700 Stunden} zugrundegelegt,
+dies entspricht einem prozentualem Anteil von ca. {\bf 37\%} vom Gesamtaufwand,
+wenn {\bf 4500 Stunden} für den Gesamtaufwand angesetzt werden.
+
+\begin{tabular}{llrll}\\
+\bf ID & \bf Arbeitspaket & \bf Aufwand & \bf Termin & \bf Meilenstein \\ \hline
+3  & Neuformierung & 30 & KW4 & \\
+4  & Schulung/Einarbeitung/Howtos diverse & 400 & & \\
+5  & Anpassung des Projektplans & 70 & KW6 & M3\\
+6  & Zusammenstellung des Anforderungsdokumentes & 40 & KW6 & M3\\
+7  & Erstellung Spezifikation I & 160 & KW7 & \\
+8  & Review Spezifikation & 50 & KW7 & \\
+9  & Korrektur Spezifikation & 20 & KW8 & \\
+10 & Auslieferung Spezifikation & & KW8 & M4\\
+11 & Erstellung Grob-Entwurf & 100 & KW9 & \\
+12 & Erstellung Fein-Entwurf & 400 & KW14 & \\
+13 & Review Fein-Entwurf & 100 & KW14 & \\
+14 & Korrektur Fein-Entwurf & 80 & KW15 & \\
+15 & Auslieferung Fein-Entwurf & & KW15 & M5\\
+16 & Implementierung / Dokumentation & 300 & KW19 & M6\\
+17 & Test & 100 & KW14 & \\
+18 & Korrektur Implementierung & 100 & KW15 & \\
+16 & Auslieferung Rahmensystem & & KW20 (14.05.) & M7 \\ \hline
+   & \bf Gesamt & \bf 1700 & 15 Wochen &\\
+\end{tabular}
+
+\subsection{Top-Down Kostenschätzung}
+
+Die Schätzung nach dem Top-Down Ansatz beruht vorrangig aus Bottom-Up
+Vergleiche aus der Ermittlung der bisher angefallenen Aufwände zur Entwicklung
+des Produktlinien Management Systems \product sowie
+auf Erfahrungswerten aus Industrie-Praktikas, dem Softwarepraktikum, dem
+Studienprojekt B (Automatisierung) und der Initiierung verschiedener
+umfangreicher OpenSource Projekte im C++ und J2SE-Umfeld.\par
+
+Nach Abzug der Aufwände für das Vorprojekt und unter Zugrundelegung eines
+Gesamtaufwands für die Projektdurchführung von {\bf 500 Stunden} pro
+Team-Mitglied (entspricht {\bf 4500 Stunden} Gesamtaufwand) verbleiben für das
+Hauptprojekt {\bf XXXX Stunden}.
 gesamte Projekt. In einer kontinuierlichen Vorgehensweise entspricht
 dies im Mittel {\bf 108} Arbeitsstunden pro Woche für das gesamte Team.
 \par
@@ -66,41 +114,49 @@ der externen Meilensteine mit aufgeführt.
 \par
 Aufwände für die Einarbeitung in Aufgabenstellungen werden nicht
 explizit dargestellt, sondern sind in den einzelnen Arbeitspaketen
-bereits erfasst.
+bereits erfasst.\par
 
-\subsection{Vorprojekt}
-Aus dem Vorprojekt haben sich folgende Aufwände ergeben:
 TODO
-\begin{tabular}{llrll}\\
-\bf ID & \bf Arbeitspaket & \bf Aufwand & \bf Termin & \bf Meilenstein \\ \hline
-1  & Angebot & 150 & 19.12.2003 & M1\\
-2  & Angebotspräsentation & 150 & KW2 & M2\\ \hline
-   & \bf Gesamt & \bf 300 & 8 Wochen &\\
-\end{tabular}
+Ausgehend vom vorgegebenen Aufwand von {\bf 500} Arbeitsstunden pro
+Team-Mitglied ergibt sich bei 9 Team-Mitgliedern ein Gesamtaufwand von
+{\bf 4500} Arbeitsstunden. Unter der Annahme, dass eine Arbeitsstunde
+{100 EUR} kostet, ergeben sich {\bf 450.000 EUR} Gesamtkosten zur Erstellung
+des \product Systems.\par
+Im Rahmen der Anforderungsanalyse und Angebotserstellung wurde eine Top-Down
+Kostenschätzung durchgeführt, die im Folgenden erläutert wird. Soweit
+wie möglich, wurde diese Top-Down Kostenschätzung durch eine Bottom-Up
+Kostenschätzung (aufgrund der bisher durchgeführten Zeiterfassung)
+gegengeprüft. Im Laufe des Projektes wird die Top-Down Kostenschätzung
+durch die permanente Aufwands- und Zeiterfassung ständig überprüft und
+ggf. korrigiert.\par
 
-Für das Hauptprojekt verbleiben abzüglich dieser Aufwände {\bf 4200}
-Arbeitsstunden.
+\subsubsection{Grundlagen der Kostenschätzung}
 
-\subsection{Iteration I}
+Die Schätzung nach dem Top-Down Ansatz beruht vorrangig
+auf Erfahrungswerten aus Industrie-Praktikas, dem Softwarepraktikum, dem
+Studienprojekt B (Automatisierung) sowie der Initiierung verschiedener
+umfangreicher OpenSource Projekte im C++ und J2SE-Umfeld.
 
-\begin{tabular}{llrll}\\
-\bf ID & \bf Arbeitspaket & \bf Aufwand & \bf Termin & \bf Meilenstein \\ \hline
-3  & Neuformierung & 30 & KW4 & \\
-4  & Anpassung des Projektplans & 70 & KW5 & M3\\
-5  & Erstellung Spezifikation & 200 & KW7 & \\
-6  & Review Spezifikation & 50 & KW8 & \\
-7  & Korrektur Spezifikation & 20 & KW8 & \\
-8  & Auslieferung Spezifikation & & KW9 & M4\\
-9  & Erstellung Entwurf & 100 & KW9 & \\
-10 & Review Entwurf & 30 & KW10 & \\
-11 & Korrektur Entwurf & 30 & KW10 & \\
-12 & Auslieferung Entwurf & & KW10 & M5\\
-13 & Implementierung / Dokumentation & 300 & KW13 & M6\\
-14 & Test & 100 & KW14 & \\
-15 & Korrektur Implementierung & 70 & KW15 & \\
-16 & Auslieferung Rahmensystem & & KW15 (15.05.) & M7 \\ \hline
-   & \bf Gesamt & \bf 1700 & 15 Wochen &\\
-\end{tabular}
+\subsubsection{Schätzung der Kosten}
+Der Schätzung wird der bereits erwähnte Gesamtaufwand von {\bf 4500}
+Arbeitsstunden zugrunde gelegt.\par
+
+\subsubsection{Iteration I}
+Der größte Gesamtkostenanteil im Hauptprojekt entfällt auf die
+Iteration I und setzt sich dort wie folgt zusammen (hier auf
+Erfahrungswerten beruhend):
+\begin{itemize}
+\item Erstellung/Anpassung des Projektplans inkl. Neuformierung des
+Teams dauert {\bf 100} Arbeitsstunden, dies entspricht einem
+Gesamtkostenanteil von {\bf 10.000 EUR}.
+\item Erstellung/Korrektur der Spezifikation dauert {\bf 270}
+Arbeitsstunden, dies entspricht {\bf 27.000 EUR}.
+\item Erstellung/Korrektur des Entwurfes dauert {\bf 160}
+Arbeitsstunden, dies entspricht {\bf 16.000 EUR}.
+\item Einarbeitung/Implementierung/Test der Basisfunktionalitäten dauert
+{\bf 470} Arbeitsstunden, dies entspricht {\bf 47.000 EUR}.
+\end{itemize}
+
 
 \subsection{Meilensteine}
 
@@ -184,48 +240,6 @@ Komponenten von Drittanbietern) auch eine
 Installationsanleitung sowie alle Testfälle, den Testplan und die
 Testresultate. Anhand der Testresultate wird die Qualität des
 Rahmensystems unterstrichen.
-
-\subsection{Top-Down Kostenschätzung}
-
-Ausgehend vom vorgegebenen Aufwand von {\bf 500} Arbeitsstunden pro
-Team-Mitglied ergibt sich bei 9 Team-Mitgliedern ein Gesamtaufwand von
-{\bf 4500} Arbeitsstunden. Unter der Annahme, dass eine Arbeitsstunde
-{100 EUR} kostet, ergeben sich {\bf 450.000 EUR} Gesamtkosten zur Erstellung
-des \product Systems.\par
-Im Rahmen der Anforderungsanalyse und Angebotserstellung wurde eine Top-Down
-Kostenschätzung durchgeführt, die im Folgenden erläutert wird. Soweit
-wie möglich, wurde diese Top-Down Kostenschätzung durch eine Bottom-Up
-Kostenschätzung (aufgrund der bisher durchgeführten Zeiterfassung)
-gegengeprüft. Im Laufe des Projektes wird die Top-Down Kostenschätzung
-durch die permanente Aufwands- und Zeiterfassung ständig überprüft und
-ggf. korrigiert.\par
-
-\subsubsection{Grundlagen der Kostenschätzung}
-
-Die Schätzung nach dem Top-Down Ansatz beruht vorrangig
-auf Erfahrungswerten aus Industrie-Praktikas, dem Softwarepraktikum, dem
-Studienprojekt B (Automatisierung) sowie der Initiierung verschiedener
-umfangreicher OpenSource Projekte im C++ und J2SE-Umfeld.
-
-\subsubsection{Schätzung der Kosten}
-Der Schätzung wird der bereits erwähnte Gesamtaufwand von {\bf 4500}
-Arbeitsstunden zugrunde gelegt.\par
-
-\subsubsection{Iteration I}
-Der größte Gesamtkostenanteil im Hauptprojekt entfällt auf die
-Iteration I und setzt sich dort wie folgt zusammen (hier auf
-Erfahrungswerten beruhend):
-\begin{itemize}
-\item Erstellung/Anpassung des Projektplans inkl. Neuformierung des
-Teams dauert {\bf 100} Arbeitsstunden, dies entspricht einem
-Gesamtkostenanteil von {\bf 10.000 EUR}.
-\item Erstellung/Korrektur der Spezifikation dauert {\bf 270}
-Arbeitsstunden, dies entspricht {\bf 27.000 EUR}.
-\item Erstellung/Korrektur des Entwurfes dauert {\bf 160}
-Arbeitsstunden, dies entspricht {\bf 16.000 EUR}.
-\item Einarbeitung/Implementierung/Test der Basisfunktionalitäten dauert
-{\bf 470} Arbeitsstunden, dies entspricht {\bf 47.000 EUR}.
-\end{itemize}
 
 %%% Local Variables: 
 %%% TeX-master: "angebot"
