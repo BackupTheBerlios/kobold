@@ -29,10 +29,12 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.MetaNode;
@@ -90,7 +92,6 @@ public class ProductComposer {
     public void setUsed(AbstractAsset node) {
         // TODO
         get(node).setUse();
-        get(node).setUserChanged();
         listeners
                 .firePropertyChange(AbstractAsset.ID_COMPOSE, null, STATE_USED);
         logger.debug(node + " has new state USED");
@@ -133,7 +134,7 @@ public class ProductComposer {
             for (Iterator ite = brothers.iterator(); ite.hasNext();) {
                 AbstractAsset asset = (AbstractAsset) ite.next();
                 if (asset != node) {
-                    mustNotUse(asset);
+                    mustNotUse(asset, false);
                 }
             }
         }
@@ -152,7 +153,6 @@ public class ProductComposer {
         // actualize Nodes of incoming edges
        
         //actualizeIncomingIncludeEdges(node);
-        //TODO
         // Now Follow the edges.
 
         // follow Edges and test, if target nodes, need/can change.
@@ -179,36 +179,18 @@ public class ProductComposer {
             }
         }
 
-        // [follow edgesFollowToStart to test del warings]
-
-    }
-
-    /**
-     * setAll parents of incoming edges to open, until find an open parent or an
-     * non MetaNode. then cal useMeta or mustNotUseMeta to aktualize the edges.
-     * Must not call for the changed targetNode
-     * 
-     * @param node
-     */
-    private void actualizeIncomingIncludeEdges(AbstractAsset node,
-            String oldState) {
-        if (node instanceof MetaNode) {
-
+        // update incoming edges
+        for (Iterator ite = container.getEdgesTo(node, Edge.INCLUDE).iterator(); ite
+        .hasNext();) {
+            Edge edge = (Edge) ite.next();
+            targetNodeIsNowUsed ((AbstractAsset)edge.getStartNode(), (AbstractAsset)edge.getTargetNode());
         }
 
-        /*
-         * for (Iterator ite = container.getEdgesTo(node).iterator();
-         * ite.hasNext();){ Edge edge = (Edge) ite.next();
-         * if(edge.getStartNode() instanceof MetaNode){ if
-         * (get(edge.getStartNode()).isOpen()){ useMeta(edge.getTargetNode()); }
-         * else { get(edge.getStartNode()).setOpen();
-         * actualizeIncomingIncludeEdges((AbstractAsset) edge.getTargetNode()); } }
-         * else{ useMeta(node); } }
-         */
     }
 
+
     private void targetNodeIsNowUsed(AbstractAsset node, AbstractAsset target) {
-        if (!(node instanceof AbstractAsset)) {
+        if (!(node instanceof MetaNode)) {
             get(node).setChanged(true);// so warning and toWorkOn is tested.
             return;
         }
@@ -406,7 +388,7 @@ public class ProductComposer {
                 if (node instanceof MetaNode) {
                     mustNotUseMeta(edge.getTargetNode());
                 } else {
-                    mustNotUse((AbstractAsset) edge.getTargetNode());
+                    mustNotUse((AbstractAsset) edge.getTargetNode(), false);
                 }
             } else if (get(edge.getStartNode()).isUse()) {
                 allChildrenAreMustNotUse = false;
@@ -423,7 +405,13 @@ public class ProductComposer {
     /**
      * @param node
      */
-    private void mustNotUse(AbstractAsset node) {
+    private void mustNotUse(AbstractAsset node, boolean firstAction) {
+        if(firstAction){
+            // decition of the use to set this node to this state.
+            get(node).setUserChanged(true);
+        } else {
+            get(node).setUserChanged(false);
+        }
         // set must not use to all children
         get(node).setMustNotUse();
         List children = Collections.EMPTY_LIST;
@@ -445,17 +433,6 @@ public class ProductComposer {
         // actualize edges
     }
 
-    /**
-     * @param targetNode
-     */
-    private void mustNotUseMetaNode(AbstractAsset node) {
-        get(node).setUserChanged();
-        this.mustNotUse(node);
-        // TODO Auto-generated method stub
-        listeners.firePropertyChange(AbstractAsset.ID_COMPOSE, null,
-                STATE_MUST_NOT);
-        logger.debug(node + " has new state MUST_NOT");
-    }
 
     /**
      * 
@@ -545,16 +522,20 @@ public class ProductComposer {
     private void notNeeded(AbstractAsset start) { 
         // if this node or
         //its children is set to USE from the // user the node is need.
-        List list = new LinkedList();
+        LinkedList list = new LinkedList();
+        Set visited = new HashSet();
+        LinkedList  useNodes = new LinkedList();
         list.add(start);
-        Iterator ite = list.listIterator();
-        while (ite.hasNext()) {
-            AbstractAsset node = (AbstractAsset) ite.next();
+        while (list.size() > 0) {
+            AbstractAsset node = (AbstractAsset) list.removeFirst();
+            if (! visited.contains(node)){
+               visited.add(node); 
+            }
             if (get(node).isUse()) {
-                if (get(node).isUserChanged()) {
-                    // => all the used nodes in the list are still needed.
+                if (get(node).isUserChanged()) {                   
                     return;
                 } else {
+                    useNodes.add(node);
                     // it is easyer to test later, if the nodes are used
                     // add all children. If a child has set to used this node and the other used nodes in the list are used.
                     if (node instanceof Component) {
@@ -572,11 +553,23 @@ public class ProductComposer {
         // all used nodes in the list can be set to open.
         // (maybe, they are then set to MustNotUse, if required.)
         // now set all used nodes to open and update edges so, that 
-        // MethaNode represent no wrong. find and set also nodes with the state mustNotUse to open, if possible.
-        // gain start nodes of updated MetaNodes.  After all update edges of gained startnodes.
-        // Then updated nodes can also set to use again. 
+        // MethaNode represent no wrong. Find and set also nodes with the state mustNotUse to open, if possible.
+        // Gain start nodes of updated MetaNodes.  After all update edges of gained startnodes.
+        // Then updated nodes can also set to use again.
+        // eingehenden include edges müssen geupdatet werden deren Knoten sind schon in deruse nodes
+        Set updateEdges = new HashSet(); // Edges their ground nodes must be upadated;
+        LinkedList exludeNodes = new LinkedList();
+        for(Iterator ite = useNodes.iterator();;){
+           INode node = (INode) ite.next();
+           get(node).setOpen();
+          // for (Iterator ite = container.getEdgesTo(Edge.EXCLUDE).iterator();;){
+            //TODO   
+       //    }
+        }
         
     }
+    
+
 
     /**
      * @param parent
@@ -749,8 +742,8 @@ public class ProductComposer {
             hasWarning = false;
         }
 
-        void setUserChanged() {
-            isUserChanged = true;
+        void setUserChanged(boolean b) {
+            isUserChanged = b;
         }
 
         boolean isUserChanged() {
