@@ -355,13 +355,13 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                 java.io.File viewdata = productLine.getLocalPath().append(productLine.getName()+".vm").toFile();
                 if (viewdata.exists())
                 {
-                    tmpString[tmpString.length-1] = viewdata.getName();
+                    tmpString[tmpString.length-1] = productLine.getName().concat(viewdata.getName());
                     connection.open(progress, tmpString);
                 }
                 argString = tmpString;
                 if (metainfo.exists())
                 {
-                    tmpString[tmpString.length-1] = metainfo.getName();
+                    tmpString[tmpString.length-1] = productLine.getName().concat(metainfo.getName());
                 }
                 System.out.println("lalal");
             }
@@ -396,13 +396,13 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                     java.io.File viewdata = productLine.getLocalPath().append(productLine.getName()+".vm").toFile();
                     if (viewdata.exists())
                     {
-                        argString[argString.length-1] = viewdata.getName();
+                        argString[argString.length-1] = productLine.getName().concat(viewdata.getName());
                         connection.open(progress, argString);
                     }
 //                    argString = tmpString;
                     if (metainfo.exists())
                     {
-                        argString[argString.length-1] = metainfo.getName();
+                        argString[argString.length-1] = productLine.getName().concat(metainfo.getName());
                     }
                     System.out.println("lalal");
                 }

@@ -262,7 +262,6 @@ public class ScriptServerConnection implements IServerConnection
 				new IConsole[] {console});
 			stream2 = console.newMessageStream();
 			connected = true;
-			
 			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
 			errorThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
 			((InputThreadToConsole)errorThread).setErrProccessing(true);
