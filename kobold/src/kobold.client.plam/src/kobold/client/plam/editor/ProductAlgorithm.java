@@ -161,9 +161,10 @@ public class ProductAlgorithm {
         // set children to USE
         setUSEtoChildren(node);
         
-        
+//      [ follow incomeing inclued edges to test, if
+        // the start nodes have(need) the status to work on]
         // actualize Nodes of incoming edges                
-        actualizeIncomingEdges(node, "oldtype");
+        actualizeIncomingIncludeEdges(node);
         
         // Now Follow the edges.
 
@@ -172,7 +173,7 @@ public class ProductAlgorithm {
           for (Iterator ite = container.getEdgesFrom(node).iterator(); ite.hasNext(); ){
               Edge edge = (Edge) ite.next();
               if (edge.getType().equals(Edge.INCLUDE) && (! get(edge.getTargetNode()).isUse()) ){
-                      useMetaNode((AbstractAsset)edge.getTargetNode());
+                      useMeta((AbstractAsset)edge.getTargetNode());
                       if(! get(edge.getTargetNode()).isUse()){
                           get(node).setWarning("Target node(s) of include edge are not used in product!");
                       } 
@@ -187,118 +188,34 @@ public class ProductAlgorithm {
 
          
 
-        //[ follow incomeing inclued edges to test, if
-        // the start nodes have(need) the status to work on]
+        
 
         // [follow edgesFollowToStart to test del warings]
 
     }
 
     /**
+     * setAll parents of incoming edges to open, until find an open parent or an non MetaNode.
+     * then cal useMeta or mustNotUseMeta to aktualize the edges.
      * @param node
      */
-    private void actualizeIncomingEdges(AbstractAsset node, String oldState) {
-        
+    private void actualizeIncomingIncludeEdges(AbstractAsset node) {
+        for (Iterator ite = container.getEdgesTo(node).iterator(); ite.hasNext();){
+           Edge edge = (Edge) ite.next();           
+           if(edge.getStartNode() instanceof MetaNode){
+               if (get(edge.getStartNode()).isOpen()){
+                   useMeta(edge.getTargetNode());
+               } else {
+                   get(edge.getStartNode()).setOpen();
+                   actualizeIncomingIncludeEdges((AbstractAsset) edge.getTargetNode());
+               }
+           } else{
+               useMeta(node);               
+           }
+        }
         
     }
-
-
-    /**
-     * sets rekursive metanodes to USE, if it possible.
-     * Only OPEN methanodes can changed. Component-, Variant- ,and Releasenodes
-     * cannot chaneged the status MUST_NOT_USE to USE or the other way,
-     * because reason, they have this status, still exists.
-     * If such a reason not more exists. It must tested, if the status of theese nodes
-     * can be set back to open.
-     * @param targetNode
-     * @param node
-     */
-    /*
-     * 
-     */
-    private void useMetaNode(AbstractAsset metaNode) {
-        if (! (metaNode instanceof MetaNode)){
-            // found a Variant, Component or release.
-            // now call the rigtht function
-            use(metaNode);
-            return;
-        }
-        MetaNode meta = (MetaNode) metaNode;
-        NodeAttr metaAttr = get(meta);        
-        if(metaAttr.isUse()){
-            return;
-        }
-        if(metaAttr.isOpen()){
-            // change this if possible
-            if (meta.getType().equals(MetaNode.AND)){
-                metaAttr.setToWorkOn(false);
-                metaAttr.delWarning();
-                for (Iterator ite = container.getEdgesFrom(meta).iterator(); ite.hasNext(); ){
-                    // set all open nodes to setUse.
-                    // if exist mustNotUse parent get a warning
-                    // if on a child haveToWorkOn parent set also to haveToWorkOn
-                    Edge edge = (Edge) ite.next(); 
-                    NodeAttr targetAttr = get(edge.getTargetNode());
-                    if (edge.getType().equals(Edge.INCLUDE)){ 
-                        if ( targetAttr.isOpen() ){                                                   
-                              useMetaNode((AbstractAsset) edge.getTargetNode());
-                        } else if(targetAttr.isMustNotUse() ){
-                            metaAttr.setWarning("");
-                            // warn
-                        }
-                    } else { // edgetype = exclude
-                        if ( targetAttr.isOpen() ){ 
-                                  mustNotUseMetaNode(edge.getTargetNode());
-                        } else if ( targetAttr.isOpen() ){
-                            metaAttr.setWarning("");
-                            // warn
-                        }
-                    } if(targetAttr.hasWarning()){
-                              metaAttr.setWarning("");
-                              // warn
-                         }else if(targetAttr.isToWorkOn){
-                              metaAttr.setToWorkOn(true);
-                         }
-                    } 
-                } else if (meta.getType().equals(MetaNode.OR)){
-                    int open =0; // number of open nodes
-                    Edge openEdge = null; //edge to last open node
-                    int truen = 0; // number of nodes that represent true (include edge=>USE; exclude edge=> MUST_NOTUSE)
-                    for (Iterator ite = container.getEdgesFrom(meta).iterator(); ite.hasNext(); ){
-                        Edge edge = (Edge) ite.next(); 
-                        NodeAttr targetAttr = get(edge.getTargetNode());
-                        if (  (edge.getType().equals(Edge.INCLUDE) && targetAttr.isUse())
-                            ||(edge.getType().equals(Edge.EXCLUDE) && targetAttr.isMustNotUse()) )
-                        {        
-                            truen++; //warn?
-                        }else if ( targetAttr.isOpen()){ 
-                            open++; openEdge = edge;
-                        }                        
-                    }                    
-                    NodeAttr targetAttr = get(openEdge.getTargetNode());
-                    if(truen == 1){
-                        get(meta).setUse();
-                    }else if (truen > 1){
-                        get(meta).setMustNotUse();
-                    }else if (open == 1){
-                        useMetaNode(meta);
-                        if (  (openEdge.getType().equals(Edge.INCLUDE) && targetAttr.isUse())
-                                ||(openEdge.getType().equals(Edge.EXCLUDE) && targetAttr.isMustNotUse()) ){
-                            get(meta).setUse();
-                        } else if(targetAttr.isOpen()){
-                            get(meta).setOpen();
-                        } else {
-                            get(meta).setMustNotUse();
-                        }
-                    }
-                }
-                    
-            }
-        }
-        
-        
-        
-        
+    
     
     /*
      * try to find one way that can be used 
