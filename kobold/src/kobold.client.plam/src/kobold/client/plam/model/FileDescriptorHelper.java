@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptorHelper.java,v 1.9 2004/08/24 15:47:25 rendgeor Exp $
+ * $Id: FileDescriptorHelper.java,v 1.10 2004/08/24 19:25:18 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -36,15 +36,19 @@ import com.sun.rsasign.d;
 
 /**
  * Helper class for handling FileDescriptors.
+ * It's used for creating fds for files and directories automatically
  * 
  * @author Tammo
  */
 public class FileDescriptorHelper
 {
-    // TODO: OLI: Kommentieren!!!!
 	/**
-	 * Creates a file FileDescriptor.
-	 *  
+	 * Creates a file FileDescriptor for a file and all directories in which the file is included.
+	 * @param filename, the filename to create
+	 * @param revision, the revision of the file
+	 * @param lastChange, the last changed date of the file
+	 * @param isBinary, if the file is a binary one
+	 * @param root, the root fd-container
 	 */
     public static void createFile(String filename,  String revision, 
 								  Date lastChange,  boolean isBinary, 
@@ -86,14 +90,14 @@ public class FileDescriptorHelper
     	fd.addFileDescriptor (fileDescriptor);
     }
 
-    // TODO: OLI: Kommentieren!!!!
-    /**
-     * Creates an implicit directory
+	/**
+	 * Creates a file FileDescriptor for a directory and all subdirectories in which the new file is included.
+	 * @param dirName, the directory name
+	 * @param root, the root filedescriptor
+     * 
      */
     public static void createDirectory(String dirName,  IFileDescriptorContainer root) 
     {
-    // garbeam: fixed a bug which created all resources at childs of root
-    //
         if (dirName.equals(".")) {
             return;
         }

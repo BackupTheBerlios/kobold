@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorTest.java,v 1.7 2004/08/24 14:51:05 garbeam Exp $
+ * $Id: FileDescriptorTest.java,v 1.8 2004/08/24 19:25:27 rendgeor Exp $
  *
  */
 package kobold.client.vcm.test;
@@ -79,7 +79,7 @@ public class FileDescriptorTest extends TestCase {
 	 * prints the root node and all children
 	 * @param fd
 	 */
-	private void prettyPrintFD(FileDescriptor fd, String prefix) {
+	public void prettyPrintFD(FileDescriptor fd, String prefix) {
 	    String newPrefix = prefix + IPath.SEPARATOR +   fd.getFilename();
 	    System.out.println("fd: "+ newPrefix + "\t" + fd.getRevision() +
 	                       ((fd.getLastChange() != null) ? "\t" + fd.getLastChange().toString() : ""));
@@ -94,5 +94,7 @@ public class FileDescriptorTest extends TestCase {
 
 	    }
 	}
+	
+	
 		
 }

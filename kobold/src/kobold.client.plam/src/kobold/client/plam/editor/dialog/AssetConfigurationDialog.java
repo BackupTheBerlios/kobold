@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.16 2004/08/24 15:49:30 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.17 2004/08/24 19:25:18 rendgeor Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -213,7 +213,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 	 * prints the root node and all children
 	 * @param fd
 	 */
-	private void prettyPrintFD(FileDescriptor fd, String prefix) {
+	public void prettyPrintFD(FileDescriptor fd, String prefix) {
 	    String newPrefix = prefix + IPath.SEPARATOR +   fd.getFilename();
 	    System.out.println("fd: "+ newPrefix + "\t" + fd.getRevision() +
 	                       ((fd.getLastChange() != null) ? "\t" + fd.getLastChange().toString() : ""));
