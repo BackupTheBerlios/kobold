@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.7 2004/08/02 15:13:22 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.8 2004/08/02 15:17:06 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -74,7 +74,9 @@ public class ModelStorage
     {
         logger.debug("Loading model...");
         Productline pl = null;
-        IFolder plmeta = project.getFolder(".plmeta");
+        
+		//get the PL directory
+     	IFolder plmeta = project.getFolder(pl.getName());
         if (plmeta.exists()) {
             IFile modelFile = plmeta.getFile(PRODUCTLINE_META_FILE);
             if (modelFile.exists()) {
