@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.22 2004/08/06 09:53:06 memyselfandi Exp $
+ * $Id: StatusUpdater.java,v 1.23 2004/08/06 10:38:07 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -172,12 +172,17 @@ public class StatusUpdater {
 		            else {
 		            	Date date = null;
 		            	if(localLine.hasMoreTokens())
-		            	{   		            
-		            		date = new Date(Long.parseLong(localLine.nextToken()));
+		            	{   	
+		            		java.util.StringTokenizer localDate = new java.util.StringTokenizer(localLine.nextToken(), ",");
+		            		date = new Date(Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
+		            						Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
+		            						Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()));
     		            	/*3*/
     		            	//date = df.parse(localLine.nextToken());
 		            	}
     		  
+		            	
+		            	//binary?
     		            boolean isBinary = false;
     		            if (localLine.hasMoreTokens()) {
                         /*4*/isBinary = localLine.nextToken().equals("binary");                    
