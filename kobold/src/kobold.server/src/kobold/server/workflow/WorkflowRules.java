@@ -45,7 +45,7 @@ public class WorkflowRules {
 			"answer.setReceiver(map.get(\"recipient\"));" +
 			"answer.setMessageText(\"Programmer \"+msg.getSender() + \" would like to suggest " +
 					"committing the file \" + map.get(\"file\") + \" in component \" + map.get(\"component\") + \" "+
-					"to a Core Group. He added the following comment: \"" +
+					"to a Core Group. He added the following comment: \" +" +
 					"msg.getComment());" +
 			// adds decision possibilities for the pe
 			"kobold.common.data.WorkflowItem recipient = new kobold.common.data.WorkflowItem(\"recipient\",\"Recipient (PLE)\",kobold.common.data.WorkflowItem.TEXT);"+
@@ -76,21 +76,22 @@ public class WorkflowRules {
 		no2.addCondition(new ExprCondition("(msg.getWorkflowType().equals(\"Core Group Suggestion\")) && (msg.getStep() == 2)", new Declaration[] {dec2}));
 		no2.addParameterDeclaration(dec2);
 		no2.setConsequence(new BlockConsequence(""+
-		"kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
-		"answer.setSender(msg.getSender());"+
-		"answer.addParentId(msg.getId());"+
 		"java.lang.String decision = \"\";" +
+		"kobold.common.data.AbstractKoboldMessage answer;"+
 		// gets the sender's input
 		"java.util.HashMap map = msg.getWorkflowData();" +
 		"decision = map.get(\"decision\");" + 
-		"answer.setStep(msg.getStep()+1);"+
 		//if the pe supports the suggestion
 		"if (decision.equals(\"true\")){"+
+			"answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
+			"answer.setSender(msg.getSender());"+
+			"answer.addParentId(msg.getId());"+
+			"answer.setStep(msg.getStep()+1);"+
 			"answer.setReceiver(map.get(\"recipient\"));"+ 
 			"answer.setSubject(\"New Request for a Core Group Commit\");"+
 			"answer.setMessageText(\"Product Engineer \" + msg.getSender() + \" got a suggestion from one of his programmers to " +
 					"commit the file \" + map.get(\"file\") + \" in component \" + map.get(\"component\") + \" "+
-					"to a Core Group. He added the following comment: \"" +
+					"to a Core Group. He added the following comment: \" +" +
 					"msg.getComment());" +
 			//add decision possibilities for the ple
 			"kobold.common.data.WorkflowItem radio1 = new kobold.common.data.WorkflowItem(\"true\",\"Assent\",kobold.common.data.WorkflowItem.RADIO);"+
@@ -106,6 +107,8 @@ public class WorkflowRules {
 		"}"+
 		// if the pe rejects
 		"else if (decision.equals(\"false\")){"+
+			"answer = new kobold.common.data.KoboldMessage();"+
+			"answer.setSender(msg.getSender());"+
 			"answer.setReceiver(map.get(\"P\"));"+
 			"answer.setSubject(\"Core Group suggestion rejected\");"+
 			"answer.setMessageText(\"Your suggestion was rejected by \"+msg.getSender() +\" due to the following reasons: \" +"+
@@ -131,15 +134,11 @@ public class WorkflowRules {
 				// gets the sender's inputs
 				"java.util.HashMap map = msg.getWorkflowData();" +
 				// answer to p
-				"kobold.common.data.WorkflowMessage answerP = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
+				"kobold.common.data.KoboldMessage answerP = new kobold.common.data.KoboldMessage();"+
 				"answerP.setSender(msg.getSender());"+
-				"answerP.addParentId(msg.getId());"+
-				"answerP.setStep(msg.getStep()+1);"+
 				// answer to pe
-				"kobold.common.data.WorkflowMessage answerPE = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
+				"kobold.common.data.KoboldMessage answerPE = new kobold.common.data.KoboldMessage();"+
 				"answerPE.setSender(msg.getSender());"+
-				"answerPE.addParentId(msg.getId());"+
-				"answerPE.setStep(msg.getStep()+1);"+
 				//analyzing the answer
 				"String decision = \"\";"+
 				"decision = map.get(\"decision\");"+
@@ -164,8 +163,8 @@ public class WorkflowRules {
 					"answerPE.setMessageText(\"Your suggestion was accepted by \"+msg.getSender() +\" due to the following reasons: \" +"+
 						"msg.getComment());" +
 				"}"+
-				"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer1);" + 
-				"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer2);"));
+				"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answerP);" + 
+				"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answerPE);"));
 
 		
 		
