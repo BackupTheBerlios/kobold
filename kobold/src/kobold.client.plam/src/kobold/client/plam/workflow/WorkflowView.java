@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.20 2004/08/17 13:20:16 bettina Exp $
+ * $Id: WorkflowView.java,v 1.21 2004/08/17 13:55:16 bettina Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.listeners.IProjectChangeListener;
+import kobold.client.plam.action.SuggestFileAction;
 import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.UserContext;
@@ -80,7 +81,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private Action fetchAction;
 	private Action messageAction;
 	private Action filterAction;
-	private Action coreGroupAction;
+	private SuggestFileAction suggestFileAction;
 	private Action doubleClickAction;
 	private Action deleteAction;
 	
@@ -170,7 +171,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(fetchAction);
 		manager.add(messageAction);
-		manager.add(coreGroupAction);
+		manager.add(suggestFileAction);
 		manager.add(new Separator());
 		//manager.add(action2);
 	}
@@ -180,7 +181,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		manager.add(fetchAction);
 		manager.add(messageAction);
 		manager.add(deleteAction);
-		manager.add(coreGroupAction);
+		manager.add(suggestFileAction);
 		//manager.add(action2);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator("Additions"));
@@ -260,21 +261,8 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		messageAction.setText("New mail");
 		messageAction.setToolTipText("Write a new message");
 		
-		coreGroupAction = new Action() {
-			public void run() {
-				WorkflowMessage msg = new WorkflowMessage("Core Group Suggestion");
-				try {
-					CoreGroupDialog cgDialog = new CoreGroupDialog(viewer.getControl().getShell());
-					cgDialog.open();
-
-				} catch (Exception e) {
-					e.printStackTrace();
-					showMessage("A project must be selected!");
-				}
-			}
-		};
-		coreGroupAction.setText("Suggest file for core group");
-		coreGroupAction.setToolTipText("Suggest a file to be added to a core group");
+		suggestFileAction = new SuggestFileAction(viewer.getControl().getShell());
+		
 	}
 
 	private void hookDoubleClickAction() {

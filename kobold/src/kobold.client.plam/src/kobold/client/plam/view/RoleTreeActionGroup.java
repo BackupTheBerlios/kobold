@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.5 2004/08/05 18:22:30 grosseml Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.6 2004/08/17 13:55:45 bettina Exp $
  *
  */
 package kobold.client.plam.view;
@@ -33,6 +33,7 @@ import kobold.client.plam.action.NewUserAction;
 import kobold.client.plam.action.RefreshFileDescriptorsAction;
 import kobold.client.plam.action.RemoveUserAction;
 import kobold.client.plam.action.UpdateFullNameAction;
+import kobold.client.plam.action.SuggestFileAction;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
 import kobold.client.plam.editor.ArchitectureEditorInput;
 import kobold.client.plam.model.AbstractAsset;
@@ -76,6 +77,7 @@ public class RoleTreeActionGroup extends ActionGroup
     private ChangePasswordAction changePasswordAction;
     private RemoveUserAction removeUserAction;
     private UpdateFullNameAction updateFullNameAction;
+    private SuggestFileAction suggestFileAction;
     
     public RoleTreeActionGroup(RoleTreeViewPart part) 
     {
@@ -93,7 +95,9 @@ public class RoleTreeActionGroup extends ActionGroup
 		ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
 		deleteAction = new DeleteResourceAction(part.getSite().getShell());
 		deleteAction.setDisabledImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE_DISABLED));
-		deleteAction.setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));		
+		deleteAction.setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
+		
+		suggestFileAction = new SuggestFileAction(part.getSite().getShell());
     }
     
     
@@ -133,6 +137,7 @@ public class RoleTreeActionGroup extends ActionGroup
 		manager.add(refreshFDAction);
 		manager.add(new Separator());
 		manager.add(configureAssetAction);
+		manager.add(suggestFileAction);
 		
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator("Additions"));
