@@ -140,7 +140,7 @@ to work with the Architecture Editor and opens up when you click on it.
 
 \subsubsection{Creating a Core Asset/component}
 
-In the pallete select the "component" tool. Click within a variant or top-level in 
+In the pallete select the "component" item. Click within a variant or top-level in 
 the Architecture Editor. A component is inserted (see \ref{component}) and a dialog opens where you can enter the meta data of
 the component. Per drag+drop you can simply change the size of the component. \par
 Note: Core Assets/Components can only be inserted top-level or into variants.
@@ -158,7 +158,7 @@ Note: Core Assets/Components can only be inserted top-level or into variants.
 
 \subsubsection{Creating a variant}
 
-In the pallete select the "variant" tool. Click within a component in 
+In the pallete select the "variant" item. Click within a component in 
 the Architecture Editor. A variant is inserted (see \ref{variant}) and a dialog opens where you can enter the meta data of
 the variant. Per drag+drop you can simply change the size of the variant. \par
 Note: Variants can only be inserted into components.
@@ -177,7 +177,7 @@ Note: Variants can only be inserted into components.
 
 \subsubsection{Creating a release}
 
-In the pallete select the "release" tool. Click within a variant in 
+In the pallete select the "release" item. Click within a variant in 
 the Architecture Editor. A release is inserted (see \ref{release}) and a dialog opens where you can enter the meta data of
 the release. For each file of the variant you can select the revision number you want to add to the release. 
 Per drag+drop you can simply change the size of the release. \par
@@ -215,7 +215,7 @@ you will be notified and be able to cancel the deletion process.
 
 \subsubsection{Creating a meta node}
 
-In the pallete select the "meta node" tool. Click within the Architecture Editor. 
+In the pallete select the "meta node" item. Click within the Architecture Editor. 
 A meta node is inserted (see \ref{meta}). Possible meta node types are AND and OR. Be careful with
 the direction of the edges that are linked to a meta node! In the following architecture component A
 needs components B and C. But components B and C are independent of component A (see \ref{example}).
@@ -267,7 +267,7 @@ red cross in the upper right-hand corner (see \ref{deprecated}).
 
 \subsubsection{Creating a dependency edge}
 
-In the pallete select the "include edge" tool. Select an item in the Architecture Editor
+In the pallete select the "include edge" item. Select an item in the Architecture Editor
 as the starting point. The next item you select will be the aiming point (see \ref{include}).
 
 \begin{figure}[h!]
@@ -280,7 +280,7 @@ as the starting point. The next item you select will be the aiming point (see \r
 
 \subsubsection{Creating an exclusion edge}
 
-In the pallete select the "exclude edge" tool. Select an item in the Architecture Editor
+In the pallete select the "exclude edge" item. Select an item in the Architecture Editor
 as the starting point. The next item you select will be the aiming point (see \ref{exclude}).
 
 \begin{figure}[h!]
@@ -348,7 +348,7 @@ grey. You can now select the components, variants and releases you want to inclu
 you new product. The chosen objects turn blue (see \ref{compose}). When done press the 
 'create product' button in the Architecture Editor. A dialog opens where you can enter
 the name and metainfo of your new product. After confirming the dialog, you can see
-your new product in the Role View.
+your new product in the Architecture Tree and Architecture Editor.
 
 \begin{figure}[h!]
 \begin{center}
@@ -705,7 +705,7 @@ $<$parameter identifier = "spy"$>$\\
 $<$java:class$>$ kobold.common.data.RPCSpy $<$/java:class$>$\\
 \end{quote}
 $<$/parameter$>$\par
-$<$java:condition$>$ spy.getMethodName().equals("login") $<$/java:condition$>$\par
+$<$java:condition$>$ spy.getMethodName().equals("addUser") $<$/java:condition$>$\par
 $<$java:consequence$>$ System.out.println("Rule fired."); $<$/java:consequence$>$\\
 \end{quote}
 $<$/rule$>$\par
