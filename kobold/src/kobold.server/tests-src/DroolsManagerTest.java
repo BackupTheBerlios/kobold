@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DroolsManagerTest.java,v 1.1 2004/05/12 17:49:58 rendgeor Exp $
+ * $Id: DroolsManagerTest.java,v 1.2 2004/05/12 18:09:08 rendgeor Exp $
  *
  */
 
@@ -75,14 +75,12 @@ public class DroolsManagerTest extends TestCase {
 		System.out.println("");
 		
 		msg.setSender("Sender3");
-		History his3 = new History();
 		WorkflowEngine.applWorkflow(msg);
 		
 		System.out.println("Phase 3");
 		System.out.println("Workflow-Typ: " + msg.getType());
 		System.out.println("XML: " + msg.getMessageText());
 		System.out.println("Empfänger: " + msg.getReciever());
-		his3 = (History) msg.getHistoryList().get(msg.getHistoryList().size() - 1);
 		System.out.println("");
 		
 		
