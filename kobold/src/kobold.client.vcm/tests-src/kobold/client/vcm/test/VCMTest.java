@@ -21,24 +21,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMTest.java,v 1.2 2004/07/07 17:58:16 rendgeor Exp $
+ * $Id: VCMTest.java,v 1.3 2004/07/15 13:21:10 rendgeor Exp $
  *
  */
 package kobold.client.vcm.test;
 
 
-import org.eclipse.core.internal.plugins.PluginDescriptor;
-import org.eclipse.core.runtime.IPluginDescriptor;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-
 import junit.framework.TestCase;
 import kobold.client.plam.model.FileDescriptor;
-import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.product.SpecificComponent;
-
+import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.KoboldVCMPlugin;
-import kobold.client.vcm.popup.action.*;
 import kobold.client.vcm.controller.StatusUpdater;
+import kobold.client.vcm.popup.action.KoboldAction;
 
 /**
  * @author rendgeor
@@ -56,31 +51,32 @@ public class VCMTest extends TestCase {
 		super(arg0);
 	}
 	
-	public void testSerialize() {
+	public void testBla () 
+	{
 		
 		//start the VCMPlugin...
 		//TODO: no KoboldVCMPlugin exist!? -->return null
-		KoboldVCMPlugin.getDefault();
+		//KoboldVCMPlugin.getDefault();
 		
 		
 		//create KoboldAction object
-		KoboldAction action= new KoboldAction ();
+		//KoboldAction action= new KoboldAction ();
 		
 		//TODO: NullPointerException!
 		//System.out.println ("Local Path: " + action.getLocalPath());
-		
-		
+	}
+	
+	public void testStatusUpdater ()
+	{
 		//---Test the Status Updater ----//
 		
 		//create an IFileDescriptorContainer object
-		SpecificComponent specComp = new SpecificComponent ("testComp");
-		//TODO:nice case, here the local path is parsed
-		specComp.setLocalPath("/home/rendgeor/workspace");
-		specComp.addFileDescriptor(new FileDescriptor ());
-
+		Variant var = new Variant ("testVar");
+		
+		
 		//update FD(s)
 		StatusUpdater statUp = new StatusUpdater ();
-		statUp.updateFileDescriptors(specComp);
+		statUp.updateFileDescriptors(var);
 
 		
 		//assertTrue (productline.getName() == "office");

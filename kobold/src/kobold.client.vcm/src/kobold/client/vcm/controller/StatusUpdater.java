@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.5 2004/07/11 12:38:37 vanto Exp $
+ * $Id: StatusUpdater.java,v 1.6 2004/07/15 13:21:10 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -31,6 +31,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.FileDescriptorHelper;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.vcm.KoboldVCMPlugin;
@@ -60,7 +61,7 @@ public class StatusUpdater {
 	 */
 	public void updateFileDescriptors(IFileDescriptorContainer fileDescriptorContainer)
 	{
-		CVSSererConnection conn = new CVSSererConnection("fake","fake");
+		CVSSererConnection conn = new CVSSererConnection("faceLoc", "fakeUser","fakePswd");
 		//command line command with the stats script to the changed part of the meta-data containing FD(s)
 		String[] command = {"perl", getScriptPath() + "stats.pl", fileDescriptorContainer.getLocalPath().toOSString()};
 		try 
@@ -84,10 +85,19 @@ public class StatusUpdater {
 	private String getScriptPath ()
 	{
 		KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
-		String tmpLocation = plugin.getBundle().getLocation();
-		
-		Path skriptPath = new Path(tmpLocation.substring(8,tmpLocation.length()));
-		return ((Path)skriptPath.append("scripts" + IPath.SEPARATOR)).toOSString();
+		//TODO:doesn't work??-->nullPointerExc.
+		if (plugin != null)
+		{
+			String tmpLocation = plugin.getBundle().getLocation();
+
+			Path skriptPath = new Path(tmpLocation.substring(8,tmpLocation.length()));
+			return ((Path)skriptPath.append("scripts" + IPath.SEPARATOR)).toOSString();
+		}
+		else
+		{
+			logger.debug("returned plugin still NULL");
+			return null;
+		}
 	}
 	
 	/**
@@ -115,27 +125,31 @@ public class StatusUpdater {
 		        //it's a directory
 		        if (line.countTokens() == 1)
 		        {
-		            fileDescriptorContainer.addFileDescriptor(FileDescriptorHelper.createDirectory(localLine.nextToken()));
+		        	FileDescriptor fd = FileDescriptorHelper.createDirectory(localLine.nextToken());
+		            fileDescriptorContainer.addFileDescriptor (fd);
 		            
-		            //TODO:recursive for all files included or still flat hierarchy??
+		            //set (overwrite) FDContainer to the added FD --> add FD(s) hierarchy
+		            fileDescriptorContainer = fd;
 		            
 		        }
 		        //it's a file
 		        else
 		        {
-		            String filename = localLine.nextToken();
-		            String revision = localLine.nextToken();
-		            boolean isBinary = localLine.nextToken().equals("binary");
-		            
+		        	/*1*/String filename = localLine.nextToken();
+		        	/*2*/String revision = localLine.nextToken();
+	            
 		            Date date = null;
 		            try {
-                        date = df.parse(localLine.nextToken());
+		            	/*3*/date = df.parse(localLine.nextToken());
                     } catch (ParseException e) {
-                        logger.debug("could not parse date - using null instead", e);
+                    	logger.debug("could not parse date - using null instead", e);
                     }
-		            
-		            fileDescriptorContainer.addFileDescriptor(FileDescriptorHelper.createFile(
-		                    filename, revision, date, isBinary) );
+
+                    /*4*/boolean isBinary = localLine.nextToken().equals("binary");                    
+                    
+                    //add the new FD
+		            fileDescriptorContainer.addFileDescriptor
+							(FileDescriptorHelper.createFile (filename, revision, date, isBinary));
 		            //System.out.println(line.nextToken());
 		            
 		        }
