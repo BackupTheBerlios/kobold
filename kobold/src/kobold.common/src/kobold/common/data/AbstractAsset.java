@@ -21,70 +21,54 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.6 2004/05/15 21:57:02 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.1 2004/05/15 21:57:02 vanto Exp $
  *
  */
-
 package kobold.common.data;
+
+import java.io.Serializable;
 
 import org.dom4j.Element;
 
 /**
- * @author garbeam
+ * @author Tammo
+ *
  */
-public class Product extends AbstractAsset {
+public abstract class AbstractAsset implements Serializable {
 
-	private String productLineName;
+	public static final String PRODUCT = "product";
+	public static final String PRODUCT_LINE = "productline";
+	
+	protected String name;
 
 	/**
 	 * Basic constructor.
-	 * @param productName
 	 * @param productLineName
 	 */
-	public Product (String productName, String productLineName) {
-		super(productName);
-		this.productLineName = productLineName;
+	public AbstractAsset(String assetName) {
+		this.name = assetName;
 	}
-	
+
 	/**
 	 * DOM constructor.
-	 * @param productName
+	 * @param element
 	 */
-	public Product (Element element) {
-		super(element);
+	public AbstractAsset(Element element) {
+		deserialize(element);
 	}
-	
-	/**
-	 * Serializes the product.
-	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
-	 */
-	public void serialize(Element root) {
-		Element product = root.addElement("product").addText(this.name);
-		root.addElement("depends").addText(this.productLineName);
+
+	public String getName() {
+		return name;
 	}
 
 	/**
-	 * Deserializes this product.
-	 * @param productName
+	 * Returns the type of this Asset.
+	 * Possible values are AbstractAsset.PRODUCT and AbstractAsset.PRODUCT_LINE
+	 * 
+	 * @return the type of this asset
 	 */
-	protected void deserialize(Element element) {
-		Element product = element.element("product");
-		this.name = element.getText();
-		this.productLineName = element.elementText("depends");
-	}
+	public abstract String getType();
 
-	/**
-	 * @return name of the dependent productline.
-	 */
-	public String getDependsName() {
-		return productLineName;
-	}
-
-	/**
-	 * @see kobold.common.data.AbstractProduct#getType()
-	 */
-	public String getType() {
-		return AbstractAsset.PRODUCT;
-	}
-
+	public abstract void serialize(Element root);
+	protected abstract void deserialize(Element element);
 }

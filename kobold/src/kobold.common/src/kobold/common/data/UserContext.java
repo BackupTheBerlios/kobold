@@ -21,10 +21,13 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: UserContext.java,v 1.5 2004/05/13 23:45:07 garbeam Exp $
+ * $Id: UserContext.java,v 1.6 2004/05/15 21:57:02 vanto Exp $
  */
 
 package kobold.common.data;
+
+import java.io.Serializable;
+
 
 /**
  * Base class for user context information (session info).
@@ -33,7 +36,7 @@ package kobold.common.data;
  *
  * @author garbeam
  */
-public class UserContext{
+public class UserContext implements Serializable {
 	
     // members
 	private String userName;

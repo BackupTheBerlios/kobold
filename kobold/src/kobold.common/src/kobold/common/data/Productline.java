@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.5 2004/05/15 14:45:08 garbeam Exp $
+ * $Id: Productline.java,v 1.6 2004/05/15 21:57:02 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -31,36 +31,18 @@ import org.dom4j.Element;
 /**
  * @author garbeam
  */
-public class Productline {
-
-	
-	private String name;
+public class Productline extends AbstractAsset {
 
 	/**
-	 * Basic constructor.
-	 * @param productLineName
 	 */
-	public Productline(String productLineName) {
-		this.name = productLineName;
+	public Productline(String assetName) {
+		super(assetName);
 	}
 
 	/**
-	 * DOM constructor.
-	 * @param element
 	 */
 	public Productline(Element element) {
-		deserialize(element);
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param productLineName
-	 */
-	public void setName(String name) {
-		this.name = name;
+		super(element);
 	}
 
 	/**
@@ -75,7 +57,15 @@ public class Productline {
 	/**
 	 * @param productName
 	 */
-	private void deserialize(Element element) {
+	protected void deserialize(Element element) {
 		this.name = element.elementText("productline");
 	}
+
+	/**
+	 * @see kobold.common.data.AbstractAsset#getType()
+	 */
+	public String getType() {
+		return AbstractAsset.PRODUCT_LINE;
+	}
+
 }
