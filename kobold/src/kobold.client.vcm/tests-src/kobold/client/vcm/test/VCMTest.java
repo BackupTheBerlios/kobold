@@ -21,21 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMTest.java,v 1.5 2004/07/22 12:06:47 rendgeor Exp $
+ * $Id: VCMTest.java,v 1.6 2004/07/29 16:33:51 rendgeor Exp $
  *
  */
 package kobold.client.vcm.test;
 
 
 import junit.framework.TestCase;
-import kobold.client.plam.model.FileDescriptor;
-import kobold.client.plam.model.IFileDescriptorContainer;
-import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Variant;
-import kobold.client.vcm.KoboldVCMPlugin;
-import kobold.client.vcm.communication.CVSSererConnection;
 import kobold.client.vcm.controller.StatusUpdater;
-import kobold.client.vcm.popup.action.KoboldAction;
 
 /**
  * @author rendgeor

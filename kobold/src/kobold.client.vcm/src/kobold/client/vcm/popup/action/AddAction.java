@@ -27,6 +27,8 @@ package kobold.client.vcm.popup.action;
 
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
+import kobold.client.vcm.controller.StatusUpdater;
+import kobold.client.vcm.test.VCMTest;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
@@ -67,6 +69,20 @@ public class AddAction extends KoboldAction {
 			try
 			{
 				//gets the stored userData
+				
+		//test
+				Variant var = new Variant ("testVar");
+				
+				
+				//update FD(s)
+				StatusUpdater statUp = new StatusUpdater ();
+
+				String[] command = {"perl", "/home/rendgeor/workspace/kobold.client.vcm/scripts/"+ 
+						"stats.pl", "/home/rendgeor/workspace/kobold.client.vcm/"};
+				
+				statUp.processConnection(command, var);
+
+		////		
 				
 //				((Component)testAssets[0])
 

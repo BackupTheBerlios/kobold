@@ -21,22 +21,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineTest.java,v 1.1 2004/07/29 15:28:05 garbeam Exp $
+ * $Id: ProductlineTest.java,v 1.2 2004/07/29 16:33:51 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
-import java.awt.Component;
 import java.sql.Date;
-
-import org.apache.commons.id.uuid.state.InMemoryStateImpl;
 
 import junit.framework.TestCase;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.ProductRelease;
 import kobold.client.plam.model.product.SpecificComponent;
+import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
-import kobold.common.data.IdManager;
+import kobold.client.plam.model.productline.Variant;
 import kobold.common.io.RepositoryDescriptor;
+
+import org.apache.commons.id.uuid.state.InMemoryStateImpl;
 
 
 
@@ -66,7 +66,7 @@ public class ProductlineTest extends TestCase {
 		
 		//---------------------------------------------
 
-		Productline pl = new Productline("PLtest");
+		Productline pl = new Productline("PLtest23");
 		/**/
 		pl.setRepositoryPath("bla.blubber.com");
 		
@@ -112,13 +112,11 @@ public class ProductlineTest extends TestCase {
 		fd1.addFileDescriptor(fd1_2);
 		
 		//Note: ReleaseB has no FD!
-		
+		*/
 		/////--------Component (CoreAsset)--------------------------------------------------
 		//add a component
 		Component coreAssetA = new Component("coreAssetA");
-		coreAssetA.setRepositoryPath("cvs.berlios.de");
 		Component coreAssetB = new Component("coreAssetB");
-		coreAssetB.setRepositoryPath("svn.berlios.de");
 		
 		pl.addComponent(coreAssetA);
 		pl.addComponent(coreAssetB);
@@ -138,9 +136,10 @@ public class ProductlineTest extends TestCase {
 		variantA.addRelease(ReleaseD);
 
 		//--add FD
-		FileDescriptor fd2 = new FileDescriptor ("fd2");
+		FileDescriptor fd2 = new FileDescriptor ();
+		fd2.setFilename("bla");
 		
-		ReleaseC.addFileDescriptor(fd2);
+		//ReleaseC.addFileRevision(fd2);
 
 		//ReleaseB has no FD!
 		
@@ -153,7 +152,7 @@ public class ProductlineTest extends TestCase {
 		//Productline plGet = (Productline) fd2.getRoot ();
 		
 	
-	*/
+	
 		//------------------------------
 		//serialize the whole product-line (all included)
  
@@ -172,7 +171,7 @@ public class ProductlineTest extends TestCase {
 		/**/
 
 		//do all
-		pl.serialize("/tmp");
+		pl.serializeProductline(path, true);
 		//pl.serialize("/tmp", true);
 
 		

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.9 2004/07/29 14:58:20 rendgeor Exp $
+ * $Id: Productline.java,v 1.10 2004/07/29 16:33:51 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -249,22 +249,40 @@ public class Productline extends AbstractRootAsset
 	public void createPlDirectory (String path) {
 		//create directory for the PL
 		File newDir = new File(path + File.separatorChar + getName());
-		newDir.mkdir();
+
+		if (newDir.mkdir()==true)
+			System.out.println("Directory was created");
+			else
+			System.out.println("Directory already existed");
+
+		
 		newDir = new File(path+ File.separatorChar + getName() + File.separatorChar + "PL");
 		
 		if (newDir.mkdir()==true)
-		System.out.println("Directory was created");
-		else
-		System.out.println("Directory already existed");
+			System.out.println("Directory was created");
+			else
+			System.out.println("Directory already existed");
+		
+		newDir = new File(path+ File.separatorChar +getName() + File.separator 
+				+ "PRODUCTS");
+		if (newDir.mkdir()==true)
+			System.out.println("Directory was created");
+			else
+			System.out.println("Directory already existed");
+
+		newDir = new File(path+ File.separatorChar +getName() + File.separator 
+				+ "CAS");
+		if (newDir.mkdir()==true)
+			System.out.println("Directory was created");
+			else
+			System.out.println("Directory already existed");
+
 	}
 	
 	public void createProductDirectory (String path, Product product)
 	{
 		//create directory for every product			
 		File newDir = new File(path+ File.separatorChar +getName() + File.separator 
-										+ "PRODUCTS");
-		newDir.mkdir();
-		newDir = new File(path+ File.separatorChar +getName() + File.separator 
 										+ "PRODUCTS" + File.separator + product.getName());
 
 
@@ -282,9 +300,6 @@ public class Productline extends AbstractRootAsset
 	
 		//create directory for every component			
 		File newDir = new File(path+ File.separatorChar +getName() + File.separator 
-										+ "CAS");
-		newDir.mkdir();
-		newDir = new File(path+ File.separatorChar +getName() + File.separator 
 										+ "CAS" + File.separator + component.getName());
 
 		if (newDir.mkdir()==true)

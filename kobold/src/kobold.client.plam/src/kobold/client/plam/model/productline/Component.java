@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.5 2004/07/29 15:56:56 garbeam Exp $
+ * $Id: Component.java,v 1.6 2004/07/29 16:33:51 rendgeor Exp $
  *
  */
 
@@ -67,6 +67,11 @@ public class Component extends AbstractMaintainedAsset
 	public Component() {
 		super();
 	}
+
+	public Component(String name) {
+		super(name);
+	}
+
 	
 	/**
 	 * DOM constructor.

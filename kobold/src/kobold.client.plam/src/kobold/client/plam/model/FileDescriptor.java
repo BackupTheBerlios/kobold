@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.10 2004/07/29 15:17:49 garbeam Exp $
+ * $Id: FileDescriptor.java,v 1.11 2004/07/29 16:33:51 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -63,8 +63,9 @@ public class FileDescriptor implements IFileDescriptorContainer, INode {
     private boolean isDirectory = false;
     
     public FileDescriptor() {
-    }
+        }
 
+    
     /**
      * @param author The author to set.
      */
