@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.19 2004/08/19 12:02:33 neccaino Exp $
+ * $Id: UserManager.java,v 1.20 2004/08/20 09:29:55 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -113,7 +113,14 @@ public class UserManager {
 	}
 
 	/**
-	 * Removes the passed user.
+	 * Removes the passed user. Note that a user will be removed even if it is 
+     * still assigned to an asset (in that case all assignements of this user 
+     * will be silently removed to avoid data inconsistencies within the Kobold 
+     * system).
+     * 
+     * Use 'isAssignedToAsset() if you like to check a user for assignements. 
+     * 
+     * @see removeUserByName()
      * 
      * @param user User object containing the username of the User object that 
      *        is to be removed
@@ -121,30 +128,36 @@ public class UserManager {
      *         username hasn't been registered
 	 */
 	public User removeUser(User user) {
-		return (User) users.remove(user.getUserName());
+		return removeUserByName(user.getUserName());
 	}
 
     /**
      * Removes the user with the passed username. Note that a user will be
-     * removed even if it is still assigned to an asset. If you want to avoid 
-     * data inconsistency within your Kobold system use 'getRemovabilityState()
-     * and/or 'unassignFromAllAssets() before calling this method.
+     * removed even if it is still assigned to an asset (in that case all 
+     * assignements of this user will be silently removed to avoid data
+     * inconsistencies within the Kobold system).
+     * 
+     * Use 'isAssignedToAsset() if you like to check a user for assignements. 
      * 
      * @param username username of the user that should be removed
      * @return the removed User object or null, if the passed username hasn't 
      *         been registered
      */
     public User removeUserByName(String username){
+        if (isAssignedToAsset(username)){
+            unassignFromAllAssets(username);
+        }
+        
         return (User) users.remove(username);
     }
     
     /**
      * This method checks if the user specified by the passed username is still
-     * assigned to any assets.
+     * assigned to at least one assets.
      * 
      * @param username name of the user to check for removability
-     * @return true if the specified user is still assigned to any assets, false
-     *         otherwise or if the specified user doesn't exist 
+     * @return true if the specified user is still assigned to at least one 
+     *         asset, false otherwise or if the specified user doesn't exist 
      */
     public boolean isAssignedToAsset(String username){
         // 1.) check if the passed username is registered
