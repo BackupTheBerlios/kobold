@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.16 2004/08/06 03:43:16 martinplies Exp $
+ * $Id: EdgeContainer.java,v 1.17 2004/08/07 23:15:21 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -229,6 +229,7 @@ public class EdgeContainer implements ISerializable {
             
         }  
     }
+   
     
     /**
      * Remove the edge from the start node to the target node with this type.
@@ -266,11 +267,11 @@ public class EdgeContainer implements ISerializable {
     }
     
     public Edge addEdge(Edge edge) {
-        if (containsEdge(edge.getStartNode(), edge.getTargetNode(), edge.getType())) {
-            return null;
-        }
         List sourceEdges = getSourceEdges(edge.getStartNode());
         List targetEdges = getTargetEdges(edge.getTargetNode());
+        if (containsEdge(edge.getStartNode(), edge.getTargetNode(), edge.getType())) {
+            return null;
+        }        
         sourceEdges.add(edge);
         listeners.firePropertyChange(ID_SOURCE_CHANGED, null, edge);
         targetEdges.add(edge);
@@ -369,7 +370,12 @@ public class EdgeContainer implements ISerializable {
     
     public void deserialize(Element element) {        
         for (Iterator ite = element.elementIterator("edge"); ite.hasNext(); ){
-            this.addEdge(new Edge((Element) ite.next(), this.root.getProductline()));
+            Edge edge = new Edge((Element) ite.next(), this.root.getProductline());
+            if (edge.getTargetNode() == null || edge.getStartNode() == null || edge.getType() == null){
+                
+            }else{
+              this.addEdge(edge);
+            }
         }
     }
     
