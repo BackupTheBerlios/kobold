@@ -21,19 +21,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.2 2004/07/07 01:50:36 vanto Exp $
+ * $Id: ModelStorage.java,v 1.3 2004/07/29 15:17:49 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 
+import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Productline;
+import kobold.common.io.RepositoryDescriptor;
 
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
@@ -45,7 +48,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressService;
@@ -56,7 +61,13 @@ import org.eclipse.ui.progress.IProgressService;
  */
 public class ModelStorage
 {
-    private static final Logger logger = Logger.getLogger(ModelStorage.class);
+    public static final String COREASSETS_FOLDER_NAME = "CAS";
+    public static final String PRODUCTS_FOLDER_NAME = "PRODUCTS";
+    public static final String PRODUCTLINE_META_FILE = ".productlinemetainfo";
+    public static final String PRODUCT_META_FILE = ".productmetainfo";
+    public static final String COREASSET_META_FILE = ".coreassetmetainfo";
+    
+    public static final Logger logger = Logger.getLogger(ModelStorage.class);
     
     public static Productline loadModel(IProject project)
     {
@@ -139,4 +150,77 @@ public class ModelStorage
             e.printStackTrace();
         }
     }
+
+    /**
+     * Returns the repository descriptor of the asset. If a product(line)
+     * is given, it'll return a repository descriptor to the product(line).
+     *
+     * Note: If the asset is a product(line) or core-asset this method will just return
+     *       the repository descriptor of it.
+     * @param asset the asset you're gaining the repository descriptor for.
+     */
+    public static RepositoryDescriptor getRepositoryDescriptorForAsset(AbstractAsset asset) {
+
+        // checks special cases first
+        if (asset.getType() == AbstractAsset.PRODUCT_LINE) {
+            return ((Productline)asset).getRepositoryDescriptor();
+        }
+        else if (asset.getType() == AbstractAsset.PRODUCT) {
+            return ((Product)asset).getRepositoryDescriptor();
+        }
+        
+        String modulePath = "";
+        while (! (asset instanceof AbstractRootAsset)) {
+            modulePath = asset.getName() + File.separator + modulePath;
+            asset = asset.getParent();
+        }
+        
+        AbstractRootAsset root = (AbstractRootAsset)asset;
+        RepositoryDescriptor repositoryDescriptor = root.getRepositoryDescriptor();
+        
+        return
+            new RepositoryDescriptor(repositoryDescriptor.getType(),
+                    				 repositoryDescriptor.getProtocol(),
+                    				 repositoryDescriptor.getHost(),
+                    				 repositoryDescriptor.getRoot(),
+                    				 repositoryDescriptor.getPath() + File.separator +
+                    				 modulePath);
+    }
+
+    /**
+     * Returns full path of given abstract assets. The full path will
+     * be calculated.
+     * @param theAsset an abstract asset
+     */
+    public static IPath getPathForAsset(AbstractAsset asset) {
+        
+        AbstractRootAsset root = asset.getRoot();
+        String thePath = "";
+        while (asset != null) {
+             
+            if (asset.getType() == AbstractAsset.COMPONENT) {
+                if (asset.getParent().getType() != AbstractAsset.VARIANT) {
+                    thePath = COREASSETS_FOLDER_NAME + File.separator +
+                    		  asset.getName() + File.separator + thePath;
+                }
+                else {
+                    thePath = asset.getName() + File.separator + thePath;
+                }
+            }
+            else if ((asset.getType() == AbstractAsset.SPECIFIC_COMPONENT) ||
+                     (asset.getType() == AbstractAsset.RELATED_COMPONENT)) {
+                thePath = PRODUCTS_FOLDER_NAME + File.separator +
+                		  asset.getName() + File.separator + thePath;
+            }
+            else {
+                thePath = asset.getName() + File.separator + thePath;
+            }
+            
+            asset = asset.getParent();
+        }
+        
+        return new Path(root.getProject().getIProject().getLocation()
+                        + File.separator + thePath);
+    }
+
 }

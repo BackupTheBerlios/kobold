@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IFileDescriptorContainer.java,v 1.8 2004/07/25 21:26:34 garbeam Exp $
+ * $Id: IFileDescriptorContainer.java,v 1.9 2004/07/29 15:17:49 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -30,7 +30,7 @@ import java.util.List;
 
 import kobold.common.io.RepositoryDescriptor;
 
-import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IPath;
 
 
 /**
@@ -77,7 +77,7 @@ public interface IFileDescriptorContainer
      * Returns the local path of this.
      * @return
      */
-    IResource getLocalPath();
+    IPath getLocalPath();
     
     /**
      * Retruns the root Asset.

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.5 2004/07/25 21:26:34 garbeam Exp $
+ * $Id: ProductComponent.java,v 1.6 2004/07/29 15:17:49 garbeam Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -33,15 +33,18 @@ import java.util.List;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.IGXLExport;
+import kobold.client.plam.model.ModelStorage;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.Element;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IPath;
 
 /**
  * @author rendgeor
@@ -162,10 +165,8 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
 	 */
-	public IResource getLocalPath() {
-		IProject project = getRoot().getProject().getIProject();
-		IFolder projectFolder = getRoot().getProject().getPath();
-		return project.getFolder(projectFolder.toString() + getName());
+	public IPath getLocalPath() {
+	    return ModelStorage.getPathForAsset(this);
 	}
 	
 	/**

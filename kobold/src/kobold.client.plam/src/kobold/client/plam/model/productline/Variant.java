@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.15 2004/07/29 11:08:21 garbeam Exp $
+ * $Id: Variant.java,v 1.16 2004/07/29 15:17:49 garbeam Exp $
  *
  */
 
@@ -41,14 +41,14 @@ import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.IReleaseContainer;
+import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.Release;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.Element;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
 /**
@@ -283,58 +283,16 @@ public class Variant extends AbstractAsset
 	}
 
 	/**
-	 * Returns path structure of this variant.
-	 * Used by getLocalPath and getRemoteRepository methods.
-	 * Note that local path and remote repository path structures
-	 * have to be correlant.
-	 */
-	private String myPath() {
-		AbstractRootAsset root = getRoot();
-		AbstractAsset asset = this;
-		String path = "";
-		
-		while (((asset.getType() != AbstractAsset.PRODUCT) 
-				&& (asset.getType() != AbstractAsset.PRODUCT_LINE)))
-		{
-			path = asset.getName() + File.separator + path;
-			asset = asset.getParent();
-	    }
-		if (asset.getType() == AbstractAsset.PRODUCT_LINE) {
-			path = asset.getName() + File.separator + "CAS" + File.separator + path;
-		}
-		else if (asset.getType() == AbstractAsset.PRODUCT) {
-			path = asset.getParent().getName() + File.separator + "PRODUCTS" + asset.getName() + File.separator + path;
-		}
- 		System.out.println("***********MyPath: "+ path);
-		return path;
-	}
-	
-	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
 	 */
-	public IResource getLocalPath() {
-		
-		AbstractRootAsset root = getRoot();
-		IProject project = root.getProject().getIProject();
-		try {
-		    project.getFolder(myPath()).create(true,true,new NullProgressMonitor());
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-		
-		return project.getFolder(myPath());//"/jh/Component 1/Variant 2"); //root.getProject().getPath().toString() + File.separator + myPath());
-		
+	public IPath getLocalPath() {
+	    return ModelStorage.getPathForAsset(this);		
 	}
-
   
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getRemoteRepository()
 	 */
 	public RepositoryDescriptor getRemoteRepository() {
-		Productline productline = (Productline)getRoot();
-		RepositoryDescriptor repositoryDescriptor =
-			new RepositoryDescriptor(productline.getRepositoryDescriptor().serialize());
-		repositoryDescriptor.setPath(repositoryDescriptor.getPath() + myPath());
-		return repositoryDescriptor;
+	    return ModelStorage.getRepositoryDescriptorForAsset(this);
 	}
 }

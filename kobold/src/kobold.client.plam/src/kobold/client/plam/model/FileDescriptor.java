@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.9 2004/07/25 21:26:34 garbeam Exp $
+ * $Id: FileDescriptor.java,v 1.10 2004/07/29 15:17:49 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -40,6 +40,8 @@ import kobold.common.io.RepositoryDescriptor;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 /**
  * Base class for locating working copies.
@@ -223,14 +225,8 @@ public class FileDescriptor implements IFileDescriptorContainer, INode {
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
 	 */
-	public IResource getLocalPath() {
-		IProject project = getRoot().getProject().getIProject();
-		if (isDirectory) {
-			return project.getFolder(getParent().getLocalPath().toString() + filename);
-		}
-		else {
-			return project.getFile(getParent().getLocalPath().toString() + filename);
-		}
+	public IPath getLocalPath() {
+	    return new Path(getParent().getLocalPath().toString() + filename);
 	}
 
 	/**
