@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.66 2004/08/02 14:01:10 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.67 2004/08/03 00:05:18 vanto Exp $
  *
  */
 package kobold.server;
@@ -165,12 +165,14 @@ public class SecureKoboldWebServer implements IKoboldServer,
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				sniffArgs.add(uc);
 				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
-				List users = getAllUsers(uc);
-				List result = new ArrayList();
-				for (Iterator iterator = users.iterator(); iterator.hasNext(); ) {
-					User user = (User) iterator.next();
-					result.add(RPCMessageTransformer.encode(user.serialize()));
-				}
+
+			    List users = UserManager.getInstance().getAllUsers();
+			    Vector result = new Vector();
+			    
+			    for (Iterator iterator = users.iterator(); iterator.hasNext(); ) {
+			        result.add(RPCMessageTransformer.encode(((User)iterator.next()).serialize()));
+			    }
+			    
 				return result;
 			}
 			else if (methodName.equals("removeUser")) {
@@ -396,8 +398,9 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	    Vector result = new Vector();
 	    
 	    for (Iterator iterator = users.iterator(); iterator.hasNext(); ) {
-	        kobold.server.data.User user = (kobold.server.data.User) iterator.next();
-	        result.add(new User(user.getUserName(), user.getFullName()).serialize());
+	        result.add((User)iterator.next());
+//	        kobold.server.data.User user = (kobold.server.data.User) iterator.next();
+//	        result.add(new User(user.getUserName(), user.getFullName()).serialize());
 	    }
 	    
 		return result;

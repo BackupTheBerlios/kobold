@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.33 2004/08/02 16:31:25 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.34 2004/08/03 00:05:23 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -241,7 +241,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
-			Vector vector = (Vector) getClientByUrl(userContext.getServerUrl()).execute("getAllUser", v);
+			Vector vector = (Vector) getClientByUrl(userContext.getServerUrl()).execute("getAllUsers", v);
 			
 			for (Iterator iterator = vector.iterator(); iterator.hasNext();) {
 			    User user = new User(RPCMessageTransformer.decode((String) iterator.next()));

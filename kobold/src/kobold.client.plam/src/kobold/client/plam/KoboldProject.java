@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.2 2004/08/02 23:15:59 vanto Exp $
+ * $Id: KoboldProject.java,v 1.3 2004/08/03 00:05:23 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -33,7 +33,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import kobold.client.plam.controller.ServerHelper;
@@ -42,6 +45,7 @@ import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.ProductlineFactory;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.workflow.LocalMessageQueue;
+import kobold.common.data.User;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -86,7 +90,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	private String productlineId;
 	private Productline productline;
 
-	private Map userPool = new HashMap();
+	private Map userPool;
 
 	/**
      * @see org.eclipse.core.resources.IProjectNature#configure()
@@ -267,7 +271,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 				    if (stream != null)
 				        stream.close();
 				}
-			}
+		    }
 		} catch (DocumentException e) {
 			logger.info("Error while parsing PLAM config.", e);
 		} catch (IOException e) {
@@ -322,7 +326,30 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	    }
 	}
     
-    /**
+	public void updateUserPool()
+	{
+	    if (isConfigured()) {
+	        List users = ServerHelper.fetchAllUsers(this);
+	        
+	        userPool.clear();
+	        Iterator it = users.iterator();
+	        while (it.hasNext()) {
+	            User u = (User)it.next();
+	            userPool.put(u.getUsername(), u);
+	        }
+	    }
+	}
+	
+	public Map getUserPool() 
+	{
+	    if (userPool == null) {
+	        userPool = new HashMap();
+	        updateUserPool();
+	    }
+	    return Collections.unmodifiableMap(userPool);
+	}
+	
+	/**
      * @param viewModel
      * @param monitor
      */

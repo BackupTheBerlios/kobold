@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.22 2004/08/02 17:23:54 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.23 2004/08/03 00:05:23 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -185,7 +185,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     	} else if ((parentElement instanceof TreeContainer) 
     	        && ((TreeContainer)parentElement).id.equals("users")) {
 
-    	    return new Object[0];
+    	    return ((TreeContainer)parentElement).productline.getKoboldProject().getUserPool().values().toArray();
     	}
     	     
         return new Object[0];

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.9 2004/08/02 17:23:53 vanto Exp $
+ * $Id: ModelStorage.java,v 1.10 2004/08/03 00:05:23 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -76,7 +76,7 @@ public class ModelStorage
         Productline pl = null;
         
 		//get the PL directory
-     	IFolder plmeta = project.getFolder(spl.getName());
+     	IFolder plmeta = project.getFolder(spl.getResource());
         if (plmeta.exists()) {
             IFile modelFile = plmeta.getFile(PRODUCTLINE_META_FILE);
             if (modelFile.exists()) {
