@@ -51,7 +51,7 @@ public interface KoboldRepositoryOperations extends SimpleAccessOperations {
 	
 	public void preCheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 	
-	public void postCheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	public void postcheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 
 	public void preImport(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 	
