@@ -21,6 +21,9 @@
             <td>02.02.04</td><td>Eclipse SDK (Patrick Schneider) [SunTrec]<!-- <a href="ftp://ftp.berlios.de/pub/poa/seminar/programmierbare_logik.pdf">Presentation</a>--></td>
           </tr>
           <tr>
+            <td>02.02.04</td><td>Basics: ssh, cvs (&Eclipse), how to use the berlios.de-services (cvs, ftp, xdocs) and duckforge-time-managment   <a href="./tutorial/basics_ssh.html">Presentation</a>--></td>
+          </tr>
+          <tr>
             <td>04.02.04</td><td>Tracing (Open-Source) Projects with Maven (Tammo van Lessen, Steffen Pingel) [V38.03, 14h]</td>
           </tr>
           <tr>
