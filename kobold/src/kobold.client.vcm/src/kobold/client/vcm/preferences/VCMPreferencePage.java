@@ -25,11 +25,15 @@
  */
 package kobold.client.vcm.preferences;
 
-import org.eclipse.jface.preference.*;
-import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.IWorkbench;
 import kobold.client.vcm.KoboldVCMPlugin;
+
+import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.jface.preference.DirectoryFieldEditor;
+import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
  * This class represents a preference page that
@@ -49,10 +53,10 @@ import org.eclipse.jface.preference.IPreferenceStore;
 public class VCMPreferencePage
 	extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
-//	public static final String P_PATH = "pathPreference";
-	public static final String ASK_PWD = "Ask for Password";
-	public static final String PWD_STR = "User Password";
-	public static final String USER_STR = "User Name";
+	public static final String KOBOLD_VCM_ASK_PWD = "kobold.vcm.askForPassword";
+	public static final String KOBOLD_VCM_PWD_STR = "kobold.vcm.user.Password";
+	public static final String KOBOLD_VCM_USER_STR = "kobold.vcm.userName";
+	public static final String KOBOLD_VCM_SCRIPT_LOCATION = "kobold.vcm.scriptLocation";
 
 	public VCMPreferencePage() {
 		super(GRID);
@@ -65,9 +69,10 @@ public class VCMPreferencePage
  */
 	private void initializeDefaults() {
 		IPreferenceStore store = getPreferenceStore();
-		store.setDefault(ASK_PWD, true);
-		store.setDefault(USER_STR, "");
-		store.setDefault(PWD_STR, "");
+		store.setDefault(KOBOLD_VCM_ASK_PWD, true);
+		store.setDefault(KOBOLD_VCM_PWD_STR, "");
+		store.setDefault(KOBOLD_VCM_USER_STR, "");
+		store.setDefault(KOBOLD_VCM_SCRIPT_LOCATION, "");
 	}
 	
 /**
@@ -82,7 +87,7 @@ public class VCMPreferencePage
 //				"&Directory preference:", getFieldEditorParent()));
 		addField(
 			new BooleanFieldEditor(
-				ASK_PWD,
+				KOBOLD_VCM_ASK_PWD,
 				"&Ask for Password everytime",
 				getFieldEditorParent()));
 
@@ -93,10 +98,9 @@ public class VCMPreferencePage
 //			new String[][] { { "&Choice 1", "choice1" }, {
 //				"C&hoice 2", "choice2" }
 //		}, getFieldEditorParent()));
-		addField(
-			new StringFieldEditor(USER_STR, "&VCM User Name:", getFieldEditorParent()));
-		addField(
-				new StringFieldEditor(PWD_STR, "&VCM User Password:", getFieldEditorParent()));	
+		addField(new StringFieldEditor(KOBOLD_VCM_USER_STR, "User name:", getFieldEditorParent()));
+		addField(new StringFieldEditor(KOBOLD_VCM_PWD_STR, "Password:", getFieldEditorParent()));	
+	    addField(new DirectoryFieldEditor(KOBOLD_VCM_SCRIPT_LOCATION, "Script location:", getFieldEditorParent()));
 	}
 	
 	

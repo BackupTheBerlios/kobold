@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IFileDescriptorContainer.java,v 1.9 2004/07/29 15:17:49 garbeam Exp $
+ * $Id: IFileDescriptorContainer.java,v 1.10 2004/08/05 18:17:07 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -85,4 +85,5 @@ public interface IFileDescriptorContainer
      */
     AbstractRootAsset getRoot();
 
+    void clear();
 }

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.17 2004/08/05 12:57:04 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.18 2004/08/05 18:18:06 garbeam Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -37,6 +37,7 @@ import kobold.client.plam.model.FileDescriptorHelper;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.communication.*;
+import kobold.client.vcm.preferences.VCMPreferencePage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -70,10 +71,9 @@ public class StatusUpdater {
 		//command line command with the stats script to the changed part of the meta-data containing FD(s)
 		String[] command = {"perl", getScriptPath() + 
 							"stats.pl", fileDescriptorContainer.getLocalPath().toOSString()};
+	    logger.debug("updateFileDescriptors: " + command[0] + command[1] + command[2]);
 		//process the connection (open and parse the input)
 		processConnection(command, fileDescriptorContainer);
-		
-
 	}
 	
 	public void processConnection (String[] command,
@@ -106,13 +106,10 @@ public class StatusUpdater {
 		KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
 		if (plugin != null)
 		{
-			String tmpLocation = plugin.getBundle().getLocation();
-
-			Path skriptPath = new Path(tmpLocation.substring(8,tmpLocation.length()));
-			return ((Path)skriptPath.append("scripts" + IPath.SEPARATOR)).toOSString();
+		    return new Path(plugin.getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_SCRIPT_LOCATION)
+		                    + IPath.SEPARATOR).toOSString();
 		}
-		else
-		{
+		else {
 			logger.debug("returned plugin still NULL");
 			return null;
 		}
@@ -129,18 +126,19 @@ public class StatusUpdater {
 		System.out.println (inputString);
 		
 		//clears all FD(s)
-		FileDescriptorHelper.clear(fileDescriptorContainer);
+        fileDescriptorContainer.clear();
 
 		//for the complete output of stats
 		java.util.StringTokenizer line = new java.util.StringTokenizer(inputString, "\n");
 		while(line.hasMoreTokens()) 
 		{ 
 		    //for each line (divided by tabs)
-		    java.util.StringTokenizer localLine = new java.util.StringTokenizer(inputString, "\t");
+		    java.util.StringTokenizer localLine = new java.util.StringTokenizer(line.nextToken(), "\t");
 		    while(localLine.hasMoreTokens()) 
 		    { 
+		    
 		        //it's a directory
-		        if (line.countTokens() == 1)
+		        if (localLine.countTokens() == 1)
 		        {
 		        	FileDescriptorHelper.
 							createDirectory(localLine.nextToken(), fileDescriptorContainer);
@@ -151,24 +149,39 @@ public class StatusUpdater {
 		        {
 		        	/*1*/String filename = localLine.nextToken();
 		        	/*2*/String revision = localLine.nextToken();
-	            
-		            Date date = null;
-		            try {
-		            	/*3*/date = df.parse(localLine.nextToken());
-                    } catch (ParseException e) {
-                    	logger.debug("could not parse date - using null instead", e);
-                    }
-
-                    /*4*/boolean isBinary = localLine.nextToken().equals("binary");                    
-                    
-                    //add the new FD
-		            FileDescriptorHelper.createFile (filename, revision, date, isBinary, fileDescriptorContainer);
-		            //System.out.println(line.nextToken());
-		            
+		        	
+		            if (revision.endsWith("*")) {
+		                // not managed yet by version control system
+		                if (revision.equals("*")) {
+        		             FileDescriptorHelper.createFile(filename, "", new Date(), true,
+        		                    						 fileDescriptorContainer);
+		                }
+		                else if (revision.equals("T*")) {
+                             FileDescriptorHelper.createFile(filename, "", new Date(), false,
+        		                    						 fileDescriptorContainer);
+		                }
+		                else {
+		                     FileDescriptorHelper.createDirectory(filename, fileDescriptorContainer);
+		                }
+		                
+		            }
+		            else {
+    	            
+    		            Date date = null;
+    		            try {
+    		            	/*3*/date = df.parse(localLine.nextToken());
+                        } catch (ParseException e) {
+                        	logger.debug("could not parse date - using null instead", e);
+                        }
+    
+                        /*4*/boolean isBinary = localLine.nextToken().equals("binary");                    
+                        
+		                //add the new FD
+    		            FileDescriptorHelper.createFile (filename, revision, date, isBinary, fileDescriptorContainer);
+    		            //System.out.println(line.nextToken());
+		            }
 		        }
 		    }
-		    
 		}	
 	}
- 
 }

@@ -23,6 +23,8 @@ use File::Find;
 
 #the global hash map
 my %data;
+#the path to start to parse
+my $currDir = $ARGV[0];
 
 
 sub read_entries {
@@ -94,37 +96,43 @@ sub read_entries {
 
 }
 
+sub read_phys {
+        ########ALL physical files and directories
+        sub show{
+            #print ("$File::Find::name \n");
+            
+            #to avoid that the currDir is printed too!
+            if ("$File::Find::name" ne $currDir)
+            {
+                #store all in the hash map instead
+                if ( -d "$File::Find::name" ) {
+                    $data {"$File::Find::name"} = "D*";
+                }
+                elsif ( -T "$File::Fine::name" ) {
+                    $data {"$File::Find::name"} = "T*";
+                }
+                else {
+                    $data {"$File::Find::name"} = "*";
+                }
+            }
+        }
+        find (\&show,$currDir);
+}
+
 ###MAIN###
+##########
+
+#or the current directory?
+#my $currDir = cwd;#`pwd`; 
+#chomp $currDir;
 
 if ($#ARGV == 0)
 {
-    #or the current directory?
-    #my $currDir = cwd;#`pwd`; 
-    #chomp $currDir;
-
-    #the path to start to parse
-    my $currDir = $ARGV[0];
-
     my $root = shift; # shifted at next argument in @_
-
-########ALL physical files and directories
-    sub show{
-        #print ("$File::Find::name \n");
-        
-        #to avoid that the currDir is printed too!
-        if ("$File::Find::name" ne $currDir)
-        {
-            #store all in the hash map instead
-            $data {"$File::Find::name"} = "*";
-        }
-    }
-    find (\&show,$currDir);
-
-
-##########
-
     #print "beginning with: $currDir\n";
+    read_phys;
     read_entries($currDir);
+
 
     #now print all entries of the hash map
     foreach my $key ( keys %data){

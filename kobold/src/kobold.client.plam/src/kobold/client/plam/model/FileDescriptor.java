@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.12 2004/08/02 17:23:54 vanto Exp $
+ * $Id: FileDescriptor.java,v 1.13 2004/08/05 18:17:07 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -54,14 +54,14 @@ public class FileDescriptor implements IFileDescriptorContainer, INode {
     private IFileDescriptorContainer parentAsset;
     private FileDescriptor parent;
     private String filename;
-    private String revision;
+    private String revision = "";
     private User author;
     private Date lastChange;
     private boolean isBinary = false;
     private boolean isDirectory = false;
     
     public FileDescriptor() {
-        }
+    }
 
     
     /**
@@ -269,4 +269,12 @@ public class FileDescriptor implements IFileDescriptorContainer, INode {
 		repositoryDescriptor.setPath(repositoryDescriptor.getPath() + filename);
 		return repositoryDescriptor;
 	}
+
+
+    /**
+     * @see kobold.client.plam.model.IFileDescriptorContainer#clear()
+     */
+    public void clear() {
+        children.clear();
+    }
 }

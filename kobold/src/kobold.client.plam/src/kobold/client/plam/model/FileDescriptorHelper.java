@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptorHelper.java,v 1.3 2004/07/25 21:26:34 garbeam Exp $
+ * $Id: FileDescriptorHelper.java,v 1.4 2004/08/05 18:17:07 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -53,26 +53,13 @@ public class FileDescriptorHelper
 											boolean isBinary, 
 											IFileDescriptorContainer fileDescriptorContainer) 
     {
-    	java.util.StringTokenizer localLine = new java.util.StringTokenizer(filename, IPath.SEPARATOR+"");
-	    while(localLine.hasMoreTokens()) 
-	    { 
-	    	if (localLine.countTokens() == 1)
-	        {
-		        FileDescriptor fd = new FileDescriptor();
-		    	fd.setFilename(filename);
-		    	//setDirectory(false);
-		    	fd.setRevision(revision);
-		    	fd.setLastChange(lastChange);
-		    	fd.setBinary(isBinary);
-	        }
-	    	else
-	        {
-		    	//immer über root element gehen:
-		    	//root.getChild(a)...	        	
-	        	fileDescriptorContainer = 
-	        		fileDescriptorContainer.getFileDescriptor (localLine.nextToken());
-	        }
-	    }
+        String resource = filename.substring(filename.lastIndexOf(IPath.SEPARATOR));
+        FileDescriptor fd = new FileDescriptor();
+    	fd.setFilename (filename);
+    	fd.setRevision(revision);
+    	fd.setLastChange(lastChange);
+    	fd.setBinary(isBinary);
+    	fileDescriptorContainer.addFileDescriptor (fd);
     }
 
     /**
@@ -82,48 +69,12 @@ public class FileDescriptorHelper
     public static void createDirectory(String dirName, 
     											IFileDescriptorContainer fileDescriptorContainer) 
     {
-
-	    //for each line (divided Ipath.Seperators)
-    	//divide token by "/"(unix) or "\"(windows)
-    	//first part under windows is "c:", under unix still ""
-    	java.util.StringTokenizer localLine = new java.util.StringTokenizer(dirName, IPath.SEPARATOR+"");
-	    while(localLine.hasMoreTokens()) 
-	    { 
-	        //part to create
-	    	//#(tokens) = (tmp a b) --> first two:"/tmp/a" still created, create only b!
-	    	if (localLine.countTokens() == 1)
-	        {
-		        FileDescriptor fd = new FileDescriptor();
-		    	fd.setFilename (dirName);
-		    	fd.setDirectory(true);
-		    	//add this fd
-		    	fileDescriptorContainer.addFileDescriptor (fd);
-	        }
-	    	//go to the still existing part
-	    	else
-	        {
-		    	//immer über root element gehen:
-		    	//root.getChild(a)...	        	
-	        	fileDescriptorContainer = 
-	        		fileDescriptorContainer.getFileDescriptor (localLine.nextToken());
-	        }
-
-	    }
+        String resource = dirName.substring(dirName.lastIndexOf(IPath.SEPARATOR));
+        FileDescriptor fd = new FileDescriptor();
+    	fd.setFilename (dirName);
+    	fd.setDirectory(true);
+    	fileDescriptorContainer.addFileDescriptor (fd);
     }
     
     
-    /**
-     * Removes recursivly all filedescriptors and its children from the given
-     * Container and orphans them.
-     * 
-     * @param fdc
-     */
-    public static void clear(IFileDescriptorContainer fdc) 
-    {
-        for (int i = 0; i < fdc.getFileDescriptors().size(); i++) {
-            FileDescriptor fd = (FileDescriptor)fdc.getFileDescriptors().get(i);
-            fdc.removeFileDescriptor(fd);
-            clear(fd);
-        }
-    }
 }

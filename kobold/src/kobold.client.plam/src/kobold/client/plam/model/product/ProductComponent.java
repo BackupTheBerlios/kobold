@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.8 2004/08/03 22:11:46 vanto Exp $
+ * $Id: ProductComponent.java,v 1.9 2004/08/05 18:17:07 garbeam Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -176,5 +176,9 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 			new RepositoryDescriptor(product.getRepositoryDescriptor().serialize());
 		repositoryDescriptor.setPath(repositoryDescriptor.getPath() + getName());
 		return repositoryDescriptor;
+	}
+
+	public void clear() {
+	    filedescs.clear();
 	}
 }

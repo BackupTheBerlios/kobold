@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.19 2004/08/03 22:11:46 vanto Exp $
+ * $Id: Variant.java,v 1.20 2004/08/05 18:17:07 garbeam Exp $
  *
  */
 
@@ -297,4 +297,11 @@ public class Variant extends AbstractAsset
 	public RepositoryDescriptor getRemoteRepository() {
 	    return ModelStorage.getRepositoryDescriptorForAsset(this);
 	}
+
+    /**
+     * @see kobold.client.plam.model.IFileDescriptorContainer#clear()
+     */
+    public void clear() {
+        filedescs.clear();
+    }
 }
