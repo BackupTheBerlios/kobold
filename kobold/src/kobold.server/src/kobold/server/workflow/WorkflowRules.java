@@ -84,7 +84,6 @@ public class WorkflowRules {
 		
 		//analyzing the answer
 		"java.lang.String decision = \"\";"+
-		"java.lang.String comment = \"\";"+
 		"kobold.common.data.WorkflowItem[] controls = msg.getWorkflowControls();"+
 
 		"decision = controls[3].getValue();" + 
@@ -96,16 +95,13 @@ public class WorkflowRules {
 			"answer.setSubject(\"Ein Vorschlag für ein neues Core Group Item ist eingegangen\");"+
 			"answer.setMessageText(\"Es ist ein neuer Vorschlag für das Core Group Item \" + controls[0].getValue() + \" unter \" + controls[1].getValue() + \" eingegangen, \" +"+
 					"\"der zuständige PE schrieb dazu: \" + msg.getComment());"+
-					"System.out.println(\"Alle Sets abgeschlossen\");"+
 
 			//add decisions for core group PE
-			"kobold.common.data.WorkflowItem radio1 = new kobold.common.data.WorkflowItem(\"false\",\"Vorschlag zustimmen\",kobold.common.data.data.WorkflowItem.RADIO);"+
+			"kobold.common.data.WorkflowItem radio1 = new kobold.common.data.WorkflowItem(\"false\",\"Vorschlag zustimmen\",kobold.common.data.WorkflowItem.RADIO);"+
 			"kobold.common.data.WorkflowItem radio2 = new kobold.common.data.WorkflowItem(\"true\",\"Vorschlag ablehnen\",kobold.common.data.WorkflowItem.RADIO);"+
 			"kobold.common.data.WorkflowItem container = new kobold.common.data.WorkflowItem(null,\"Entscheidung\",kobold.common.data.WorkflowItem.CONTAINER);"+
 			"container.addChild(radio1);"+
 			"container.addChild(radio2);"+
-			"answer.addWorkflowControl(controls[0]);" +
-			"answer.addWorkflowControl(controls[1]);" +
 			"answer.addWorkflowControl(container);"+
 
 		"}"+
@@ -135,40 +131,50 @@ public class WorkflowRules {
 		no3.addCondition(new ExprCondition("(msg.getWorkflowType().equals(\"Core Group Suggestion\")) && (msg.getStep() == 3)", new Declaration[] {dec3}));
 		no3.addParameterDeclaration(dec1);
 		no3.setConsequence(new BlockConsequence(""+
-				"System.out.println(\"tridde rägäl\");"+
-				"kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
-				"answer.setSender(msg.getSender());"+
-				"answer.addParentId(msg.getId());"+
-				"answer.setStep(msg.getStep()+1);"+
+				"kobold.common.data.WorkflowMessage answer1 = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
+				"answer1.setSender(msg.getSender());"+
+				"answer1.addParentId(msg.getId());"+
+				"answer1.setStep(msg.getStep()+1);"+
+				
+				"kobold.common.data.WorkflowMessage answer2 = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
+				"answer2.setSender(msg.getSender());"+
+				"answer2.addParentId(msg.getId());"+
+				"answer2.setStep(msg.getStep()+1);"+
 				
 				//analyzing the answer
 				"String decision = \"\";"+
-				"String comment = \"\";"+
 				"kobold.common.data.WorkflowItem controls[] = msg.getWorkflowControls();"+
-				"for(int i = 0; i < controls.length;i++){"+
-					"if (controls[i].equals(kobold.common.data.WorkflowItem.TEXT)){"+
-						"comment = controls[i].getValue();"+
-					"}"+
-					"if (controls[i].equals(kobold.common.data.WorkflowItem.CONTAINER)){"+
-						"decision = controls[i].getValue();"+
-					"}"+
-				"}"+
+				"decision = controls[0].getValue();"+
+
 			"if (decision.equals(\"Vorschlag zustimmen\")){"+
 				"kobold.server.controller.GlobalMessageContainer gmc = GlobalMessageContainer.getInstance();"+
 				"kobold.common.data.WorkflowMessage wfm = (kobold.common.data.WorkflowMessage)gmc.getMessage(msg.getParentIds()[0]);"+
-				"answer.setReceiver(wfm.getSender());"+
-				"answer.setSubject(\"Ihr Vorschlag wurde akzeptiert.\");"+
-				"answer.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" akzeptiert. Weitere Anweisungen lauten: '\" +"+
+				"answer1.setReceiver(wfm.getSender());"+
+				"answer1.setSubject(\"Ihr Vorschlag wurde akzeptiert.\");"+
+				"answer1.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" akzeptiert. Weitere Anweisungen lauten: '\" +"+
 						 "msg.getComment() +\"'\");"+
+				
+				"answer2.setReceiver(wfm.getSender());"+
+				"answer2.setSubject(\"Ihr Vorschlag wurde akzeptiert.\");"+
+				"answer2.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" akzeptiert. Weitere Anweisungen lauten: '\" +"+
+						"msg.getComment() +\"'\");"+
+						 
 			"}"+
 			"else if (decision.equals(\"Vorschlag ablehnen\")){"+
 				"kobold.server.controller.GlobalMessageContainer gmc = GlobalMessageContainer.getInstance();"+
 				"kobold.common.data.WorkflowMessage wfm = (kobold.common.data.WorkflowMessage)gmc.getMessage(msg.getParentIds()[0]);"+
-				"answer.setReceiver(wfm.getSender());"+
-				"answer.setSubject(\"Ihre Anfrage wurde abgelehnt.\");"+
-				"answer.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" mit der Begründung '\" +"+
+				"answer1.setReceiver(wfm.getSender());"+
+				"answer1.setSubject(\"Ihre Anfrage wurde abgelehnt.\");"+
+				"answer1.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" mit der Begründung '\" +"+
 					 "msg.getComment() +\"' abgelehnt\");"+
-			"}"));
+				
+				"answer2.setReceiver(wfm.getSender());"+
+				"answer2.setSubject(\"Ihre Anfrage wurde abgelehnt.\");"+
+				"answer2.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" mit der Begründung '\" +"+
+					"msg.getComment() +\"' abgelehnt\");}"+
+				
+		"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer1);" + 
+		"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer2);"));
 
 
 				
