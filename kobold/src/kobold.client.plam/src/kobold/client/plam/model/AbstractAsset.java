@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.21 2004/08/24 18:35:59 martinplies Exp $
+ * $Id: AbstractAsset.java,v 1.22 2004/08/25 16:08:24 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -88,6 +88,8 @@ public abstract class AbstractAsset implements ISerializable, INode
     private AbstractAsset parent;
     private String description = "";
     private Set statusSet = new HashSet();
+    private boolean isResourceDefined = false;
+    
 
     public AbstractAsset()
     {
@@ -287,6 +289,7 @@ public abstract class AbstractAsset implements ISerializable, INode
         if (resource != null) {
             element.addAttribute("resource", resource);
         }
+        element.addAttribute("resource-is-defined", isResourceDefined ? "yes" : "no");
         
         Element nameEl = element.addElement("name");
         if (name != null) {
@@ -312,6 +315,12 @@ public abstract class AbstractAsset implements ISerializable, INode
     {
     	id = element.attributeValue("id");
     	resource = element.attributeValue("resource");
+    	if (resource != null) {
+    	    isResourceDefined = true;
+    	}
+    	else {
+            isResourceDefined = element.attributeValue("resource-is-defined") == "yes";
+    	}
     	
     	name = element.elementTextTrim("name");
     	description = element.elementTextTrim("description");
@@ -394,5 +403,13 @@ public abstract class AbstractAsset implements ISerializable, INode
     public void setResource(String resource) {
         this.resource = resource;
         firePropertyChange(ID_DATA, null, resource);
+    }
+    
+    public boolean isResourceDefined() {
+        return isResourceDefined;
+    }
+    
+    public void setResourceDefined(boolean isResourceDefined) {
+        this.isResourceDefined = isResourceDefined;
     }
 }

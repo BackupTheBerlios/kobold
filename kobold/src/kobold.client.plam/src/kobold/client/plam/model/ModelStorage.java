@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.25 2004/08/25 14:59:13 vanto Exp $
+ * $Id: ModelStorage.java,v 1.26 2004/08/25 16:08:24 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -279,10 +279,8 @@ public class ModelStorage
                     thePath = asset.getResource() + IPath.SEPARATOR + thePath;
                 }
             }
-            else if ((asset.getType() == AbstractAsset.SPECIFIC_COMPONENT) ||
-                    (asset.getType() == AbstractAsset.RELATED_COMPONENT)) {
-                thePath = PRODUCTS_FOLDER_NAME + IPath.SEPARATOR +
-                asset.getResource() + IPath.SEPARATOR + thePath;
+            else if (asset.getType() == AbstractAsset.PRODUCT) {
+                thePath = PRODUCTS_FOLDER_NAME + IPath.SEPARATOR + asset.getResource() + thePath;
             }
             else {
                 thePath = asset.getResource() + IPath.SEPARATOR + thePath;
@@ -309,10 +307,8 @@ public class ModelStorage
                     thePath = asset.getResource() + IPath.SEPARATOR + thePath;
                 }
             }
-            else if ((asset.getType() == AbstractAsset.SPECIFIC_COMPONENT) ||
-                    (asset.getType() == AbstractAsset.RELATED_COMPONENT)) {
-                thePath = PRODUCTS_FOLDER_NAME + IPath.SEPARATOR +
-                asset.getResource() + IPath.SEPARATOR + thePath;
+            else if (asset.getType() == AbstractAsset.PRODUCT) {
+                thePath = PRODUCTS_FOLDER_NAME + IPath.SEPARATOR + asset.getResource() + thePath;
             }
             else {
                 thePath = asset.getResource() + IPath.SEPARATOR + thePath;
