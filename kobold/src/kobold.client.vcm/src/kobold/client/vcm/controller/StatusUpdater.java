@@ -25,9 +25,13 @@
  */
 package kobold.client.vcm.controller;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
+import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.communication.CVSSererConnection;
@@ -81,8 +85,8 @@ public class StatusUpdater {
 	
 	/**
 	 * Parses the inputString
-	 * @param inputString, the inputString to parse
-	 * @param fileDescriptorContainer
+	 * @param inputString, the inputString(all files and directories) to parse
+	 * @param fileDescriptorContainer, a reference to the part who has FD(s) to update
 	 */
 	private void parseInputString (IFileDescriptorContainer fileDescriptorContainer, 
 									String inputString)
@@ -92,12 +96,41 @@ public class StatusUpdater {
 		//clears all FD(s)
 		if (fileDescriptorContainer.clear ())
 		{
-			//add new FD(s)
-			
+			//for the complete output of stats
+			java.util.StringTokenizer line = new java.util.StringTokenizer(inputString, "\n");
+			while(line.hasMoreTokens()) 
+			{ 
+				//for each line
+				java.util.StringTokenizer localLine = new java.util.StringTokenizer(inputString, "\t");
+				while(localLine.hasMoreTokens()) 
+				{ 
+				
+					//it's a directory
+					if (line.countTokens() == 1)
+					{
+						fileDescriptorContainer.addFileDescriptor(new FileDescriptor(localLine.nextToken()));
+						
+						//TODO:recursive for all files included or still flat hierarchy??
+						
+					}
+					//it's a file
+					else
+					{
+						fileDescriptorContainer.addFileDescriptor(
+									new FileDescriptor(
+									localLine.nextToken (), localLine.nextToken(),
+									DateFormat.parse(localLine.nextToken()), localLine.nextToken().equals("binary") ) );
+						//System.out.println(line.nextToken());
+	
+					}
+				}
+
+			}	
 		}
 		else
 		{
 			//logger
 		}
-	}		
+	}
+ 
 }
