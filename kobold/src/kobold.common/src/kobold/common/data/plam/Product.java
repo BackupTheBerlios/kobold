@@ -21,9 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.2 2004/06/03 12:01:50 rendgeor Exp $
+ * $Id: Product.java,v 1.1 2004/06/03 12:01:50 rendgeor Exp $
  *
  */
+
 package kobold.common.data.plam;
 
 import org.dom4j.DocumentHelper;
@@ -32,86 +33,71 @@ import org.dom4j.Element;
 import java.util.HashMap;
 
 /**
- * @author rendgeor
+ * @author garbeam
  */
-public class Productline implements IAsset {
+public class Product implements IAsset {
 
-	//name of the PL
-	private String name;
-	
-	//the products and core-assets
-	private HashMap products;
-	private HashMap coreAssets;
+	private String productName;
+
+	//the components
+	private HashMap components;	
 	
 	//the repository-path
 	String repositoryPath;
 	
-	//create a instance
-	static private Productline instance;
-
-	static public Productline getInstance() {
-		 if (instance == null ) {
-		 	 instance = new Productline("PL");
-		 }
-		 return instance;
-	}	
-	
-	/**Basic constructor of this singleton.
-	 */
-	public Productline(String name) {
-		this.name = name;
-		
-	}
-
 	/**
+	 * Basic constructor.
+	 * @param productName
+	 * @param productLineName
 	 */
-	public Productline(Element element) {
+	public Product (String productName) {
+		super();
+		this.productName = productName;
+	}
+	
+	/**
+	 * DOM constructor.
+	 * @param productName
+	 */
+	public Product (Element element) {
 		deserialize(element);
 	}
-
 	
 	/**
-	 * Adds a new product.
-	 *
-	 * @param product String containing the new productname
-	 */
-	public void addProduct(Product product) {
-		products.put(product.getName(), product);
-	}
-
-	/**
-	 * Adds a new coreAsset.
-	 *
-	 * @param coreAsset String containing the new coreAssetname
-	 */
-	public void addCoreAsset(CoreAsset coreAsset) {
-		coreAssets.put(coreAsset.getName(), coreAsset);
-	}
-	
-	/**
-	 * Serializes the productline.
+	 * Serializes the product.
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		return DocumentHelper.createElement("productline").addText(this.name);
-	
-		//serialize all products and coreAssets
-		//...
+		Element product = DocumentHelper.createElement("product");
+		product.addText(this.productName);
+		//product.addElement("productline").addText(this.productLineName);
+		return product;
 	}
 
 	/**
+	 * Deserializes this product.
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		this.name = element.elementText("productline");
-	    this.name = element.getTextTrim();
+		Element product = element.element("product");
+		this.productName = element.getText();
+		//this.productLineName = element.elementText("productline");
 	}
 
 	/**
-	 * @see kobold.common.data.IAsset#getType()
+	 * @return name of the dependent productline.
+
+	public String getDependsName() {
+		return productLineName;
+	}
+	 */
+
+
+	/**
+	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
 	public String getType() {
-		return IAsset.PRODUCT_LINE;
+		return IAsset.PRODUCT;
 	}
 
     /**
@@ -119,17 +105,19 @@ public class Productline implements IAsset {
      */
     public String getName()
     {
-        return name;
+        return productName;
     }
 
 	/**
-	 * @param name The name to set.
+	 * Adds a new component.
+	 *
+	 * @param component contains the new component
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void addComponent(Component component) {
+		components.put(component.getName(), component);
 	}
-	
-	
+
+    
 	/**
 	 * @return Returns the repositoryPath.
 	 */

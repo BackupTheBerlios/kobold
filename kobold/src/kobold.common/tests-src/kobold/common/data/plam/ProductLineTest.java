@@ -21,28 +21,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.1 2004/06/02 15:51:38 rendgeor Exp $
+ * $Id: ProductLineTest.java,v 1.1 2004/06/03 12:01:50 rendgeor Exp $
  *
  */
 
 import junit.framework.TestCase;
 
-import kobold.common.data.Product;
-import kobold.common.data.Productline;
-import kobold.server.controller.ProductManager;
+import kobold.common.data.plam.*;
 
 /**
  * @author garbeam
  *
- * TestCase for UserManager.
+ * TestCase for ProductLine.
  */
-public class ProductManagerTest extends TestCase {
+public class ProductLineTest extends TestCase {
 
 	/**
-	 * Constructor for UserManagerTest.
+	 * Constructor for ProductLineTest.
 	 * @param arg0
 	 */
-	public ProductManagerTest(String arg0) {
+	public ProductLineTest(String arg0) {
 		
 		super(arg0);
 	}
@@ -52,7 +50,7 @@ public class ProductManagerTest extends TestCase {
 		Product product = new Product("windows", "office");
 		Productline productline = new Productline("office");
 		
-		ProductManager manager = ProductManager.getInstance();
+		Productline pl = Productline.getInstance();
 		
 		manager.addProduct(product);
 		manager.addProductLine(productline);

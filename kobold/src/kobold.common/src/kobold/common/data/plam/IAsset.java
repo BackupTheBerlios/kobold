@@ -21,10 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IAsset.java,v 1.2 2004/06/03 12:01:50 rendgeor Exp $
+ * $Id: IAsset.java,v 1.1 2004/06/03 12:01:50 rendgeor Exp $
  *
  */
-package kobold.common.data;
+package kobold.common.data.plam;
 
 
 /**
@@ -33,9 +33,14 @@ package kobold.common.data;
  */
 public interface IAsset extends ISerializable {
 
-	public static final String PRODUCT = "product";
 	public static final String PRODUCT_LINE = "productline";
-
+	public static final String PRODUCT = "product";
+	public static final String CORE_ASSET = "coreAsset";
+	public static final String COMPONENT = "component";
+	public static final String VARIANT = "variant";
+	public static final String VERSION = "version";
+	public static final String FILE_DESCRIPTOR = "fileDescriptor";
+	
 
 	String getName();
 	
