@@ -1,0 +1,372 @@
+\documentclass[a4paper,titlepage,12pt,ngerman]{scrbook}
+\usepackage{../common/header}
+\RequirePackage{hhline}
+
+\RCSdef $Revision: 1.0 $
+\RCSdef $Date: 2004/10/25 $
+
+\newcommand\version{Version 1.0 \xspace}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Deckblatt
+
+\begin{titlepage}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+{\Huge
+\raggedright
+\textbf{\bf Kobold} \\
+\huge Product Line Management System
+\rule{\textwidth}{0.75pt}
+\par
+}
+\begin{flushleft}
+\normalsize
+\version
+\end{flushleft}
+
+
+\vfill
+\includegraphics[width=15cm]{../common/logo-color.png}
+\vfill
+{\parindent=0cm
+\Huge Abschlussbericht
+}
+
+
+\setcounter{footnote}{0}
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Versionsgeschichte
+
+\section*{Versionsgeschichte}
+
+\begin{itemize}
+
+\item Version 1.0 
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Inhaltsverzeichnis
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Einleitung}
+
+\section{Zweck des Dokuments}
+
+Dieses Dokument beschreibt das Projekt ``Produktlinien'', das von Anfang Oktober
+ 2003 bis Anfang November 2004 an der
+Universität Stuttgart am Institut für Softwaretechnologie (ISTE) durchgeführt
+wurde. Das Projekt wurde von neun Softwaretechnik Studenten - Necati
+Aydin, Anselm Garbe, Tammo van Lessen, Michael Grosse, Armin Cont, Patrick Schneider,
+Oliver Rendgen, Martin Plies und Bettina Druckenmüller - im Rahmen eines Studienprojekts A
+durchgeführt. Im Folgenden wird ein Überblick über die erzielten
+Ergebnisse, den Projektverlauf und die persönlichen Eindrücke der
+Teilnehmer gegeben.
+
+\section{Hintergrund des Projekts}
+
+Schl"usselerfolgsfaktoren in der Softwaretechnik sind kurze
+Time-to-market Zyklen, hohe Produktqualit"at und niedrige Kosten. Das Erzielen
+dieser scheinbar unvereinbaren Ziele wird durch systematische
+Wiederverwendung w"ahrend der Entwicklung von Software m"oglich.\par
+
+Kernpunkt des Produktlinienansatzes ist die systematische Erfassung
+von Unterschieden und Gemeinsamkeiten der verschiedenen Produkte und
+einer expliziten Abbildung dieser Aspekte in die
+Softwarearchitektur. Diese Grundidee hat Auswirkungen f"ur alle
+Schritte im Produktentwicklungsprozess und - idealerweise - auch
+dar"uber hinaus in der Produktplanung und -strategie.\par
+
+Um eine effiziente Produktlinienentwicklung in der Softwareentwicklung
+zu etablieren, ist es wichtig, dass diese Produktstrategie konsequent
+umgesetzt wird.\par
+
+Idealziel einer gut konfigurierten Produktlinie ist es, ein Produkt
+durch einfache Kombination von angepassten Core-Assets zu
+erstellen. Eine Produktlinie ist also ideal konfiguriert, wenn die
+Produktlinien-Architektur für alle möglichen Produkte hinreichend
+spezifiziert ist. Der Produkt\-linien-Ingenieur hat genau
+diese Aufgabe. Er bestimmt die Architektur in dem er Core-Assets
+definiert und deren Grundbeziehungen zueinander spezifiziert (Scoping
+und Domain-Engineering). Soll nun ein neues Produkt in die
+Produktlinie aufgenommen werden (Application Engineering), so muss es
+dieser Architektur folgen. Es werden dazu bereits existierende
+Varianten der Core-Assets mit neuen Varianten kombiniert und dem
+Produkt-Ingenieur übergeben, der die Verantwortung für das Produkt
+übernimmmt. Dieser hat dafür Sorge zu tragen, dass die Entwicklung an
+dem Produkt nicht die Architektur der Produktlinie verletzt.\par 
+
+In dieser Hierarchie ist es wichtig, dass bestimmte Vorgänge nach
+festen Regeln kommuniziert werden. Wenn z.B. in einem Produkt eine
+bereits existierende Variante eines Core-Assets verwendet wird, darf
+diese nicht von dem Produkt-Entwickler verändert werden. Veränderungen
+sind hier nur dem zuständigen Core-Asset-Entwickler gestattet. Dieser
+muss abwägen, ob die Veränderung sinnvoll ist, da er die
+Verantwortung für sein Modul, welches evtl. auch noch von anderen
+Produkten verwendet wird, hat. Lehnt er dies ab, so muss der
+Produkt-Ingenieur eine produktspezifische Variante dieses Core-Assets
+entwickeln lassen. Dieser Vorgang ist sehr komplex, da mehrere Personen
+mit ihren Entscheidungen daran beteiligt sind. Um eine Produktlinie
+konsequent durchsetzen zu können, müssen diese Arbeitsabläufe
+spezifiziert sein.\par
+
+Es bietet sich nun an, die Entwicklung von Produktlinien mit Werkzeugen zu
+unterstützen. Damit kann man sowohl das Configuration Managment
+vereinfachen, sowie die oben erwähnten Arbeitsabläufe modellieren und damit
+die Kommunikation und die Entwicklung erleichtern.
+
+\section{Anforderungen}
+
+Aus dem im vorherigen Abschnitt skizzierten Projekthintergrund ergaben
+sich folgende Anforderungen im Detail, deren Umsetzung in einem
+Angebotsdokument verbindlich mit dem Auftraggeber vereinbart wurden:
+
+
+%TODO!
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Projektergebnisse}
+
+\section{Kobold}
+
+%TODO!
+
+\section{Dokumente}
+
+Neben der Programmierumgebung ist im Laufe des Projekts Dokumentation
+entstanden.
+
+\subsection{Angebot}
+\label{angebot}
+
+In einem knapp 50-seitigen Angebot wurden die Anforderungen und ein
+Projektablaufplan mit dem Auftraggeber vereinbart. Das Angebot
+beinhaltete desweiteren eine Risikoanalyse und eine Beschreibung des
+Prozessmodells und der geplanten Projektorganisation. In einem
+angehängten Begriffslexikon wurden Begriffe der Problemdomäne
+definiert, die zur Kommunikation mit dem Auftraggeber und innerhalb
+des Teams verwendet wurden.
+
+\subsection{Spezifikation}
+
+%TODO!
+
+\subsection{Entwurf}
+
+%TODO!
+
+\subsection{Handbuch}
+\label{handbuch}
+
+Dem Benutzer steht ein rund 120-seitiges mit Bildschirmfotos illustriertes
+Handbuch zur Verfügung. Das Handbuch enthält einen Referenzteil, der
+die Programmdialoge beschreibt und ein Tutorial, das dem
+unerfahrenen Benutzer anhand eines Beispiels einen leichten Einstieg
+in die Bedienung von Kobold ermöglicht.
+
+\subsection{Interne Dokumente}
+
+Einige Dokumente wurden nur innerhalb des Teams verwendet und nicht an
+den Auftraggeber ausgeliefert. 
+
+%TODO!
+
+\section{Weitere Ergenisse}
+
+%TODO!
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Projektorganisation}
+
+\section{Projektrahmen}
+
+%TODO!
+
+\section{Das Team}
+
+Der Auftragnehmer bestand aus einem Entwicklerteam von neun
+Studenten der Softwaretechnik, die zu Beginn des Projekts im fünften bzw. siebten
+Semester studierten. 
+
+%TODO: Bild einfügen
+
+\subsection{Rollen}
+
+Auf die Vergabe von formalen Rollen wurden mangels Notwendigkeit
+weitgehend verzichtet. Die Zuteilung der Aufgaben erfolgte
+gemeinschaftlich soweit möglich auf Basis freiwilliger Übernahme
+während gemeinsamer Team-Treffen. Wenn eine Aufgabe von keinem der
+Entwickler übernommen wurde, wurde diese vom Projektleiter zugeteilt.
+
+
+\subsubsection{Projektleiter}
+
+Der Projektleiter vertrat die Interessen des Teams nach außen gegenüber 
+dem Auftraggeber, koordinierte die Projektplanung, überwachte den
+Entwicklungsfortschritt und förderte den Informationsaustausch im
+Team und zum Auftraggeber. Die Rolle des Projektleiters wurde von
+Anselm Garbe übernommen.
+
+\subsubsection{Konfigurationsmanager}
+
+Der Konfigurationsmanager setzte die
+Entwicklungsumgebung auf und stellte die Verwaltung und
+Versionierung von Dokumenten und des Source-Codes sicher. Die Rolle des
+Konfigurationsmanagers wurde von Oliver Rendgen übernommen.
+
+\subsubsection{Dokumentationsmanager}
+
+Der Dokumentationsmanager war der
+technischer Berater für alle Dokumente, die in der Entwicklung
+enstanden. Er war für die Erstellung des Handbuchs verantwortlich.
+Die Rolle des Dokumentationsmanager wurde von Frau Bettina Druckenmüller 
+übernommen.
+
+\subsubsection{QS-Manager}
+
+Der QS-Manager war verantwortlich für die
+generelle Organisation und Überwachung der
+Qualitätssicherungsarbeiten (vgl. dynamische
+Rolle "Qualitätssicherer"). Unter sein Aufgabenbereich fiel
+insbesondere die Vermeidung von Widersprüchen bei den zu
+erstellenden QS-Dokumenten und die Sicherstellung deren Einhaltung
+durch das Team. Die Rolle des QS-Manager wurde von Armin Cont übernommen.
+
+\subsubsection{Entwickler}
+
+Die Aufgabe der Entwickler war die Erstellung des Quellcodes und das
+Verfassen der Dokumente. Die Rolle der Entwickler wurde von allen
+Teilnehmern belegt.
+
+
+\section{Entwicklungsphilosophie}
+
+%TODO!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Projektablauf}
+
+\section{Prozessmodell}
+
+Es wurde ein evolutionäres Vorgehensmodell\footnote{Vgl. Literatur, u.a. J.
+Ludewig, Sammlung von Kapiteln zum Software Engineering} angewendet, das sich
+in mehrere Iterationen unterteilte. Jede Iteration entsprach dem
+Wasserfall-Vorgehensmodell. Das Vorgehensmodell ähnelt dem Spiralmodell nach
+B.W. Boehm.
+Durch die Anwendung dieses Vorgehensmodells ergaben sich folgende Vorteile:
+
+\begin{itemize}
+\item Der Umfang der iterativen Spezifikationen und Entwürfe war wesentlich
+kleiner als bei einer Wasserfall-Gesamtentwicklung. Der inkrementelle Umfang
+resultierte in einer geringeren Fehleranfälligkeit und garantierte somit einen
+höheren Qualitätsstandard.
+\item Der Entwicklungsfortschritt konnte somit vom Auftraggeber und vom
+Entwicklungsteam realistischer eingeschätzt werden, da regelmäßig
+eine neue Auslieferung durchgeführt wurde, die vom Auftraggeber abgenommen
+werden musste.
+\item Durch die Wahl der {\it J2SE} Technologie fand die Entwicklung
+nach modernen {\it Design Patterns}\footnote{Vgl. Literatur, Design
+Patterns, Erich Gamma} und objektorientierten Paradigmen statt. Im Gegensatz zu
+imperativen Technologien wurde dadurch eine geringere Kopplung der
+Software-Komponenten und somit eine bessere Zerlegung des Systems erreicht.
+Eine derart leicht durchführbare Zerlegung des Systems nach funktionalen
+Bestandteilen ermöglichte besonders das evolutionäre Vorgehen.
+\item Es konnten neue oder geänderte Anforderungen in einer späteren Iteration
+wesentlich flexibler im Entwicklunsprozess berücksichtigt und realisiert
+werden.
+\end{itemize}
+
+Ein entscheidener Unterschied zu konventionellen Vorgehensmodellen war der
+höhere Kommunikationsaufwand zwischen dem Auftraggeber und dem Entwicklerteam.
+Dieser höhere Kommunikationsaufwand zeichnete sich in jedem Fall positiv für den
+Auftraggeber aus, da Anforderungen schon aufgrund der Quantität der
+Kommunikation besser einfliessen konnten.\par
+Da für den Auftraggeber nach jeder
+abgeschlossenen Iteration die Möglichkeit bestand, größere
+Änderungswünsche einzubringen, war eine über die unmittelbar
+nächste Iteration hinausgehende Planung mit sehr großen
+Unwägbarkeiten verbunden. Die genaue Planung einer Iteration
+erfolgte daher erst unmittelbar vor deren Beginn.
+
+
+%TODO: Wie ist es dann tatsächlich gelaufen?
+
+
+\section{Projektplan}
+
+%TODO!
+
+\section{Arbeitszeitverteilung}
+
+%TODO!
+
+\section{Werkzeuge}
+
+%TODO!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Statistische Analyse}
+
+\section{Versions Kontrolle}
+\label{cvs analyse}
+
+\subsubsection{Quellcodeumfang}
+
+%TODO!
+
+\subsubsection{Umfang der Module}
+
+%TODO!
+
+\subsubsection{Entwicklerkooperation}
+\label{developer by file}
+
+%TODO!
+
+\subsubsection{Arbeitzeit}
+
+%TODO!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Persönliche Berichte}
+
+%TODO!
+
+\appendix
+
+\chapter{Erklärung gemäß Prüfungsordnung}
+
+Ich erkläre hiermit, dass ich im Rahmen meiner Mitarbeit am
+Studienprojekt A ``Produktlinien'' außer von den
+Betreuern vorgesehenen bzw. genehmigten Hilfsmitteln keine unzulässige
+Hilfe in Anspruch genommen habe.
+
+\vspace{2cm}
+Stuttgart, den 25. Oktober 2004
+\vspace{2cm}
+
+\begin{center}
+\begin{tabular}{ccc}
+  \hspace{5cm} & \hspace{5cm} & \hspace{5cm} \\
+  \hhline{-~-} Necati Aydin & & Anselm Garbe \\
+  \vspace{1,5cm} \\
+  \hhline{-~-} Michael Grosse & & Martin Plies \\
+  \vspace{1,5cm} \\
+  \hhline{-~-} Oliver Rendgen & & Patrick Schneider \\
+    \vspace{1,5cm} \\
+  \hhline{-~-} Armin Cont & & Bettina Druckenmüller \\
+  \vspace{1,5cm} \\
+  \hhline{-~~} Tammo van Lessen \\
+\end{tabular}
+\end{center}
+
+\end{document}
