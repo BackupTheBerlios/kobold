@@ -1,4 +1,4 @@
-\section{Drools}
+\subsubsection{Drools}
 
 Kobold bietet seinem Benutzer einen Workflow-Mechanismus, der die Wahrung des definierten produktlinien-basierten 
 Entwicklungsprozesses unterstützt. Dieser führt Konsistenzprüfungen durch, die in anderen Client-Instanzen 
@@ -13,7 +13,7 @@ beeinhaltet die Aktionen, die durchgeführt werden, falls die Bedingung erfüllt i
 
 Der Workflow-Mechanismus spielt sich sowohl auf dem Kobold Server als auch auf dem Kobold Client ab.\par
 
-\subsection{Aktionen auf dem Kobold Server}
+\paragraph{Aktionen auf dem Kobold Server}
 Führt ein Client eine Aktion aus, so wird diese dem Kobold Server gemeldet. Dieser wendet die Aktion als Fakt
 auf die Regelbasis an, die sich auf dem Server befindet. Es werden dabei alle Regeln durchlaufen. Stimmt das 
 Ereignis mit der Bedingung einer Regel überein, so 
@@ -23,7 +23,7 @@ eine Art XML-Struktur, die einen Titel und eine Liste aller Regelresultate
 besitzt. Diese Workflow-Objekt wird 
 dann auf die Message-Queues der Clients gelegt, für die das Workflow-Objekt relevant ist. 
 
-\subsection{Aktionen auf dem Kobold Client}
+\paragraph{Aktionen auf dem Kobold Client}
 Sobald der Client eine Aktion ausführt, meldet er diese dem Kobold Server um mögliche Inkonsistenzen zu 
 vermeiden. Wird ein Workflow entwickelt, so bekommt jeder Kobold Client, der den Workflow anstoßen sollte,
 beim nächsten Login dieses Objekt gepollt. Der Anwender wird darüber in der Workflow-View des Kobold Clients
@@ -31,7 +31,7 @@ informiert.\newline
 \newline
 \includegraphics[width=15cm]{drools.png}\newline
 
-\subsection{Die Regelbasis in Kobold}
+\paragraph{Die Regelbasis in Kobold}
 Kobold wird in dieser Iteration eine Anfangsregelbasis zur Verfügung stellen, die vom Anwender jederzeit erweitert werden 
 kann. Er muss dabei eine neue Regel erstellen und sie der Regelbasis hinzufügen. Diese Regeln müssen dann 
 nicht unbedingt zum 
