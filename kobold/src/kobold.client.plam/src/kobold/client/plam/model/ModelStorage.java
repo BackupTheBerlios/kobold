@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.42 2004/09/23 10:39:45 vanto Exp $
+ * $Id: ModelStorage.java,v 1.43 2004/10/15 03:53:57 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -73,8 +73,8 @@ import org.eclipse.ui.progress.IProgressService;
  */
 public class ModelStorage
 {
-    public static final String COREASSETS_FOLDER_NAME = "CAS";
-    public static final String PRODUCTS_FOLDER_NAME = "PRODUCTS";
+    //public static final String COREASSETS_FOLDER_NAME = "CAS";
+    //public static final String PRODUCTS_FOLDER_NAME = "PRODUCTS";
     public static final String PRODUCTLINE_META_FILE = ".productlinemetainfo.xml";
     public static final String PRODUCT_META_FILE = ".productmetainfo.xml";
     
@@ -129,6 +129,7 @@ public class ModelStorage
                 plFolder.create(true, true, monitor);
             }
             
+            /*?
             IFolder plFolder2 = plFolder.getFolder(COREASSETS_FOLDER_NAME);
             if (!plFolder2.exists()) {
                 plFolder2.create(true, true, monitor);
@@ -138,6 +139,7 @@ public class ModelStorage
             if (!plFolder2.exists()) {
                 plFolder2.create(true, true, monitor);
             }
+            */
         } catch (CoreException e) {
             KoboldPLAMPlugin.log(e);
         } finally {
@@ -282,6 +284,7 @@ public class ModelStorage
         String thePath = "";
         while (asset != null) {
             
+            /*
             if (asset.getType() == AbstractAsset.COMPONENT) {
                 if (asset.getParent().getType() != AbstractAsset.VARIANT) {
                     thePath = COREASSETS_FOLDER_NAME + IPath.SEPARATOR +
@@ -296,8 +299,9 @@ public class ModelStorage
                 		  + IPath.SEPARATOR + thePath;
             }
             else {
+            */
                 thePath = asset.getResource() + IPath.SEPARATOR + thePath;
-            }
+            //}
             
             asset = asset.getParent();
         }
@@ -323,7 +327,7 @@ public class ModelStorage
         String thePath = "";
         while (asset != null) {
             
-            if (asset.getType() == AbstractAsset.COMPONENT) {
+/*            if (asset.getType() == AbstractAsset.COMPONENT) {
                 if (asset.getParent().getType() != AbstractAsset.VARIANT) {
                     thePath = COREASSETS_FOLDER_NAME + IPath.SEPARATOR +
                     asset.getResource() + IPath.SEPARATOR + thePath;
@@ -337,8 +341,9 @@ public class ModelStorage
                 		  + IPath.SEPARATOR + thePath;
             }
             else {
+            */
                 thePath = asset.getResource() + IPath.SEPARATOR + thePath;
-            }
+            //}
             
             asset = asset.getParent();
         }
@@ -351,9 +356,9 @@ public class ModelStorage
         //get the PRODUCTS-directory
         //the PL directory
         IProject project = pl.getKoboldProject().getProject();
-        IFolder productsFolder = project.getFolder(pl.getResource());
+        //IFolder productsFolder = project.getFolder(); //pl.getResource());
         //PRODUCTS-dir
-        productsFolder = productsFolder.getFolder(PRODUCTS_FOLDER_NAME);
+        //productsFolder = productsFolder.getFolder(PRODUCTS_FOLDER_NAME);
         
         //get all products
         List products = pl.getProducts();
@@ -363,7 +368,7 @@ public class ModelStorage
             Product product = (Product) it.next();
             
             //create the dir
-            IFolder specialProductFolder = productsFolder.getFolder(product.getResource());
+            IFolder specialProductFolder = project.getFolder(product.getResource());
             
             
             //createDirectory
@@ -451,7 +456,7 @@ public class ModelStorage
         IProject project = pl.getKoboldProject().getProject();
         IFolder casFolder = project.getFolder(pl.getResource());
         //CAS-dir
-        casFolder = casFolder.getFolder(COREASSETS_FOLDER_NAME);
+        //casFolder = casFolder.getFolder(COREASSETS_FOLDER_NAME);
         
         //get all cas
         List cas = pl.getComponents();
@@ -591,9 +596,7 @@ public class ModelStorage
         
         IProject project = pl.getKoboldProject().getProject();
         
-        IFolder productsFolder = project.getFolder(pl.getResource());
-        productsFolder = productsFolder.getFolder(PRODUCTS_FOLDER_NAME);
-        IFolder productFolder = productsFolder.getFolder(product.getResource());
+        IFolder productFolder = project.getFolder(product.getResource());
         if (productFolder.exists()) {
             IFile modelFile = productFolder.getFile(PRODUCT_META_FILE);
             if (modelFile.exists()) {

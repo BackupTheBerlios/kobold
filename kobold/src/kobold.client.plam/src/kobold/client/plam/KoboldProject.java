@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.28 2004/10/13 22:40:39 martinplies Exp $
+ * $Id: KoboldProject.java,v 1.29 2004/10/15 03:53:57 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -421,12 +421,13 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
    		}
    		
    		if (isManager) {
-   		    if (root instanceof Productline) {
+   		    //if (root instanceof Productline) {
    		        path = root.getResource() + IPath.SEPARATOR;
-   		    } else {
+   		    /*} else {
    		        path = ModelStorage.PRODUCTS_FOLDER_NAME + IPath.SEPARATOR
    		    		+ root.getResource() + IPath.SEPARATOR;
    		    }
+   		    */
    		}
    		
    		path = path + root.getResource() + ".vm";
@@ -449,12 +450,14 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
    		}
    		
 	    String mPath = "";
-   		if (root instanceof Productline) {
+   		//if (root instanceof Productline) {
 	        mPath = root.getResource() + IPath.SEPARATOR;
+	        /*
 	    } else {
 	        mPath = ModelStorage.PRODUCTS_FOLDER_NAME + IPath.SEPARATOR
 	    		+ root.getResource() + IPath.SEPARATOR;
 	    }
+	    */
 
    		Path p = new Path(mPath + root.getResource() + ".vm");
    		if (isManager) {
