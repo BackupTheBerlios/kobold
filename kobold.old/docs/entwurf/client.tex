@@ -48,20 +48,130 @@ Die Aufteilung der Client-Komponenten in MVC-Gruppen sieht wie folgt aus:\par
 
 \section{Viewkomponente RollenView}
 Die Rollenview zeigt in einem Baum die Rollen und dazugehörigen
-Produkte bzw. die zugehörige Produktlinie des angemeldeten Benutzers an
-(siehe auch 2.1.1. und 2.2.4., Spezifikation I).\par
+Produkte bzw. die zugehörige Produktlinie des angemeldeten Benutzers
+an.\par
 
-Die Rollenview operiert über die Eclipse-Plattform (ITreeContentProvider) auf der
-Komponente ArchitekturModel.
+\subsection{Kurzspezifikation}
+Unter dem Wurzelknoten erscheinen die jeweiligen Rollen des
+angemeldeten Benutzers. Ein Benutzer kann in einer
+Produktlinienentwicklung mehrer Rollen annehmen, daher können hier bis
+zu drei Knoten erscheinen. Unterhalb dieser Knoten befindet sich eine
+Liste der Produktlinien, an deren Entwicklung der Benutzer beteiligt
+ist. Hier befindet sich das erste Blatt im Baum, das ''Architecture
+Overview''-Dokument. Parallel dazu werden alle Core Assets sowie alle
+Produkte dieser Produktlinie aufgelistet. Diese Punkte haben jeweils
+wieder Unterknoten mit deren Komponenten sowie den jeweiligen
+''Architecture Overview''-Dokumenten. Diese Verästelung geht bis auf
+die unterste Komponentenebene.\par
 
-Die Rollenview kann Aktionen in der Komponente VCM-Wrapper auslösen sowie
-den Architektur-Editor steuern.
+Durch einen Linksklick mit der Maus auf eine Komponente/Variante kann
+man, vorrausgesetzt die Architektur ist im Architektur Editor
+geöffnet, das angeklickte Element im Editor markieren/hervorheben.
+
+Durch einen Doppelklick auf ein ''Architecture Overview''-Dokument
+öffnet sich die betreffende Architektur im Architektur-Editor.
+
+Durch einen Rechtsklick mit der Maus öffnet sich ein Kontextmenü.
+In diesem Menü bekommt man die oben genannten Aktionen sowie die
+Aktionen des VCM-Wrappers zur Verfügung gestellt.
+
+\subsection{Entwurfsdetails}
+Die Rollenview operiert über die Eclipse-Plattform
+(ITreeContentProvider) auf der Komponente ArchitekturModel.
+
+Sie stellt eine eigenständige View im Sinne der Eclipsedefinition dar
+und wird über den folgenden Extensionpoint in die Plattform
+eingehängt:
+
+\begin{verbatim}
+  <extension point="org.eclipse.ui.views">
+      <category
+            name="Kobold"
+            id="kobold">
+      </category>
+      <view
+            name="Role Overview"
+            icon="icons/kobold.gif"
+            category="kobold"
+            class="kobold.client.view.RoleTree"
+            id="kobold.client.view.RoleTree">
+      </view>
+   </extension>
+\end{verbatim}
+
+RoleTree erweitert 
+\begin{verbatim}
+org.eclipse.ui.part.ViewPart
+\end{verbatim}
+und erzeugt einen Tree. Der Contentprovider für den Tree befindet sich
+in \verb+kobold.client.controler.roletree.RoleTreeContentProvider+. Dieser
+bezieht die Architekturdaten von der Kommunikationskomponente sowie
+von dem ArchitekturModel. Zur Darstellung wird der
+\verb+kobold.client.controler.roletree.RoleTreeLabelProvider+ verwendet.
+
 
 \section{Viewkomponente ArchitekturEditor}
 Der Architektur-Editor wird mittels der Draw2D und GEF Frameworks realisiert
 und stellt die Produktlinienarchitektur gemäß 2.2.2., Spezifikation I
 dar.  Er operiert via GEF auf dem ArchitekturViewModel.
 Auch die Viewkomponente kann Aktionen des VCM-Wrappers ausführen.
+
+\subsection{Kurzspezifikation}
+Nach dem Öffnen einer Architektur zeigt der Architektureditor eine
+weiße Fläche, auf der sich freipositionierbar Komponenten
+befinden. Komponenten werden als hellgelb eingefärbte rechteckige
+Kästen dargestellt. In ihnen wird oben zentriert der Titel der
+Komponente angezeigt. Darunter befindet sich in statischem Layout, also
+nicht freiverschiebbar (die Reihenfolge lässt sich jedoch verändern)
+untereinander angeordnet die Darstellung der Varianten.
+Varianten werden durch leicht türkis eingefärbte Rechtecke mit
+abgerundeten Ecken angezeigt. Auch hier wird oben ein Titel, darunter
+nebeneinander ebenfalls in statischem Layout, die enthaltenen
+Komponenten dargestellt.
+
+In den Produktlinien-Architekturen können zusätzlich Versionen und
+Dateien/Verzeichnisse angezeigt werden. Die Darstellung erfolgt
+analog.
+
+Zwischen den Blöcken können sowohl gerichtete als auch ungerichtete
+Kanten existieren. Je nach semantischer Bedeutung werden diese
+entweder durchgängig rot (schließt aus) oder gestrichelt schwarz
+(hängt ab) gezeichnet.
+
+Auf der linken Seite des Editors wird eine Werkzeugpalette angezeigt,
+die die folgenden Werkzeuge bereitstellt:
+\begin{itemize}
+  \item Objekt markieren
+  \item mehrere Objekte markieren
+  \item Objekte mit einer Abhängigkeits-Kante verbinden
+  \item Objekte mit einer Schliest-aus-Kante verbinden
+  \item neue Komponente einfügen
+  \item neue Variante einfügen
+\end{itemize}
+
+Mittels dieser Werkzeuge lässt sich das Architekturmodell
+erweitern. Ein Doppelklick auf einen Block öffnet einen Dialog in dem
+die definierten Metadaten eingesehen und verändert werden können.
+Ein Rechtsklick mit der Maus öffnet ein Kontextmenü mit VCM-Aktionen
+für diesen Block sowie Aktionen zur Konsistenzüberprüfung.
+
+\subsection{Entwurfsdetails}
+Der interne Entwurf wird durch das MVC-Konzept von GEF vorgegeben. Die
+Integration in die Plattform erfolgt über folgenden Extensionpoint:
+\begin{verbatim}
+  <extension point="org.eclipse.ui.editors">
+      <editor
+            name="Architecture Overview"
+            icon="icons/kobold-arch.gif"
+            extensions="kao"
+            class="kobold.client.view.editors.ArchitectureEditor"
+            id="kobold.client.view.editors.ArchitectureEditor">
+      </editor>
+   </extension>
+\end{verbatim}
+
+
+
 
 \section{Viewkomponente Minimap}
 Die Minimap (2.2.3., Spezifikation I) ist direkt mit dem Architektur-Editor 
@@ -77,7 +187,8 @@ MessageQueue bezogen.
 
 \section{Modelkomponente ArchitekturModel}
 Das Architektur-Model enthält baumartig aufgebaut alle Informationen über die
-Produktlinie(n). Das umfasst Varianten, Komponenten, Assets und Benutzer.
+Produktlinie(n). Das umfasst Varianten, Komponenten, Assets und
+Benutzer.
 
 \section{Modelkomponente ArchitekturViewModel}
 Diese Komponente repräsentiert auf Modelebene all das, was im Architektur-
