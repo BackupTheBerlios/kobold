@@ -23,8 +23,9 @@
  *
  *
  */
-package kobold.client.plam;
+package kobold.client.plam.preferences;
 
+import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.controller.SSLHelper;
 
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -40,10 +41,10 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * @author pliesmn
  */
 
-public class KoboldPlamPreferencePage extends FieldEditorPreferencePage
+public class SSLPreferencePage extends FieldEditorPreferencePage
         implements IWorkbenchPreferencePage {
 
-    public KoboldPlamPreferencePage() {
+    public SSLPreferencePage() {
         super(GRID);
         setPreferenceStore(KoboldPLAMPlugin.getDefault().getPreferenceStore());
         setDescription("Kobold Client preference page");
