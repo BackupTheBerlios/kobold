@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.11 2004/07/29 20:52:55 martinplies Exp $
+ * $Id: EdgeContainer.java,v 1.12 2004/07/31 08:15:45 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -406,7 +406,7 @@ public class EdgeContainer implements ISerializable {
 
 
  /**
-  * Returns all nodes, that have an edge with this type to targetNode.
+  * Returns all edges, that have an edge with this type to targetNode.
  * @param targetNode
  * @param type
  * @return
@@ -416,7 +416,7 @@ public List getEdgesTo(INode targetNode, String type ){
      for (Iterator ite = ((List) targetNodesList.get(targetNode)).iterator(); ite.hasNext(); ){
         Edge edge = (Edge) ite.next();
         if (edge.getType().equals(type)){
-          arrL.add(edge.getStartNode());
+          arrL.add(edge);
         }
      }            
      return arrL;
