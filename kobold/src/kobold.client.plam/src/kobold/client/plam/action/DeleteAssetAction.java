@@ -21,72 +21,61 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteCommand.java,v 1.7 2004/08/27 00:36:17 martinplies Exp $
+ * $Id: DeleteAssetAction.java,v 1.1 2004/08/28 11:31:10 vanto Exp $
  *
  */
-package kobold.client.plam.editor.command;
+package kobold.client.plam.action;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import kobold.client.plam.DeleteAsset;
+import kobold.client.plam.editor.command.DeleteAssetCommand;
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.AbstractRootAsset;
-import kobold.client.plam.model.AbstractStatus;
-import kobold.client.plam.model.DeprecatedStatus;
-import kobold.client.plam.model.IComponentContainer;
-import kobold.client.plam.model.IReleaseContainer;
-import kobold.client.plam.model.IVariantContainer;
-import kobold.client.plam.model.MetaNode;
-import kobold.client.plam.model.Release;
-import kobold.client.plam.model.edges.Edge;
-import kobold.client.plam.model.edges.EdgeContainer;
-import kobold.client.plam.model.productline.Component;
-import kobold.client.plam.model.productline.Variant;
 
-import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
-
+import org.eclipse.ui.actions.ActionDelegate;
 
 /**
- * @author Tammo
+ * @author pliesmn
+ *
+ * Excute actions of DeleteAction and DeleteCommand.
  */
-public class DeleteCommand extends Command
-{
-    private AbstractAsset asset;
-    private int action;
-    private DeleteAsset delAsset;
+public class DeleteAssetAction extends ActionDelegate {
+	
+    private AbstractAsset selection;
     
-    public DeleteCommand()
-    {
-        super("delete command");
-        delAsset = new DeleteAsset(); 
+    public void run(IAction action)
+    {        
+        DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
+        deleteCommand.setAsset(selection);
         
-    }
-    
-    public void setAsset(AbstractAsset asset)
-    {
-         delAsset.setAsset(asset);
-    }
-    
-    public void execute()
-    {
         if (MessageDialog.openQuestion(Display.getDefault().getActiveShell(), 
             	"Deleted or Deprecated", 
             	"Are you sure to delete this asset? Press \"Yes\" to delete or \"No\" to mark the asset deprecated.")) {
-            action = DeleteAsset.DELETE;
+            deleteCommand.execute(DeleteAssetCommand.DELETE);
         } else {
-            action = DeleteAsset.DEPRECATED;
+            deleteCommand.execute(DeleteAssetCommand.DEPRECATED);
         }
-        
-        delAsset.execute(action);
-    }
+    }    
     
-    public void undo() {
-        delAsset.undo();
+    /**
+     * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+     */
+    public void selectionChanged(IAction action, ISelection selection) {
+       IStructuredSelection sel = (StructuredSelection)selection;
+       
+       boolean enable = false;
+       this.selection = null;
+       if (sel.getFirstElement() instanceof AbstractAsset) {
+           this.selection = (AbstractAsset)sel.getFirstElement();
+           enable = true;
+       }
+       
+       if (action != null) {
+           action.setEnabled(enable);
+       }
     }
-
 
 }

@@ -169,6 +169,14 @@
                class="kobold.client.plam.action.ChangePasswordAction"
                id="kobold.client.plam.action2"/>
       </objectContribution>
+      <objectContribution
+            objectClass="kobold.client.plam.model.AbstractAsset"
+            id="kobold.client.plam.roletreecontribution4">
+         <action
+               label="%DeleteAsset"
+               class="kobold.client.plam.action.DeleteAssetAction"
+               id="kobold.client.plam.DeleteAssetAction"/>
+      </objectContribution>
    </extension>
    <extension
          id="ccc"

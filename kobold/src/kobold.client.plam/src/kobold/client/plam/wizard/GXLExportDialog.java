@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.19 2004/08/25 04:08:19 martinplies Exp $
+ * $Id: GXLExportDialog.java,v 1.20 2004/08/28 11:31:10 vanto Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -30,11 +30,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,14 +45,12 @@ import kobold.common.exception.GXLException;
 import net.sourceforge.gxl.GXLBool;
 import net.sourceforge.gxl.GXLDocument;
 import net.sourceforge.gxl.GXLEdge;
-import net.sourceforge.gxl.GXLElement;
 import net.sourceforge.gxl.GXLGraph;
 import net.sourceforge.gxl.GXLGraphElement;
 import net.sourceforge.gxl.GXLNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -69,14 +65,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-
-import antlr.collections.List;
-
 
 /**
  * @author pliesmn

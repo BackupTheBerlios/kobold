@@ -21,12 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentEditPolicyImpl.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
+ * $Id: ComponentEditPolicyImpl.java,v 1.2 2004/08/28 11:31:10 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
 
-import kobold.client.plam.editor.command.DeleteCommand;
+import kobold.client.plam.editor.command.DeleteAssetCommand;
 import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.gef.commands.Command;
@@ -42,7 +42,7 @@ public class ComponentEditPolicyImpl extends
 
     protected Command createDeleteCommand(GroupRequest deleteRequest)
     {
-    	DeleteCommand deleteCmd = new DeleteCommand();
+    	DeleteAssetCommand deleteCmd = new DeleteAssetCommand();
     	deleteCmd.setAsset((AbstractAsset)getHost().getModel());
     	return deleteCmd;
     }

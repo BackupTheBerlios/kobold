@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.19 2004/08/27 16:28:03 garbeam Exp $
+ * $Id: KoboldProject.java,v 1.20 2004/08/28 11:31:10 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -307,14 +307,15 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 				    setPassword(root.elementTextTrim("password"));
 				    setProductlineId(root.elementTextTrim("pl-id"));
         
+				    getBeforeScripts().clear();
 				    Element befScripts = root.element("before-scripts");
 				    for (Iterator iterator = befScripts.elementIterator("script-descriptor");
 				         iterator.hasNext(); )
 				    {
 				        addBeforeScript(new ScriptDescriptor((Element)iterator.next()));
 				    }
-				    
-				    Element aftScripts = root.element("aft-scripts");
+				    getAfterScripts().clear();
+				    Element aftScripts = root.element("after-scripts");
 				    for (Iterator iterator = aftScripts.elementIterator("script-descriptor");
 				         iterator.hasNext(); )
 				    {
@@ -348,13 +349,13 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	    root.addElement("pl-id").setText(productlineId);
 	    
 	    Element befScripts = root.addElement("before-scripts");
-	    for (Iterator iterator = beforeScripts.values().iterator(); iterator.hasNext(); ) {
+	    for (Iterator iterator = getBeforeScripts().values().iterator(); iterator.hasNext(); ) {
 	        ScriptDescriptor scriptDescriptor = (ScriptDescriptor) iterator.next();
 	        befScripts.add(scriptDescriptor.serialize());
 	    }
 	    
         Element afScripts = root.addElement("after-scripts");
-	    for (Iterator iterator = afterScripts.values().iterator(); iterator.hasNext(); ) {
+	    for (Iterator iterator = getAfterScripts().values().iterator(); iterator.hasNext(); ) {
 	        ScriptDescriptor scriptDescriptor = (ScriptDescriptor) iterator.next();
 	        afScripts.add(scriptDescriptor.serialize());
 	    }
@@ -580,11 +581,11 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
         if (afterScripts == null) {
             afterScripts = new HashMap();
         }
-        afterScripts.put(scriptDescriptor.getName(), scriptDescriptor);
+        getAfterScripts().put(scriptDescriptor.getName(), scriptDescriptor);
     }
     
     public void removeAfterScript(ScriptDescriptor scriptDescriptor) {
-        afterScripts.remove(scriptDescriptor.getName());
+        getAfterScripts().remove(scriptDescriptor.getName());
     }
     
     public Map getAfterScripts() {
@@ -595,14 +596,11 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
     }
     
     public void addBeforeScript(ScriptDescriptor scriptDescriptor) {
-        if (beforeScripts == null) {
-            beforeScripts = new HashMap();
-        }
-        beforeScripts.put(scriptDescriptor.getName(), scriptDescriptor);
+        getBeforeScripts().put(scriptDescriptor.getName(), scriptDescriptor);
     }
      
     public void removeBeforeScript(ScriptDescriptor scriptDescriptor) {
-        beforeScripts.remove(scriptDescriptor.getName());
+        getBeforeScripts().remove(scriptDescriptor.getName());
     }
    
     public Map getBeforeScripts() {
