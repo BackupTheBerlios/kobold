@@ -7,7 +7,7 @@
 #$3 userpassword: *******
 
 #$4 cvs repository server: cvs.berlios.de
-#$5 cvs repository path: /cvsroot/kobold
+#$5 cvs repository path: /cvsroot/kobold  
 #$6 cvs log-message: "bloop"
 #$7 file/s: "bla.c bla.h" (blank->commit all)
 
