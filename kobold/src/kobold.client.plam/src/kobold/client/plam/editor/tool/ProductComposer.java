@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposer.java,v 1.15 2004/09/18 16:05:21 martinplies Exp $
+ * $Id: ProductComposer.java,v 1.16 2004/09/20 14:31:06 garbeam Exp $
  */
 package kobold.client.plam.editor.tool;
 
@@ -1001,7 +1001,7 @@ public class ProductComposer {
     	
     	Product product = new Product(productline);
     	//FIXME !!!!
-    	product.setRepositoryDescriptor(new RepositoryDescriptor("x", "x", "x", "x", "x"));
+    	product.setRepositoryDescriptor(new RepositoryDescriptor("", "", "", "", ""));
     	HashMap assets = new HashMap();
         // create ProductComponments for used CoreAssets.    	
     	for (Iterator ite = productline.getComponents().iterator(); ite.hasNext();){
