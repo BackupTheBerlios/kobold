@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.7 2004/06/24 10:47:56 memyselfandi Exp $
+ * $Id: RoleTreeViewPart.java,v 1.8 2004/06/27 13:52:54 vanto Exp $
  *
  */
 package kobold.client.plam.view;
@@ -157,7 +157,7 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 		action1 = new Action() {
 			public void run() {
 				UINewUser nU = new UINewUser(shell);
-				nU.createViewControl(shell);
+				nU.createDialogArea(shell);
 //				nU.create();
 				nU.open();
 			}
