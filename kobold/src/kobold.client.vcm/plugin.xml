@@ -43,7 +43,7 @@
             objectClass="kobold.client.plam.model.AbstractAsset"
             id="kobold.client.vcm.contribution1">
          <action
-               label="Commit"
+               label="Commit..."
                class="kobold.client.vcm.popup.action.CommitAction"
                menubarPath="kobold.client.vcm.menu1/group1"
                enablesFor="1"
