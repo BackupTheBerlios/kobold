@@ -1,0 +1,57 @@
+\subsection{Workflow Mechanismus}
+
+Kobold bietet dem Benutzer einen Workflow-Mechanismus, der ihn bei
+der Einhaltung des definierten produktlinienbasierten
+Entwicklungsprozesses unterstützt. Dieser führt
+Konsistenzprüfungen durch, die in anderen Client-Instanzen
+automatisch Workflows anstoßen, um erkannte Inkonsistenz zu
+beheben. Zur Realisierung des Workflow-Mechanismus wird die 'Rule
+Engine' Drools\footnote{http://www.drools.org} verwendet, welche
+eine funktional orientierte, intelligente Wissensbasis modelliert,
+die auf Fakten Antworten generiert (ähnlich den PROLOG Prinzipien
+aus der Logik-Vorlesung).\par Dafür wird eine Regelbasis in XML
+für Drools erzeugt. Diese besteht aus einer Menge von Regelmengen
+und wird vom Serverdienst gespeichert. Eine Regelmenge
+besteht aus einzelnen Regeln, durch die verschiedene
+Prüfungen vorgenommen werden können.\par Eine solche Regel
+besteht aus drei Teilen:\par
+\begin{tabular}{ll}\\
+{\bf Parameter} & sind Eingaben (Fakten), die auf die jeweiligen
+Regeln\\
+   & angewendet werden.\\
+{\bf Bedingungen} & entscheiden anhand der Parameter, welche
+Konsequenzen\\
+   & ausgeführt werden.\\
+{\bf Konsequenzen} & dienen zur Erzeugung/Modifikation von
+Workflow-Objekten,\\
+   & falls eine Bedingung zutrifft.
+\end{tabular}
+\par
+Fakten werden auf alle Regeln einer Regelmenge angewendet.\par
+Der Workflow-Mechanismus ist eine Querschnittskomponente zwischen dem
+Kobold Serverdienst und dem Kobold-Client.
+
+\subsubsection{Mechanismus auf dem Kobold Client}
+Der Kobold Client ruft zu bestimmten Zeitintervallen (Standard:
+im Minutentakt) Nachrichten vom Server ab. Nachrichten können
+RPC-Resultate sein, aber auch Workflow-Objekte. Wird ein
+Workflow-Objekt abgerufen, so erscheint dieses Objekt in der
+Workflow/Task View und kann per Doppelklick detailliert betrachtet
+werden.\par 
+Der Workflow-Mechanismus kann
+wie folgt graphisch veranschaulicht werden:
+\begin{figure}[h!]
+\includegraphics[width=15cm]{drools.png}
+   \caption{Workflow Mechanismus}
+\end{figure}
+
+\subsubsection{Die Regelbasis in Kobold}
+Kobold wird nach der ersten Iteration eine Initialregelbasis zur
+Verfügung stellen, die vom Anwender jederzeit erweitert werden
+kann. Er muss dabei eine neue Regel erstellen und sie der
+Regelbasis hinzufügen. Die Konsequenzen solcher Regeln müssen
+nicht notwendigerweise Workflow-Objekte erzeugen, sondern können
+auch andere Aktionen ausführen. Der
+Mechanismus ist sehr flexibel erweiterbar. \par Zur Erstellung
+einer neuen Regel kann der Workflow-Editor verwendet werden, der
+in einer späteren Iterationen realisiert wird.

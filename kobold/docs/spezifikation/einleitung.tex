@@ -1,0 +1,56 @@
+\chapter{Einleitung}
+
+\section{Über dieses Dokument}
+
+Diese Spezifikation dient als Grundlage zur informellen
+Beschreibung des Produktlinien Management Systems \product.
+Durch das evolutionäre Vorgehensmodell wird dieses Dokument
+iterativ erweitert, verfeinert und zu Beginn jeder
+Folge-Iteration der weiteren Entwicklung zugrundegelegt.\par Das
+Dokument richtet sich sowohl an den Auftraggeber und dessen
+technische Berater als auch an die Mitarbeiter des
+Werkbold-Teams.\par Es wird vom Auftraggeber am Anfang jeder
+Iteration abgenommen und ist von da an Vertragsbestandteil für die
+weitere Entwicklung von \product.
+
+\subsection{Spezifikation I}
+Die Spezifikation I dient als Grundlage zur informellen
+Beschreibung des Rahmensystems von \product, das in der ersten
+Iteration entwickelt wird.\par Sie basiert auf der Abstraktion der
+ermittelten Anforderungen aus dem internen Anforderungsdokument
+für \product \footnote{
+ftp://ftp.berlios.de/pub/kobold/docs/anforderungen/anforderungen.pdf},
+das ständig angepasst wird.\par
+Aufgrund des abstrakten Charakters
+der Spezifikation des Rahmensystems wird auf eine explizite
+Spezifikation von Use-Cases verzichtet. Diese wird Gegenstand der
+Spezifikationen in den Folge-Iterationen sein.
+
+\section{Das Kobold-System}
+
+Das wesentliche Einsatzziel des Produktlinien Management Systems
+\product ist die werkzeugunterstützte Entwicklung und Pflege von
+Software-Produktlinien und die Etablierung eines rollenbasierten
+Entwicklungsprozesses.
+
+
+\subsection{Grundlegende Architekturentscheidungen}
+Die grundlegende Architektur von \product untergliedert sich in
+zwei Teilsysteme: der Kobold Client, der als rollenbasierte
+Entwicklungsumgebung für die Verwaltung von Produktlinien und
+Produkten konzipiert ist, und der Kobold Serverdienst, der die
+Benutzer-, Rollen- und Nachrichten-Verwaltung ermöglicht. \par Der
+Eclipse-basierte Client bietet dem Benutzer eine graphische
+Benutzungsoberfläche, über die er seine Produktlinien und Produkte
+rollenabhängig verwalten kann. Er kann damit seine Architekturen
+als Graphen ansehen und verändern, neue Rollen verteilen,
+Nachrichten verschicken und Workflows auslösen.\par Der Server
+verwaltet die Daten der einzelnen Benutzer und deren
+Zugriffsrechte. Er bietet den Clients außerdem einen zentralen
+Nachrichtendienst an. Wenn von einem Client eine Nachricht an den
+Serverdienst gesendet wird, prüft der Serverdienst die Nachricht
+auf mögliche Konsequenzen, die anderen Clients in Form von
+Workflows zugeteilt werden. Darüber hinaus verwaltet der
+Serverdienst auch die Pfade und Zugriffskonfigurationen der
+Repositories, in denen die Daten der Produkte und Produktlinien
+gespeichert und versioniert werden.
