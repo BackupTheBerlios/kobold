@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IFileDescriptorContainer.java,v 1.2 2004/07/07 14:23:21 memyselfandi Exp $
+ * $Id: IFileDescriptorContainer.java,v 1.3 2004/07/08 15:00:52 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -63,4 +63,17 @@ public interface IFileDescriptorContainer
      * @return
      */
     IPath getLocalPath();
+    
+    /**
+     * Sets the local path.
+     * @param localPath
+     */
+    IPath setLocalPath (String localPath);
+    
+    /**
+     * Remove all FD(s)
+     * @return if the clear was succesful
+     */
+    //TODO
+    boolean clear ();
 }

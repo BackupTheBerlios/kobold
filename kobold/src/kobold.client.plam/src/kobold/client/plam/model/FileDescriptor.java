@@ -21,13 +21,15 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.2 2004/07/07 14:23:21 memyselfandi Exp $
+ * $Id: FileDescriptor.java,v 1.3 2004/07/08 15:00:52 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -52,11 +54,41 @@ public class FileDescriptor implements IFileDescriptorContainer {
     private String filename;
     private String revision;
     private User author;
+    private Date lastChange;
+    private boolean isBinary = false;
     private boolean isDirectory = false;
     
     public FileDescriptor() {
     }
+
+	/**
+	 * Constructor for a implicit file 
+	 * @param filename
+	 * @param directory
+	 * @param revision
+	 * @param lastChange
+	 * @param isBinary
+	 */
+    public FileDescriptor(String filename, 
+    						String revision, Date lastChange, boolean isBinary) 
+    {
+    	setFilename(filename);
+    	//setDirectory(false);
+    	setRevision(revision);
+    	setLastChange(lastChange);
+    	setBinary(isBinary);
+    }
     
+    /**
+     * Constructor for a implicit directory
+     * @param filename
+     */
+    public FileDescriptor (String filename)
+    {
+    	setFilename (filename);
+    	setDirectory(true);
+    }
+
     
     /**
      * @param author The author to set.
@@ -207,4 +239,43 @@ public class FileDescriptor implements IFileDescriptorContainer {
 		return null;
 	}
 
+	//TODO
+	public boolean clear ()
+	{
+		return true;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see kobold.client.plam.model.IFileDescriptorContainer#setLocalPath(java.lang.String)
+	 */
+	public IPath setLocalPath(String localPath) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * @return Returns the isBinary.
+	 */
+	public boolean isBinary() {
+		return isBinary;
+	}
+	/**
+	 * @param isBinary The isBinary to set.
+	 */
+	public void setBinary(boolean isBinary) {
+		this.isBinary = isBinary;
+	}
+	/**
+	 * @return Returns the lastChange.
+	 */
+	public Date getLastChange() {
+		return lastChange;
+	}
+	/**
+	 * @param lastChange The lastChange to set.
+	 */
+	public void setLastChange(Date lastChange) {
+		this.lastChange = lastChange;
+	}
 }
