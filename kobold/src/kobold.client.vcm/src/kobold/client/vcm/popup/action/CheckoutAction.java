@@ -27,14 +27,13 @@ package kobold.client.vcm.popup.action;
 
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.productline.Productline;
-import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IActionDelegate;
 
 
 /**
@@ -49,8 +48,7 @@ public class CheckoutAction extends KoboldAction {
 		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 		try
 		{
-			ModelStorage ms = new ModelStorage();
-			ms.serializeProductline(((Productline)testAssets[0]), true);
+			ModelStorage.storeModel((Productline)testAssets[0]);
 			//((Productline)testAssets[0]).serializeProductline(true);
 			repoAccess.checkout(testAssets,IResource.DEPTH_INFINITE,null);
 		}
