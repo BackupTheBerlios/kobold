@@ -31,6 +31,7 @@ import javax.swing.text.Element;
 import javax.swing.text.PasswordView;
 
 import kobold.client.vcm.KoboldVCMPlugin;
+import kobold.client.vcm.dialog.PasswordFieldEditor;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.BooleanFieldEditor;
@@ -106,8 +107,9 @@ public class VCMPreferencePage
 				getFieldEditorParent()));
 		addField(new StringFieldEditor(KOBOLD_VCM_USER_STR, "User name:", getFieldEditorParent()));
 		addField(new DirectoryFieldEditor(KOBOLD_VCM_SCRIPT_LOCATION, "Script location:", getFieldEditorParent()));
-		addField(new StringFieldEditor(KOBOLD_VCM_PWD_STR, "User Password:", getFieldEditorParent()));
-//		new (KOBOLD_VCM_PWD_STR, "Password:", getFieldEditorParent());
+		addField(new PasswordFieldEditor(KOBOLD_VCM_PWD_STR, "User Password:", getFieldEditorParent()));
+
+		//		new (KOBOLD_VCM_PWD_STR, "Password:", getFieldEditorParent());
 //		addField();
 //		class PasswordFieldEditor extends FieldEditor{
 
