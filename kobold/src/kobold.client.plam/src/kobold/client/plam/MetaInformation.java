@@ -10,7 +10,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
+import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.FileDescriptor;
+import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.product.SpecificComponent;
@@ -34,8 +36,7 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class MetaInformation {
 
-
-	public static void getMetaData(String[] args) {
+	public void getMetaData(AbstractAsset asset) {
 		System.out.println("Metadaten");
         
         // creation of a document-object
@@ -51,16 +52,34 @@ public class MetaInformation {
             // open the document
             document.open();
             
-            // add a paragraph to the document
-            document.add(new Paragraph("Meta-Informations"));
-            document.add(new Paragraph("Productline:"));	
+            //add a paragraph to the document
+            document.add(new Paragraph(36, "Meta-Informations"));
+            
+            // determine which asset we create metainfo for
+            if (asset instanceof Productline) {
+            	createMetaInfoForPL(document, (Productline)asset);
+            }
+            else if (asset instanceof Product){
+            	createMetaInfoForProduct(document, (Product)asset);
+            }
+            else if (asset instanceof Component){
+            	createMetaInfoForComponent(document, (Component)asset);
+            }
+            else if (asset instanceof RelatedComponent){
+            	createMetaInfoForRelatedComponent(document, (RelatedComponent)asset);
+            }
+            else if (asset instanceof SpecificComponent){
+            	createMetaInfoForSpecificComponents(document, (SpecificComponent)asset);
+            }
+            else if (asset instanceof Variant){
+            	createMetaInfoForVariants(document, (Variant)asset);
+            }
+            
+            // DEBUG stuff
             Productline pl = new Productline();
             pl.setName("PL");
-            document.add(new Phrase(pl.getName()));
-            document.add(new Phrase(pl.getDescription()));
-            document.add(new Phrase("Maintainers"));
-            document.add(new Paragraph("Products:"));	
-                    	
+            createMetaInfoForPL(document, pl);
+                             	
         }
         catch(DocumentException de) {
             System.err.println(de.getMessage());
@@ -73,32 +92,33 @@ public class MetaInformation {
         document.close();
     }
  	//MetaInformation for Productlines
-    public void createMetaInfoForPL (Document document, Productline pLine) 
+    private void createMetaInfoForPL (Document document, Productline pl) 
+    	throws DocumentException
     {
-	    Productline pl = new Productline();
-	    pl.setName("PL");
-        //document.add(new Paragraph("Productline:"));	
-        //document.add(new Phrase(pl.getName()));
-	    //document.add(new Phrase(pl.getId()));
-        //document.add(new Phrase(pl.getDescription()));
-        //document.add(new Phrase("Maintainers"));
-        //document.add(new Paragraph("Products:"));	
-	    	
-                 		
-        for (Iterator ite = pl.getProducts().iterator(); 
+        document.add(new Paragraph("Productline:"));
+       
+        document.add(new Phrase("Name: " + pl.getName() + "\n"));
+        document.add(new Phrase("Discription: " + pl.getDescription()+"\n"));
+        document.add(new Phrase("ID: " + pl.getId()+"\n"));
+        
+        
+        document.add(new Paragraph("Products:"));
+    	for (Iterator ite = pl.getProducts().iterator(); 
 		ite.hasNext();)
         {
 			Product product = (Product) ite.next();
 			createMetaInfoForProduct (document, product);
 		}
     
-		for (Iterator ite = pl.getComponents().iterator(); 
+    	document.add(new Paragraph("Components"));
+    	for (Iterator ite = pl.getComponents().iterator(); 
 		ite.hasNext();)
 		{
 			Component comp = (Component) ite.next();
 			createMetaInfoForComponent (document, comp);
 		}	
-		 
+		
+    	document.add(new Paragraph("Maintainers"));
         for (Iterator ite = pl.getMaintainers().iterator();
         ite.hasNext();)
         {
@@ -109,15 +129,16 @@ public class MetaInformation {
     }
     
     // MetaInformation for Products
-    public void createMetaInfoForProduct(Document document, Product p1) 
+    private void createMetaInfoForProduct(Document document, Product product) 
+    	throws DocumentException
     {
-    	Product product = new Product("Product1");
-        product.getName();
-        product.getId();
-    	product.getDescription();
-    	//product.getMaintainers();
+    	document.add(new Phrase(product.getName()));
+        document.add(new Phrase(product.getDescription()));
+        document.add(new Phrase(product.getId()));
+        
+       	//product.getMaintainers();
     	
-    	
+        document.add(new Paragraph("RelatedComponents"));
     	for (Iterator ite = product.getRelatedComponents().iterator(); 
 		ite.hasNext();)
 		{
@@ -125,6 +146,7 @@ public class MetaInformation {
 			createMetaInfoForRelatedComponent(document, relComp);
 		}
     	
+    	document.add(new Paragraph("SpezificComponents"));
     	for (Iterator ite = product.getSpecificComponents().iterator(); 
 		ite.hasNext();)
 		{
@@ -135,14 +157,14 @@ public class MetaInformation {
     }
     
     // MetaInformation for SpecificComponents	
-	private void createMetaInfoForSpecificComponents(Document document, SpecificComponent spComp) 
-	{
-		spComp.getName();
-		spComp.getId();
-		spComp.getDescription();
-		//spComp.getMaintainer();
-		//spComp.getFileDescriptors();
+    private void createMetaInfoForSpecificComponents(Document document, SpecificComponent spComp) 
+    	throws DocumentException
+    {	
+    	document.add(new Phrase(spComp.getName()));
+        document.add(new Phrase(spComp.getDescription()));
+        document.add(new Phrase(spComp.getId()));
 		
+        document.add(new Paragraph("Maintainers"));
 		for (Iterator ite = spComp.getMaintainers().iterator(); 
 		ite.hasNext();)
 		{
@@ -150,6 +172,7 @@ public class MetaInformation {
         	createMetaInfoForMaintainer (document, user);
         }
 		
+		document.add(new Paragraph("FileDescriptors"));
 		for (Iterator ite = spComp.getFileDescriptors().iterator(); 
 		ite.hasNext();)
 		{
@@ -159,13 +182,15 @@ public class MetaInformation {
 	}
 			
 	// MetaInformation for RelatedComponents
-	private void createMetaInfoForRelatedComponent(Document document, RelatedComponent relComp) 
-	{
-		relComp.getName();
-		relComp.getId();
-		relComp.getDescription();
+    private void createMetaInfoForRelatedComponent(Document document, RelatedComponent relComp) 
+    	throws DocumentException
+    {
+    	document.add(new Phrase(relComp.getName()));
+        document.add(new Phrase(relComp.getDescription()));
+        document.add(new Phrase(relComp.getId()));
 		//relComp.getMaintainers();
 		
+        document.add(new Paragraph("Maintainers"));
 		for (Iterator ite = relComp.getMaintainers().iterator(); 
 		ite.hasNext();)
 		{
@@ -173,6 +198,7 @@ public class MetaInformation {
         	createMetaInfoForMaintainer (document, user);
         }
 		
+		document.add(new Paragraph("FileDescriptors"));
 		for (Iterator ite = relComp.getFileDescriptors().iterator(); 
 		ite.hasNext();)
 		{
@@ -182,19 +208,23 @@ public class MetaInformation {
 	}
 	
 	// MetaInformation for Maintainer
-	private void createMetaInfoForMaintainer(Document document, User user) 
-	{
-		user.getUsername();	
+    private void createMetaInfoForMaintainer(Document document, User user) 
+    	throws DocumentException
+    {
+    	document.add(new Phrase(user.getUsername()));	
+    		
 	}
 	
 	// MetaInformation for Components
 	private void createMetaInfoForComponent(Document document, Component comp)
+		throws DocumentException
 	{
-		comp.getName();
-		comp.getId();
-		comp.getDescription();
+    	document.add(new Phrase(comp.getName()));
+        document.add(new Phrase(comp.getDescription()));
+        document.add(new Phrase(comp.getId()));
 		//comp.getMaintainers();
 		
+        document.add(new Paragraph("Maintainers"));
 		for (Iterator ite = comp.getMaintainers().iterator(); 
 		ite.hasNext();)
 		{
@@ -202,6 +232,7 @@ public class MetaInformation {
         	createMetaInfoForMaintainer (document, user);
         }
 		
+		document.add(new Paragraph("Variants"));
     	for (Iterator ite = comp.getVariants().iterator(); 
 		ite.hasNext();)
 		{
@@ -212,11 +243,13 @@ public class MetaInformation {
 	
 	// MetaInformation for Variants
 	private void createMetaInfoForVariants(Document document, Variant var) 
+		throws DocumentException
 	{
-		var.getName();
-		var.getId();
-		var.getDescription();		
-				
+    	document.add(new Phrase(var.getName()));
+        document.add(new Phrase(var.getDescription()));
+        document.add(new Phrase(var.getId()));		
+		
+        document.add(new Paragraph("Components"));
 		for (Iterator ite = var.getComponents().iterator();
 		ite.hasNext();)
 		{
@@ -224,6 +257,15 @@ public class MetaInformation {
 			createMetaInfoForComponent(document, comp);
 		}
 		
+		document.add(new Paragraph("Releases"));
+		for (Iterator ite = var.getReleases().iterator();
+		ite.hasNext();)
+		{
+			Release release = (Release) ite.next();
+			createMetaInfoForReleases(document, release);
+		}
+		
+		document.add(new Paragraph("FileDescriptors"));
 		for (Iterator ite = var.getFileDescriptors().iterator(); 
 		ite.hasNext();)
 		{
@@ -234,9 +276,22 @@ public class MetaInformation {
 	
 	// MetaInformation for FileDescriptors
 	private void createMetaInfoForFileDescriptors(Document document, FileDescriptor fileDes)
+		throws DocumentException
 	{
-		fileDes.getLocalPath();
-		fileDes.getLastChange();
-		fileDes.getRevision();
+		document.add(new Phrase(fileDes.getLocalPath().toString()));
+        document.add(new Phrase(fileDes.getLastChange().toString()));
+        document.add(new Phrase(fileDes.getRevision()));
+				
 	}
+	
+	// MetaInformation for Releases
+	private void createMetaInfoForReleases(Document document, Release release)
+		throws DocumentException
+	{
+		document.add(new Phrase(release.getName()));
+		document.add(new Phrase(release.getDescription()));
+		document.add(new Phrase(release.getId()));
+				
+	}
+	
 }

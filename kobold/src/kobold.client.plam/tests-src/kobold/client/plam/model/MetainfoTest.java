@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineTest.java,v 1.7 2004/08/04 17:41:03 neco Exp $
+ * $Id: MetainfoTest.java,v 1.1 2004/08/04 17:41:03 neco Exp $
  *
  */
 package kobold.client.plam.model;
@@ -46,27 +46,21 @@ import org.apache.commons.id.uuid.state.InMemoryStateImpl;
  *
  * TestCase for ProductLine.
  */
-public class ProductlineTest extends TestCase {
+public class MetainfoTest extends TestCase {
 
 	/**
 	 * Constructor for ProductLineTest.
 	 * @param arg0
 	 */
-	public ProductlineTest(String arg0) {
+	public MetainfoTest(String arg0) {
 		super(arg0);
         System.setProperty("org.apache.commons.id.uuid.state.State", InMemoryStateImpl.class.getName());
 
 	}
-	//TODO
-	public void testSerialize() {
+	
+	public void testMetaInfo() {
 		
-		String path = "/tmp";
-		
-		//windows
-		//String path = "c:\temp";
-		
-		//---------------------------------------------
-
+	
 		Productline pl = new Productline();
 		pl.setName("PLtest23");
 
@@ -100,24 +94,7 @@ public class ProductlineTest extends TestCase {
 		componentC.addRelease(releaseA);
 		componentC.addRelease(releaseB);
 
-		//--add FD
-/*		FileRevision fd1 = new FileRevision ();
-		fd1.setFilename("/tmp/");
-		releaseA.addFileRevision(fd1);
-		
-		//--add a second FD
-		FileDescriptor fd1_1 = new FileDescriptor ("fd1_1");
-		FileDescriptor fd1_2 = new FileDescriptor ("fd1_2");
-		fd1_2.setLastAuthor("garbeam");
-		fd1_2.setLastChanged(new Date());
-		fd1_2.setRevision("1.2.3");
-		fd1_2.setPath("hallo.dat");
-		
-		fd1.addFileDescriptor(fd1_1);
-		fd1.addFileDescriptor(fd1_2);
-		
-		//Note: ReleaseB has no FD!
-		*/
+
 		/////--------Component (CoreAsset)--------------------------------------------------
 		//add a component
 		Component coreAssetA = new Component("coreAssetA");
@@ -157,77 +134,8 @@ public class ProductlineTest extends TestCase {
 		//Productline plGet = (Productline) fd2.getRoot ();
 		
 	
-	
-		//------------------------------
-		//serialize the whole product-line (all included)
- 
-		//.productmetainfo , ...
-
-		ModelStorage.storeModel(pl);
-		
-		//pl.serializeProductline("/tmp", 0);
-
-
- 		//serialize the products
-		//productA.serializeProduct("/tmp");
-		//productB.serializeProduct("/tmp");
-		
-		//serialize the coreAssets
-		//coreAssetA.serializeComponent("/tmp");
-		//coreAssetB.serializeComponent("/tmp");
-		/**/
-
-		
-		//do all
-		//
-		//pl.serializeProductline(true);
-		//pl.serialize("/tmp", true);
-
-		
-		/*Element ser = pl.serialize();
-		try {
-			XMLWriter w = new XMLWriter(System.out, OutputFormat.createPrettyPrint());
-			w.write(ser);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-
-		ser = coreAssetA.serialize();
-		try {
-			XMLWriter w = new XMLWriter(System.out, OutputFormat.createPrettyPrint());
-			w.write(ser);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
-
-
-	//----------------------------DESRERAILIZING------------------------------------------------		
-
-//		System.out.println ("-----------NOW DESERIALIZING---------");
-//		Productline p2 = new Productline("windows");
-//		p2.deserialize(path);
-//		
-//		//--one product test
-//		Product me = p2.getProduct("me");
-//		assertTrue (me.getName().equals("me"));
-//		//TODO
-//		//warum funktionier das nicht:
-//		//assertTrue (me.getName() == "me");
-//
-//		
-//		//SpecificComponent compC;
-//		//compC = (SpecificComponent)me.getComponent("compC", compC);
-//		
-//		//--one component test
-//		Component compA = p2.getComponent ("coreAssetA");
-//		
-//		//product = manager.getProduct("windows");
-//		//assertTrue (product.getName() == "windows");
-//		//...
-//		//productline = manager.getProductLine("office");
-//		//assertTrue (productline.getName() == "office");
-	
+		MetaInformation metaInformation = new MetaInformation();
+		metaInformation.getMetaData(pl);
 
 	}
 }
