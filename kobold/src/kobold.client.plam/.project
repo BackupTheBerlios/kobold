@@ -3,6 +3,8 @@
 	<name>kobold.client.plam</name>
 	<comment></comment>
 	<projects>
+		<project>kobold.common</project>
+		<project>kobold.server</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
