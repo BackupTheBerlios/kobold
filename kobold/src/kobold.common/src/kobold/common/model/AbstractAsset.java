@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.12 2004/06/25 11:41:55 martinplies Exp $
+ * $Id: AbstractAsset.java,v 1.13 2004/06/25 12:58:28 rendgeor Exp $
  *
  */
 package kobold.common.model;
@@ -29,7 +29,6 @@ package kobold.common.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,8 +38,6 @@ import java.util.Set;
 
 import kobold.common.data.ISerializable;
 import kobold.common.data.IdManager;
-
-import net.sourceforge.gxl.GXLElement;
 import net.sourceforge.gxl.GXLGraph;
 import net.sourceforge.gxl.GXLNode;
 import net.sourceforge.gxl.GXLString;
@@ -51,6 +48,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 /**
+ * TODO: Kopfkommentar
  * @author Tammo
  *  
  */
@@ -60,8 +58,11 @@ public abstract class AbstractAsset implements ISerializable
     public static final String PRODUCT_LINE = "productline";
     public static final String PRODUCT = "product";
     public static final String COMPONENT = "component";
+    public static final String RELATED_COMPONENT = "related-component";
+    public static final String SPECIFIC_COMPONENT = "specific-component";
     public static final String VARIANT = "variant";
     public static final String RELEASE = "release";
+    public static final String PRODUCT_RELEASE = "product-release";
     public static final String FILE_DESCRIPTOR = "filedesc";
     
     protected static final Log logger = LogFactory.getLog(AbstractAsset.class);
@@ -82,13 +83,13 @@ public abstract class AbstractAsset implements ISerializable
 
     public AbstractAsset()
     {
+        this.id = IdManager.getInstance().getModelId(getType());
     }
 
     public AbstractAsset(String name)
     {
-        this.name = name;
-        this.id = IdManager.getInstance().getModelId(getType());
-        this.parent = null;
+        super();
+    	this.name = name;
     }
 
     /**
@@ -104,19 +105,25 @@ public abstract class AbstractAsset implements ISerializable
     	GXLNode node = new GXLNode(IdManager.getInstance().getMessageId(id));
     	try {
 			//node.setAttr("id", new GXLString(id));
-    		if (name != null)
+    		if (name != null) {
 			  node.setAttr("name",new GXLString(name));
-    		if (description != null)
+    		}
+    		if (description != null) {
 			  node.setAttr("description", new GXLString(description));
-    		if (owner != null)
+    		}
+    		if (owner != null) {
 			  node.setAttr("owner", new GXLString(owner));
+    		}
+    		
 			Map attributes = getGXLAttributes();
+
 			if (attributes != null) {
 				for (Iterator ite = attributes.keySet().iterator(); ite.hasNext();){
 					String key = (String) ite.next();
 					node.setAttr(key, new GXLString((String) attributes.get(key)));
 				}
 			}
+
 			List children = getGXLChildren();
 			if (children != null){
 			  GXLGraph graph = new GXLGraph(IdManager.getInstance().getGXLGraphId("graph"));
@@ -126,12 +133,8 @@ public abstract class AbstractAsset implements ISerializable
 			  }
 			  node.add(graph);
 			}
-			try {
-				node.setType(new URI(getGXLType()));
-			} catch (Exception e) {
-				logger.info("Wrong node type uri specified", e);
-			}
-		} catch (RuntimeException e) {
+			node.setType(URI.create(getGXLType()));
+    	} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -262,7 +265,12 @@ public abstract class AbstractAsset implements ISerializable
         
         Element descEl = element.addElement("description");
         if (description != null) {
-            descEl.setText(name);
+            descEl.setText(description);
+        }
+
+        Element ownerEl = element.addElement("owner");
+        if (owner != null) {
+            ownerEl.setText(owner);
         }
 
         Element statesEl = element.addElement("states");
@@ -277,20 +285,20 @@ public abstract class AbstractAsset implements ISerializable
     
     public void deserialize(Element element) 
     {
-        id = element.attributeValue("id");
-        System.out.println ("set id to " + id);
-        //FIXME: Notify IdManager about the usage of this id
-        name = element.elementTextTrim("name");
-        description = element.elementTextTrim("description");
-        
-		if (element.element("states") != null)
-        {
-	    	Iterator it = element.element("states").elementIterator("status");
-			while (it.hasNext()) {
-			    Element stEl = (Element)it.next();
-			    addStatus(AbstractStatus.createStatus(stEl));
-			}
-		}
+    	id = element.attributeValue("id");
+    	System.out.println ("set id to " + id);
+    	//FIXME: Notify IdManager about the usage of this id
+    	name = element.elementTextTrim("name");
+    	description = element.elementTextTrim("description");
+    	owner = element.elementTextTrim("owner");
+    	
+    	if (element.element("states") != null) {
+    		Iterator it = element.element("states").elementIterator("status");
+    		while (it.hasNext()) {
+    			Element stEl = (Element)it.next();
+    			addStatus(AbstractStatus.createStatus(stEl));
+    		}
+    	}
     }
     
     /**
@@ -322,12 +330,14 @@ public abstract class AbstractAsset implements ISerializable
 	public abstract Map getGXLAttributes();
 	public abstract List getGXLChildren();
 	public abstract String getGXLType();
+	
 	/**
 	 * @return Returns the owner.
 	 */
 	public String getOwner() {
 		return owner;
 	}
+	
 	/**
 	 * @param owner The owner to set.
 	 */

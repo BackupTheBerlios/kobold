@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductRelease.java,v 1.4 2004/06/24 11:25:10 rendgeor Exp $
+ * $Id: ProductRelease.java,v 1.5 2004/06/25 12:58:28 rendgeor Exp $
  *
  */
 
@@ -33,17 +33,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import kobold.common.data.ISerializable;
+import kobold.common.model.AbstractAsset;
 import kobold.common.model.Release;
 
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 /**
  * This class represents a product release. 
  */
-public class ProductRelease implements ISerializable {
+public class ProductRelease extends AbstractAsset
+{
 
 	private DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSZ");
 	
@@ -73,7 +74,7 @@ public class ProductRelease implements ISerializable {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element productRelease = DocumentHelper.createElement("product-release");
+		Element productRelease = super.serialize();
 		if (creationDate != null) {
 			productRelease.addAttribute("created", dateFormat.format(creationDate));
 		}
@@ -93,12 +94,14 @@ public class ProductRelease implements ISerializable {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
+		super.deserialize(element);
 		if (element.attributeValue("created") != null) {
 			try {
 				creationDate = dateFormat.parse(element.attributeValue("created"));
 			} catch (ParseException e) {}
 		}
-
+		// FIXME: Releases deserialisieren: Über Id die Referenz auf das Release aus 
+		// einem Instancepool holen!
 	}
 
 	/**
@@ -113,6 +116,53 @@ public class ProductRelease implements ISerializable {
 	 */
 	public List getReleases() {
 		return releases;
+	}
+
+	/**
+	 * @see kobold.common.model.AbstractAsset#getType()
+	 */
+	public String getType() {
+		return AbstractAsset.PRODUCT_RELEASE;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getAttributes()
+	 */
+	public Map getAttributes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getChildren()
+	 */
+	public List getChildren() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getGXLType()
+	 */
+	public String getGXLType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
+	 */
+	public Map getGXLAttributes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
+	 */
+	public List getGXLChildren() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

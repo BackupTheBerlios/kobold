@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.21 2004/06/25 11:41:55 martinplies Exp $
+ * $Id: Productline.java,v 1.22 2004/06/25 12:58:28 rendgeor Exp $
  *
  */
 package kobold.common.model.productline;
@@ -60,13 +60,11 @@ public class Productline extends AbstractAsset
 	private List coreAssets = new ArrayList();
 	
 	//the repository-path
-	String repositoryPath;
-	
-	String localPath;
+	private String repositoryPath;
+	private String localPath;
 	
 	public Productline(String name) {
 		super(name);
-		setParent(null);
 	}
 
 
@@ -110,10 +108,11 @@ public class Productline extends AbstractAsset
 	 *
 	 */
 	public void addComponent(Component coreAsset, int index) {
-		if (index >= 0)
+		if (index >= 0) {
 			coreAssets.add(index, coreAsset);
-		else
+		} else {
 			coreAssets.add(coreAsset);
+		}
 
 		coreAsset.setParent(this);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, coreAsset);
@@ -141,7 +140,7 @@ public class Productline extends AbstractAsset
 	 * @param path : path-prefix to save the serialized files
 	 * @param level: 0=serialize only the .productlinemetainfo, 1=additionally all product and coreAsset metaInfos
 	 */
-	private Element serialize(String path, int level) {
+	private Element serialize(String path, boolean level) {
 		
 		//get the AbstractAsset info
 		Element root = super.serialize();
@@ -176,7 +175,7 @@ public class Productline extends AbstractAsset
 			else
 			System.out.println("Directory already existed");
 
-			if (level == 1)
+			if (level)
 			product.serializeProduct(path);
 
 			
@@ -206,7 +205,7 @@ public class Productline extends AbstractAsset
 			else
 			System.out.println("Directory already existed");
 
-			if (level == 1)
+			if (level)
 				component.serializeComponent(path);
 			
 			
@@ -224,7 +223,7 @@ public class Productline extends AbstractAsset
 		return root;
 	}
 	
-	public void serializeProductline (String path, int level)
+	public void serializeProductline (String path, boolean level)
 	{
 		//creates a document
 		Document document = DocumentHelper.createDocument();
@@ -251,7 +250,7 @@ public class Productline extends AbstractAsset
 	public void serializeAll()
 	{
 		if (localPath != null) {
-			serializeProductline(localPath, 1);
+			serializeProductline(localPath, true);
 		} else {
 			System.err.println("localPath not set");
 		}
@@ -375,7 +374,9 @@ public class Productline extends AbstractAsset
 	{
 		for (Iterator it = products.iterator(); it.hasNext();) {
 			Product product = (Product) it.next();
-			if (product.getName().equals(productName)) return product;
+			if (product.getName().equals(productName)) {
+				return product;
+			}
 		}	
 		System.out.println ("product "+productName + " not found!");
 		return null;
@@ -388,7 +389,9 @@ public class Productline extends AbstractAsset
 	{
 		for (Iterator it = coreAssets.iterator(); it.hasNext();) {
 			Component ca = (Component) it.next();
-			if (ca.getName() == coreAssetName) return ca;
+			if (ca.getName().equals(coreAssetName)) {
+				return ca;
+			}
 		}	
 		return null;
 	}

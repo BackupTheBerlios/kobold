@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractStatus.java,v 1.1 2004/06/22 00:57:41 vanto Exp $
+ * $Id: AbstractStatus.java,v 1.2 2004/06/25 12:58:28 rendgeor Exp $
  *
  */
 package kobold.common.model;
@@ -33,6 +33,7 @@ import org.dom4j.Element;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
+ * TODO: Kopfkommentar
  * @author Tammo
  */
 public abstract class AbstractStatus implements ISerializable
@@ -68,11 +69,10 @@ public abstract class AbstractStatus implements ISerializable
     public abstract ImageDescriptor getIcon();
     
     /**
+     * Use AbstractStatus::createStatus(Element) instead!
      * @see kobold.common.data.ISerializable#deserialize(org.dom4j.Element)
      */
-    public final void deserialize(Element element)
-    {
-    }
+    public final void deserialize(Element element) {}
     
     /**
      * @see kobold.common.data.ISerializable#serialize()

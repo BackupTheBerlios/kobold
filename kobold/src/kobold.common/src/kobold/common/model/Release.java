@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Release.java,v 1.4 2004/06/25 11:41:55 martinplies Exp $
+ * $Id: Release.java,v 1.5 2004/06/25 12:58:28 rendgeor Exp $
  *
  */
 
@@ -37,6 +37,7 @@ import java.util.Map;
 import org.dom4j.Element;
 
 /**
+ * TODO: Kopfkommentar
  * @author garbeam
  */
 public class Release extends AbstractAsset {

@@ -21,40 +21,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.12 2004/06/25 11:41:55 martinplies Exp $
+ * $Id: Component.java,v 1.13 2004/06/25 12:58:28 rendgeor Exp $
  *
  */
 
 package kobold.common.model.productline;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import kobold.common.data.IdManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.io.IOException;
-import java.io.File;
-import java.io.FileWriter;
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.IVariantContainer;
 
-import net.sourceforge.gxl.GXLGraph;
-import net.sourceforge.gxl.GXLNode;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
 import org.dom4j.DocumentException;
-
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.dom4j.io.XMLWriter;
 import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 /**
  * @author garbeam
  */
@@ -67,7 +59,7 @@ public class Component extends AbstractAsset
 
 	
 	//the repository-path
-	String repositoryPath;
+	private String repositoryPath;
 	
 	/**
 	 * Basic constructor.
@@ -83,6 +75,7 @@ public class Component extends AbstractAsset
 	 * @param productName
 	 */
 	public Component(Element element, AbstractAsset parent, String path) {
+		//FIXME
 		setName(element.attributeValue("name"));
 		System.out.println ("set name to " + element.attributeValue("name"));
 		setParent(parent);
@@ -139,17 +132,15 @@ public class Component extends AbstractAsset
 	 * @see kobold.common.data.ISerializable#deserialize(Element)
 	 */
 	public void deserialize(Element element) {
-
-		Element realElement = element.element (AbstractAsset.COMPONENT);
-		super.deserialize(realElement);
+		super.deserialize(element);
 		
-		Iterator it = realElement.element("variants").elementIterator("asset");
+		Iterator it = element.element("variants").elementIterator("asset");
 		while (it.hasNext()) {
 		    Element varEl = (Element)it.next();
 		    addVariant(new Variant(varEl));
 		}
 		
-		repositoryPath = realElement.attributeValue("repositoryPath");
+		repositoryPath = element.attributeValue("repositoryPath");
 	}
 
 	public void deserialize(String path) {
@@ -160,6 +151,9 @@ public class Component extends AbstractAsset
 			document = reader.read(path+ File.separatorChar + ((AbstractAsset)getParent()).getName() 
 			+ File.separatorChar + "CAS" + File.separatorChar + getName() 
 			+ File.separatorChar + ".coreassetmetainfo.xml");
+			
+			//give the result to the deserializer
+			deserialize(document.getRootElement().element(AbstractAsset.COMPONENT));
 		} catch (DocumentException e) {
 			System.out.print(path+ File.separatorChar + ((AbstractAsset)getParent()).getName()
 			+ File.separatorChar + "CAS" + File.separatorChar + getName() 
@@ -168,8 +162,6 @@ public class Component extends AbstractAsset
 			//log.error(e);
 		}
 
-		//give the result to the deserializer
-		deserialize(document.getRootElement());
 	}
 
 
@@ -201,10 +193,11 @@ public class Component extends AbstractAsset
 	 */
 	public void addVariant(Variant variant, int index) 
 	{
-		if (index >= 0)
+		if (index >= 0) {
 			variants.add(index, variant);
-		else
+		} else {
 			variants.add(variant);
+		}
 
 		variant.setParent(this);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, variant);

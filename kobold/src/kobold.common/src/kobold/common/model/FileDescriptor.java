@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptor.java,v 1.5 2004/06/25 11:41:55 martinplies Exp $
+ * $Id: FileDescriptor.java,v 1.6 2004/06/25 12:58:28 rendgeor Exp $
  *
  */
 
@@ -45,6 +45,7 @@ import net.sourceforge.gxl.GXLString;
 import org.dom4j.Element;
 
 /**
+ * TODO: Kopfkommentar
  * @author garbeam
  */
 public class FileDescriptor extends AbstractAsset {
@@ -55,8 +56,8 @@ public class FileDescriptor extends AbstractAsset {
 	private String revision;
 	private Date lastChanged;
 	private String lastAuthor;
-	//file or directory
-	private boolean fileOrDirectory = true;
+	/** file or directory*/
+	private boolean isFile = true;
 	
 	private List filedescs = new ArrayList();
 
@@ -101,7 +102,7 @@ public class FileDescriptor extends AbstractAsset {
 		}
 
 
-		element.addAttribute("fileOrDirectory", fileOrDirectory + "");
+		element.addAttribute("isFile", isFile + "");
 
 
 		
@@ -133,8 +134,8 @@ public class FileDescriptor extends AbstractAsset {
                 lastChanged = null;
             }
 	    }
-	    if ((element.attributeValue("fileOrDirectory") == "false"))
-	    setFile (false);
+	    
+	    setFile(element.attributeValue("isFile").equals("" + true));
 	    
 	    
 		Iterator it = element.element("filedescriptors").elementIterator(AbstractAsset.FILE_DESCRIPTOR);
@@ -234,16 +235,18 @@ public class FileDescriptor extends AbstractAsset {
 	 */
 	public Map getGXLAttributes() {
         HashMap attributes = new HashMap();
-		if (path !=  null){
+		if (path !=  null) {
 			attributes.put("path", path);
 		}
-		if (revision != null){
+		if (revision != null) {
 			attributes.put("revision", revision);
 		}
-		if (lastChanged != null)
+		if (lastChanged != null) {
 			attributes.put("lastChanged", dateFormat.format(lastChanged));
-		if (lastAuthor != null)
+		}
+		if (lastAuthor != null) {
 			attributes.put("lastAuthor", lastAuthor);
+		}
 		return attributes;
 	}
 
@@ -264,33 +267,28 @@ public class FileDescriptor extends AbstractAsset {
 	
 
 	/**
-	 * @return Returns the fileOrDirectory.
+	 * Is FD a file?
+	 * @return a boolean.
 	 */
 	public boolean isFile() {
-		return fileOrDirectory;
+		return isFile;
 	}
 
 	/**
-	 * @return Returns the fileOrDirectory.
+	 * Is FD a directory?
+	 * @return a boolean.
 	 */
 	public boolean isDirectory() {
-		return !fileOrDirectory;
+		return !isFile;
 	}
 
 	
 	/**
-	 * @param fileOrDirectory The fileOrDirectory to set.
+	 * Indicates if FD is file or directory.
+	 * @param isFile is file?
 	 */
-	public void setFile (boolean fileOrDirectory) {
-		this.fileOrDirectory = fileOrDirectory;
+	public void setFile (boolean isFile) {
+		this.isFile = isFile;
 	}
 
-	/**
-	 * @param fileOrDirectory The fileOrDirectory to set.
-	 */
-	public void setDirectory (boolean fileOrDirectory) {
-		this.fileOrDirectory = !fileOrDirectory;
-	}
-
-	
 }

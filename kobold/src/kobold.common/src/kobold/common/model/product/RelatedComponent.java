@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.5 2004/06/25 11:41:55 martinplies Exp $
+ * $Id: RelatedComponent.java,v 1.6 2004/06/25 12:58:28 rendgeor Exp $
  *
  */
 
@@ -42,40 +42,38 @@ import kobold.common.model.productline.Component;
  * components of products which are related to a product
  * lines component.
  */
-public class RelatedComponent extends AbstractAsset {
+public class RelatedComponent extends ProductComponent {
 
 	private Component relatedComponent;
-	private Release relatedRelease;
-	private Release componentRelease;
+	private Release plCompRelease;
+	private Release pCompRelease;
 	
 	/**
 	 * Basic constructor.
 	 * @param component the related component.
-	 * @param relatedRelease the related release.
-	 * @param componentRelease this release. 
+	 * @param plCompRelease the release of the corresponding component in the productline.
+	 * @param pCompRelease the product-instance of the productline-component release. 
 	 */
 	public RelatedComponent (Component component,
-							 Release relatedRelease,
-							 Release componentRelease) {
+							 Release plCompRelease,
+							 Release pCompRelease) {
 		super(component.getName());
 		relatedComponent = component;
-		this.relatedRelease = relatedRelease;
-		this.componentRelease = componentRelease;
+		this.plCompRelease = plCompRelease;
+		this.pCompRelease = pCompRelease;
 	}
 	
 	/**
 	 * Serializes the component.
-	 * @see kobold.common.data.plam.ComponentSpecific#serialize(org.dom4j.Element)
+	 * @see kobold.common.model.AbstractAsset#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element componentElement = DocumentHelper.createElement("related-component");
-		componentElement.addAttribute("name", getName());
+		Element element = super.serialize();
 
-		Element releasesElement = componentElement.addElement("releases");
-		releasesElement.addElement("related").add(relatedRelease.serialize());
-		releasesElement.addElement("component").add(componentRelease.serialize());
+		element.addElement("ref").addAttribute("ref-id", plCompRelease.getId());
+		element.addElement("local").add(pCompRelease.serialize());
 		
-		return componentElement;
+		return element;
 	}
 
 	/**
@@ -84,22 +82,24 @@ public class RelatedComponent extends AbstractAsset {
 	 * 		  object.
 	 */
 	public void deserialize(Element element) {
-		setName(element.attributeValue("name"));
+		super.deserialize(element);
+		// FIXME: deserialize ref! via instance pool
+		pCompRelease = new Release(element.element("local").element(AbstractAsset.RELEASE));
 	}
 
 	/**
 	 * @see kobold.common.model.AbstractAsset#getType()
 	 */
 	public String getType() {
-		return AbstractAsset.COMPONENT;
+		return AbstractAsset.RELATED_COMPONENT;
 	}
-
 
 	/**
 	 * DOM constructor.
 	 * @param productName
 	 */
 	public RelatedComponent (Element element) {
+		super();
 		deserialize(element);
 	}
 	

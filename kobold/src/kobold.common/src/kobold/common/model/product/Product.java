@@ -21,37 +21,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.15 2004/06/25 11:41:55 martinplies Exp $
+ * $Id: Product.java,v 1.16 2004/06/25 12:58:28 rendgeor Exp $
  *
  */
-
 package kobold.common.model.product;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.dom4j.Document;
-
-import org.dom4j.DocumentHelper;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.XMLWriter;
-import org.dom4j.io.SAXReader;
-
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import java.io.File;
-import java.io.IOException;
-
-import java.util.Iterator;
-
-import kobold.common.data.Productline;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.model.AbstractAsset;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 
 /**
  * This class represents a product.  
@@ -59,7 +54,7 @@ import kobold.common.model.AbstractAsset;
 public class Product extends AbstractAsset {
 
 	// containers
-	private List component = new ArrayList();
+	private List productReleases = new ArrayList();
 	private List specificComponents = new ArrayList();
 	private List relatedComponents = new ArrayList();
 	private RepositoryDescriptor repositoryDescriptor = null;
@@ -69,7 +64,6 @@ public class Product extends AbstractAsset {
 	/**
 	 * Basic constructor.
 	 * @param productName
-	 * @param productLineName
 	 */
 	public Product(String productName) {
 		super(productName);
@@ -82,7 +76,7 @@ public class Product extends AbstractAsset {
 	public Product(Element element, AbstractAsset parent, String path) {
 		super(element.attributeValue("name"));
 		setParent(parent);
-		deserialize(path);
+		deserializeProduct(path);
 	}
 	
 	/**
@@ -94,7 +88,7 @@ public class Product extends AbstractAsset {
 		Element productElement = super.serialize();
 
 		Element prodRelElement = productElement.addElement("releases");
-		for (Iterator it = component.iterator(); it.hasNext(); ) {
+		for (Iterator it = productReleases.iterator(); it.hasNext(); ) {
 			System.out.println ("release serialized");	
 			ProductRelease prodRelease = (ProductRelease) it.next();
 			prodRelElement.add(prodRelease.serialize());
@@ -182,7 +176,8 @@ public class Product extends AbstractAsset {
 
 
 	}
-	public void deserialize(String path) {
+	
+	private void deserializeProduct(String path) {
 		
 		SAXReader reader = new SAXReader();
 		Document document = null;
@@ -191,6 +186,9 @@ public class Product extends AbstractAsset {
 			 File.separatorChar + ((AbstractAsset)getParent()) .getName()
 			+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
 			+ File.separatorChar + ".productmetainfo.xml");
+			
+			//give the result to the deserializer
+			deserialize(document.getRootElement().element(AbstractAsset.PRODUCT));
 		} catch (DocumentException e) {
 			System.err.print(path+ File.separatorChar + ((AbstractAsset)getParent()).getName()
 			+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
@@ -198,9 +196,6 @@ public class Product extends AbstractAsset {
 			//Log log = LogFactory.getLog("kobold.server.controller.ProductManager");
 			//log.error(e);
 		}
-
-		//give the result to the deserializer
-		deserialize(document.getRootElement().element(AbstractAsset.PRODUCT));
 	}
 	
 
@@ -227,30 +222,24 @@ public class Product extends AbstractAsset {
 	}
 
 	
-	/**
-	 * Gets a component.
-	 *
-	 * @param componentName contains the name of the component
-	 */
-	
-	public void addProductRelease (ProductRelease productRelease)
+	public void addProductRelease(ProductRelease productRelease)
 	{
-		if (productRelease != null)
-		component.add (productRelease);
+		productReleases.add(productRelease);
+		productRelease.setParent(this);
 	}
 	
 	/**
 	 * @return
 	 */
 	public List getProductReleases() {
-		return component;
+		return Collections.unmodifiableList(productReleases);
 	}
 
 	/**
 	 * @return
 	 */
 	public List getRelatedComponents() {
-		return relatedComponents;
+		return Collections.unmodifiableList(relatedComponents);
 	}
 
 	/**
@@ -264,7 +253,7 @@ public class Product extends AbstractAsset {
 	 * @return
 	 */
 	public List getSpecificComponents() {
-		return specificComponents;
+		return Collections.unmodifiableList(specificComponents);
 	}
 
 	/**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.6 2004/06/25 11:41:55 martinplies Exp $
+ * $Id: SpecificComponent.java,v 1.7 2004/06/25 12:58:28 rendgeor Exp $
  *
  */
 
@@ -42,9 +42,9 @@ import kobold.common.model.Release;
 /**
  * Represents a product specific component.
  */
-public class SpecificComponent extends AbstractAsset {
+public class SpecificComponent extends ProductComponent {
 
-	private List releases;
+	private List releases = new ArrayList();
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#component";
 	
 	/**
@@ -53,7 +53,6 @@ public class SpecificComponent extends AbstractAsset {
 	 */
 	public SpecificComponent (String componentName) {
 		super(componentName);
-		releases = new ArrayList();
 	}
 	
 	/**
@@ -72,6 +71,7 @@ public class SpecificComponent extends AbstractAsset {
 	 */
 	public void addRelease (Release release) {
 		releases.add(release);
+		setParent(this);
 	}
 
 	
@@ -80,8 +80,7 @@ public class SpecificComponent extends AbstractAsset {
 	 * @see kobold.common.data.plam.ComponentSpecific#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element componentElement = DocumentHelper.createElement("specific-component");
-		componentElement.addAttribute("name", getName());
+		Element componentElement = super.serialize();
 
 		Element releasesElement = componentElement.addElement("releases");
 		for (Iterator it = releases.iterator(); it.hasNext(); ) {
@@ -97,14 +96,19 @@ public class SpecificComponent extends AbstractAsset {
 	 * 		  object.
 	 */
 	public void deserialize(Element element) {
-		setName(element.attributeValue("name"));
+		super.deserialize(element);
+		Iterator it = element.element("releases").elementIterator(AbstractAsset.RELEASE);
+		while (it.hasNext()) {
+			Element relEl = (Element)it.next();
+			addRelease(new Release(relEl));
+		}
 	}
 
 	/**
 	 * @see kobold.common.model.AbstractAsset#getType()
 	 */
 	public String getType() {
-		return AbstractAsset.COMPONENT;
+		return AbstractAsset.SPECIFIC_COMPONENT;
 	}
 
 	/* (non-Javadoc)

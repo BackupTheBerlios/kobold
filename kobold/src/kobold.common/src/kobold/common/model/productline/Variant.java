@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.9 2004/06/25 11:41:55 martinplies Exp $
+ * $Id: Variant.java,v 1.10 2004/06/25 12:58:28 rendgeor Exp $
  *
  */
 
@@ -33,14 +33,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import kobold.common.data.IdManager;
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.IComponentContainer;
 import kobold.common.model.IReleaseContainer;
 import kobold.common.model.Release;
-
-import net.sourceforge.gxl.GXLGraph;
-import net.sourceforge.gxl.GXLNode;
 
 import org.dom4j.Element;
 
@@ -58,7 +54,6 @@ public class Variant extends AbstractAsset
 	/**
 	 * Basic constructor.
 	 * @param productName
-	 * @param productLineName
 	 */
 	public Variant (String productName) {
 		super(productName);
@@ -137,10 +132,11 @@ public class Variant extends AbstractAsset
 	 * @param component contains the new component
 	 */
 	public void addComponent(Component component, int index) {
-		if (index >= 0)
+		if (index >= 0) {
 			components.add(index, component);
-		else
+		} else {
 			components.add(component);
+		}
 
 		component.setParent(this);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, component);
@@ -179,10 +175,11 @@ public class Variant extends AbstractAsset
 	 * @param version contains the new version
 	 */
 	public void addRelease(Release release, int index) {
-		if (index >= 0)
+		if (index >= 0) {
 			releases.add(index, release);
-		else
+		} else {
 			releases.add(release);
+		}
 
 		release.setParent(this);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, release);
