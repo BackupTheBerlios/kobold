@@ -21,16 +21,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageQueue.java,v 1.4 2004/05/18 21:23:16 garbeam Exp $
+ * $Id: MessageQueue.java,v 1.5 2004/05/19 22:50:50 vanto Exp $
  *
  */
 package kobold.server.controller;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
+
+import kobold.common.data.AbstractKoboldMessage;
+import kobold.common.data.UserContext;
 
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
@@ -40,9 +44,6 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-import kobold.common.data.AbstractKoboldMessage;
-import kobold.common.data.UserContext;
-
 /**
  * This class implements a queue for KoboldMessage-(and derived) Objects
  *
@@ -50,7 +51,7 @@ import kobold.common.data.UserContext;
  */
 public class MessageQueue {
 
-	private List queue = null;
+	private LinkedList queue = null;
 	private UserContext userContext = null;
 	private String messageStore = null;
 
@@ -58,7 +59,7 @@ public class MessageQueue {
 	 * Basic constructor.
 	 */
 	public MessageQueue(UserContext userContext) {
-		queue = new ArrayList();
+		queue = new LinkedList();
 		this.userContext = userContext;
 		this.messageStore = System.getProperty("kobold.server.storePath") +
 								userContext.getUserName() + ".xml";
@@ -94,8 +95,12 @@ public class MessageQueue {
 	 * @return the oldest message in the queue, does not remove it! 
 	 */
 	public AbstractKoboldMessage getMessage() {
-		return (AbstractKoboldMessage) GlobalMessageContainer.getInstance().
-						getMessage((String)queue.get(queue.size() - 1));
+	    try {
+	        return (AbstractKoboldMessage) GlobalMessageContainer.getInstance().
+				        getMessage((String)queue.getLast());
+	    } catch (NoSuchElementException e) {
+	    	return null;
+	    }
 	}
 
 	/**
@@ -141,7 +146,7 @@ public class MessageQueue {
 		try {
 			document = reader.read(messageStore);
 			
-			List newQueue = new ArrayList();
+			LinkedList newQueue = new LinkedList();
 			List list = document.selectNodes( "/kobold-server/queue" );
 			for (Iterator iter = list.iterator(); iter.hasNext(); ) {
 				Element element = (Element) iter.next();

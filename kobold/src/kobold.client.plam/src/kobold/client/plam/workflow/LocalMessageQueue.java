@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LocalMessageQueue.java,v 1.8 2004/05/19 16:08:34 martinplies Exp $
+ * $Id: LocalMessageQueue.java,v 1.9 2004/05/19 22:50:52 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -177,7 +177,9 @@ public class LocalMessageQueue  {
 			if (nature.getUserContext() != null) {
 				AbstractKoboldMessage msg = null;
 				while ((msg = nature.getClient().fetchMessage(context)) != null) {
-					addMessage(msg);
+					logger.info(msg);
+				    addMessage(msg);
+				    nature.getClient().invalidateMessage(context, msg);
 				}
 			}
 		} catch (CoreException e) {

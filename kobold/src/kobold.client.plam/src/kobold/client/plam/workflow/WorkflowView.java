@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.5 2004/05/19 16:08:37 martinplies Exp $
+ * $Id: WorkflowView.java,v 1.6 2004/05/19 22:50:52 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -61,8 +61,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 /**
@@ -75,8 +73,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private TableViewer viewer;
 	private WorkflowContentProvider contentProvider;
 
-	private Action action1;
-	private Action action2;
+	private Action fetchAction;
 	
 	private Action filterAction;
 	
@@ -164,64 +161,53 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(action1);
+		manager.add(fetchAction);
 		manager.add(new Separator());
-		manager.add(action2);
+		//manager.add(action2);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(filterAction);
-		manager.add(action1);
-		manager.add(action2);
+		manager.add(fetchAction);
+		//manager.add(action2);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator("Additions"));
 	}
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(action1);
-		manager.add(action2);
+		manager.add(fetchAction);
+		manager.add(filterAction);
 	}
 
 	private void makeActions() {
-		action1 = new Action() {
-			public void run() {
-				showMessage("Action 1 executed");
-				LocalMessageQueue mq = KoboldPLAMPlugin.getCurrentMessageQueue();
-				WorkflowView.this.getTableViewer().setInput(mq);
-			}
-		};
-		action1.setText("Action 1");
-		action1.setToolTipText("Action 1 tooltip");
-		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		
-		action2 = new Action() {
+		fetchAction = new Action() {
 			public void run() {
 				KoboldPLAMPlugin.getCurrentMessageQueue().fetchMessages();
 				
 			}
 		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_OBJS_TASK_TSK));
+		fetchAction.setText("Fetch messages");
+		fetchAction.setToolTipText("Fetch new messages from server");
+		fetchAction.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/refresh_msg.gif"));
 
 		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				//showMessage("Double-click detected on "+obj.toString());
 				WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), (AbstractKoboldMessage)obj);
 				wfDialog.open();
 				
 			}
 		};
 		
-		filterAction = new Action("Filter", IAction.AS_CHECK_BOX) {
+		filterAction = new Action("Filter Messages", IAction.AS_CHECK_BOX) {
 			public void run() {
 				contentProvider.setFiltered(!contentProvider.isFiltered());
 			}
 		};
+		filterAction.setText("Filter sent messages");
+		filterAction.setToolTipText("Hide already sent messages from this list");
+		filterAction.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/filter_msg.gif"));
 	}
 
 	private void hookDoubleClickAction() {

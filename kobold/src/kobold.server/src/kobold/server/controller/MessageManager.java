@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageManager.java,v 1.5 2004/05/19 15:20:25 grosseml Exp $
+ * $Id: MessageManager.java,v 1.6 2004/05/19 22:50:50 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -268,20 +268,23 @@ public class MessageManager {
 	// DEBUG
 	public void dummyMsg() {
 		AbstractKoboldMessage koboldMessage = new KoboldMessage();
-		koboldMessage.setReceiver("vato");
+		koboldMessage.setReceiver("vanto");
 		koboldMessage.setSender("garbeam");
+		koboldMessage.setSubject("About Kobold");
 		koboldMessage.setMessageText("Kobold rulez");
 		pendingMessages.put(koboldMessage.getReceiver(), koboldMessage);
 		
 		koboldMessage = new KoboldMessage();
 		koboldMessage.setReceiver("schneipk");
 		koboldMessage.setSender("vanto");
+		koboldMessage.setSubject("About Kobold");
 		koboldMessage.setMessageText("Kobold rulez");
 		pendingMessages.put(koboldMessage.getReceiver(), koboldMessage);
 		
 		koboldMessage = new KoboldMessage();
 		koboldMessage.setReceiver("garbeam");
 		koboldMessage.setSender("schneipk");
+		koboldMessage.setSubject("About Kobold");
 		koboldMessage.setMessageText("Kobold rulez");
 		pendingMessages.put(koboldMessage.getReceiver(), koboldMessage);
 	}
