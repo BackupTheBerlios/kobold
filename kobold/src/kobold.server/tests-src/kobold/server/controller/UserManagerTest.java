@@ -21,14 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManagerTest.java,v 1.2 2004/07/29 17:18:25 garbeam Exp $
+ * $Id: UserManagerTest.java,v 1.3 2004/09/23 13:43:14 vanto Exp $
  *
  */
 
 package kobold.server.controller;
 
 import junit.framework.TestCase;
-import kobold.server.controller.UserManager;
 import kobold.server.data.User;
 
 /**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaInfoAction.java,v 1.5 2004/08/31 17:50:51 neco Exp $
+ * $Id: MetaInfoAction.java,v 1.6 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.action;
@@ -29,8 +29,6 @@ package kobold.client.plam.action;
 import kobold.client.plam.MetaInformation;
 import kobold.client.plam.model.AbstractAsset;
 
-import org.eclipse.core.internal.resources.SavedState;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -41,7 +39,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.actions.ActionDelegate;
-import org.eclipse.ui.dialogs.SaveAsDialog;
 
 
 /**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorEditPart.java,v 1.6 2004/09/21 20:54:30 vanto Exp $
+ * $Id: FileDescriptorEditPart.java,v 1.7 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -31,29 +31,19 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import kobold.client.plam.editor.figure.AbstractNodeFigure;
 import kobold.client.plam.editor.figure.FileDescriptorFigure;
-import kobold.client.plam.editor.figure.ReleaseFigure;
-import kobold.client.plam.editor.figure.SpecificComponentFigure;
-import kobold.client.plam.editor.model.AssetView;
-import kobold.client.plam.editor.policy.FlowLayoutEditPolicyImpl;
 import kobold.client.plam.editor.policy.GraphicalNodeEditPolicyImpl;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.edges.EdgeContainer;
-import kobold.client.plam.model.product.SpecificComponent;
 
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;

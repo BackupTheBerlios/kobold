@@ -31,8 +31,8 @@ import java.util.Iterator;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.Release;
-import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.client.vcm.communication.KoboldPolicy;
+import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.io.ScriptDescriptor;
 

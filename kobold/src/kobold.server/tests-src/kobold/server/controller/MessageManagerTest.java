@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageManagerTest.java,v 1.2 2004/08/02 11:12:45 garbeam Exp $
+ * $Id: MessageManagerTest.java,v 1.3 2004/09/23 13:43:14 vanto Exp $
  *
  */
 
@@ -29,12 +29,11 @@ package kobold.server.controller;
 
 import java.util.Date;
 
-import org.apache.commons.id.uuid.state.InMemoryStateImpl;
-
 import junit.framework.TestCase;
 import kobold.common.data.KoboldMessage;
-import kobold.server.controller.UserManager;
 import kobold.server.data.User;
+
+import org.apache.commons.id.uuid.state.InMemoryStateImpl;
 
 /**
  * @author garbeam

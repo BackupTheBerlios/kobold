@@ -6,20 +6,9 @@
  */
 package kobold.client.plam.editor.figure;
 
-import java.util.Set;
-
 import kobold.client.plam.editor.KoboldColors;
-import kobold.client.plam.model.AbstractStatus;
 
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.MarginBorder;
-import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.Shape;
-import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
 

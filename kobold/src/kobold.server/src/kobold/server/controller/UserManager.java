@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.22 2004/08/24 05:24:01 neccaino Exp $
+ * $Id: UserManager.java,v 1.23 2004/09/23 13:43:14 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -33,6 +33,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import kobold.common.data.Asset;
+import kobold.server.data.User;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
@@ -41,9 +44,6 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
-
-import kobold.server.data.User;
-import kobold.common.data.Asset;
 
 /**
  * This singleton class manages the users registered on the server.

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractMaintainedAsset.java,v 1.9 2004/08/23 01:27:28 martinplies Exp $
+ * $Id: AbstractMaintainedAsset.java,v 1.10 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -31,12 +31,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import kobold.common.data.User;
+import kobold.common.exception.GXLException;
 import net.sourceforge.gxl.GXLBag;
 import net.sourceforge.gxl.GXLNode;
 import net.sourceforge.gxl.GXLString;
-
-import kobold.common.data.User;
-import kobold.common.exception.GXLException;
 
 
 /**

@@ -21,18 +21,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManagerTest.java,v 1.5 2004/08/03 16:46:35 garbeam Exp $
+ * $Id: ProductlineManagerTest.java,v 1.6 2004/09/23 13:43:14 vanto Exp $
  *
  */
 
 package kobold.server.controller;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-import java.util.logging.XMLFormatter;
+
+import junit.framework.TestCase;
+import kobold.common.data.Product;
+import kobold.common.data.Productline;
+import kobold.common.io.RepositoryDescriptor;
 
 import org.apache.commons.id.uuid.state.InMemoryStateImpl;
 import org.dom4j.Document;
@@ -40,14 +43,6 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-
-import junit.framework.TestCase;
-
-import kobold.common.data.Product;
-import kobold.common.data.Productline;
-import kobold.common.data.User;
-import kobold.common.io.RepositoryDescriptor;
-import kobold.server.controller.ProductlineManager;
 
 /**
  * @author garbeam

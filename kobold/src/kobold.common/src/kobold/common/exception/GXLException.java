@@ -21,11 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLException.java,v 1.3 2004/08/26 16:59:17 martinplies Exp $
+ * $Id: GXLException.java,v 1.4 2004/09/23 13:43:17 vanto Exp $
  */
 package kobold.common.exception;
 
-import kobold.common.data.WorkflowItem;
 
 /**
  * @author pliesmn *

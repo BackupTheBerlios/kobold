@@ -21,15 +21,15 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: RepositoryDescriptor.java,v 1.4 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: RepositoryDescriptor.java,v 1.5 2004/09/23 13:43:17 vanto Exp $
  */
 
 package kobold.common.io;
 
+import kobold.common.data.ISerializable;
+
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-
-import kobold.common.data.ISerializable;
 
 /**
  * Base class for locating repositories.

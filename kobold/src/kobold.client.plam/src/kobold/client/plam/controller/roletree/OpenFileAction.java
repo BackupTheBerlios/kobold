@@ -21,18 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: OpenFileAction.java,v 1.2 2004/09/21 15:10:37 garbeam Exp $
+ * $Id: OpenFileAction.java,v 1.3 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
 
 import java.util.Iterator;
 
-import kobold.client.plam.model.FileDescriptor;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.util.OpenStrategy;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;

@@ -21,14 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.8 2004/09/22 17:28:33 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.9 2004/09/23 13:43:28 vanto Exp $
  *
  */
 package kobold.client.vcm;
-
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 
 import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.AbstractAsset;
@@ -40,6 +36,10 @@ import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 import kobold.client.vcm.controller.KoboldRepositoryHelper;
 import kobold.client.vcm.controller.StatusUpdater;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
  * @author Tammo

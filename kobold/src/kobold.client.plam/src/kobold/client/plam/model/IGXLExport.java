@@ -21,13 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IGXLExport.java,v 1.3 2004/08/23 01:27:28 martinplies Exp $
+ * $Id: IGXLExport.java,v 1.4 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.model;
 
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author pliesmn

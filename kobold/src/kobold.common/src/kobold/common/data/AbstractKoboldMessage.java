@@ -21,13 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractKoboldMessage.java,v 1.6 2004/08/24 16:53:54 garbeam Exp $
+ * $Id: AbstractKoboldMessage.java,v 1.7 2004/09/23 13:43:17 vanto Exp $
  *
  */
 package kobold.common.data;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

@@ -21,22 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetAction.java,v 1.5 2004/09/22 19:43:40 neco Exp $
+ * $Id: DeleteAssetAction.java,v 1.6 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.action;
 
-import java.util.Iterator;
-
 import kobold.client.plam.editor.command.DeleteAssetCommand;
 import kobold.client.plam.editor.dialog.DeleteDeprecatedDialog;
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.MetaNode;
-import kobold.client.plam.model.productline.Productline;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;

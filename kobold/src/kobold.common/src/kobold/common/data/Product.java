@@ -21,19 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.15 2004/08/31 11:52:10 neccaino Exp $
+ * $Id: Product.java,v 1.16 2004/09/23 13:43:17 vanto Exp $
  *
  */
 
 package kobold.common.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.HashMap;
 
 import kobold.common.io.RepositoryDescriptor;
-import kobold.common.data.Productline;
 
 import org.dom4j.Element;
 

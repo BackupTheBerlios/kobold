@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.26 2004/09/22 15:27:36 grosseml Exp $
+ * $Id: WorkflowView.java,v 1.27 2004/09/23 13:43:20 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -30,9 +30,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.action.SuggestFileAction;
 import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.listeners.IProjectChangeListener;
-import kobold.client.plam.action.SuggestFileAction;
 import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.UserContext;
@@ -66,7 +66,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.ViewPart;
 
 /**

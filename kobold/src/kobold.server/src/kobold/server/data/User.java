@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.5 2004/07/22 11:54:26 neccaino Exp $
+ * $Id: User.java,v 1.6 2004/09/23 13:43:14 vanto Exp $
  *
  */
 
@@ -37,6 +37,7 @@ import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 

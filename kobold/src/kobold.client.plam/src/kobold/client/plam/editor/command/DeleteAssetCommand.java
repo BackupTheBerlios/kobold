@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.13 2004/09/22 19:43:24 neco Exp $
+ * $Id: DeleteAssetCommand.java,v 1.14 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -54,7 +54,6 @@ import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 

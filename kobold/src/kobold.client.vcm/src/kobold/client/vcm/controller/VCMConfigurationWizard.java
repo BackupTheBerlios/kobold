@@ -27,11 +27,11 @@ package kobold.client.vcm.controller;
 
 import kobold.client.vcm.KoboldVCMPlugin;
 
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.team.core.RepositoryProvider;
 import org.eclipse.team.ui.IConfigurationWizard;
+import org.eclipse.ui.IWorkbench;
 
 /**
  * @see Wizard

@@ -25,31 +25,16 @@
  */
 package kobold.client.vcm.preferences;
 
-import java.awt.TextField;
-
-import javax.swing.text.Element;
-import javax.swing.text.PasswordView;
-
 import kobold.client.plam.editor.dialog.PasswordFieldEditor;
 import kobold.client.vcm.KoboldVCMPlugin;
 
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
-import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-
-import sun.misc.MessageUtils;
 
 /**
  * This class represents a preference page that

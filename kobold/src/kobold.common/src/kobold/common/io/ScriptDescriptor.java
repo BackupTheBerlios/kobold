@@ -21,18 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptDescriptor.java,v 1.7 2004/08/31 10:10:29 garbeam Exp $
+ * $Id: ScriptDescriptor.java,v 1.8 2004/09/23 13:43:17 vanto Exp $
  *
  */
 package kobold.common.io;
 
 import java.net.URI;
 
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-
 import kobold.common.data.ISerializable;
 import kobold.common.data.IdManager;
+
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 
 /**
  * Base descriptor class for invocation of scripts before and after

@@ -21,14 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMIOException.java,v 1.4 2004/06/22 13:04:44 vanto Exp $
+ * $Id: VCMIOException.java,v 1.5 2004/09/23 13:43:17 vanto Exp $
  *
  */
 package kobold.common.exception;
 
-import java.lang.Exception;
-import java.lang.String;
-import java.lang.Throwable;
 
 /**
  * Exception which should be thrown if a VCM action throws

@@ -21,16 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteDeprecatedDialog.java,v 1.3 2004/09/20 14:41:31 neco Exp $
+ * $Id: DeleteDeprecatedDialog.java,v 1.4 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
 import kobold.client.plam.editor.command.DeleteAssetCommand;
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.MetaNode;
 
-import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;

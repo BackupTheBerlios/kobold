@@ -67,13 +67,6 @@
             class="kobold.client.plam.workflow.WorkflowView"
             id="kobold.client.plam.view.workflowview">
       </view>
-      <view
-            name="%view.ArchitectureView"
-            icon="icons/kobold_persp.gif"
-            category="KoboldViewCategory"
-            class="kobold.client.plam.editor.ArchitectureView"
-            id="kobold.client.plam.archview">
-      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -105,7 +98,7 @@
          point="org.eclipse.ui.ide.projectNatureImages">
       <image
             icon="icons/kobold_ovr.png"
-            natureId="kobold.client.plam.KoboldProjectNature"
+            natureId="KoboldProject"
             id="kobold.client.plam.NatureImage">
       </image>
    </extension>
@@ -188,14 +181,14 @@
          </visibility>
          
       </objectContribution>
-      <objectContribution
+<!--      <objectContribution
             objectClass="kobold.client.plam.model.product.RelatedComponent"
             id="kobold.client.plam.relatedAssetContribution">
          <action
                label="Update Related Component"
                class="kobold.client.plam.Action1"
                id="kobold.client.plam.updateRelatedComponent"/>
-      </objectContribution>
+      </objectContribution> -->
       <objectContribution
             objectClass="kobold.client.plam.model.productline.Variant"
             id="kobold.client.plam.variantContribution">

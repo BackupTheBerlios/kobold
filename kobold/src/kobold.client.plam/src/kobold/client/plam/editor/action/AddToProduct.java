@@ -25,9 +25,6 @@
  */package kobold.client.plam.editor.action;
 
 import kobold.client.plam.editor.dialog.AddToProductDialog;
-import kobold.client.plam.editor.dialog.EditMaintainerDialog;
-import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.jface.action.IAction;

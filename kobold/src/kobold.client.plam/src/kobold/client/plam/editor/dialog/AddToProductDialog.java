@@ -21,21 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AddToProductDialog.java,v 1.2 2004/09/18 16:05:02 martinplies Exp $
+ * $Id: AddToProductDialog.java,v 1.3 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
 import java.util.List;
-import java.util.Map;
 
 import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.productline.Variant;
-import kobold.common.data.User;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,10 +41,8 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.TableLayout;
-
 import org.eclipse.jface.viewers.LabelProvider;
-
+import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;

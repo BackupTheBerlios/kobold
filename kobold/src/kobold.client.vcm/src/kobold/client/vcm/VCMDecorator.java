@@ -21,27 +21,25 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMDecorator.java,v 1.3 2004/08/26 16:58:16 martinplies Exp $
+ * $Id: VCMDecorator.java,v 1.4 2004/09/23 13:43:28 vanto Exp $
  */
 package kobold.client.vcm;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.jface.viewers.IDecoration;
+import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
-
-import java.lang.Object;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.jface.viewers.ILabelDecorator;
 
 /**
  * @see ILabelDecorator

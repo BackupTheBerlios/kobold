@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductEditPart.java,v 1.3 2004/09/21 20:54:30 vanto Exp $
+ * $Id: ProductEditPart.java,v 1.4 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -31,8 +31,8 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.AssetView;
+import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.policy.ProductContainerEditPolicy;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
 import kobold.client.plam.model.AbstractAsset;
@@ -67,7 +67,7 @@ import org.eclipse.swt.graphics.Font;
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductEditPart.java,v 1.3 2004/09/21 20:54:30 vanto Exp $
+ * @version $Id: ProductEditPart.java,v 1.4 2004/09/23 13:43:19 vanto Exp $
  */
 public class ProductEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {

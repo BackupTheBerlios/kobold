@@ -21,15 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NodeAssignmentDialog.java,v 1.5 2004/08/25 04:06:50 martinplies Exp $
+ * $Id: NodeAssignmentDialog.java,v 1.6 2004/09/23 13:43:20 vanto Exp $
  *
  */
 package kobold.client.plam.graphimport;
 
 import java.util.List;
 
-import kobold.client.plam.editor.tool.ProductComposer;
-import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.FileDescriptor;
 
 import org.apache.commons.logging.Log;

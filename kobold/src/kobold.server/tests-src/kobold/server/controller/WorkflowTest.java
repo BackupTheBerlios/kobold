@@ -5,8 +5,8 @@
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package kobold.server.controller;
-import kobold.common.data.*;
-import kobold.server.workflow.*;
+import kobold.common.data.WorkflowMessage;
+import kobold.server.workflow.WorkflowEngine;
 
 /**
  * @author Administrator

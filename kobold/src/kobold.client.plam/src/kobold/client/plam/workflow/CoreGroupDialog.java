@@ -21,7 +21,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 * DEALINGS IN THE SOFTWARE.
 *
-* $Id: CoreGroupDialog.java,v 1.7 2004/08/24 20:04:26 garbeam Exp $
+* $Id: CoreGroupDialog.java,v 1.8 2004/09/23 13:43:20 vanto Exp $
 *
 */
 
@@ -31,23 +31,19 @@ import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
-import kobold.client.plam.model.productline.Productline;
 import kobold.common.data.UserContext;
 import kobold.common.data.WorkflowItem;
 import kobold.common.data.WorkflowMessage;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Button;
 
 /**
  * @author bettina

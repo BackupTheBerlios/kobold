@@ -21,11 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.25 2004/06/23 13:27:26 garbeam Exp $
+ * $Id: WorkflowMessage.java,v 1.26 2004/09/23 13:43:17 vanto Exp $
  *
  */
 package kobold.common.data;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.dom4j.Element;
 

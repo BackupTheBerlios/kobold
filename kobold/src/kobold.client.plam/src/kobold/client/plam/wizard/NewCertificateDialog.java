@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewCertificateDialog.java,v 1.2 2004/08/02 16:52:31 garbeam Exp $
+ * $Id: NewCertificateDialog.java,v 1.3 2004/09/23 13:43:20 vanto Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -31,7 +31,6 @@ import java.security.KeyStoreException;
 import java.util.Enumeration;
 
 import kobold.client.plam.controller.SSLHelper;
-import kobold.client.plam.model.AbstractAsset;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,9 +42,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;

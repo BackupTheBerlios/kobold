@@ -25,8 +25,8 @@
 package kobold.client.serveradmin.tools;
 
 import java.util.HashMap;
-import java.util.Vector;
 import java.util.Iterator;
+import java.util.Vector;
 
 /**
  * This is the base class of all inquisitor classes that are used to perfrom

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.80 2004/08/25 11:03:46 vanto Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.81 2004/09/23 13:43:14 vanto Exp $
  *
  */
 package kobold.server;
@@ -39,6 +39,7 @@ import kobold.common.controller.RPCMessageTransformer;
 import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Productline;
 import kobold.common.data.RPCSpy;
+import kobold.common.data.User;
 import kobold.common.data.UserContext;
 import kobold.common.data.WorkflowMessage;
 import kobold.common.io.RepositoryDescriptor;
@@ -46,8 +47,7 @@ import kobold.server.controller.MessageManager;
 import kobold.server.controller.ProductlineManager;
 import kobold.server.controller.SessionManager;
 import kobold.server.controller.UserManager;
-import kobold.common.data.User;
-import kobold.server.workflow.*;
+import kobold.server.workflow.WorkflowEngine;
 
 import org.apache.commons.id.uuid.state.InMemoryStateImpl;
 import org.apache.commons.logging.Log;

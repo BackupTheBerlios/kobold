@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.22 2004/08/31 11:52:36 neccaino Exp $
+ * $Id: Productline.java,v 1.23 2004/09/23 13:43:17 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -32,9 +32,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.dom4j.Element;
-
 import kobold.common.io.RepositoryDescriptor;
+
+import org.dom4j.Element;
 
 
 /**

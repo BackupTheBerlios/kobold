@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.41 2004/09/22 23:44:41 martinplies Exp $
+ * $Id: StatusUpdater.java,v 1.42 2004/09/23 13:43:28 vanto Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -31,7 +31,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
@@ -39,9 +38,7 @@ import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.FileDescriptorHelper;
 import kobold.client.plam.model.IFileDescriptorContainer;
-import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.KoboldVCMPlugin;
-import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.client.vcm.preferences.VCMPreferencePage;
 
 import org.apache.commons.logging.Log;
@@ -53,8 +50,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
-import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.internal.progress.ProgressManager;
 
 /**
@@ -82,7 +77,7 @@ public class StatusUpdater {
 	    logger.debug("running: " + command[0] + " " + command[1] + " " + command[2]);
 	    
 	    try {
-	        ProgressManager.getInstance().runInUI(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), new WorkspaceModifyDelegatingOperation(new IRunnableWithProgress() {	            
+	        ProgressManager.getInstance().runInUI(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), new IRunnableWithProgress() {	            
 	            public void run(IProgressMonitor monitor)
 	            throws InvocationTargetException, InterruptedException
 	            {
@@ -110,7 +105,7 @@ public class StatusUpdater {
 	                }
 	                
 	            }
-	        }),IDEWorkbenchPlugin.getPluginWorkspace().getRoot());
+	        }, KoboldVCMPlugin.getWorkspace().getRoot());
 	        
 	        if (fdCon instanceof AbstractAsset){
 	           // remove Components/ProductComponents  directories from FilDescriptorConatainer 

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateAction.java,v 1.9 2004/09/22 13:48:17 garbeam Exp $
+ * $Id: UpdateAction.java,v 1.10 2004/09/23 13:43:28 vanto Exp $
  */
 
 package kobold.client.vcm.popup.action;
@@ -29,6 +29,7 @@ package kobold.client.vcm.popup.action;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 

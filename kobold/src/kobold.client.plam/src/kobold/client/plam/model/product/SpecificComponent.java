@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.11 2004/09/20 22:08:04 martinplies Exp $
+ * $Id: SpecificComponent.java,v 1.12 2004/09/23 13:43:20 vanto Exp $
  *
  */
 
@@ -30,7 +30,6 @@ package kobold.client.plam.model.product;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.Release;

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptorHelper.java,v 1.10 2004/08/24 19:25:18 rendgeor Exp $
+ * $Id: FileDescriptorHelper.java,v 1.11 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -30,8 +30,6 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.runtime.IPath;
-
-import com.sun.rsasign.d;
 
 
 /**

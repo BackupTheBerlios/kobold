@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManagerDialog.java,v 1.7 2004/08/25 00:35:16 neco Exp $
+ * $Id: UserManagerDialog.java,v 1.8 2004/09/23 13:43:19 vanto Exp $
  */
  
 package kobold.client.plam.editor.dialog;
@@ -37,7 +37,6 @@ import kobold.common.data.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ColumnWeightData;

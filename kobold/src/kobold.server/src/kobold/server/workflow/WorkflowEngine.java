@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.14 2004/09/22 12:49:29 bettina Exp $
+ * $Id: WorkflowEngine.java,v 1.15 2004/09/23 13:43:14 vanto Exp $
  *
  */
 package kobold.server.workflow;
@@ -32,7 +32,6 @@ import java.util.List;
 
 import kobold.common.data.RPCSpy;
 import kobold.common.data.WorkflowMessage;
-import kobold.server.SecureKoboldWebServer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

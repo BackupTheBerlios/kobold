@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EditMaintainerDialog.java,v 1.6 2004/08/27 16:28:03 garbeam Exp $
+ * $Id: EditMaintainerDialog.java,v 1.7 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -38,10 +38,8 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.TableLayout;
-
 import org.eclipse.jface.viewers.LabelProvider;
-
+import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;

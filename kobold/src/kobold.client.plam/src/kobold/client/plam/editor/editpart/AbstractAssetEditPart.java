@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAssetEditPart.java,v 1.15 2004/09/21 20:54:30 vanto Exp $
+ * $Id: AbstractAssetEditPart.java,v 1.16 2004/09/23 13:43:19 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -33,8 +33,8 @@ import java.util.List;
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
 import kobold.client.plam.editor.figure.AbstractNodeFigure;
 import kobold.client.plam.editor.figure.ReleaseFigure;
-import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.AssetView;
+import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.policy.ComponentEditPolicyImpl;
 import kobold.client.plam.editor.policy.GraphicalNodeEditPolicyImpl;
 import kobold.client.plam.model.AbstractAsset;

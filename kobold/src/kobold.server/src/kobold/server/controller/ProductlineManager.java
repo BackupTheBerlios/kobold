@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.20 2004/08/25 14:59:11 vanto Exp $
+ * $Id: ProductlineManager.java,v 1.21 2004/09/23 13:43:14 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -32,6 +32,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
+import kobold.common.data.Product;
+import kobold.common.data.Productline;
+import kobold.common.data.User;
+import kobold.common.io.RepositoryDescriptor;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
@@ -40,12 +45,6 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
-
-import kobold.common.data.Component;
-import kobold.common.data.Product;
-import kobold.common.data.Productline;
-import kobold.common.data.User;
-import kobold.common.io.RepositoryDescriptor;
 
 /**
  * This singelton class stores all the productlines for a Kobold server. New
