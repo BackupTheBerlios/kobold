@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.37 2004/09/20 05:44:59 martinplies Exp $
+ * $Id: ModelStorage.java,v 1.38 2004/09/20 06:47:02 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -40,6 +40,7 @@ import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.product.ProductComponent;
 import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
@@ -614,6 +615,12 @@ public class ModelStorage
     	deleteTree(path);
     	System.out.println("Delete: "+path);
     }
+    
+
+    public static void deleteProductComponentDirectory(ProductComponent comp) {
+        String path = comp.getLocalPath().toOSString();
+    	deleteTree(path);
+    }
 
     
     private static void deleteTree( File path )
@@ -631,6 +638,7 @@ public class ModelStorage
     {
       deleteTree( new File(path) );
     }
+    
     
 }
 
