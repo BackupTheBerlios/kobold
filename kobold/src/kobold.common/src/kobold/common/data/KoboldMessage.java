@@ -6,6 +6,7 @@
  */
 package kobold.common.data;
 
+import java.util.*;
 /**
  * @author garbeam
  *
@@ -13,7 +14,115 @@ package kobold.common.data;
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class KoboldMessage {
-	
-	
+          private String sender;
+	      private String reciever;
+	      private String messageText;
+	      private String date;
+	      private String priority;
+	      private String subject;
+	      private  int id;
+	      private Date sendDate;
+	      
+	  
+	      
+	      
+	      	      
+		/**
+		 * @return
+		 */
+		public String getDate() {
+			return date;
+		}
+
+		/**
+		 * @return
+		 */
+		public int getId() {
+			return id;
+		}
+
+		/**
+		 * @return
+		 */
+		public String getMessageText() {
+			return messageText;
+		}
+
+		/**
+		 * @return
+		 */
+		public String getPriority() {
+			return priority;
+		}
+
+		/**
+		 * @return
+		 */
+		public String getReciever() {
+			return reciever;
+		}
+
+		/**
+		 * @return
+		 */
+		public String getSender() {
+			return sender;
+		}
+
+		/**
+		 * @return
+		 */
+		public String getSubject() {
+			return subject;
+		}
+
+		/**
+		 * @param string
+		 */
+		public void setDate(String string) {
+			date = string;
+		}
+
+		/**
+		 * @param i
+		 */
+		public void setId(int i) {
+			id = i;
+		}
+
+		/**
+		 * @param string
+		 */
+		public void setMessageText(String string) {
+			messageText = string;
+		}
+
+		/**
+		 * @param string
+		 */
+		public void setPriority(String string) {
+			priority = string;
+		}
+
+		/**
+		 * @param string
+		 */
+		public void setReciever(String string) {
+			reciever = string;
+		}
+
+		/**
+		 * @param string
+		 */
+		public void setSender(String string) {
+			sender = string;
+		}
+
+		/**
+		 * @param string
+		 */
+		public void setSubject(String string) {
+			subject = string;
+		}
 
 }
