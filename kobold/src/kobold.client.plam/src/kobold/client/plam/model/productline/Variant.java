@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.8 2004/07/22 10:28:55 rendgeor Exp $
+ * $Id: Variant.java,v 1.9 2004/07/22 16:04:50 martinplies Exp $
  *
  */
 
@@ -256,25 +256,7 @@ public class Variant extends AbstractAsset
 	}
 
 
-/*	public GXLNode getGXLGraph() {
-		GXLNode node = super.getGxlNode();
-		// add Children
-		if (components.size() > 0  || releases.size()> 0) {
-		  GXLGraph graph = new GXLGraph(IdManager.getInstance().getModelId("varaint"));
-		  for (Iterator it = components.iterator(); it.hasNext();){
-		  	Component comp = (Component) it.next();
-		  	graph.add(comp.getGXLGraph());
-		  	
-		  }
-		  if (releases.size()> 0){
-		  	Release lastRel = (Release)releases.get(releases.size()-1);
-		  	graph.add( lastRel.getGXLGraph() );
-		  }
-		  node.add(graph);
-		}
-		return node;
-	}
-*/
+
 	public List getGXLChildren() {
 		List children = new ArrayList();
 		children.addAll(components);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.2 2004/07/02 12:33:58 vanto Exp $
+ * $Id: Component.java,v 1.3 2004/07/22 16:04:40 martinplies Exp $
  *
  */
 
@@ -181,21 +181,6 @@ public class Component extends AbstractMaintainedAsset
 	    return Collections.unmodifiableList(variants);
 	}
 	
-/*	public GXLNode getGXLNode() throws URISyntaxException {
-		
-		GXLNode node = super.getGxlNode();
-		if (variants.size() > 0 ) {
-		  GXLGraph graph = new GXLGraph(IdManager.getInstance().getGXLNodeId("graph"));
-		  for (int i =0; i < variants.size(); i++){
-		  	Variant v = (Variant) variants.get(i);
-		  	graph.add(v.getGXLGraph());
-		  }
-		}
-		node.setType(new URI(GXL_TYPE));
-		return node;
-		
-	}
-*/	
 	public List getGXLChildren() {
 		return variants;
 	}
