@@ -25,10 +25,8 @@
  */
 package kobold.client.vcm.dialog;
 
-import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.preferences.VCMPreferencePage;
-import kobold.common.data.User;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -49,20 +47,12 @@ public class PasswordDialog extends Dialog{
     private Text textUsername;
     private Text textPassword;
 
-    
-	private String userName;
-	private User user;
-	
     /**
      * @param parentShell
-     * @param isEditFullName if <code>true</code> this dialog is used to edit
-     *        the users fullname, otherwise it is used to change the password.
      */
     public PasswordDialog(Shell parentShell)
     {
         super(parentShell);
-        this.userName = KoboldPLAMPlugin.getCurrentKoboldProject().getUserName();
-        this.user = (User)KoboldPLAMPlugin.getCurrentKoboldProject().getUserPool().get(userName);
     }
     
     protected Control createDialogArea(Composite parent)
