@@ -21,16 +21,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NodeAssignmentDialog.java,v 1.4 2004/08/02 17:23:54 vanto Exp $
+ * $Id: NodeAssignmentDialog.java,v 1.5 2004/08/25 04:06:50 martinplies Exp $
  *
  */
 package kobold.client.plam.graphimport;
 
 import java.util.List;
 
+import kobold.client.plam.editor.tool.ProductComposer;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.FileDescriptor;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -51,6 +55,7 @@ import org.eclipse.swt.widgets.Shell;
  * Shows Dialog. If it exists Files with the same Name. The factory cannot map the paresed files to the model.
  */
 public class NodeAssignmentDialog extends TitleAreaDialog {
+    private static final Log logger = LogFactory.getLog(NodeAssignmentDialog.class);
 
     
     private List fileDescriptors;
@@ -69,6 +74,7 @@ public class NodeAssignmentDialog extends TitleAreaDialog {
     }
     
     protected Control createDialogArea(Composite parent) {
+        this.getShell().setText("Assignment Dialog");
         Composite composite= new Composite(parent, SWT.NONE);
         GridLayout layout = new GridLayout();
         layout.numColumns = 1;
@@ -87,7 +93,7 @@ public class NodeAssignmentDialog extends TitleAreaDialog {
         labelPath.setText("Bauhaus path: " + this.nodeBauhausPath);
         
         Group listGr = new Group(composite, SWT.SHADOW_ETCHED_OUT);
-        listGr.setText("Assets of the Nodes");
+        listGr.setText("Paths of Kobold Filedesciptors");
         listGr.setLayout(new FillLayout(SWT.VERTICAL));
         listGr.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         list = new org.eclipse.swt.widgets.List(listGr, SWT.SINGLE);
@@ -98,25 +104,17 @@ public class NodeAssignmentDialog extends TitleAreaDialog {
             }
         });
         for (int i = 0; i < fileDescriptors.size(); i++){
-            AbstractAsset pc = (AbstractAsset) ((FileDescriptor)fileDescriptors.get(i)).getLocalPath();            
-            list.add(pc.getName(), i);
+            String s;
+            try {
+                s = ((FileDescriptor)fileDescriptors.get(i)).getLocalPath().toString();
+                list.add(s, i);
+            } catch (RuntimeException e) {
+               logger.error(e.getLocalizedMessage(), e);
+               this.setMessage("Error", IMessageProvider.ERROR);
+            }
+           
         }
-       /* Table table = new Table(composite, SWT.SINGLE);
-        TableColumn tc1 = new TableColumn(table, SWT.NONE);
-        tc1.setText("lacal path");
-        TableColumn tc2 = new TableColumn(table, SWT.NONE);
-        tc2.setText("parent asset");
-  
 
-        for (Iterator ite = fileDescriptors.iterator(); ite.hasNext;){
-           FileDescriptor fd = (FileDescriptor) ite.next();
-           TableItem tb = new TableItem(table, SWT.NONE);
-           tb.setText(0, fd.getLocalPath());
-           fd.getLocalPath();
-        }
-        
-        
-*/ 
         return composite;
     }
 

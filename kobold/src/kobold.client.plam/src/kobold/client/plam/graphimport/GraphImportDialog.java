@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: GraphImportDialog.java,v 1.5 2004/08/23 09:06:38 martinplies Exp $
+ * $Id: GraphImportDialog.java,v 1.6 2004/08/25 04:06:46 martinplies Exp $
  *
  *
  */
@@ -29,9 +29,12 @@ package kobold.client.plam.graphimport;
 
 import java.io.File;
 
+import kobold.client.plam.editor.tool.ProductComposer;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.wizard.Messages;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -61,6 +64,7 @@ public class GraphImportDialog  extends TitleAreaDialog {
     private Text textFile;
     private File GXLFile = new File("");
     private Product product;
+    private static final Log logger = LogFactory.getLog(GraphImportDialog.class);
 
     /**
      * @param parentShell
@@ -130,28 +134,26 @@ public class GraphImportDialog  extends TitleAreaDialog {
     
     protected void buttonPressed(int buttonid){
        switch (buttonid) {
-        case IDialogConstants.OK_ID :
-        case IDialogConstants.CANCEL_ID: this.close(); break;
+        case IDialogConstants.CLOSE_ID: this.close(); break;
         case IDialogConstants.PROCEED_ID:
             this.setMessage( "Import ist started", MessageDialog.INFORMATION);
             try {
               GraphFactory gf = new GraphFactory();
               gf.importGraph(GXLFile, product);
-              getButton(IDialogConstants.OK_ID).setEnabled(true);
+              this.setMessage("Edges imported.", MessageDialog.NONE);
             }catch (Exception e) {
                 setMessage("An error has been occured:" + e.getMessage());
-                getButton(IDialogConstants.OK_ID).setEnabled(false);
+                logger.error(e.getLocalizedMessage(), e);                
             }
        }
         
     }
     
     protected void createButtonsForButtonBar(Composite parent) {
-        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL , true);
-        createButton(parent, IDialogConstants.CANCEL_ID,IDialogConstants.CANCEL_LABEL, false); 
-        createButton(parent, IDialogConstants.PROCEED_ID,IDialogConstants.PROCEED_LABEL, false); 
+        createButton(parent, IDialogConstants.PROCEED_ID,IDialogConstants.PROCEED_LABEL, true);
+        createButton(parent, IDialogConstants.CLOSE_ID,IDialogConstants.CLOSE_LABEL, false);        
         getButton(IDialogConstants.PROCEED_ID).setEnabled(false);
-        getButton(IDialogConstants.OK_ID).setEnabled(false);        
+        getButton(IDialogConstants.CLOSE_ID).setEnabled(true);        
     }
     
    

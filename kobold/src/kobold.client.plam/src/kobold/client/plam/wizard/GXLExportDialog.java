@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.18 2004/08/25 00:20:44 martinplies Exp $
+ * $Id: GXLExportDialog.java,v 1.19 2004/08/25 04:08:19 martinplies Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -44,6 +44,7 @@ import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.edges.INode;
 import kobold.common.exception.GXLException;
+import net.sourceforge.gxl.GXLBool;
 import net.sourceforge.gxl.GXLDocument;
 import net.sourceforge.gxl.GXLEdge;
 import net.sourceforge.gxl.GXLElement;
@@ -332,6 +333,7 @@ public class GXLExportDialog extends TitleAreaDialog {
                     .getTargetNode());
             GXLEdge gxlEdge = new GXLEdge(form, to);
             gxlEdge.setType(URI.create(edge.getGXLType()));
+            gxlEdge.setAttr("isdirected", new GXLBool(true));
             graph.add(gxlEdge);
             addedEdges.add(edge); 
         }

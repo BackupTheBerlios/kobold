@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphFactory.java,v 1.4 2004/08/04 12:56:32 martinplies Exp $
+ * $Id: GraphFactory.java,v 1.5 2004/08/25 04:06:40 martinplies Exp $
  *
  */
 package kobold.client.plam.graphimport;
@@ -104,7 +104,7 @@ public class GraphFactory {
  
  
  /**
-  * 
+  * Add FileDescriptor filedesc and its sub FileDescriptors to map
  * @param map
  * @param filedesc
  */
@@ -119,22 +119,25 @@ private void addFileDescsToMap(Map map, FileDescriptor filedesc){
      } else {
         List descriptors = new LinkedList(); 
         descriptors.add(filedesc);
-        map.put(filedesc.getFilename(), descriptors);
+        map.put(filedesc.getFilename(), descriptors);       
      }
  }
 
+  /*
+   * Add all FileDescriptors of this ProductComponent and its chilren to map.
+   */
   private void addFileDescsToMap(Map map, ProductComponent productC){           
       for (Iterator ite = productC.getFileDescriptors().iterator(); ite.hasNext();){
           addFileDescsToMap(map, (FileDescriptor) ite.next());
       }
       for (Iterator ite = productC.getProductComponents().iterator(); ite.hasNext();){
           addFileDescsToMap(map, (ProductComponent) ite.next());
-      }    
+      } 
   }
   
  
- public EdgeContainer importGraph(File gxlGraph, Product product) throws DocumentException{
-     EdgeContainer edgeContainer = new EdgeContainer(product);
+ public void importGraph(File gxlGraph, Product product) throws DocumentException{
+     EdgeContainer edgeContainer = product.getEdgeContainer();
      Set koboldTypes = Edge.getKoboldEdgeTypes();
      // parse xml
      SAXReader xmlReader = new SAXReader();
@@ -179,9 +182,6 @@ private void addFileDescsToMap(Map map, FileDescriptor filedesc){
            }          
         }
      } 
-          
-     return edgeContainer;
-     // look for Edges of the directory nodes and create kobold edges.
  }
  
  /**
@@ -200,8 +200,7 @@ private Map mapFilenodesToFiledescriptors(Element graph, HashMap fileDescriptors
          Element node  = (Element) ite.next();
          Element  type = node.element("type");
          if (type != null && (
-                 type.attributeValue("href").equalsIgnoreCase("Directory" )
-              || type.attributeValue("href").equalsIgnoreCase("Module")     ) ){
+               type.attributeValue("href").equalsIgnoreCase("Module")     ) ){
            // take nodeinfos
             String nodeName;
            if(type.attributeValue("href").equalsIgnoreCase("Module"))  {
