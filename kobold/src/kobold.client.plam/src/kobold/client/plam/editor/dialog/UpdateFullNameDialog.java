@@ -20,7 +20,9 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
- * */
+ *
+ *MiG05.08.2004
+ */
 package kobold.client.plam.editor.dialog;
 
 import java.util.Map;
@@ -28,7 +30,6 @@ import java.util.Map;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.useractions.Useractions;
-import kobold.common.data.User;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -42,13 +43,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-/**
- * @author MiG
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
- */
-public class NewUserDialog extends TitleAreaDialog{
+public class UpdateFullNameDialog extends TitleAreaDialog{
 	private Map userPool;
 	
     private Label labelUserName;
@@ -62,7 +57,7 @@ public class NewUserDialog extends TitleAreaDialog{
     private Text textConfPass;
 	
 	
-    public NewUserDialog(Shell parentShell)
+    public UpdateFullNameDialog(Shell parentShell)
     {
         super(parentShell);
         KoboldProject kp = KoboldPLAMPlugin.getCurrentKoboldProject();
@@ -107,38 +102,18 @@ public class NewUserDialog extends TitleAreaDialog{
             
             // "data" can only use for 1 object.
             GridData data = new GridData(GridData.FILL_HORIZONTAL);
-            
-            //control.setBackground(ColorConstants.white);
-            
-            //User Name
-            labelUserName = new Label(control,SWT.NONE);
-            labelUserName.setText("Please insert the username of the new user:");
-            textUserName = new Text(control, SWT.BORDER);		
-            //data = new GridData(GridData.FILL_HORIZONTAL);
-            textUserName.setLayoutData(data);
-            
+                        
             //RealName
             labelRealName = new Label(control,SWT.NONE);
-            labelRealName.setText("Please insert the real name of the new user:");
+            labelRealName.setText("Full Name:");
             textRealName = new Text(control, SWT.BORDER);		
-            //data = new GridData(GridData.FILL_HORIZONTAL);
-            //textRealName.setLayoutData(data);
             
             //password
             labelPassword = new Label(control,SWT.NONE);
-            labelPassword.setText("Please insert the initial password of the new user:");
+            labelPassword.setText("Password:");
             textPassword = new Text(control, SWT.BORDER);
             textPassword.setEchoChar('*');
-            //data = new GridData(GridData.FILL_HORIZONTAL);
-            //textPassword.setLayoutData(data);
             
-            //confirmpassword
-            labelConfPass = new Label(control,SWT.NONE);
-            labelConfPass.setText("Please retype the initial password of the new user:");
-            textConfPass = new Text(control, SWT.BORDER);
-            textConfPass.setEchoChar('*');
-            //data = new GridData(GridData.FILL_HORIZONTAL);
-            //textConfPass.setLayoutData(data);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -147,20 +122,10 @@ public class NewUserDialog extends TitleAreaDialog{
     
     protected void okPressed()
     {
+	    KoboldProject tmpProj = KoboldPLAMPlugin.getCurrentKoboldProject();
         Useractions acts = new Useractions();
-        if (textPassword.getText().equals(textConfPass.getText())){
-        	acts.createUser(textRealName.getText(),textUserName.getText(), textPassword.getText(), textConfPass.getText());
-        	//this.close();
-        	super.okPressed();
-        }
-        else {
-        	Color color = new Color(null,255,0,0);
-        	this.labelPassword.setForeground(color);
-        	this.labelConfPass.setForeground(color);
-        	this.textPassword.setText("");
-        	this.textConfPass.setText("");
-        }
-        
+       	acts.updateFullName(tmpProj.getUserName(), textRealName.getText(), textPassword.getText());
+        super.okPressed();
     }
     
     protected void cancelPressed(){

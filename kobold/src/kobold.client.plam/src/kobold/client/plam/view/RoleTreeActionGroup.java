@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.4 2004/08/05 16:44:09 grosseml Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.5 2004/08/05 18:22:30 grosseml Exp $
  *
  */
 package kobold.client.plam.view;
@@ -32,6 +32,7 @@ import kobold.client.plam.action.ConfigureAssetAction;
 import kobold.client.plam.action.NewUserAction;
 import kobold.client.plam.action.RefreshFileDescriptorsAction;
 import kobold.client.plam.action.RemoveUserAction;
+import kobold.client.plam.action.UpdateFullNameAction;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
 import kobold.client.plam.editor.ArchitectureEditorInput;
 import kobold.client.plam.model.AbstractAsset;
@@ -74,6 +75,7 @@ public class RoleTreeActionGroup extends ActionGroup
     private DeleteResourceAction deleteAction;
     private ChangePasswordAction changePasswordAction;
     private RemoveUserAction removeUserAction;
+    private UpdateFullNameAction updateFullNameAction;
     
     public RoleTreeActionGroup(RoleTreeViewPart part) 
     {
@@ -82,6 +84,8 @@ public class RoleTreeActionGroup extends ActionGroup
 		newUserAction = new NewUserAction(part.getSite().getShell());
 		changePasswordAction = new ChangePasswordAction(part.getSite().getShell());
 		removeUserAction = new RemoveUserAction(part.getSite().getShell());
+		updateFullNameAction = new UpdateFullNameAction(part.getSite().getShell());
+		
 		
 		refreshFDAction = new RefreshFileDescriptorsAction(part.getSite().getShell());
 		configureAssetAction = new ConfigureAssetAction(part.getSite().getShell());
@@ -125,6 +129,7 @@ public class RoleTreeActionGroup extends ActionGroup
 		manager.add(newUserAction);
 		manager.add(changePasswordAction);
 		manager.add(removeUserAction);
+		manager.add(updateFullNameAction);
 		manager.add(refreshFDAction);
 		manager.add(new Separator());
 		manager.add(configureAssetAction);

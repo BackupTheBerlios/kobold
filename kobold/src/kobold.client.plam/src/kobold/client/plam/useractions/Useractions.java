@@ -74,6 +74,9 @@ public class Useractions {
         user.setFullname(newName);
         
         SecureKoboldClient.getInstance().updateUserFullName(ctx, user , password);
+
+        KoboldProject kp = KoboldPLAMPlugin.getCurrentKoboldProject();
+		kp.updateUserPool();
 		
 	}
 	
