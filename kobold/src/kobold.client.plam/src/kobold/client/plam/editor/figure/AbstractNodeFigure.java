@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeFigure.java,v 1.2 2004/05/14 18:45:20 vanto Exp $
+ * $Id: AbstractNodeFigure.java,v 1.3 2004/05/17 22:48:55 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -111,7 +111,7 @@ public abstract class AbstractNodeFigure extends Shape {
 		return pane;
 	}
 	
-	public static class TitleBarFigure extends RectangleFigure
+	public static class TitleBarFigure extends Figure
 	{
 		private Label titleLabel;
 		private IFigure iconWidget;
@@ -124,7 +124,8 @@ public abstract class AbstractNodeFigure extends Shape {
 			ToolbarLayout tbl = new ToolbarLayout();
 			tbl.setVertical(false);
 			setLayoutManager(tbl);
-			setBorder(new MarginBorder(3));
+			//setBorder(new MarginBorder(3));
+			setBorder(new MarginBorder(0));
 			
 			titleLabel = new Label();
 			titleLabel.setLabelAlignment(Label.LEFT);
@@ -134,7 +135,6 @@ public abstract class AbstractNodeFigure extends Shape {
 			titleLabel.setFont(new Font(null, fd[0]));
 			titleLabel.setForegroundColor(ColorConstants.black);
 
-			
 			add(titleLabel);
 			
 			iconWidget = new Figure();
@@ -147,6 +147,7 @@ public abstract class AbstractNodeFigure extends Shape {
 			iconWidget.add(scriptLabel);	
 		}
 		
+		/* Eats too much cpu
 		protected void fillShape(Graphics graphics) 
 		{
 			super.fillShape(graphics);
@@ -158,7 +159,7 @@ public abstract class AbstractNodeFigure extends Shape {
 			graphics.fillGradient(getBounds(), true);
 			//setBackgroundColor(bC);
 			//setForegroundColor(fC);
-		}
+		}*/
 
 		public void setTitle(String title)
 		{

@@ -17,6 +17,7 @@
       <import plugin="org.eclipse.swt"/>
       <import plugin="kobold.commons"/>
       <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.ui.ide"/>
    </requires>
 
 
@@ -94,7 +95,7 @@
       </runtime>
    </extension>
    <extension
-         point="org.eclipse.ui.projectNatureImages">
+         point="org.eclipse.ui.ide.projectNatureImages">
       <image
             icon="icons/kobold_ovr.png"
             natureId="kobold.client.plam.KoboldProjectNature"
