@@ -33,20 +33,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.FileDescriptor;
-import kobold.client.plam.model.Release;
+import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.edges.INode;
-import kobold.client.plam.model.edges.MetaNode;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.IProductlineNode;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author pliesmn
@@ -273,8 +271,23 @@ public class ProductAlgorithm {
     /*
      * try to find one way that can be used 
      */
-    private void useMeta(MetaNode meta) {
+    private boolean useMeta(MetaNode meta) {        
+        if ( get(meta).isUse()){
+            return true;
+        }
         
+        NodeAttr nodeAttr = get(meta);
+        nodeAttr.delWarning();
+        boolean allChilerenUsed = true;
+        for(Iterator ite = container.getEdgesFrom(meta).iterator(); ite.hasNext();){
+            Edge edge = (Edge) ite.next();
+            if (edge.getType()!= Edge.INCLUDE ){
+                nodeAttr.addWarning("You must not mix edgetypes at one metaode");
+            }
+           
+        }
+        //TODO
+        return true;
     }
 
     /**
@@ -456,6 +469,14 @@ public class ProductAlgorithm {
 
         public NodeAttr() {
 
+        }
+
+        /**
+         * @param string
+         */
+        public void addWarning(String string) {
+            // TODO Auto-generated method stub
+            
         }
 
         /**
