@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+   id="KoboldPLAM"
+   name="Kobold PLAM Plug-in"
+   version="1.0.0"
+   provider-name="Werkbold"
+   class="KoboldPLAM.KoboldPLAMPlugin">
+
+   <runtime>
+      <library name="KoboldPLAM.jar"/>
+   </runtime>
+   <requires>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui"/>
+   </requires>
+
+
+</plugin>
