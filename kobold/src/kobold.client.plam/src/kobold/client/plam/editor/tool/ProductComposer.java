@@ -113,7 +113,7 @@ public class ProductComposer {
         
         debug(p(++s)+"use "+ ((AbstractAsset)node).getName());
         NodeAttr attr = get(node);
-        if (attr.isUsed()) { return; }
+        if (attr.isUsed()) {s--; return; }
         attr.setChanged(true);
         attr.setUserChanged(firstAction);
 
@@ -311,11 +311,11 @@ s--;
     private void mustNotUseMeta(INode node, Set visited) {
         debug(p(++s)+"mustnotUseMesta "+ ((AbstractAsset)node).getName());
         visited.add(node);
-        if (!get(node).isOpen()) { return; // parents can only set status to
+        if (!get(node).isOpen()) {s--; return; // parents can only set status to
         // open children.
         }
         if (!(node instanceof MetaNode)) {
-            mustNotUse((AbstractAsset) node, false);
+            mustNotUse((AbstractAsset) node, false);s--;
             return;
         }
         get(node).setUserChanged(true);
@@ -359,7 +359,7 @@ s--;
     private void mustNotUse(AbstractAsset node, boolean firstAction) {        
         debug(p(++s)+ "mustNotUse "+ ((AbstractAsset)node).getName());
         NodeAttr attr = get(node);
-        if (attr.isMustNotUse()) { return; }
+        if (attr.isMustNotUse()) {s--; return; }
 
         boolean wasOldStateUse= attr.isUsed();
         attr.setChanged(true);
@@ -513,7 +513,7 @@ s--;
                     if (get(node).isUserChanged()
                             && !(node instanceof MetaNode)) {
                         // node start is needed.
-                        return false;
+                        s--;return false;
                     } else {
                         useNodes.add(node);
                         // add all children. If a child has set to used this
@@ -618,7 +618,7 @@ s--;
             list.add(node);
             if ( get(node).isUserChanged() 
                     || ((node instanceof Variant || node instanceof Release) && brotherNeedUse(node))) {
-                return false;
+                s--;return false;
             }
             
             // test, if a source nodes of incomimg ecxlude edges has USE.
@@ -630,7 +630,7 @@ s--;
                 usedNodeFound = findUsedNodes(asset, visited);
             }
             if (usedNodeFound){
-                return false;
+                s--;return false;
             }
                 
             // now look at parent 
@@ -715,12 +715,12 @@ String p(int i){
         } else if (node instanceof Variant){
             brothers = ((Component) node.getParent()).getVariants();  
         } else {
-            return false;
+            s--;return false;
         }
         for (Iterator ite = brothers.iterator(); ite.hasNext();){
             AbstractAsset brother = (AbstractAsset) ite.next();
             if (brother != node && get(brother).isUsed()){
-                return notNeededUse(brother);                  
+                s--;return notNeededUse(brother);                  
             }            
         }
         s--;
@@ -739,7 +739,7 @@ String p(int i){
             brothers = ((Variant) node.getParent()).getReleases();
         } else if (node instanceof Variant) {
             brothers = ((Component) node.getParent()).getVariants();
-        } else {
+        } else {s--;
             return false;
         }
         
@@ -784,6 +784,7 @@ String p(int i){
             for(Iterator ite = container.getEdgesTo(node).iterator(); ite.hasNext();){
                 INode n = ((Edge) ite.next()).getStartNode();
                 if ( (!visited.contains(n)) &&  get(n).isUsed()){
+                    s--;
                     return STATE_USED;
                 }
             }
@@ -825,6 +826,7 @@ String p(int i){
             if (get(node).isUsed() && get(targetNode).isOpen()){
                 this.useMeta(targetNode, newSet(node));
             }
+            s--;
             return; 
         }
         String acState = get(node).getState();
@@ -853,6 +855,7 @@ String p(int i){
                 && get(node).isUsed() && get(node).isUserChanged
                 && otherUsedNode != null) {           
             if (notNeededUse((AbstractAsset) otherUsedNode)) { 
+                s--;
                 return; // node has been updatet.
             }
         }
@@ -940,6 +943,7 @@ String p(int i){
             if (get(node).isUsed() && get(targetNode).isOpen()){
                 mustNotUseMeta(targetNode, newSet(node));
             }
+            s--;
             return; 
         }
         String state = get(node).getState();
@@ -1057,14 +1061,41 @@ String p(int i){
     public Product createProduct() {      
     	
     	Product product = new Product(productline);
+    	HashMap assets = new HashMap();
         // create ProductComponments for used CoreAssets.    	
     	for (Iterator ite = productline.getComponents().iterator(); ite.hasNext();){
     	    Component node = (Component) ite.next();
     	    if (get(node).isUsed()){
-    	        product.addComponent(generateProductComponent(node));
+    	        product.addComponent(generateProductComponent(node, assets));
     	    }    	   
+    	}    	
+    	
+    	
+        // add edges to product
+    	// assets conatins all used productline assets as key an the productcomponent as value
+    	EdgeContainer productCont = product.getEdgeContainer();
+    	Set  visited = new HashSet(); // remember visited node to run not in loops
+    	for (Iterator ite = assets.keySet().iterator(); ite.hasNext();){
+    	    INode source = (INode) ite.next();      	    
+    	    LinkedList list = new LinkedList();  
+    	    list.addAll(container.getEdgesFrom(source));
+    	    while (! list.isEmpty()){
+    	        Edge edge = (Edge) list.removeFirst();
+    	        INode node = edge.getTargetNode();
+    	        if (! visited.contains(node)){
+    	            visited.add(node);
+    	            if ( node instanceof MetaNode){
+    	                list.addAll(container.getEdgesFrom(node));
+    	            } else if(assets.keySet().contains(node)){
+    	                // node and grounde are nodes and are in the product.
+    	                // And ground has and edge to "node"(maybe there are Metanodes between)
+    	                // =>There must also an edge in product.
+    	                productCont.addEdge((INode)assets.get(source),(INode) assets.get(node), edge.getType());
+    	            }
+    	        }
+    	    }
     	}
-    	//TODO add edges
+    	
     	product.setProject(productline.getKoboldProject());
     	productline.addProduct(product);
     	return product;
@@ -1075,18 +1106,20 @@ String p(int i){
      * Create a Productcomponent for a Component.
      * if comp has a used Variant and a used Relase a Related Component is created
      * else a SpecificComponent is created.
-     * Create also ProductComponents for all used Componets for the used variant.
+     * Create also ProductComponents for all used Componets of the used variant.
      *  
      * @param comp  Component. Create ProductComponent for this Component.
+     * @param assets add used productline assets as key an the productcomponent as value
      * @return ProductComponet for comp and its used subnodes
      */
-    private ProductComponent generateProductComponent(Component comp){
+    private ProductComponent generateProductComponent(Component comp, HashMap assets){
         ProductComponent productComponent;
         Variant variant = null;
         Iterator varIte = comp.getVariants().iterator();
 	    while ( varIte.hasNext() &&
 	            ! get(variant = (Variant) varIte.next()).isUsed()){}
     	if (variant != null && get(variant).isUsed()){
+    	    // found the used Variant    	    
     	    // find Release
     	    Release release = null;
     	    Iterator  relIte = variant.getReleases().iterator();
@@ -1096,18 +1129,26 @@ String p(int i){
     	    if (release != null && get(release).isUsed()){
     	        // => a related Component can be construct
     	        productComponent = new RelatedComponent(variant, release);
+    	        assets.put(comp, productComponent);
+    	        assets.put(variant, productComponent);
+    	        assets.put(release, productComponent);    	        
     	    } else{
-    	        productComponent = new SpecificComponent(comp.getName());    	        
+    	        productComponent = new SpecificComponent(comp.getName()); 
+    	        assets.put(comp, productComponent);
+    	        assets.put(variant, productComponent);
     	    }
     	    // add sub components
+    	    
     	    for (Iterator subIte = variant.getComponents().iterator(); subIte.hasNext();){
     	        Component subComp = (Component) subIte.next(); 
     	        if (get(subComp).isUsed()){
-    	            productComponent.addProductComponent(generateProductComponent(subComp));
+    	            productComponent.addProductComponent(generateProductComponent(subComp, assets));
     	        }
     	    }
     	} else {
+            // no variant of this component is used
     	    productComponent = new SpecificComponent(comp.getName()); 
+    	    assets.put(comp, productComponent);
     	    // no sub variant is used => there must not exitst subnodes of variant, that are usesd.
     	}
     	
@@ -1119,7 +1160,7 @@ String p(int i){
      * 
      * @author pliesmn
      * 
-     * Contains all additionl information, that the alorithm need of an INode.
+     * Contains all additional information, that the alorithm need of an INode.
      */
     class NodeAttr {
 
@@ -1137,7 +1178,7 @@ String p(int i){
         AbstractAsset a;
 
         NodeAttr(AbstractAsset a) {
-this.a = a;
+          this.a = a;
         }
 
  
