@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.12 2004/08/05 09:13:01 vanto Exp $
+ * $Id: Component.java,v 1.13 2004/08/05 19:09:16 grosseml Exp $
  *
  */
 
@@ -116,6 +116,7 @@ public class Component extends AbstractMaintainedAsset
 
 
 	public void addVariant(Variant var){
+		addToPool();
 		addVariant(var, -1);
 	}
 
@@ -126,6 +127,7 @@ public class Component extends AbstractMaintainedAsset
 	 */
 	public void addVariant(Variant variant, int index) 
 	{
+		addToPool();
 		if (index >= 0) {
 			variants.add(index, variant);
 		} else {

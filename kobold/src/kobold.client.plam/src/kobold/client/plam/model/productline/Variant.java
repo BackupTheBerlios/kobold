@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.20 2004/08/05 18:17:07 garbeam Exp $
+ * $Id: Variant.java,v 1.21 2004/08/05 19:09:16 grosseml Exp $
  *
  */
 
@@ -135,6 +135,7 @@ public class Variant extends AbstractAsset
 
 	public void addComponent(Component comp)
 	{
+		addToPool();
 	    addComponent(comp, -1);
 	}
 	
@@ -144,6 +145,7 @@ public class Variant extends AbstractAsset
 	 * @param component contains the new component
 	 */
 	public void addComponent(Component component, int index) {
+		addToPool();
 		if (index >= 0) {
 			components.add(index, component);
 		} else {
@@ -178,6 +180,7 @@ public class Variant extends AbstractAsset
 	
 	public void addRelease(Release release)
 	{
+		addToPool();
 	    addRelease(release, -1);
 	}
 	
@@ -187,6 +190,7 @@ public class Variant extends AbstractAsset
 	 * @param version contains the new version
 	 */
 	public void addRelease(Release release, int index) {
+		addToPool();
 		if (index >= 0) {
 			releases.add(index, release);
 		} else {

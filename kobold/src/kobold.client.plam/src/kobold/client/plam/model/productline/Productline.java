@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.21 2004/08/05 17:46:59 martinplies Exp $
+ * $Id: Productline.java,v 1.22 2004/08/05 19:09:16 grosseml Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -79,6 +79,7 @@ public class Productline extends AbstractRootAsset
 	 *
 	 */
 	public void addProduct(Product product) {
+		addToPool();
 		products.add(product);
 		product.setParent(this);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, product);
@@ -106,6 +107,7 @@ public class Productline extends AbstractRootAsset
 	
 	public void addComponent(Component coreAsset)
 	{
+		addToPool();
 	    addComponent(coreAsset, -1);
 	}
 	
@@ -114,6 +116,7 @@ public class Productline extends AbstractRootAsset
 	 *
 	 */
 	public void addComponent(Component coreAsset, int index) {
+		addToPool();
 		if (index >= 0) {
 			coreAssets.add(index, coreAsset);
 		} else {

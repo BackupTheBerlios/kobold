@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.5 2004/08/03 22:11:46 vanto Exp $
+ * $Id: SpecificComponent.java,v 1.6 2004/08/05 19:09:16 grosseml Exp $
  *
  */
 
@@ -73,6 +73,7 @@ public class SpecificComponent extends ProductComponent
 	 * @param release contains the new release.
 	 */
 	public void addRelease (Release release) {
+		addToPool();
 		releases.add(release);
 		setParent(this);
 	}
