@@ -70,9 +70,7 @@ import org.eclipse.ui.internal.Workbench;
  */
 public class ScriptServerConnection implements IServerConnection
 {
-	// The default port for rsh
-	private static final int DEFAULT_PORT = 9999;
-	
+
 	// The variable for verifiying the connection is establisched
 	private static boolean connected = false;
 
