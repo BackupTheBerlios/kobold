@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.8 2004/07/29 14:39:19 rendgeor Exp $
+ * $Id: Productline.java,v 1.9 2004/07/29 14:58:20 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -72,6 +72,12 @@ public class Productline extends AbstractRootAsset
 	{
 	    super();
 	}
+
+	public Productline(String name) 
+	{
+	    super(name);
+	}
+
 	
 	public Productline(Element element) {
 		super();
@@ -146,9 +152,18 @@ public class Productline extends AbstractRootAsset
 	}
 
 	/**
-	 * Serializes the productline and writed it to a xml-file
+	 * Serializes the productline and write it to a xml-file
 	 */
 	public void serializeProductline (String path)
+	{
+		serializeProductline(path, false);
+	}
+
+	/**
+	 * Serializes the productline, products and cas and write it to the xml-files
+	 */
+	
+	public void serializeProductline (String path, boolean serializeAll)
 	{
 		//creates a document
 		Document document = DocumentHelper.createDocument();
@@ -157,7 +172,7 @@ public class Productline extends AbstractRootAsset
 		Element root = document.addElement("productlinemetainfo");
 		
 		//add the serialized element
-		root.add (serialize (path));
+		root.add (serialize (path, serializeAll));
 		
 		//write it to an xml-file
 			 XMLWriter writer;
@@ -177,6 +192,10 @@ public class Productline extends AbstractRootAsset
 	 * returns a Serialized productline.
 	 */
 	public Element serialize(String path) {
+		return serialize (path, false);
+	}
+	
+	public Element serialize(String path, boolean serializeAll) {
 		
 		createPlDirectory (path);
 		
@@ -186,6 +205,7 @@ public class Productline extends AbstractRootAsset
 		//serialize all products and coreAssets
 		Element productsEl = root.addElement("products");
 
+		//now all products
 		for (Iterator it = products.iterator(); it.hasNext();) {
 			Product product = (Product) it.next();
 			//product.serializeProduct(path);
@@ -196,6 +216,10 @@ public class Productline extends AbstractRootAsset
 			
 			//create product dirs
 			createProductDirectory(path, product);
+			
+			//serializeAll?
+			if (serializeAll)
+				product.serializeProduct(path);
 
 		}
 		
@@ -207,6 +231,11 @@ public class Productline extends AbstractRootAsset
 				
 				//create component dirs
 				createComponentDirectory(path, component);
+
+				//serializeAll?
+				if (serializeAll)
+					component.serializeComponent(path);
+
 
 		}
 		
