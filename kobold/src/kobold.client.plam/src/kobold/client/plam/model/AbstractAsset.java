@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.20 2004/08/23 14:36:58 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.21 2004/08/24 18:35:59 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -126,7 +126,10 @@ public abstract class AbstractAsset implements ISerializable, INode
         }
         if (description != null) {
             node.setAttr("description", new GXLString(description));
-        }       
+        }
+        if (resource != null){
+            node.setAttr("resource", new GXLString(resource));             
+        }
 
         List children = this.getGXLChildren();
         if (children != null && children.size() > 0) {
