@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.18 2004/06/23 13:45:25 neccaino Exp $
+ * $Id: SecureKoboldClient.java,v 1.19 2004/06/24 00:34:35 grosseml Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -39,6 +39,8 @@ import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.Role;
+import kobold.common.data.RoleP;
+import kobold.common.data.RolePE;
 import kobold.common.data.UserContext;
 
 import org.apache.commons.logging.Log;
@@ -127,6 +129,22 @@ public class SecureKoboldClient implements IKoboldServer {
 				return result;
 			}
 		} catch (Exception exception) {
+			log.error("error during getRoles()", exception);
+		}
+		return null;
+	}
+	
+	public Role getProductRole(UserContext userContext, String userName, String productName){
+		Vector v = new Vector();
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(userName);
+		v.add(productName);
+	try {
+			Object object = client.execute("getProductRole",v);
+			if (object instanceof RoleP) return (RoleP) object;
+			else if (object instanceof RolePE) return (RolePE) object;
+			
+		} catch (Exception exception){
 			log.error("error during getRoles()", exception);
 		}
 		return null;

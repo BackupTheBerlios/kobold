@@ -55,6 +55,41 @@ public class Useractions {
 			client.changeUserPassword(currUser, password);
 		}
 	}
+	
+	/**
+	 * Creates a new role and makes then the call to add a role
+	 * @author grosseml
+	 *
+	 */
+	public void addRole(String userName, String productName, String roleType){
+		SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();
+		UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
+		
+		Role newRole;
+		
+		if(roleType.equals("P")){
+			newRole = new RoleP(productName);
+		}
+		else if (roleType.equals("PE")){
+			newRole = new RolePE(productName);
+		}
+		else newRole = null;
+		
+		if (newRole!=null){
+			client.addRole(currUser, userName, newRole);
+		}
+	}
+	
+	public void removeRole(String userName, String productName){
+		SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();
+		UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
+		
+		Role oldRole;
+		
+		oldRole = client.getProductRole(currUser, userName, productName);
+		client.removeRole(currUser,userName,oldRole);
+	}
+	
 }
 
 
