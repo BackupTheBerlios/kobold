@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.17 2004/08/24 19:25:18 rendgeor Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.18 2004/08/24 20:03:56 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -52,6 +52,7 @@ import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -93,6 +94,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     private Text description;
     private Button deprecated;
     
+    private CheckboxTableViewer cbViewer;
     private TableViewer viewer;
     private Table maintainer;
     
@@ -213,7 +215,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 	 * prints the root node and all children
 	 * @param fd
 	 */
-	public void prettyPrintFD(FileDescriptor fd, String prefix) {
+	private void prettyPrintFD(FileDescriptor fd, String prefix) {
 	    String newPrefix = prefix + IPath.SEPARATOR +   fd.getFilename();
 	    System.out.println("fd: "+ newPrefix + "\t" + fd.getRevision() +
 	                       ((fd.getLastChange() != null) ? "\t" + fd.getLastChange().toString() : ""));
@@ -248,85 +250,160 @@ public class AssetConfigurationDialog extends TitleAreaDialog
   	    Label label = new Label(composite, SWT.NONE);
 	    label.setText("Select resources:");
 	      
-        Table table = new Table(composite, SWT.CHECK | SWT.BORDER | SWT.MULTI
-                				| SWT.FULL_SELECTION | SWT.LEAD | SWT.WRAP
-                				| SWT.V_SCROLL | SWT.VERTICAL);
-        table.setHeaderVisible(true);
-        table.setLinesVisible(true);
-        TableColumn col1 = new TableColumn(table, SWT.NONE);
-        col1.setText("Name");
-        TableColumn col2 = new TableColumn(table, SWT.NONE);
-        col2.setText("Revision");
-        TableColumn col3 = new TableColumn(table, SWT.NONE);
-        col3.setText("Date");
-		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
-		        				   | GridData.FILL_HORIZONTAL);
-		gd.heightHint = 200;
-	    table.setLayoutData(gd);
-	    TableLayout layout = new TableLayout();
-	    layout.addColumnData(new ColumnWeightData(33));
-	    layout.addColumnData(new ColumnWeightData(33));
-	    layout.addColumnData(new ColumnWeightData(33));
-	    table.setLayout(layout);
-        final CheckboxTableViewer viewer = new CheckboxTableViewer(table);
-        viewer.setContentProvider(new IStructuredContentProvider() {
-            public Object[] getElements(Object input) {
-                if (input instanceof Variant) {
-                    Variant variant = (Variant) input;
-                    return variant.getFileDescriptors().toArray();
+	    if (release.isReleased()) {
+	        
+            Table table = new Table(composite, SWT.BORDER | SWT.MULTI
+                    				| SWT.FULL_SELECTION | SWT.LEAD | SWT.WRAP
+                    				| SWT.V_SCROLL | SWT.VERTICAL);
+            table.setHeaderVisible(true);
+            table.setLinesVisible(true);
+            TableColumn col1 = new TableColumn(table, SWT.NONE);
+            col1.setText("Name");
+            TableColumn col2 = new TableColumn(table, SWT.NONE);
+            col2.setText("Revision");
+    		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
+    		        				   | GridData.FILL_HORIZONTAL);
+    		gd.heightHint = 200;
+    	    table.setLayoutData(gd);
+    	    TableLayout layout = new TableLayout();
+    	    layout.addColumnData(new ColumnWeightData(50));
+    	    layout.addColumnData(new ColumnWeightData(50));
+    	    table.setLayout(layout);
+    	    TableViewer tbViewer = new TableViewer(table);
+            tbViewer.setContentProvider(new IStructuredContentProvider() {
+                public Object[] getElements(Object input) {
+                    if (input instanceof Release) {
+                        Release release = (Release) input;
+                        return release.getFileRevisions().toArray();
+                    }
+                    return new Object[0];
                 }
-                else if (input instanceof IFileDescriptorContainer) {
-                    IFileDescriptorContainer fd = (IFileDescriptorContainer) input;
-                    return fd.getFileDescriptors().toArray();
+                public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+    //                 don't need to hang onto input for this example, so do nothing
                 }
-                return new Object[0];
-            }
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-//                 don't need to hang onto input for this example, so do nothing
-            }
-            public void dispose() {
-            }
-        });
-        viewer.setLabelProvider(new ITableLabelProvider() {
-            DateFormat dateFormat = DateFormat.getInstance();
-            public String getColumnText(Object element, int columnIndex) {
-                FileDescriptor fd = (FileDescriptor) element;
-                switch (columnIndex) {
-                case 0 :
-                    return fd.getFilename();
-                case 1 :
-                    return fd.getRevision();
-                case 2 :
-                    return dateFormat.format(fd.getLastChange());
-                default :
-                    return "";
+                public void dispose() {
                 }
-            }
-            public Image getColumnImage(Object element, int columnIndex) {
-                return null;
-            }
-            public void addListener(ILabelProviderListener listener) {
-                // TODO Auto-generated method stub
-                
-            }
-            public void dispose() {
-                // TODO Auto-generated method stub
-                
-            }
-            public boolean isLabelProperty(Object element, String property) {
-                // TODO Auto-generated method stub
-                return false;
-            }
-            public void removeListener(ILabelProviderListener listener) {
-                // TODO Auto-generated method stub
-                
-            }
-        });
-        viewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            public void selectionChanged(SelectionChangedEvent event) {
-            }
-        });
-        viewer.setInput(variant);
+            });
+            tbViewer.setLabelProvider(new ITableLabelProvider() {
+                public String getColumnText(Object element, int columnIndex) {
+                    Release.FileRevision fr = (Release.FileRevision) element;
+                    switch (columnIndex) {
+                    case 0 :
+                        return fr.getPath();
+                    case 1 :
+                        return (fr.getRevision() != null) ? fr.getRevision() : "";
+                    default :
+                        return "";
+                    }
+                }
+                public Image getColumnImage(Object element, int columnIndex) {
+                    return null;
+                }
+                public void addListener(ILabelProviderListener listener) {
+                    // TODO Auto-generated method stub
+                    
+                }
+                public void dispose() {
+                    // TODO Auto-generated method stub
+                    
+                }
+                public boolean isLabelProperty(Object element, String property) {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+                public void removeListener(ILabelProviderListener listener) {
+                    // TODO Auto-generated method stub
+                    
+                }
+            });
+            tbViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+                public void selectionChanged(SelectionChangedEvent event) {
+                }
+            });
+            tbViewer.setInput(release);
+	    }
+	    else {
+            Table table = new Table(composite, SWT.CHECK | SWT.BORDER | SWT.MULTI
+                    				| SWT.FULL_SELECTION | SWT.LEAD | SWT.WRAP
+                    				| SWT.V_SCROLL | SWT.VERTICAL);
+            table.setHeaderVisible(true);
+            table.setLinesVisible(true);
+            TableColumn col1 = new TableColumn(table, SWT.NONE);
+            col1.setText("Name");
+            TableColumn col2 = new TableColumn(table, SWT.NONE);
+            col2.setText("Revision");
+            TableColumn col3 = new TableColumn(table, SWT.NONE);
+            col3.setText("Date");
+    		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
+    		        				   | GridData.FILL_HORIZONTAL);
+    		gd.heightHint = 200;
+    	    table.setLayoutData(gd);
+    	    TableLayout layout = new TableLayout();
+    	    layout.addColumnData(new ColumnWeightData(33));
+    	    layout.addColumnData(new ColumnWeightData(33));
+    	    layout.addColumnData(new ColumnWeightData(33));
+    	    table.setLayout(layout);
+            cbViewer = new CheckboxTableViewer(table);
+            cbViewer.setContentProvider(new IStructuredContentProvider() {
+                public Object[] getElements(Object input) {
+                    if (input instanceof Variant) {
+                        Variant variant = (Variant) input;
+                        return variant.getFileDescriptors().toArray();
+                    }
+                    else if (input instanceof IFileDescriptorContainer) {
+                        IFileDescriptorContainer fd = (IFileDescriptorContainer) input;
+                        return fd.getFileDescriptors().toArray();
+                    }
+                    return new Object[0];
+                }
+                public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+    //                 don't need to hang onto input for this example, so do nothing
+                }
+                public void dispose() {
+                }
+            });
+            cbViewer.setLabelProvider(new ITableLabelProvider() {
+                DateFormat dateFormat = DateFormat.getInstance();
+                public String getColumnText(Object element, int columnIndex) {
+                    FileDescriptor fd = (FileDescriptor) element;
+                    switch (columnIndex) {
+                    case 0 :
+                        return fd.getFilename();
+                    case 1 :
+                        return (fd.getRevision() != null) ? fd.getRevision() : "";
+                    case 2 :
+                        return (fd.getLastChange() != null) ? 
+                                dateFormat.format(fd.getLastChange()) : "";
+                    default :
+                        return "";
+                    }
+                }
+                public Image getColumnImage(Object element, int columnIndex) {
+                    return null;
+                }
+                public void addListener(ILabelProviderListener listener) {
+                    // TODO Auto-generated method stub
+                    
+                }
+                public void dispose() {
+                    // TODO Auto-generated method stub
+                    
+                }
+                public boolean isLabelProperty(Object element, String property) {
+                    // TODO Auto-generated method stub
+                    return false;
+                }
+                public void removeListener(ILabelProviderListener listener) {
+                    // TODO Auto-generated method stub
+                    
+                }
+            });
+            cbViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+                public void selectionChanged(SelectionChangedEvent event) {
+                }
+            });
+            cbViewer.setInput(variant);
+        }
     }
     
     private void createMaintainerArea (final Composite composite) {
@@ -404,6 +481,20 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 	        } else if (!deprecated.getSelection() && dep) {
 	            asset.removeStatus(AbstractStatus.DEPRECATED_STATUS);
 	        }
+        }
+        
+        if (asset instanceof Release) {
+            Release release = (Release) asset;
+            if (!release.isReleased()) {
+                Object[] result = cbViewer.getCheckedElements();
+                for (int i = 0; i < result.length; i++) {
+                    FileDescriptor fd = (FileDescriptor) result[i];
+                    release.addFileRevision(
+                        new Release.FileRevision(fd.getFilename(),
+                        						 fd.getRevision()));
+                }
+                release.setReleased(true);
+            }
         }
         super.okPressed();
     }
