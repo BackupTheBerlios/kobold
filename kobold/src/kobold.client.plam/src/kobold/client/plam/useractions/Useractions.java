@@ -9,6 +9,7 @@ package kobold.client.plam.useractions;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.controller.SecureKoboldClient;
 import kobold.client.plam.controller.ServerHelper;
 import kobold.common.data.User;
@@ -39,6 +40,9 @@ public class Useractions {
 		
         UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());	
 		SecureKoboldClient.getInstance().addUser(ctx,userName,password,realName);
+		
+		KoboldProject kp = KoboldPLAMPlugin.getCurrentKoboldProject();
+		kp.updateUserPool();
 		
 		return true;
 		
