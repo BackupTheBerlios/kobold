@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.6 2004/07/26 18:39:16 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.7 2004/07/27 14:11:59 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -125,7 +125,13 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 		vcmListeners.remove(l);
 	}
 
-
+	public void refreshResources(IFileDescriptorContainer fdCont)
+	{
+	    for (int i = 0; i < vcmListeners.size(); i++) {
+	        ((IVCMActionListener)vcmListeners.get(i)).refreshFiledescriptors(fdCont);
+	    }
+	}
+	
     /**
      * @return Returns the edgeConatainer.
      */

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.10 2004/07/07 14:23:21 memyselfandi Exp $
+ * $Id: RoleTreeViewPart.java,v 1.11 2004/07/27 14:11:59 vanto Exp $
  *
  */
 package kobold.client.plam.view;
@@ -32,6 +32,7 @@ import kobold.client.plam.controller.roletree.RoleTreeContentProvider;
 import kobold.client.plam.controller.roletree.RoleTreeLabelProvider;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
 import kobold.client.plam.editor.ArchitectureEditorInput;
+import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.useractions.UINewUser;
 
 import org.apache.commons.logging.Log;
@@ -169,11 +170,17 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 		
 		action2 = new Action() {
 			public void run() {
-				showMessage("Action 2 executed");
+				ISelection selection = viewer.getSelection();
+				Object obj = ((IStructuredSelection)selection).getFirstElement();
+				//FIXME
+				if (obj instanceof IFileDescriptorContainer) {
+				    ((IFileDescriptorContainer)obj).getRoot().refreshResources((IFileDescriptorContainer)obj);
+				}
 			}
+
 		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
+		action2.setText("Refresh");
+		action2.setToolTipText("Refresh Resources");
 		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 			getImageDescriptor(org.eclipse.ui.ide.IDE.SharedImages.IMG_OBJS_TASK_TSK));
 

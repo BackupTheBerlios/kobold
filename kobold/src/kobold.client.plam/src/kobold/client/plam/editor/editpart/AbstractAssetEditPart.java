@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAssetEditPart.java,v 1.3 2004/07/26 18:39:16 vanto Exp $
+ * $Id: AbstractAssetEditPart.java,v 1.4 2004/07/27 14:11:59 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -67,6 +67,7 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
 
     private static final Log logger = LogFactory.getLog(AbstractAssetEditPart.class);
     private ChopboxAnchor anchor;
+    private AbstractRootAsset root;
     
 	/**
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
@@ -159,7 +160,8 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
         if (isActive() == false) {
             super.activate();
             getAsset().addPropertyChangeListener(this);
-            getAsset().getRoot().getEdgeContainer().addPropertyChangeListener(this);
+            root = getAsset().getRoot();
+            root.getEdgeContainer().addPropertyChangeListener(this);
             getViewModel().addPropertyChangeListener(this);
         }
     }
@@ -172,7 +174,9 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
         if (isActive()) {
             super.deactivate();
             getAsset().removePropertyChangeListener(this);
-            getAsset().getRoot().getEdgeContainer().removePropertyChangeListener(this);
+            if (root != null) {
+                root.getEdgeContainer().removePropertyChangeListener(this);
+            }
             getViewModel().removePropertyChangeListener(this);
         }
     }
