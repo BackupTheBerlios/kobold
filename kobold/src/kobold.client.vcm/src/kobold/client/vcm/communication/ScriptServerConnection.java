@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import kobold.client.vcm.KoboldVCMPlugin;
+import kobold.common.io.RepositoryDescriptor;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.InputDialog;
@@ -70,9 +71,11 @@ public class ScriptServerConnection implements IServerConnection
 	//	 The password for the VCM
 	private String password;
 	//	 The server for the VCM
-	private String vcmServerLocation;
+	private String vcmHostLocation;
 	// The buffer for reading the InputStreams
 	private byte[] readLineBuffer = new byte[256];
+	// The Repository Descriptor used by this connection
+	private RepositoryDescriptor repositoryDescriptor = null;
 	
 	
 	// incoming from remote host
@@ -114,8 +117,7 @@ public class ScriptServerConnection implements IServerConnection
 	 */
 	public void open(IProgressMonitor monitor) throws IOException,
 			CVSAuthenticationException
-	{
-
+	{		
 		connected = false;
 		try {
 			String[] command = new String[1];
@@ -140,8 +142,8 @@ public class ScriptServerConnection implements IServerConnection
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
 				new IConsole[] {console});
 			stream = console.newMessageStream();
-			Thread inputThread = new InputThreadToConsole(process.getInputStream(), stream);
-			Thread errorThread = new InputThreadToConsole(process.getErrorStream(), stream);
+			Thread inputThread = new InputThreadToConsole(inputStream,stream);//process.getInputStream(), stream);
+			Thread errorThread = new InputThreadToConsole(errStream,stream);//process.getErrorStream(), stream);
 //			readInpuStreamsToConsole();
 			inputThread.run();
 			errorThread.run();
@@ -165,13 +167,13 @@ public class ScriptServerConnection implements IServerConnection
 	public void open(String[] command) throws IOException,
 	CVSAuthenticationException
 {
-
+		IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 		connected = false;
 		try {
 			if (skriptName != null) {
 				command[0] = skriptName;
 			}
-			process = Util.createProcess(command,null);
+			process = Util.createProcess(command,progress);
 
 			inputStream = new PollingInputStream(new TimeoutInputStream(process
 					.getInputStream(), 8192 /* bufferSize */,
@@ -204,12 +206,15 @@ public class ScriptServerConnection implements IServerConnection
 	public void open(IProgressMonitor monitor,String[] command) throws IOException,
 			CVSAuthenticationException
 	{
-		String[] actualCommand = new String[command.length + 2];
-		actualCommand[0] = command[0];
-		actualCommand[1] = this.user;
-		actualCommand[2] = this.password;
+//		vcmHostLocation = repositoryDescriptor.getHost();
+//		repositoryPath = repositoryDescriptor.getPath();
+		String[] actualCommand = new String[command.length + 3];
+		actualCommand[0] = skriptName; 
+		actualCommand[1] = command[0];
+		actualCommand[2] = this.user;
+		actualCommand[3] = this.password;
 		for (int i = 1; i < command.length; i++) {
-			actualCommand[i + 2] = command[i];
+			actualCommand[i + 3] = command[i];
 			
 		}
 		for (int i = 0; i < actualCommand.length; i++) {
@@ -223,23 +228,28 @@ public class ScriptServerConnection implements IServerConnection
 			process = Util.createProcess(actualCommand, monitor);
 
 			inputStream = new PollingInputStream(new TimeoutInputStream(process.getInputStream(),
-				8192 /*bufferSize*/, 1000 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
+					32768 /*16384 bufferSize*/, -1 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
 			outputStream = new PollingOutputStream(new TimeoutOutputStream(process.getOutputStream(),
-				8192 /*buffersize*/, 1000 /*writeTimeout*/, 1000 /*closeTimeout*/), 60, monitor);
+					16384 /*8192buffersize*/, 4000 /*writeTimeout*/, 4000 /*closeTimeout*/), 60, monitor);
 			// XXX need to do something more useful with stderr
 			// discard the input to prevent the process from hanging due to a full pipe
 	
-			MessageConsoleStream stream = null;
+			MessageConsoleStream stream1,stream2 = null;
 			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
 				new IConsole[] {console});
-			stream = console.newMessageStream();
+			stream1 = console.newMessageStream();
+			stream2 = console.newMessageStream();
 			connected = true;
-			Thread inputThread = new InputThreadToConsole(process.getInputStream(), stream);
-			Thread errorThread = new InputThreadToConsole(process.getErrorStream(), stream);
+			Thread errorThread = new InputThreadToConsole(process.getErrorStream(), stream2);
+//			errorThread.
+			Thread inputThread = new InputThreadToConsole(process.getInputStream(), stream1);
+			
 //			readInpuStreamsToConsole();
-			inputThread.run();
 			errorThread.run();
+			System.out.println(",ajdckansldnlknasl");
+			inputThread.run();
+
 //			readInpuStreamsToConsole();
 		} finally {
 			if (! connected) {
@@ -345,7 +355,7 @@ public class ScriptServerConnection implements IServerConnection
 	// discard the input to prevent the process from hanging due to a full pipe
 	private static class InputThreadToConsole extends Thread {
 		private InputStream in;
-		private byte[] readLineBuffer = new byte[256];
+		private byte[] readLineBuffer = new byte[512];
 		private MessageConsoleStream stream = null;
 		public InputThreadToConsole(InputStream in,MessageConsoleStream stream ) {
 			this.in = in;
@@ -357,17 +367,24 @@ public class ScriptServerConnection implements IServerConnection
 				try {
 					if (in != null) {
 					int r,index = 0;
-//					System.out.println(in.toString()+" :"+in.available());
-					while ((in.available() != 0) && (r = in.read()) != -1 ) {
+//					sleep(2500);
+//					System.out.println(in.toString()+" :"+in.available());(in.available() != 0) && 
+					while ((r = in.read()) != -1 ) {
 						readLineBuffer = append(readLineBuffer, index++, (byte) r);
+//						try {
+//							sleep(1);
+//							
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
 					}
-				
+//					stream.getConsole().
 					stream.print(new String(readLineBuffer, 0, index));
 				}
 				} finally {
 					in.close();
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -437,7 +454,7 @@ public class ScriptServerConnection implements IServerConnection
 	private String getUserPassword ()
 	{
 		//gets the userPassword
-		String uP = KoboldVCMPlugin.getDefault().getPluginPreferences().getString("userPassword");
+		String uP = KoboldVCMPlugin.getDefault().getPluginPreferences().getString("User Password");
  
 		if (uP.equals(""))
 		{
@@ -468,5 +485,12 @@ public class ScriptServerConnection implements IServerConnection
 		//open the dialog
 		in.open();
 		return in.getValue ();
+	}
+	/**
+	 * @param repositoryDescriptor The repositoryDescriptor to set.
+	 */
+	public void setRepositoryDescriptor(
+			RepositoryDescriptor repositoryDescriptor) {
+		this.repositoryDescriptor = repositoryDescriptor;
 	}
 }

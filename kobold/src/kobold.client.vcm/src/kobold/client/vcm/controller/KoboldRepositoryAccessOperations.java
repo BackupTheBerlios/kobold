@@ -42,6 +42,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.core.TeamException;
@@ -62,7 +63,12 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	private RepositoryDescriptor currentVCMProvider = null;
 	
 	// The VCM Repository User, Password and Repository Path
-	private String  repositoryPath = "";
+	private String  repositoryRootPath = "";
+	private String repositoryHost = "";
+	private String  repositoryModulePath = "";
+	
+	// The commandline Argument String
+	private String[] argString = null; 
 	
 	// The fields used to store the selected Types(productline, etc..)
 	private Productline productLine = null;
@@ -120,7 +126,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("precheckin working", 2);
 				// @ FIXME read password and user out of whatever
-				ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
+				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 				connection.open(progress);
 				// wait(5000);
@@ -142,7 +148,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 					progress = KoboldPolicy.monitorFor(progress);
 					progress.beginTask("postcheckin working", 2);
 					// @ FIXME read password and user out of whatever
-					ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
+					ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 					connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 					connection.open(progress);
 					// wait(5000);
@@ -168,29 +174,38 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 					productLine = (Productline) assets[i];
 					
 //					repositoryPath
-					RepositoryDescriptor repoDesc = productLine.getRepositoryDescriptor();
-					System.out.println("lalla");;
-					
+					currentVCMProvider = productLine.getRepositoryDescriptor();
+					localPath = productLine.getLocalPath().toOSString();
+//					connection.setLocalPath(localPath);
+//					connection.setRepositoryDescriptor(productLine.getRepositoryDescriptor());
 //					repoDesc.
 					
 					// @ FIXME init the local Path by getting the WorkspacePAth etc
 //					localPath = productLine
 				}
-//				if (assets[i] instanceof Product) {
-//					product = (Product) assets[i];
-////					getRepositoryPath
-//					localPath = product.getLocalPath();
-//				}
+				if (assets[i] instanceof Product) {
+					product = (Product) assets[i];
+					localPath = product.getLocalPath().toOSString();
+					currentVCMProvider = product.getRepositoryDescriptor();
+				}
 				if (assets[i] instanceof Variant) {
 					variant = (Variant) assets[i];
-//					variant.get
 					localPath = variant.getLocalPath().toOSString();
+					currentVCMProvider = variant.getRemoteRepository();					
 				}
-				if (assets[i] instanceof Release) {
-					release = (Release) assets[i];
+//				if (assets[i] instanceof Release) {
+//					release = (Release) assets[i];
 //					localPath = release.ge
 //					release.get
-				}				
+//				}				
+				if (currentVCMProvider != null) {
+					repositoryRootPath = currentVCMProvider.getRoot();
+					repositoryModulePath = currentVCMProvider.getPath();
+					repositoryHost = currentVCMProvider.getHost();
+				} else {
+					MessageDialog.openError(new Shell(), "Hoooonk", "Du nix hast gesetzt den RepositoryProvider Alder");
+
+				}
 			}
 		}	
 		
@@ -206,7 +221,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("precheckout working", 2);
 			
-					ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
+					ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 					connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 					initConnection(connection , resources);
 					connection.open(progress);
@@ -229,7 +244,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("postcheckout working", 2);
 				// @ FIXME read password and user out of whatever
-				ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
+				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 				// @  FIXME this needs to be changes to the given skript not the usual!
 				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 				connection.open(progress);
@@ -251,7 +266,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("update working", 2);
 			// @ FIXME read password and user out of whatever
-			ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
+			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 			// @  FIXME this needs to be changes to the given skript not the usual!
 			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 			connection.open(progress);
@@ -274,11 +289,22 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			progress.beginTask("checkout working", 2);
 			// @ FIXME read password and user out of whatever
 //			((Component)resources[0]).ge
-			ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
+
+			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 			initConnection(connection,resources);
+			argString = new String[4];
+			if (localPath != null || repositoryHost != null || repositoryModulePath != null || repositoryRootPath != null  ) {
+				argString[0] = localPath;
+				argString[1] = repositoryHost;
+				argString[2] = repositoryRootPath;
+				argString[3] = "kobold"; // @ FIXME repositoryModulePath;
+			} else {
+				MessageDialog.openError(new Shell(), "Hoooonk", "Du nix hast gesetzt den RepositoryProvider Alder");
+			}
 			// @  FIXME this needs to be changes to the given skript not the usual!
 			connection.setSkriptName(skriptPath.toOSString().concat(CHECKOUT).concat(skriptExtension));
-			connection.open(progress);
+			
+			connection.open(progress, argString);
 			// wait(5000);
 			// connection.readInpuStreamsToConsole();
 			connection.close();	
@@ -296,7 +322,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("checkin working", 2);
 			// @ FIXME read password and user out of whatever
-			ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
+			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 			// @  FIXME this needs to be changes to the given skript not the usual!
 			connection.setSkriptName(skriptPath.toOSString().concat(COMMIT).concat(skriptExtension));
 			connection.open(progress);
@@ -361,7 +387,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("postget working", 2);
 				// @ FIXME read password and user out of whatever
-				ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
+				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 				// @  FIXME this needs to be changes to the given skript not the usual!
 				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 				connection.open(progress);
@@ -387,7 +413,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("preget working", 2);
 				// @ FIXME read password and user out of whatever
-				ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
+				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 				// @  FIXME this needs to be changes to the given skript not the usual!
 				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 				connection.open(progress);
@@ -439,6 +465,6 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	 * @param repositoryPath The repositoryPath to be set.
 	 */
 	public void setRepositoryPath(String repositoryPath) {
-		this.repositoryPath = repositoryPath;
+		this.repositoryRootPath = repositoryPath;
 	}
 }
