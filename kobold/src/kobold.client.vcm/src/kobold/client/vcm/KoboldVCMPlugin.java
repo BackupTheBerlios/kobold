@@ -57,16 +57,18 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	public KoboldVCMPlugin() { // Removed the deprecated constructor using - IPluginDescriptor descriptor
 		super();
 		plugin = this;
-//		KoboldPLAMPlugin.getCurrentProjectNature().getPLAMProject().getProductline().addVCMActionListener(new IVCMActionListener() {
-//			/* (non-Javadoc)
-//			 * @see kobold.client.plam.listeners.IVCMActionListener#refreshFiledescriptors(kobold.client.plam.model.IFileDescriptorContainer)
-//			 */
-//			public void refreshFiledescriptors(
-//					IFileDescriptorContainer container) {
-//				System.out.println("*********Refresch File Descriptors");
-//
-//			}
-//		});
+		KoboldPLAMPlugin.getCurrentProjectNature().getPLAMProject().getProductline().addVCMActionListener(new IVCMActionListener() {
+			/* (non-Javadoc)
+			 * @see kobold.client.plam.listeners.IVCMActionListener#refreshFiledescriptors(kobold.client.plam.model.IFileDescriptorContainer)
+			 */
+			public void refreshFiledescriptors(
+					IFileDescriptorContainer container) {
+				System.out.println("lalal");
+				System.out.println("*********Refresch File Descriptors:" + container.getLocalPath()/*.getFullPath()*/.toString());
+				
+
+			}
+		});
 		try {
 			resourceBundle= ResourceBundle.getBundle("kobold.client.vcm.KoboldVCMPluginResources");
 
