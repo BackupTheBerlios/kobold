@@ -16,7 +16,6 @@
       <import plugin="org.eclipse.gef"/>
       <import plugin="org.eclipse.swt"/>
       <import plugin="kobold.commons"/>
-      <import plugin="kobold.vcm"/>
    </requires>
 
 
@@ -33,8 +32,8 @@
          point="org.eclipse.ui.editors">
       <editor
             name="%editor.Architecture"
-            icon="icons/kobold_persp.png"
             extensions="kae"
+            icon="icons/kobold_persp.png"
             class="kobold.client.plam.editor.ArchitectureEditor"
             id="ArchitectureEditor">
       </editor>
@@ -64,8 +63,8 @@
                ratio="0.5"
                relative="org.eclipse.ui.views.TaskList"
                visible="true"
-               relationship="left"
-               id="kobold.client.plam.view.RoleTreeViewPart">
+               id="kobold.client.plam.view.RoleTreeViewPart"
+               relationship="left">
          </view>
       </perspectiveExtension>
    </extension>
@@ -94,14 +93,14 @@
             id="kobold.client.plam.NewWizardCategory">
       </category>
       <wizard
+            descriptionImage="icons/kprojectwiz.gif"
             name="%newwizard.NewKoboldProjectWizard"
-            id="kobold.client.plam.newwizard"
+            icon="icons/kobold_persp.gif"
             category="kobold.client.plam.NewWizardCategory"
             class="kobold.client.plam.wizard.NewProjectWizard"
-            descriptionImage="icons/kprojectwiz.gif"
-            icon="icons/kobold_persp.gif"
+            project="true"
             finalPerspective="kobold.client.plam.KoboldPerspective"
-            project="true">
+            id="kobold.client.plam.newwizard">
          <description>
             %newwizard.KoboldProjectDescription
          </description>
