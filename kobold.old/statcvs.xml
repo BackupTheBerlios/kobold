@@ -35,7 +35,7 @@
 <!--    <include>src/de/berlios/statcvs/xml/**/*.java</include> -->
     <modules type="map">
       <setting key="Documentation">docs/**/*.tex</setting>
-      <setting key="Sources">**/*.java</setting>
+      <setting key="Sources">src/**/*.java</setting>
       <setting key="Site">xdocs/**/*</setting>
     </modules>
   </settings>
