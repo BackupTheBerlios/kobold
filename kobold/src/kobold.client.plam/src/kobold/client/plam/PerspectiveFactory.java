@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PerspectiveFactory.java,v 1.1 2004/05/13 14:39:18 vanto Exp $
+ * $Id: PerspectiveFactory.java,v 1.2 2004/05/13 20:01:50 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -56,7 +56,7 @@ public class PerspectiveFactory implements IPerspectiveFactory {
 		folder.addPlaceholder(IPageLayout.ID_RES_NAV);
 		
 		IFolderLayout outputfolder= layout.createFolder("bottom", IPageLayout.BOTTOM, (float)0.75, editorArea); //$NON-NLS-1$
-		outputfolder.addView(IPageLayout.ID_PROBLEM_VIEW);
+		outputfolder.addView(IPageLayout.ID_TASK_LIST);
 		//outputfolder.addPlaceholder(SearchUI.SEARCH_RESULT_VIEW_ID);
 		//outputfolder.addPlaceholder(IConsoleConstants.ID_CONSOLE_VIEW);
 		outputfolder.addPlaceholder(IPageLayout.ID_BOOKMARKS);
@@ -70,7 +70,6 @@ public class PerspectiveFactory implements IPerspectiveFactory {
 
 		// views - standard workbench
 		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
-		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
 		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
 		layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);
 				

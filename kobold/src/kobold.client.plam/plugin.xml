@@ -79,7 +79,7 @@
       </runtime>
    </extension>
    <extension
-         point="org.eclipse.ui.ide.projectNatureImages">
+         point="org.eclipse.ui.projectNatureImages">
       <image
             icon="icons/kobold_ovr.png"
             natureId="kobold.client.plam.KoboldProjectNature"
@@ -93,7 +93,6 @@
             id="kobold.client.plam.NewWizardCategory">
       </category>
       <wizard
-            descriptionImage="icons/kprojectwiz.gif"
             name="%newwizard.NewKoboldProjectWizard"
             icon="icons/kobold_persp.gif"
             category="kobold.client.plam.NewWizardCategory"
