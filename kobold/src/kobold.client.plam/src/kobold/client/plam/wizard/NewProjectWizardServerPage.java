@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.14 2004/08/02 17:23:54 vanto Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.15 2004/08/03 15:07:19 garbeam Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -30,7 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.KeyStoreException;
 import java.security.cert.Certificate;
-import java.util.Vector;
+import java.util.Map;
 
 import kobold.client.plam.controller.SSLHelper;
 import kobold.client.plam.controller.SecureKoboldClient;
@@ -172,7 +172,7 @@ public class NewProjectWizardServerPage extends WizardPage {
                     UserContext context = client.login(getServerURL(), getUsername(), getPassword());
                     if (context != null) {
                         //Vector roles = client.getRoles(context);
-                        Vector productlines = client.getProductlineNames(context);
+                        Map productlineNames = client.getProductlineNamesMap(context);
                         //client.logout(context);
                         client = null;
                         serverOk = true;
@@ -180,7 +180,7 @@ public class NewProjectWizardServerPage extends WizardPage {
                         ProductlineChooserWizardPage chooserPage =
                 			(ProductlineChooserWizardPage)getWizard().getPage(ProductlineChooserWizardPage.PAGE_ID);
 
-                        chooserPage.setProductlines(productlines);
+                        chooserPage.setProductlines(productlineNames);
                         
                         nameModifyListener.handleEvent(null);
                     } else {
@@ -208,6 +208,7 @@ public class NewProjectWizardServerPage extends WizardPage {
 			    if (alias.length() > 0 && (certificate != null)) {
 			        try {
                         SSLHelper.getKeyStore().setCertificateEntry(alias, certificate);
+                        SSLHelper.getTrustStore().setCertificateEntry(alias, certificate);
                         // TODO: report success message
                     } catch (KeyStoreException e) {
                         logger.error("Can't import certificate", e);

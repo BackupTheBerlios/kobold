@@ -21,11 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManagerTest.java,v 1.3 2004/08/02 10:59:46 garbeam Exp $
+ * $Id: ProductlineManagerTest.java,v 1.4 2004/08/03 15:07:18 garbeam Exp $
  *
  */
 
 package kobold.server.controller;
+import java.util.Iterator;
+import java.util.Vector;
+
+import org.apache.commons.id.uuid.state.InMemoryStateImpl;
+
 import junit.framework.TestCase;
 
 import kobold.common.data.Productline;
@@ -46,6 +51,9 @@ public class ProductlineManagerTest extends TestCase {
 	public ProductlineManagerTest(String arg0) {
 		
 		super(arg0);
+        System.setProperty("org.apache.commons.id.uuid.state.State", InMemoryStateImpl.class.getName());
+        System.setProperty("kobold.server.storePath", "/tmp/");
+        System.setProperty("kobold.server.productStore", "test-product.xml");
 	}
 	
 	public void testSerialize() {
@@ -58,18 +66,28 @@ public class ProductlineManagerTest extends TestCase {
 		ProductlineManager manager = ProductlineManager.getInstance();
 		
 		manager.addProductline(productline);
-		manager.serialize("test-products.xml");
-		
-		manager.removeProductline("zucker");
-		
+	
 	}
 	
 	public void testDeserialize() {
 	    ProductlineManager manager = ProductlineManager.getInstance();
+	    Productline pl = null;
 		
-	    manager.deserialize("test-product.xml");
+	    Vector names = manager.getProductlineNames();
+	    for (Iterator iterator = names.iterator(); iterator.hasNext();) {
+	        String id = (String) iterator.next();
+	        String name = (String)iterator.next();
+	        if ("zucker".equals(name)) {
+	            pl = manager.getProductline(id);
+	            break;
+	        }
+	    }
+	    
+	    RepositoryDescriptor repositoryDescriptor = pl.getRepositoryDescriptor();
+	    
+	    System.out.println("host: " + repositoryDescriptor.getHost());
+		assertTrue(repositoryDescriptor.getHost().equals("zucker.org"));
 		
-		assertTrue(manager.getProductline("zucker").
-		        getRepositoryDescriptor().getHost().equals("zurcker.org"));
+		manager.removeProductline("zucker");
 	}
 }

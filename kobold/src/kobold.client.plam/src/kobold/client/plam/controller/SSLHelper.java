@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SSLHelper.java,v 1.2 2004/08/03 13:00:39 garbeam Exp $
+ * $Id: SSLHelper.java,v 1.3 2004/08/03 15:07:19 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -37,6 +37,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.security.cert.TrustAnchor;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 
@@ -58,6 +59,28 @@ public class SSLHelper
     public static final String TRUST_STORE = "javax.net.ssl.trustStore";
     public static final String TRUST_STORE_PASSWORD = "javax.net.ssl.trustStorePassword";
 
+    public static KeyStore getTrustStore() {
+        IPreferenceStore preferenceStore = KoboldPLAMPlugin.getDefault().getPreferenceStore();
+        KeyStore result = null;
+        try {
+            result = KeyStore.getInstance("JKS");
+                result.load(new FileInputStream(preferenceStore.getString(SSLHelper.TRUST_STORE)),
+                            preferenceStore.getString(SSLHelper.TRUST_STORE_PASSWORD).toCharArray());
+        } catch (KeyStoreException e) {
+            logger.fatal("Key store cannot be instantiated", e);
+        } catch (NoSuchAlgorithmException e) {
+            logger.fatal("Key store algorithm not supported", e);
+        } catch (CertificateException e) {
+            logger.fatal("Key store certificate corrupted", e);
+        } catch (FileNotFoundException e) {
+            logger.fatal("Key store file not found", e);
+        } catch (IOException e) {
+            logger.fatal("Key store I/O error", e);
+        }
+
+        return result;
+    }
+    
     public static KeyStore getKeyStore() {
         IPreferenceStore preferenceStore = KoboldPLAMPlugin.getDefault().getPreferenceStore();
         KeyStore result = null;

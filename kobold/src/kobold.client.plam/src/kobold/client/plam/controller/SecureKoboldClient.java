@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.35 2004/08/03 14:49:21 vanto Exp $
+ * $Id: SecureKoboldClient.java,v 1.36 2004/08/03 15:07:19 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -223,12 +223,25 @@ public class SecureKoboldClient implements IKoboldServer {
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
-			result = (Vector) getClientByUrl(userContext.getServerUrl()).execute("getProductlineNames", v);
-			log.info(result);
+		    result = (Vector)getClientByUrl(userContext.getServerUrl()).
+	    							execute("getProductlineNames", v);
 		} catch (Exception exception) {
 			log.error(exception);
 		}
 		return result;
+	}
+	
+	/**
+	 * Returns productline names as (id, plname) map.
+	 * @param userContext
+	 */
+	public Map getProductlineNamesMap(UserContext userContext) {
+	    Vector objects = getProductlineNames(userContext);
+	    Map plNames = new HashMap();
+		for (Iterator iterator = objects.iterator(); iterator.hasNext(); ) {
+		    plNames.put(iterator.next(), iterator.next());
+		}
+		return plNames;
 	}
 	
 	/**

@@ -21,14 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.68 2004/08/03 11:08:58 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.69 2004/08/03 15:07:18 garbeam Exp $
  *
  */
 package kobold.server;
 
 import java.io.FileInputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -576,7 +575,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		
 		// 2.) remove the productline
 		ProductlineManager plm = ProductlineManager.getInstance();
-		return (plm.removeProductline(nameOfProductline) != null) ? RETURN_OK : RETURN_FAIL;
+		return plm.removeProductline(nameOfProductline) ? RETURN_OK : RETURN_FAIL;
 	} 
 	
 	/**

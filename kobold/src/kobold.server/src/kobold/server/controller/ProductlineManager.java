@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.10 2004/08/03 14:49:16 vanto Exp $
+ * $Id: ProductlineManager.java,v 1.11 2004/08/03 15:06:53 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -122,11 +122,13 @@ public class ProductlineManager {
 	 * Removes the specified productline.
 	 * 
 	 * @param id the id of the productline.
-     * @return the productline that has been removed or null if there dosen't
-     *         exist a productline with the passed name
+     * @return <code>true</code> if the product existed and has been removed
+     *         successfully, <code>false</code> otherwise.
 	 */
-	public Productline removeProductline(String id) {
-		return (Productline) productlines.remove(id);
+	public boolean removeProductline(String id) {
+		Object obj = productlines.remove(id);
+		serialize();
+		return obj != null;
 	}
 
 	/**
@@ -203,17 +205,20 @@ public class ProductlineManager {
 	}
 
 	/**
-	 * Returns a list of Strings which contain all the productline's names.
+	 * Returns a list of two-dimensional objects which contain the productline id
+	 * as first component and the productline name as second component.
      * 
      * @return Vector of String objects with all productlines' names
 	 */
 	public Vector getProductlineNames() {
+	    
 	    Vector result = new Vector();
 	    
 	    for (Iterator iterator = productlines.values().iterator(); iterator.hasNext(); )
 	    {
 	        Productline productline = (Productline) iterator.next();
 	        result.add(productline.getId());
+	        result.add(productline.getName());
 	    }
 	    
 	    return result;
@@ -238,7 +243,9 @@ public class ProductlineManager {
 		product.addMaintainer(new User(garbeam.getUserName(), garbeam.getFullName()));
 		
 		pl.addProduct(product);
+		
 		addProductline(pl);
+
 		Component comp = new Component(pl, "lala", "lala",  new RepositoryDescriptor(
 	               RepositoryDescriptor.CVS_REPOSITORY, "ssh",
 			       "cvs.berlios.de", "/cvsroot/kobold/", "kobold2/hallo"));

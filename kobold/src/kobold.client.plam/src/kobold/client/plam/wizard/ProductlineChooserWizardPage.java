@@ -21,12 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ProductlineChooserWizardPage.java,v 1.2 2004/08/03 00:05:23 vanto Exp $
+ * $Id: ProductlineChooserWizardPage.java,v 1.3 2004/08/03 15:07:19 garbeam Exp $
  *  
  */
 package kobold.client.plam.wizard;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -47,7 +49,8 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class ProductlineChooserWizardPage extends WizardPage implements ISelectionChangedListener {
 
-    public static final String PAGE_ID = "KOBOLD_WIZARD_ROLES"; 
+    public static final String PAGE_ID = "KOBOLD_WIZARD_ROLES";
+    private Map plNames;
     private Combo combo;
 	
 	/**
@@ -102,9 +105,12 @@ public class ProductlineChooserWizardPage extends WizardPage implements ISelecti
 		return true;
 	}
 	
-	void setProductlines(List pls)
+	void setProductlines(Map pls)
 	{
-	    combo.setItems((String[])pls.toArray(new String[0]));
+	    plNames = pls;
+	    for (Iterator iterator = plNames.values().iterator(); iterator.hasNext(); ) {
+	        combo.add((String) iterator.next());
+	    }
 	}
 	
 	public String getProductlineId()
