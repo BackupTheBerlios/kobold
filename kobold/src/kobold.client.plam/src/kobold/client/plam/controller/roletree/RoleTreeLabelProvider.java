@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.5 2004/05/15 21:56:04 vanto Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.6 2004/05/19 16:15:24 neco Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -65,12 +65,12 @@ public class RoleTreeLabelProvider extends LabelProvider
 			return "PE";
 		} else if (element instanceof RoleP) {
 			return "P";
-		} else if (element instanceof Productline) {
+		}  if (element instanceof Productline) {
 			return ((Productline)element).getName();
 		} else if (element instanceof Product) {
 			return ((Product)element).getName();
 		} else if (element instanceof IProject) {
-			return ((IProject)element).getName();	
+			return ((IProject)element).getName();
 		} else {
 			return "unkown";
 			//throw unknownElement(element);

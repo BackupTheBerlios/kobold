@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.4 2004/05/16 13:35:25 vanto Exp $
+ * $Id: RoleTreeViewPart.java,v 1.5 2004/05/19 16:15:39 neco Exp $
  *
  */
 package kobold.client.plam.view;
@@ -178,6 +178,7 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 			}
 		});
 	}
+	
 	private void showMessage(String message) {
 		MessageDialog.openInformation(
 			viewer.getControl().getShell(),

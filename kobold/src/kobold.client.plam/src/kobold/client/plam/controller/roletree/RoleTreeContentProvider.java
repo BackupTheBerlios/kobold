@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.9 2004/05/17 00:25:02 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.10 2004/05/19 16:15:24 neco Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -30,6 +30,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import kobold.client.plam.KoboldProjectNature;
+import kobold.common.data.IAsset;
+import kobold.common.data.Product;
+import kobold.common.data.Productline;
 import kobold.common.data.RoleP;
 import kobold.common.data.RolePE;
 import kobold.common.data.RolePLE;
@@ -127,28 +130,39 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
      */
     public Object[] getChildren(Object parentElement) {
+    	
+    	Productline testPL = new Productline("PLine_A");
+    	Product testP = new Product("PLine_A","ProductA");
+    	User testUser = new User();
+ 		testUser.setUserName("neco");
+ 		testUser.setRealName("Necati Aydin");
+ 		testUser.addRole(new RolePLE("test"));
+ 		
     	if (parentElement instanceof IProject) {
-    		User testUser = new User();
-    		testUser.setUserName("vanto");
-    		testUser.setRealName("Tammo van Lessen");
-    		testUser.addRole(new RolePLE("test"));
-    		return new User[] {testUser};
+    	 	return new Productline[] {testPL};
+    	 	
     	} else if(parentElement instanceof User) {
+    		
     		User aUser = (User)parentElement;
+    		for(int i = 0; i < aUser.getRoles().toArray().length; i++){
+    			aUser.getRoles();
+    			if(parentElement instanceof RoleP) {
+    	    		RoleP programmer = (RoleP)parentElement;
+    	    		return new Object[] {programmer.getProductName()};
+    	    	}
+    	    	else if(parentElement instanceof RolePE) {
+    	    		RolePE productEngineer = (RolePE)parentElement;
+    	    		return new Object[] {productEngineer.getProductName()};
+    	    	}
+    	    	else if(parentElement instanceof RolePLE) {
+    	    		RolePLE productLineEngineer = (RolePLE)parentElement;
+    	    		return new Object[] {productLineEngineer.getProductlineName()};
+    	    	}
+    		}
+    	    	
     		return aUser.getRoles().toArray();
     	}
-    	else if(parentElement instanceof RoleP) {
-    		RoleP programmer = (RoleP)parentElement;
-    		return new Object[] {programmer.getProductName()};
-    	}
-    	else if(parentElement instanceof RolePE) {
-    		RolePE productEngineer = (RolePE)parentElement;
-    		return new Object[] {productEngineer.getProductName()};
-    	}
-    	else if(parentElement instanceof RolePLE) {
-    		RolePLE productLineEngineer = (RolePLE)parentElement;
-    		return new Object[] {productLineEngineer.getProductlineName()};
-    	}
+    	     
         return null;
     }
 
@@ -181,8 +195,8 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 		});
 	}
 
-
-	/*public class ItemContainer {
+/*
+	public class ItemContainer {
 		private Object treeParent;
 		private Object item;
 		private IProject project;
@@ -206,7 +220,8 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 		{
 			if (treeParent instanceof IProject) {
 				return new String[] {"A", "B" };
-			} else if(treeParent instanceof User) {
+			} 
+			else if(treeParent instanceof User) {
 				User aUser = (User)treeParent;
 				return aUser.getRoles().toArray();
 			}
@@ -238,5 +253,6 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 			
 			return project;		
 		}
-	}*/
+	}
+	*/
 }
