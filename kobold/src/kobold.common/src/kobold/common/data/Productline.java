@@ -21,26 +21,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.13 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: Productline.java,v 1.14 2004/07/14 15:55:46 garbeam Exp $
  *
  */
 package kobold.common.data;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
+
+import org.dom4j.Element;
 
 import kobold.common.io.RepositoryDescriptor;
 
-import org.dom4j.Element;
 
 /**
  * Represents a server side productline. Used for client-server interchange.
  */
 public class Productline extends Asset {
 
-	private List coreassets = new ArrayList();
-	private List products = new ArrayList();
+	private Map coreassets = new HashMap();
+	private Map products = new HashMap();
 	
 	/**
 	 * Base constructor for productlines.
@@ -65,8 +66,16 @@ public class Productline extends Asset {
 	 * @param product the product to add.
 	 */
 	public void addProduct(Product product) {
-		products.add(product);
+		products.put(product.getName(), product);
 		product.setParent(this);
+	}
+	
+	/**
+	 * Gets a product by its name.
+	 * @param productName the product name.
+	 */
+	public Product getProduct(String productName) {
+	    return (Product)products.get(productName);
 	}
 	
 	/**
@@ -74,7 +83,7 @@ public class Productline extends Asset {
 	 * @param product the product to remove.
 	 */
 	public void removeProduct(Product product) {
-		products.remove(product);
+		products.remove(product.getName());
 		product.setParent(null);
 	}
 
@@ -83,7 +92,7 @@ public class Productline extends Asset {
 	 * @param coreasset the coreasset to add.
 	 */
 	public void addCoreAsset(Component coreasset) {
-		coreassets.add(coreasset);
+		coreassets.put(coreasset.getName(), coreasset);
 		coreasset.setParent(this);
 	}
 	
@@ -92,7 +101,7 @@ public class Productline extends Asset {
 	 * @param coreasset the coreassset to remove.
 	 */
 	public void removeCoreAsset(Component coreasset) {
-		coreassets.remove(coreasset);
+		coreassets.remove(coreasset.getName());
 		coreasset.setParent(null);
 	}
 
@@ -103,13 +112,13 @@ public class Productline extends Asset {
 		Element element = super.serialize();
 
 		Element coreassetElements = element.addElement("coreassets");
-		for (Iterator iterator = coreassets.iterator(); iterator.hasNext(); ) {
+		for (Iterator iterator = coreassets.values().iterator(); iterator.hasNext(); ) {
 			Component component = (Component) iterator.next();
 			coreassetElements.add(component.serialize());
 		}
 		
 		Element productElements = element.addElement("products");
-		for (Iterator iterator = products.iterator(); iterator.hasNext(); ) {
+		for (Iterator iterator = products.values().iterator(); iterator.hasNext(); ) {
 			Product product = (Product) iterator.next();
 			productElements.add(product.serialize());
 		}
@@ -128,7 +137,8 @@ public class Productline extends Asset {
 			 iterator.hasNext(); )
 		{
 			Element elem = (Element) iterator.next();
-			coreassets.add(new Component(this, elem));
+			Component component = new Component(this, elem);
+			coreassets.put(component.getName(), component);
 		}
 		
 		Element productElements = element.element("products");
@@ -136,7 +146,8 @@ public class Productline extends Asset {
 			 iterator.hasNext(); )
 		{
 			Element elem = (Element) iterator.next();
-			products.add(new Product(this, elem));
+			Product product = new Product(this, elem);
+			products.put(product.getName(), product);
 		}
 	}
 }
