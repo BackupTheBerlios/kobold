@@ -64,6 +64,7 @@ public class ChangePasswordDialog extends TitleAreaDialog{
     {
         setTitle("Change Password");
         setMessage("Changes your password");
+        getShell().setText("Change Password");
         Composite composite = (Composite) super.createDialogArea(parent);
         
         createContent(composite);
