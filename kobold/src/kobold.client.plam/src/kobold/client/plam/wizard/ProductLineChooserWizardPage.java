@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ProductLineChooserWizardPage.java,v 1.4 2004/05/15 21:56:04 vanto Exp $
+ * $Id: ProductLineChooserWizardPage.java,v 1.5 2004/05/18 11:22:48 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -92,6 +92,7 @@ public class ProductLineChooserWizardPage extends WizardPage {
 			//											serverInfoPage.getPassword());
 			Productline productline = client.getProductline(uc, "kobold2");
 			pline = productline.getName();
+			System.err.println(pline);
 			client.logout(uc);
 		} catch (Exception exception) {
 			LogFactory.getLog(getClass().getName()).info(exception);

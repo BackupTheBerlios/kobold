@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.10 2004/05/17 12:53:29 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.11 2004/05/18 11:22:48 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -37,7 +37,7 @@ import java.util.Vector;
 
 import kobold.common.controller.IKoboldServer;
 import kobold.common.controller.RPCMessageTransformer;
-import kobold.common.data.KoboldMessage;
+import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.Role;
@@ -67,7 +67,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	 *  Constructor
 	 */
 	public SecureKoboldClient(URL url) {
-		client = new AdaptedSecureXmlRpcClient(url);
+		client = new SecureXmlRpcClient(url);
 	}
 
 	/**
@@ -164,6 +164,8 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(plName);
 		try {
 			Object result = client.execute("getProductline", v);
+			System.err.println(result);
+			System.err.println(RPCMessageTransformer.decode((String)result));
 			return new Productline(RPCMessageTransformer.decode((String)result));
 		} catch (Exception exception) {
 			log.error(exception);
@@ -296,7 +298,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	 * @param userContext the user context.
 	 * @param koboldMessage the message.
 	 */
-	public void sendMessage(UserContext userContext, KoboldMessage koboldMessage) {
+	public void sendMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(RPCMessageTransformer.encode(koboldMessage.serialize()));
@@ -314,12 +316,12 @@ public class SecureKoboldClient implements IKoboldServer {
 	 * 
 	 * @param userContext the user context.
 	 */
-	public KoboldMessage fetchMessage(UserContext userContext) {
+	public AbstractKoboldMessage fetchMessage(UserContext userContext) {
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
 			Object result = client.execute("fetchMessage", v);
-			return new KoboldMessage(RPCMessageTransformer.decode((String)result));
+			return AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)result));
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -333,7 +335,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	 * @param userContext the user context.
 	 * @param koboldMessage the message.
 	 */
-	public void invalidateMessage(UserContext userContext, KoboldMessage koboldMessage) {
+	public void invalidateMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(RPCMessageTransformer.encode(koboldMessage.serialize()));

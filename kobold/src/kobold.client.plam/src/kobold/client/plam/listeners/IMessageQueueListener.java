@@ -21,14 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IMessageQueueListener.java,v 1.1 2004/05/16 02:27:55 vanto Exp $
+ * $Id: IMessageQueueListener.java,v 1.2 2004/05/18 11:22:48 vanto Exp $
  *
  */
 package kobold.client.plam.listeners;
 
 import java.util.EventListener;
 
-import kobold.common.data.KoboldMessage;
+import kobold.common.data.AbstractKoboldMessage;
 
 /**
  * An interface to be implemented by objects interested in add and remove events 
@@ -38,7 +38,7 @@ import kobold.common.data.KoboldMessage;
  */
 public interface IMessageQueueListener extends EventListener {
 
-	void addMessage(KoboldMessage msg);
-	void removeMessage(KoboldMessage msg);
+	void addMessage(AbstractKoboldMessage msg);
+	void removeMessage(AbstractKoboldMessage msg);
 	void rebuild();
 }
