@@ -32,7 +32,6 @@ package kobold.client.serveradmin.tools;
  * 
  * The idee behind this approach to console password masking (and a detailed
  * describtion of alternatives) can be found at 
- * @see java.sun.com/features/2002/09/pword_mask.html 
  * 
  * @author contan
  */

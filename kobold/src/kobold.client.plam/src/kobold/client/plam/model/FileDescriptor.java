@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.27 2004/10/18 16:48:43 garbeam Exp $
+ * $Id: FileDescriptor.java,v 1.28 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -186,7 +186,7 @@ public class FileDescriptor implements IFileDescriptorContainer,
 
 
     /**
-     * @see kobold.client.plam.model.IFileDescriptorContainer#addFileDescriptor(kobold.common.io.FileDescriptor)
+     * @see kobold.client.plam.model.IFileDescriptorContainer#addFileDescriptor(kobold.client.plam.model.FileDescriptor)
      */
     public void addFileDescriptor(FileDescriptor fd)
     {
@@ -200,8 +200,9 @@ public class FileDescriptor implements IFileDescriptorContainer,
     }
 
 
+  
     /**
-     * @see kobold.client.plam.model.IFileDescriptorContainer#removeFileDescriptor(kobold.common.io.FileDescriptor)
+     * @see kobold.client.plam.model.IFileDescriptorContainer#removeFileDescriptor(kobold.client.plam.model.FileDescriptor)
      */
     public void removeFileDescriptor(FileDescriptor fd)
     {

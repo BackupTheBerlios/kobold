@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.13 2004/10/18 16:26:35 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.14 2004/10/21 21:33:58 martinplies Exp $
  *
  */
 package kobold.client.vcm;
@@ -291,8 +291,9 @@ public class VCMActionListener implements IVCMActionListener
         
     }
 
+    
     /**
-     * @see kobold.client.plam.listeners.IVCMActionListener#addFileDescriptors(java.util.List)
+     * @see kobold.client.plam.listeners.IVCMActionListener#addFileDescriptors(kobold.client.plam.model.AbstractRootAsset, java.util.List)
      */
     public void addFileDescriptors(AbstractRootAsset asset, List fds) {
         

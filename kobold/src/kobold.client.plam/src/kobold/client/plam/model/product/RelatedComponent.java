@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.14 2004/10/13 22:44:49 martinplies Exp $
+ * $Id: RelatedComponent.java,v 1.15 2004/10/21 21:32:40 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -53,7 +53,7 @@ public class RelatedComponent extends ProductComponent
 	/**
 	 * Basic constructor.
 	 * @param variant the related variant.
-	 * @param plCompRelease the release of the corresponding component in the productline.
+	 * @param release the release of the corresponding component in the productline.
 	 **/
 	public RelatedComponent (Variant variant,
 							 Release release) {
@@ -66,7 +66,7 @@ public class RelatedComponent extends ProductComponent
 	
 	/**
 	 * Serializes the component.
-	 * @see kobold.client.plam.model.AbstractAsset#serialize(org.dom4j.Element)
+	 * @see kobold.client.plam.model.AbstractAsset#serialize()
 	 */
 	public Element serialize() {
 		Element element = super.serialize();
@@ -96,7 +96,8 @@ public class RelatedComponent extends ProductComponent
 
 	/**
 	 * DOM constructor.
-	 * @param productName
+     * @param parent
+	 * @param element
 	 */
 	protected RelatedComponent (AbstractAsset parent, Element element) {
 		super();
@@ -105,7 +106,7 @@ public class RelatedComponent extends ProductComponent
 	}	
 
 	/**
-	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
+	 * @see kobold.client.plam.model.AbstractAsset#getGXLChildren()
 	 */
 	public List getGXLChildren() {
 	    List children = new ArrayList();
@@ -113,8 +114,10 @@ public class RelatedComponent extends ProductComponent
 		return children;
 	}
 
+
 	/**
-	 * @see kobold.common.model.AbstractAsset#getGXLType()
+	 * @see 
+	 * kobold.client.plam.model.AbstractAsset#getGXLType()
 	 */
 	public String getGXLType() {
 		return relatedVariant.getGXLType();

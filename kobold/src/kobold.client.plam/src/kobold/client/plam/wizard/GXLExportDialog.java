@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.21 2004/09/22 15:35:46 martinplies Exp $
+ * $Id: GXLExportDialog.java,v 1.22 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -221,7 +221,7 @@ public class GXLExportDialog extends TitleAreaDialog {
     /**
      * Generate GXL export. Export <code>asset</code> to <code>GXLFile</code>.
      * @param asset 
-     * @param gxlFile 
+     * @param GXLFile 
      */
     public boolean exportGraph(AbstractAsset asset, File GXLFile) {
         GXLGraph graph = new GXLGraph("koboldgraph"); //$NON-NLS-1$
@@ -314,11 +314,6 @@ public class GXLExportDialog extends TitleAreaDialog {
         return edgesAdd;
     }
     
-    /**
-     * @param node
-     * @param targetNode
-     * @param graph
-     */
     private void addEdge(Edge edge, GXLGraph graph, Map nodeMap, Set addedEdges) {
         if (!addedEdges.contains(edge)) {
             GXLGraphElement form = (GXLGraphElement) nodeMap.get(edge

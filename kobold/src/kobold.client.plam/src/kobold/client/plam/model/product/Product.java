@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.25 2004/09/20 17:45:05 martinplies Exp $
+ * $Id: Product.java,v 1.26 2004/10/21 21:32:40 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -81,7 +81,6 @@ public class Product extends AbstractRootAsset
 	
 	/**
 	 * Serializes the product.
-	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
 		
@@ -117,7 +116,7 @@ public class Product extends AbstractRootAsset
 
 	/**
 	 * Deserializes this product.
-	 * @param productName
+	 * @param element
 	 */
 	public void deserialize(Element element) {
 		super.deserialize(element);
@@ -173,9 +172,8 @@ public class Product extends AbstractRootAsset
 		}
 	}
 	
-
 	/**
-	 * @see kobold.common.data.AbstractProduct#getType()
+	 * @see kobold.client.plam.model.AbstractAsset#getType()
 	 */
 	public String getType() {
 		return AbstractAsset.PRODUCT;
@@ -189,6 +187,15 @@ public class Product extends AbstractRootAsset
 	public void addProductComponent(ProductComponent component) {
 	    addProductComponent(component, -1);
 	}
+	
+    public void addProductComponent(ProductComponent comp, int index) {
+        if (comp instanceof SpecificComponent) {
+            addSpecificComponent((SpecificComponent)comp, index);
+		}
+		else if (comp instanceof RelatedComponent) {
+		    addRelatedComponent((RelatedComponent)comp, index);
+		}
+    }
 
 	
 	public void addProductRelease(ProductRelease productRelease)
@@ -198,31 +205,20 @@ public class Product extends AbstractRootAsset
 		addToPool(productRelease);
 	}
 	
-	/**
-	 * @return
-	 */
 	public List getProductReleases() {
 		return Collections.unmodifiableList(productReleases);
 	}
 
-	/**
-	 * @return
-	 */
 	public List getRelatedComponents() {
 		return Collections.unmodifiableList(relatedComponents);
 	}
 	
-	
-
-	/**
-	 * @return
-	 */
 	public List getSpecificComponents() {
 		return Collections.unmodifiableList(specificComponents);
 	}   
 
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
+	/**
+	 * @see kobold.client.plam.model.AbstractAsset#getGXLChildren()
 	 */
 	public List getGXLChildren() {
 		ArrayList children = new ArrayList();
@@ -231,8 +227,8 @@ public class Product extends AbstractRootAsset
 		// TODO add Release
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLType()
+	/**
+	 * @see kobold.client.plam.model.AbstractAsset#getGXLType()
 	 */
 	public String getGXLType() {
 		return GXL_TYPE;
@@ -246,7 +242,7 @@ public class Product extends AbstractRootAsset
 	    return ModelStorage.getPathForAsset(this);		
 	}
 
-    /* (non-Javadoc)
+    /**
      * @see kobold.client.plam.model.AbstractRootAsset#getProductline()
      */
     public Productline getProductline() {        
@@ -283,8 +279,8 @@ public class Product extends AbstractRootAsset
 	}
  
 
-    /* (non-Javadoc)
-     * @see kobold.client.plam.model.IProductComponetContainer#removeProductComponent(kobold.client.plam.model.product.ProductComponent)
+    /**
+     * @see kobold.client.plam.model.IProductComponentContainer#removeProductComponent(kobold.client.plam.model.product.ProductComponent)
      */
     public void removeProductComponent(ProductComponent comp) {
         if(comp instanceof SpecificComponent){
@@ -309,17 +305,6 @@ public class Product extends AbstractRootAsset
     }
 
 
-    /* (non-Javadoc)
-     * @see kobold.client.plam.model.IProductComponentContainer#addProductComponent(kobold.client.plam.model.product.ProductComponent, int)
-     */
-    public void addProductComponent(ProductComponent comp, int index) {
-        if (comp instanceof SpecificComponent) {
-            addSpecificComponent((SpecificComponent)comp, index);
-		}
-		else if (comp instanceof RelatedComponent) {
-		    addRelatedComponent((RelatedComponent)comp, index);
-		}
-    }
     public void addSpecificComponent(SpecificComponent comp){
         addSpecificComponent(comp, -1);
     }

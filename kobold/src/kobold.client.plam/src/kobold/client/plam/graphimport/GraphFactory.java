@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphFactory.java,v 1.5 2004/08/25 04:06:40 martinplies Exp $
+ * $Id: GraphFactory.java,v 1.6 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.graphimport;
@@ -225,7 +225,6 @@ private Map mapFilenodesToFiledescriptors(Element graph, HashMap fileDescriptors
  * finds  the right Filedescritpor.
  * Exist more than one Filedescriptor, that filename is equal to nodename, the 
  * user is asked, which Filedescriptor should mapped to the node. 
- * @param container
  * @param fileDescriptors
  * @param nodeName 
  * @param nodeBauhausPath additional information

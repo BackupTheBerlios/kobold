@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractStatus.java,v 1.2 2004/08/05 20:42:31 vanto Exp $
+ * $Id: AbstractStatus.java,v 1.3 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -45,28 +45,27 @@ public abstract class AbstractStatus implements ISerializable
     /**
      * Returns the unique id of this status object.
      * 
-     * @return
      */
     public abstract String getId();
 
     /**
      * Returns a short handy name for this status.
      * 
-     * @return
+     *
      */
     public abstract String getName();
 
     /**
      * Returns a more detailed description.
      * 
-     * @return
+     * 
      */
     public abstract String getDescription();
 
     /**
      * Returns an icon to be displayed in the graphical editor.
      * 
-     * @return
+     * 
      */
     public abstract ImageDescriptor getIcon();
     
@@ -89,7 +88,7 @@ public abstract class AbstractStatus implements ISerializable
     /**
      * Factory method.
      * @param element
-     * @return
+     * 
      */
     public static AbstractStatus createStatus(Element element) 
     {

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.21 2004/09/23 13:43:14 vanto Exp $
+ * $Id: ProductlineManager.java,v 1.22 2004/10/21 21:34:56 martinplies Exp $
  *
  */
 package kobold.server.controller;
@@ -92,8 +92,8 @@ public class ProductlineManager {
      *         if the productline could not be added (e.g. because there already
      *         existes a productline with the same name as the new one).
 	 */
-	public boolean addProductline(Productline productLine) {
-        Productline pl = getProductlineByName(productLine.getName());
+	public boolean addProductline(Productline productline) {
+        Productline pl = getProductlineByName(productline.getName());
         
         if (pl != null){
             // Obviously a productline with the name specified in 'productLine
@@ -101,7 +101,7 @@ public class ProductlineManager {
             return false;
         }
         else{
-            productlines.put(productLine.getId(), productLine);
+            productlines.put(productline.getId(), productline);
             serialize();
             return true;
         }
@@ -182,7 +182,7 @@ public class ProductlineManager {
 	 * Serializes all products and productlines to the file specified
      * by productStore.
      * 
-     * @see serialize(String)
+     * @see ProductlineManager#serialize(String) serialize(String)
 	 */
 	public void serialize() {
 		serialize(this.productStore);

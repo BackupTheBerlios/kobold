@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.46 2004/10/20 21:57:04 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.47 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -118,8 +118,8 @@ public class ModelStorage
     
     /**
      * Creates the PL directory
-     * @param pl, the pl for creating the dirs
-     * @return the PL-IFolder
+     * @param pl the pl for creating the dirs
+     * @return monitor the PL-IFolder
      */
     private static void createPlDirectory (Productline pl, IProgressMonitor monitor) {
         //create directory for the PL
@@ -173,7 +173,7 @@ public class ModelStorage
     
     /**
      *	Stores the complete model of the pl to the metainfo-files 
-     * @param pl, the pl to store
+     * @param pl the pl to store
      */
     public static void storeModel(final Productline pl)
     {
@@ -272,7 +272,7 @@ public class ModelStorage
     /**
      * Returns full path of given abstract assets. The full path will
      * be calculated.
-     * @param theAsset an abstract asset
+     * @param asset theAsset an abstract asset
      */
     public static IPath getPathForAsset(AbstractAsset asset) {
         

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.23 2004/09/23 13:43:14 vanto Exp $
+ * $Id: UserManager.java,v 1.24 2004/10/21 21:34:56 martinplies Exp $
  *
  */
 package kobold.server.controller;
@@ -121,7 +121,7 @@ public class UserManager {
      * 
      * Use 'isAssignedToAsset() if you like to check a user for assignements. 
      * 
-     * @see removeUserByName()
+     * @see UserManager#removeUserByName(String)
      * 
      * @param user User object containing the username of the User object that 
      *        is to be removed
@@ -270,9 +270,9 @@ public class UserManager {
 	}
 	
 	/**
-	 * Returns a list of {@see kobold.common.data.User} users.
+	 * Returns a list of {@link kobold.server.data.User} users.
      * 
-     * @return List of {@see kobold.common.data.User} users representing all the
+     * @return List of {@link kobold.server.data.User} users representing all the
      *         Users currently registered on the server
 	 */
 	public List getAllUsers() {

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerHelper.java,v 1.5 2004/08/25 14:59:13 vanto Exp $
+ * $Id: ServerHelper.java,v 1.6 2004/10/21 21:32:40 martinplies Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -51,12 +51,10 @@ public class ServerHelper
     }
     
     /**
-     * Retrieves the Server-Productline instance for the {@link PLAMProject}
+     * Retrieves the Server-Productline instance for the {@link kobold.client.plam.KoboldProject}
      * Returns null if PL doesnt exist or login fails.
      * 
      * @param p
-     * @param plName
-     * @return
      */
     public static Productline fetchProductline(KoboldProject p) 
     {
@@ -73,12 +71,11 @@ public class ServerHelper
     }
 
     /**
-     * Retrieves the Server-Product instance for the {@link PLAMProject}
+     * Retrieves the Server-Product instance for the {@link kobold.client.plam.KoboldProject}
      * Returns null if P doesnt exist or login fails.
      * 
-     * @param p
+     * @param kp
      * @param productId
-     * @return
      */
     public static Product fetchProduct(KoboldProject kp, String productId) 
     {
@@ -105,7 +102,7 @@ public class ServerHelper
     }
 
     /**
-     * @param project
+     * @param p
      */
     public static List fetchAllUsers(KoboldProject p)
     {

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.18 2004/08/31 20:14:07 vanto Exp $
+ * $Id: Component.java,v 1.19 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 
@@ -67,7 +67,6 @@ public class Component extends AbstractMaintainedAsset
 
 	/**
 	 * DOM constructor.
-	 * @param productName
 	 */
 	public Component(AbstractAsset parent, Element element) {
 		super();
@@ -107,8 +106,9 @@ public class Component extends AbstractMaintainedAsset
 		}
 	}
 
+
 	/**
-	 * @see kobold.common.data.AbstractProduct#getType()
+	 * @see kobold.client.plam.model.AbstractAsset#getType()
 	 */
 	public String getType() {
 		return AbstractAsset.COMPONENT;
@@ -152,7 +152,6 @@ public class Component extends AbstractMaintainedAsset
 	/**
 	 * Returns a unmodifiable list of variants.
 	 * 
-	 * @return
 	 */
 	public List getVariants()
 	{
@@ -163,8 +162,9 @@ public class Component extends AbstractMaintainedAsset
 		return variants;
 	}	
 
+
 	/**
-	 * @see kobold.common.model.AbstractAsset#getGXLType()
+	 * @see kobold.client.plam.model.AbstractAsset#getGXLType()
 	 */
 	public String getGXLType() {
 		return GXL_TYPE;

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.15 2004/09/23 13:43:14 vanto Exp $
+ * $Id: WorkflowEngine.java,v 1.16 2004/10/21 21:34:56 martinplies Exp $
  *
  */
 package kobold.server.workflow;
@@ -138,7 +138,7 @@ public class WorkflowEngine {
 
 	/**
 	 * Adds a workflowmessage object to the workingmemory.
-	 * @param msg a workflowmessage object
+	 * @param obj a workflowmessage object
 	 */
 	private void assertObject(Object obj) {
 		WorkingMemory memory = this.getWorkingMemory();

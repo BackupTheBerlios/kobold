@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Release.java,v 1.7 2004/08/23 13:00:42 vanto Exp $
+ * $Id: Release.java,v 1.8 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 
@@ -61,7 +61,6 @@ public class Release extends AbstractAsset{
 
     /**
 	 * DOM constructor.
-	 * @param productName
 	 */
 	public Release (AbstractAsset parent, Element element) {
 		super();
@@ -72,7 +71,7 @@ public class Release extends AbstractAsset{
 	/**
 	 * Adds a new fileDescriptor.
 	 *
-	 * @param fileDescriptor contains the new fileDescriptor
+	 * @param filerev fileDescriptor contains the new fileDescriptor
 	 */
 	public void addFileRevision(FileRevision filerev) 
 	{
@@ -108,7 +107,7 @@ public class Release extends AbstractAsset{
     
 	/**
 	 * Serializes the product.
-	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
+	 * @see kobold.client.plam.model.product.Product#serialize()
 	 */
 	public Element serialize() {
 	    Element element = super.serialize();
@@ -126,7 +125,6 @@ public class Release extends AbstractAsset{
 
 	/**
 	 * Deserializes this product.
-	 * @param productName
 	 */
 	public void deserialize(Element element) {
 	    super.deserialize(element);
@@ -139,8 +137,9 @@ public class Release extends AbstractAsset{
 		}
 	}
 
+
 	/**
-	 * @see kobold.common.data.AbstractProduct#getType()
+	 * @see kobold.client.plam.model.AbstractAsset#getType()
 	 */
 	public String getType() 
 	{

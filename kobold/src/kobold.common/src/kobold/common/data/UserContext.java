@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: UserContext.java,v 1.10 2004/08/02 14:00:55 garbeam Exp $
+ * $Id: UserContext.java,v 1.11 2004/10/21 21:34:11 martinplies Exp $
  */
 
 package kobold.common.data;
@@ -60,7 +60,7 @@ public class UserContext implements ISerializable {
      * about the specific user context from the Kobold server,
      * e.g. roles, repository access data, etc.
      *
-     * @param username username of the users (like a Unix username).
+     * @param userName username of the users (like a Unix username).
      * @param sessionId the current session Id of the user context.
      */
     public UserContext(String userName, String sessionId)
@@ -70,14 +70,14 @@ public class UserContext implements ISerializable {
     }
 
     /**
-     * @returns the username of this user context.  
+     * @return Returns the username of this user context.  
      */
     public String getUserName() {
         return this.userName;
     }
 
     /**
-     * @returns the session id of this user context.
+     * @return Returns the session id of this user context.
      */
     public String getSessionId() {
         return this.sessionId;

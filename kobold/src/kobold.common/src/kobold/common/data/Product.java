@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.16 2004/09/23 13:43:17 vanto Exp $
+ * $Id: Product.java,v 1.17 2004/10/21 21:34:11 martinplies Exp $
  *
  */
 
@@ -63,7 +63,7 @@ public class Product extends Asset {
 	/**
 	 * DOM constructor.
 	 * @param productline the parent productline.
-	 * @param the DOM element representing this asset.
+	 * @param element the DOM element representing this asset.
 	 */
 	public Product (Productline productline, Element element) {
 	    super(productline);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.26 2004/09/01 11:23:47 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.27 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -204,7 +204,6 @@ public abstract class AbstractAsset implements ISerializable, INode
     /**
      * Returns the description
      * 
-     * @return
      */
     public String getDescription()
     {
@@ -253,8 +252,6 @@ public abstract class AbstractAsset implements ISerializable, INode
 
     /**
      * Returns the root of the model tree, an AbstractRootAsset
-     * 
-     * @return
      */
     public AbstractRootAsset getRoot()
     {

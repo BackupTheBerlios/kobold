@@ -34,7 +34,7 @@ import java.util.Vector;
  * several questions along with their answers and provide the possibiloty to  
  * perform automated user interrogation.
  * 
- * @see kobold.client.serveradmin.inquisitors.* 
+ * @see kobold.client.serveradmin.inquisitors 
  * 
  * @author contan
  */

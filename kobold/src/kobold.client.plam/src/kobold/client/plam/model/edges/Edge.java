@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Edge.java,v 1.13 2004/09/22 09:20:37 martinplies Exp $
+ * $Id: Edge.java,v 1.14 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model.edges;
@@ -61,8 +61,8 @@ public class Edge {
     public static final String GXL_EXCLUDE = "http://kobold.berlios.de/types#exlcudeEdge";
     public static final String GXL_EXTERN = "http://kobold.berlios.de/types#externEdge";
     /**
-     * @param startNode2
-     * @param targetNode2
+     * @param startNode
+     * @param targetNode
      */
     public Edge(INode startNode, INode targetNode) {
         this.startNode = startNode;

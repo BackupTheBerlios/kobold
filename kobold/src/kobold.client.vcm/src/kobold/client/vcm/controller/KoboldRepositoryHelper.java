@@ -205,7 +205,7 @@ public class KoboldRepositoryHelper {
     
     /**
      * Sets the new userName
-     * @param userPassword, the userPassword to store
+     * @param userPassword the userPassword to store
      */
     static private void setUserPassword (String userPassword)
     {
@@ -214,7 +214,7 @@ public class KoboldRepositoryHelper {
     
     /**
      * Opens a input Dialog to enter the user-data
-     * @param type, the variableName to get of the user
+     * @param type the variableName to get of the user
      * @return the input-value of the dialog
      */
     static private String getPreference (String type)

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.16 2004/08/02 14:00:55 garbeam Exp $
+ * $Id: IKoboldServer.java,v 1.17 2004/10/21 21:34:11 martinplies Exp $
  *
  */
 
@@ -118,7 +118,7 @@ public interface IKoboldServer {
     /**
      * Fetches all product line names.
      * @param userContext the user context.
-     * @return {@see java.util.List} of the productline names.
+     * @return List of the productline names.
      */
     public Vector getProductlineNames(UserContext userContext);
 
@@ -127,7 +127,7 @@ public interface IKoboldServer {
 	 * If you make changes to a specific product or component,
 	 * use the specific method instead.
 	 * @param userContext the user context.
-	 * @param productline the productline. 
+	 * @param id the productline id. 
 	 */
 	public void updateProductline(UserContext userContext,
 								  Productline id);

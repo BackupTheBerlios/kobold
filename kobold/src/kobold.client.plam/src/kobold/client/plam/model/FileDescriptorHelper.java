@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptorHelper.java,v 1.11 2004/09/23 13:43:19 vanto Exp $
+ * $Id: FileDescriptorHelper.java,v 1.12 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -42,11 +42,11 @@ public class FileDescriptorHelper
 {
 	/**
 	 * Creates a file FileDescriptor for a file and all directories in which the file is included.
-	 * @param filename, the filename to create
-	 * @param revision, the revision of the file
-	 * @param lastChange, the last changed date of the file
-	 * @param isBinary, if the file is a binary one
-	 * @param root, the root fd-container
+	 * @param filename the filename to create
+	 * @param revision the revision of the file
+	 * @param lastChange the last changed date of the file
+	 * @param isBinary if the file is a binary one
+	 * @param root the root fd-container
 	 */
     public static void createFile(String filename,  String revision, 
 								  Date lastChange,  boolean isBinary, 
@@ -90,8 +90,8 @@ public class FileDescriptorHelper
 
 	/**
 	 * Creates a file FileDescriptor for a directory and all subdirectories in which the new file is included.
-	 * @param dirName, the directory name
-	 * @param root, the root filedescriptor
+	 * @param dirName the directory name
+	 * @param root the root filedescriptor
      * 
      */
     public static void createDirectory(String dirName,  IFileDescriptorContainer root) 

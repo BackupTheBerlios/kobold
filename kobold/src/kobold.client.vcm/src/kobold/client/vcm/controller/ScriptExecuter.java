@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ScriptExecuter.java,v 1.2 2004/09/19 22:32:35 vanto Exp $
+ * $Id: ScriptExecuter.java,v 1.3 2004/10/21 21:33:58 martinplies Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -97,7 +97,6 @@ public class ScriptExecuter
 	/**
 	 * Opens the connection and invokes cvs in server mode.
 	 *
-	 * @see Connection.open()
 	 */
 	public String open(IProgressMonitor monitor) throws IOException {
 		boolean connected = false;

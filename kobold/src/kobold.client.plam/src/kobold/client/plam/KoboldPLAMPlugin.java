@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.26 2004/08/31 20:50:25 vanto Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.27 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam;
@@ -106,7 +106,6 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin
 
 	/**
 	 * Returns the registered VCM-Plugin or null if none has been registered.
-	 * @return
 	 */
 	public IVCMActionListener getVCMListener()
 	{
@@ -195,9 +194,9 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin
     /**
      * Returns the current selected kobold-natured project or null if none is seleted.
      * 
-     * @return
      */
     public static IProject getCurrentProject()
+
     {
     	return getDefault().currentProject; 	
     }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.23 2004/09/23 13:43:17 vanto Exp $
+ * $Id: Productline.java,v 1.24 2004/10/21 21:34:11 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -45,8 +45,8 @@ import org.dom4j.Element;
  * 
  * They are created (and removed) by the corresponding administration methods 
  * and stored directly on the Kobold server. 
- * 
- * @see kobold.server.controller.SecureKoboldWebServer
+ *      
+ * @see kobold.server.SecureKoboldWebServer
  * @see kobold.common.data.Product
  * @see kobold.common.io.RepositoryDescriptor 
  */
@@ -273,7 +273,7 @@ public class Productline extends Asset {
 	
 	/**
 	 * Removes a coreasset by its id.
-	 * @param coreasset the coreassset to remove.
+	 * @param coreAssetId the id of the coreassset to remove.
      * @return the removed coreasset if a core asset with the specified id 
      *         existed, null otherwise 
 	 */

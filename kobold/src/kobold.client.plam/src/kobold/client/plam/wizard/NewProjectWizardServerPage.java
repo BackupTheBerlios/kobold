@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.17 2004/08/29 14:39:29 memyselfandi Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.18 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -85,7 +85,6 @@ public class NewProjectWizardServerPage extends WizardPage {
 	
 	/**
 	 * Constructor for NewProjectSetWizardPage.
-	 * @param pageName
 	 */
 	public NewProjectWizardServerPage() {
 		super(PAGE_ID);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.30 2004/10/20 21:57:04 garbeam Exp $
+ * $Id: Productline.java,v 1.31 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -137,7 +137,7 @@ public class Productline extends AbstractRootAsset
 	/**
 	 * Removes a CoreAsset and sets its parent to null.
 	 * 
-	 * @param product The coreAsset to remove.
+	 * @param coreAsset The coreAsset to remove.
 	 */
 	public void removeComponent(Component coreAsset){
 		coreAssets.remove(coreAsset);
@@ -214,15 +214,15 @@ public class Productline extends AbstractRootAsset
 	}
 	
 	/**
-	 * @see kobold.common.data.IAsset#getType()
+	 * @see kobold.client.plam.model.AbstractAsset#getType()
 	 */
 	public String getType() {
 		return AbstractAsset.PRODUCT_LINE;
 	}
 
 
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
+	/**
+	 * @see kobold.client.plam.model.AbstractAsset#getGXLChildren()
 	 */
 	public List getGXLChildren() {
 		return coreAssets;

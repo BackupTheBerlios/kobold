@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.21 2004/09/22 09:20:48 martinplies Exp $
+ * $Id: EdgeContainer.java,v 1.22 2004/10/21 21:32:41 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -123,6 +123,7 @@ public class EdgeContainer implements ISerializable {
     
     /**
      * @param targetNode
+     * @return Returns a list of edges that point to node <code>targetNode<code>
      */
     private List getTargetEdges(INode targetNode) 
     {
@@ -176,7 +177,7 @@ public class EdgeContainer implements ISerializable {
     /**
      * @param startNode
      * @param targetNode
-     * @return returns true, if an edge exists from the start node to the target node, otherwise false.
+     * @return Returns true, if an edge exists from the start node to the target node, otherwise false.
      */
     public boolean containsEdge(INode startNode, INode targetNode) {
         if (this.startNodesList.containsKey(startNode)){
@@ -283,8 +284,7 @@ public class EdgeContainer implements ISerializable {
      * 
      * @param startNode
      * @param targetNode
-     * @return a list of edges that start at the startNode and end at the targetNode 
-     * or Collection.EMPTY_LIST
+     * @return Returns a list of edges that start at the startNode and end at the targetNode or Collection.EMPTY_LIST
      */
     public List getEdges(INode startNode, INode targetNode) {
         if (! startNodesList.containsKey(startNode)) {
@@ -302,8 +302,7 @@ public class EdgeContainer implements ISerializable {
     }
     
     /**
-     * @param node
-     * @return Returns list with edges to and from this node.
+     * @return Returns list with edges to and from this <code>node<code>.
      */
     public List getEdges(INode node){
         List list = new ArrayList();
@@ -353,10 +352,7 @@ public class EdgeContainer implements ISerializable {
     
     /**
      * Retruns the edge, or null, if the edge not exists.
-     * @param edges
-     * @param targetNode
-     * @param type
-     * @return Returns edge. 
+     * @return Returns one edge or <code>null<code>. 
      */
     private Edge getEdge(List edges, INode targetNode, String type){
         for (Iterator ite = edges.iterator(); ite.hasNext();){
@@ -412,10 +408,10 @@ public class EdgeContainer implements ISerializable {
     }
     
     /**
-     * Returns all edges, that have an edge with this type to targetNode.
+     * Returns all edges, that have type <code>type<code> and point to an to targetNode.
      * @param targetNode
      * @param type
-     * @return
+     * @return Returns List of edges.
      */
     public List getEdgesTo(INode targetNode, String type ){
         LinkedList arrL = new LinkedList();
@@ -428,10 +424,12 @@ public class EdgeContainer implements ISerializable {
         return arrL;
     }
     
+
     /**
-     * @param node
-     * @param exclude
-     * @return
+     * Returns List of edges from <code>groundNode</code> with the type <code>type<code>.
+     * @param groundNode 
+     * @param type type of the returned edges
+     * @return Returns List of edges.
      */
     public List getEdgesFrom(AbstractAsset groundNode, String type) {
         LinkedList arrL = new LinkedList();

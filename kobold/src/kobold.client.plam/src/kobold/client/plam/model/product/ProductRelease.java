@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductRelease.java,v 1.3 2004/08/23 13:00:42 vanto Exp $
+ * $Id: ProductRelease.java,v 1.4 2004/10/21 21:32:40 martinplies Exp $
  *
  */
 
@@ -63,7 +63,8 @@ public class ProductRelease extends AbstractAsset
 	
 	/**
 	 * DOM constructor.
-	 * @param productName
+	 * @param parent
+	 * @param element
 	 */
 	public ProductRelease (AbstractAsset parent, Element element) {
 	    super();
@@ -73,7 +74,7 @@ public class ProductRelease extends AbstractAsset
 	
 	/**
 	 * Serializes the product.
-	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
+	 * @see kobold.client.plam.model.product.Product#serialize()
 	 */
 	public Element serialize() {
 		Element productRelease = super.serialize();
@@ -93,7 +94,7 @@ public class ProductRelease extends AbstractAsset
 
 	/**
 	 * Deserializes this product.
-	 * @param productName
+	 * @param element
 	 */
 	public void deserialize(Element element) {
 		super.deserialize(element);
@@ -106,16 +107,10 @@ public class ProductRelease extends AbstractAsset
 		// einem Instancepool holen!
 	}
 
-	/**
-	 * @return
-	 */
 	public Date getCreationDate() {
 		return creationDate;
 	}
 
-	/**
-	 * @return
-	 */
 	public List getReleases() {
 		return releases;
 	}
@@ -127,14 +122,14 @@ public class ProductRelease extends AbstractAsset
 		return AbstractAsset.PRODUCT_RELEASE;
 	}
 
-    /* (non-Javadoc)
+    /**
      * @see kobold.client.plam.model.AbstractAsset#getGXLChildren()
      */
     public List getGXLChildren() {
         return this.releases;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see kobold.client.plam.model.AbstractAsset#getGXLType()
      */
     public String getGXLType() {

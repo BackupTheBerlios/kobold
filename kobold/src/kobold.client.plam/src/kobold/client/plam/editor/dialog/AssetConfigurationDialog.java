@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.36 2004/10/13 14:09:27 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.37 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -693,8 +693,8 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     
     /**
      * Generated unique resource names
-     * @param name, the name of the resource
-     * @return : the generated resourceName
+     * @param name the name of the resource
+     * @return the generated resourceName
      */
     private String generateResourceName (String name)
     {

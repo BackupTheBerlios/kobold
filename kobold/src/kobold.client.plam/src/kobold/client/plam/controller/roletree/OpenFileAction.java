@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: OpenFileAction.java,v 1.3 2004/09/23 13:43:19 vanto Exp $
+ * $Id: OpenFileAction.java,v 1.4 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -44,7 +44,7 @@ public class OpenFileAction extends SelectionListenerAction{
     private IWorkbenchPage workbenchPage;
 
     /**
-     * @param text
+     * @param workbenchPage
      */
     public OpenFileAction(IWorkbenchPage workbenchPage) {
         super("OpenFileAction");

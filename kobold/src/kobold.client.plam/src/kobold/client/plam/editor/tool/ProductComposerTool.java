@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposerTool.java,v 1.5 2004/08/05 20:42:31 vanto Exp $
+ * $Id: ProductComposerTool.java,v 1.6 2004/10/21 21:32:40 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.tool;
@@ -83,7 +83,8 @@ public class ProductComposerTool extends TargetingTool
     
     /**
      * Sets the modifiers , type and location of the target request (which is a 
-     * {@link SelectionRequest}) and then calls {@link #updateHoverRequest()}.
+     * {@link SelectionRequest}).
+     * 
      * @see org.eclipse.gef.tools.TargetingTool#updateTargetRequest()
      */
     protected void updateTargetRequest() {

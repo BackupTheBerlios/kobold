@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.31 2004/10/18 16:48:43 garbeam Exp $
+ * $Id: KoboldProject.java,v 1.32 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam;
@@ -290,7 +290,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
     }
     
     /**
-     * @param username The username to set.
+     * @param userName The username to set.
      */
     public void setUserName(String userName)
     {

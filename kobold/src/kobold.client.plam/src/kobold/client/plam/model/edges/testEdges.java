@@ -21,24 +21,49 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: INode.java,v 1.5 2004/10/21 21:32:41 martinplies Exp $
- *
+ * $Id: testEdges.java,v 1.3 2004/10/21 21:32:41 martinplies Exp $
  */
+
 package kobold.client.plam.model.edges;
 
-import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.productline.Component;
 
 /**
  * @author pliesmn
  *
- * Objects, that are start or target nodes in the graph
- * must implemnet this interface.
+ * TODO To change the template for this generated type comment go to
+ * Window - Preferences - Java - Code Style - Code Templates
  */
-public interface INode {
+public class testEdges {
 
-    /**
-     * Returns the root of the model tree, an AbstractRootAsset
-     */
-    AbstractRootAsset getRoot();
+    public testEdges() {}
+    public static void main(String[] args) {
+        testEdges t = new testEdges();
+        t.test1();
+    }
+    
+    void test1() {
+/*      EdgeContainer ec = new EdgeContainer();
+        Component c1 = new Component();
+        Component c2 = new Component();
+        Component c3 = new Component();
+        Component c4 = new Component();
+        c1.setName("c1");
+        MetaNode mn1 = new MetaNode(MetaNode.OR);
+        ec.addEdge(c1, mn1);
+        
+        o( ec.containsEdge(c1, mn1), "cont 1");
+        o( ! ec.containsEdge(c1, c2), "cont 2");
+        ec.addEdge(mn1, c2);
+        ec.addEdge(mn1, c3);
+        o( ec.getEdge(c1, c2) == null, "getE 2");
+ */   }
+    
+    static void o(boolean b, String s){
+      if (b) {System.out.println("OK Test: "+s);}
+      else {System.out.println("Failur Test: "+s);};
+    }
+    
+    
     
 }

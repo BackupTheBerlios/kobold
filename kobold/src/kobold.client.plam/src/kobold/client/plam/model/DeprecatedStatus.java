@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeprecatedStatus.java,v 1.2 2004/08/05 20:42:31 vanto Exp $
+ * $Id: DeprecatedStatus.java,v 1.3 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -37,7 +37,7 @@ import org.eclipse.ui.PlatformUI;
 public class DeprecatedStatus extends AbstractStatus
 {
     /**
-     * @see kobold.client.plam.model.IStatus#getId()
+     * @see kobold.client.plam.model.AbstractStatus#getId()
      */
     public String getId()
     {
@@ -45,7 +45,7 @@ public class DeprecatedStatus extends AbstractStatus
     }
 
     /**
-     * @see kobold.client.plam.model.IStatus#getName()
+     * @see kobold.client.plam.model.AbstractStatus#getName()
      */
     public String getName()
     {
@@ -53,7 +53,7 @@ public class DeprecatedStatus extends AbstractStatus
     }
 
     /**
-     * @see kobold.client.plam.model.IStatus#getDescription()
+     * @see kobold.client.plam.model.AbstractStatus#getDescription()
      */
     public String getDescription()
     {
@@ -61,7 +61,7 @@ public class DeprecatedStatus extends AbstractStatus
     }
 
     /**
-     * @see kobold.client.plam.model.IStatus#getIcon()
+     * @see kobold.client.plam.model.AbstractStatus#getIcon()
      */
     public ImageDescriptor getIcon()
     {

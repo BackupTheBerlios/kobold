@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.18 2004/09/20 22:07:41 martinplies Exp $
+ * $Id: ProductComponent.java,v 1.19 2004/10/21 21:32:40 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -161,8 +161,8 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 
     private List filedescs = new ArrayList();
 
-    /**
-     * @see kobold.client.plam.model.IFileDescriptorContainer#addFileDescriptor(kobold.common.io.FileDescriptor)
+    /** 
+     * @see kobold.client.plam.model.IFileDescriptorContainer#addFileDescriptor(kobold.client.plam.model.FileDescriptor)
      */
     public void addFileDescriptor(FileDescriptor fd)
     {
@@ -171,8 +171,9 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
         fireStructureChange(AbstractAsset.ID_FILE_DESCRIPTORS, fd);
     }
 
+
     /**
-     * @see kobold.client.plam.model.IFileDescriptorContainer#removeFileDescriptor(kobold.common.io.FileDescriptor)
+     * @see kobold.client.plam.model.IFileDescriptorContainer#removeFileDescriptor(kobold.client.plam.model.FileDescriptor)
      */
     public void removeFileDescriptor(FileDescriptor fd)
     {

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.6 2004/09/23 13:43:14 vanto Exp $
+ * $Id: User.java,v 1.7 2004/10/21 21:34:56 martinplies Exp $
  *
  */
 
@@ -174,7 +174,6 @@ public class User implements ISerializable {
 	/**
 	 * Sets the validation info of this user.
 	 * @param valid the validation info.
-	 * @author garbeam
 	 */
 	public void setValid(boolean valid) {
 	    this.isValid = valid;

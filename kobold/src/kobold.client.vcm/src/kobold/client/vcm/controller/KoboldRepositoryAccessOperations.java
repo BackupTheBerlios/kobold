@@ -149,7 +149,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
     }
     
     /**
-     * @see kobold.client.vcm.controller.KoboldRepositoryOperations#commit(kobold.client.plam.model.AbstractAsset[], org.eclipse.core.runtime.IProgressMonitor)
+     * @see kobold.client.vcm.controller.KoboldRepositoryOperations#commit(kobold.client.plam.model.AbstractAsset[], org.eclipse.core.runtime.IProgressMonitor, java.lang.String)
      */
     public void commit(AbstractAsset[] assets, IProgressMonitor progress,
             		   String msg) throws TeamException {
@@ -176,7 +176,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
     }
     
     /**
-     * @see kobold.client.vcm.controller.KoboldRepositoryOperations#importing(kobold.client.plam.model.AbstractAsset[], org.eclipse.core.runtime.IProgressMonitor, boolean)
+     * @see kobold.client.vcm.controller.KoboldRepositoryOperations#importing(kobold.client.plam.model.AbstractAsset[], org.eclipse.core.runtime.IProgressMonitor, java.lang.String, boolean)
      */
     public void importing(AbstractAsset[] assets, IProgressMonitor progress,
             			  String msg, boolean isPl) throws TeamException {

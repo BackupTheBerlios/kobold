@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Asset.java,v 1.7 2004/08/10 10:31:19 neccaino Exp $
+ * $Id: Asset.java,v 1.8 2004/10/21 21:34:11 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -37,7 +37,7 @@ import org.dom4j.Element;
 
 /**
  * Base class for architectural elements which are managed by the Kobold Server.
- * Implements the {@see kobold.common.data.ISerializable} class for client-server
+ * Implements the {@link kobold.common.data.ISerializable} class for client-server
  * interchange.
  */
 public class Asset implements ISerializable {
@@ -67,7 +67,6 @@ public class Asset implements ISerializable {
 	 * 		  asset is the root.
 	 * @param type the type of this asset, must be a value of the
 	 * 		  static final members of this class.
-	 * @param id a unique id of this asset.
 	 * @param name the name
 	 * @param resource the file or directory name (no PATH!)
 	 * @param repositoryDescriptor
@@ -207,7 +206,7 @@ public class Asset implements ISerializable {
 	
 	/**
 	 * Sets the parent.
-	 * @parent parent the parent asset.
+	 * @param parent the parent asset.
 	 */
 	public void setParent(Asset parent) {
 		this.parent = parent;

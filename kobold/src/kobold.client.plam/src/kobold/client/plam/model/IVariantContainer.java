@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVariantContainer.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: IVariantContainer.java,v 1.2 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -39,7 +39,7 @@ public interface IVariantContainer
 	/**
 	 * Adds a variant and has to set its parent to this asset.
 	 *
-	 * @param variant to add
+	 * @param var variant to add
 	 */
     void addVariant(Variant var);
 
@@ -47,14 +47,14 @@ public interface IVariantContainer
 	 * Adds a variant at the given index and has to set its 
 	 * parent to this asset.
 	 *
-	 * @param variant to add
+	 * @param var variant to add
 	 */
     void addVariant(Variant var, int index);
 
     /**
 	 * Removes a variant and has to set its parent to null.
 	 *
-	 * @param variant to remove
+	 * @param var variant to remove
 	 */
     void removeVariant(Variant var);
     

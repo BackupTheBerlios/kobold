@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowItem.java,v 1.7 2004/05/19 16:08:34 martinplies Exp $
+ * $Id: WorkflowItem.java,v 1.8 2004/10/21 21:34:11 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -69,7 +69,7 @@ public class WorkflowItem {
 	 * 		<li>type = CONTAINER: value = undefined|null, description, RADIO items as children<li>
 	 * 	</ul>
 	 *    
-	 * @param nameValue
+	 * @param value
 	 * @param description
 	 * @param type
 	 */

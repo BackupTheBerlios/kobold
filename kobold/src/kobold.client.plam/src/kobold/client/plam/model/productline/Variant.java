@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.28 2004/10/05 17:56:39 martinplies Exp $
+ * $Id: Variant.java,v 1.29 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 
@@ -74,7 +74,6 @@ public class Variant extends AbstractAsset
 
 	/**
 	 * DOM constructor.
-	 * @param productName
 	 */
 	public Variant(AbstractAsset parent, Element element) {
 	    super();
@@ -130,7 +129,7 @@ public class Variant extends AbstractAsset
 
 
 	/**
-	 * @see kobold.common.data.AbstractProduct#getType()
+	 * @see kobold.client.plam.model.AbstractAsset#getType()
 	 */
 	public String getType() {
 		return AbstractAsset.VARIANT;
@@ -173,7 +172,6 @@ public class Variant extends AbstractAsset
 	/**
 	 * Returns a unmodifiable list of components.
 	 * 
-	 * @return
 	 */
 	public List getComponents()
 	{
@@ -188,7 +186,7 @@ public class Variant extends AbstractAsset
 	/**
 	 * Adds a version and sets its parent to this
 	 *
-	 * @param version contains the new version
+	 * @param release contains the new version
 	 */
 	public void addRelease(Release release, int index) {
 		if (index >= 0) {
@@ -217,7 +215,6 @@ public class Variant extends AbstractAsset
 	/**
 	 * Returns a unmodifiable list of releases.
 	 * 
-	 * @return
 	 */
 	public List getReleases()
 	{
@@ -225,7 +222,7 @@ public class Variant extends AbstractAsset
 	}
 
     /**
-     * @see kobold.client.plam.model.IFileDescriptorContainer#addFileDescriptor(kobold.common.io.FileDescriptor)
+     * @see kobold.client.plam.model.IFileDescriptorContainer#addFileDescriptor(kobold.client.plam.model.FileDescriptor)
      */
     public void addFileDescriptor(FileDescriptor fd)
     {
@@ -234,8 +231,9 @@ public class Variant extends AbstractAsset
         fireStructureChange(AbstractAsset.ID_FILE_DESCRIPTORS, fd);
     }
 
+
     /**
-     * @see kobold.client.plam.model.IFileDescriptorContainer#removeFileDescriptor(kobold.common.io.FileDescriptor)
+     * @see kobold.client.plam.model.IFileDescriptorContainer#removeFileDescriptor(kobold.client.plam.model.FileDescriptor)
      */
     public void removeFileDescriptor(FileDescriptor fd)
     {
@@ -243,6 +241,7 @@ public class Variant extends AbstractAsset
         fd.setParentAsset(null);
         fireStructureChange(AbstractAsset.ID_FILE_DESCRIPTORS, fd);
     }
+
 
     /**
      * @see kobold.client.plam.model.IFileDescriptorContainer#getFileDescriptors()
@@ -309,7 +308,7 @@ public class Variant extends AbstractAsset
         filedescs.clear();
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
     public Object getAdapter(Class adapter)

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: Messages.java,v 1.2 2004/05/13 19:29:25 vanto Exp $
+ * $Id: Messages.java,v 1.3 2004/10/21 21:32:41 martinplies Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -37,16 +37,13 @@ public class Messages {
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
 			.getBundle(BUNDLE_NAME);
 	
-	/**
-	 * 
-	 */
+
 	private Messages() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	/**
 	 * @param key
-	 * @return
 	 */
 	public static String getString(String key) {
 		// TODO Auto-generated method stub

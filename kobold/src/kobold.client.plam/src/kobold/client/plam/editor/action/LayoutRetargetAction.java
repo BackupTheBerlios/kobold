@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LayoutRetargetAction.java,v 1.2 2004/09/23 10:39:45 vanto Exp $
+ * $Id: LayoutRetargetAction.java,v 1.3 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.action;
@@ -37,10 +37,6 @@ import org.eclipse.ui.internal.WorkbenchImages;
 public class LayoutRetargetAction extends LabelRetargetAction
 {
 
-    /**
-     * @param actionID
-     * @param text
-     */
     public LayoutRetargetAction()
     {
     	super(LayoutAction.ID, "Layout");

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SessionManager.java,v 1.9 2004/08/03 11:39:55 neccaino Exp $
+ * $Id: SessionManager.java,v 1.10 2004/10/21 21:34:56 martinplies Exp $
  *
  */
 package kobold.server.controller;
@@ -54,7 +54,6 @@ public class SessionManager {
 	
 	/**
 	 * Basic constructor of this singleton.
-	 * @param path
 	 */
 	private SessionManager() {
 		sessions = new HashMap();

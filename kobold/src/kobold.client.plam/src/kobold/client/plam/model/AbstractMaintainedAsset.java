@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractMaintainedAsset.java,v 1.10 2004/09/23 13:43:19 vanto Exp $
+ * $Id: AbstractMaintainedAsset.java,v 1.11 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -58,9 +58,7 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
         super(name);
     }
 
-    /**
-	 * @see kobold.client.plam.model.IMaintainerContainer#addMaintainer(kobold.common.data.User)
-	 */
+
 	public void addMaintainer(User user)
 	{
 	    AbstractRootAsset root = getRoot();
@@ -73,18 +71,12 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
 	    }
 	}
 	
-	/**
-	 * @see kobold.client.plam.model.IMaintainerContainer#removeMaintainer(kobold.common.data.User)
-	 */
 	public void removeMaintainer(User user)
 	{
 	    maintainers.remove(user);
 	    firePropertyChange(ID_DATA, null, user);
 	}
 	
-	/**
-	 * @see kobold.client.plam.model.IMaintainerContainer#getMaintainers()
-	 */
 	public List getMaintainers()
 	{
 	    return maintainers;

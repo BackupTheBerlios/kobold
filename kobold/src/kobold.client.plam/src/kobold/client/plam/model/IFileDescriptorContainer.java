@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IFileDescriptorContainer.java,v 1.10 2004/08/05 18:17:07 garbeam Exp $
+ * $Id: IFileDescriptorContainer.java,v 1.11 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -41,15 +41,15 @@ public interface IFileDescriptorContainer
 	/**
 	 * Adds a filedescriptor.
 	 *
-	 * @param filedescriptor to add
+	 * @param fd filedescriptor to add
 	 */
     void addFileDescriptor(FileDescriptor fd);
 
     /**
 	 * Removes a filedescriptor.
 	 *
-	 * @param filedescriptor to remove
-	 */
+	 * @param fd filedescriptor to remove
+	 */ 
     void removeFileDescriptor(FileDescriptor fd);
     
     /**
@@ -61,7 +61,7 @@ public interface IFileDescriptorContainer
     
     /**
      * 
-     * @param name, the name of the fd
+     * @param name the name of the fd
      * @return the fd
      */
     FileDescriptor getFileDescriptor (String name);
@@ -69,19 +69,16 @@ public interface IFileDescriptorContainer
     
     /**
      * Returns the remote repository descriptor.
-     * @return
      */
     RepositoryDescriptor getRemoteRepository();
     
     /**
      * Returns the local path of this.
-     * @return
      */
     IPath getLocalPath();
     
     /**
      * Retruns the root Asset.
-     * @return
      */
     AbstractRootAsset getRoot();
 

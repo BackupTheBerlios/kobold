@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: RepositoryDescriptor.java,v 1.5 2004/09/23 13:43:17 vanto Exp $
+ * $Id: RepositoryDescriptor.java,v 1.6 2004/10/21 21:34:11 martinplies Exp $
  */
 
 package kobold.common.io;
@@ -158,7 +158,7 @@ public class RepositoryDescriptor implements ISerializable {
 	}
 
 	/**
-	 * @param protocol, the protocol type (userdefined).
+	 * @param protocol the protocol type (userdefined).
 	 */
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;

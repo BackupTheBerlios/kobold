@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IProductComponentContainer.java,v 1.2 2004/10/13 22:43:44 martinplies Exp $
+ * $Id: IProductComponentContainer.java,v 1.3 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 
@@ -43,7 +43,7 @@ public interface IProductComponentContainer  {
     /**
 	 * Removes a ProductComponent and has to set its parent to null.
 	 *
-	 * @param ProductComponet to remove
+	 * @param comp ProductComponet to remove
 	 */
     public void removeProductComponent(ProductComponent comp);
     
@@ -52,7 +52,7 @@ public interface IProductComponentContainer  {
 	 * Adds a ProductComponent and has to set its 
 	 * parent to this asset.
 	 *
-	 * @param ProductComponent to add
+	 * @param comp ProductComponent to add
 	 */
     void addProductComponent(ProductComponent comp);
     
@@ -60,7 +60,7 @@ public interface IProductComponentContainer  {
 	 * Adds a SpecificComponent at the given index and has to set its 
 	 * parent to this asset.
 	 *
-	 * @param SpecificComponent to add
+	 * @param component SpecificComponent to add
 	 */
     public void addSpecificComponent(SpecificComponent component, int index);
     
@@ -68,7 +68,7 @@ public interface IProductComponentContainer  {
 	 * Adds a RelatedComponent at the given index and has to set its 
 	 * parent to this asset.
 	 *
-	 * @param RelatedComponent to add
+	 * @param component RelatedComponent to add
 	 */
     public void addRelatedComponent(RelatedComponent component, int index);
     

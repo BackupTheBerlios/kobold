@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetCreationTool.java,v 1.2 2004/08/06 01:30:02 vanto Exp $
+ * $Id: AssetCreationTool.java,v 1.3 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.tool;
@@ -47,7 +47,7 @@ public class AssetCreationTool extends CreationTool
 
     /**
      * Constructs a new AbstractCreationTool with the given factory.
-     * @param aFactory the creation factory
+     * @param factory a Factory the creation factory
      */
     public AssetCreationTool(CreationFactory factory) {
     	super(factory);

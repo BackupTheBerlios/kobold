@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.25 2004/08/24 17:13:49 vanto Exp $
+ * $Id: NewProjectWizard.java,v 1.26 2004/10/21 21:32:41 martinplies Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -93,7 +93,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 	}
 	
 	/**
-	 * @see Wizard#init
+	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) 
 	{

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.12 2004/09/23 13:43:20 vanto Exp $
+ * $Id: SpecificComponent.java,v 1.13 2004/10/21 21:32:40 martinplies Exp $
  *
  */
 
@@ -49,7 +49,7 @@ public class SpecificComponent extends ProductComponent
 	
 	/**
 	 * Basic constructor.
-	 * @param componentName the component name.
+	 * @param name componentName the component name.
 	 */
 	public SpecificComponent (String name) 
 	{
@@ -82,7 +82,6 @@ public class SpecificComponent extends ProductComponent
 	
 	/**
 	 * Serializes the component.
-	 * @see kobold.common.data.plam.ComponentSpecific#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
 		Element componentElement = super.serialize();

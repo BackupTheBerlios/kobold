@@ -60,7 +60,7 @@ public class VCMConfigurationWizard extends Wizard implements IConfigurationWiza
 	}
 
 	/**
-	 * @see Wizard#init
+	 * @see org.eclipse.team.ui.IConfigurationWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.core.resources.IProject)
 	 */
 	public void init(IWorkbench workbench, IProject project)  {
 		try

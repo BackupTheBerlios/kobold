@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowContentProvider.java,v 1.3 2004/10/08 15:47:03 martinplies Exp $
+ * $Id: WorkflowContentProvider.java,v 1.4 2004/10/21 21:32:40 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -71,9 +71,8 @@ class WorkflowContentProvider implements IStructuredContentProvider,
 		return (input == null)?new Object[0]:input.getMessages();
 	}
 
-	
 	/**
-	 * @see kobold.client.plam.listeners.IMessageQueueListener#addMessage(kobold.common.data.KoboldMessage)
+	 * @see kobold.client.plam.listeners.IMessageQueueListener#addMessage(kobold.common.data.AbstractKoboldMessage)
 	 */
 	public void addMessage(final AbstractKoboldMessage msg) 
 	{
@@ -85,7 +84,7 @@ class WorkflowContentProvider implements IStructuredContentProvider,
 	}
 
 	/**
-	 * @see kobold.client.plam.listeners.IMessageQueueListener#removeMessage(kobold.common.data.KoboldMessage)
+	 * @see kobold.client.plam.listeners.IMessageQueueListener#removeMessage(kobold.common.data.AbstractKoboldMessage)
 	 */
 	public void removeMessage(final AbstractKoboldMessage msg) {
 		view.getTableViewer().getControl().getDisplay().syncExec(new Runnable() {		

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateRelatedComponentDialog.java,v 1.1 2004/10/13 22:41:31 martinplies Exp $
+ * $Id: UpdateRelatedComponentDialog.java,v 1.2 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -101,7 +101,7 @@ public class UpdateRelatedComponentDialog extends TitleAreaDialog {
     }
 
     /**
-     * @param composite
+     * @param parent
      */
     private void createRelCompTable(Composite parent) {
         

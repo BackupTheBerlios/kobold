@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ButtonViewItem.java,v 1.3 2004/07/01 14:37:02 vanto Exp $
+ * $Id: ButtonViewItem.java,v 1.4 2004/10/21 21:32:40 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -57,7 +57,7 @@ public class ButtonViewItem extends AbstractViewItem {
 	}
 	
 	/**
-	 * @see kobold.client.plam.workflow.AbstractViewItem#applyValues()
+	 * @see kobold.client.plam.workflow.AbstractViewItem#applyValues(WorkflowDialog)
 	 */
 	public void applyValues(WorkflowDialog wd){
 	  if (isSelected()) {
@@ -68,16 +68,10 @@ public class ButtonViewItem extends AbstractViewItem {
 	}
 	
 
-	/**
-	 * @return
-	 */
 	public boolean isSelected() {
 		return this.button.getSelection();
 	}
 	
-	/**
-	 * @return
-	 */
 	public String getValue() {
 		return item.getValue();
 	}

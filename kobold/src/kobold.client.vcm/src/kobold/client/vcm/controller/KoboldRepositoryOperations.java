@@ -50,8 +50,9 @@ public interface KoboldRepositoryOperations {
 	
 	/**
 	 * Commits all changes of assets.
-	 * @param resources
+	 * @param assets
 	 * @param progress
+	 * @param msg
 	 * @throws TeamException
 	 */
 	public void commit(AbstractAsset[] assets, IProgressMonitor progress,
@@ -60,7 +61,6 @@ public interface KoboldRepositoryOperations {
 	
 	/**
 	 * Checks out several assets.
-	 * @param resources
 	 * @param progress
 	 * @param tag if <code>null</code> no revision is used.
 	 * @param isPl

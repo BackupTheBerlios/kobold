@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetView.java,v 1.1 2004/09/21 20:54:30 vanto Exp $
+ * $Id: AssetView.java,v 1.2 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -92,7 +92,7 @@ public class AssetView implements ISerializable
     
     
     /**
-     * @param dimension The dimension to set.
+     * @param size The dimension to set.
      */
     public void setSize(Dimension size)
     {

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.81 2004/09/23 13:43:14 vanto Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.82 2004/10/21 21:34:55 martinplies Exp $
  *
  */
 package kobold.server;
@@ -441,15 +441,16 @@ public class SecureKoboldWebServer implements IKoboldServer,
     The following section contains the IKoboldServer-methods' implementation 
     which are called by 'execute().
 ------------------------------------------------------------------------------*/
+
 	/**
-	 * {@see kobold.common.controller.IKoboldServer#login(String, String)}
+	 * @see kobold.common.controller.IKoboldServer#login(java.net.URL, java.lang.String, java.lang.String)
 	 */
 	public UserContext login(URL url, String userName, String password) {
 		return SessionManager.getInstance().login(userName, password);
 	}
 
 	/**
-	 * {@see kobold.common.controller.IKoboldServer#logout(UserContext)}
+	 * @see kobold.common.controller.IKoboldServer#logout(kobold.common.data.UserContext)
 	 */
 	public void logout(UserContext userContext) {
 		SessionManager.getInstance().logout(userContext);
@@ -511,7 +512,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	}
 
 	/**
-	 * {@see kobold.common.controller.IKoboldServer#addUser(UserContext, String, String, String)}
+	 * @see kobold.common.controller.IKoboldServer#addUser(kobold.common.data.UserContext, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public void addUser(UserContext userContext, String userName,
 						String password, String fullName)
@@ -519,9 +520,9 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		UserManager.getInstance().addUser(
 		        new kobold.server.data.User(userName, fullName, password));
 	}
-	
+
 	/**
-	 * {@see kobold.common.controller.IKoboldServer#getProductline(UserContext, String)}
+	 * @see kobold.common.controller.IKoboldServer#getProductline(kobold.common.data.UserContext, java.lang.String)
 	 */
 	public Productline getProductline(UserContext userContext, String plId) {
 	    logger.debug("gathering productline with uc: " + userContext.getUserName()
@@ -531,7 +532,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	}
 
 	/**
-	 * {@see kobold.common.controller.IKoboldServer#updateProductline(UserContext, Productline)}
+	 * @see kobold.common.controller.IKoboldServer#updateProductline(kobold.common.data.UserContext, kobold.common.data.Productline)
 	 */
 	public void updateProductline(UserContext userContext, Productline productline) {
 	    ProductlineManager productlineManager = ProductlineManager.getInstance();
@@ -548,7 +549,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	}
 
 	/**
-	 * {@see kobold.common.controller.IKoboldServer#sendMessage(UserContext, AbstractKoboldMessage)}
+	 * @see kobold.common.controller.IKoboldServer#sendMessage(kobold.common.data.UserContext, kobold.common.data.AbstractKoboldMessage)
 	 */
 	public void sendMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
 		if (koboldMessage instanceof WorkflowMessage) {
@@ -560,14 +561,14 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	}
 
 	/**
-	 * {@see kobold.common.controller.IKoboldServer#fetchMessage(UserContext)}
+	 * @see kobold.common.controller.IKoboldServer#fetchMessage(kobold.common.data.UserContext)
 	 */
 	public AbstractKoboldMessage fetchMessage(UserContext userContext) {
 		return MessageManager.getInstance().fetchMessage(userContext.getUserName());
 	}
 
 	/**
-	 * {@see kobold.common.controller.IKoboldServer#invalidateMessage(UserContext, AbstractKoboldMessage)}
+	 * @see kobold.common.controller.IKoboldServer#invalidateMessage(kobold.common.data.UserContext, kobold.common.data.AbstractKoboldMessage)
 	 */
 	public void invalidateMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
 		MessageManager.getInstance().invalidateMessage(userContext.getUserName(), koboldMessage);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractKoboldMessage.java,v 1.7 2004/09/23 13:43:17 vanto Exp $
+ * $Id: AbstractKoboldMessage.java,v 1.8 2004/10/21 21:34:11 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -94,66 +94,45 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 		return state;	
 	}
 	
-	/**
-	 * @return
-	 */
 	public Date getDate() {
 		return date;
 	}
 
-	/**
-	 * @return
-	 */
 	public String getId() {
 		return id;
 	}
 
 	public abstract String getType(); 
 	
-	/**
-	 * @return
-	 */
 	public String getMessageText() {
 		return messageText;
 	}
 
-	/**
-	 * @return
-	 */
 	public String getPriority() {
 		return priority;
 	}
 
-	/**
-	 * @return
-	 */
 	public String getReceiver() {
 		return receiver;
 	}
 
-	/**
-	 * @return
-	 */
 	public String getSender() {
 		return sender;
 	}
 
-	/**
-	 * @return
-	 */
 	public String getSubject() {
 		return subject;
 	}
 
 	/**
-	 * @param string
+	 * @param date
 	 */
 	public void setDate(Date date) {
 		this.date = date;
 	}
 
 	/**
-	 * @param i
+	 * @param id
 	 */
 	protected void setId(String id) {
 		this.id = id;
@@ -196,7 +175,6 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 
 	/**
 	 * Serializes this object to an xml element and adds it to the given root.
-	 * @param root
 	 */
 	public Element serialize() {
 		Element xmsg = DocumentHelper.createElement("message");
@@ -292,7 +270,6 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 	 * attribute is not set or has wrong data.
 	 * 
 	 * @param el
-	 * @return
 	 */
 	public static AbstractKoboldMessage createMessage(Element el)
 	{

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.43 2004/10/18 16:26:35 garbeam Exp $
+ * $Id: StatusUpdater.java,v 1.44 2004/10/21 21:33:58 martinplies Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -67,7 +67,7 @@ public class StatusUpdater {
     
 	/**
 	 * Listener who acts on the delivered FD-container and updates all included FD(s)
-	 * @param fileDescriptorContainer, the FD-container to update
+	 * @param fdCon the FD-container to update
 	 */
 	public void updateFileDescriptors(final IFileDescriptorContainer fdCon)
 	{
@@ -150,8 +150,8 @@ public class StatusUpdater {
 	
 	/**
 	 * Parses the inputString
-	 * @param inputString, the inputString(all files and directories) to parse
-	 * @param fileDescriptorContainer, a reference to the part who has FD(s) to update
+	 * @param inputString the inputString(all files and directories) to parse
+	 * @param fileDescriptorContainer a reference to the part who has FD(s) to update
 	 */
 	public void parseInputString (IFileDescriptorContainer fileDescriptorContainer, 
 									String inputString)

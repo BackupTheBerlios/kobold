@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldActionBarContributor.java,v 1.3 2004/10/06 16:11:32 vanto Exp $
+ * $Id: KoboldActionBarContributor.java,v 1.4 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -56,7 +56,7 @@ public class KoboldActionBarContributor extends ActionBarContributor
 {
 
     /**
-     * @see org.eclipse.gef.ui.actions.ActionBarContributor#createActions()
+     * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
      */
     protected void buildActions() {
     	addRetargetAction(new UndoRetargetAction());

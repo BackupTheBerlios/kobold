@@ -22,7 +22,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaNode.java,v 1.9 2004/08/24 19:13:28 martinplies Exp $
+ * $Id: MetaNode.java,v 1.10 2004/10/21 21:32:41 martinplies Exp $
  *
  */ 
 package kobold.client.plam.model;
@@ -75,7 +75,6 @@ public class MetaNode  extends AbstractAsset {
      * Returns the type of the edges the node can get connected with.
      * Returns null if type is undefined.
      * 
-     * @return
      */
     public String getEdgeType() 
     {
@@ -115,14 +114,14 @@ public class MetaNode  extends AbstractAsset {
         return root;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see kobold.client.plam.model.AbstractAsset#getGXLChildren()
      */
     public List getGXLChildren() {
         return null;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see kobold.client.plam.model.AbstractAsset#getGXLType()
      */
     public String getGXLType() {
@@ -133,7 +132,4 @@ public class MetaNode  extends AbstractAsset {
         }
     }
 
-    /**
-     * @return
-     */
 }

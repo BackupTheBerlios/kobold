@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.26 2004/09/23 13:43:17 vanto Exp $
+ * $Id: WorkflowMessage.java,v 1.27 2004/10/21 21:34:11 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -93,9 +93,6 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 		return (WorkflowItem[])controlItems.toArray(new WorkflowItem[0]);
 	}
 	
-	/**
-	 * @return
-	 */
 	public String getComment() {
 		return comment;
 	}
@@ -126,9 +123,6 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 		workflowType = type;
 	}
 	
-	/**
-	 * @return
-	 */
 	public Map getWorkflowData() {
 		return workflowData;
 	}	

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.38 2004/08/05 18:21:21 grosseml Exp $
+ * $Id: SecureKoboldClient.java,v 1.39 2004/10/21 21:32:40 martinplies Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -84,8 +84,9 @@ public class SecureKoboldClient implements IKoboldServer {
 	    return client;
 	}
 	
+
 	/**
-	 * {@see kobold.common.controller.IKoboldServer#login(String, String)}
+	 * @see kobold.common.controller.IKoboldServer#login(java.net.URL, java.lang.String, java.lang.String)
 	 */
 	public UserContext login(URL url, String userName, String password) {
 		Vector v = new Vector();
@@ -106,7 +107,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	}
 
 	/**
-	 * {@see kobold.common.controller.IKoboldServer#logout(UserContext)}
+	 * @see kobold.common.controller.IKoboldServer#logout(kobold.common.data.UserContext)
 	 */
 	public void logout(UserContext userContext) {
 		Vector v = new Vector();
@@ -118,8 +119,9 @@ public class SecureKoboldClient implements IKoboldServer {
 		}
 	}
 
+
 	/**
-	 * {@see kobold.common.controller.IKoboldServer#addUser(UserContext, String, String, String)}
+	 * @see kobold.common.controller.IKoboldServer#addUser(kobold.common.data.UserContext, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public void addUser(UserContext userContext, String userName,
 									String password, String realName)
@@ -136,9 +138,6 @@ public class SecureKoboldClient implements IKoboldServer {
 		}
 	}
 	
-	/**
-	 * {@see kobold.common.controller.IKoboldServer#changeUser(UserContext userContext, String userName, String realName)}
-	 */
 	public void changeUser(UserContext userContext, String userName, String realName)
 	{
 		Vector v = new Vector();

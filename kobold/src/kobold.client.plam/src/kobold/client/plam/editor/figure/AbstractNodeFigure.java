@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeFigure.java,v 1.9 2004/09/21 20:13:24 vanto Exp $
+ * $Id: AbstractNodeFigure.java,v 1.10 2004/10/21 21:32:41 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -112,9 +112,7 @@ public abstract class AbstractNodeFigure extends ComposableFigure {
 	
 	protected abstract Color getAssetColor(); 
 	
-	/**
-	 * @return
-	 */
+	
 	public IFigure getContentPane() {
 		return pane;
 	}
