@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptor.java,v 1.4 2004/06/09 14:33:13 rendgeor Exp $
+ * $Id: FileDescriptor.java,v 1.5 2004/06/16 11:27:35 rendgeor Exp $
  *
  */
 
@@ -69,10 +69,15 @@ public class FileDescriptor extends AbstractAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element product = DocumentHelper.createElement("product");
-		product.addText(getName ());
-		//product.addElement("productline").addText(this.productLineName);
-		return product;
+		Element fdElement = DocumentHelper.createElement("fd");
+		fdElement.addText(getName ());
+		
+		fdElement.addElement("path").addText(this.path);
+		fdElement.addElement("version").addText(this.version);
+		fdElement.addElement("lastChangeDate").addText(this.lastChangeDate);
+		fdElement.addElement("lastAuthor").addText(this.lastAuthor);
+		
+		return fdElement;
 	}
 
 	/**

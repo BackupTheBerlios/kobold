@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.2 2004/06/09 14:45:16 rendgeor Exp $
+ * $Id: AbstractAsset.java,v 1.3 2004/06/16 11:27:35 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
 
 import kobold.common.data.IdManager;
+
 /**
  * @author Tammo
  *

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.7 2004/06/14 16:48:20 garbeam Exp $
+ * $Id: User.java,v 1.8 2004/06/16 11:27:35 rendgeor Exp $
  *
  */
 
@@ -36,6 +36,7 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Element;
+import org.dom4j.DocumentHelper;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -74,7 +75,7 @@ public class User implements ISerializable {
 	/**
 	 * @param element
 	 */
-	private void deserialize(Element element) {
+	public void deserialize(Element element) {
 
 		this.userName = element.selectSingleNode("//user/username").getText();
 

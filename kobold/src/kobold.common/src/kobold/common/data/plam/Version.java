@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Version.java,v 1.3 2004/06/09 14:33:13 rendgeor Exp $
+ * $Id: Version.java,v 1.4 2004/06/16 11:27:35 rendgeor Exp $
  *
  */
 
@@ -30,6 +30,9 @@ package kobold.common.data.plam;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
+//import java.util.HashMap;
+
+import java.util.Iterator;
 /**
  * @author garbeam
  */
@@ -58,10 +61,17 @@ public class Version extends AbstractAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element product = DocumentHelper.createElement("product");
-		product.addText (getName ());
-		//product.addElement("productline").addText(this.productLineName);
-		return product;
+		Element versionElement = DocumentHelper.createElement("version");
+		versionElement.addText(getName());
+
+		//now all fd'S
+		Element fdElement = versionElement.addElement ("fds");
+		
+		//serialize the fd
+		fdElement.add (fileDescriptor.serialize ());
+		
+		return versionElement;
+
 	}
 
 	/**

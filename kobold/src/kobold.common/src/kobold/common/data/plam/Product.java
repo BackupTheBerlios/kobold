@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.3 2004/06/09 14:33:13 rendgeor Exp $
+ * $Id: Product.java,v 1.4 2004/06/16 11:27:35 rendgeor Exp $
  *
  */
 
@@ -32,6 +32,7 @@ import org.dom4j.Element;
 
 import java.util.HashMap;
 
+import java.util.Iterator;
 /**
  * @author garbeam
  */
@@ -67,10 +68,20 @@ public class Product extends AbstractAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element product = DocumentHelper.createElement("product");
-		product.addText(getName());
-		//product.addElement("productline").addText(this.productLineName);
-		return product;
+		Element productElement = DocumentHelper.createElement("product");
+		productElement.addText(getName());
+
+		//now all components
+		Element componentElement = productElement.addElement ("components");
+		
+		//serialize each component
+		for (Iterator it = this.components.values().iterator(); it.hasNext();)
+		{
+			ComponentSpecific component = (ComponentSpecific) it.next ();
+			componentElement.add (component.serialize ());
+		}
+		
+		return componentElement;
 	}
 
 	/**

@@ -21,16 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentSpecific.java,v 1.1 2004/06/09 14:33:13 rendgeor Exp $
+ * $Id: ComponentSpecific.java,v 1.2 2004/06/16 11:27:35 rendgeor Exp $
  *
  */
 
 package kobold.common.data.plam;
 
 import org.dom4j.Element;
+import org.dom4j.DocumentHelper;
 
 import java.util.HashMap;
-
+import java.util.Iterator;
 /**
  * @author garbeam
  */
@@ -72,6 +73,35 @@ public class ComponentSpecific extends AbstractComponent {
 		versions.put(version.getName(), version);
 	}
 
+	
+	/**
+	 * Serializes the component.
+	 * @see kobold.common.data.plam.ComponentSpecific#serialize(org.dom4j.Element)
+	 */
+	public Element serialize() {
+		Element componentElement = DocumentHelper.createElement("component");
+		componentElement.addText(getName());
+
+		//now all versions
+		Element versionElement = componentElement.addElement ("versions");
+		
+		//serialize each component
+		for (Iterator it = this.versions.values().iterator(); it.hasNext();)
+		{
+			Version version = (Version) it.next ();
+			versionElement.add (version.serialize ());
+		}
+		
+		return componentElement;
+	}
+
+	/**
+	 * Deserializes this component.
+	 * @param componentName
+	 */
+	public void deserialize(Element element) {
+		setName(element.getText());
+	}
 	
 }
 

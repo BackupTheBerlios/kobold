@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.6 2004/06/09 14:45:16 rendgeor Exp $
+ * $Id: Productline.java,v 1.7 2004/06/16 11:27:35 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -130,6 +130,7 @@ public class Productline extends AbstractAsset{
 		//now all products
 		Element productsElement = root.addElement("products");
 
+		//serialize each product
 		for (Iterator it = this.products.values().iterator(); it.hasNext();) {
 			Product product = (Product) it.next();
 			productsElement.add(product.serialize());
