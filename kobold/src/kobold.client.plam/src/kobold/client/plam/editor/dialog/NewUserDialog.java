@@ -77,6 +77,7 @@ public class NewUserDialog extends TitleAreaDialog{
     {
         setTitle("New User");
         setMessage("Enter the values of the new user you want to create.");
+        getShell().setText("Create new user");
         Composite composite = (Composite) super.createDialogArea(parent);
         
         createContent(composite);

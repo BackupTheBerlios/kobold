@@ -72,6 +72,7 @@ public class UpdateFullNameDialog extends TitleAreaDialog{
     {
         setTitle("Change Full Name");
         setMessage("Changes the users full name");
+        getShell().setText("Change full name");
         Composite composite = (Composite) super.createDialogArea(parent);
         
         createContent(composite);

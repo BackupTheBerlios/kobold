@@ -79,6 +79,7 @@ public class RemoveUserDialog extends TitleAreaDialog
     {
         setTitle("Remove User");
         setMessage("Removes one user permanently from the server");
+        getShell().setText("Remove User");
         Composite composite = (Composite) super.createDialogArea(parent);
         
         createUserLists(composite);
