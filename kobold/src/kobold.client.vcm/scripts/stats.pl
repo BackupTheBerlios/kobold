@@ -62,7 +62,7 @@ sub read_entries {
         #or instead:
         my ($ss,$mm,$hh,$day,$month,$year,$zone) = strptime($date);
         
-        #fixes
+        #fixes ?!
         $year = $year + 1900;
         $month = $month + 1;
 
