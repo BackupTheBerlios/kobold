@@ -21,33 +21,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteDeprecatedDialog.java,v 1.1 2004/09/18 16:18:33 neco Exp $
+ * $Id: DeleteDeprecatedDialog.java,v 1.2 2004/09/20 00:45:24 vanto Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
-import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.KoboldProject;
-import kobold.client.plam.controller.UserManager;
 import kobold.client.plam.editor.command.DeleteAssetCommand;
-import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.AbstractStatus;
-import kobold.client.plam.wizard.Messages;
-import kobold.common.data.User;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.internal.RadioMenu;
 
 /**
  * @author Necati Aydin
@@ -57,14 +46,14 @@ import org.eclipse.ui.internal.RadioMenu;
  */
 public class DeleteDeprecatedDialog extends TitleAreaDialog{
 	
-	private AbstractAsset selection;
+	private DeleteAssetCommand cmd;
 	private Label label;
 	 	
    
-    public DeleteDeprecatedDialog(Shell parentShell, AbstractAsset selection)
+    public DeleteDeprecatedDialog(Shell parentShell, DeleteAssetCommand cmd)
     {
         super(parentShell);
-        this.selection = selection;    
+        this.cmd = cmd;    
     }
     
     protected void createButtonsForButtonBar(Composite parent) 
@@ -120,24 +109,18 @@ public class DeleteDeprecatedDialog extends TitleAreaDialog{
    
     protected void deprecatedPressed()
     {
-    	DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
-        deleteCommand.setAsset(selection);
-    	deleteCommand.execute(DeleteAssetCommand.DEPRECATED);
-    	this.close();
-//        super.okPressed();
+    	cmd.execute(DeleteAssetCommand.DEPRECATED);
+    	close();
     }
     
     public void deletePressed() {
-    	DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
-        deleteCommand.setAsset(selection);
-    	deleteCommand.execute(DeleteAssetCommand.DELETE);
-        this.close();
+    	cmd.execute(DeleteAssetCommand.DELETE);
+        close();
     }
     
     protected void cancelPressed()
     {    	
-    	this.close();
-//        super.okPressed();
+    	close();
     }
  
 }

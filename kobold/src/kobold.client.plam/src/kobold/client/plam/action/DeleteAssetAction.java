@@ -21,18 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetAction.java,v 1.2 2004/09/18 16:18:53 neco Exp $
+ * $Id: DeleteAssetAction.java,v 1.3 2004/09/20 00:45:24 vanto Exp $
  *
  */
 package kobold.client.plam.action;
 
 import kobold.client.plam.editor.command.DeleteAssetCommand;
 import kobold.client.plam.editor.dialog.DeleteDeprecatedDialog;
-import kobold.client.plam.editor.dialog.UserManagerDialog;
 import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -51,8 +49,11 @@ public class DeleteAssetAction extends ActionDelegate {
     
     public void run(IAction action)
     {
+        DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
+        deleteCommand.setAsset(selection);
+        
         Shell shell = Display.getDefault().getActiveShell();
-		DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, selection); 
+		DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, deleteCommand); 
 		dialog.open();
     }
     
