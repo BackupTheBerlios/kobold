@@ -13,7 +13,8 @@ You've to enter only one VM argument which is needed to locate the {\it
 server.properties} file and to suite your local requirements: \par
 
 \begin{verbatim}
--Dkobold.server.configFile=/home/garbeam/eclipse/kobold.server/server.properties
+-Dkobold.server.configFile=/home/garbeam/eclipse/
+kobold.server/server.properties
 \end{verbatim}
 
 Make sure that your {\it \$CLASSPATH} environment contains all JARs
@@ -30,7 +31,7 @@ can name as you wish (see \ref{run}).
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=15cm]{run.png}
-   \caption{This is how your buildpath should look like}
+   \caption{The Run dialog}
 \label{run}
 \end{center}
 \end{figure}\par
@@ -50,7 +51,8 @@ You've to enter only one VM argument which is needed to locate the {\it
 sat.properties} file and to suite your local requirements: \par
 
 \begin{verbatim}
--Dkobold.sat.configFile=/home/garbeam/eclipse/kobold.client.serveradmin/sat.properties
+-Dkobold.sat.configFile=/home/garbeam/eclipse/
+kobold.client.serveradmin/sat.properties
 \end{verbatim}
 
 \section{Setting the Kobold preferences}
@@ -61,7 +63,7 @@ They resemble your SAT properties (see chapter 'Installation').
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{pref.png}
-   \caption{Kobold wizard}
+   \caption{Kobold preferences}
 \label{pref}
 \end{center}
 \end{figure}\par
@@ -71,9 +73,8 @@ They resemble your SAT properties (see chapter 'Installation').
 \subsection{Checking out a product(line)}
 
 In the File menu select 'New' and then 'Kobold PLAM Project'. The Kobold wizard opens.
-Enter enter the url of your Kobold server, your username and password. The press
-"test connection". If the test succeeds, the "next" button is enabled and you press it
-(see \ref{wizard1}).
+Enter the url of your Kobold server, your username and password. Then press
+"test connection". If the test succeeds, the "next" button is enabled (see \ref{wizard1}).
 
 \begin{figure}[h!]
 \begin{center}
@@ -161,24 +162,10 @@ you new product. The chosen objects turn green (see \ref{compose}).
 
 %TODO: Screenshot einfügen
 
-\subsection{Creating a variant}
-
-In the pallete select the "variant" tool. Click into a core asset or component in 
-the Architecture Editor. A variant is inserted (see \ref{variant}). If you double-click on the variant, a dialog opens where you can enter the meta data of
-the variant. Per drag+drop you can simply change the size of the variant. \par
-Note: Variants can only be inserted into components.
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=10cm]{variant.png}
-   \caption{Variant}
-\label{variant}
-\end{center}
-\end{figure}\par
 
 \subsection{Creating a component}
 
-In the pallete select the "component" tool. Click into a variant in 
+In the pallete select the "component" tool. Click and drag within a variant or top-level in 
 the Architecture Editor. A component is inserted (see \ref{component}). If you double-click on the component, a dialog opens where you can enter the meta data of
 the component. Per drag+drop you can simply change the size of the component. \par
 Note: Components can only be inserted top-level or into variants.
@@ -191,9 +178,26 @@ Note: Components can only be inserted top-level or into variants.
 \end{center}
 \end{figure}\par
 
+
+\subsection{Creating a variant}
+
+In the pallete select the "variant" tool. Click and drag within a component in 
+the Architecture Editor. A variant is inserted (see \ref{variant}). If you double-click on the variant, a dialog opens where you can enter the meta data of
+the variant. Per drag+drop you can simply change the size of the variant. \par
+Note: Variants can only be inserted into components.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{variant.png}
+   \caption{Variant}
+\label{variant}
+\end{center}
+\end{figure}\par
+
+
 \subsection{Creating a release}
 
-In the pallete select the "release" tool. Click into a variant in 
+In the pallete select the "release" tool. Click and drag within a variant in 
 the Architecture Editor. A release is inserted (see \ref{release}). If you double-click on the release, a dialog opens where you can enter the meta data of
 the release. For each file of the variant you can select the revision number you want to add to the release. 
 Per drag+drop you can simply change the size of the release. \par
@@ -209,7 +213,7 @@ Note: Releases can only be inserted into variants.
 
 \subsection{Creating a meta node}
 
-In the pallete select the "metanode" tool. Click into the Architecture Editor. 
+In the pallete select the "metanode" tool. Click and drag within the Architecture Editor. 
 A meta node is inserted (see \ref{meta}). If you double-click on the meta node, a dialog opens where you can select the type of the node.
 Possible types are AND and OR. 
 
@@ -354,7 +358,7 @@ Your new messages are being fetched and displayed in the Workflow View.
 
 \section{Suggesting a file for a Core Group}
 
-Note: This option should only be used by programmers!
+Note: This option should only be used by programmers!\par
 In the menu of the Workflow View select "Suggest file for core group". A Workflow
 window opens where you can enter the name of the file, its path and the username of the
 PE you want to send the message to. You can also enter an additional comment you want 
@@ -403,7 +407,7 @@ Select the productline, product, component or variant you want to export. In the
 context menu of the object select "export" (see \ref{archcontext}). A wizard opens (see \ref{export}) where you can choose
 whether to create a jar-file of the selected source or not. You should then enter
 the path and names of the gxl-file and the jar-file. Alternatively you can enter 
-the data through the "save as" dialog. To start the export, press the finish button.
+the data through the "browse" dialog. To start the export, press the OK button.
 You are able to see the status of your export in the wizard which will close after
 the export is finished. If you decide not to do the export, simply press the 
 "cancel" button.
@@ -480,7 +484,7 @@ arguments that were transmitted to the server for the execution. You have access
 the "getArguments()" method. \par
 In the last chapter you find the source code of the classes you need to work with for writing your own rules.
 In order to have an up-to-date appendix, check out the complete Kobold module. 
-Then enter following commands in the console within the directory of the user manual:
+Then enter the following command in the console within the directory of the user manual:
 
 \begin{verbatim}
 perl appendix.pl >appendix.tex
@@ -488,15 +492,15 @@ perl appendix.pl >appendix.tex
 
 After that, rebuild the usermanual.pdf.
 
-\section{Filtering the Architecture View}
+%\section{Filtering the Architecture View}
 
-The toolbar of the Architecture Editor provides you with the following filterings:
-\begin{itemize}
-	\item Show/hide dependency edges
-	\item Show/hide exclusion edges
-	\item Show/hide synthetical edges
-	\item Show/hide deprecated components
-\end{itemize}
+%The toolbar of the Architecture Editor provides you with the following filterings:
+%\begin{itemize}
+%	\item Show/hide dependency edges
+%	\item Show/hide exclusion edges
+%	\item Show/hide synthetical edges
+%	\item Show/hide deprecated components
+%\end{itemize}
 
 %TODO: Screenshot einfügen
 
@@ -525,17 +529,17 @@ project.
 
 Pressing "next" again finishes the process. The new user is created.
 
-\subsection{Changing a user role}
+%\subsection{Changing a user role}
 
-Right-click on the corresponding product and choose "change role". A wizard opens.
-On the left side you can see a list of all existing users. On 
-the right side you can see lists of the product engineers and programmers that
-belong to the product. You can switch users from left to right and back by selecting
-the user and using
-the "<<" and ">>" buttons between the lists. In order to find a specific user in
-the left-hand list, enter the initial letters of the user. The list will then show
-only those usernames that start with the same letters. Press "Ok" when you are done
-and your changes are saved.
+%Right-click on the corresponding product and choose "change role". A wizard opens.
+%On the left side you can see a list of all existing users. On 
+%the right side you can see lists of the product engineers and programmers that
+%belong to the product. You can switch users from left to right and back by selecting
+%the user and using
+%the "<<" and ">>" buttons between the lists. In order to find a specific user in
+%the left-hand list, enter the initial letters of the user. The list will then show
+%only those usernames that start with the same letters. Press "Ok" when you are done
+%and your changes are saved.
 
 %TODO: Screenshot einfügen
 

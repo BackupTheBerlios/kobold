@@ -5,7 +5,7 @@ In the Main Window you can see the following editors and views (see \ref{main}):
 \begin{itemize}
 	\item Architecture Editor
 	\item Role View
-	\item Workflow/Task View
+	\item Workflow View
 	\item Minimap
 \end{itemize}
 
@@ -39,7 +39,7 @@ or product line respectively, that is selected in the Role View. \par
 \end{figure}\par
 
 Architectures are directed graphs that consist of nodes and edges. 
-Nodes represent components, variants and files. Directed edges represent
+Nodes represent components, variants and releases. Directed edges represent
 any relationship between nodes.\par
 
 The Architecture Editor offers you the following options:
@@ -80,9 +80,9 @@ Please look up the explanations in the "Tutorial" section.
 The Role View shows the current projects that are checked out in your workspace 
 (see \ref{roletree}).
 A project can either be a product or a product line. You can navigate between the 
-different projects by selecting them. The open tree in the Role View displays the
-role of the current user in the project. You can also see the architecture and its 
-elements.
+different projects by selecting them. If you open the tree, you see whether it's a product 
+or product line. Double-click on 'Architecture' and the Architecture Editor will open. The open tree also 
+displays all users and core assets that belong to the product(line).
 
 \begin{figure}[h!]
 \begin{center}
@@ -182,7 +182,7 @@ spot.
 \end{figure}\par
 
 
-\section{Server Administration Tool}
+\section{Server Administration Tool (SAT)}
 
 The Server Administration Tool provides you with an interface to your server. \par
 During the starting process you have to enter the URL and password of the server 

@@ -18,8 +18,8 @@ Leave the remaining data untouched and confirm the dialog. \par
 \end{center}
 \end{figure}
 
-Open the tree along HEAD, kobold and src (see \ref{auschecken}). Check out the four folders kobold.client.plam,
-kobold.client.vcm, kobold.common and kobold.server through 'check out as..' (context menue)
+Open the tree along HEAD, kobold and src (see \ref{auschecken}). Check out the five folders kobold.client.plam,
+kobold.client.vcm, kobold.client.serveradmin, kobold.common and kobold.server through 'check out as..' (context menue)
 and confirm with 'Finish'.
 
 \begin{figure}[h!]
@@ -33,7 +33,7 @@ and confirm with 'Finish'.
 Open the 'Window' menu and select 'preferences'. Select 'plug-in development' and 'Target 
 Platform' and press the button 'Not in Workspace'. Confirm with OK. \par
 
-Projects kobold.client.plam, kobold.client.vcm and kobold.common: \par
+Projects kobold.client.plam, kobold.client.vcm, kobold.client.serveradmin and kobold.common: \par
 Right-click on the project and select 'properties'. Select 'Java build path' and the 'source'
 tab. Remove the existing entry and add a new one by pressing 'Add Folder'. Choose the 
 src-folder and confirm. Append '/bin' to the default output folder (see \ref{buildpath}).
@@ -123,7 +123,7 @@ javax.net.ssl.trustStorePassword=kobold1
 
 As you can see, it contains the same properties as the {\it
 server.properties} file for SSL communication, but since the Kobold
-client is independent from the server it has it's own properties.\par
+client is independent from the server it has its own properties.\par
 
 Right after your first start of the Kobold Client Feater Set, change the Kobold
 preferences so that the client-server communication works properly. For more
