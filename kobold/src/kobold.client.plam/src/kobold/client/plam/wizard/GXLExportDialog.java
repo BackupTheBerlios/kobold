@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.3 2004/06/27 18:41:26 vanto Exp $
+ * $Id: GXLExportDialog.java,v 1.4 2004/06/27 23:52:32 vanto Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -29,6 +29,7 @@ package kobold.client.plam.wizard;
 import java.io.File;
 import java.io.IOException;
 
+import kobold.common.data.User;
 import kobold.common.exception.GXLException;
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.productline.Component;
@@ -153,16 +154,16 @@ public class GXLExportDialog extends Dialog{
 	}
 	private AbstractAsset createGraph() {
 		Component c0 = new Component("name c0");
-		c0.setOwner("pliesmn");
+		User u = new User("pliesmn");
+		c0.addMaintainer(u);
 		c0.setDescription("description c0");
 		Component c1 = new Component("name c1");
-		c1.setOwner("pliesmn");
+		c1.addMaintainer(u);
 		c1.setDescription("description c1");
 		Component c2 = new Component("name c2");
-		c2.setOwner("pliesmn");
+		c2.addMaintainer(u);
 		c2.setDescription("description c2");
 		Variant v1 = new Variant ("name v1");
-		v1.setOwner("pliesmn");
 		v1.addComponent(c1);
 		v1.addComponent(c2);
 		c0.addVariant(v1);

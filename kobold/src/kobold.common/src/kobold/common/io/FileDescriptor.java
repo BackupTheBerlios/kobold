@@ -21,10 +21,20 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.3 2004/06/24 00:38:52 garbeam Exp $
+ * $Id: FileDescriptor.java,v 1.4 2004/06/27 23:52:29 vanto Exp $
  *
  */
 package kobold.common.io;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+import kobold.common.data.User;
+import kobold.common.model.IFileDescriptorContainer;
+import kobold.common.model.product.SpecificComponent;
+import kobold.common.model.productline.Variant;
 
 /**
  * Base class for locating working copies.
@@ -33,11 +43,158 @@ package kobold.common.io;
  *
  * @author garbeam
  */
-public class FileDescriptor {
+public class FileDescriptor implements IFileDescriptorContainer {
 
-
+    private List children = new ArrayList();
+    private IFileDescriptorContainer parentAsset;
+    private FileDescriptor parent;
+    private String filename;
+    private String revision;
+    private User author;
+    private boolean isDirectory = false;
+    
     public FileDescriptor() {
-    	
+    }
+    
+    
+    /**
+     * @param author The author to set.
+     */
+    public void setAuthor(User author)
+    {
+        this.author = author;
+    }
+    
+    /**
+     * @return Returns the author.
+     */
+    public User getAuthor()
+    {
+        return author;
+    }
+    
+    
+    /**
+     * @param isDirectory The isDirectory to set.
+     */
+    public void setDirectory(boolean isDirectory)
+    {
+        this.isDirectory = isDirectory;
+    }
+    
+    /**
+     * @return Returns the isDirectory.
+     */
+    public boolean isDirectory()
+    {
+        return isDirectory;
+    }
+    
+    /**
+     * @param filename The filename to set.
+     */
+    public void setFilename(String filename)
+    {
+        this.filename = filename;
+    }
+    
+    /**
+     * @return Returns the filename.
+     */
+    public String getFilename()
+    {
+        return filename;
+    }
+    
+    /**
+     * @param parent The parent to set.
+     */
+    public void setParent(FileDescriptor parent)
+    {
+        this.parent = parent;
+    }
+    
+    /**
+     * @return Returns the parent.
+     */
+    public FileDescriptor getParent()
+    {
+        return parent;
+    }
+    
+    /**
+     * Sets the parent of asset of this file descriptor. This must be a
+     * Variant or a SpecificComponent.
+     * 
+     * @param parentAsset The parentAsset to set.
+     */
+    public void setParentAsset(IFileDescriptorContainer parentAsset)
+    {
+        if (!((parentAsset instanceof Variant)
+               || (parentAsset instanceof SpecificComponent))) {
+            throw new IllegalArgumentException("parent must be an instance of Variant or SpecificComponent");
+        }
+        this.parentAsset = parentAsset;
 
+        // set parent asset for all children too;
+        Iterator it = children.iterator();
+        while (it.hasNext()) {
+            ((FileDescriptor)it.next()).setParentAsset(parentAsset);
+        }
+    }
+    
+    /**
+     * @return Returns the parentAsset.
+     */
+    public IFileDescriptorContainer getParentAsset()
+    {
+        return parentAsset;
+    }
+    
+    /**
+     * @param revision The revision to set.
+     */
+    public void setRevision(String revision)
+    {
+        this.revision = revision;
+    }
+    
+    /**
+     * @return Returns the revision.
+     */
+    public String getRevision()
+    {
+        return revision;
+    }
+
+
+    /**
+     * @see kobold.common.model.IFileDescriptorContainer#addFileDescriptor(kobold.common.io.FileDescriptor)
+     */
+    public void addFileDescriptor(FileDescriptor fd)
+    {
+        children.add(fd);
+        fd.setParent(this);
+        fd.setParentAsset(parentAsset);
+    }
+
+
+    /**
+     * @see kobold.common.model.IFileDescriptorContainer#removeFileDescriptor(kobold.common.io.FileDescriptor)
+     */
+    public void removeFileDescriptor(FileDescriptor fd)
+    {
+        children.remove(fd);
+        fd.setParent(null);
+        fd.setParentAsset(null);
+    }
+
+
+    /**
+     * @see kobold.common.model.IFileDescriptorContainer#getFileDescriptors()
+     */
+    public List getFileDescriptors()
+    {
+        return Collections.unmodifiableList(children);
     }
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.17 2004/06/25 17:25:34 martinplies Exp $
+ * $Id: Product.java,v 1.18 2004/06/27 23:52:28 vanto Exp $
  *
  */
 package kobold.common.model.product;
@@ -38,6 +38,7 @@ import java.util.Map;
 
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.model.AbstractAsset;
+import kobold.common.model.AbstractMaintainedAsset;
 import kobold.common.model.IGXLExport;
 
 import org.apache.commons.logging.Log;
@@ -52,7 +53,7 @@ import org.dom4j.io.XMLWriter;
 /**
  * This class represents a product.  
  */
-public class Product extends AbstractAsset
+public class Product extends AbstractMaintainedAsset
                      implements IGXLExport{
 
 	// containers

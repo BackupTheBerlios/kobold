@@ -21,18 +21,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.9 2004/06/27 18:52:10 vanto Exp $
+ * $Id: SpecificComponent.java,v 1.10 2004/06/27 23:52:29 vanto Exp $
  *
  */
 
 package kobold.common.model.product;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import kobold.common.io.FileDescriptor;
 import kobold.common.model.AbstractAsset;
+import kobold.common.model.IFileDescriptorContainer;
 import kobold.common.model.Release;
 
 import org.dom4j.Element;
@@ -41,10 +44,12 @@ import org.dom4j.Element;
 /**
  * Represents a product specific component.
  */
-public class SpecificComponent extends ProductComponent {
+public class SpecificComponent extends ProductComponent 
+							   implements IFileDescriptorContainer {
 
 
 	private List releases = new ArrayList();
+	private List filedescs = new ArrayList();
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#component";
 	
 	/**
@@ -111,7 +116,35 @@ public class SpecificComponent extends ProductComponent {
 		return AbstractAsset.SPECIFIC_COMPONENT;
 	}
 
-    /* (non-Javadoc)
+    /**
+     * @see kobold.common.model.IFileDescriptorContainer#addFileDescriptor(kobold.common.io.FileDescriptor)
+     */
+    public void addFileDescriptor(FileDescriptor fd)
+    {
+        filedescs.add(fd);
+        fd.setParentAsset(fd);
+    }
+
+    /**
+     * @see kobold.common.model.IFileDescriptorContainer#removeFileDescriptor(kobold.common.io.FileDescriptor)
+     */
+    public void removeFileDescriptor(FileDescriptor fd)
+    {
+        filedescs.remove(fd);
+        fd.setParentAsset(null);
+    }
+
+    /**
+     * @see kobold.common.model.IFileDescriptorContainer#getFileDescriptors()
+     */
+    public List getFileDescriptors()
+    {
+        return Collections.unmodifiableList(filedescs);
+    }
+
+
+	
+	/** (non-Javadoc)
      * @see kobold.common.model.IGXLExport#getGXLAttributes()
      */
     public Map getGXLAttributes()
@@ -137,6 +170,5 @@ public class SpecificComponent extends ProductComponent {
         // TODO Auto-generated method stub
         return null;
     }
-
 }
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.14 2004/06/25 17:25:34 martinplies Exp $
+ * $Id: AbstractAsset.java,v 1.15 2004/06/27 23:52:28 vanto Exp $
  *
  */
 package kobold.common.model;
@@ -39,7 +39,6 @@ import java.util.Set;
 import kobold.common.data.ISerializable;
 import kobold.common.data.IdManager;
 import kobold.common.exception.GXLException;
-
 import net.sourceforge.gxl.GXLGraph;
 import net.sourceforge.gxl.GXLNode;
 import net.sourceforge.gxl.GXLString;
@@ -78,9 +77,8 @@ public abstract class AbstractAsset implements ISerializable
 
     private String name;
     private String id;
-    private Object parent;
+    private AbstractAsset parent;
     private String description;
-    private String owner;
     private Set statusSet = new HashSet();
 
     public AbstractAsset()
@@ -119,9 +117,11 @@ public abstract class AbstractAsset implements ISerializable
     		if (description != null) {
 			  node.setAttr("description", new GXLString(description));
     		}
-    		if (owner != null) {
+    		
+    		/* FIXME: Martin, es gibt jetzt eine Liste von Maintainern
+    		 * if (owner != null) {
 			  node.setAttr("owner", new GXLString(owner));
-    		}
+    		}*/
     		
 			Map attributes = thisGXL.getGXLAttributes();
 			if (attributes != null) {
@@ -228,25 +228,21 @@ public abstract class AbstractAsset implements ISerializable
     public abstract String getType();
 
     /**
-     * Returns the root of the model tree. Is mostly type of Productline
+     * Returns the root of the model tree, an AbstractRootAsset
      * 
      * @return
      */
-    public AbstractAsset getRoot()
+    public AbstractRootAsset getRoot()
     {
-        if (!(getParent() instanceof AbstractAsset)) {
-            return null;
+        AbstractAsset parent = getParent();
+       
+        while ((parent != null) 
+                && !(parent instanceof AbstractRootAsset)) {
+            
+            parent = parent.getParent();
         }
         
-        AbstractAsset parent = (AbstractAsset)getParent();
-        while (parent != null) {
-            if (!(parent.getParent() instanceof AbstractAsset)) {
-                return parent;
-            }
-            parent = (AbstractAsset)parent.getParent();
-        }
-
-        return parent;
+        return (AbstractRootAsset)parent;
     }
 
     /**
@@ -255,7 +251,7 @@ public abstract class AbstractAsset implements ISerializable
      * 
      * @param parent
      */
-    public void setParent(Object parent)
+    public void setParent(AbstractAsset parent)
     {
         this.parent = parent;
     }
@@ -275,11 +271,6 @@ public abstract class AbstractAsset implements ISerializable
             descEl.setText(description);
         }
 
-        Element ownerEl = element.addElement("owner");
-        if (owner != null) {
-            ownerEl.setText(owner);
-        }
-
         Element statesEl = element.addElement("states");
         Iterator it = statusSet.iterator();
         while (it.hasNext()) {
@@ -297,8 +288,7 @@ public abstract class AbstractAsset implements ISerializable
     	//FIXME: Notify IdManager about the usage of this id
     	name = element.elementTextTrim("name");
     	description = element.elementTextTrim("description");
-    	owner = element.elementTextTrim("owner");
-    	
+
     	if (element.element("states") != null) {
     		Iterator it = element.element("states").elementIterator("status");
     		while (it.hasNext()) {
@@ -311,7 +301,7 @@ public abstract class AbstractAsset implements ISerializable
     /**
      * @return Returns the parent.
      */
-    public Object getParent()
+    public AbstractAsset getParent()
     {
         return parent;
     }
@@ -333,19 +323,6 @@ public abstract class AbstractAsset implements ISerializable
 	protected final void fireStructureChange(String prop, Object child){
 		listeners.firePropertyChange(prop, null, child);
 	}
-	
-	/**
-	 * @return Returns the owner.
-	 */
-	public String getOwner() {
-		return owner;
-	}
-	
-	/**
-	 * @param owner The owner to set.
-	 */
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}
+
 }
 

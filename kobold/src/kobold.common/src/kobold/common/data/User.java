@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.11 2004/06/27 18:52:10 vanto Exp $
+ * $Id: User.java,v 1.12 2004/06/27 23:52:28 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -44,10 +44,10 @@ public class User implements ISerializable
     private String fullname;
     
     
-    public User(String username, String fullname)
+    public User(String username)
     {
         this.username = username;
-        this.fullname = fullname;
+        this.fullname = "unknown";
     }
     
     /**
@@ -106,5 +106,18 @@ public class User implements ISerializable
     {
        username = element.attributeValue("username");
        fullname = element.attributeValue("fullname");
+    }
+    
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof User) {
+            return getUsername().equals(((User)obj).getUsername());
+        }
+        return false;
+    }
+    
+    public int hashCode()
+    {
+        return getUsername().hashCode();
     }
 }

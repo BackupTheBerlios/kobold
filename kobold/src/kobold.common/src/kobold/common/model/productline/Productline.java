@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.23 2004/06/25 17:25:35 martinplies Exp $
+ * $Id: Productline.java,v 1.24 2004/06/27 23:52:29 vanto Exp $
  *
  */
 package kobold.common.model.productline;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,9 +34,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.io.File;
 
 import kobold.common.model.AbstractAsset;
+import kobold.common.model.AbstractRootAsset;
 import kobold.common.model.IComponentContainer;
 import kobold.common.model.IGXLExport;
 import kobold.common.model.product.Product;
@@ -43,8 +44,8 @@ import kobold.common.model.product.Product;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
 import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
@@ -52,8 +53,10 @@ import org.dom4j.io.XMLWriter;
 /**
  * @author rendgeor
  */
-public class Productline extends AbstractAsset
-                         implements IGXLExport {
+public class Productline extends AbstractRootAsset
+                         implements IComponentContainer,
+                         			IGXLExport {
+    
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#productline";
 
 	//the products and core-assets

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductRelease.java,v 1.6 2004/06/25 17:25:35 martinplies Exp $
+ * $Id: ProductRelease.java,v 1.7 2004/06/27 23:52:28 vanto Exp $
  *
  */
 
@@ -33,7 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.Release;

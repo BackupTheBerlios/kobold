@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.11 2004/06/25 17:25:35 martinplies Exp $
+ * $Id: Variant.java,v 1.12 2004/06/27 23:52:29 vanto Exp $
  *
  */
 
@@ -33,8 +33,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import kobold.common.io.FileDescriptor;
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.IComponentContainer;
+import kobold.common.model.IFileDescriptorContainer;
 import kobold.common.model.IGXLExport;
 import kobold.common.model.IReleaseContainer;
 import kobold.common.model.Release;
@@ -46,10 +48,13 @@ import org.dom4j.Element;
  * @author vanto
  */
 public class Variant extends AbstractAsset 
-					 implements IGXLExport, IComponentContainer, IReleaseContainer {
+					 implements IGXLExport, IComponentContainer,
+					 			IReleaseContainer, IFileDescriptorContainer {
 
 	private List components = new ArrayList();
 	private List releases = new ArrayList();
+	private List filedescs = new ArrayList();
+	
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#variant";;
 	
 	/**
@@ -197,6 +202,7 @@ public class Variant extends AbstractAsset
 	    release.setParent(null);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, release);
 	}
+	
 	/**
 	 * Returns a unmodifiable list of releases.
 	 * 
@@ -206,7 +212,33 @@ public class Variant extends AbstractAsset
 	{
 	    return Collections.unmodifiableList(releases);
 	}
-	
+
+    /**
+     * @see kobold.common.model.IFileDescriptorContainer#addFileDescriptor(kobold.common.io.FileDescriptor)
+     */
+    public void addFileDescriptor(FileDescriptor fd)
+    {
+        filedescs.add(fd);
+        fd.setParentAsset(fd);
+    }
+
+    /**
+     * @see kobold.common.model.IFileDescriptorContainer#removeFileDescriptor(kobold.common.io.FileDescriptor)
+     */
+    public void removeFileDescriptor(FileDescriptor fd)
+    {
+        filedescs.remove(fd);
+        fd.setParentAsset(null);
+    }
+
+    /**
+     * @see kobold.common.model.IFileDescriptorContainer#getFileDescriptors()
+     */
+    public List getFileDescriptors()
+    {
+        return Collections.unmodifiableList(filedescs);
+    }
+
 /*	public GXLNode getGXLGraph() {
 		GXLNode node = super.getGxlNode();
 		// add Children
@@ -243,6 +275,5 @@ public class Variant extends AbstractAsset
 	public String getGXLType() {
 		return GXL_TYPE;
 	}
-	
-    
+   
 }

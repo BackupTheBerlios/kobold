@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Release.java,v 1.6 2004/06/25 17:25:34 martinplies Exp $
+ * $Id: Release.java,v 1.7 2004/06/27 23:52:28 vanto Exp $
  *
  */
 
@@ -32,8 +32,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
+import kobold.common.data.ISerializable;
+
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 /**
@@ -42,7 +44,8 @@ import org.dom4j.Element;
  */
 public class Release extends AbstractAsset {
 
-    private List fileDescriptors = new ArrayList();
+    private List revisions = new ArrayList();
+    private boolean released = false;
 
 	/**
 	 * Basic constructor.
@@ -61,21 +64,58 @@ public class Release extends AbstractAsset {
 	}
 	
 	/**
+	 * Adds a new fileDescriptor.
+	 *
+	 * @param fileDescriptor contains the new fileDescriptor
+	 */
+	public void addFileRevision(FileRevision filerev) 
+	{
+		revisions.add(filerev);
+	}
+	
+	public void removeFileRevision(FileRevision filerev) 
+	{
+	    revisions.remove(filerev);
+	}
+	
+	public List getFileRevisions() 
+	{
+	    return Collections.unmodifiableList(revisions);
+	}
+
+    /**
+     * @param released The released to set.
+     */
+    public void setReleased(boolean released)
+    {
+        this.released = released;
+    }
+    
+    /**
+     * Returns if the release is released or is in preparation mode.
+     * @return Returns the released.
+     */
+    public boolean isReleased()
+    {
+        return released;
+    }
+    
+	/**
 	 * Serializes the product.
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
 	    Element element = super.serialize();
-
-	    Element fdsEl = element.addElement("filedescriptors");
+	    element.addAttribute("released", "" + released);
 	    
-	    for (Iterator it = fileDescriptors.iterator(); it.hasNext();) {
-            FileDescriptor fd = (FileDescriptor) it.next();
+	    Element fdsEl = element.addElement("filerevisions");
+	    
+	    for (Iterator it = revisions.iterator(); it.hasNext();) {
+            FileRevision fd = (FileRevision) it.next();
             fdsEl.add(fd.serialize());
         } 
 
 		return element;
-
 	}
 
 	/**
@@ -83,21 +123,14 @@ public class Release extends AbstractAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-	    Iterator it = element.element("filedescriptors").elementIterator(AbstractAsset.FILE_DESCRIPTOR);
+	    Iterator it = element.element("filerevisions").elementIterator(FileRevision.TYPE);
+	    released = element.attributeValue("released").equals(""+true);
+	    
 		while (it.hasNext()) {
 		    Element fdEl = (Element)it.next();
-		    addFileDescriptor(new FileDescriptor(fdEl));
+		    addFileRevision(new FileRevision(fdEl));
 		}
 	}
-
-	/**
-	 * @return name of the dependent productline.
-
-	public String getDependsName() {
-		return productLineName;
-	}
-	 */
-
 
 	/**
 	 * @see kobold.common.data.AbstractProduct#getType()
@@ -108,31 +141,83 @@ public class Release extends AbstractAsset {
 	}
 
 	/**
-	 * Adds a new fileDescriptor.
-	 *
-	 * @param fileDescriptor contains the new fileDescriptor
+	 * Provides a 2-tupel to represent a file revision.
+	 * Contains path and revision of a file. 
 	 */
-	public void addFileDescriptor(FileDescriptor fileDescriptor) 
+	public static class FileRevision implements ISerializable 
 	{
-		fileDescriptors.add(fileDescriptor);
-		//set parent
-		fileDescriptor.setParent(this);
+	    public static final String TYPE = "filerevision";
+	    private String path, revision;
+	    
+	    public FileRevision(String path, String revision)
+	    {
+	        this.path = path;
+	        this.revision = revision;
+	    }
+	    
+        private FileRevision(Element element) 
+        {
+            deserialize(element);
+        }
+        
+	    /**
+         * @param path The path to set.
+         */
+        public void setPath(String path)
+        {
+            this.path = path;
+        }
+        
+	    /**
+         * @return Returns the path.
+         */
+        public String getPath()
+        {
+            return path;
+        }
+        
+        /**
+         * @param revision The revision to set.
+         */
+        public void setRevision(String revision)
+        {
+            this.revision = revision;
+        }
+        
+        /**
+         * @return Returns the revision.
+         */
+        public String getRevision()
+        {
+            return revision;
+        }
+
+        /**
+         * @see kobold.common.data.ISerializable#serialize()
+         */
+        public Element serialize()
+        {
+            Element element = DocumentHelper.createElement(TYPE);
+            if (path != null) {
+                element.addElement("path").setText(path);
+            }
+
+            if (revision != null) {
+                element.addElement("revision").setText(revision);
+            }
+            
+            return element;
+        }
+
+        /**
+         * @see kobold.common.data.ISerializable#deserialize(org.dom4j.Element)
+         */
+        public void deserialize(Element element)
+        {
+            path = element.elementTextTrim("path");
+            revision = element.elementTextTrim("revision");
+        }
 	}
 	
-	public void removeFileDescriptor(FileDescriptor fd) 
-	{
-	    fileDescriptors.remove(fd);
-	    fd.setParent(null);
-	}
-	
-	public List getFileDescriptors() 
-	{
-	    return Collections.unmodifiableList(fileDescriptors);
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
-	 */
-
 
 }
