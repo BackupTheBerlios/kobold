@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.30 2004/08/02 10:59:48 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.31 2004/08/02 14:01:21 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -30,14 +30,14 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
 
 import kobold.common.controller.IKoboldServer;
 import kobold.common.controller.RPCMessageTransformer;
 import kobold.common.data.AbstractKoboldMessage;
-import kobold.common.data.Component;
-import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.User;
 import kobold.common.data.UserContext;
@@ -63,29 +63,42 @@ public class SecureKoboldClient implements IKoboldServer {
 
 	private static final Log log =
 		LogFactory.getLog("kobold.client.controller.SecureKoboldClient");
+	private static SecureKoboldClient instance = null;
+	
+	private Map clientByUrlPool = new HashMap();
 
-	// the xml-rpc client
-	private SecureXmlRpcClient client;
-
-	/**
-	 *  Constructor
-	 */
-	public SecureKoboldClient(URL url) {
-		client = new SecureXmlRpcClient(url);
+	
+	public static SecureKoboldClient getInstance() {
+	    if (instance == null) {
+	        instance = new SecureKoboldClient();
+	    }
+	    return instance;
+	       
 	}
 
+	private SecureXmlRpcClient getClientByUrl(URL url) {
+	    SecureXmlRpcClient client = (SecureXmlRpcClient) clientByUrlPool.get(url);
+	    if (client == null) {
+	        client = new SecureXmlRpcClient(url);
+	        clientByUrlPool.put(url, client);
+	    }
+	    return client;
+	}
+	
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#login(String, String)}
 	 */
-	public UserContext login(String userName, String password) {
+	public UserContext login(URL url, String userName, String password) {
 		Vector v = new Vector();
 		v.add(userName);
 		v.add(password);
 		try {
-			Object result = client.execute("login", v);
+			Object result = getClientByUrl(url).execute("login", v);
 			if (!((String)result).equals(IKoboldServer.NO_RESULT)) {
 				Element element = RPCMessageTransformer.decode((String)result);
-				return new UserContext(element);
+				UserContext uc = new UserContext(element);
+				uc.setServerUrl(url);
+				return uc;
 			}
 		} catch (Exception exception) {
 			log.error("login()", exception);
@@ -100,7 +113,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
-			Object result = client.execute("logout", v);
+			Object result = getClientByUrl(userContext.getServerUrl()).execute("logout", v);
 		} catch (Exception exception) {
 			log.error("logout()", exception);
 		}
@@ -118,7 +131,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(password);
 		v.add(realName);
 		try {
-			Object result = client.execute("addUser", v);
+			Object result = getClientByUrl(userContext.getServerUrl()).execute("addUser", v);
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -134,7 +147,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(userName);
 		v.add(realName);
 		try {
-			Object result = client.execute("changeUser",v);
+			Object result = getClientByUrl(userContext.getServerUrl()).execute("changeUser",v);
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -148,7 +161,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(plName);
 		try {
-			Object result = client.execute("getProductline", v);
+			Object result = getClientByUrl(userContext.getServerUrl()).execute("getProductline", v);
 			if (!((String)result).equals(IKoboldServer.NO_RESULT)) {
 				System.err.println(result);
 				System.err.println(RPCMessageTransformer.decode((String)result));
@@ -168,7 +181,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(RPCMessageTransformer.encode(koboldMessage.serialize()));
 		try {
-			Object result = client.execute("sendMessage", v);
+			Object result = getClientByUrl(userContext.getServerUrl()).execute("sendMessage", v);
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -181,7 +194,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
-			Object result = client.execute("fetchMessage", v);
+			Object result = getClientByUrl(userContext.getServerUrl()).execute("fetchMessage", v);
 			if (!((String)result).equals(IKoboldServer.NO_RESULT)) {
 				return AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)result));
 			}
@@ -199,7 +212,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(RPCMessageTransformer.encode(koboldMessage.serialize()));
 		try {
-			Object result = client.execute("invalidateMessage", v);
+			Object result = getClientByUrl(userContext.getServerUrl()).execute("invalidateMessage", v);
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -213,7 +226,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
-			result = (Vector) client.execute("getProductlineNames", v);
+			result = (Vector) getClientByUrl(userContext.getServerUrl()).execute("getProductlineNames", v);
 			log.info(result);
 		} catch (Exception exception) {
 			log.error(exception);
@@ -229,7 +242,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		try {
-			Vector vector = (Vector) client.execute("getAllUser", v);
+			Vector vector = (Vector) getClientByUrl(userContext.getServerUrl()).execute("getAllUser", v);
 			
 			for (Iterator iterator = vector.iterator(); iterator.hasNext();) {
 			    User user = new User(RPCMessageTransformer.decode((String) iterator.next()));
@@ -250,7 +263,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(RPCMessageTransformer.encode(user.serialize()));
 		try {
-			Object result = (Object) client.execute("removeUser", v);
+			Object result = (Object) getClientByUrl(userContext.getServerUrl()).execute("removeUser", v);
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -264,7 +277,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(RPCMessageTransformer.encode(productline.serialize()));
 		try {
-			Object result = (Object) client.execute("updateProductline", v);
+			Object result = (Object) getClientByUrl(userContext.getServerUrl()).execute("updateProductline", v);
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -305,7 +318,7 @@ public class SecureKoboldClient implements IKoboldServer {
         v.add(RPCMessageTransformer.encode(userContext.serialize()));
         v.add(RPCMessageTransformer.encode(user.serialize()));
 		try {
-			Object result = client.execute("updateUserFullname",v);
+			Object result = getClientByUrl(userContext.getServerUrl()).execute("updateUserFullname",v);
 		} catch (Exception exception) {
 			log.error(exception);
 		}        
@@ -321,7 +334,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(oldPassword);
 		v.add(newPassword);
 		try {
-			Object result = client.execute("updateUserPassword",v);
+			Object result = getClientByUrl(userContext.getServerUrl()).execute("updateUserPassword",v);
 		} catch (Exception exception) {
 			log.error(exception);
 		}

@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.65 2004/08/02 10:59:46 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.66 2004/08/02 14:01:10 garbeam Exp $
  *
  */
 package kobold.server;
 
 import java.io.FileInputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -135,7 +136,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 				sniffArgs.add(new String((String)arguments.elementAt(0)));
 				sniffArgs.add(new String((String)arguments.elementAt(1)));
 				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
-				UserContext userContext = login((String)arguments.elementAt(0), (String)arguments.elementAt(1));
+				UserContext userContext = login(null, (String)arguments.elementAt(0), (String)arguments.elementAt(1));
 				if (userContext !=  null) {
 					return RPCMessageTransformer.encode(userContext.serialize());
 				}
@@ -376,7 +377,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#login(String, String)}
 	 */
-	public UserContext login(String userName, String password) {
+	public UserContext login(URL url, String userName, String password) {
 		return SessionManager.getInstance().login(userName, password);
 	}
 
