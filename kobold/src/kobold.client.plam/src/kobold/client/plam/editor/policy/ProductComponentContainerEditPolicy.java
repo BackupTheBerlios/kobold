@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductContainerEditPolicy.java,v 1.2 2004/09/21 20:54:30 vanto Exp $
+ * $Id: ProductComponentContainerEditPolicy.java,v 1.1 2004/10/07 18:28:02 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
@@ -45,7 +45,7 @@ import org.eclipse.gef.requests.GroupRequest;
 /**
  * @author Tammo
  */
-public class ProductContainerEditPolicy extends ContainerEditPolicy
+public class ProductComponentContainerEditPolicy extends ContainerEditPolicy
 {
 
     /**

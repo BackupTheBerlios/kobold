@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponentEditPart.java,v 1.5 2004/09/20 06:42:05 martinplies Exp $
+ * $Id: SpecificComponentEditPart.java,v 1.6 2004/10/07 18:28:02 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kobold.client.plam.editor.figure.SpecificComponentFigure;
+import kobold.client.plam.editor.policy.ProductComponentContainerEditPolicy;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
 import kobold.client.plam.model.product.SpecificComponent;
 
@@ -75,6 +76,7 @@ public class SpecificComponentEditPart extends AbstractAssetEditPart
     {
         super.createEditPolicies();
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicyImpl());
+		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ProductComponentContainerEditPolicy());
     }
 
     /**

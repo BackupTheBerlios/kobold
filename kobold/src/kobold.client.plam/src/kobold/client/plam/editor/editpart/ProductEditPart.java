@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductEditPart.java,v 1.4 2004/09/23 13:43:19 vanto Exp $
+ * $Id: ProductEditPart.java,v 1.5 2004/10/07 18:28:02 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -33,7 +33,7 @@ import java.util.List;
 
 import kobold.client.plam.editor.model.AssetView;
 import kobold.client.plam.editor.model.IViewModelProvider;
-import kobold.client.plam.editor.policy.ProductContainerEditPolicy;
+import kobold.client.plam.editor.policy.ProductComponentContainerEditPolicy;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
@@ -67,7 +67,7 @@ import org.eclipse.swt.graphics.Font;
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductEditPart.java,v 1.4 2004/09/23 13:43:19 vanto Exp $
+ * @version $Id: ProductEditPart.java,v 1.5 2004/10/07 18:28:02 vanto Exp $
  */
 public class ProductEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
@@ -111,7 +111,7 @@ public class ProductEditPart extends AbstractGraphicalEditPart
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicyImpl());
-        installEditPolicy(EditPolicy.CONTAINER_ROLE, new ProductContainerEditPolicy());
+        installEditPolicy(EditPolicy.CONTAINER_ROLE, new ProductComponentContainerEditPolicy());
     }
 
     /**
