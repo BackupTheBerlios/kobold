@@ -19,7 +19,7 @@ Leave the remaining data untouched and confirm the dialog. \par
 \end{figure}
 
 Open the tree along HEAD, kobold and src (see \ref{auschecken}). Check out the five folders kobold.client.plam,
-kobold.client.vcm, kobold.client.serveradmin, kobold.common and kobold.server through 'check out as..' (context menue)
+kobold.client.vcm, kobold.client.serveradmin, kobold.common and kobold.server through 'check out as..' (context menu)
 and confirm with 'Finish'.
 
 \begin{figure}[h!]
@@ -37,7 +37,7 @@ Projects kobold.client.plam, kobold.client.vcm and kobold.common: \par
 Right-click on the project and select 'properties'. Select 'Java build path' and the 'source'
 tab. Remove the existing entry and add a new one by pressing 'Add Folder'. Choose the 
 src-folder and confirm. Append '/bin' to the default output folder (see \ref{buildpath}).
- Close the preferences dialog. \par
+ Close the properties dialog. \par
 
 \begin{figure}[h!]
 \begin{center}
@@ -47,11 +47,14 @@ src-folder and confirm. Append '/bin' to the default output folder (see \ref{bui
 \end{center}
 \end{figure}\par
 
-Projects kobold.server: \par
+Project kobold.server: \par
 Right-click on the project and select 'properties'. Select 'Java build path' and the 'source'
 tab. Remove the existing entry and add a new one by pressing 'Add Folder'. Choose the 
 src-folder and confirm. Append '/bin' to the default output folder. 
-Switch to the 'projects' tab and select 'kobold.common'. Close the preferences 
+Switch to the 'projects' tab and select 'kobold.common'. Finally, switch to the 'libraries'
+tab and press the 'add jars...' button. A dialog opens which displays the project 
+kobold.common. Open the tree and select every jar-file in the contrib-folder and in the folders
+contained in contrib. Confirm with 'OK' and close the properties 
 dialog. \par
 
 Again, right-click on the project kobold.client.plam and select 'PDE Tools' 
@@ -124,7 +127,7 @@ javax.net.ssl.trustStorePassword=kobold1
 
 As you can see, it contains the same properties as the {\it
 server.properties} file for SSL communication, but since the Kobold
-client is independent from the server it has its own properties.\par
+Serveradmin Tool is independent from the server it has its own properties.\par
 
 Right after your first start of the Kobold Client Feater Set, change the Kobold
 preferences so that the client-server communication works properly. For more
