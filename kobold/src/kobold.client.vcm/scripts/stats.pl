@@ -129,11 +129,16 @@ sub read_entries {
 sub read_phys {
         ########ALL physical files and directories
         sub show{
-            #debug: print ("XXXX $File::Find::name/\n");
             
             #to avoid that the currDir is printed too!
-            if ("$File::Find::name/" ne "$currDir")
+            my $myFilename = "$File::Find::name/";
+            if ($myFilename ne "$currDir")
             {
+             #debug: 
+                #print ("XXXX $File::Find::name\n");
+             #debug: 
+                #print ("YYYY $currDir\n");
+                
 
                 my $newFile = "$File::Find::name";
                 my $currDirLength = length ($currDir);
