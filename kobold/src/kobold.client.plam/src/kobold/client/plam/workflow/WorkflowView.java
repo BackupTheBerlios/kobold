@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.19 2004/08/03 17:35:47 vanto Exp $
+ * $Id: WorkflowView.java,v 1.20 2004/08/17 13:20:16 bettina Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -264,38 +264,9 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 			public void run() {
 				WorkflowMessage msg = new WorkflowMessage("Core Group Suggestion");
 				try {
-					UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
-				    					
-					msg.setSender(ctx.getUserName());	
-					msg.setStep(1);
-					msg.setReceiver("PE");
-					msg.putWorkflowData("P", ctx.getUserName());
-					/** may be used later
-						if (role instanceof RolePE) {
-							msg.setStep(2);
-							msg.setReceiver("PLE");
-							msg.putWorkflowData("decision", "true");
-						}
-						if (!(role instanceof RolePLE)) {
-					 * 
-					 */
-				
-					msg.setSubject("Core Group Suggestion");
-					msg.setMessageText("Enter the data of the file you want to suggest:");
-					WorkflowItem recipient = new WorkflowItem ("recipient", "Recipient: ", WorkflowItem.TEXT);
-					WorkflowItem file = new WorkflowItem("file", "File: ", WorkflowItem.TEXT);
-					WorkflowItem component = new WorkflowItem ("component", "Component: ", WorkflowItem.TEXT);
-					msg.addWorkflowControl(recipient);
-					msg.addWorkflowControl(file);
-					msg.addWorkflowControl(component);
-					WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
-					wfDialog.open();
-					/** may be used later
-						}
-						else {
-							showMessage("This option can't be used by the PLE!");
-						}
-					*/
+					CoreGroupDialog cgDialog = new CoreGroupDialog(viewer.getControl().getShell());
+					cgDialog.open();
+
 				} catch (Exception e) {
 					e.printStackTrace();
 					showMessage("A project must be selected!");
