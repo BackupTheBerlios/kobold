@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.53 2004/07/19 12:19:36 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.54 2004/07/19 12:34:41 neccaino Exp $
  *
  */
 package kobold.server;
@@ -712,8 +712,6 @@ public class SecureKoboldWebServer implements IKoboldServer,
      *        should be returned
      * @return String containing all assigned usernames (seperated by '\n') or
      *         one of the IKoboldServerAdministration error strings
-     * 
-     * TODO: implement
      */
     public String getPles(String adminPassword, String nameOfProductline){
         // 1.) check the password
@@ -722,10 +720,26 @@ public class SecureKoboldWebServer implements IKoboldServer,
         }
         
         // 2.) check if productline exists
+        ProductlineManager plm = ProductlineManager.getInstance();
+        Productline pl = plm.getProductline(nameOfProductline);
+        
+        if (pl == null){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
         
         // 3.) get maintainer list and convert it to string
+        List ml = pl.getMaintainers();
+        String ret = "";
         
-        return RETURN_FAIL; // until implemented
+        int sizeOfList = ml.size();
+        if (sizeOfList == 0){
+            ret += "no users assigned\n";
+        }
+        else for (int ax = 0; ax < sizeOfList; ax++){
+            ret += (String) ml.toArray()[ax] + "\n";
+        }
+        
+        return ret; 
     }
     
     /**
@@ -736,8 +750,6 @@ public class SecureKoboldWebServer implements IKoboldServer,
      * @return String containing all the registered productlines' names
      *         (seperated by '\n')  or one of the IKoboldServerAdministration 
      *         error strings
-     * 
-     * TODO: implement
      */
     public String getProductlines(String adminPassword){
         // 1.) check the password
@@ -746,7 +758,17 @@ public class SecureKoboldWebServer implements IKoboldServer,
         }
         
         // 2.) get productline list and convert it to string
-
-        return RETURN_FAIL; //until impl.
+        List pllist = ProductlineManager.getInstance().getProductlineNames();
+        String ret = "";
+        
+        int sizeOfList = pllist.size();
+        if (sizeOfList == 0){
+            ret += "no productlines on the server\n";
+        }
+        else for (int ax = 0; ax < sizeOfList; ax++){
+            ret += (String) pllist.toArray()[ax] + "\n";
+        }
+        
+        return ret; 
     }
 }
