@@ -187,7 +187,7 @@ public class ProductComposer {
         for (Iterator ite = container.getEdgesTo(node).iterator(); ite
                 .hasNext();) {
             Edge edge = (Edge) ite.next();
-            if (edge.getType() == Edge.INCLUDE) {
+            if (edge.getType().equals(Edge.INCLUDE)) {
                 updateStateMetaInclude((AbstractAsset) edge.getStartNode(),
                         (AbstractAsset) edge.getTargetNode());
             } else {
@@ -361,7 +361,7 @@ public class ProductComposer {
         for (Iterator ite = container.getEdgesFrom(node).iterator(); ite
                 .hasNext();) {
             Edge edge = (Edge) ite.next();
-            if (edge.getType() == Edge.INCLUDE) {
+            if (edge.getType().equals(Edge.INCLUDE)) {
                 updateStateMetaInclude(edge.getStartNode(), edge
                         .getTargetNode());
             } else {
@@ -609,10 +609,10 @@ public class ProductComposer {
             for (Iterator upd = container.getEdgesTo(node).iterator(); upd
                     .hasNext();) {
                 Edge edge = (Edge) upd.next();
-                if (edge.getType() == Edge.INCLUDE) {
+                if (edge.getType().equals(Edge.INCLUDE)) {
                     this.updateStateMetaInclude(edge.getStartNode(), edge
                             .getTargetNode());
-                } else if (edge.getType() == Edge.EXCLUDE) {
+                } else if (edge.getType().equals(Edge.EXCLUDE)) {
                     this.updateStateMetaExclude(node);
                 }
             }
