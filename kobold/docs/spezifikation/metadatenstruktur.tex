@@ -14,7 +14,7 @@ angelegt.
 Workspace/NameDerProduktlinie/
 \\				PL/.productlinemetainfo
 \\				PRODUCTS/NameProdukt/.productmetainfo
-\\				CA/.coreassetmetainfo
+\\				CA/NameCoreAsset/.coreassetmetainfo
 
 Die Datei ``.productlinemetainfo'' beschreibt welche Produkte innerhalb
 der Produktlinie liegen. Die aufgeführten Produkte werden innerhalb der Datei
@@ -27,6 +27,8 @@ Die Datei ``.productlinemetainfo'' enthält folgende Informationen über
 vorhandene Produkte:
 \begin{itemize}
   \item{vorhandene Produkte: Name}
+  \item{vorhandene Core-Assets: Name}
+  \item{Repository-Pfad: Name}
 \end{itemize}
 
 \subsection{Produkt-Metainformation}
@@ -56,19 +58,19 @@ das jeweilige Produkt:
 Die Datei ``.coreassetmetainfo'' enthält folgende Informationen über
 die verwendeten Core-Assets:
 \begin{itemize}
-  \item{verwendete Core-Assets: Name}
-  \begin{itemize}
     \item{verwendete Komponente: Name}
     \begin{itemize}
       \item{verwendete Variante: Name}
       \begin{itemize}
         \item{verwendete Version: Name}
-        %\begin{itemize}
+        \begin{itemize}
           \item{Filedeskriptor: Pfad, Version der Datei, Letzte
           Änderung an Datei, Letzter Bearbeiter}
-        %\end{itemize}
+        \end{itemize}
       \end{itemize}
-    \end{itemize}
   \end{itemize}
+
+  \item{Repository-Pfad: Name}
+
 \end{itemize}
 
