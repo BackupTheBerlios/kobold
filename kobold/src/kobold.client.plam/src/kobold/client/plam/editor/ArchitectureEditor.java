@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.6 2004/05/14 02:19:15 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.7 2004/06/22 17:19:01 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.model.Model;
 import kobold.client.plam.model.ModelFactory;
 
@@ -93,6 +94,7 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette {
 	protected static final int DEFAULT_PALETTE_SIZE = 130;
 
 	private Model model;
+	private ViewModel viewModel;
 	
 	/**
 	 * Creates a new HelloGefEditor object.
@@ -102,8 +104,14 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette {
 		super();
 		setEditDomain(new DefaultEditDomain(this));
 		model = ModelFactory.createTestModel();
+		viewModel = new ViewModel();
 	}
 
+	public ViewModel getViewModel()
+	{
+	    return viewModel;
+	}
+	
 	/**
 	 * @see org.eclipse.ui.IEditorPart#init(IEditorSite, IEditorInput)
 	 */

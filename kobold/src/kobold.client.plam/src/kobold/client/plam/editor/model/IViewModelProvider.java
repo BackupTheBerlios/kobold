@@ -21,49 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalPartFactory.java,v 1.3 2004/06/22 17:19:01 vanto Exp $
+ * $Id: IViewModelProvider.java,v 1.1 2004/06/22 17:19:01 vanto Exp $
  *
  */
-package kobold.client.plam.editor;
+package kobold.client.plam.editor.model;
 
-import kobold.client.plam.editor.editpart.ComponentEditPart;
-import kobold.client.plam.editor.editpart.ProductlineEditPart;
-import kobold.client.plam.editor.editpart.VariantEditPart;
-import kobold.client.plam.model.Model;
-import kobold.client.plam.model.pline.graph.ComponentNode;
-import kobold.client.plam.model.pline.graph.VariantNode;
-import kobold.common.model.productline.Component;
-import kobold.common.model.productline.Variant;
-
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPartFactory;
 
 /**
- * GraphicalPartFactory
- * 
  * @author Tammo
  */
-public class GraphicalPartFactory implements EditPartFactory {
-
-	/** 
-	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
-	 */
-	public EditPart createEditPart(EditPart context, Object model) {
-		EditPart editPart = null;
-
-		if (model instanceof Model) {
-			editPart = new ProductlineEditPart();
-		} else if (model instanceof Component) {
-			editPart = new ComponentEditPart();
-		} else if (model instanceof Variant) {
-			editPart = new VariantEditPart();
-		}
-
-		if (editPart != null) {
-			editPart.setModel(model);
-		}
-
-		return editPart;
-	}
-
+public interface IViewModelProvider
+{
+    ViewModel getViewModel();
 }

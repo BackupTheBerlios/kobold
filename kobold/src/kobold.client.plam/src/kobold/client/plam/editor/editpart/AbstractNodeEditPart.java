@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeEditPart.java,v 1.3 2004/05/18 19:13:09 vanto Exp $
+ * $Id: AbstractNodeEditPart.java,v 1.4 2004/06/22 17:19:01 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -29,10 +29,11 @@ package kobold.client.plam.editor.editpart;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.policy.ContainerEditPolicy;
 import kobold.client.plam.editor.policy.GraphicalNodeEditPolicy;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
-import kobold.client.plam.model.pline.graph.AbstractNode;
+import kobold.common.model.AbstractAsset;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -67,13 +68,13 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
-		if (AbstractNode.ID_CHILDREN.equals(prop))
+		if (AbstractAsset.ID_CHILDREN.equals(prop))
 			refreshChildren();
-		else if (AbstractNode.ID_INPUTS.equals(prop))
-			refreshTargetConnections();
-		else if (AbstractNode.ID_OUTPUTS.equals(prop))
-			refreshSourceConnections();
-		else if (prop.equals(AbstractNode.ID_SIZE) || prop.equals(AbstractNode.ID_LOCATION))
+		//else if (AbstractAsset.ID_INPUTS.equals(prop))
+		//	refreshTargetConnections();
+		//else if (AbstractAsset.ID_OUTPUTS.equals(prop))
+		//	refreshSourceConnections();
+		else if (prop.equals(AbstractAsset.ID_SIZE) || prop.equals(AbstractAsset.ID_LOCATION))
 			refreshVisuals();
 	}
 
@@ -105,17 +106,17 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 		return null;
 	}
 
-	protected AbstractNode getNode()
+	protected AbstractAsset getAsset()
 	{
-		return (AbstractNode)getModel();
+		return (AbstractAsset)getModel();
 	}
 	
 	/**
 	 * Updates the visuals. 
 	 */
 	protected void refreshVisuals() {
-		Point loc = getNode().getLocation();
-		Dimension size= getNode().getSize();
+		Point loc = ((IViewModelProvider)getViewer()).getViewModel().getViewProperties(getAsset()).getLocation();
+		Dimension size= ((IViewModelProvider)getViewer()).getViewModel().getViewProperties(getAsset()).getSize();
 		Rectangle r = new Rectangle(loc ,size);
 
 		((GraphicalEditPart) getParent()).setLayoutConstraint(
@@ -131,7 +132,7 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 	public void activate() {
 		if (isActive() == false) {
 			super.activate();
-			((AbstractNode) getModel()).addPropertyChangeListener(this);
+			((AbstractAsset) getModel()).addPropertyChangeListener(this);
 		}
 	}
 
@@ -141,7 +142,7 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 	public void deactivate() {
 		if (isActive()) {
 		   super.deactivate();
-		   ((AbstractNode) getModel()).removePropertyChangeListener(this);
+		   ((AbstractAsset) getModel()).removePropertyChangeListener(this);
 		}
 	}
 

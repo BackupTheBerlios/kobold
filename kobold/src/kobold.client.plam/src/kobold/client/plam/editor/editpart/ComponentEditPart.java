@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentEditPart.java,v 1.3 2004/05/14 02:19:15 vanto Exp $
+ * $Id: ComponentEditPart.java,v 1.4 2004/06/22 17:19:01 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -29,8 +29,7 @@ package kobold.client.plam.editor.editpart;
 import java.util.List;
 
 import kobold.client.plam.editor.figure.ComponentFigure;
-import kobold.client.plam.model.pline.graph.ComponentNode;
-import kobold.common.io.ScriptDescriptor;
+import kobold.common.model.productline.Component;
 
 import org.eclipse.draw2d.IFigure;
 
@@ -38,7 +37,7 @@ import org.eclipse.draw2d.IFigure;
  * ComponentEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ComponentEditPart.java,v 1.3 2004/05/14 02:19:15 vanto Exp $
+ * @version $Id: ComponentEditPart.java,v 1.4 2004/06/22 17:19:01 vanto Exp $
  */
 public class ComponentEditPart extends AbstractNodeEditPart {
 
@@ -49,12 +48,13 @@ public class ComponentEditPart extends AbstractNodeEditPart {
      */
     protected IFigure createFigure() {
         figure = new ComponentFigure();
-        figure.setTitle(getNode().getName());
-        figure.setSize(getNode().getSize());
-		figure.setLocation(getNode().getLocation());
+        figure.setTitle(getAsset().getName());
+        //figure.setSize(getAsset().getSize());
+		//figure.setLocation(getAsset().getLocation());
+        refreshVisuals();
 
-		ScriptDescriptor sd = getNode().getScriptDescriptor();
-		figure.showScriptLabel(sd != null);
+		//ScriptDescriptor sd = getNode().getScriptDescriptor();
+		//figure.showScriptLabel(sd != null);
 
         return figure;
     }
@@ -67,7 +67,7 @@ public class ComponentEditPart extends AbstractNodeEditPart {
      */
     protected List getModelChildren()
     {
-        List children = ((ComponentNode) getModel()).getVariants();
+        List children = ((Component)getModel()).getVariants();
         return children;
     }
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelEditPart.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * $Id: ProductlineEditPart.java,v 1.1 2004/06/22 17:19:01 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -32,6 +32,7 @@ import java.util.List;
 
 import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
 import kobold.client.plam.model.Model;
+import kobold.common.model.productline.Productline;
 
 import org.eclipse.draw2d.AutomaticRouter;
 import org.eclipse.draw2d.BendpointConnectionRouter;
@@ -51,12 +52,12 @@ import org.eclipse.gef.tools.MarqueeDragTracker;
 
 
 /**
- * ArchitectureEditPart
+ * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ModelEditPart.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * @version $Id: ProductlineEditPart.java,v 1.1 2004/06/22 17:19:01 vanto Exp $
  */
-public class ModelEditPart extends AbstractGraphicalEditPart
+public class ProductlineEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
 
     /** Singleton instance of MarqueeDragTracker. */
@@ -120,7 +121,7 @@ public class ModelEditPart extends AbstractGraphicalEditPart
      */
     protected List getModelChildren()
     {
-        List children = ((Model) getModel()).getComponents();
+        List children = ((Productline) getModel()).getCoreAssets();
         return children;
     }
 
