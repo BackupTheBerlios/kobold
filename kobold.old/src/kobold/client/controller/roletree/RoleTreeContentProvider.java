@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.2 2004/03/30 23:36:08 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.3 2004/03/30 23:41:20 vanto Exp $
  *
  */
 package kobold.client.controller.roletree;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.Viewer;
 
 /**
  * RoleTreeContentProvider
@@ -39,5 +40,53 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 public class RoleTreeContentProvider implements IStructuredContentProvider, 
 					ITreeContentProvider 
 {
+
+    /**
+     * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+     */
+    public Object[] getElements(Object inputElement) {
+        // TODO
+        return null;
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.IContentProvider#dispose()
+     */
+    public void dispose() {
+        // TODO
+        
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+     */
+    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+        // TODO
+        
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
+     */
+    public Object[] getChildren(Object parentElement) {
+        // TODO
+        return null;
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
+     */
+    public Object getParent(Object element) {
+        // TODO
+        return null;
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
+     */
+    public boolean hasChildren(Object element) {
+        // TODO
+        return false;
+    }
 
 }

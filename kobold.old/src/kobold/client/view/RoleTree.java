@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTree.java,v 1.2 2004/03/30 23:31:10 vanto Exp $
+ * $Id: RoleTree.java,v 1.3 2004/03/30 23:41:20 vanto Exp $
  *
  */
 package kobold.client.view;
 
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
 /**
@@ -38,5 +39,21 @@ import org.eclipse.ui.part.ViewPart;
  */
 public class RoleTree extends ViewPart 
 {
+
+    /**
+     * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+     */
+    public void createPartControl(Composite parent) {
+        // TODO
+        
+    }
+
+    /**
+     * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+     */
+    public void setFocus() {
+        // TODO
+        
+    }
 
 }
