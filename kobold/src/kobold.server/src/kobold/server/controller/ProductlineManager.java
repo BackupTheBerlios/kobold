@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductManager.java,v 1.9 2004/07/05 15:59:53 garbeam Exp $
+ * $Id: ProductlineManager.java,v 1.1 2004/07/07 15:40:52 garbeam Exp $
  *
  */
 package kobold.server.controller;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,28 +42,24 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.io.RepositoryDescriptor;
+
 /**
  * This class stores user data on the server and provides authentification
  * services for user interaction with the Server (sessionIDs). It's a
  * singleton class.
- *
- * @author garbeam
  */
-public class ProductManager {
+public class ProductlineManager {
 
-	private HashMap products;
-	private HashMap productLines;
+	private HashMap productlines;
 	private String productStore = "products.xml";
 	
-	
-	static private ProductManager instance;
+	static private ProductlineManager instance;
 	 
-	static public ProductManager getInstance() {
+	static public ProductlineManager getInstance() {
 		 if (instance == null ) {
-		 	 instance = new ProductManager();
+		 	 instance = new ProductlineManager();
 		 }
 		 return instance;
 	}
@@ -71,9 +68,8 @@ public class ProductManager {
 	 * Basic constructor of this singleton.
 	 * @param path
 	 */
-	private ProductManager() {
-		products = new HashMap();
-		productLines = new HashMap();
+	private ProductlineManager() {
+		productlines = new HashMap();
 		this.productStore = 
 			System.getProperty("kobold.server.storePath") + 
 			System.getProperty("kobold.server.productStore");
@@ -82,53 +78,30 @@ public class ProductManager {
 	}
 	
 	/**
-	 * Adds a new product.
-	 *
-	 * @param product String containing the new productname
-	 */
-	public void addProduct(Product product) {
-		products.put(product.getName(), product);
-	}
-	
-	/**
 	 * Adds a new productline.
 	 *
-	 * @param productLine String containing the new productLine name
+	 * @param productline String containing the new productLine name
 	 */
-	public void addProductLine(Productline productLine) {
-		productLines.put(productLine.getName(), productLine);
+	public void addProductline(Productline productLine) {
+		productlines.put(productLine.getName(), productLine);
 	}
 
 	/**
 	 * Changes the stored information for the user specified in info.
 	 *
-	 * @param productname the name of the product.
+	 * @param productlineName the name of the productLine.
 	 */
-	public Product getProduct(String productName) {
-		return  (Product)products.get(productName);
+	public Productline getProductLine(String productlineName) {
+		return (Productline) productlines.get(productlineName);
 	}
 
 	/**
-	 * Changes the stored information for the user specified in info.
-	 *
-	 * @param productLineName the name of the productLine.
+	 * Removes the specified productline.
+	 * 
+	 * @param productline the productline to remove.
 	 */
-	public Productline getProductLine(String productLineName) {
-		return (Productline) productLines.get(productLineName);
-	}
-
-	/**
-	 * Removes the specified product.
-	 */
-	public void removeProduct(Product product) {
-		products.remove(product);
-	}
-
-	/**
-	 * Removes the specified productLine.
-	 */
-	public void removeProductLine(Productline productLine) {
-		productLines.remove(productLine);
+	public void removeProductLine(Productline productline) {
+		productlines.remove(productline);
 	}
 
 	/**
@@ -149,22 +122,14 @@ public class ProductManager {
 		Document document = DocumentHelper.createDocument();
 		Element root = document.addElement("kobold");
 
-		//now all products
-		Element products = root.addElement("products");
+		Element products = root.addElement("productlines");
 
-		for (Iterator it = this.products.values().iterator(); it.hasNext();) {
-			Product product = (Product) it.next();
-			products.add(product.serialize());
-		}
-		//now all productlines
-		Element productLines = root.addElement("productlines");
-
-		for (Iterator it = this.productLines.values().iterator(); it.hasNext();) {
+		for (Iterator it = this.productlines.values().iterator(); it.hasNext();) {
 			Productline productLine = (Productline) it.next();
 			products.add(productLine.serialize());
 		}
 
-		 XMLWriter writer;
+		XMLWriter writer;
 		try {
 			writer = new XMLWriter(new FileWriter(path));
 			writer.write(document);
@@ -191,59 +156,56 @@ public class ProductManager {
 	 */
 	public void deserialize(String path) {
 		
-		// TODO
 		SAXReader reader = new SAXReader();
 		Document document = null;
 		try {
 			document = reader.read(path);
+			
+			Element root = document.getRootElement();
+			for (Iterator iterator = root.element("productlines").elementIterator("productline");
+			     iterator.hasNext(); )
+		    {
+			    Element element = (Element) iterator.next();
+				Productline productline = new Productline(element);
+				productlines.put(productline.getName(), productline);
+			}
 		} catch (DocumentException e) {
 			Log log = LogFactory.getLog("kobold.server.controller.ProductManager");
 			log.error(e);
 		}
+	}
 
-		List listPL = document.selectNodes( "/products/productlines" );
-		for (Iterator iter = listPL.iterator(); iter.hasNext(); ) {
-			Element element = (Element) iter.next();
-			Productline productLine = new Productline(element);
-			productLines.put(productLine.getName(), productLine);
-		}
-				
-		List listP = document.selectNodes( "/products/product" );
-		for (Iterator iter = listP.iterator(); iter.hasNext(); ) {
-			Element element = (Element) iter.next();
-			//Product product = new Product(element);
-			//products.put(product.getName(), product);
-		}
+	/**
+	 * Returns list of all productline names.
+	 */
+	public List getProductlineNames() {
+	    List result = new ArrayList();
+	    
+	    for (Iterator iterator = productlines.values().iterator(); iterator.hasNext(); )
+	    {
+	        Productline productline = (Productline) iterator.next();
+	        result.add(productline.getName());
+	    }
+	    
+	    return result;
 	}
 	
 	// DEBUG
 	public void dummyProds() {
 		
-		addProductLine(new Productline("kobold2",
+	    addProductline(new Productline("kobold2",
 					   new RepositoryDescriptor(
 						RepositoryDescriptor.CVS_REPOSITORY, "ssh",
 						"cvs.berlios.de", "/cvsroot/kobold/", "kobold2")));
-		addProductLine(new Productline("kobold3",
+		addProductline(new Productline("kobold3",
 				       new RepositoryDescriptor(
 				       		RepositoryDescriptor.CVS_REPOSITORY,
 		 			   "pserver", "cvs.berlios.de",
 		 			   "/cvsroot/kobold/", "kobold3")));
-		addProductLine(new Productline("kobold4",
+		addProductline(new Productline("kobold4",
 					   new RepositoryDescriptor(
 					   		RepositoryDescriptor.CVS_REPOSITORY,
 							"ssh", "cvs.berlios.de",
 					   		"/cvsroot/kobold/", "kobold4")));
-		
-		// TODO: repository descriptot for products
-		/*addProduct(new Product("kobold server", "kobold2",
-				new RepositoryDescriptor(RepositoryDescriptor.CVS_REPOSITORY,
-						"ssh",	"cvs.berlios.de", "/cvsroot/kobold/", "kobold2")));
-		addProduct(new Product("kobold client", "kobold3",
-				new RepositoryDescriptor(RepositoryDescriptor.CVS_REPOSITORY,
-						"pserver", 	"cvs.berlios.de", "/cvsroot/kobold/", "kobold2")));
-		addProduct(new Product("kobold vcm", "kobold4",
-				new RepositoryDescriptor(RepositoryDescriptor.CVS_REPOSITORY,
-						"pserver", "cvs.berlios.de", "/cvsroot/kobold/", "kobold2")));
-						*/
 	}
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.2 2004/07/05 15:59:53 garbeam Exp $
+ * $Id: User.java,v 1.3 2004/07/07 15:40:52 garbeam Exp $
  *
  */
 
@@ -48,19 +48,24 @@ import sun.misc.BASE64Encoder;
  */
 public class User implements ISerializable {
 
+	private static final Log log = LogFactory.getLog(User.class);
+
 	private String userName;
 	private String password;
-	private String realName;
+	private String fullName;
 
 	/**
 	 * Basic constructor.
 	 */
-	public User() {
+	public User(String userName, String fullName, String password) {
+	    this.userName = userName;
+	    this.fullName = fullName;
+	    this.password = password;
 	}
 	
 	/**
 	 * Basic DOM constructor.
-	 * 
+	 *
 	 * @param element DOM element which represents
 	 * this user.
 	 */
@@ -73,17 +78,15 @@ public class User implements ISerializable {
 	 */
 	public void deserialize(Element element) {
 
-		this.userName = element.selectSingleNode("//user/username").getText();
-
-		this.realName = element.selectSingleNode("//user/realname").getText();
-
+	    this.userName = element.elementText("username");
+	    this.fullName = element.elementText("fullname");
+	    
 		try {
 			this.password =
 				new String(
 					new BASE64Decoder().decodeBuffer(
-						element.selectSingleNode("//user/password").getText()));
+						element.elementText("password")));
 		} catch (IOException e) {
-			Log log = LogFactory.getLog("kobold.common.data.User");
 			log.error(e);
 		}
 	}
@@ -96,7 +99,7 @@ public class User implements ISerializable {
 	public Element serialize() {
 		Document document = DocumentHelper.createDocument();
 		Element user = document.addElement("user");
-		user.addElement("realname").addText(this.realName);
+		user.addElement("fullname").addText(this.fullName);
 		user.addElement("username").addText(this.userName);
 		user.addElement("password").addText(
 				new BASE64Encoder().encode(this.password.getBytes()));
@@ -114,45 +117,49 @@ public class User implements ISerializable {
 		return new UserContext(this.userName, sessionId);
 	}
 
+	
 	/**
-	 * @return
+	 * Returns the decoded password of this user.
 	 */
 	public String getPassword() {
 		return password;
 	}
 
 	/**
-	 * @return
+	 * Returns the full name of this user.
 	 */
-	public String getRealName() {
-		return realName;
+	public String getFullName() {
+		return fullName;
 	}
 
 	/**
-	 * @return
+	 * Returns the username of this user.
 	 */
 	public String getUserName() {
 		return userName;
 	}
 
 	/**
-	 * @param string
+	 * Sets the password of this user.
+	 * @param password the decoded password
 	 */
-	public void setPassword(String string) {
-		password = string;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	/**
-	 * @param string
+	 * Sets the full name of this user
+	 * @param fullName the real name
 	 */
-	public void setRealName(String string) {
-		realName = string;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	/**
-	 * @param string
+	 * Sets the username of this user.
+	 * @param userName the username
 	 */
-	public void setUserName(String string) {
-		userName = string;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineTest.java,v 1.1 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: ProductlineTest.java,v 1.2 2004/07/07 15:40:32 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -51,7 +51,8 @@ public class ProductlineTest extends TestCase {
 			new Productline("koboldline",
 				new RepositoryDescriptor("cvs", "pserver", "cvs.berlios.de",
 						                 "/cvsroot/kobold", "kobold"));
-		productline.addMaintainer(new User("garbeam"));
+
+		productline.addMaintainer(new User("garbeam", "Anselm"));
 		
 		Component component = new Component(productline, "common",
 				new RepositoryDescriptor("cvs", "pserver", "cvs.berlios.de",

@@ -21,54 +21,55 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductManagerTest.java,v 1.6 2004/07/05 15:59:53 garbeam Exp $
+ * $Id: ProductlineManagerTest.java,v 1.1 2004/07/07 15:40:52 garbeam Exp $
  *
  */
 
+package kobold.server.controller;
 import junit.framework.TestCase;
 
-import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.io.RepositoryDescriptor;
-import kobold.server.controller.ProductManager;
+import kobold.server.controller.ProductlineManager;
 
 /**
  * @author garbeam
  *
  * TestCase for UserManager.
  */
-public class ProductManagerTest extends TestCase {
+public class ProductlineManagerTest extends TestCase {
 
 	/**
 	 * Constructor for UserManagerTest.
 	 * @param arg0
 	 */
-	public ProductManagerTest(String arg0) {
+	public ProductlineManagerTest(String arg0) {
 		
 		super(arg0);
 	}
 	
 	public void testSerialize() {
 		
-		Product product = new Product("windows", "office", new RepositoryDescriptor("cvs", "bla.org", "/home/gert"));
-		Productline productline = new Productline("office",
+		Productline productline = new Productline("zucker",
 				new RepositoryDescriptor(
-						"cvs", "office.org", "/root/zucker"));
+						RepositoryDescriptor.CVS_REPOSITORY,
+						"pserver", "zucker.org", "/root/zucker", "zucker"));
 		
-		ProductManager manager = ProductManager.getInstance();
+		ProductlineManager manager = ProductlineManager.getInstance();
 		
-		manager.addProduct(product);
-		manager.addProductLine(productline);
-		manager.serialize("test-product.xml");
+		manager.addProductline(productline);
+		manager.serialize("test-products.xml");
 		
-		manager.removeProduct(product);
 		manager.removeProductLine(productline);
-		manager.deserialize("test-product.xml");
 		
-		product = manager.getProduct("windows");
-		assertTrue (product.getName() == "windows");
-		//...
-		productline = manager.getProductLine("office");
-		assertTrue (productline.getName() == "office");
+	}
+	
+	public void testDeserialize() {
+	    ProductlineManager manager = ProductlineManager.getInstance();
+		
+	    manager.deserialize("test-product.xml");
+		
+		assertTrue(manager.getProductLine("zucker").
+		        getRepositoryDescriptor().getHost().equals("zurcker.org"));
 	}
 }

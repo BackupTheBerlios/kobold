@@ -21,14 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManagerTest.java,v 1.5 2004/07/05 15:59:53 garbeam Exp $
+ * $Id: UserManagerTest.java,v 1.1 2004/07/07 15:40:52 garbeam Exp $
  *
  */
 
+package kobold.server.controller;
+
 import junit.framework.TestCase;
-import kobold.common.data.RoleP;
-import kobold.common.data.RolePE;
-import kobold.common.data.RolePLE;
 import kobold.server.controller.UserManager;
 import kobold.server.data.User;
 
@@ -50,27 +49,26 @@ public class UserManagerTest extends TestCase {
 	
 	public void testSerialize() {
 		
-		User user = new User();
-		user.setUserName("garbeam");
-		user.setRealName("Anselm Garbe");
-		user.setPassword("halloballo");
-		user.addRole(new RoleP("kobold server"));
-		user.addRole(new RolePE("kobold server"));
-		user.addRole(new RolePLE("kobold2"));
+	    UserManager manager = UserManager.getInstance();
 		
-		UserManager manager = UserManager.getInstance();
+	    User martin = new User("pliesmn", "Martin", "pliesmn");
+		manager.addUser(martin);
+		User armin = new User("contan", "Armin", "contan");
+		manager.addUser(armin);
+
+		manager.serialize("test-users.xml");
 		
-		manager.addUser(user);
-		manager.serialize("test-user.xml");
-		
-		manager.removeUser(user);
-		manager.deserialize("test-user.xml");
-		
-		user = manager.getUser("garbeam");
-		assertTrue(user.getPassword() == "halloballo");
-		assertTrue(user.getRoles().size() == 3);
-		
-		
+		manager.removeUser(martin);
+		manager.removeUser(armin);
 	}
 
+	public void testDeserialize() {
+
+	    UserManager manager = UserManager.getInstance();
+	    
+	    manager.deserialize("test-users.xml");
+	    
+	    assertTrue(manager.getUser("pliesmn").getPassword().equals("pliesmn"));
+	    assertTrue(manager.getUser("contan").getPassword().equals("contan"));
+	}
 }

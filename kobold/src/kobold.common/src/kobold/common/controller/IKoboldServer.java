@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.12 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: IKoboldServer.java,v 1.13 2004/07/07 15:40:32 garbeam Exp $
  *
  */
 
@@ -35,7 +35,6 @@ import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.User;
 import kobold.common.data.UserContext;
-import kobold.common.io.RepositoryDescriptor;
 
 /**
  * This class acts as an interface between kobold clients and a
@@ -68,12 +67,12 @@ public interface IKoboldServer {
 	 * 			  must be at least a PE).
 	 * @param userName the user name.
 	 * @param password the password.
-	 * @param realName the real name.
+	 * @param fullName the full name.
 	 */
 	public void addUser(UserContext userContext,
 									String userName,
 									String password,
-									String realName);
+									String fullName);
 		
     /**
      * Get list of all users.
@@ -82,14 +81,25 @@ public interface IKoboldServer {
     public List getAllUsers(UserContext userContext);
     
 	/**
-     * Applies modifications to the specified user.
+     * Applies modifications to the specified user fullname.
 	 * @param userContext the user context
 	 * @param user the user name
-	 * @param password the new password
+	 * @param password the decrypted user password verification
      */
-    public void updateUser(UserContext userContext,
-    					   User user, String password);
-    
+    public void updateUserFullName(UserContext userContext,
+    					           User user, String password);
+
+	/**
+     * Applies modifications to the specified user password.
+	 * @param userContext the user context
+	 * @param user the user name
+	 * @param oldPassword the old password
+	 * @param newPassword the new password
+     */
+    public void updateUserPassword(UserContext userContext,
+    					   		   User user, String oldPassword,
+    					   		   String newPassword);
+
 	/**
      * Removes the specified user.
      * @param userContext the user context.
@@ -140,6 +150,7 @@ public interface IKoboldServer {
 	 * @param product the product. 
 	 */
 	public void updateComponent(UserContext userContext,
+	        					String productlineName,
 								String productName,
 								Component component);
 	
@@ -172,55 +183,4 @@ public interface IKoboldServer {
 	 */
 	public void invalidateMessage(UserContext userContext,
 								  AbstractKoboldMessage koboldMessage);
-	
-	/**
-	 * This method is used by SAT-Clients to validate the accessibility of
-	 * the Kobold server with the passed password.
-	 *  
-	 * @param adminPassword server administration password
-	 * @return IKoboldServer::NO_RESULT if the server is not
-	 *				   accessible that way, "" otherwise
-	 */
-	public String validateSATAccessibility(String adminPassword); 
-	
-	/**
-	 * this method is used by SAT-Clients to create a new productline
-	 * on the KoboldServer
-	 * @param adminPassword server administartion password
-	 * @param plname name of the new productline
-	 * @return IKoboldServer::NO_RESULT if the server is not
-	 *				   accessible that way, "" otherwise 
-	 */
-	public String satCreateNewProductline(String adminPassword, String plname, RepositoryDescriptor rd);
-	
-	/**
-	 * this method is used by SAT-Clients to remove a productline
-	 * on the KoboldServer
-	 * 
-	 * @param adminPassword server administartion password
-	 * @param plname name of the new productline
-	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
-	 */
-	public String satRemoveProductline(String adminPassword, String plname);
-	
-	/**
-	 * this method is used by SAT-Clients to set a productline's new PLE
-	 * 
-	 * @param adminPassword server administartion password
-	 * @param plname name of the new productline
-	 * @param username name of the user who should become plsname's
-	 *                 new PLE
-	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
-	 */
-	public String satAddPLE(String adminPassword, String plname, String username);
-	
-	/**
-	 * this method is used by SAT-Clients to invalidate a productline's 
-	 * PLE
-	 * 
-	 * @param adminPassword server administartion password
-	 * @param plname name of the new productline
-	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
-	 */
-	public String satRemovePLE(String adminPassword, String plname);
 }

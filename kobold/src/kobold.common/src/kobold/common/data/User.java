@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.13 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: User.java,v 1.14 2004/07/07 15:40:32 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -44,10 +44,10 @@ public class User implements ISerializable
     private String fullname;
     
     
-    public User(String username)
+    public User(String username, String fullname)
     {
         this.username = username;
-        this.fullname = "unknown";
+        this.fullname = fullname;
     }
     
     public User(Element element) {

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.40 2004/07/05 15:59:53 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.41 2004/07/07 15:40:52 garbeam Exp $
  *
  */
 package kobold.server;
@@ -44,10 +44,10 @@ import kobold.common.data.UserContext;
 import kobold.common.data.WorkflowMessage;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.server.controller.MessageManager;
-import kobold.server.controller.ProductManager;
+import kobold.server.controller.ProductlineManager;
 import kobold.server.controller.SessionManager;
 import kobold.server.controller.UserManager;
-import kobold.server.data.User;
+import kobold.common.data.User;
 import kobold.server.workflow.*;
 
 import org.apache.commons.logging.Log;
@@ -185,7 +185,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				String productlineName = (String)arguments.elementAt(1);
-				Productline productline = ProductManager.getInstance().getProductLine(productlineName);
+				Productline productline = ProductlineManager.getInstance().getProductLine(productlineName);
 				Product product = new Product(productline,
 						RPCMessageTransformer.decode((String)arguments.elementAt(2)));
 				
@@ -198,14 +198,14 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				String productName = (String)arguments.elementAt(1);
-				Product product = ProductManager.getInstance().getProduct(productName);
-				Component component = new Component(product,
-						RPCMessageTransformer.decode((String)arguments.elementAt(2)));
+//				Product product = ProductlineManager.getInstance().getProduct(productName);
+	//			Component component = new Component(product,
+		//				RPCMessageTransformer.decode((String)arguments.elementAt(2)));
 				
 				sniffArgs.add(uc);
-				sniffArgs.add(component);
+			//	sniffArgs.add(component);
 
-				updateComponent(uc, productName, component);
+				//updateComponent(uc, productName, component);
 			}
 			else if (methodName.equals("sendMessage")) {
 				UserContext uc = new UserContext(
@@ -287,14 +287,45 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * @see kobold.common.controller.IKoboldServer#getAllUsers(kobold.common.data.UserContext)
 	 */
 	public List getAllUsers(UserContext userContext) {
-		// TODO Auto-generated method stub
-		return null;
+	    List users = UserManager.getInstance().getAllUsers();
+	    List result = new ArrayList();
+	    
+	    for (Iterator iterator = users.iterator(); iterator.hasNext(); ) {
+	        kobold.server.data.User user = (kobold.server.data.User) iterator.next();
+	        result.add(new User(user.getUserName(), user.getFullName()).serialize());
+	    }
+	    
+		return result;
 	}
 
 	/**
-	 * @see kobold.common.controller.IKoboldServer#updateUser(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String)
+	 * @see kobold.common.controller.IKoboldServer#updateUserFullName(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String)
 	 */
-	public void updateUser(UserContext userContext, kobold.common.data.User user, String password) {
+	public void updateUserFullName(UserContext userContext, User user, String password) {
+	    UserManager manager = UserManager.getInstance();
+	    kobold.server.data.User serverUser = manager.getUser(userContext.getUserName());
+	    if (userContext.getUserName().equals(user.getUsername())
+	        && serverUser.getUserName().equals(userContext.getUserName())
+	        && password.equals(serverUser.getPassword())) 
+	    {
+	        serverUser.setFullName(user.getFullname());
+	    }
+	}
+
+	/**
+	 * @see kobold.common.controller.IKoboldServer#updateUserPassword(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String, java.lang.String)
+	 */
+	public void updateUserPassword(UserContext userContext, User user,
+	        	                   String oldPassword, String newPassword)
+	{
+	    UserManager manager = UserManager.getInstance();
+	    kobold.server.data.User serverUser = manager.getUser(userContext.getUserName());
+	    if (userContext.getUserName().equals(user.getUsername())
+	        && serverUser.getUserName().equals(userContext.getUserName())
+	        && oldPassword.equals(serverUser.getPassword())) 
+	    {
+	        serverUser.setPassword(newPassword);
+	    }
 	}
 
 	/**
@@ -307,21 +338,17 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * {@see kobold.common.controller.IKoboldServer#addUser(UserContext, String, String, String)}
 	 */
 	public void addUser(UserContext userContext, String userName,
-						String password, String realName)
+						String password, String fullName)
 	{
-		User user = new User();
-		user.setUserName(userName);
-		user.setRealName(realName);
-		user.setPassword(password);
-		UserManager manager = UserManager.getInstance();
-		manager.addUser(user);
+		UserManager.getInstance().addUser(
+		        new kobold.server.data.User(userName, fullName, password));
 	}
 	
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#getProductline(UserContext, String)}
 	 */
 	public Productline getProductline(UserContext userContext, String plName) {
-		ProductManager productManager = ProductManager.getInstance();
+		ProductlineManager productManager = ProductlineManager.getInstance();
 		return productManager.getProductLine(plName);
 	}
 
@@ -329,6 +356,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * {@see kobold.common.controller.IKoboldServer#updateProductline(UserContext, Productline)}
 	 */
 	public void updateProductline(UserContext userContext, Productline productline) {
+	    
 	}
 
 	/**
@@ -405,7 +433,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 */
 	public String satCreateNewProductline(String adminPassword, String plname, RepositoryDescriptor rd){
 		try{
-			ProductManager.getInstance().addProductLine(new Productline(plname, rd));
+			ProductlineManager.getInstance().addProductline(new Productline(plname, rd));
 		}
 		catch(Exception e){
 			return IKoboldServer.NO_RESULT;
@@ -427,7 +455,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 */
 	public String satRemoveProductline(String adminPassword, String plname){
 		try{
-			ProductManager.getInstance().removeProductLine(new Productline(plname, null));
+			ProductlineManager.getInstance().removeProductLine(new Productline(plname, null));
 		}
 		catch(Exception e){
 			return IKoboldServer.NO_RESULT;
@@ -466,6 +494,14 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	public String satRemovePLE(String adminPassword, String plname){
 		return IKoboldServer.NO_RESULT;// until fully implemented
 	}
+
+    /**
+     * @see kobold.common.controller.IKoboldServer#updateComponent(kobold.common.data.UserContext, java.lang.String, java.lang.String, kobold.common.data.Component)
+     */
+    public void updateComponent(UserContext userContext, String productlineName, String productName, Component component) {
+        // TODO Auto-generated method stub
+        
+    }
 
 	
 

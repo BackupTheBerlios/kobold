@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.10 2004/07/05 15:59:53 garbeam Exp $
+ * $Id: UserManager.java,v 1.11 2004/07/07 15:40:52 garbeam Exp $
  *
  */
 package kobold.server.controller;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -47,13 +48,13 @@ import kobold.server.data.User;
  * This class stores user data on the server and provides authentification
  * services for user interaction with the Server (sessionIDs). It's a
  * singleton class.
- *
- * @author garbeam
  */
 public class UserManager {
 
+    private static final Log log = LogFactory.getLog(UserManager.class);
+
 	private HashMap users = null;
-	private String userStore = "user.xml";
+	private String userStore = "users.xml";
 	
 	static private UserManager instance;
 	 
@@ -127,7 +128,7 @@ public class UserManager {
             users.add(user.serialize());
 		}
 
-		 XMLWriter writer;
+		XMLWriter writer;
 		try {
 			writer = new XMLWriter(new FileWriter(path));
 			writer.write(document);
@@ -155,38 +156,35 @@ public class UserManager {
 		Document document = null;
 		try {
 			document = reader.read(path);
+			Element users = document.getRootElement().element("users");
+			
+			for (Iterator iterator = users.elementIterator("user"); iterator.hasNext(); ) {
+			    Element element = (Element) iterator.next();
+			    User user = new User(element);
+			    this.users.put(user.getUserName(), user);
+			}
 		} catch (DocumentException e) {
-			Log log = LogFactory.getLog("kobold.server.controller.UserAdmin");
 			log.error(e);
 		}
-		
-		List list = document.selectNodes( "/users/user" );
-		for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-			Element element = (Element) iter.next();
-			User user = new User(element);
-			users.put(user.getUserName(), user);
-		}
+	}
+	
+	/**
+	 * Returns list of {@see kobold.common.data.User} users.
+	 */
+	public List getAllUsers() {
+	    List result = new ArrayList();
+	    
+	    for (Iterator iterator = users.values().iterator(); iterator.hasNext(); ) {
+	        result.add((User) iterator.next());
+	    }
+	    
+	    return result;
 	}
 	
 	// DEBUG
 	private void dummyUsers() {
-		User anselm = new User();
-		anselm.setUserName("garbeam");
-		anselm.setRealName("Anselm R. Garbe");
-		anselm.setPassword("garbeam");
-
-		User tammo = new User();
-		tammo.setUserName("vanto");
-		tammo.setRealName("Tammo van Lessen");
-		tammo.setPassword("vanto");
-		
-		User patrick = new User();
-		patrick.setUserName("schneipk");
-		patrick.setRealName("Patrick Schneider");
-		patrick.setPassword("schneipk");
-		
-		addUser(anselm);
-		addUser(tammo);
-		addUser(patrick);
+	    addUser(new User("garbeam", "Anselm", "garbeam"));
+	    addUser(new User("vanto", "Tammo", "vanto"));
+	    addUser(new User("schneipk", "Patrick", "schneipk"));
 	}
 }
