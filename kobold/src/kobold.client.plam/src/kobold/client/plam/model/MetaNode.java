@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaNode.java,v 1.3 2004/08/03 15:16:40 vanto Exp $
+ * $Id: MetaNode.java,v 1.4 2004/08/04 09:45:08 vanto Exp $
  *
  */ 
 package kobold.client.plam.model;
+
+import org.dom4j.Element;
 
 
 /**
@@ -39,10 +41,21 @@ public class MetaNode  extends AbstractAsset {
     private String type;
     private String edgeType;
     
+    private MetaNode() 
+    {
+        super();
+    }
+    
     public MetaNode(String type){
+        this();
         this.type = type;
     }
     
+    public MetaNode(Element el)
+    {
+        this();
+        deserialize(el);
+    }
     
     /**
      * returns node type. 
@@ -60,5 +73,22 @@ public class MetaNode  extends AbstractAsset {
     {
         this.edgeType = edgeType;
     }
-
+    
+    public void deserialize(Element element)
+    {
+        super.deserialize(element);
+        if (element.attributeValue("type").equals(MetaNode.AND)) {
+            type = MetaNode.AND;
+        } else if (element.attributeValue("type").equals(MetaNode.OR)) {
+            type = MetaNode.OR;
+        }
+    }
+    public Element serialize()
+    {
+        Element root = super.serialize();
+		root.setName(MetaNode.META_NODE);
+        root.addAttribute("type", type);
+        
+        return root;
+    }
 }

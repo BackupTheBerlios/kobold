@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComposableFigure.java,v 1.5 2004/08/01 18:24:43 martinplies Exp $
+ * $Id: ComposableFigure.java,v 1.6 2004/08/04 09:45:07 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -67,7 +67,7 @@ public abstract class ComposableFigure extends Shape
 	    if (state == ProductComposer.STATE_OPEN) {
 	        setBackgroundColor(ColorConstants.lightGray);
 	    } else if (state == ProductComposer.STATE_USED) {
-	        setBackgroundColor(ColorConstants.darkGreen);
+	        setBackgroundColor(ColorConstants.lightBlue);
 	    } else if (state == ProductComposer.STATE_MUST_NOT) {
 	        setBackgroundColor(ColorConstants.darkGray);
 	    }

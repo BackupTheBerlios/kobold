@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.11 2004/08/03 22:11:46 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.12 2004/08/04 09:45:08 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -31,6 +31,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,8 @@ import kobold.client.plam.KoboldProject;
 import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.common.io.RepositoryDescriptor;
+
+import org.dom4j.Element;
 
 
 /**
@@ -162,4 +165,25 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 	}
     
 
+    public void deserialize(Element element)
+    {
+	    super.deserialize(element);
+	    
+		Iterator it = element.element("meta-nodes").elementIterator(AbstractAsset.META_NODE);
+		while (it.hasNext()) {
+		    Element mEl = (Element)it.next();
+		    addMetaNode(new MetaNode(mEl));
+		}
+    }
+    
+    public Element serialize()
+    {
+		Element root = super.serialize();
+		Element metaEl = root.addElement("meta-nodes");
+		for (Iterator it = metaNodes.iterator(); it.hasNext();) {
+			MetaNode node = (MetaNode) it.next();
+			metaEl.add(node.serialize());
+		}
+		return root;
+    }
 }
