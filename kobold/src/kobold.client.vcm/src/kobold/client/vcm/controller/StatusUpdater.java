@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.39 2004/09/21 15:10:38 garbeam Exp $
+ * $Id: StatusUpdater.java,v 1.40 2004/09/21 19:21:51 memyselfandi Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -226,34 +226,34 @@ public class StatusUpdater {
 		    }
 		}	
     
-	/**
-     * deletes the variant directory
-     * @param variant
-     */
-    public static void deleteVariantVCMDirectory (Variant variant)
-    {
-    	
-    	ScriptServerConnection sc = ScriptServerConnection.getConnection("noUser");
-    	
-    	if (sc == null) {
-    	    return;
-    	}
-    	StatusUpdater su = new StatusUpdater();
-		//command line command with the stats script to the changed part of the meta-data containing FD(s)
-		String[] command = {"perl", su.getScriptPath() + 
-							"cleanvcmdata.pl", variant.getLocalPath().toOSString()};
-		try 
-		{
-			String iString="";
-			iString = sc.open(command,"");
-			System.out.println(iString);
-			sc.close();			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//	/**
+//     * deletes the variant directory
+//     * @param variant
+//     */
+//    public static void deleteVariantVCMDirectory (Variant variant)
+//    {
+//    	
+//    	ScriptServerConnection sc = ScriptServerConnection.getConnection("noUser");
+//    	
+//    	if (sc == null) {
+//    	    return;
+//    	}
+//    	StatusUpdater su = new StatusUpdater();
+//		//command line command with the stats script to the changed part of the meta-data containing FD(s)
+//		String[] command = {"perl", su.getScriptPath() + 
+//							"cleanvcmdata.pl", variant.getLocalPath().toOSString()};
+//		try 
+//		{
+//			String iString="";
+//			iString = sc.open(command,"");
+//			System.out.println(iString);
+//			sc.close();			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
     	
 // TODO: Logger
-    	//System.out.println ("deleted variant "+variant.getName()+" directory!");
-    }
+//    	//System.out.println ("deleted variant "+variant.getName()+" directory!");
+//    }
     
 }
