@@ -247,7 +247,6 @@ public class ScriptServerConnection implements IServerConnection
 		actualCommand[5] = this.password;
 		for (int i = 1; i < command.length; i++) {
 			actualCommand[i + 5] = command[i];
-			
 		}
 		for (int i = 0; i < actualCommand.length; i++) {
 			System.out.print(actualCommand[i]);
