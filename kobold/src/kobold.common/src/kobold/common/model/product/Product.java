@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.5 2004/06/24 01:26:37 vanto Exp $
+ * $Id: Product.java,v 1.6 2004/06/24 01:35:08 rendgeor Exp $
  *
  */
 
@@ -85,8 +85,11 @@ public class Product extends AbstractAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element productElement = DocumentHelper.createElement("product");
-		productElement.addAttribute("name", getName());
+		
+		Element productElement = super.serialize();
+		
+		//Element productElement = DocumentHelper.createElement("product");
+		//productElement.addAttribute("name", getName());
 
 		Element prodRelElement = productElement.addElement("releases");
 		for (Iterator it = productReleases.iterator(); it.hasNext(); ) {
