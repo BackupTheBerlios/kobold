@@ -84,8 +84,10 @@ sub read_entries {
                 #!print "$root/$path\t$rev\t$date\t$tag\n";
                 #store all in the hash map instead
 
-                # absolut path:
-                $data {"$root/$path"} = "$rev\t$date\t$tag";
+
+                #absolut path:
+                #    $data {"$root/$path"} = "$rev\t$date\t";
+                    $data {"$path"} = "$rev\t$date\t$tag";
             }
         }
         
