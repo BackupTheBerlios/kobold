@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.4 2004/05/16 19:49:07 vanto Exp $
+ * $Id: WorkflowDialog.java,v 1.5 2004/05/16 22:25:55 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -57,7 +57,9 @@ public class WorkflowDialog extends Dialog {
 	
 	public WorkflowDialog(Shell parentShell, KoboldMessage msg)
 	{
-		super(parentShell);	
+		super(parentShell);
+		this.parent1 = parentShell;
+		this.subject = msg.getSubject();	
 	}
 	
 	/*public WorkflowDialog(Shell parentShell, WorkflowItemGroup  workflowItemGroup, String subject, String description) {		

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.7 2004/05/16 13:35:25 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.8 2004/05/16 22:25:55 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -45,6 +45,7 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+
 /**
  * RoleTreeContentProvider
  *

@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.1 2004/05/16 02:27:55 vanto Exp $
+ * $Id: WorkflowView.java,v 1.2 2004/05/16 22:25:55 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
 
+import java.awt.Dialog;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -200,7 +201,10 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 			public void run() {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				showMessage("Double-click detected on "+obj.toString());
+				//showMessage("Double-click detected on "+obj.toString());
+				WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), (KoboldMessage)obj);
+				wfDialog.open();
+				
 			}
 		};
 	}
