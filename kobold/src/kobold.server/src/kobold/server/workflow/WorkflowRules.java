@@ -55,7 +55,8 @@ public class WorkflowRules {
 			"cont.addChild(rb2);"+
 			
 			"answer.addWorkflowControl(cont);"+
-			"answer.addWorkflowControl(text);"));
+			"answer.addWorkflowControl(text);"+
+			"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);"));
 		
 /*			"msg.addHistory(msg.newHistory());" +			"if (msg.getHistoryList().size() > 1) {" +			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setStep(msg.getHistoryList().get(msg.getHistoryList().size() - 2).getStep() + 1);" +			"}" +			"else {" +			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setStep(1);" +			"}" +			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setFiredRule(\"Core Group Suggestion - Step 1\");" +			"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setSender(msg.getSender());" +			"msg.setRecipient(\"Recipient\");" +			"msg.setMessageText(\"<?xml version = \\\"1.0\\\"?>" + 
 				"<?xml-stylesheet type = \\\"text/xsl\\\" href = \\\"styleSheets/workflow.xsl\\\" ?>" +
@@ -79,38 +80,37 @@ public class WorkflowRules {
 		Declaration dec2 = new Declaration(new ClassObjectType(WorkflowMessage.class), "msg");
 		
 		no2.addCondition(new ExprCondition("(msg.getWorkflowType().equals(\"Core Group Suggestion\")) && (msg.getStep() == 2)", new Declaration[] {dec2}));
-		no2.addParameterDeclaration(dec1);
-		no2.setConsequence(new BlockConsequence(
+		no2.addParameterDeclaration(dec2);
+		no2.setConsequence(new BlockConsequence(""+
+
 		"kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
 		"answer.setSender(msg.getSender());"+
 		"answer.addParentId(msg.getId());"+
 		
 		//analyzing the answer
-		"String decision = \"\";"+
-		"String comment = \"\";"+
-		"kobold.common.data.WorkflowItem controls[] = msg.getWorkflowControls();"+
+		"java.lang.String decision = \"\";"+
+		"java.lang.String comment = \"\";"+
+		"kobold.common.data.WorkflowItem[] controls = msg.getWorkflowControls();"+
 		"for(int i = 0; i < controls.length;i++){"+
-			"if (controls[i].equals(kobold.common.data.kobold.common.data.WorkflowItem.TEXT)){"+
+			"if (controls[i].equals(kobold.common.data.WorkflowItem.TEXT)){"+
 				"comment = controls[i].getValue();"+
 			"}"+
-			"if (controls[i].equals(kobold.common.data.kobold.common.data.WorkflowItem.CONTAINER)){"+
-				"kobold.common.data.WorkflowItem container[] = controls[i].getChildren();"+
-				"for (int j = 0; j < container.length;j++){"+
-					"if (container[j].getValue().equals(\"true\")){"+
-						"decision = container[j].getDescription();"+
-					"}"+
-				"}"+
+			"if (controls[i].equals(kobold.common.data.WorkflowItem.CONTAINER)){"+
+				"decision = controls[i].getValue();"+
+
 			"}"+
 		"}"+
 		
 		"answer.setStep(msg.getStep()+1);"+
+
 		
 		"if (decision.equals(\"An zuständigen PE weiterleiten\")){"+
 			"answer.setReceiver(\"garbeam\");"+
 			"answer.setSubject(\"Ein Vorschlag für ein neues Core Group Item ist eingegangen\");"+
 			"answer.setMessageText(\"Es ist ein neuer Vorschlag für ein Core Group Item eingegangen,\" +"+
 					"\"der zuständige PE schrieb dazu: \" + comment);"+
-			
+					"System.out.println(\"Alle Sets abgeschlossen\");"+
+
 			//add decisions for core group PE
 			"kobold.common.data.WorkflowItem radio1 = new kobold.common.data.WorkflowItem(\"false\",\"Vorschlag zustimmen\",kobold.common.data.kobold.common.data.WorkflowItem.RADIO);"+
 			"kobold.common.data.WorkflowItem radio2 = new kobold.common.data.WorkflowItem(\"true\",\"Vorschlag ablehnen\",kobold.common.data.kobold.common.data.WorkflowItem.RADIO);"+
@@ -120,6 +120,7 @@ public class WorkflowRules {
 			"container.addChild(radio2);"+
 			"answer.addWorkflowControl(comm);"+
 			"answer.addWorkflowControl(container);"+
+
 		"}"+
 		
 		"else if (decision.equals(\"Ablehnen\")){"+
@@ -129,7 +130,9 @@ public class WorkflowRules {
 			"answer.setSubject(\"Ihre Anfrage wurde abgelehnt.\");"+
 			"answer.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" mit der Begründung '\" +"+
 					 "comment +\"' abgelehnt\");"+
-		"}"));
+			
+		"}"+
+		"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);"));
 		
 		/*	"msg.addHistory(msg.newHistory());" +
 			"if (msg.getHistoryList().size() > 1) {" +
@@ -175,9 +178,10 @@ public class WorkflowRules {
 		
 		Declaration dec3 = new Declaration(new ClassObjectType(WorkflowMessage.class), "msg");
 		
-		no3.addCondition(new ExprCondition("(msg.getWorkflowType().equals(\"Core Group Suggestion\")) && (msg.getStep() == 2)", new Declaration[] {dec3}));
+		no3.addCondition(new ExprCondition("(msg.getWorkflowType().equals(\"Core Group Suggestion\")) && (msg.getStep() == 3)", new Declaration[] {dec3}));
 		no3.addParameterDeclaration(dec1);
-		no3.setConsequence(new BlockConsequence(
+		no3.setConsequence(new BlockConsequence(""+
+				"System.out.println(\"tridde rägäl\");"+
 				"kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
 				"answer.setSender(msg.getSender());"+
 				"answer.addParentId(msg.getId());"+
@@ -187,16 +191,11 @@ public class WorkflowRules {
 				"String comment = \"\";"+
 				"kobold.common.data.WorkflowItem controls[] = msg.getWorkflowControls();"+
 				"for(int i = 0; i < controls.length;i++){"+
-					"if (controls[i].getType().equals(\"TEXT\")){"+
+					"if (controls[i].equals(kobold.common.data.WorkflowItem.TEXT)){"+
 						"comment = controls[i].getValue();"+
 					"}"+
-					"if (controls[i].getType().equals(\"CONTAINER\")){"+
-						"kobold.common.data.WorkflowItem container[] = controls[i].getChildren();"+
-						"for (int j = 0; j < container.length;j++){"+
-							"if (container[j].getValue().equals(\"true\")){"+
-								"decision = container[j].getDescription();"+
-							"}"+
-						"}"+
+					"if (controls[i].equals(kobold.common.data.WorkflowItem.CONTAINER)){"+
+						"decision = controls[i].getValue();"+
 					"}"+
 				"}"+
 			"if (decision.equals(\"Vorschlag zustimmen\")){"+

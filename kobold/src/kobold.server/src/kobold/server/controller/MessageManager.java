@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageManager.java,v 1.4 2004/05/18 21:23:58 garbeam Exp $
+ * $Id: MessageManager.java,v 1.5 2004/05/19 15:20:25 grosseml Exp $
  *
  */
 package kobold.server.controller;
@@ -285,4 +285,5 @@ public class MessageManager {
 		koboldMessage.setMessageText("Kobold rulez");
 		pendingMessages.put(koboldMessage.getReceiver(), koboldMessage);
 	}
+	
 }
