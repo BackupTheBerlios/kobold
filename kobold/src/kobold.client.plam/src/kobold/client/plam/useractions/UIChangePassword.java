@@ -44,7 +44,7 @@ public UIChangePassword(Shell parentShell) {
 
 
 
-public Composite createViewControl(Composite parent) {
+public Composite createDialogArea(Composite parent) {
 
 	Composite control = new Composite(parent, SWT.NONE);
 	GridLayout gridLayout = new GridLayout();
@@ -90,5 +90,9 @@ public void okPressed(){
 public void cancelPressed(){
 	this.close();
 }
+
+
+
+
 
 }
