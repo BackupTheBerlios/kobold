@@ -41,6 +41,7 @@ import kobold.client.plam.model.Release;
 import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.edges.INode;
+import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
@@ -896,6 +897,29 @@ public class ProductComposer {
 
     public void removePropertyChangeListener(PropertyChangeListener l) {
         listeners.removePropertyChangeListener(l);
+    }
+    
+    public Product generateProduct(){
+    	Product p = new Product(productline);
+    	Iterator it = nodes.keySet().iterator();
+    	while (it.hasNext()){
+    		
+    		if(it.next() instanceof Component){
+    			Component tmpComp = (Component)it.next();
+    			p.addComponent(tmpComp);
+    		}
+    		else if (it.next() instanceof Variant){
+    			Variant tmpVar = (Variant)it.next();
+    			
+    		}
+    		else if (it.next() instanceof Release){
+    			Release tmpRel = (Release)it.next();
+    		}
+    		else if (it.next() instanceof MetaNode){
+    			MetaNode tmpMeta = (MetaNode)it.next();
+    		}
+    	}
+    	return p;
     }
 
     /*
