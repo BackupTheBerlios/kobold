@@ -32,29 +32,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
-
-import kobold.client.vcm.KoboldVCMPlugin;
-import kobold.client.vcm.dialog.PasswordDialog;
-import kobold.client.vcm.preferences.VCMPreferencePage;
 import kobold.common.io.RepositoryDescriptor;
-
-import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Preferences;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.internal.ccvs.core.IServerConnection;
 import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException;
 import org.eclipse.team.internal.ccvs.core.util.Util;
-import org.eclipse.team.internal.core.streams.PollingInputStream;
-import org.eclipse.team.internal.core.streams.PollingOutputStream;
-import org.eclipse.team.internal.core.streams.TimeoutInputStream;
-import org.eclipse.team.internal.core.streams.TimeoutOutputStream;
-import org.eclipse.team.internal.ui.actions.ProgressDialogRunnableContext;
+
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.MessageConsole;
@@ -74,20 +58,7 @@ public class ScriptServerConnection implements IServerConnection
 	// The variable for verifiying the connection is establisched
 	private static boolean connected = false;
 
-	// cvs format for the repository without connection detail information(e.g. host:/home/cvs/repo)
-	private String repositoryPath = "";
-	
-	private String localPath = "";
-	// The user name for the VCM
-	private String user;
-	//	 The password for the VCM
-	private String password;
-	//	 The server for the VCM
-	private String vcmHostLocation;
-	// The buffer for reading the InputStreams
-	private byte[] readLineBuffer = new byte[256];
-	// The Repository Descriptor used by this connection
-	private RepositoryDescriptor repositoryDescriptor = null;
+
 	
 	
 	// incoming from remote host
@@ -112,10 +83,6 @@ public class ScriptServerConnection implements IServerConnection
 	
 	public static ScriptServerConnection getConnection(String repositoryPath) {
 	    ScriptServerConnection result = new ScriptServerConnection(repositoryPath);
-	    if (result.getUserName() != null && result.getUserPassword() != null) {
-	        return result;
-	    }
-	    // Cancel script server connection
 	    return null;
 	}
 	
@@ -127,12 +94,12 @@ public class ScriptServerConnection implements IServerConnection
 	 */
 	protected ScriptServerConnection(String repositoryPath) {
 
-		if (!"noUser".equals(repositoryPath))
-		{
-			this.repositoryPath = repositoryPath;
-			this.user = getUserName();
-			this.password = getUserPassword();
-		}
+//		if (!"noUser".equals(repositoryPath))
+//		{
+//			this.repositoryPath = repositoryPath;
+//			this.user = getUserName();
+//			this.password = getUserPassword();
+//		}
 	}
 	
 	
@@ -697,124 +664,18 @@ public class ScriptServerConnection implements IServerConnection
 	public void setSkriptName(String skriptName) {
 		this.skriptName = skriptName;
 	}
-	/**
-	 * @param localPath The localPath to set.
-	 */
-	public void setLocalPath(String localPath) {
-		this.localPath = localPath;
-	}
-	
-	/**
-	 * Gets the userName
-	 * @return the username
-	 */
-	private String getUserName ()
-	{
-		//gets the userName
-		String uN = KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR);
- 
-		if (uN.equals(""))
-		{
-			uN = getPreference (VCMPreferencePage.KOBOLD_VCM_USER_STR);
-			if (uN != null) {
-    			setUserName(uN);
-			}
-		}
-		return uN;
-	}
-
-	/**
-	 * Sets the userName to the preferences
-	 * @param userName, the userName to store
-	 */
-	protected void setUserName (String userName)
-	{
-		//set the default userName (initial)
-	    if (userName != null)
-        {
-	        KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_USER_STR, userName);
-        }
-	    else
-	    {
-	        MessageDialog.openError(new Shell(),"VCM User not set","VCM User not set, please reconfigure!");
-	    }
-	}
-
-	/**
-	 * gets the stored userName
-	 * @return the stored userName
-	 * 
-	 * if the user pressed cancel, the password will be ""
-	 */
-	private String getUserPassword ()
-	{
-		//gets the userPassword
-	    Preferences prefs = KoboldVCMPlugin.getDefault().getPluginPreferences();
-		String uP = prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
-		
-		if (prefs.getBoolean(VCMPreferencePage.KOBOLD_VCM_ASK_PWD) || prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR).equals(""))
-		{
-			uP = getPreference (VCMPreferencePage.KOBOLD_VCM_PWD_STR);
-			if (uP != null) {
-    			setUserPassword(uP);
-			}
-		}
-		return uP;
-	}
-
-	/**
-	 * Sets the new userName
-	 * @param userPassword, the userPassword to store
-	 */
-	private void setUserPassword (String userPassword)
-	{
-		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_PWD_STR,userPassword);
-	}
-
-	/**
-	 * Opens a input Dialog to enter the user-data
-	 * @param type, the variableName to get of the user
-	 * @return the input-value of the dialog
-	 */
-	private String getPreference (String type)
-	{
-	    String preferenceName = "";
-	    if (type.equals(VCMPreferencePage.KOBOLD_VCM_PWD_STR))
-        {
-	        preferenceName = type;
-            type = "VCM User Password"; 
-            PasswordDialog pd = new PasswordDialog (new Shell());
-            //open the dialog
-            if (pd.open() == Dialog.OK) {
-                return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
-            }
-            else {
-			    // CANCEL
-			    return null;
-			} 
-        } 
-	    else if (type.equals(VCMPreferencePage.KOBOLD_VCM_USER_STR))
-	    {
-	        preferenceName = type;
-	        type = "VCM User Name";
-			InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
-			//open the dialog
-			if (in.open() == Dialog.OK) {
-    			return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR);
-			}
-			else {
-			    // CANCEL
-			    return null;
-			}
-	    }
-    	return "";
-	}
-	
-	/**
-	 * @param repositoryDescriptor The repositoryDescriptor to set.
-	 */
-	public void setRepositoryDescriptor(
-			RepositoryDescriptor repositoryDescriptor) {
-		this.repositoryDescriptor = repositoryDescriptor;
-	}
+//	/**
+//	 * @param localPath The localPath to set.
+//	 */
+//	public void setLocalPath(String localPath) {
+//		this.localPath = localPath;
+//	}
+//	
+//	/**
+//	 * @param repositoryDescriptor The repositoryDescriptor to set.
+//	 */
+//	public void setRepositoryDescriptor(
+//			RepositoryDescriptor repositoryDescriptor) {
+//		this.repositoryDescriptor = repositoryDescriptor;
+//	}
 }

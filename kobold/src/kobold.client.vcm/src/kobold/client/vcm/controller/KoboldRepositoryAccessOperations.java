@@ -38,25 +38,22 @@ import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.client.vcm.communication.KoboldPolicy;
+import kobold.client.vcm.dialog.PasswordDialog;
+import kobold.client.vcm.preferences.VCMPreferencePage;
 import kobold.common.data.UserContext;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.io.ScriptDescriptor;
 
-import org.eclipse.core.internal.resources.File;
-import org.eclipse.core.internal.resources.Resource;
-import org.eclipse.core.internal.resources.Workspace;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.core.TeamException;
-import org.eclipse.ui.internal.Workbench;
-import org.eclipse.ui.internal.WorkbenchPlugin;
 /**
  * @author schneipk
  *
@@ -81,6 +78,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	private String  repositoryRootPath = "";
 	private String repositoryHost = "";
 	private String  repositoryModulePath = "";
+
+	// The user name for the VCM
+	private String userName;
+	//	 The password for the VCM
+	private String password;
+
+	// The Repository Descriptor used by this connection
+	private RepositoryDescriptor repositoryDescriptor = null;
 	
 	// The commandline Argument String
 	private String[] argString = null; 
@@ -133,7 +138,9 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			this.skriptPath = (Path)skriptPath.append("scripts" + IPath.SEPARATOR);
 				skriptExtension = "sh";
 			}
-			
+		userName = getUserName();
+		password = getUserPassword();
+		
 		
 	}
 	/* (non-Javadoc)
@@ -224,28 +231,24 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 //					repositoryPath
 					currentVCMProvider = productLine.getRepositoryDescriptor();
 					localPath = productLine.getLocalPath().toOSString();
-					setCurrentVCMProvider(productLine.getRepositoryDescriptor());
-					connection.setRepositoryDescriptor(productLine.getRepositoryDescriptor());
+					initArgumenString(productLine.getRepositoryDescriptor());
 
 				}
 				if (assets[i] instanceof Product) {
 					product = (Product) assets[i];
 					localPath = product.getLocalPath().toOSString();
 					currentVCMProvider = product.getRepositoryDescriptor();
-					setCurrentVCMProvider(product.getRepositoryDescriptor());
-					connection.setRepositoryDescriptor(product.getRepositoryDescriptor());
+					initArgumenString(product.getRepositoryDescriptor());
 				}
 				if (assets[i] instanceof Variant) {
 					variant = (Variant) assets[i];
 					localPath = variant.getLocalPath().toOSString();
-					setCurrentVCMProvider(variant.getRemoteRepository()); 					
-					connection.setRepositoryDescriptor(variant.getRemoteRepository());
+					initArgumenString(variant.getRemoteRepository()); 					
 				}
 				if (assets[i] instanceof Component) {
 					component = (Component) assets[i];
 					localPath = component.getLocalPath().toOSString();
-					setCurrentVCMProvider(component.getRemoteRepository());
-					connection.setRepositoryDescriptor(component.getRemoteRepository());
+					initArgumenString(component.getRemoteRepository());
 				}			
 				
 				if (currentVCMProvider != null) {
@@ -533,22 +536,55 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
         }
     }
 	/**
-	 * @param currentVCMProvider The currentVCMProvider to set.
+	 * @param currentVCMProvider The currentVCMProvider the Argument String is to be set for.
 	 */
-	public void setCurrentVCMProvider(RepositoryDescriptor currentVCMProvider) {
+	public void initArgumenString(RepositoryDescriptor currentVCMProvider) {
 		this.currentVCMProvider = currentVCMProvider;
 		if(currentVCMProvider != null && currentVCMProvider instanceof RepositoryDescriptor)
 		{
-				argString = new String[4];
+		    /**
+		     * 	# $1 working directory
+				# $2 repo type
+				# $3 protocoal type
+				# $4 username
+				# $5 password
+				# $6 host
+				# $7 root
+				# $8 module
+		     */
+				argString = new String[9];
 			if (localPath != null || repositoryHost != ""|| repositoryModulePath != "" || repositoryRootPath != ""  ) {
-				argString[0] = localPath;
-				argString[1] = currentVCMProvider.getHost();//repositoryHost;
-				argString[2] = currentVCMProvider.getRoot();//repositoryRootPath;
-				argString[3] = currentVCMProvider.getPath(); // @ FIXME repositoryModulePath;
+			    argString[0] = "";
+			    argString[1] = localPath;
+			    argString[2] = currentVCMProvider.getType();
+			    argString[3] = currentVCMProvider.getProtocol();
+			    argString[4] = userName;
+			    argString[5] = password; 
+				argString[6] = currentVCMProvider.getHost();//repositoryHost;
+				argString[7] = currentVCMProvider.getRoot();//repositoryRootPath;
+				argString[8] = currentVCMProvider.getPath(); // @ FIXME repositoryModulePath;
 			} else {
-				MessageDialog.openError(new Shell(), "Hoooonk", "Du nix hast gesetzt den RepositoryProvider Alder");
+				MessageDialog.openError(new Shell(), "Error Constrgucting ArgumentStrin", "Please check the Repository Descriptor UserName and Password is set");
 			}
 		}
+	}
+	
+	/**
+	 *  @param argument The argument to be added to the last position of the argument String
+	 * 		if this is called n times the original argument Array will have an extra n Fields added
+	 * 		to the end
+	 */
+	public void addLastArgument(String argument)
+	{
+      String tmpString[] = new String[argString.length + 1];
+      int i = 0;
+        while ( i < argString.length)
+        {
+            tmpString[i] = argString[i];
+            i++;
+        }
+        tmpString[i] = argument;
+        argString = tmpString;
 	}
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postcheckout(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
@@ -978,4 +1014,106 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
             e.printStackTrace();
         }
     }
+    /**
+     * Gets the userName
+     * @return the username
+     */
+    private String getUserName ()
+    {
+    	//gets the userName
+    	String uN = KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR);
+    
+    	if (uN.equals(""))
+    	{
+    		uN = getPreference (VCMPreferencePage.KOBOLD_VCM_USER_STR);
+    		if (uN != null) {
+    			setUserName(uN);
+    		}
+    	}
+    	return uN;
+    }
+    /**
+     * Sets the userName to the preferences
+     * @param userName, the userName to store
+     */
+    protected void setUserName (String userName)
+    {
+    	//set the default userName (initial)
+        if (userName != null)
+        {
+            KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_USER_STR, userName);
+        }
+        else
+        {
+            MessageDialog.openError(new Shell(),"VCM User not set","VCM User not set, please reconfigure!");
+        }
+    }
+    /**
+     * gets the stored userName
+     * @return the stored userName
+     * 
+     * if the user pressed cancel, the password will be ""
+     */
+    private String getUserPassword ()
+    {
+    	//gets the userPassword
+        Preferences prefs = KoboldVCMPlugin.getDefault().getPluginPreferences();
+    	String uP = prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
+    	
+    	if (prefs.getBoolean(VCMPreferencePage.KOBOLD_VCM_ASK_PWD) || prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR).equals(""))
+    	{
+    		uP = getPreference (VCMPreferencePage.KOBOLD_VCM_PWD_STR);
+    		if (uP != null) {
+    			setUserPassword(uP);
+    		}
+    	}
+    	return uP;
+    }
+    /**
+     * Sets the new userName
+     * @param userPassword, the userPassword to store
+     */
+    private void setUserPassword (String userPassword)
+    {
+    	KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_PWD_STR,userPassword);
+    }
+    /**
+     * Opens a input Dialog to enter the user-data
+     * @param type, the variableName to get of the user
+     * @return the input-value of the dialog
+     */
+    private String getPreference (String type)
+    {
+        String preferenceName = "";
+        if (type.equals(VCMPreferencePage.KOBOLD_VCM_PWD_STR))
+        {
+            preferenceName = type;
+            type = "VCM User Password"; 
+            PasswordDialog pd = new PasswordDialog (new Shell());
+            //open the dialog
+            if (pd.open() == Dialog.OK) {
+                return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
+            }
+            else {
+    		    // CANCEL
+    		    return null;
+    		} 
+        } 
+        else if (type.equals(VCMPreferencePage.KOBOLD_VCM_USER_STR))
+        {
+            preferenceName = type;
+            type = "VCM User Name";
+    		InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
+    		//open the dialog
+    		if (in.open() == Dialog.OK) {
+    			return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR);
+    		}
+    		else {
+    		    // CANCEL
+    		    return null;
+    		}
+        }
+    	return "";
+    }
+	
 }
