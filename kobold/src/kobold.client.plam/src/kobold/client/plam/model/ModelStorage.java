@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.40 2004/09/21 15:10:37 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.41 2004/09/22 14:31:49 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -61,6 +61,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -621,39 +622,62 @@ public class ModelStorage
     public static void deleteVariantDirectory (Variant variant)
     {
     	String path = variant.getLocalPath().toOSString();
-    	deleteTree(path);
+    	//deleteTree(path);
+    	//
+    	IProgressMonitor monitor = new NullProgressMonitor();
+    	try {
+            getFolderForAsset(variant).delete(true, monitor);
+        } catch (CoreException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    	
     	System.out.println("Delete: "+path);
     }
 
     public static void deleteComponentDirectory (Component comp)
     {
     	String path = comp.getLocalPath().toOSString();
-    	deleteTree(path);
+    	//deleteTree(path);
+       	IProgressMonitor monitor = new NullProgressMonitor();
+    	try {
+            getFolderForAsset(comp).delete(true, monitor);
+        } catch (CoreException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     	System.out.println("Delete: "+path);
     }
     
 
     public static void deleteProductComponentDirectory(ProductComponent comp) {
         String path = comp.getLocalPath().toOSString();
-    	deleteTree(path);
+       	IProgressMonitor monitor = new NullProgressMonitor();
+    	try {
+            getFolderForAsset(comp).delete(true, monitor);
+        } catch (CoreException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    	//deleteTree(path);
     }
 
     
-    private static void deleteTree( File path )
-    {
-        File files[] = path.listFiles();
-        if (files != null) {
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isDirectory()) deleteTree(files[i]);
-                files[i].delete();
-            }
-        }
-        path.delete();
-    }
-    private static void deleteTree( String path )
-    {
-      deleteTree( new File(path) );
-    }
+//    private static void deleteTree( File path )
+//    {
+//        File files[] = path.listFiles();
+//        if (files != null) {
+//            for (int i = 0; i < files.length; i++) {
+//                if (files[i].isDirectory()) deleteTree(files[i]);
+//                files[i].delete();
+//            }
+//        }
+//        path.delete();
+//    }
+//    private static void deleteTree( String path )
+//    {
+//      deleteTree( new File(path) );
+//    }
     
     
 }
