@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.12 2004/05/18 14:29:33 martinplies Exp $
+ * $Id: NewProjectWizard.java,v 1.13 2004/05/18 18:57:30 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -32,7 +32,6 @@ import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProjectNature;
 import kobold.client.plam.PLAMProject;
 import kobold.client.plam.workflow.LocalMessageQueue;
-import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.WorkflowItem;
 import kobold.common.data.WorkflowMessage;
@@ -236,8 +235,8 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			mq.addMessage(welcome);
 			
 			//TODO: Remove test stuff
-			WorkflowMessage msg = new WorkflowMessage();
-			msg.setWorkflowType("testwf");
+			WorkflowMessage msg = new WorkflowMessage("testworkflow");
+			//msg.setWorkflowType("testwf");
 			msg.setSender("vanto");
 			msg.setReceiver("vanto");
 			msg.setSubject("Test workflow");
@@ -247,8 +246,8 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			mq.addMessage(msg);
 			
 			
-			WorkflowMessage msg1 = new WorkflowMessage();
-			msg1.setWorkflowType("testwf1");
+			WorkflowMessage msg1 = new WorkflowMessage("testwf1");
+			//msg1.setWorkflowType("testwf1");
 			msg1.setSender("pliesmn");
 			msg1.setReceiver("server");
 			msg1.setSubject("Test workflow");
