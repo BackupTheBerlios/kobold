@@ -26,6 +26,7 @@ package kobold.client.vcm.controller;
 
 
 
+import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.model.AbstractAsset;
@@ -107,6 +108,8 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	private final String UPDATE = "update.";
 	private final String COMMIT = "commit.";
 	private final String CHECKOUT = "checkout.";
+	private final String TAG = "tag.";
+	private final String RM = "rm.";
 	public static final char QUOTATION = 0x22;
 	
 	public KoboldRepositoryAccessOperations()
@@ -403,6 +406,19 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			if (connection != null) {
     			connection.setSkriptName(skriptPath.toOSString().concat(COMMIT).concat(skriptExtension));
     			initConnection(connection,resources);
+    			String tempString[] = new String[argString.length+1];
+    			for (int i = 0; i < argString.length; i++) {
+    				tempString[i] = argString[i];
+    			}
+    			InputDialog messageInput = new InputDialog(new Shell(),"Please enter a message for the repository","VCM Message :",null, null);
+    			messageInput.open();
+    			String message = String.valueOf(QUOTATION);
+    //			String message = "";
+    			message = message.concat(messageInput.getValue());
+    			message =  message.concat(String.valueOf(QUOTATION));
+    			System.out.println(message);
+    			tempString[tempString.length-1] = message; 
+    			argString = tempString;
     			connection.open(progress,argString);
     			connection.close();	
 			}
@@ -746,6 +762,8 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
         }
 
     }
+	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#Import(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
@@ -810,5 +828,134 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		// NOT IN USE / IN ITERATION I
 		return false;
 	}
-
+    /**
+     * @see kobold.client.vcm.controller.KoboldRepositoryOperations#tag(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
+     */
+    public void tag(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
+		try {
+		
+		    if (!(assets[0] instanceof Release)) {
+		        return;
+		    }
+		    Release rel = (Release) assets[0];
+			progress = KoboldPolicy.monitorFor(progress);
+			progress.beginTask("tag working", 2);
+			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
+			if (connection != null) {
+    			initConnection(connection,assets);
+    			connection.setSkriptName(skriptPath.toOSString().concat(TAG).concat(skriptExtension));
+    			String tempString[] = new String[argString.length+1];
+    			for (int i = 0; i < argString.length; i++) {
+    				tempString[i] = argString[i];
+    			}
+    			String message = rel.getName();
+    			message =  message.concat(String.valueOf(QUOTATION));
+    			System.out.println(message);
+    			tempString[tempString.length-1] = message; 
+    			argString = tempString;
+    			initConnection(connection,assets);
+    			for (Iterator iterator = rel.getFileRevisions().iterator(); iterator.hasNext();) {
+    			    argString[argString.length - 2] = ((Release.FileRevision)iterator.next()).getPath(); 
+        			connection.open(progress, argString);
+    			}
+    			connection.close();	
+			}
+			progress.done();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
+	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#add(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
+	 */
+	public void rm(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
+		try {
+			progress = KoboldPolicy.monitorFor(progress);
+			progress.beginTask("rm working", 2);
+			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
+			if (connection != null) {
+    			initConnection(connection,assets);
+    			connection.setSkriptName(skriptPath.toOSString().concat(RM).concat(skriptExtension));
+    			initConnection(connection,assets);
+    			connection.open(progress, argString);
+    			connection.close();	
+			}
+			progress.done();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#preAdd(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
+	 */
+	public void preRm(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
+	    try
+        {
+		    for (int i = 0; i < assets.length; i++)
+            {
+		        List tmpList = assets[i].getBeforeScripts();
+                if (tmpList != null)
+                {
+                    for (int j = 0; j < tmpList.size(); j++)
+                    {
+                        progress = KoboldPolicy.monitorFor(progress);
+                        ScriptDescriptor tmpScriptDescriptor = ((ScriptDescriptor)tmpList.get(j));
+                        if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_DELETE))
+                        {
+                            progress.beginTask("prerm working", 2);
+                            ScriptServerConnection connection = ScriptServerConnection.getConnection(
+                                    repositoryRootPath);
+                            if (connection != null) {
+                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                                connection.setSkriptName(beforeSkriptPath);
+                                connection.open(progress);
+                                connection.close();
+                            }
+                            progress.done();
+                        }
+                    }
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postAdd(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
+	 */
+	public void postRm(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
+	    try
+        {
+		    for (int i = 0; i < assets.length; i++)
+            {
+		        List tmpList = assets[i].getAfterScripts();
+                if (tmpList != null)
+                {
+                    for (int j = 0; j < tmpList.size(); j++)
+                    {
+                        progress = KoboldPolicy.monitorFor(progress);
+                        ScriptDescriptor tmpScriptDescriptor = ((ScriptDescriptor)tmpList.get(j));
+                        if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_DELETE))
+                        {
+                            progress.beginTask("postrm working", 2);
+                            ScriptServerConnection connection = ScriptServerConnection.getConnection(
+                                    repositoryRootPath);
+                            if (connection != null) {
+                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                                connection.setSkriptName(beforeSkriptPath);
+                                connection.open(progress);
+                                connection.close();
+                            }
+                            progress.done();
+                        }
+                    }
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
