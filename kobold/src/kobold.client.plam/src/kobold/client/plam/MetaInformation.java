@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaInformation.java,v 1.15 2004/08/06 09:21:43 garbeam Exp $
+ * $Id: MetaInformation.java,v 1.16 2004/08/06 10:58:04 neco Exp $
  *
  */
 package kobold.client.plam;
@@ -203,6 +203,7 @@ public class MetaInformation {
     private void createMetaInfoForProduct(Document document, Product product) 
     	throws DocumentException
     {
+    	document.add(new Phrase("\n"));
     	document.add(new Phrase("Product:  ",
                 FontFactory.getFont(FontFactory.HELVETICA, 18)));
     	document.add(new Phrase(product.getName(),
@@ -244,6 +245,7 @@ public class MetaInformation {
     private void createMetaInfoForSpecificComponents(Document document, SpecificComponent spComp) 
     	throws DocumentException
     {	
+    	document.add(new Phrase("\n"));
     	document.add(new Phrase("SpecificComponent: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(spComp.getName(),
@@ -282,6 +284,7 @@ public class MetaInformation {
     private void createMetaInfoForRelatedComponent(Document document, RelatedComponent relComp) 
     	throws DocumentException
     {
+    	document.add(new Phrase("\n"));
     	document.add(new Phrase("RelatedComponent: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(relComp.getName(),
@@ -319,10 +322,9 @@ public class MetaInformation {
     private void createMetaInfoForMaintainer(Document document, User user) 
     	throws DocumentException
     {
-    	document.add(new Phrase("Maintainer: ",
-                FontFactory.getFont(FontFactory.HELVETICA, 14)));
-    	document.add(new Phrase(user.getUsername(),
-	        FontFactory.getFont(FontFactory.HELVETICA, 14, Font.ITALIC))); 
+    	document.add(new Phrase("    Maintainer: ",
+                FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+    	document.add(new Phrase(user.getUsername())); 
 	    document.add(new Phrase("\n"));
     	
 	}
@@ -331,6 +333,7 @@ public class MetaInformation {
 	private void createMetaInfoForComponent(Document document, Component comp)
 		throws DocumentException
 	{
+		document.add(new Phrase("\n"));
 		document.add(new Phrase("Component: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(comp.getName(),
@@ -373,6 +376,7 @@ public class MetaInformation {
 	private void createMetaInfoForVariants(Document document, Variant var) 
 		throws DocumentException
 	{
+		document.add(new Phrase("\n"));
 		document.add(new Phrase("Variant: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(var.getName(),
@@ -443,6 +447,7 @@ public class MetaInformation {
 	private void createMetaInfoForReleases(Document document, Release release)
 		throws DocumentException
 	{
+		document.add(new Phrase("\n"));
 		document.add(new Phrase("Release: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(release.getName(),
