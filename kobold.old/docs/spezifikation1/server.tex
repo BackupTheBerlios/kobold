@@ -22,7 +22,7 @@ produktbasierten Berechtigungen. Dabei kann ein Server produktlinien-übergreifen
 verwendet werden.\par
 Der Server bietet ein auf diesen Berechtigungen basierenden
 Authentifizierungsmechanismus an, der von allen Clients verwendet wird. Wird ein Client gestartet, so muss
-sich der Benutzer über einen Dialog beim Server mit Benutzername und Passwort anmelden. Sind beide korrekt, 
+sich der Benutzer über einen Dialog beim Server mit Benutzername und Passwort anmelden. Sind beide korrekt,
 so werden in seinen Client die Daten der ihm zugeteilten Rollen und den
 dazu gehörenden Produktlinien bzw. Produkte geladen. Der Benutzer
 kann dabei nur die Daten verändern, für die er auch eine Berechtigung besitzt.
@@ -30,7 +30,7 @@ kann dabei nur die Daten verändern, für die er auch eine Berechtigung besitzt.
 \subsubsection{Persistierung}
 
 Die Persistierung aller für das Berechtigungskonzept notwendigen Daten wird
-durch eine abstrakte, XML-basierte Persistenzschicht realisiert, wodurch eine 
+durch eine abstrakte, XML-basierte Persistenzschicht realisiert, wodurch eine
 flexible Datenhaltung ermöglicht wird.\par
 Die Persistenzschicht dient zur Speicherung aller Rollen-,
 Authentifizierungs-, Produktlinien- und Produktrelationen. Die Grundstruktur dieser Schicht ist
@@ -57,11 +57,13 @@ Für jeden Benutzer werden vom Kobold Serverdienst folgende Daten gespeichert:
 
 \subsubsection{Nachrichten-Queue}
 
-Der Kobold Serverdienst bildet für jeden Kobold-Benutzer eine Nachrichten-Queue. Werden Nachrichten oder 
-Workflow-Objekte an einen Benutzer geschickt, so werden diese in der Nachrichten-Queue 
-gespeichert und bei der nächsten Abfrage des Benutzers an diesen weitergeleitet.\par
-Die vom Server angebotene Nachrichten-Queue ist zustandsbehaftet, das heißt bei
-nicht-physisch begründeten Ausfällen ist die Nachrichten-Queue in der Regel ohne Datenverlust
+Der Kobold Serverdienst bildet für jeden Kobold-Benutzer eine
+Nachrichten-Queue. Werden Nachrichten oder Workflow-Objekte an
+einen Benutzer geschickt, so werden diese in der Nachrichten-Queue
+gespeichert und bei der nächsten Abfrage des Benutzers an diesen
+weitergeleitet.\par Die vom Server angebotene Nachrichten-Queue
+ist zustandsbehaftet, das heißt bei nicht physisch begründeten
+Ausfällen ist die Nachrichten-Queue in der Regel ohne Datenverlust
 wiederherstellbar.\par
 
 Für jede Nachricht in der Nachrichten-Queue werden folgende Daten benötigt:
@@ -76,17 +78,18 @@ Für jede Nachricht in der Nachrichten-Queue werden folgende Daten benötigt:
 
 \paragraph{Workflow-Mechanismus auf dem Kobold Server}
 Sendet ein Client dem Server eine Nachricht, wendet dieser diese
-Nachricht als Fakt auf eine kontextabhängige Regelmenge aus der Regelbasis an,
-die sich auf dem Server befindet. Ein Fakt ist dabei eine Mitteilung an den Server. 
-Es werden dabei alle Regeln der Regelmenge durchlaufen. Gilt eine
-Bedingung einer Regel, so wird die zugehörige Konsequenz ausgeführt.
-Im Implementierungsteil einer solchen Konsequenz werden Modifikationen
-an einem erzeugenden Workflow-Objekt durchgeführt (z.B. wird bei einem
-unauthorisierten Commit ein String "'Unauthorisierter Commit"' in das
-Workflow-Objekt geschrieben, sofern eine Regel dies definiert hat).
+Nachricht als Fakt auf eine kontextabhängige Regelmenge aus der
+Regelbasis an. Dabei werden alle Regeln der Regelmenge
+durchlaufen. Gilt eine Bedingung einer Regel, so wird die
+zugehörige Konsequenz ausgeführt. Im Implementierungsteil einer
+solchen Konsequenz werden Modifikationen an einem erzeugenden
+Workflow-Objekt durchgeführt (z.B. wird bei einem unauthorisierten
+Commit ein String "'Unauthorisierter Commit"' in das
+Workflow-Objekt geschrieben, sofern eine Regel dies definiert
+hat).
 \par
 Ein Workflow-Objekt ist eine XML-Struktur, die einen Titel und eine Liste
-aller Regelresultate besitzt. Dieses Workflow-Objekt wird 
+aller Regelresultate besitzt. Dieses Workflow-Objekt wird
 dann auf Message-Queues von Clients zugeteilt, für die das Workflow-Objekt relevant
 ist (d.h. Clients von bestimmten Rollen rufen diese Workflow-Objekte
 dann ab).
