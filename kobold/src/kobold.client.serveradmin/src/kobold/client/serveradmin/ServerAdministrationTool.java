@@ -31,7 +31,7 @@ import kobold.common.controller.IKoboldServerAdministration;
 import kobold.common.io.RepositoryDescriptor;
 
 import java.net.URL;
-
+import java.util.Properties;import java.io.FileInputStream;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
@@ -136,7 +136,7 @@ public class ServerAdministrationTool {
      * 'currentPassword.
      */
     private static void performStartup(){
-        debOut("performing startup operations");
+        debOut("performing startup operations");                try {            Properties props = new Properties(System.getProperties());            props.load(new FileInputStream(System.getProperty("kobold.client.configFile")));            System.setProperties(props);        } catch (Exception e) {            errOut("Could not find client configuration",e);        }
         String ret = checkKoboldServer();
         if (ret.equals(IKoboldServerAdministration.RETURN_OK)){
             infOut("Logged on " + currentURL + "\n\n");
