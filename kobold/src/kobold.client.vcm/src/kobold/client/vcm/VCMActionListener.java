@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.28 2004/11/22 19:12:29 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.29 2004/11/22 19:37:10 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -303,7 +303,7 @@ public class VCMActionListener implements IVCMActionListener
      * @see kobold.client.plam.listeners.IVCMActionListener#updateProduct(kobold.common.data.Product, org.eclipse.core.resources.IProject)
      */
     public void updateAsset(Asset asset, IProject p) {
-        IProgressMonitor progress = KoboldPolicy.monitorFor(null);
+        //IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 		String userName = KoboldRepositoryHelper.getUserName();
 		String password = KoboldRepositoryHelper.getUserPassword();
 		ScriptServerConnection connection =
@@ -338,7 +338,7 @@ public class VCMActionListener implements IVCMActionListener
 				}
 			}
 			try {
-    			connection.open(progress, command);
+    			connection.open(new NullProgressMonitor(), command);
     			connection.close();	
 			}
 			catch (Exception e) {
