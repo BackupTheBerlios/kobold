@@ -260,15 +260,8 @@ public class ScriptServerConnection implements IServerConnection
 				new IConsole[] {console});
 			stream2 = console.newMessageStream();
 			connected = true;
-			errorThread = new InputThreadToConsole(process/*.getErrorStream()*/, stream2);
-//			errorThread.
 			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
-			
-//			readInpuStreamsToConsole();
-
-//			errorThread.run();
 			inputThread.run();
-//			readInpuStreamsToConsole();
 		} finally {
 			if (! connected) {
 				try {
@@ -300,24 +293,17 @@ public class ScriptServerConnection implements IServerConnection
 			finally
 			{
 				outputStream = null;
-				if (process != null) process.destroy();
+				
 				if (errorThread != null) 
 					{
-					while (errorThread.isAlive()) {
-						
-					}
-					errorThread.stop();
-					errorThread = null;
+						errorThread = null;
 					}
 				if (inputThread != null) 
 				{
-				while (inputThread.isAlive()) {
-					System.out.println("lal");
-					
+				    inputThread.stop();
+				    inputThread = null;
 				}
-				inputThread.stop();
-				inputThread = null;
-				}
+				if (process != null) process = null;
 			}
 		} 
 	}
@@ -406,27 +392,41 @@ public void run(){
     int index = 0, r = 0, s = 0, i = 0, lineCount = 250;
             try
             {
-
                 while (in.available() == 0 & errStream.available() == 0)
                 {
-                    sleep(5);
-                    
+                    sleep(5);       
                 }
-                lineCount = in.available();
-                while (i < lineCount)
+                lineCount=50000;
+                while ( lineCount == 50000 || i < 1000)
                 {
-                    while (in.available() != 0 & (r = in.read()) != -1)
+                    try
                     {
-//                        if (r == NEWLINE)break;
-                        readLineBuffer = append(readLineBuffer, index++,
-                                (byte) r);
+                        lineCount =  proc.exitValue();
+                    } catch (Exception e)
+                    {
+                        // Don't care
                     }
-                    while (errStream.available() != 0
-                            && (s = errStream.read()) != -1)
+                    if (in.available() != 0)
                     {
-//                        if (s == NEWLINE) break;
-                        readLineBuffer = append(readLineBuffer, index++,
-                                (byte) s);
+                        while ((r = in.read()) != -1)
+                        {
+                            if (r == NEWLINE)break;
+                            readLineBuffer = append(readLineBuffer, index++,
+                                    (byte) r);
+                            
+                            if(in.available() == 0) break;
+                        }
+                    }
+                    if (errStream.available() != 0)
+                    {
+                        while ((s = errStream.read()) != -1)
+                        {
+                            if (s == NEWLINE) break;
+                            readLineBuffer = append(readLineBuffer, index++,
+                                    (byte) s);
+                            if(errStream.available() == 0) break;
+                            
+                        }
                     }
                     if (returnString != null)
                     {
@@ -441,15 +441,15 @@ public void run(){
                     {
                         stream.print(new String(readLineBuffer, 0, index));
                         System.out
-                                .println(new String(readLineBuffer, 0, index));
+                                .print(new String(readLineBuffer, 0, index));
+
                         this.readLineBuffer = new byte[512];
                         index = 0;
                     }
-                    if (in.available() == 0 && errStream.available() == 0)
+                    if (in.available() == 0 && errStream.available() == 0 && lineCount != 50000)
                     {
                         i++;
                     }
-
                 }
 
             } catch (Exception e)
