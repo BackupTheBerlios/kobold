@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNode.java,v 1.5 2004/04/28 13:06:20 vanto Exp $
+ * $Id: AbstractNode.java,v 1.6 2004/04/28 15:17:08 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
@@ -29,7 +29,10 @@ package kobold.client.plam.model.pline.graph;
 
 import java.net.URI;
 
+import kobold.client.plam.model.IdManager;
+import net.sourceforge.gxl.GXLInt;
 import net.sourceforge.gxl.GXLNode;
+import net.sourceforge.gxl.GXLString;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,15 +52,12 @@ public abstract class AbstractNode extends GXLNode {
 	private static final Log logger = LogFactory.getLog(AbstractNode.class);
 	private Dimension dimension;
 	private Point x, y;
-	private String responsibleEmployee;
-	private String description;
-
 
 	/**
 	 * @param id
 	 */
-	public AbstractNode(String id, String type) {
-		super(id);
+	public AbstractNode(String name, String type) {
+		super(IdManager.getInstance().getId(name));
 
 		try {
 			setType(new URI(type));
@@ -119,28 +119,60 @@ public abstract class AbstractNode extends GXLNode {
 	 * @return
 	 */
 	public String getDescription() {
-		return description;
+		return ((GXLString)getAttr("description").getValue()).getValue();
 	}
 
 	/**
 	 * @return
 	 */
-	public String getResponsibleEmployee() {
-		return responsibleEmployee;
+	public String getOwner() {
+		return ((GXLString)getAttr("owner").getValue()).getValue();
 	}
 
 	/**
 	 * @param string
 	 */
-	public void setDescription(String string) {
-		description = string;
+	public void setDescription(String desc) {
+		setAttr("description", new GXLString(desc));
 	}
 
 	/**
 	 * @param string
 	 */
-	public void setResponsibleEmployee(String string) {
-		responsibleEmployee = string;
+	public void setOwner(String owner) {
+		setAttr("owner", new GXLString(owner));
+	}
+
+
+	/**
+		 * @return
+		 */
+	public String getName() {
+		return ((GXLString)getAttr("name").getValue()).getValue();
+	}
+
+
+	/**
+		 * @return
+		 */
+	public int getStatus() {
+		return ((GXLInt)getAttr("status").getValue()).getIntValue();
+	}
+
+
+	/**
+		 * @param string
+		 */
+	public void setName(String name) {
+		setAttr("name", new GXLString(name));;
+	}
+
+
+	/**
+		 * @param i
+		 */
+	public void setStatus(int status) {
+		setAttr("status", new GXLInt(status));
 	}
 
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantNode.java,v 1.7 2004/04/28 13:06:20 vanto Exp $
+ * $Id: VariantNode.java,v 1.8 2004/04/28 15:17:08 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
@@ -38,105 +38,78 @@ import java.util.Vector;
 public class VariantNode extends AbstractNode 
 {
 	public static final String TYPE = "http://kobold.berlios.de/types#variant";
-	
+
+	private List versions = new ArrayList();
 	private List components = new ArrayList();
-	private String version;
-	private String name;
-	//List of scripts
+
 	private Vector scripts;
-	private int status;
 
 	/**
 	 */
-	public VariantNode(String id) 
+	public VariantNode(String name) 
 	{
-		super(id, TYPE);
+		super(name, TYPE);
 	}
 
 	/**
-	 * @return
 	 */
-	public ComponentNode[] getComponents() {
-		return (ComponentNode[])components.toArray(new ComponentNode[0]);
+	public ComponentNode[] getComponents() 
+	{
+		return (ComponentNode[]) components.toArray(new ComponentNode[0]);
 	}
 
 	/**
-	 * @param
 	 */
-	public void addComponent() {
-		
+	public void addComponent(ComponentNode component) 
+	{
+		components.add(component);
+		add(component);
 	}
 
 	/**
-	 * @param
 	 */
-	public void removeComponent() {
-		
-	}
-
-
-	/**
-	 * @return
-	 */
-	public String getName() {
-		return name;
+	public void removeComponent(ComponentNode component) 
+	{
+		components.remove(component);
+		remove(component);
 	}
 
 	/**
-	 * @return
 	 */
-	public Vector getScripts() {
+	public Vector getScripts() 
+	{
 		return scripts;
 	}
 
 	/**
-	 * @param
 	 */
-	public void addScript() {
-		
+	public void addScript() {}
+
+	/**
+	 */
+	public void removeScript() {}
+
+	/**
+	 */
+	public VersionNode[] getVersions() 
+	{
+		return (VersionNode[]) versions.toArray(new VersionNode[0]);
 	}
 
 	/**
-	 * @param
 	 */
-	public void removeScript() {
-		
-	}
-
-
-	/**
-	 * @return
-	 */
-	public int getStatus() {
-		return status;
+	public void addVersion(VersionNode version) 
+	{
+		versions.add(version);
+		add(version);
 	}
 
 	/**
-	 * @return
 	 */
-	public String getVersion() {
-		return version;
-	}
-
-	/**
-	 * @param string
-	 */
-	public void setName(String string) {
-		name = string;
-	}
-
-	/**
-	 * @param i
-	 */
-	public void setStatus(int i) {
-		status = i;
-	}
-
-	/**
-	 * @param string
-	 */
-	public void setVersion(String string) {
-		version = string;
+	public void removeVersion(VersionNode version) 
+	{
+		version.remove(version);
+		remove(version);
 	}
 
 }

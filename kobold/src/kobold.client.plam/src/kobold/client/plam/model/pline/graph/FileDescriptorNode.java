@@ -21,13 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorNode.java,v 1.5 2004/04/28 13:06:20 vanto Exp $
+ * $Id: FileDescriptorNode.java,v 1.6 2004/04/28 15:17:08 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
-import java.util.ArrayList;
-import java.util.List;
+import net.sourceforge.gxl.GXLBool;
+import net.sourceforge.gxl.GXLString;
 /**
  * FileDescriptorNode
  * 
@@ -36,67 +36,40 @@ import java.util.List;
 public class FileDescriptorNode extends AbstractNode 
 {
 	public static final String TYPE = "http://kobold.berlios.de/types#filedesc";
-	
-	//List of versions
-	private List versions = new ArrayList();
-		
-	//List of releaseable versions
-  	private String name;
-  	
-	private Boolean binary;
 
 	/**
 	 */
-	public FileDescriptorNode(String id) 
+	public FileDescriptorNode(String name) 
 	{
-		super(id, TYPE);
+		super(name, TYPE);
 	}
 
 	/**
-	 * @return
 	 */
-	public Boolean getBinary() {
-		return binary;
+	public boolean isBinary() 
+	{
+		return ((GXLBool) getAttr("binary").getValue()).getBooleanValue();
 	}
 
 	/**
-	 * @return
 	 */
-	public String getName() {
-		return name;
+	public void setBinary(boolean binary) 
+	{
+		setAttr("binary", new GXLBool(binary));
 	}
 
 	/**
-	 * @param boolean1
 	 */
-	public void setBinary(Boolean boolean1) {
-		binary = boolean1;
+	public String getRevision() 
+	{
+		return ((GXLString) getAttr("revision").getValue()).getValue();
 	}
 
 	/**
-	 * @param string
 	 */
-	public void setName(String string) {
-		name = string;
-	}
-
-	/**
-	 * @return
-	 */
-	public VersionNode[] getVersions() {
-		return (VersionNode[])versions.toArray(new VersionNode[0]);
-	}
-
-	/**
-	 * @param
-	 */
-	public void addVersion() {
-	}
-
-	/**
-	 * @param
-	 */
-	public void removeVersion() {
+	public void setRevision(String revision) 
+	{
+		setAttr("revision", new GXLString(revision));
 	}
 
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentNode.java,v 1.5 2004/04/28 13:06:20 vanto Exp $
+ * $Id: ComponentNode.java,v 1.6 2004/04/28 15:17:08 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
@@ -35,88 +35,57 @@ import java.util.Vector;
  * 
  * @author Tammo van Lessen
  */
-public class ComponentNode extends AbstractNode {
-	
+public class ComponentNode extends AbstractNode 
+{
+
 	public static final String TYPE = "http://kobold.berlios.de/types#component";
-	
-	//List of variants
+
 	private List variants = new ArrayList();
-	private String name;
-	
-
-	//List of scripts
 	private Vector scripts;
-	int status;
+
 	/**
 	 */
-	public ComponentNode(String id) {
-		super(id, TYPE);
+	public ComponentNode(String name) 
+	{
+		super(name, TYPE);
 	}
 
 	/**
-	 * @return
 	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @return
-	 */
-	public Vector getScripts() {
+	public Vector getScripts() 
+	{
 		return scripts;
 	}
 
 	/**
-	 * @param
 	 */
-	public void addScript() {
+	public void addScript() {}
+
+	/**
+	 */
+	public void removeScript() {}
+
+	/**
+	 */
+	public VariantNode[] getVariants() 
+	{
+		return (VariantNode[]) variants.toArray(new VariantNode[0]);
 	}
 
 	/**
-	 * @param
 	 */
-	public void removeScript() {
+	public void addVariant(VariantNode variant) 
+	{
+		variants.add(variant);
+		add(variant);
 	}
 
 	/**
-	 * @return
 	 */
-	public int getStatus() {
-		return status;
-	}
-
-	/**
-	 * @return
-	 */
-	public VariantNode[] getVariants() {
-		return (VariantNode[])variants.toArray(new VariantNode[0]);
-	}
-
-	/**
-	 * @param
-	 */
-	public void addVariant() {
-	}
-
-	/**
-	 * @param
-	 */
-	public void removeVariant() {
-	}
-
-	/**
-	 * @param string
-	 */
-	public void setName(String string) {
-		name = string;
-	}
-
-	/**
-	 * @param i
-	 */
-	public void setStatus(int i) {
-		status = i;
+	public void removeVariant(VariantNode variant) 
+	{
+		variants.remove(variant);
+		remove(variant);
 	}
 
 }

@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VersionNode.java,v 1.4 2004/04/28 13:06:20 vanto Exp $
+ * $Id: VersionNode.java,v 1.5 2004/04/28 15:17:08 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
-import java.net.URI;
+import net.sourceforge.gxl.GXLString;
+
 /**
  * VersionNode
  * 
@@ -35,46 +36,36 @@ import java.net.URI;
 public class VersionNode extends AbstractNode 
 {
 	public static final String TYPE = "http://kobold.berlios.de/types#version";
-	
-	private String versionNumber;
-	private String status;
+
 	/**
 	 */
-	public VersionNode(String id) 
+	public VersionNode(String name) 
 	{
-		super(id, TYPE);
+		super(name, TYPE);
 	}
 
 	/**
-	 * @return 
-	 * Returns the status of the version
-	 */
-	public String getStatus() {
-		return status;
-	}
-
-	/**
-	 * @return 
 	 * Returns the version of this version
 	 */
-	public String getVersionNumber() {
-		return versionNumber;
+	public String getVersionId() 
+	{
+		return ((GXLString) getAttr("versionId").getValue()).getValue();
 	}
 
 	/**
-	 * @param string
 	 * Sets the status to the new status
 	 */
-	public void setStatus(String newStatus) {
-		status = newStatus;
+	public void setStatus(String status) 
+	{
+		setAttr("status", new GXLString(status));
 	}
 
 	/**
-	 * @param string
 	 * Sets the versionNumber to the new version
 	 */
-	public void setVersionNumber(String version) {
-		versionNumber = version;
+	public void setVersionId(String version) 
+	{
+		setAttr("versionId", new GXLString(version));
 	}
 
 }
