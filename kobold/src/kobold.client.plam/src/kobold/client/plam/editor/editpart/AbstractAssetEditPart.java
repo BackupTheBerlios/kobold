@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAssetEditPart.java,v 1.12 2004/09/19 22:34:52 vanto Exp $
+ * $Id: AbstractAssetEditPart.java,v 1.13 2004/09/20 06:42:20 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Collections;
 import java.util.List;
 
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
@@ -39,9 +40,9 @@ import kobold.client.plam.editor.policy.ComponentEditPolicyImpl;
 import kobold.client.plam.editor.policy.GraphicalNodeEditPolicyImpl;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.edges.EdgeContainer;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.draw2d.ChopboxAnchor;
@@ -58,6 +59,7 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -200,7 +202,7 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
     {
         if (req.getType() == RequestConstants.REQ_OPEN) {
             final AbstractAsset asset = getAsset();
-            if (asset instanceof MetaNode) {
+            if (asset instanceof MetaNode || asset instanceof FileDescriptor) {
                 super.performRequest(req);
                 return;
             }
@@ -225,6 +227,9 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
         AbstractAsset asset = getAsset();
         AbstractRootAsset root = asset.getRoot();
         EdgeContainer ec = root.getEdgeContainer();
+        if (root == null){
+            return Collections.EMPTY_LIST;
+        }
         List l = ec.getEdgesFrom(asset);
         return asset.getRoot().getEdgeContainer().getEdgesFrom(asset);
     }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.15 2004/09/20 00:45:26 vanto Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.16 2004/09/20 06:48:01 martinplies Exp $
  *
  */
 package kobold.client.plam.view;
@@ -176,13 +176,12 @@ public class RoleTreeActionGroup extends ActionGroup
 		    } catch (PartInitException e) {
 		        e.printStackTrace();
 		    }
-		} else if (obj instanceof AbstractAsset && configureAssetAction.isEnabled()) { 
+		} else if (obj instanceof AbstractAsset && configureAssetAction.isEnabled()
+		         && !(obj instanceof FileDescriptor)) { 
 		    configureAssetAction.run();
     	} 
 		else if(obj instanceof FileDescriptor) {			
 				openFileAction.run();				
-		} else {
-		    viewer.setExpandedState(obj, !viewer.getExpandedState(obj));
 		}
 		
     }

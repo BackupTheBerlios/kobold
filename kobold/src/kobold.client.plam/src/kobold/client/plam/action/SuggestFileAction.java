@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SuggestFileAction.java,v 1.4 2004/08/24 18:46:24 garbeam Exp $
+ * $Id: SuggestFileAction.java,v 1.5 2004/09/20 06:43:01 martinplies Exp $
  *
  */
 package kobold.client.plam.action;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.workflow.CoreGroupDialog;
 import kobold.common.data.WorkflowMessage;
@@ -75,7 +76,8 @@ public class SuggestFileAction extends Action {
     {
         IStructuredSelection sel = (IStructuredSelection)event.getSelection();
         if (sel.size() == 1 && sel.getFirstElement() instanceof AbstractAsset
-                && !(sel.getFirstElement() instanceof MetaNode)) {
+                && !(sel.getFirstElement() instanceof MetaNode)
+                && !(sel.getFirstElement() instanceof FileDescriptor)) {
             setEnabled(true);
             selection = (AbstractAsset)sel.getFirstElement();
         } else {

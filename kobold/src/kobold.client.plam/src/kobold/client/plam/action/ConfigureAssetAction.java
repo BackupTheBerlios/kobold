@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ConfigureAssetAction.java,v 1.3 2004/08/24 20:04:26 garbeam Exp $
+ * $Id: ConfigureAssetAction.java,v 1.4 2004/09/20 06:43:12 martinplies Exp $
  *
  */
 package kobold.client.plam.action;
@@ -29,6 +29,7 @@ package kobold.client.plam.action;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.MetaNode;
 
 import org.eclipse.jface.action.Action;
@@ -68,7 +69,8 @@ public class ConfigureAssetAction extends Action
     {
         IStructuredSelection sel = (IStructuredSelection)event.getSelection();
         if (sel.size() == 1 && sel.getFirstElement() instanceof AbstractAsset
-                && !(sel.getFirstElement() instanceof MetaNode)) {
+                && !(sel.getFirstElement() instanceof MetaNode)
+                && !(sel.getFirstElement() instanceof FileDescriptor)) {
             setEnabled(true);
             selection = (AbstractAsset)sel.getFirstElement();
         } else {

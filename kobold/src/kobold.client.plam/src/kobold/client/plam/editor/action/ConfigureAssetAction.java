@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ConfigureAssetAction.java,v 1.4 2004/08/05 20:42:31 vanto Exp $
+ * $Id: ConfigureAssetAction.java,v 1.5 2004/09/20 06:42:54 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.action;
@@ -30,6 +30,7 @@ import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
 import kobold.client.plam.editor.editpart.AbstractAssetEditPart;
 import kobold.client.plam.editor.editpart.MetaEditPart;
 import kobold.client.plam.editor.editpart.ProductlineEditPart;
+import kobold.client.plam.editor.editpart.FileDescriptorEditPart;
 import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.gef.EditPart;
@@ -75,7 +76,8 @@ public class ConfigureAssetAction extends SelectionAction
         if ((getSelectedObjects().size() == 1)
                 && ((getSelectedObjects().get(0) instanceof AbstractAssetEditPart)
                 || (getSelectedObjects().get(0) instanceof ProductlineEditPart))
-                && !(getSelectedObjects().get(0) instanceof MetaEditPart)) {
+                && !(getSelectedObjects().get(0) instanceof MetaEditPart)
+                && !(getSelectedObjects().get(0) instanceof FileDescriptorEditPart)) {
 
             return true;
         }
