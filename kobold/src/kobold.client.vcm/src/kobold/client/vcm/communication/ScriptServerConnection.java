@@ -202,24 +202,9 @@ public class ScriptServerConnection implements IServerConnection
 	public void open(IProgressMonitor monitor,String[] command) throws IOException,
 			CVSAuthenticationException
 	{
-		String[] actualCommand = new String[command.length + 5];
- 
-		actualCommand[0] = skriptName; 
-		actualCommand[1] = command[0];
-		actualCommand[2] = repositoryDescriptor.getType();
-		actualCommand[3] = repositoryDescriptor.getProtocol();
-		actualCommand[4] = this.user;
-		actualCommand[5] = this.password;
-		for (int i = 1; i < command.length; i++) {
-			actualCommand[i + 5] = command[i];
-		}
-		for (int i = 0; i < actualCommand.length; i++) {
-			System.out.print(actualCommand[i]);
-			System.out.print("**");
-		}
 
 		try {
-			process = Util.createProcess(actualCommand, monitor);
+			process = Util.createProcess(command, monitor);
 
 			MessageConsoleStream stream1,stream2 = null;
 			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
