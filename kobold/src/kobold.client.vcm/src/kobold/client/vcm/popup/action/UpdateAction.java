@@ -31,6 +31,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
@@ -58,7 +59,7 @@ public class UpdateAction implements IObjectActionDelegate {
 		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 		try
 		{
-			repoAccess.precheckout(currentSelection,IResource.DEPTH_INFINITE,null);
+			repoAccess.get(currentSelection,IResource.DEPTH_INFINITE,null);
 		}
 		catch (Exception e)
 		{
@@ -85,9 +86,15 @@ public class UpdateAction implements IObjectActionDelegate {
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-		if (selection instanceof IResource)
+		if (selection instanceof StructuredSelection)
 		{
-			currentSelection[0] = (IResource)selection;
+			currentSelection = new IResource[((StructuredSelection)selection).size()];
+			for (int i = 0; i < ((StructuredSelection)selection).size(); i++) {
+				currentSelection[i] = (IResource)((StructuredSelection)selection).getFirstElement();
+				/* @FIXME firstElement?!
+				 */
+			}
+//			currentSelection[0] = (IResource)selection;
 		}
 		else
 		{

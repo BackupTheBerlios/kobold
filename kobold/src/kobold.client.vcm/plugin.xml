@@ -21,6 +21,7 @@
       <import plugin="kobold.commons"/>
       <import plugin="org.eclipse.team.ui"/>
       <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="kobold.client.plam"/>
    </requires>
 
 
@@ -67,7 +68,7 @@
          </filter>
          <action
                label="Add"
-               class="kobold.client.vcm.AddAction"
+               class="kobold.client.vcm.popup.action.AddAction"
                menubarPath="team.main/group1"
                id="kobold.client.vcm.addaction">
          </action>

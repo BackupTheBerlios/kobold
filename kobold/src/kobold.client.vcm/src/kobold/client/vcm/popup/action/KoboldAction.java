@@ -21,77 +21,56 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
+ * Created on 27.05.2004
+ * by schneipk KoboldAction.java
+ * @author schneipk
  */
-
 package kobold.client.vcm.popup.action;
 
-import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
+import kobold.common.data.Product;
+import kobold.common.data.Productline;
 
+import org.eclipse.core.internal.resources.Resource;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.core.TeamException;
 import org.eclipse.team.internal.ui.actions.TeamAction;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
 
-public class AddAction extends KoboldAction implements IObjectActionDelegate {
+/**
+ * @author schneipk
+ *
+ *  This class holds the basic functionality needed by all Kobold Actions
+ *  it implements the slectionChanged method and stores the selected Objects
+ *  in their respective Variables
+ */
+public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 
-	//The selected Object
-	IResource currentSelection = null;
-	/**
-	 * Constructor for Action1.
-	 */
-	public AddAction() {
-		super();
-	}
-
-	/**
-	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
-	 */
-	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-	}
-
-	/**
-	 * @see IActionDelegate#run(IAction)
-	 */
-		public void run(IAction action) {
-			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
-			try
-			{
-				repoAccess.precheckout(testResource,IResource.DEPTH_INFINITE,null,true);
-			}
-			catch (Exception e)
-			{
-				// TODO: handle exception
-			}
-			Shell shell = new Shell();
-			MessageDialog.openInformation(
-				shell,
-				"Kobold VCM Plug-in",
-				"preAdd was executed.");
-//			repoAccess.checkin();
-			MessageDialog.openInformation(
-					shell,
-					"Kobold VCM Plug-in",
-					"Add was executed.");
-//			repoAccess.postcheckin();
-			MessageDialog.openInformation(
-					shell,
-					"Kobold VCM Plug-in",
-					"postadd was executed.");
-		}
-
-
+	private Productline selectedProductLine = null;
+	private Product selectedProduct = null;
+	protected Resource testResource[] = null;
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.ui.actions.TeamAction#isEnabled()
 	 */
-	protected boolean isEnabled() throws TeamException
-	{
-		
+	/**
+	 * In Iteration II this function should always return true as tere is no check
+	 * wether the User/Context is allowed to call this method
+	 */
+	protected boolean isEnabled() throws TeamException {
 		return true;
 	}
+
+	/**
+	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
+	 */
+	public void selectionChanged(IAction action, ISelection selection) {
+		if (selection instanceof IResource) {
+			testResource[0] = (Resource)selection;
+		}
+		
+	}
+
 }
