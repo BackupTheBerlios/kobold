@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.23 2004/06/22 14:11:25 bettina Exp $
+ * $Id: WorkflowMessage.java,v 1.24 2004/06/22 21:22:58 bettina Exp $
  *
  */
 package kobold.common.data;
@@ -148,6 +148,7 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 		
 		workflowType = data.elementTextTrim("workflow-id");
 		comment = data.elementTextTrim("comment");
+		step = Integer.valueOf(data.elementTextTrim("step")).intValue();
 
 		Element history = data.element("history");
 		Iterator it = history.elementIterator("parent");
@@ -188,6 +189,7 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 		Element el = super.serialize();
 		el.addElement("workflow-id").setText(workflowType);
 		el.addElement("comment").addCDATA(comment);
+		el.addElement("step").setText(String.valueOf(step));
 		
 		Element hist = el.addElement("history");
 		Iterator it = parents.iterator();
