@@ -2,7 +2,7 @@
 %% StuPro A, Produktlinien (Kobold)
 %% Team Werkbold
 %% Projektplan
-%% $Id: entwicklungsstandards.tex,v 1.7 2004/02/02 10:32:10 garbeam Exp $
+%% $Id: entwicklungsstandards.tex,v 1.8 2004/02/05 11:19:18 neccaino Exp $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Entwicklungsstandards}
@@ -10,9 +10,9 @@
 In diesem Kapitel werden die für die Entwicklung von \product
 festgesetzten Standards dokumentiert. Durch die Einführung
 bindender Standards für Schulungen, Projekt Tracing,
-Kundenintegration sowie Risiko- und Richtlinienmanagemnet wird
-eine sehr solide Grundlage für \product Produkt- und
-Projketqualitätssicherung gelegt.
+Kundenintegration sowie Risiko- und Richtlinienmanagement wird
+eine solide Grundlage für die \product Produkt- und
+Projektqualitätssicherung gelegt.
 
 \section{Risikomanagement}
 
@@ -32,23 +32,6 @@ durch das Team unterzogen. \par In jedem Fall sind die in den
 Risikodokumenten beschriebenen Verhaltensweisen für alle
 Teammitglieder bindend.
 
-\subsection{Risiken}
-
-\subsubsection{Nicht-Erfüllen von Meilensteinen}
-Sollte ein Meilenstein nicht erfüllt werden können, also die
-erwarteten Ergebnisse nicht geliefert werden oder die erwartete Qualität
-nicht erreicht werden, muss der Projektplan, insbesondere der Zeitplan,
-entsprechend angepasst werden.\par
-Sollte das nicht möglich sein, da keine ausreichenden Pufferzeiten vorhanden
-sind, müssen die Anforderungen in Übereinkunft mit dem Auftraggeber
-reduziert werden.
-
-\subsubsection{Ausfall von Team-Mitgliedern}
-Sollten Teammitglieder unerwartet ausfallen, müssen die Anforderungen
-ggf. reduziert werden und die Aufgabenverteilung angepasst
-werden. Wenn dies nicht möglich ist, muss in Übereinkunft mit dem
-Auftraggeber eine andere Lösung gefunden werden.
-
 \section{Richtlinien}
 
 Ähnlich den Risikodokumenten werden auch im Rahmen des
@@ -58,34 +41,6 @@ Dabei wird die Ausgestaltung dieser Dokumente als direkt
 anwendbare Checklisten angestrebt, bspw. für die Qualitättsprüfung
 am Ende einer Iteration oder für das Design eines bestimmten
 Dokuments.
-
-\subsection{GUI Guidelines}
-
-Die grafische Benutzungsoberfläche (GUI) des Clients wird nach den \emph{Eclipse
-User Interface Guidelines}\footnote{http://www.eclipse.org/articles/Article-UI-Guidelines/Contents.html}
-entwickelt.
-
-\subsection{Coding-Style-Guides}
-Jeder Java-Quellcode der im Rahmen dieses Projektes geschrieben wird unterliegt
-den \emph{Code Conventions for the Java Programming Language}\footnote{http://java.sun.com/docs/codeconv/index.html}
-Für Eclipse-spezifische Elemente gelten zudem die Regeln des Eclipse 
-Consortiums\footnote{http://dev.eclipse.org/conventions.html}.
-Die Einhaltung dieser Regeln wird mit den Tools PMD\footnote{http://pmd.sf.net} und
-Checkstyle\footnote{http://checkstyle.sf.net/} überprüft.
-
-\subsection{Configuration Management}
-Als Versionskontrolle wird CVS verwendet. Über das Repository werden
-Metriken mit dem Werkzeug statcvs-xml\footnote{http://statcvs-xml.berlios.de} erhoben.
-
-\subsection{Unit-Tests}
-
-Modultests werden unter zuhilfenahme des Testingframeworks JUnit\footnote{http://www.junit.org}
-für alle Nicht-GUI-Komponenten umfangreich durchgeführt.
-
-\subsection{Testüberdeckung}
-Die Testüberdeckung der Unit-Tests wird Werkzeugen wie Clover\footnote{http://www.thecortex.net/clover/}
-oder JCoverage\footnote{http://www.jcoverage.com/} gemessen.
-
 
 \section{Kundenintegration}
 
@@ -99,7 +54,12 @@ den Ergebnissen auch detailierte Vorschläge für die in der
 nächsten Iteration umsetzbaren Anforderungen unterbreitet.
 Darüberhinaus hat der Kunde im Rahmen dieses Verfahrens die
 Möglichkeit, mit der Projektleitung über die Aufnahme neuer
-Anforderungen in die laufende Entwicklung zu verhandeln.
+Anforderungen in die laufende Entwicklung zu verhandeln ("change
+requests").\par "Change requests" müssen in jedem Fall schriftlich
+an den Projektleiter gerichtet werden. Dies geschieht im Interesse
+des Kunden, da bei mündlichen Mitteilungen die Gefahr von
+Mißverständnissen und Problemen im Hinblick auf die spätere
+Nachvollziehbarkeit ungleich höher ist.
 
 \section{Schulungen}
 
