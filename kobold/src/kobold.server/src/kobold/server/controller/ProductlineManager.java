@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.11 2004/08/03 15:06:53 garbeam Exp $
+ * $Id: ProductlineManager.java,v 1.12 2004/08/03 16:46:35 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -151,11 +151,11 @@ public class ProductlineManager {
 		Document document = DocumentHelper.createDocument();
 		Element root = document.addElement("kobold");
 
-		Element products = root.addElement("productlines");
+		Element productlines = root.addElement("productlines");
 
 		for (Iterator it = this.productlines.values().iterator(); it.hasNext();) {
-			Productline productLine = (Productline) it.next();
-			products.add(productLine.serialize());
+			Productline productline = (Productline) it.next();
+			productlines.add(productline.serialize());
 		}
 
 		XMLWriter writer;

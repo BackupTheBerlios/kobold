@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.19 2004/08/02 10:31:50 garbeam Exp $
+ * $Id: Productline.java,v 1.20 2004/08/03 16:46:35 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -227,7 +227,7 @@ public class Productline extends Asset {
 		}
 		
 		Element productElements = element.element("products");
-		for (Iterator iterator = coreassetElements.elementIterator(Asset.PRODUCT);
+		for (Iterator iterator = productElements.elementIterator(Asset.PRODUCT);
 			 iterator.hasNext(); )
 		{
 			Element elem = (Element) iterator.next();

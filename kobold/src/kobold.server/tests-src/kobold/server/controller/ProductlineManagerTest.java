@@ -21,19 +21,31 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManagerTest.java,v 1.4 2004/08/03 15:07:18 garbeam Exp $
+ * $Id: ProductlineManagerTest.java,v 1.5 2004/08/03 16:46:35 garbeam Exp $
  *
  */
 
 package kobold.server.controller;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
+import java.util.logging.XMLFormatter;
 
 import org.apache.commons.id.uuid.state.InMemoryStateImpl;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 
 import junit.framework.TestCase;
 
+import kobold.common.data.Product;
 import kobold.common.data.Productline;
+import kobold.common.data.User;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.server.controller.ProductlineManager;
 
@@ -64,13 +76,24 @@ public class ProductlineManagerTest extends TestCase {
 						"pserver", "zucker.org", "/root/zucker", "zucker"));
 		
 		ProductlineManager manager = ProductlineManager.getInstance();
-		
+
+	    Document document = DocumentHelper.createDocument();
+	    Element elem = productline.serialize();
+	    document.setRootElement(elem);	
+	    OutputFormat outformat = OutputFormat.createPrettyPrint();
+	    try {
+            XMLWriter writer = new XMLWriter(System.out, outformat);
+            writer.write(document);
+            writer.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+	
 		manager.addProductline(productline);
-	
-	}
-	
-	public void testDeserialize() {
-	    ProductlineManager manager = ProductlineManager.getInstance();
+
 	    Productline pl = null;
 		
 	    Vector names = manager.getProductlineNames();
@@ -89,5 +112,39 @@ public class ProductlineManagerTest extends TestCase {
 		assertTrue(repositoryDescriptor.getHost().equals("zucker.org"));
 		
 		manager.removeProductline("zucker");
+		
+		pl = null;
+		names = manager.getProductlineNames();
+	    for (Iterator iterator = names.iterator(); iterator.hasNext();) {
+	        String id = (String) iterator.next();
+	        String name = (String)iterator.next();
+	        if ("kobold2".equals(name)) {
+	            pl = manager.getProductline(id);
+	            break;
+	        }
+	    }
+	    
+        assertTrue(pl != null);
+	    
+	    document = DocumentHelper.createDocument();
+	    elem = pl.serialize();
+	    document.setRootElement(elem);
+	      
+	    outformat = OutputFormat.createPrettyPrint();
+	    try {
+            XMLWriter writer = new XMLWriter(System.out, outformat);
+            writer.write(document);
+            writer.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+	    Product hallo = pl.getProduct("hallo");
+	    assertTrue(hallo != null);
+	    System.out.println("product: " + hallo.getName());
+	    List maintainer = hallo.getMaintainers();
 	}
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.12 2004/08/02 10:31:50 garbeam Exp $
+ * $Id: Product.java,v 1.13 2004/08/03 16:46:35 garbeam Exp $
  *
  */
 
@@ -61,7 +61,7 @@ public class Product extends Asset {
 	 * @param the DOM element representing this asset.
 	 */
 	public Product (Productline productline, Element element) {
-		super(productline);
+	    super(productline);
 		deserialize(element);
 	}
 	

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Asset.java,v 1.4 2004/08/02 10:31:50 garbeam Exp $
+ * $Id: Asset.java,v 1.5 2004/08/03 16:46:35 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -129,7 +129,7 @@ public class Asset implements ISerializable {
 		this.repositoryDescriptor =
 			new RepositoryDescriptor(element.element("repository-descriptor"));
 		Element maintainerElements = element.element("maintainers");
-		for (Iterator iterator = maintainerElements.elementIterator("maintainer");
+		for (Iterator iterator = maintainerElements.elementIterator("user");
 		     iterator.hasNext(); )
 		{
 			Element elem = (Element) iterator.next();
