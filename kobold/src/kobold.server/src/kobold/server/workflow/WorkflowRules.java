@@ -207,13 +207,13 @@ public class WorkflowRules {
 		no4.addParameterDeclaration(dec4);
 		no4.setConsequence(new BlockConsequence(""+
 
-		"kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
+		"kobold.common.data.KoboldMessage answer = new kobold.common.data.KoboldMessage();"+
 		"answer.setSender(msg.getSender());"+
-		"answer.addParentId(msg.getId());"+
+	//	"answer.addParentId(msg.getId());"+
 		
-		"kobold.common.data.WorkflowItem[] controls = msg.getWorkflowControls();"+
+	//	"kobold.common.data.WorkflowItem[] controls = msg.getWorkflowControls();"+
 
-		"answer.setStep(msg.getStep()+1);" +
+	//	"answer.setStep(msg.getStep()+1);" +
 		
 		
 		
@@ -228,10 +228,10 @@ public class WorkflowRules {
 		"answer.setMessageText(msg.getComment());"+
 
 		//add reply
-		"kobold.common.data.WorkflowItem recip = new kobold.common.data.WorkflowItem(\"\",\"Recipient: \",kobold.common.data.WorkflowItem.TEXT);"+
-		"kobold.common.data.WorkflowItem subj = new kobold.common.data.WorkflowItem(\"true\",\"Subject: \",kobold.common.data.WorkflowItem.TEXT);"+
-		"answer.addWorkflowControl(recip);"+
-		"answer.addWorkflowControl(subj);" +
+	//	"kobold.common.data.WorkflowItem recip = new kobold.common.data.WorkflowItem(\"\",\"Recipient: \",kobold.common.data.WorkflowItem.TEXT);"+
+	//	"kobold.common.data.WorkflowItem subj = new kobold.common.data.WorkflowItem(\"true\",\"Subject: \",kobold.common.data.WorkflowItem.TEXT);"+
+	//	"answer.addWorkflowControl(recip);"+
+	//	"answer.addWorkflowControl(subj);" +
 			
 		"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);"));
 		
