@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.16 2004/06/28 01:17:42 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.17 2004/06/28 14:50:04 martinplies Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -30,9 +30,9 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import kobold.client.action.GXLExportAction;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.PLAMProject;
+import kobold.client.plam.editor.action.GXLExportAction;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModelContainer;
 import kobold.common.model.AbstractRootAsset;
@@ -183,7 +183,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 
 		ContextMenuProvider provider = new KoboldContextMenuProvider(viewer, getActionRegistry());
 		viewer.setContextMenu(provider);
-		getSite().registerContextMenu("kobold.client.plam.editor.contextmenu", //$NON-NLS-1$
+		getSite().registerContextMenu(GXLExportAction.ID, //$NON-NLS-1$
 				provider, viewer);
 
 		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer)

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.5 2004/06/28 00:38:11 martinplies Exp $
+ * $Id: GXLExportDialog.java,v 1.6 2004/06/28 14:50:04 martinplies Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -44,7 +44,6 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -54,7 +53,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -86,8 +84,8 @@ public class GXLExportDialog extends Dialog{
 	
 	
 	protected void createButtonsForButtonBar(Composite parent) {
-        createButton(parent, IDialogConstants.OK_ID, Messages.getString("OK"), true);
-		createButton(parent, IDialogConstants.CANCEL_ID, Messages.getString("Close"), false);		
+        createButton(parent, IDialogConstants.OK_ID, Messages.getString("GXLExportDialog.OK"), true); //$NON-NLS-1$
+		createButton(parent, IDialogConstants.CANCEL_ID, Messages.getString("GXLExportDialog.Close"), false);		 //$NON-NLS-1$
 	}
 	
 	protected Control createDialogArea(Composite parent) {
@@ -102,10 +100,10 @@ public class GXLExportDialog extends Dialog{
 		// jar export
 		buttonJarExport = new Button(exportGroup, SWT.CHECK);
 		buttonJarExport.setEnabled(false); // is not yet implemented
-		buttonJarExport.setText(Messages.getString("CheckBNameJarExport"));
+		buttonJarExport.setText(Messages.getString("GXLExportDialog.CheckBNameJarExport")); //$NON-NLS-1$
 		
 		Label label1 = new Label(exportGroup,SWT.NONE);
-		label1.setText(Messages.getString("GroupNameJarExport"));
+		label1.setText(Messages.getString("GXLExportDialog.GroupNameJarExport")); //$NON-NLS-1$
 		jarExportGroup = new Group(exportGroup, SWT.NONE);
 		layout = new GridLayout();
 		layout.numColumns = 2;
@@ -117,7 +115,7 @@ public class GXLExportDialog extends Dialog{
         gd.widthHint = 300;
         textJarFile.setLayoutData(gd);
 		searchJARFileButton = new Button(jarExportGroup,SWT.PUSH);
-	    searchJARFileButton.setText(Messages.getString("ButtonBrowse"));
+	    searchJARFileButton.setText(Messages.getString("GXLExportDialog.ButtonBrowse")); //$NON-NLS-1$
 		searchJARFileButton.addListener(SWT.Selection ,new Listener(){
 			public void handleEvent(Event event) {
 				FileDialog fd = new FileDialog(GXLExportDialog.this.getShell(),SWT.SAVE);
@@ -147,7 +145,7 @@ public class GXLExportDialog extends Dialog{
 		// gxl export
 		new Label(exportGroup,SWT.NONE);
 		Label label2 = new Label(exportGroup,SWT.NONE);
-		label2.setText(Messages.getString("GroupNameGXLExport"));
+		label2.setText(Messages.getString("GXLExportDialog.GroupNameGXLExport")); //$NON-NLS-1$
 		Group gxlExportGroup = new Group(exportGroup, SWT.NONE);
 		layout = new GridLayout();
 		layout.numColumns = 2;
@@ -159,7 +157,7 @@ public class GXLExportDialog extends Dialog{
         gd1.widthHint = 300;    
         textGxlFile.setLayoutData(gd1);
 		Button searchGXLFileButton = new Button(gxlExportGroup,SWT.PUSH);
-		searchGXLFileButton.setText(Messages.getString("Browse"));
+		searchGXLFileButton.setText(Messages.getString("GXLExportDialog.Browse")); //$NON-NLS-1$
 		searchGXLFileButton.addListener(SWT.Selection ,new Listener(){
 			public void handleEvent(Event event) {
 				FileDialog fd = new FileDialog(GXLExportDialog.this.getShell(),SWT.SAVE);
@@ -181,28 +179,28 @@ public class GXLExportDialog extends Dialog{
 				  this.close();
 			    } else {
 			        MessageBox mb = new MessageBox(this.getShell(), SWT.ICON_ERROR| SWT.OK);
-			        mb.setMessage(Messages.getString("InvalidPathMessage")+"\n\""+textGxlFile.getText()+"\"");
+			        mb.setMessage(Messages.getString("GXLExportDialog.InvalidPathMessage")+"\n\""+textGxlFile.getText()+"\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			        mb.open();
 			    }
 			}catch (Exception ex) {
 			    MessageBox mb = new MessageBox(this.getShell(), SWT.ICON_ERROR| SWT.OK);
-		        mb.setMessage(Messages.getString("ErrorMessage")+ ex.getMessage());
+		        mb.setMessage(Messages.getString("GXLExportDialog.ErrorMessage")+ ex.getMessage()); //$NON-NLS-1$
 		        mb.open();
 		    }			
 	}
 	
 	private AbstractAsset createGraph() {
-		Component c0 = new Component("name c0");
-		User u = new User("pliesmn");
+		Component c0 = new Component("name c0"); //$NON-NLS-1$
+		User u = new User("pliesmn"); //$NON-NLS-1$
 		c0.addMaintainer(u);
-		c0.setDescription("description c0");
-		Component c1 = new Component("name c1");
+		c0.setDescription("description c0"); //$NON-NLS-1$
+		Component c1 = new Component("name c1"); //$NON-NLS-1$
 		c1.addMaintainer(u);
-		c1.setDescription("description c1");
-		Component c2 = new Component("name c2");
+		c1.setDescription("description c1"); //$NON-NLS-1$
+		Component c2 = new Component("name c2"); //$NON-NLS-1$
 		c2.addMaintainer(u);
-		c2.setDescription("description c2");
-		Variant v1 = new Variant ("name v1");
+		c2.setDescription("description c2"); //$NON-NLS-1$
+		Variant v1 = new Variant ("name v1"); //$NON-NLS-1$
 		v1.addComponent(c1);
 		v1.addComponent(c2);
 		c0.addVariant(v1);
@@ -214,11 +212,11 @@ public class GXLExportDialog extends Dialog{
 	}
 	
 	public void exportFiles(AbstractAsset asset,File jarFile)  {
-      System.out.println("exportFiles");
+      System.out.println(Messages.getString("GXLExportDialog.exportFiles")); //$NON-NLS-1$
 	}
 	
 	public void exportGraph(AbstractAsset asset,File gxlFile)  {
-		GXLGraph graph = new GXLGraph("koboldgraph");
+		GXLGraph graph = new GXLGraph("koboldgraph"); //$NON-NLS-1$
 		GXLDocument doc = new GXLDocument();
 		try {
             graph.add(asset.getGXLGraph());

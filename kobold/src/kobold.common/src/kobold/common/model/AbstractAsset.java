@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.16 2004/06/28 01:17:37 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.17 2004/06/28 14:50:03 martinplies Exp $
  *
  */
 package kobold.common.model;
@@ -109,8 +109,8 @@ public abstract class AbstractAsset implements ISerializable
     	
     	if (this instanceof IGXLExport) {
     		IGXLExport thisGXL = (IGXLExport) this;
-      	    GXLNode node = new GXLNode(IdManager.getInstance().getMessageId(id));
-			//node.setAttr("id", new GXLString(id));
+      	    GXLNode node = new GXLNode(id);
+      	    node.setType(URI.create(thisGXL.getGXLType()));
     		if (name != null) {
 			  node.setAttr("name",new GXLString(name));
     		}
@@ -140,8 +140,7 @@ public abstract class AbstractAsset implements ISerializable
 			  node.add(graph);
 			}
 
-			node.setType(URI.create(thisGXL.getGXLType()));
-    	return node;
+    	    return node;
     	} else {
     		throw new GXLException(this.getClass()+" implements not IGXLExport");
     	}

@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldContextMenuProvider.java,v 1.2 2004/06/24 23:44:05 grosseml Exp $
+ * $Id: KoboldContextMenuProvider.java,v 1.3 2004/06/28 14:50:04 martinplies Exp $
  *
  */
 
 package kobold.client.plam.editor;
+
+import kobold.client.plam.editor.action.GXLExportAction;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
@@ -77,7 +79,7 @@ public class KoboldContextMenuProvider extends ContextMenuProvider
     	if (action.isEnabled())
     		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 
-    	action = getActionRegistry().getAction("kobold.client.action.GXLExportAction");
+    	action = getActionRegistry().getAction(GXLExportAction.ID);
     	menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
     	
     	// Alignment Actions

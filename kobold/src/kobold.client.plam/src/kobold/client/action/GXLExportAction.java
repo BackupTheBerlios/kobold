@@ -1,49 +1,57 @@
 /*
- * Created on 24.06.2004
+ * Created on 28.06.2004
  *
  * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+ * Window - Preferences - Java - Code Style - Code Templates
  */
 package kobold.client.action;
 
 import kobold.client.plam.wizard.GXLExportDialog;
 import kobold.common.model.AbstractAsset;
 
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.actions.ActionDelegate;
 
 /**
- * @author MiG
+ * @author meiner
  *
  * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+ * Window - Preferences - Java - Code Style - Code Templates
  */
-public class GXLExportAction extends SelectionAction {
+public class GXLExportAction extends ActionDelegate {
 
-	public GXLExportAction(IWorkbenchPart part) {
-		super(part);
-		setId("kobold.client.action.GXLExportAction");
-		setText("Export");
-		setLazyEnablementCalculation(true);
-		setEnabled(true);
-	}
-	
-	public void run() {
-		Shell shell = getWorkbenchPart().getSite().getShell();
-		AbstractAsset asset = (AbstractAsset)((EditPart)getSelectedObjects().get(0)).getModel();
-		System.out.println(asset);
-		GXLExportDialog ged = new GXLExportDialog(shell, asset);
-		ged.open();
-	}
+    private AbstractAsset selectedAsset;
+    /**
+     * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+     */
+    public void run(IAction action) {
+        if (selectedAsset != null) {
+            Shell shell = Display.getDefault().getActiveShell(); 
+            GXLExportDialog ged = new GXLExportDialog(shell, selectedAsset);
+            ged.open();
+        }
+    }
+    
+    /**
+     * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+     */
+    public void selectionChanged(IAction action, ISelection selection) {
+       IStructuredSelection structSel = (StructuredSelection)selection;
+       boolean enable = false;
+       selectedAsset = null;
+       if (structSel.getFirstElement() instanceof AbstractAsset) {
+           selectedAsset = (AbstractAsset)structSel.getFirstElement();
+           enable = true;
+       }
+       
+       if (action != null) {
+           action.setEnabled(enable);
+       }
 
-	protected boolean calculateEnabled() {
-		if ((getSelectedObjects().size() == 1) 
-			&& (getSelectedObjects().get(0) instanceof AbstractAsset)) {
-			// FIXME
-		    return true;
-		}
-		return true;
-	}
+    }
 }
