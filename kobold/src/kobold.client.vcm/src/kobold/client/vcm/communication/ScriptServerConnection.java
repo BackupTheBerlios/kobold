@@ -521,7 +521,7 @@ public class ScriptServerConnection implements IServerConnection
 	 */
 	private void setUserPassword (String userPassword)
 	{
-		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("userPassword",userPassword);
+		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("User Password",userPassword);
 	}
 
 	/**
