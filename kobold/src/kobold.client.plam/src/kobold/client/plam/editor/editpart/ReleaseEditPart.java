@@ -21,15 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ReleaseEditPart.java,v 1.4 2004/07/23 22:27:11 vanto Exp $
+ * $Id: ReleaseEditPart.java,v 1.5 2004/08/06 01:30:02 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
 import kobold.client.plam.editor.figure.ReleaseFigure;
+import kobold.client.plam.editor.policy.FlowLayoutEditPolicyImpl;
 import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
 
 
 /**
@@ -58,6 +60,7 @@ public class ReleaseEditPart extends AbstractComposableEditPart
     protected void createEditPolicies()
     {
         super.createEditPolicies();
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new FlowLayoutEditPolicyImpl());
     }
     
     protected void refreshVisuals()

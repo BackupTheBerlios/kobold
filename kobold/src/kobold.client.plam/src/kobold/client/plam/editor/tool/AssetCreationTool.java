@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetCreationTool.java,v 1.1 2004/08/03 19:39:20 vanto Exp $
+ * $Id: AssetCreationTool.java,v 1.2 2004/08/06 01:30:02 vanto Exp $
  *
  */
 package kobold.client.plam.editor.tool;
@@ -65,7 +65,7 @@ public class AssetCreationTool extends CreationTool
         super.performCreation(button);
         
     	final Object model = getCreateRequest().getNewObject();
-    	if ((model != null) && (model instanceof AbstractAsset) && !(model instanceof MetaNode)) {
+    	if ((thisCommand.canExecute()) && (model != null) && (model instanceof AbstractAsset) && !(model instanceof MetaNode)) {
     	    AssetConfigurationDialog dlg = new AssetConfigurationDialog(getCurrentViewer().getControl().getShell(), (AbstractAsset)model);
     	    CommandStack cs = getDomain().getCommandStack();
     	    if (dlg.open() == Dialog.CANCEL && cs.canUndo()

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantEditPart.java,v 1.12 2004/08/05 20:42:31 vanto Exp $
+ * $Id: VariantEditPart.java,v 1.13 2004/08/06 01:30:02 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -31,6 +31,7 @@ import java.util.List;
 
 import kobold.client.plam.editor.figure.VariantFigure;
 import kobold.client.plam.editor.policy.VariantContainerEditPolicy;
+import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
 import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.productline.Variant;
@@ -45,7 +46,7 @@ import org.eclipse.gef.GraphicalEditPart;
  * VariantEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: VariantEditPart.java,v 1.12 2004/08/05 20:42:31 vanto Exp $
+ * @version $Id: VariantEditPart.java,v 1.13 2004/08/06 01:30:02 vanto Exp $
  */
 public class VariantEditPart extends AbstractComposableEditPart 
 {
@@ -98,6 +99,7 @@ public class VariantEditPart extends AbstractComposableEditPart
     protected void createEditPolicies()
     {
         super.createEditPolicies();
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicyImpl());
         installEditPolicy(EditPolicy.CONTAINER_ROLE, new VariantContainerEditPolicy());
     }
 

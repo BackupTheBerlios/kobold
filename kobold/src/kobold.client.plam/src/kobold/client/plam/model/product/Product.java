@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.14 2004/08/05 19:09:16 grosseml Exp $
+ * $Id: Product.java,v 1.15 2004/08/06 01:30:02 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -180,7 +180,7 @@ public class Product extends AbstractRootAsset
 	 *
 	 * @param component contains the new component
 	 */
-	public void addComponent(AbstractAsset component) {
+	public void addComponent(ProductComponent component) {
 		addToPool();
 		if (component instanceof SpecificComponent) {
 			specificComponents.add((SpecificComponent)component);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.29 2004/08/04 22:40:57 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.30 2004/08/06 01:30:02 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -40,6 +40,7 @@ import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
@@ -199,9 +200,15 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     	    return list.toArray();
 
     	} else if ((parentElement instanceof TreeContainer) 
-    	        && ((TreeContainer)parentElement).id.equals("users")) {
-
-    	    return ((TreeContainer)parentElement).productline.getKoboldProject().getUserPool().values().toArray();
+    	        && ((TreeContainer)parentElement).id.equals("products")) {
+    	    return ((TreeContainer)parentElement).productline.getProducts().toArray();
+    	} else if (parentElement instanceof Product) {
+    	    List list = new ArrayList();
+    	    list.addAll(((Product)parentElement).getRelatedComponents());
+    	    list.addAll(((Product)parentElement).getSpecificComponents());
+    	    list.addAll(((Product)parentElement).getProductReleases());
+    	    list.addAll(((Product)parentElement).getMaintainers());
+    	    return list.toArray();
     	}
     	     
         return new Object[0];

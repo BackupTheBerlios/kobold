@@ -21,47 +21,54 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaEditPart.java,v 1.3 2004/08/06 01:30:02 vanto Exp $
+ * $Id: FlowLayoutEditPolicyImpl.java,v 1.1 2004/08/06 01:30:02 vanto Exp $
  *
  */
-package kobold.client.plam.editor.editpart;
+package kobold.client.plam.editor.policy;
 
-import kobold.client.plam.editor.KoboldColors;
-import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
-import kobold.client.plam.model.MetaNode;
-
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.RoundedRectangle;
-import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.editpolicies.FlowLayoutEditPolicy;
+import org.eclipse.gef.requests.CreateRequest;
 
 
 /**
  * @author Tammo
  */
-public class MetaEditPart extends AbstractAssetEditPart
+public class FlowLayoutEditPolicyImpl extends FlowLayoutEditPolicy
 {
-    private Label label;
-    
+
     /**
-     * @see kobold.client.plam.editor.editpart.AbstractAssetEditPart#createNodeFigure()
+     * @see org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)
      */
-    protected IFigure createNodeFigure()
+    protected Command createAddCommand(EditPart child, EditPart after)
     {
-        RoundedRectangle rect = new RoundedRectangle();
-        
-        String l = getAsset().getType().equals(MetaNode.AND) ? "AND" : "OR";
-        rect.setBackgroundColor(getAsset().getType().equals(MetaNode.AND)
-            	? KoboldColors.andMeta
-            	: KoboldColors.orMeta);
-        label = new Label(l);
-        rect.add(label);
-        return rect;
+        return null;
     }
-    
-    protected void createEditPolicies()
+
+    /**
+     * @see org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy#createMoveChildCommand(org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)
+     */
+    protected Command createMoveChildCommand(EditPart child, EditPart after)
     {
-        super.createEditPolicies();
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicyImpl());
+        return null;
     }
+
+    /**
+     * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
+     */
+    protected Command getCreateCommand(CreateRequest request)
+    {
+        return null;
+    }
+
+    /**
+     * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.eclipse.gef.Request)
+     */
+    protected Command getDeleteDependantCommand(Request request)
+    {
+        return null;
+    }
+
 }

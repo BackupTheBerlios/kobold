@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.6 2004/08/05 23:01:24 martinplies Exp $
+ * $Id: RelatedComponent.java,v 1.7 2004/08/06 01:30:02 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -33,7 +33,6 @@ import java.util.Map;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.Release;
-import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Variant;
 
 import org.dom4j.Element;
