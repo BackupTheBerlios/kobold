@@ -186,18 +186,18 @@
         </parameter>
         <java:condition>(spy.getMethodName().equals("addUser"))</java:condition>
         <java:consequence>
-            kobold.common.data.KoboldMessage answer = new kobold.common.data.KoboldMessage();
-			answer.setSender("Kobold");
-			answer.setSubject("new user");
-			java.util.Vector args = spy.getArguments();
-			answer.setMessageText("The user " + args.get(1) + " has been added to Kobold.");
-			//send out the message to all users
+        	//send out the message to all users
 			java.util.List users = kobold.server.controller.UserManager.getInstance().getAllUsers();
 			java.util.Iterator iterator = users.iterator();
 			while (iterator.hasNext()) {
+         	    kobold.common.data.KoboldMessage answer = new kobold.common.data.KoboldMessage();
+				answer.setSender("Kobold");
+				answer.setSubject("new user");
+				java.util.Vector args = spy.getArguments();
+				answer.setMessageText("The user " + args.get(1) + " has been added to Kobold.");	
 			    kobold.common.data.User user = (kobold.common.data.User)iterator.next();
 			    answer.setReceiver(user.getUsername());
-			    if (!(answer.getReceiver().equals(args.get(0)))) { 
+			    if (!(answer.getReceiver().equals(args.get(1)))) { 
 			    	System.out.println(answer.getReceiver());
 					kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
 				}
