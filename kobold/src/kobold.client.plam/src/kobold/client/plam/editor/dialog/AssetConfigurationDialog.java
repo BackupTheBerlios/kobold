@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.39 2004/11/05 10:32:32 grosseml Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.40 2004/11/22 17:10:25 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -459,14 +459,34 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     	    table.setLayout(layout);
             cbViewer = new CheckboxTableViewer(table);
             cbViewer.setContentProvider(new IStructuredContentProvider() {
+                public void prepList(List l, FileDescriptor fd) {
+                    if (fd == null) {
+                        return;
+                    }
+                    List fds = fd.getFileDescriptors();
+                    if (fds != null) {
+	                    for (Iterator it = fds.iterator(); it.hasNext();) {
+	                        prepList(l, (FileDescriptor)it.next());
+	                    }
+                    }
+                    l.add(fd);
+                }
                 public Object[] getElements(Object input) {
                     if (input instanceof Variant) {
+                        List l = new ArrayList();
                         Variant variant = (Variant) input;
-                        return variant.getFileDescriptors().toArray();
+                        for (Iterator it = variant.getFileDescriptors().iterator(); it.hasNext();) {
+                			prepList(l, (FileDescriptor)it.next());
+            			}
+                        return l.toArray();
                     }
                     else if (input instanceof IFileDescriptorContainer) {
+                        List l = new ArrayList();
                         IFileDescriptorContainer fd = (IFileDescriptorContainer) input;
-                        return fd.getFileDescriptors().toArray();
+                        for (Iterator it = fd.getFileDescriptors().iterator(); it.hasNext();) {
+                			prepList(l, (FileDescriptor)it.next());
+            			}
+                        return l.toArray();
                     }
                     return new Object[0];
                 }
