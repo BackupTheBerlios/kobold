@@ -21,13 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeprecatedStatus.java,v 1.1 2004/06/22 00:57:41 vanto Exp $
+ * $Id: DeprecatedStatus.java,v 1.2 2004/06/22 11:29:15 vanto Exp $
  *
  */
 package kobold.common.model;
 
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 

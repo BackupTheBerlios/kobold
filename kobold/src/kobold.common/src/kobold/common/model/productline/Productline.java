@@ -21,28 +21,23 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.2 2004/06/22 00:57:41 vanto Exp $
+ * $Id: Productline.java,v 1.3 2004/06/22 11:29:15 vanto Exp $
  *
  */
 package kobold.common.model.productline;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.product.Product;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
 
 /**
  * @author rendgeor
@@ -50,150 +45,115 @@ import org.dom4j.io.XMLWriter;
 public class Productline extends AbstractAsset{
 
 	//the products and core-assets
-	private HashMap products;
-	private HashMap coreAssets;
+	private List products = new ArrayList();
+	private List coreAssets = new ArrayList();
 	
 	//the repository-path
 	String repositoryPath;
 	
-	
-
-	//create a instance
-	//static private Productline instance;
-
-	/*static public Productline getInstance() {
-		 if (instance == null ) {
-		 	 instance = new Productline("PL");
-		 }
-		 return instance;
-	}	
-	*/
-	
-	/**Basic constructor
-	 */
 	public Productline(String name) {
 		super(name);
-		
-		products = new HashMap ();
-		coreAssets = new HashMap ();
-		
-		//no other parents
 		setParent(null);
-	
 	}
 
 
-	
 	/**
-	 * Adds a new product.
+	 * Adds a product and sets its parent to this.
 	 *
-	 * @param product String containing the new productname
 	 */
 	public void addProduct(Product product) {
-		products.put(product.getName(), product);
-		//set parent
+		products.add(product);
 		product.setParent(this);
 	}
 
 	/**
-	 * Removes a product
+	 * Removes a product and sets its parent to null.
 	 * 
 	 * @param product The product to remove.
 	 */
-	public void removeProduct (Product product){
+	public void removeProduct(Product product){
 		products.remove(product);
+		product.setParent(null);
 	}
 		
+	/**
+	 * Returns an unmodifiable list of products.
+	 * 
+	 */
+	public List getProducts()
+	{
+	    return Collections.unmodifiableList(products);
+	}
 	
 	/**
-	 * Adds a new coreAsset.
+	 * Adds a CoreAsset (Component) and sets its parent to this.
 	 *
-	 * @param coreAsset String containing the new coreAssetname
 	 */
 	public void addCoreAsset(Component coreAsset) {
-		coreAssets.put(coreAsset.getName(), coreAsset);
-		//set parent
+		coreAssets.add(coreAsset);
 		coreAsset.setParent(this);
 	}
 
 	/**
-	 * Removes a coreAsset
+	 * Removes a CoreAsset and sets its parent to null.
 	 * 
 	 * @param product The coreAsset to remove.
 	 */
 	public void removeProduct (Component coreAsset){
 		coreAssets.remove(coreAsset);
+		coreAsset.setParent(null);
 	}
 	
 	
 	/**
 	 * Serializes the productline.
 	 * @see kobold.common.data.plam.Product#serialize(org.dom4j.Element)
-	 * @param serializeLevel defines the part of the metadata to serialize
 	 */
-	public void serialize(String path, int serializeLevel) {
-
-		Document document = DocumentHelper.createDocument();
-		Element root = document.addElement("productline");
-		root.addText(getName());
+	public Element serialize() {
+		Element root = super.serialize();
 		
 		//serialize all products and coreAssets
-		
-		//now all products
-		if (this.products.values().iterator().hasNext())
-		{
-			Element productsElement = root.addElement("products");
-	
-			//serialize each product
-			for (Iterator it = this.products.values().iterator(); it.hasNext();) {
-				Product product = (Product) it.next();
-				productsElement.add(product.serialize());
-			}
-		}
-		
-		//now all coreAssets
-		if (this.coreAssets.values().iterator().hasNext())
-		{
-			Element coreAssetElement = root.addElement("coreAssets");		
+		Element productsEl = root.addElement("products");
+		for (Iterator it = products.iterator(); it.hasNext();) {
+			Product product = (Product) it.next();
 			
-			for (Iterator it = this.coreAssets.values().iterator(); it.hasNext();) {
-				Component product = (Component) it.next();
-				coreAssetElement.add(product.serialize());
-			}
+			// FIXME: Store only a file reference to the product here. 
+			// FIXME: Save the whole project in its own directory.
+			// FIXME: productsEl.add(product.serialize());
 		}
 		
-		if (getRepositoryPath() != null)
-		{
-			Element repositoryPathElement = root.addElement ("repositoryPath");
-			root.addText (getRepositoryPath());
+		Element coreAssetsEl = root.addElement("coreassets");		
+		for (Iterator it = coreAssets.iterator(); it.hasNext();) {
+			Component product = (Component) it.next();
+			// FIXME: Store only a file reference to the product here. 
+			// FIXME: Save the whole coreasset in its own directory.
+			// FIXME: coreAssetsEl.add(product.serialize());
 		}
-
 		
-		//write it to an xml-file
-		 XMLWriter writer;
-		try {
-			writer = new XMLWriter(new FileWriter(path));
-			writer.write(document);
-			writer.close();
-		} catch (IOException e) {
-			Log log = LogFactory.getLog("kobold....");
-			log.error(e);
-		}	
-	
+		if (repositoryPath != null) {
+			root.addAttribute("repositoryPath", repositoryPath);
+		}
+		
+		return root;
 	}
 
-	/**
-	 * not used
-	 */
-	public Element serialize () {
-		serialize ("bla.xml", 0);
-		Element element = DocumentHelper.createElement("bla");;
-		return element;
-	}
 	
 	public void deserialize(Element element) {
-	deserialize("bla.xml");
+	    super.deserialize(element);
+	    repositoryPath = element.attributeValue("repositoryPath");
+	    
+		Iterator it = element.element("products").elementIterator(AbstractAsset.PRODUCT);
+		while (it.hasNext()) {
+		    Element pEl = (Element)it.next();
+		    /* FIXME: load and create the product by finding its local path and 
+		     		  deserializing it from there.
+		    */
+		    // FIXME: addProduct(AbstractAsset.createProduct(localPath));
+		}
+		
+		// FIXME: Same here with coreassets.
 	}
+	
 	/**
 	 * Deserializes all products and coreAssets from the specified file.
 	 * 
@@ -210,23 +170,7 @@ public class Productline extends AbstractAsset{
 			//log.error(e);
 		}
 
-		//all products				
-		List listP = document.selectNodes( "/products/product" );
-		for (Iterator iter = listP.iterator(); iter.hasNext(); ) {
-			Element element = (Element) iter.next();
-			Product product = new Product(element);
-			products.put(product.getName(), product);
-		}
-
-		//all coreAssets				
-		List listCA = document.selectNodes( "/coreAssets/coreAsset" );
-		for (Iterator iter = listP.iterator(); iter.hasNext(); ) {
-			Element element = (Element) iter.next();
-			Component product = new Component(element);
-			coreAssets.put(product.getName(), product);
-		}
-
-	
+		deserialize(document.getRootElement());
 	}
 
 	/**
@@ -235,9 +179,6 @@ public class Productline extends AbstractAsset{
 	public String getType() {
 		return AbstractAsset.PRODUCT_LINE;
 	}
-
- 
-
 	
 	/**
 	 * @return Returns the repositoryPath.

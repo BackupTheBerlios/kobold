@@ -21,14 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Release.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
+ * $Id: Release.java,v 1.2 2004/06/22 11:29:15 vanto Exp $
  *
  */
 
 package kobold.common.model;
 
 
-import org.dom4j.DocumentHelper;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import org.dom4j.Element;
 
 //import java.util.HashMap;
@@ -39,16 +43,14 @@ import org.dom4j.Element;
  */
 public class Release extends AbstractAsset {
 
-	private FileDescriptor fileDescriptor;
+    private List fileDescriptors = new ArrayList();
+
 	/**
 	 * Basic constructor.
 	 * @param versionName
 	 */
-	public Release (String versionName) {
-		setName (versionName);
-		
-		//fileDescriptor = new FileDescriptor ("fd_unnamed");
-
+	public Release (String releaseName) {
+	    super(releaseName);
 	}
 	
 	/**
@@ -56,9 +58,6 @@ public class Release extends AbstractAsset {
 	 * @param productName
 	 */
 	public Release (Element element) {
-
-		//fileDescriptor = new FileDescriptor ("fd_unnamed");
-		
 		deserialize(element);
 	}
 	
@@ -67,18 +66,16 @@ public class Release extends AbstractAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element versionElement = DocumentHelper.createElement("version");
-		versionElement.addText(getName());
+	    Element element = super.serialize();
 
-		if (fileDescriptor != null)
-		{
-			//now all fd'S
-			//Element fdElement = versionElement.addElement ("fds");
-		
-			//serialize the fd
-			versionElement.add (fileDescriptor.serialize ());
-		}
-		return versionElement;
+	    Element fdsEl = element.addElement("filedescriptors");
+	    
+	    for (Iterator it = fileDescriptors.iterator(); it.hasNext();) {
+            FileDescriptor fd = (FileDescriptor) it.next();
+            fdsEl.add(fd.serialize());
+        } 
+
+		return element;
 
 	}
 
@@ -87,9 +84,11 @@ public class Release extends AbstractAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		Element product = element.element("product");
-		setName (element.getText ());
-		//this.productLineName = element.elementText("productline");
+	    Iterator it = element.element("filedescriptors").elementIterator(AbstractAsset.FILE_DESCRIPTOR);
+		while (it.hasNext()) {
+		    Element fdEl = (Element)it.next();
+		    addFileDescriptor(new FileDescriptor(fdEl));
+		}
 	}
 
 	/**
@@ -104,8 +103,9 @@ public class Release extends AbstractAsset {
 	/**
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
-	public String getType() {
-		return AbstractAsset.VERSION;
+	public String getType() 
+	{
+		return AbstractAsset.RELEASE;
 	}
 
 	/**
@@ -113,11 +113,22 @@ public class Release extends AbstractAsset {
 	 *
 	 * @param fileDescriptor contains the new fileDescriptor
 	 */
-	public void addFileDescriptor(FileDescriptor fileDescriptor) {
-		this.fileDescriptor = fileDescriptor;
+	public void addFileDescriptor(FileDescriptor fileDescriptor) 
+	{
+		fileDescriptors.add(fileDescriptor);
 		//set parent
 		fileDescriptor.setParent(this);
-
+	}
+	
+	public void removeFileDescriptor(FileDescriptor fd) 
+	{
+	    fileDescriptors.remove(fd);
+	    fd.setParent(null);
+	}
+	
+	public List getFileDescriptors() 
+	{
+	    return Collections.unmodifiableList(fileDescriptors);
 	}
     
 }

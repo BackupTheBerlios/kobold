@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.2 2004/06/22 00:57:41 vanto Exp $
+ * $Id: Variant.java,v 1.3 2004/06/22 11:29:15 vanto Exp $
  *
  */
 
 package kobold.common.model.productline;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,8 +36,10 @@ import kobold.common.model.AbstractAsset;
 import kobold.common.model.Release;
 
 import org.dom4j.Element;
+
 /**
  * @author garbeam
+ * @author vanto
  */
 public class Variant extends AbstractAsset {
 
@@ -62,8 +65,7 @@ public class Variant extends AbstractAsset {
 	
 
 	/**
-	 * Serializes the component.
-	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
+	 * @see kobold.common.data.ISerializable#serialize()
 	 */
 	public Element serialize() {
 		Element element = super.serialize();
@@ -86,21 +88,19 @@ public class Variant extends AbstractAsset {
 	}
 	
 
-
 	/**
-	 * Deserializes this product.
-	 * @param productName
+	 * @see kobold.common.data.ISerializable#deserialize(Element)
 	 */
 	public void deserialize(Element element) {
 		super.deserialize(element);
 		
-		Iterator it = element.element("components").elementIterator("asset");
+		Iterator it = element.element("components").elementIterator(AbstractAsset.COMPONENT);
 		while (it.hasNext()) {
 		    Element varEl = (Element)it.next();
 		    addComponent(new Component(varEl));
 		}
 		
-		it = element.element("variants").elementIterator("asset");
+		it = element.element("releases").elementIterator(AbstractAsset.RELEASE);
 		while (it.hasNext()) {
 		    Element varEl = (Element)it.next();
 		    addRelease(new Release(varEl));
@@ -108,14 +108,6 @@ public class Variant extends AbstractAsset {
 
 		
 	}
-
-	/**
-	 * @return name of the dependent productline.
-
-	public String getDependsName() {
-		return productLineName;
-	}
-	 */
 
 
 	/**
@@ -126,7 +118,7 @@ public class Variant extends AbstractAsset {
 	}
 
 	/**
-	 * Adds a new component.
+	 * Adds a component and sets its parent to this.
 	 *
 	 * @param component contains the new component
 	 */
@@ -135,15 +127,56 @@ public class Variant extends AbstractAsset {
 		component.setParent(this);
 	}
 
+	/**
+	 * Removes a component and sets its parent to null.
+	 * 
+	 * @param comp
+	 */
+	public void removeComponent(Component comp)
+	{
+	    components.remove(comp);
+	    comp.setParent(null);
+	}
 	
 	/**
-	 * Adds a new version.
+	 * Returns a unmodifiable list of components.
+	 * 
+	 * @return
+	 */
+	public List getComponents()
+	{
+	    return Collections.unmodifiableList(components);
+	}
+
+	
+	/**
+	 * Adds a version and sets its parent to this
 	 *
 	 * @param version contains the new version
 	 */
 	public void addRelease(Release release) {
 		releases.add(release);
 		release.setParent(this);
+	}
+
+	/**
+	 * Removes a release and sets its parent to null.
+	 * 
+	 * @param release
+	 */
+	public void removeRelease(Release release)
+	{
+	    releases.remove(release);
+	    release.setParent(null);
+	}
+	/**
+	 * Returns a unmodifiable list of releases.
+	 * 
+	 * @return
+	 */
+	public List getReleases()
+	{
+	    return Collections.unmodifiableList(releases);
 	}
 
     

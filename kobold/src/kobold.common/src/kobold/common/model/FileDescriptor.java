@@ -21,41 +21,43 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptor.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
+ * $Id: FileDescriptor.java,v 1.2 2004/06/22 11:29:15 vanto Exp $
  *
  */
 
 package kobold.common.model;
 
-import kobold.common.model.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 /**
  * @author garbeam
  */
 public class FileDescriptor extends AbstractAsset {
-
-
-	//the config
-	String path;
-	String version;
-	String lastChangeDate;
-	String lastAuthor;
+    private DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSZ");
+    
+	private String path;
+	private String revision;
+	private Date lastChanged;
+	private String lastAuthor;
 	
-	
-	//or another fileDescriptor for a directory
-	private FileDescriptor fileDescriptor;
+	private List filedescs = new ArrayList();
 
 	/**
 	 * Basic constructor.
 	 * @param productName
 	 * @param productLineName
 	 */
-	public FileDescriptor (String fileDescriptorName) {
-		super();
-		setName (fileDescriptorName);
+	public FileDescriptor (String name) {
+		super(name);
 	}
 	
 	/**
@@ -71,46 +73,59 @@ public class FileDescriptor extends AbstractAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element fdElement = DocumentHelper.createElement("fd");
-		fdElement.addText(getName ());
+		Element element = super.serialize();
 		
-		if (fileDescriptor != null)
-		{
-			//now all fd'S
-			//Element fdElement2 = fdElement.addElement ("fds");
-		
-			//serialize the fd
-			if  (this.path != null) fdElement.addElement("path").addText(this.path);
-			fdElement.add (fileDescriptor.serialize ());
+		if (path != null) {
+		    element.addAttribute("path", path);
 		}
-		else
-		{
-			if (this.path != null) fdElement.addElement("path").addText(this.path);
-			if (this.version != null) fdElement.addElement("version").addText(this.version);
-			if (this.lastChangeDate != null) fdElement.addElement("lastChangeDate").addText(this.lastChangeDate);
-			if (this.lastAuthor != null) fdElement.addElement("lastAuthor").addText(this.lastAuthor);
-		}		
-		return fdElement;
+
+		if (revision != null) {
+		    element.addAttribute("revision", revision);
+		}
+
+		if (lastAuthor != null) {
+		    element.addAttribute("author", lastAuthor);
+		}
+
+		if (lastChanged != null) {
+		    element.addAttribute("changed", dateFormat.format(lastChanged));
+		}
+
+		Element fds = element.addElement("filedescriptors");
+		Iterator it = filedescs.iterator();
+		while (it.hasNext()) {
+            FileDescriptor fd = (FileDescriptor) it.next();
+            fds.add(fd.serialize());
+        }
+		
+		return element;
 	}
 
 	/**
 	 * Deserializes this product.
 	 * @param productName
 	 */
-	public void deserialize(Element element) {
-		Element product = element.element("product");
-		setName (element.getText ());
-		//this.productLineName = element.elementText("productline");
+	public void deserialize(Element element) 
+	{
+	    path = element.attributeValue("path");
+	    revision = element.attributeValue("revision");
+	    lastAuthor = element.attributeValue("author");
+	    
+	    String ch = element.attributeValue("changed");
+	    if (ch != null) {
+	        try {
+                lastChanged = dateFormat.parse(ch);
+            } catch (ParseException e) {
+                lastChanged = null;
+            }
+	    }
+	    
+		Iterator it = element.element("filedescriptors").elementIterator(AbstractAsset.FILE_DESCRIPTOR);
+		while (it.hasNext()) {
+		    Element varEl = (Element)it.next();
+		    addFileDescriptor(new FileDescriptor(varEl));
+		}
 	}
-
-	/**
-	 * @return name of the dependent productline.
-
-	public String getDependsName() {
-		return productLineName;
-	}
-	 */
-
 
 	/**
 	 * @see kobold.common.data.AbstractProduct#getType()
@@ -126,60 +141,74 @@ public class FileDescriptor extends AbstractAsset {
 	 * @param fileDescriptor contains the new fileDescriptor
 	 */
 	public void addFileDescriptor(FileDescriptor fileDescriptor) {
-		this.fileDescriptor = fileDescriptor;
-		//set parent
+		filedescs.add(fileDescriptor);
 		fileDescriptor.setParent(this);
-
 	}
 
+	public void removeFileDescriptor(FileDescriptor fd) {
+	    filedescs.remove(fd);
+	    fd.setParent(null);
+	}
     
+	public List getFileDescriptors()
+	{
+	    return Collections.unmodifiableList(filedescs);
+	}
+	
 	/**
 	 * @return Returns the lastAuthor.
 	 */
 	public String getLastAuthor() {
 		return lastAuthor;
 	}
+	
 	/**
 	 * @param lastAuthor The lastAuthor to set.
 	 */
 	public void setLastAuthor(String lastAuthor) {
 		this.lastAuthor = lastAuthor;
 	}
+	
 	/**
 	 * @return Returns the lastChangeDate.
 	 */
-	public String getLastChangeDate() {
-		return lastChangeDate;
+	public Date getLastChanged() {
+		return lastChanged;
 	}
+	
 	/**
-	 * @param lastChangeDate The lastChangeDate to set.
+	 * Sets the date of the file revision
 	 */
-	public void setLastChangeDate(String lastChangeDate) {
-		this.lastChangeDate = lastChangeDate;
+	public void setLastChanged(Date lastChanged) {
+		this.lastChanged = lastChanged;
 	}
+	
 	/**
 	 * @return Returns the path.
 	 */
 	public String getPath() {
 		return path;
 	}
+	
 	/**
 	 * @param path The path to set.
 	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
+	
 	/**
 	 * @return Returns the version.
 	 */
-	public String getVersion() {
-		return version;
+	public String getRevision() {
+		return revision;
 	}
+	
 	/**
 	 * @param version The version to set.
 	 */
-	public void setVersion(String version) {
-		this.version = version;
+	public void setRevision(String revision) {
+		this.revision = revision;
 	}
 	
 

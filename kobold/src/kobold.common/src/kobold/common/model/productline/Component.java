@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.2 2004/06/22 00:57:41 vanto Exp $
+ * $Id: Component.java,v 1.3 2004/06/22 11:29:15 vanto Exp $
  *
  */
 
@@ -64,8 +64,7 @@ public class Component extends AbstractAsset {
 	}
 	
 	/**
-	 * Serializes the component.
-	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
+	 * @see kobold.common.data.ISerializable#serialize()
 	 */
 	public Element serialize() {
 		Element element = super.serialize();
@@ -83,8 +82,7 @@ public class Component extends AbstractAsset {
 	}
 
 	/**
-	 * Deserializes this product.
-	 * @param productName
+	 * @see kobold.common.data.ISerializable#deserialize(Element)
 	 */
 	public void deserialize(Element element) {
 		super.deserialize(element);
@@ -116,9 +114,9 @@ public class Component extends AbstractAsset {
 
 
 	/**
-	 * Adds a new component.
+	 * Adds a variant and sets its parent to this.
 	 *
-	 * @param component contains the new component
+	 * @param variant new variant
 	 */
 	public void addVariant(Variant variant) 
 	{
@@ -126,12 +124,22 @@ public class Component extends AbstractAsset {
 		variant.setParent(this);
 	}
     
+	/**
+	 * Removes a variant and sets its parent to null.
+	 * 
+	 * @param variant
+	 */
 	public void removeVariant(Variant variant) 
 	{
 	    variants.remove(variant);
 	    variant.setParent(null);
 	}
 	
+	/**
+	 * Returns a unmodifiable list of variants.
+	 * 
+	 * @return
+	 */
 	public List getVariants()
 	{
 	    return Collections.unmodifiableList(variants);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.2 2004/06/22 00:57:41 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.3 2004/06/22 11:29:15 vanto Exp $
  *
  */
 package kobold.common.model;
@@ -50,8 +50,8 @@ public abstract class AbstractAsset implements ISerializable
     public static final String PRODUCT = "product";
     public static final String COMPONENT = "component";
     public static final String VARIANT = "variant";
-    public static final String VERSION = "version";
-    public static final String FILE_DESCRIPTOR = "fileDescriptor";
+    public static final String RELEASE = "release";
+    public static final String FILE_DESCRIPTOR = "filedesc";
 
     protected transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     
@@ -185,8 +185,7 @@ public abstract class AbstractAsset implements ISerializable
 
     public Element serialize() 
     {
-        Element element = DocumentHelper.createElement("asset");
-        element.addAttribute("type", getType());
+        Element element = DocumentHelper.createElement(getType());
         element.addElement("id").setText(id);
         
         Element nameEl = element.addElement("name");

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.2 2004/06/21 22:35:35 garbeam Exp $
+ * $Id: Product.java,v 1.3 2004/06/22 11:29:16 vanto Exp $
  *
  */
 
@@ -48,6 +48,7 @@ public class Product extends AbstractAsset {
 	private List specificComponents;
 	private List relatedComponents;
 	private RepositoryDescriptor repositoryDescriptor = null;
+	private String localPath;
 		
 	/**
 	 * Basic constructor.
@@ -165,4 +166,19 @@ public class Product extends AbstractAsset {
 		repositoryDescriptor = descriptor;
 	}
 
+    /**
+     * @return Returns the localPath.
+     */
+    public String getLocalPath()
+    {
+        return localPath;
+    }
+    
+    /**
+     * @param localRepository The localRepository to set.
+     */
+    public void setLocalPath(String localPath)
+    {
+        this.localPath = localPath;
+    }
 }
