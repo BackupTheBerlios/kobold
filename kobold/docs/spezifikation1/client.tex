@@ -1,41 +1,41 @@
 \chapter{Funktionale Anforderungen}
-In diesem Kapitel werden für die jeweilige Iteration die funktionalen
-Anforderungen beschrieben. Für die Spezifikation I der Iteration I dient
-eine abstrakte Beschreibung des \product Rahmensystems als Grundlage zur
-Spezifikation der funktionalen Anforderungen.\par
+In diesem Kapitel werden die funktionalen Anforderungen der
+jeweiligen Iterationen beschrieben. Grundlage der Spezifikation
+der funktionalen Anforderungen im Rahmen der Spezifikation I ist
+eine sehr abstrakte Beschreibung des \product Rahmensystems.\par
 In den Folge-Iterationen werden zum Kobold Client und Kobold
-Serverdienst jeweils Use-Cases spezifiziert, die die konkret ermittelten
-und vor jeder Folge-Iteration priorisierten Anforderungen (siehe Anhang B)
-detailliert spezifizieren.
+Serverdienst jeweils Use-Cases entwickelt, die die konkret
+ermittelten und vor jeder Folge-Iteration priorisierten
+Anforderungen (siehe Anhang B) detailliert spezifizieren.
 
 \section{Iteration I}
 
 \subsection{Anforderungen an das Gesamtsystem}
 
-Zur rollenabhängigen Verwaltung von Produkten und Produktlinien und zur
-Etablierung eines Produktlinien-Entwicklungsprozesses ist 
-eine zentrale Schnitstelle zur Produktlinien-, Produkt- und
-Benutzerpersistierung notwendig, die Rechte, Rollen, Verpflichtungen und
-Nachrichten der Benutzer bereitstellt und rechnerübergreifend verfügbar ist.\par
-Diese zentrale Schnittstelle in Form des Kobold Serverdienstes wird TCP/IP
+Zur rollenabhängigen Verwaltung von Produkten und Produktlinien
+und zur Etablierung eines Produktlinien-Entwicklungsprozesses ist
+eine zentrale Schnittstelle zur Produktlinien-, Produkt- und
+Benutzerpersistierung notwendig, die Rechte, Rollen,
+Verpflichtungen und Nachrichten der Benutzer bereitstellt und
+rechnerübergreifend verfügbar ist.\par Diese zentrale
+Schnittstelle in Form des Kobold Serverdienstes wird TCP/IP
 basiert über Remote Procedure Calls von den Kobold Clients über
 Anfrage- und Antwort Mechanismen (Request-Response) bedient.\par
 Das \product Gesamtsystem in Form von mehreren Eclipse-basierten
-Kobold-Client Instanzen und einem zentralen Kobold-Serverdienst hängt also von 
-der schnittstellengetreuen Zusammenarbeit der Clients mit dem
-Serverdienst, sowie der Netzwerkinfrastruktur ab.\par
-Gegenstand der Spezifikation I ist es also, die Grundlage für solide
-Teilkomponenten zu spezifizieren, die diesen Anforderungen an das
-Gesamtsystem gerecht werden.
+Kobold-Client Instanzen und einem zentralen Kobold-Serverdienst
+hängt also von der schnittstellengetreuen Zusammenarbeit der
+Clients mit dem Serverdienst, sowie der Netzwerkinfrastruktur
+ab.\par Gegenstand der Spezifikation I ist es also, die Grundlage
+für solide Teilkomponenten zu spezifizieren, die diesen
+Anforderungen an das Gesamtsystem gerecht werden.
 
 \subsubsection{Rollenprinzip}
 
-Im Kontext zur Etablierung eines Produktlinienentwicklungs-Prozesses 
-wurden folgende Rollen definiert, die \product unterstützen wird:
+Zur Etablierung eines Produktlinien-Entwicklungsprozesses werden
+folgende Rollen von \product unterstützt:
 
 \begin{itemize}
-\item Produktlinieningenieur (PLE)
-\item Produktingenieur (PE)
+\item Produktlinieningenieur (PLE) \item Produktingenieur (PE)
 \item Programmierer (P)
 \end{itemize}
 
@@ -46,23 +46,23 @@ Kobold-Serverdienst persistiert. Informationen zur genauen Persistierung
 können aus dem Kapitel zum Kobold-Serverdienst entnommen werden.
 
 \subsection{Kobold Client}
-Der Client basiert grundlegend auf der Eclipse Plattform und deren Standard
-Widgettoolkit (SWT) und ist dadurch von dessen nativer Schnittstelle abhängig. 
-Er wird als 'Feature-Set' für die Eclipse-Entwicklungsumgebung implementiert und
-mit einem eigenem 'Product Branding' versehen.
-Das 'Product Branding' umfasst eine eigene Eclipse-Perspektive mit
-eigenen Fensternamen und Produktsymbolen, sowie einer Willkommensseite, die
-einen kurzen Überblick über die Funktionalität und Zweck des \product
-Werkzeugs geben soll.
+Der Client basiert grundlegend auf der Eclipse Plattform und deren
+Standard Widgettoolkit (SWT) und ist dadurch von dessen nativer
+Schnittstelle abhängig. Er wird als 'Feature-Set' für die
+Eclipse-Entwicklungsumgebung implementiert und mit einem eigenem
+'Product Branding' versehen. Das 'Product Branding' umfasst eine
+eigene Eclipse-Perspektive mit eigenen Fensternamen und
+Produktsymbolen, sowie einer Willkommensseite, die einen kurzen
+Überblick über Funktionalität und Zweck von \product gibt.
 \par
 Das 'Feature-Set' wird als Menge von internationalisierbaren Eclipse Plugins
 implementiert. Die Ausgangsperspektive dieses Sets besteht aus folgenden
 Komponenten:
 \begin{itemize}
-	\item Der Produktlinien- und Produkt Editor
-	\item Die Rollen View
-	\item Die Worklflow/Task View
-	\item Die Minimap
+    \item Der Produktlinien- und Produkt Editor
+    \item Die Rollen View
+    \item Die Worklflow/Task View
+    \item Die Minimap
 \end{itemize}
 Diese werden in den jeweiligen Unterkapiteln näher beschrieben.
 Die Oberfläche des Kobold-Clients wird in der nachfolgenden Abbildung prototypisch dargestellt.
@@ -73,29 +73,30 @@ Die Oberfläche des Kobold-Clients wird in der nachfolgenden Abbildung prototypis
 \end{figure}
 
 \subsubsection{Authentifizierung}
-Um mit der Kobold-Perspektive in Eclipse zu arbeiten, ist eine zentrale Authentifizierung
-am Kobold-Serverdienst nötig. Diese wird RPC-basiert über eine SSL verschlüsselte
-Verbindung realisiert.\par
-Der Benutzer kann bei der Erstbenutzung des 
-Kobold-Clients wählen, ob er sich bei jedem Programmstart authentifiziern will
-oder ob das Passwort und der Benutzername gespeichert werden sollen 
-(diese Einstellung kann aber auch jederzeit in den
-Eclipse-Voreinstellungen zur Kobold-Perspektive geändert werden).\par
-Prinzipiell ist der Zugriff auf Produktlinien- bzw. Produkt-spezifische Daten
-im unautorisierten Zustand nicht möglich. Mit der Authentifizierung werden die Rollen,
-die dem Benutzer zugeteilt sind, vom Serverdienst empfangen; der Client reagiert
-seinerseits mit der Synchronisation der Produktlinien- bzw.
-Produkt-spezifischen Repositories und dem Bereitstellen der daraufhin
-aktualisierten Views für den Benutzer.
+Um mit der Kobold-Perspektive in Eclipse zu arbeiten, ist eine
+zentrale Authentifizierung am Kobold-Serverdienst nötig. Diese
+wird RPC-basiert über eine SSL verschlüsselte Verbindung
+realisiert.\par Der Benutzer kann bei der Erstbenutzung des
+Kobold-Clients wählen, ob er sich bei jedem Programmstart
+authentifiziern will oder ob das Passwort und der Benutzername
+gespeichert werden sollen (diese Einstellung kann aber auch
+jederzeit in den Eclipse-Voreinstellungen zur Kobold-Perspektive
+geändert werden).\par Prinzipiell ist der Zugriff auf
+Produktlinien- bzw. Produkt-spezifische Daten im unautorisierten
+Zustand nicht möglich. Auf eine erfolgreiche Authentifizierung
+reagiert der Client mit der Synchronisation der Produktlinien-
+bzw. Produkt-spezifischen Repositories und dem Bereitstellen der
+daraufhin aktualisierten Views für den Benutzer.
 
 \subsubsection{Der Produkt(linien) Editor}
-In diesem View wird die je nach aktiver Rolle relevante Ansicht auf die Architektur
-der Produktlinie angezeigt. Diese Architekturansicht wird durch die
-GEF-basierte Visualisierungsschicht des Produkt(linien)
-Editors bereitgestellt, welche komplexe Darstellungs- und
-Interaktionsalgorithmen zur Visualisierung von Graphen anbietet.\par
-Der Editor bietet die Möglichkeit grundlegenden Operationen die für die
-Verwaltung einer Produktlinienarchitektur nötig sind durchzuführen.\par
+In diesem View wird die je nach aktiver Rolle relevante Ansicht
+auf die Architektur der Produktlinie angezeigt. Diese
+Architekturansicht wird durch die GEF-basierte
+Visualisierungsschicht des Produkt(linien) Editors bereitgestellt,
+welche komplexe Darstellungs- und Interaktionsalgorithmen zur
+Visualisierung von Graphen anbietet.\par Der Editor bietet die
+Möglichkeit, grundlegenden Operationen durchzuführen, die für die
+Verwaltung einer Produktlinienarchitektur nötig sind.\par
 
 \paragraph{Visualisierung von Architekturen}
 Architekturen werden als Graphen dargestellt, die sich aus einer
@@ -108,36 +109,38 @@ sind folgende Architekturelemente:
 \item Dateien
 \end{itemize}
 
-Die Darstellung von diesen Architekturelementen orientiert sich an der
-in \cite{paper} beschriebenen Visualisierung und steht endgültig am Ende
-der Iteration I fest. Rollenabhängig wird es auf
-Architekturelement-Ebene eine farblich hervorgehobene Unterscheidung von
-Schreibzugriff auf das Element oder nur Lesezugriff geben. \par
-{\bf Gerichtete Kanten} stellen Beziehungen mit beliebiger Bedeutung
-zwischen Architekturelementen dar. Um komplexere Beziehungen modellieren
-zu können, werden sog. Meta-Knoten eingeführt, die mehrere eingehende
-und ausgehende Kanten enthalten können und logische UND- bzw.
-ODER-Kompositionen von Beziehungen erlauben.\par
-Kanten werden in Form von Linien aus geraden Segmenten mit einem Pfeil
-dargestellt und können nach Beziehungstyp beliebig eingefärbt
-werden. Das genaue Aussehen wird durch die Implementierung am Ende der
-Iteration I festegelgt, orientiert sich jedoch an \cite{paper}\par
-{\bf Metaknoten} werden als dreieckige Knoten mit einem Textbaustein
-dargestellt, der entweder UND oder ODER als Beschriftung enthält. Der
-Knotentyp kann farblich hervorgehoben werden.\par
-Der Produktlinien Editor bietet die Möglichkeit, verschiedene Zoomstufen 
-einzustellen. Eine mögliche Folge daraus ist, dass im aktuellen Ausschnitt
-möglicherweise nicht die ganze Architektur sichtbar ist.\par
-Um den Überblick über komplexe Software-Architekturen zu gewährleisten,
-stellt eine Minimap die Globalansicht der Architektur zur Verfügung,
-über die auch in der Graphendarstellung navigiert werden kann (ähnlich
-dem sog. 'Fish-Eye Prinzip').\par
+Die Darstellung von diesen Architekturelementen orientiert sich an
+der in \cite{paper} beschriebenen Visualisierung und steht
+endgültig am Ende der Iteration I fest. Rollenabhängig wird es auf
+Architekturelement-Ebene eine farblich hervorgehobene
+Unterscheidung von Elementen geben, für die der aktuelle Benutzer
+nur Leserechte besitzt.
+\par {\bf Gerichtete Kanten} stellen Beziehungen mit beliebiger
+Bedeutung zwischen Architekturelementen dar. Um komplexere
+Beziehungen modellieren zu können, werden sog. Meta-Knoten
+eingeführt, die mehrere eingehende und ausgehende Kanten enthalten
+können und logische UND- bzw. ODER-Kompositionen von Beziehungen
+erlauben.\par Kanten werden in Form von Linien aus geraden
+Segmenten mit einem Pfeil dargestellt und können nach
+Beziehungstyp beliebig eingefärbt werden. Das genaue Aussehen wird
+durch die Implementierung am Ende der Iteration I festegelgt,
+orientiert sich jedoch an \cite{paper}\par {\bf Metaknoten} werden
+als dreieckige Knoten mit einem Textbaustein dargestellt, der
+entweder UND oder ODER als Beschriftung enthält. Der Knotentyp
+kann farblich hervorgehoben werden.\par Der Produktlinien Editor
+bietet die Möglichkeit, verschiedene Zoomstufen einzustellen, auch
+wenn dadurch nur noch ein Ausschnitt der Gesamtarchitektur
+sichtbar ist.\par Um den Überblick über komplexe
+Software-Architekturen zu erleichtern, stellt eine Minimap die
+verkleinerte Ansicht der Gesamtarchitektur zur Verfügung, über die
+auch in der Graphendarstellung navigiert werden kann (ähnlich dem
+sog. 'Fish-Eye Prinzip').\par
 
 \paragraph{Verwaltung von Architekturen}
 Architekturen von Produktlinien oder Produkten können durch die
-Interaktion mit der Maus über Kontextmenüs bzw. Symbolleisten verändert
-werden.\par
-Unter {\bf Veränderungen} von Architekturen zählen:
+Interaktion mit der Maus über Kontextmenüs bzw. Symbolleisten
+verändert werden.\par Zu {\bf Veränderungen} von Architekturen
+zählen:
 \begin{itemize}
 \item Bewegung von Architekturelementen und Beziehungen
 \item Ändern von Eigenschaften von Architekturelementen oder Beziehungen
@@ -148,33 +151,33 @@ Unter {\bf Veränderungen} von Architekturen zählen:
 \item Detailansicht von Architekturelementen
 \end{itemize}
 
-Darüber hinaus können Unterschiede und Gemeinsamkeiten zwischen zwei oder
-mehr geöffneten Produkt(linien) Editoren durch einen Algorithmus zur
-Schnittgraph-Generierung sichtbar gemacht werden. Dabei wird der
-generierte Schnittgraph in einem neuen Editor dargestellt.\par
-Es gibt die Möglichkeit über ein Kontextmenü oder eine Tastenkombination
-die Eigenschaften des ausgewählten Knotens anzuzeigen.
-Zu diesen Eigenschaften gehören die Metainformaionen des Knotens wie
-z.B. die Liste der schreibberechtigten Benutzer. Näheres zu den
-Metainformationen zu einzelnen Knoten ist im Abschnitt zur
+Darüber hinaus können Unterschiede und Gemeinsamkeiten zwischen
+zwei oder mehr geöffneten Produkt(linien)-Editoren durch einen
+Algorithmus zur Schnittgraph-Generierung sichtbar gemacht werden.
+Dabei wird der generierte Schnittgraph in einem neuen Editor
+dargestellt.\par Es gibt die Möglichkeit über ein Kontextmenü oder
+eine Tastenkombination die Eigenschaften des ausgewählten Knotens
+anzuzeigen. Zu diesen Eigenschaften gehören die Metainformationen
+des Knotens wie z.B. die Liste der schreibberechtigten Benutzer.
+Näheres zu Metainformationen ist im Abschnitt zur
 Metainformationskomponente beschrieben.
 
 \newpage
 \subsubsection{Der Rollen View}
-Auf der linken Seite der Ausgangsperspektive wird ein hierarchischer Baum
-angezeigt, der die momentan aktive Rolle und die mit Ihr verbundenen
-möglichen Sichten darstellt.
+Auf der linken Seite der Ausgangsperspektive wird ein
+hierarchischer Baum angezeigt, der die momentan aktive Rolle und
+die mit ihr verbundenen möglichen Sichten darstellt.
 \begin{figure}[h!]
 \includegraphics[width=7cm]{../angebot/praesentation/verwaltung}
    \caption{Prototypistische Darstellung des Rollen Views}
 \end{figure}
 Die Hierarchie ist aus der Darstellung ersichtlich. Rollen werden
-Produkte bzw. Produktlinien zugeordnet, die sich wiederum in Komponenten
-bzw. Varianten untergliedern, die sich wiederum in Dateien bzw.
-Verzeichnisse untergliedern. Mit Ausnahme der Rolle und Querbeziehungen
-besteht eine Äquivalenz zwischen der hierarchischen Baum-Darstellung von
-Architekturen in der Rollen View und der Graphen-Darstellung im
-Produktlinien Editor.\par
+Produkte bzw. Produktlinien zugeordnet, die sich wiederum in
+Komponenten bzw. Varianten untergliedern, welche sich ihrerseits
+in Dateien bzw. Verzeichnisse weiter untergliedern lassen. Mit
+Ausnahme der Rollen im Rollen View und der Querbeziehungen im
+Produkt(linien)-Editor sind die jeweils dargestelten Architekturen
+äquivalent.\par
 
 Ausgehend von den Rollen aus der Rollen View werden in
 den folgenden Abschnitten die rollenabhängigen Ansichten auf die
@@ -184,10 +187,12 @@ Die grafische Notation orientiert sich dabei an der in \cite{paper} festgelegten
 Struktur.
 
 \paragraph{Ansicht der Rolle Produktlinieningenieur}
-Der Produktlinieningenieur hat im Produktlinien Editor standardmäßig eine Ansicht
-auf die Architektur der gesamten Produktlinie, die sich grafisch sehr stark an die
-in \cite{paper} vorgeschlagene Notation lehnt. Er hat Schreibrechte auf allen
-Ebenen der Produktlinie und der daraus instanziierten Produkthierarchie. 
+Der Produktlinieningenieur hat im Produktlinien Editor
+standardmäßig eine Ansicht auf die Architektur der gesamten
+Produktlinie, die sich grafisch sehr stark an die in \cite{paper}
+vorgeschlagene Notation anlehnt. Er hat Schreibrechte auf allen
+Ebenen der Produktlinie und der daraus instanziierten
+Produkthierarchie.
 \begin{figure}[h!]
 \includegraphics[width=15cm]{compiler-spl}
    \caption{Ansicht des Produktlinieningenieurs}
@@ -195,11 +200,12 @@ Ebenen der Produktlinie und der daraus instanziierten Produkthierarchie.
 \newpage
 
 \paragraph{Ansicht der Rolle eines Produktingenieurs}
-Der Produktingenieur kann im Produktarchitektur Editor standardmäßig
-ein Produkt auf einmal einsehen. Er kann im Rollen View die
-verschiedenen ihm zugeordneten Produktarchitekturen der verschiedenen
-Produkte zur Darstellung auswählen. Grafisch wird sich \product hier
-wiederum an der graphischen Darstellung aus \cite{paper} orientieren.
+Der Produktingenieur kann im Produktarchitektur Editor
+standardmäßig jeweils genau ein Produkt auf einmal einsehen. Er
+kann im Rollen View die verschiedenen ihm zugeordneten
+Produktarchitekturen der verschiedenen Produkte zur Darstellung
+auswählen. Grafisch wird sich \product hier wiederum an der
+graphischen Darstellung aus \cite{paper} orientieren.
 \begin{figure}[h!]
 \includegraphics[width=15cm]{compiler-pe}
    \caption{Ansicht des Produktingenieurs}
@@ -207,29 +213,26 @@ wiederum an der graphischen Darstellung aus \cite{paper} orientieren.
 \newpage
 
 \paragraph{Ansicht der Rolle eines Programmierers}
-Der Programmierer hat standardmäßig eine sehr flache Sicht auf
-ein einziges ihm zugeordnetes Produkt. Er kann die für ihn änderbaren
-Produktteile des Produktes von den nicht änderbaren farblich
-hervorgehoben unterscheiden.\par
-Es besteht die Möglichkeit, den aktuellen Stand des Produktes in seine
-aktuelle Arbeitskopie zu synchronisieren.
+Der Programmierer hat standardmäßig eine sehr flache Sicht auf ein
+einziges ihm zugeordnetes Produkt.\par Es besteht die Möglichkeit,
+den aktuellen Stand des Produktes mit seiner aktuellen
+Arbeitskopie zu synchronisieren.
 \begin{figure}[h!]
 \includegraphics[width=15cm]{compiler-p}
    \caption{Ansicht des Programmierers}
 \end{figure}
 
 \subsubsection{Der Worklflow/Task View}
-Am unteren Rand der Ausgangsperspektive werden standardmässig die noch zu
-erfüllenden Aufgaben, die aktuellen Nachrichten sowie etwaige Workflows
-angezeigt.\par
-Durch Doppelklick auf einen Workflow, öffnet sich die Detailansicht als
-Workflow-Editor. Es können Detailansichten zu mehreren Workflows
-gleichzeitig geöffnet sein.\par
-Der Workflow-Editor wird in der Iteration I durch die von Eclipse zur
-Verfügung gestellten XHTML-Rendering Editor adaptiert, der Workflows im
-XHTML-Format visualisiert, welches mit herkömmlichen Webseiten
-vergleichbar ist. In einer späteren Iteration wird er auch die Erstellung
-von angepassten Workflows (siehe Abschnitt zu Workflows) unterstützen.
+Am unteren Rand der Ausgangsperspektive werden standardmässig die
+noch zu erfüllenden Aufgaben, die aktuellen Nachrichten sowie
+etwaige Workflows angezeigt.\par Durch Doppelklick auf einen
+Workflow, öffnet sich die Detailansicht als Workflow-Editor. Es
+können Detailansichten zu mehreren Workflows gleichzeitig geöffnet
+sein.\par Der Workflow-Editor wird in der Iteration I durch den
+von Eclipse zur Verfügung gestellten XHTML-Rendering Editor
+adaptiert, der Workflows im XHTML-Format visualisiert. In einer
+späteren Iteration wird auch die Erstellung von angepassten
+Workflows (siehe Abschnitt zu Workflows) unterstützt werden.
 
 \subsubsection{Die Minimap}
 Am linken unteren Rand der Ausgangsperspektive wird eine sogenannte
