@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditorInput.java,v 1.3 2004/07/01 11:27:25 vanto Exp $
+ * $Id: ArchitectureEditorInput.java,v 1.4 2004/08/04 23:03:02 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -30,13 +30,14 @@ import kobold.client.plam.model.AbstractRootAsset;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPersistableElement;
 
 
 /**
  * @author Tammo
  */
-public class ArchitectureEditorInput implements IEditorInput
+public class ArchitectureEditorInput implements IEditorInput, IPersistableElement
 {
 
     private AbstractRootAsset asset;
@@ -80,7 +81,7 @@ public class ArchitectureEditorInput implements IEditorInput
      */
     public IPersistableElement getPersistable()
     {
-        return null;
+        return this;
     }
 
     /**
@@ -99,4 +100,20 @@ public class ArchitectureEditorInput implements IEditorInput
         return null;
     }
 
+    /**
+     * @see org.eclipse.ui.IPersistableElement#getFactoryId()
+     */
+    public String getFactoryId()
+    {
+        return ArchitectureEditorInputFactory.getFactoryId();
+    }
+
+    /**
+     * @see org.eclipse.ui.IPersistableElement#saveState(org.eclipse.ui.IMemento)
+     */
+    public void saveState(IMemento memento)
+    {
+        ArchitectureEditorInputFactory.saveState(memento, this);
+    }
+ 
 }

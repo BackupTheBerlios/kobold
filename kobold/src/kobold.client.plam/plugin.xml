@@ -175,5 +175,11 @@
             name="Kobold Cheatsheet"
             id="kobold.client.plam.cheatsheet"/>
    </extension>
+   <extension
+         point="org.eclipse.ui.elementFactories">
+      <factory
+            class="kobold.client.plam.editor.ArchitectureEditorInputFactory"
+            id="kobold.client.plam.editor.ArchitectureEditorInputFactory"/>
+   </extension>
 
 </plugin>
