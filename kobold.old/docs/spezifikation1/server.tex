@@ -50,28 +50,7 @@ Für jeden Benutzer werden auf dem Kobold Server folgende Daten gespeichert:
 \item Passwort
 \item eMail
 \item Name
-\item Liste von Rollen
 \end{itemize}
-
-Jeder Benutzer kann mehrere Rollen einnehmen, wie zum Beispiel Produktingenieur für Produkt X oder 
-Produktlinieningenieur für Produktlinie YZ. Diese Rollen werden in einer Liste unter dem Benutzernamen 
-gespeichert. Dabei besteht jedes Listenelement aus folgenden Daten:
-\begin{itemize}
-\item Liste von Produkten und Produktlinien
-\end{itemize}
-
-Für jedes Produkt und jede Produktlinie in dieser Liste wird außerdem noch eine Liste der zugehörigen 
-Repositories angehängt. 
-Ist das Element ein Produkt, so werden auch die Daten der dazugehörigen Produktlinie erfasst.\par
-
-Für ein Repository werden dabei folgende Daten gespeichert:
-\begin{itemize}
-\item Pfad
-\item Passwort
-\item Benutzername
-\item Schreibrecht (ja/nein)
-\end{itemize}
-
 
 
 \subsubsection{Nachrichten-Queue}
@@ -79,12 +58,11 @@ Für ein Repository werden dabei folgende Daten gespeichert:
 Der Kobold Server bildet für jeden Kobold-Benutzer eine Nachrichten-Queue. Werden Nachrichten oder 
 Workflow-Objekte an einen Benutzer geschickt, so werden diese in der Nachrichten-Queue 
 gespeichert und beim nächsten Login des Benutzers an den zuständigen Client weitergeleitet.
-Die vom Server angebotene Nachrichten-Queue ist zustandsbehaftet, d.h. nach einem
-Stromausfall oder anderen unvorhersehbaren Ereignissen ist die Nachrichten-Queue
-in der Regel ohne Datenverlust wiederherstellbar.\par
-Dadurch wird ein hoher Grad an Konsistenztreue und Zuverlässigkeit erreicht.\newline
+Die vom Server angebotene Nachrichten-Queue ist zustandsbehaftet, das heißt bei nicht-physischen Ereignissen ist die Nachrichten-Queue
+in der Regel ohne Datenverlust wiederherstellbar.\newline
 
-Für Nachrichten auf der Nachrichten-Queue werden folgende Daten benötigt:
+
+Für jede Nachricht auf der Nachrichten-Queue werden folgende Daten benötigt:
 \begin{itemize}
 \item Absender
 \item Empfänger
@@ -96,12 +74,13 @@ Für Nachrichten auf der Nachrichten-Queue werden folgende Daten benötigt:
 
 \subsubsection{Regelbasierte Workflowerzeugung}
 Führt ein Client eine Aktion aus, so wird diese dem Kobold Server gemeldet. Dieser wendet die Aktion als Fakt
-auf die Regelbasis an, die sich auf dem Server befindet. Es werden dabei alle Regeln durchlaufen. Stimmt das 
+auf die Regelbasis an, die sich auf dem Server befindet. ein Fakt ist dabei eine Mitteilung an den Server.
+Es werden dabei alle Regeln durchlaufen. Stimmt das 
 Ereignis mit der Bedingung einer Regel überein, so 
 wird die Konsequenz dieser ausgeführt. Die Ergebnisse dieser Regelkonsequenzen werden zu einem 
 Workflow-Objekt zusammengefügt (zum Beispiel eine Reihe von Anweisungen). Ein Workflow-Objekt ist dabei 
 eine Art XML-Struktur, die einen Titel und eine Liste aller Regelresultate 
 besitzt. Diese Workflow-Objekt wird 
 dann auf die Message-Queues der Clients gelegt, für die das Workflow-Objekt relevant ist. \par
-Siehe auch Kapitel 4 - Drools.
+Siehe auch in Abschnitt Client - Drools.
 
