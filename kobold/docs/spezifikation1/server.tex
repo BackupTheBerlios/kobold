@@ -1,18 +1,18 @@
-\subsection{Der Kobold Server}
+\subsection{Kobold Serverdienst}
 
-Der Kobold Server koordiniert die Arbeit der Benutzer von Kobold. Ein Benutzer 
-ist dabei jede Person mit einem Benutzernamen und dem dazu passenden Passwort. 
-Dieser ist dadurch bei seiner Arbeit nicht an einen festen Rechner gebunden, 
-sondern kann von jedem Rechner mit einem Kobold Client über den Kobold Server an 
-seine Daten gelangen und diese bearbeiten. Ausserdem ermöglicht
-der Server eine Client-zu-Client-Kommunikation über eine Nachrichten-Queue, welche
-in regelmässigen Abständen von den Clients abgefragt wird (Request/Response).\par
+Der Kobold Serverdienst koordiniert die Arbeit der Benutzer von \product.
+Ein Benutzer ist dabei jede Person mit einem Benutzernamen und dem dazu
+passenden Passwort. Dieser ist dadurch bei seiner Arbeit nicht an einen
+festen Rechner gebunden, sondern kann von jedem Rechner mit einem Kobold
+Client über den Kobold Serverdienst an seine Daten gelangen und diese
+bearbeiten. Ausserdem ermöglicht der Server eine
+Client-zu-Client-Kommunikation über eine Nachrichten-Queue, welche
+im Minutentakt von den Clients abgefragt wird.\par
 
-Der Server wird als HTTP-basierter {\it XML-RPC Server}
+Der Server wird als HTTPS-basierter {\it XML-RPC Server}
 \footnote{Nähere Informationen: http://ws.apache.org/xmlrpc/}
-implementiert und ist SSL-basiert. 
-Alle Informationen, die der Server bereitstellt sind persistent.
-
+implementiert und bietet damit verschlüsselte Kommunikation.
+Alle Informationen, die der Server bereitstellt, werden persistiert.
 
 \subsubsection{Berechtigungskonzept}
 
@@ -21,10 +21,10 @@ verwaltet der Server alle benutzer-, rollen-, produktlinien- und
 produkt-basierten Berechtigungen. Dabei kann ein Server produktlinien-übergreifend
 verwendet werden.\par
 Der Server bietet ein auf diesen Berechtigungen basierenden
-Authentifizierungsmechanismus an, der von allen Clients verwendet wird. Wird ein
-Client gestartet, so muss sich der Benutzer über einen Dialog beim Server mit 
-Benutzername und Passwort anmelden. Sind beide korrekt, so werden in seinen 
-Client die Daten der ihm unterstehenden Produktlinien und Produkte geladen. Der Benutzer
+Authentifizierungsmechanismus an, der von allen Clients verwendet wird. Wird ein Client gestartet, so muss
+sich der Benutzer über einen Dialog beim Server mit Benutzername und Passwort anmelden. Sind beide korrekt, 
+so werden in seinen Client die Daten der ihm unterstehenden Rollen und
+zugehörigen Produktlinien bzw. Produkte geladen. Der Benutzer
 kann dabei nur die Daten verändern, für die er auch eine Berechtigung besitzt.
 
 \subsubsection{Persistierung}
@@ -33,9 +33,10 @@ Die Persistierung aller für das Berechtigungskonzept notwendigen Daten wird
 durch eine abstrakte, XML-basierte Persistenzschicht realisiert, die es ermöglicht, die
 Datenhaltung flexibel zu organisieren.\par
 Die Persistenzschicht dient zur Speicherung aller Rollen-,
-Authentifizierungs-, PL- und Produktrelationen. Ihre Grundstruktur ist
+Authentifizierungs-, Produktlinien- und Produktrelationen. Ihre Grundstruktur ist
 baumartig, sie ist im Speicher auf dem aktuellen Stand und
-wird innerhalb eines konfigurierbaren Timeouts persistiert (Default = 10 Minuten).\par
+wird innerhalb eines konfigurierbaren Timeouts persistiert
+(standardmäßig alle 10 Minuten).\par
 In der XML-Struktur werden hierbei die folgenden Elemente persistiert:
 \begin{itemize}
 \item Benutzer
@@ -46,7 +47,7 @@ In der XML-Struktur werden hierbei die folgenden Elemente persistiert:
 \item Relationen
 \end{itemize}
 
-Für jeden Benutzer werden auf dem Kobold Server folgende Daten gespeichert:
+Für jeden Benutzer werden vom Kobold Serverdienst folgende Daten gespeichert:
 \begin{itemize}
 \item Benutzername
 \item Passwort
@@ -57,15 +58,15 @@ Für jeden Benutzer werden auf dem Kobold Server folgende Daten gespeichert:
 
 \subsubsection{Nachrichten-Queue}
 
-Der Kobold Server bildet für jeden Kobold-Benutzer eine Nachrichten-Queue. Werden 
-Nachrichten oder Workflow-Objekte an einen Benutzer geschickt, so werden diese in 
-der Nachrichten-Queue gespeichert und beim nächsten Login des Benutzers an den zuständigen 
-Client weitergeleitet. Die vom Server angebotene Nachrichten-Queue ist zustandsbehaftet, 
-das heißt bei nicht-physischen Ereignissen ist die Nachrichten-Queue
-in der Regel ohne Datenverlust wiederherstellbar.\newline
+Der Kobold Serverdienst bildet für jeden Kobold-Benutzer eine Nachrichten-Queue. Werden Nachrichten oder 
+Workflow-Objekte an einen Benutzer geschickt, so werden diese in der Nachrichten-Queue 
+gespeichert und bei der nächsten Abfrage des Clients vom zugehörigen
+Benutzer an diesen weitergeleitet.\par
+Die vom Server angebotene Nachrichten-Queue ist zustandsbehaftet, das heißt bei
+nicht-physisch begründeten Ausfällen ist die Nachrichten-Queue in der Regel ohne Datenverlust
+wiederherstellbar.\par
 
-
-Für jede Nachricht auf der Nachrichten-Queue werden folgende Daten benötigt:
+Für jede Nachricht in der Nachrichten-Queue werden folgende Daten benötigt:
 \begin{itemize}
 \item Absender
 \item Empfänger
@@ -75,17 +76,19 @@ Für jede Nachricht auf der Nachrichten-Queue werden folgende Daten benötigt:
 \item Priorität
 \end{itemize}
 
-\subsubsection{Regelbasierte Workflowerzeugung}
-Führt ein Client eine Aktion aus, so wird diese dem Kobold Server gemeldet. 
-Dieser wendet die Aktion als Fakt auf die Regelbasis an, die sich auf dem Server 
-befindet. Ein Fakt ist dabei eine Mitteilung an den Server.
-Es werden dabei alle Regeln durchlaufen. Stimmt das 
-Ereignis mit der Bedingung einer Regel überein, so 
-wird die Konsequenz dieser ausgeführt. Die Ergebnisse dieser Regelkonsequenzen 
-werden zu einem Workflow-Objekt zusammengefügt (zum Beispiel eine Reihe von 
-Anweisungen). Ein Workflow-Objekt ist dabei eine Art XML-Struktur, die einen 
-Titel und eine Liste aller Regelresultate besitzt. Dieses Workflow-Objekt wird 
-dann auf die Message-Queues der Clients gelegt, für die das Workflow-Objekt 
-relevant ist. \par
-Siehe auch in Abschnitt Client - Drools.
-
+\paragraph{Workflow-Mechanismus auf dem Kobold Server}
+Sendet ein Client dem Server eine Nachricht, wendet dieser diese
+Nachricht als Fakt auf eine kontextabhängige Regelmenge aus der Regelbasis an,
+die sich auf dem Server befindet. Ein Fakt ist dabei eine Mitteilung an den Server. 
+Es werden dabei alle Regeln der Regelmenge durchlaufen. Gilt eine
+Bedingung einer Regel, so wird die zugehörige Konsequenz ausgeführt.
+Im Implementierungsteil einer solchen Konsequenzen werden Modifikationen
+an einem erzeugenden Workflow-Objekt durchgeführt (z.B. wird bei einem
+unauthorisierten Commit ein String "Unauthorisierter Commit" in das
+Workflow-Objekt geschrieben, sofern eine Regel dies definiert hat).
+\par
+Ein Workflow-Objekt ist eine XML-Struktur, die einen Titel und eine Liste
+aller Regelresultate besitzt. Dieses Workflow-Objekt wird 
+dann auf Message-Queues von Clients zugeteilt, für die das Workflow-Objekt relevant
+ist (d.h. Clients von bestimmten Rollen rufen diese Workflow-Objekte
+dann ab).

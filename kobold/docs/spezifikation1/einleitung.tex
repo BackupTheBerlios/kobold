@@ -2,49 +2,51 @@
 
 \section{Über dieses Dokument}
 
-Diese Spezifikation beschreibt das Rahmensystem und die Basisfunktionalitäten von 
-Kobold, die in der ersten Iteration erstellt werden.\par
-Sie ist damit Grundlage für die weitere Entwicklung von Kobold innerhalb der 
-ersten Iteration. Sie ist auch Grundlage für die Absprache mit dem Auftraggeber, 
-für das Benutzerhandbuch, den Entwurf, die Implementierung und für die Tests des Systems.
-Die Spezifikation bietet außerdem eine wichtige Grundlage für spätere 
-Wartungsarbeiten und für eventuelle Wiederverwendung.\par
-Das Dokument richtet sich an die Mitglieder des Teams sowie an den Auftraggeber 
-und dessen technische Berater.\par
-Es wird vom Auftraggeber abgenommen und ist von da an Vertragsbestandteil für 
-die weitere Entwicklung von Kobold und somit auch Grundlage für die Abnahme nach 
-der ersten Iteration.
+Diese Spezifikation dient als Grundlage zur informalen Beschreibung des
+Produktlinien Management Systems \product. Aufgrund des evolutionären
+Vorgehensmodells wird sie iterativ erweitert und verfeinert und zu
+Beginn jeder Folge-Iteration der weiteren Entwicklung zugrundegelegt.\par
+Das Dokument richtet sich sowohl an den Auftraggeber und dessen technische
+Berater als auch an die Mitarbeiter des Werkbold-Teams.\par
+Es wird vom Auftraggeber am Anfang jeder Iteration abgenommen und ist
+von da an Vertragsbestandteil für die weitere Entwicklung von \product.
+
+\subsection{Spezifikation I}
+Die Spezifikation I dient als Grundlage zur informalen Beschreibung des
+Rahmensystems von \product, das in der ersten Iteration entwickelt wird.\par
+Sie basiert auf der Abstraktion der ermittelten Anforderungen an das
+Produktlinien Management System \product (vgl. Anhang B) und
+spezifiziert somit die gemeinsame Basis aller konkreten
+Anforderungen.\par
+Aufgrund des abstrakten Charakters der Spezifikation des Rahmensystems
+wird auf eine explizite Spezifikation von Use-Cases für die erste
+Iteration verzichtet, die Gegenstand der Spezifikationen in den
+Folge-Iterationen sein werden.
 
 \section{Das Kobold-System}
 
-Das wesentliche Einsatzziel des Produktlininen Management Systems Kobold ist die 
-werkzeugunterstützte Entwicklung und Pflege von Softwareproduktlinien und die 
-Etablierung eines rollenbasierten Entwicklungsprozesses.\newline
+Das wesentliche Einsatzziel des Produktlininen Management Systems
+\product ist die werkzeugunterstützte Entwicklung und Pflege von
+Software-Produktlinien und die Etablierung eines rollenbasierten
+Entwicklungsprozesses.
+
 
 \subsection{Grundlegende Architekturentscheindungen}
-Um Inkonsistenzen im Produkt bzw. der Produktlinie zu vermeiden, ist es nötig 
-eine Zentrale Benutzerverwaltung anzusprechen, die Rechte, Rollen und 
-Verpflichtungen der Benutzer bereitstellt. Einem Benutzer können mehrere Rollen 
-zugeordnet werden. Kobold unterstützt drei unterschiedliche Rollen: Den 
-Produktlinieningenieur, den Produktingenieur und den Programmierer. \par
-Dem Produktlinieningenieur untersteht eine Produktlinie. 
-Er verwaltet außerdem die Rechte seiner Produktingenieure. Diese verwalten ein 
-einzelnes Produkt einer Produktlinie. Die dritte und letzte Rolle ist die des  
-Programmierers, der dem Produktingenieur untersteht und dessen Produkte 
-implementiert.\newline
-
-\subsection{Client-Server Architektur}
-Die Architektur von Kobold besteht aus zwei Teilen: Dem Kobold Client und dem 
-Kobold Serverdienst. \newline
-Der Client bietet dem Benutzer eine graphische Benutzeroberfläche, über die er 
-seine Produktlinien und seine Produkte verwalten kann. Er kann damit seine 
-Architekturen ansehen und verändern, neue Rollen verteilen, 
-Nachrichten verschicken, etc. (Genaueres wird in Kapitel 2 betrachtet). 
-Die Architektur wird in einer Graphenform dargestellt.\newline
-
-Der Server verwaltet die Daten der einzelnen Benutzer und deren Zugriffsrechte. 
-Er bietet den Clients außerdem einen eigenen Nachrichtendienst. Führt der Client 
-eine bestimmte Aktion durch, meldet er diese dem Server, der sie dann auf 
-mögliche Inkonsistenzen, die dabei auftreten können, untersucht. Der Server 
-verwaltet auch die Pfade der Repositories, in denen die Daten der Produkte und 
-Produktlinien gespeichert und versioniert werden.
+Die grundlegende Architektur von \product untergliedert sich in zwei
+Teilsysteme: der Kobold Client, der als rollenbasierte Entwicklungsumgebung
+für die Verwaltung von Produktlinien und Produkten konzipiert ist - und dem
+Kobold Server-Dienst, der zur Benutzer-, Rollen- und
+Nachrichten-Verwaltung dient. \par
+Der Eclipse-basierte Client bietet dem Benutzer eine graphische
+Benutzungsoberfläche, über die er seine Produktlinien und Produkte
+rollenabhängig verwalten kann. Er kann damit seine
+Architekturen als Graphen ansehen und verändern, neue Rollen verteilen, 
+Nachrichten verschicken und Workflows auslösen.\par
+Der Server verwaltet die Daten der einzelnen Benutzer und deren
+Zugriffsrechte. Er bietet den Clients außerdem einen zentralen
+Nachrichtendienst an. Wenn von einem Client eine Nachricht an den
+Serverdienst gesendet wird, prüft der Serverdienst die Nachricht auf mögliche
+Konsequenzen, die anderen Clients in Form von Workflows zugeteilt werden.
+Darüber hinaus verwaltet der Serverdienst auch die Pfade und
+Zugriffskonfigurationen der Repositories, in denen die Daten der Produkte
+und Produktlinien gespeichert und versioniert werden.

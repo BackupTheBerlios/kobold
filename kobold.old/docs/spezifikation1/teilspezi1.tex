@@ -1,14 +1,20 @@
-\subsubsection{Metainformationskomponente}
+\subsubsection{Metainformationen}
 
-Um zusätzliche Informationen zu den unten aufgeführten Elementen in Kobold zu 
-speichern, bietet Kobold eine Metainformationskomponente, das heißt einen Abschnitt 
-in Kobold, der die Metainformationen verwaltet. Diese ermöglicht außerdem eine 
-gezielte Suche nach Elementen mit bestimmten Eigenschaften. Metainformationen 
-werden auch für eine genaue Zuordnung und Identifikation eines Elementes benötigt.
+Als Metainformationen werden alle Informationen zu Produkten und
+Produktlinien verstanden, die für das \product System notwendig sind,
+jedoch weder auf dem zentrlen Kobold Serverdienst noch aus
+Repository-Informationen gewonnen werden können.\par
+
+Um Meta-Informationen zu den unten aufgeführten Elementen in Kobold zu
+speichern, bietet Kobold eine Metainformationskomponente als
+eigenständiges Plug-In, das die Metainformationen verwaltet. Dieses
+ermöglicht außerdem eine gezielte Suche nach Elementen mit bestimmten
+Eigenschaften. Metainformationen werden auch für eine genaue Zuordnung
+und Identifikation eines Elementes benötigt.\par
 Dieses Kapitel liefert eine genaue Auflistung der geplanten Metainformationen.\newline
 
 \paragraph{Produkt:}
-Die geplanten Metainformationen für diese Iteration sind:
+Ein Produkt besitzt folgende Metainformationen:
 \begin{itemize}
 \item Name
 \item Liste aller Releases
@@ -29,8 +35,9 @@ Für eine Version werden folgende Metainformationen gespeichert:
 \end{itemize}
 
 \paragraph{Objekt:}
-Ein Objekt ist ein von Menschen geschaffenes Software Objekt wie zum Beispiel 
-Quelltext und Dokumentation. Als Metainformationen über ein Objekt wird gespeichert:
+Ein Objekt ist ein von Menschen geschaffenes Software Objekt wie zum Beispiel Quelltext und Dokumentation. 
+I.d.R. ist ein Objekt eine Datei.
+Als Metainformationen über ein Objekt wird gespeichert:
 \begin{itemize}
 \item Liste der Versionen
 \item Liste der releasefähigen Versionen
@@ -42,9 +49,8 @@ Quelltext und Dokumentation. Als Metainformationen über ein Objekt wird gespeich
 \end{itemize}
 
 \paragraph{Skript:}
-Ein Skript wird bei der angegebenen Aktion ausgeführt. Dies kann auch mit 
-Parameterübergabe geschehen. Diese Funktionalität wird allerdings erst in 
-einer Folgeiteration entwickelt.
+Ein Skript wird bei der angegebenen Aktion ausgeführt. Dies kann auch mit Parameterübergabe geschehen. 
+Diese Funktionalität wird allerdings erst in einer Folgeiteration entwickelt.
 \begin{itemize}
 \item Aktion
 \item Parameter
@@ -107,19 +113,20 @@ Für eine Architektur werden folgenden Metainformationen benötigt:
 \item Liste der Skripte
 \end{itemize}
 
-
 \subsubsection{VCM Wrapper}
 
-Um die Zugriffsrechte konsistent durchzusetzen, und die automatisierte 
-Aktionsbasierte Kommunikation mit dem Kobold Serverdienst zu ermöglichen, 
-wird ein VCM Wrapper erstellt. Dieser authentifiziert VCM-Aktionen zwischen dem 
-Benutzer und dem VCM des Kobold Serverdienstes und löst gegebenenfalls einen 
-Workflow aus.\par
-
-Der VCM Wrapper behandelt Anfragen vom Kobold Client an den Kobold Server, indem
-er diese entweder an das eigentliche VCM weiterleitet oder mit einer passenden 
-Meldung ablehnt.\par
-Ist im Client noch nicht der Pfad eines Repositories gespeichert, so holt sich 
-der VCM Wrapper die nötigen Informationen vom Kobold Server und speichert diese 
-im Client. Er importiert dabei automatisch rollen- und produktabhängige 
-Repository-Zugriffskonfigurationen.
+Um die Zugriffsrechte auf Repositories aus dem Kobold-Client heraus 
+konsistent durchzusetzen und die automatisierte aktionsbasierte
+Nachrichtenzustellung zum Kobold Serverdienst zu ermöglichen, wird ein
+VCM Wrapper erstellt, welche die von Eclipse zur Verfügung gestellte
+Repository Abstraction Layer wrappt.\par
+Der VCM Wrapper fängt VCM-Aktionen an die Eclipse Repository Abstraction
+Layer ab und prüft, ob die VCM-Aktion konform zu den Berechtigungen der
+ausführenden Rolle sind. Ist dies der Fall, leitet der VCM Wrapper
+die eigentliche VCM-Aktion an das Eclipse Repository Abstraction Layer
+weiter. Ist dies nicht der Fall, wird ein Workflow durch den Server
+angestoßen und die VCM-Aktion verweigert.\par
+Darüber hinaus bietet der VCM-Wrapper die automatische Übernahme von
+Repository-Zugriffskonfigurationen, die aus einer Produktlinien- oder
+Produktkonfiguration vom Kobold Serverdienst zur Verfügung gestellt
+werden, in die Eclipse-Repository Konfiguration.
