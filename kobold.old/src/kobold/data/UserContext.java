@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: UserContext.java,v 1.3 2004/03/30 23:45:28 garbeam Exp $
+ * $Id: UserContext.java,v 1.4 2004/03/30 23:49:09 vanto Exp $
  */
 
 package kobold.data;
@@ -48,7 +48,7 @@ public class UserContext{
      * @param sessionId the current session Id of the user context.
      */
     public UserContext(String username,
-                       String sessionId,
+                       String sessionId)
     {
         this.username = username;
         this.sessionId = sessionId;

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelationNode.java,v 1.2 2004/03/29 22:11:27 vanto Exp $
+ * $Id: RelationNode.java,v 1.3 2004/03/30 23:49:09 vanto Exp $
  *
  */
 package kobold.client.model.pline.graph;
@@ -31,9 +31,12 @@ import net.sourceforge.gxl.GXLNode;
 /**
  * RelationNode
  * 
+ * Provides an abstract class to define more complex dependencies between
+ * components.
+ * 
  * @author Tammo van Lessen
  */
-public class RelationNode extends GXLNode 
+public abstract class RelationNode extends GXLNode 
 {
 
 	/**

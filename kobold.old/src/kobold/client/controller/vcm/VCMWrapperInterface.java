@@ -21,20 +21,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMWrapperInterface.java,v 1.2 2004/03/30 23:36:08 vanto Exp $
+ * $Id: VCMWrapperInterface.java,v 1.3 2004/03/30 23:49:09 vanto Exp $
  *
  */
 package kobold.client.controller.vcm;
 
 import java.util.List;
 
-import kobold.exception.VCMNotPermitException;
-import kobold.exception.VCMIoException;
-import kobold.exception.VCMScriptInvocationException;
+import kobold.data.UserContext;
+import kobold.exceptions.VCMIOException;
+import kobold.exceptions.VCMNotPermitException;
+import kobold.exceptions.VCMScriptInvocationException;
 import kobold.io.FileDescriptor;
 import kobold.io.RepositoryDescriptor;
 import kobold.io.ScriptDescriptor;
-import kobold.data.UserContext;
 
 /**
  * VCMWrapperInterface.

@@ -21,10 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMIOException.java,v 1.2 2004/03/30 23:36:08 vanto Exp $
+ * $Id: VCMIOException.java,v 1.3 2004/03/30 23:49:09 vanto Exp $
  *
  */
-package kobold.exception;
+package kobold.exceptions;
 
 import java.lang.Exception;
 import java.lang.String;
@@ -47,6 +47,6 @@ public class VCMIOException extends Exception {
     }
 
     public VCMIOException(String message, Throwable cause) {
-        super(message, cause;
+        super(message, cause);
     }
 }
