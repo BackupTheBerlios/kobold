@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.16 2004/08/03 19:39:20 vanto Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.17 2004/08/29 14:39:29 memyselfandi Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -143,7 +143,7 @@ public class NewProjectWizardServerPage extends WizardPage {
 		data.widthHint = 250;
 		usernameField.setLayoutData(data);
 		usernameField.setFont(parent.getFont());
-		usernameField.setText("vanto");
+//		usernameField.setText("vanto");
 		
 		usernameField.addListener(SWT.Modify, nameModifyListener);
 
@@ -159,7 +159,7 @@ public class NewProjectWizardServerPage extends WizardPage {
 		passwordField.setLayoutData(data);
 		passwordField.setFont(parent.getFont());
 		passwordField.setEchoChar('*');
-		passwordField.setText("vanto");
+//		passwordField.setText("vanto");
 		
 		passwordField.addListener(SWT.Modify, nameModifyListener);
 		
