@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractViewItem.java,v 1.1 2004/05/15 02:10:23 vanto Exp $
+ * $Id: AbstractViewItem.java,v 1.2 2004/05/18 14:23:40 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -44,7 +44,7 @@ public abstract class AbstractViewItem {
 	
 	public abstract Composite createViewControl(Composite parent);
 	
-	public abstract void applyValues();
+	public abstract void applyValues(WorkflowDialog wd);
 	
 	public WorkflowItem getItem() 
 	{

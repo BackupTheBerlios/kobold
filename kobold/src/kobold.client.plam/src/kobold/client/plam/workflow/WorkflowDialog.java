@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.9 2004/05/18 11:21:50 vanto Exp $
+ * $Id: WorkflowDialog.java,v 1.10 2004/05/18 14:27:44 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -47,6 +47,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 /**
  * @author scheglov_ke
  */
@@ -84,66 +85,82 @@ public class WorkflowDialog extends Dialog {
 		new Label(header, SWT.NONE).setText("Subject:");
 		new Label(header, SWT.NONE).setText(msg.getSubject());
 		
+		
+		Text mt = new Text(area,SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
+		mt.setText(msg.getMessageText());
+	
 		if (msg instanceof WorkflowMessage) {
 			WorkflowItem[] items = ((WorkflowMessage)msg).getWorkflowControls();
 			WorkflowItem wi = new WorkflowItem("","",WorkflowItem.CONTAINER);
 			wi.addChildren(items);
 		    containerItem = new ContainerViewItem(wi);
 		    containerItem.createViewControl(area);
-		}
-		
-		
-		
-		
-		Composite buttons = new Composite(parent, SWT.NONE);		
+		}  
+	   	
+  	return area;
+	}
+
+	protected void createButtonsForButtonBar(Composite parent) {
+		/*Composite buttons = new Composite(parent, SWT.NONE);		
 		gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		buttons.setLayout(gridLayout);
+		*/
 		
-     	Button button = new Button(buttons,SWT.PUSH);
+/*		Button button = new Button(parent,SWT.PUSH);
 		button.setText("send");	
       	button.addSelectionListener(new SelectionAdapter() {
 		   public void widgetSelected(SelectionEvent e) {
-		 	  thisWorkflowDialog.buttonPressed("send");
+		 	  thisWorkflowDialog.buttonSendPressed();
 		    }
 	     });
       	
-      	Button buttonClose = new Button(buttons,SWT.PUSH);
+      	Button buttonClose = new Button(parent,SWT.PUSH);
       	buttonClose.setText("Close");	
       	buttonClose.addSelectionListener(new SelectionAdapter() {
 		   public void widgetSelected(SelectionEvent e) {
-		 	  thisWorkflowDialog.buttonPressed("Close");
+		 	  thisWorkflowDialog.buttonClosePressed();
 		    }
-	     });
-            	
-		return area;
+	     });	
+	     */
+        createButton(parent, IDialogConstants.OK_ID, "Send", true);
+		createButton(parent, IDialogConstants.CANCEL_ID, "Close", false);
+		
 	}
 	
 	
-	 private void buttonPressed(String button){
-	 	if (button == "send") {
-	 		//this.containerItem.applyValues();
-	 	}
-	 }
+	public void okPressed(){
+		System.out.println("send pressed");
+		this.containerItem.applyValues(this);
+		System.out.println( ((WorkflowMessage ) this.msg).getWorkflowData() );
+	    this.close();
+	}
+	
+	public void cancelPressed(){
+		System.out.println("close pressed");
+		this.close(); 
+	}
 	 
 	protected void setAnswer(String key, String value) {
-		//this.msg.
+		if (msg instanceof WorkflowMessage) {
+		  WorkflowMessage wm = (WorkflowMessage) msg;
+		  if (wm.getWorkflowData() == null) {
+		  	wm.se
+		  }
+		  ((WorkflowMessage)msg).putWorkflowData(key,value);
+	    }		
 	}
+
 	
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText("Workflow Dialog");
-	}
-	
-	
-	
-	
+	}	
 
 	/**
 	 * @return Returns the send.
 	 */
-	public boolean isSend() {
-		
+	public boolean isSend() {		
 		return  send;
 	}
 }

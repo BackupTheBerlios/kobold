@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ButtonViewItem.java,v 1.1 2004/05/17 01:00:07 martinplies Exp $
+ * $Id: ButtonViewItem.java,v 1.2 2004/05/18 14:23:40 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
 
 
 import kobold.common.data.WorkflowItem;
+import kobold.common.data.WorkflowMessage;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.swt.SWT;
@@ -54,33 +55,35 @@ public class ButtonViewItem extends AbstractViewItem {
 	 * @see kobold.client.plam.workflow.AbstractViewItem#createViewControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public Composite createViewControl(Composite parent) {
-		Composite control = new Composite(parent, SWT.NONE);
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 1;
-		control.setLayout(gridLayout);
-		
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		control.setLayoutData(data);
-
-		//control.setBackground(ColorConstants.white);
-
-		button = new Button(control, type);
-		//button.setSelection(item.getValue().equals("true"));
+		button = new Button(parent, type);
 		button.setText(item.getDescription());
-		
-		data = new GridData(GridData.FILL_HORIZONTAL);
-		button.setLayoutData(data);
-
-		return control;
+		return parent;
 	}
-
+	
 	/**
 	 * @see kobold.client.plam.workflow.AbstractViewItem#applyValues()
 	 */
-	public void applyValues() {
-		if (button != null) {
-			item.setValue(button.getSelection()?"true":"false");
-		}
+	public void applyValues(WorkflowDialog wd){
+	  if (isSelected()) {
+        wd.setAnswer(this.getValue(), WorkflowMessage.DATA_VALUE_TRUE );     
+	  }else {
+	  	wd.setAnswer(this.getValue(), WorkflowMessage.DATA_VALUE_FALSE );  
+	  }
+	}
+	
+
+	/**
+	 * @return
+	 */
+	public boolean isSelected() {
+		return this.button.getSelection();
+	}
+	
+	/**
+	 * @return
+	 */
+	public String getValue() {
+		return item.getValue();
 	}
 
 }

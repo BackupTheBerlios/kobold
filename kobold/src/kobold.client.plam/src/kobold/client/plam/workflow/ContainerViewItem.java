@@ -1,8 +1,8 @@
 /*
  * Created on 16.05.2004
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+ * 
+ * TODO To change the template for this generated file go to Window -
+ * Preferences - Java - Code Generation - Code and Comments
  */
 package kobold.client.plam.workflow;
 
@@ -21,9 +21,9 @@ import java.util.*;
 
 /**
  * @author meiner1
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+ * 
+ * TODO To change the template for this generated type comment go to Window -
+ * Preferences - Java - Code Generation - Code and Comments
  */
 public class ContainerViewItem extends AbstractViewItem {
 	private WorkflowItem[] items; 
@@ -41,7 +41,9 @@ public class ContainerViewItem extends AbstractViewItem {
 	
 	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see kobold.client.plam.workflow.AbstractViewItem#createViewControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public Composite createViewControl(Composite parent) {
@@ -81,11 +83,30 @@ public class ContainerViewItem extends AbstractViewItem {
 		return container;			
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see kobold.client.plam.workflow.AbstractViewItem#applyValues()
 	 */
-	public void applyValues() {
-		// TODO Auto-generated method stub
-		
+	public void applyValues(WorkflowDialog wd) {
+		// aplly Values of the RadioButtons
+		if (item.getValue().length() > 0) {
+			// only from named contaiter, the value of the slected radiobutton can be stored
+			ButtonViewItem[] radioButtons = (ButtonViewItem[]) radioItems
+					.toArray();
+			String value = "";
+			for (int i = 0; i < radioButtons.length; i++) {
+				if (radioButtons[i].isSelected()) {
+					value = radioButtons[i].getValue();
+				}
+			}
+			wd.setAnswer(this.item.getValue(), value);
+		}
+		//	applyValues of the Rest of the Items
+		for (int i=0; i < viewItems.size(); i++)
+			((AbstractViewItem) viewItems.get(i)).applyValues(wd);
 	}
+	
+	
+	
 }

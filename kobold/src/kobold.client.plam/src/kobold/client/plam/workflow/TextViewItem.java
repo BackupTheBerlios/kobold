@@ -46,19 +46,17 @@ public class TextViewItem extends AbstractViewItem {
 		//control.setBackground(ColorConstants.white);
 		Label label = new Label(control,SWT.NONE);
 		label.setText(item.getDescription());
-		textWidget = new Text(control, SWT.NONE);
-		//button.setSelection(item.getValue().equals("true"));
-		textWidget.setText(item.getDescription());
-		
+		textWidget = new Text(control, SWT.NONE);		
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		textWidget.setLayoutData(data);
 
 		return control;
 	}
+
 	/* (non-Javadoc)
-	 * @see kobold.client.plam.workflow.AbstractViewItem#applyValues()
+	 * @see kobold.client.plam.workflow.AbstractViewItem#applyValues(kobold.client.plam.workflow.WorkflowDialog)
 	 */
-	public void applyValues() {
-		// TODO Auto-generated method stub
+	public void applyValues(WorkflowDialog wd) {
+		wd.setAnswer(item.getValue(),this.textWidget.getText());
 	}
 }
