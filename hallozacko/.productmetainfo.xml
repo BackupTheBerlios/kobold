@@ -1,0 +1,23 @@
+
+<product id="fa67ed30-3ee8-11d9-8e2e-9d0a1bfeb8df" resource="hallozacko" resource-is-defined="yes">
+  <name>hallozacko</name>
+  <description></description>
+  <states/>
+  <before-scripts/>
+  <after-scripts/>
+  <meta-nodes/>
+  <releases/>
+  <specific-components>
+    <specific-component id="fa68b080-3ee8-11d9-8e2e-9d0a1bfeb8df" resource="component2" resource-is-defined="no">
+      <name>component2</name>
+      <description></description>
+      <states/>
+      <before-scripts/>
+      <after-scripts/>
+      <product-components/>
+      <releases/>
+    </specific-component>
+  </specific-components>
+  <related-components/>
+  <edges/>
+</product>
