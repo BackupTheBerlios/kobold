@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaInformation.java,v 1.19 2004/08/31 20:35:25 neco Exp $
+ * $Id: MetaInformation.java,v 1.20 2004/09/01 04:18:22 neco Exp $
  *
  */
 package kobold.client.plam;
@@ -30,10 +30,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.runtime.IPath;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.FileDescriptor;
@@ -46,12 +42,18 @@ import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.runtime.IPath;
+
+import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.HeaderFooter;
-import com.lowagie.text.Image;
+import com.lowagie.text.List;
+import com.lowagie.text.ListItem;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Table;
@@ -149,15 +151,20 @@ public class MetaInformation {
     private void createMetaInfoForPL (Document document, Productline pl) 
     	throws DocumentException
     {
+    	
+	    //write name of productline    	
     	document.add(new Phrase("Productline: ",
     		FontFactory.getFont(FontFactory.HELVETICA, 20)));
         document.add(new Phrase(pl.getName(),
                 FontFactory.getFont(FontFactory.HELVETICA, 20, Font.ITALIC))); 
         document.add(new Phrase("\n\n"));
+        
+        //write ID of productline        
         document.add(new Phrase("    ID: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
         document.add(new Phrase(pl.getId()+"\n"));
-         
+        
+	    //write description of productline        
         document.add(new Phrase("    Description: ",
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
         Table table = new Table(1,1);  
@@ -167,7 +174,8 @@ public class MetaInformation {
         table.addCell(pl.getDescription());
         document.add(table);
         document.add(new Phrase("\n\n"));
-                
+        
+        //get maintainer of productline
         for (Iterator ite = pl.getMaintainers().iterator();
         ite.hasNext();)
         {
@@ -175,13 +183,15 @@ public class MetaInformation {
         	createMetaInfoForMaintainer (document, user);
         }
         
+        // get core assets of productline
     	for (Iterator ite = pl.getComponents().iterator(); 
 		ite.hasNext();)
 		{
 			Component comp = (Component) ite.next();
 			createMetaInfoForComponent (document, comp);
 		}
-    	    	    
+ 
+    	//get products of productline    	
     	for (Iterator ite = pl.getProducts().iterator(); 
 		ite.hasNext();)
         {
@@ -196,15 +206,20 @@ public class MetaInformation {
     	throws DocumentException
     {
     	document.add(new Phrase("\n"));
+ 
+	    //write name of product    	
     	document.add(new Phrase("Product:  ",
                 FontFactory.getFont(FontFactory.HELVETICA, 18)));
     	document.add(new Phrase(product.getName(),
 		    FontFactory.getFont(FontFactory.HELVETICA, 18, Font.ITALIC)));
 		document.add(new Phrase("\n\n"));
+
+	    //write ID of product		
 		document.add(new Phrase("    ID: ",
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(product.getId() + "\n"));
 	     
+	    //write description of product
 	    document.add(new Phrase("    Description: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    Table table = new Table(1,1);  
@@ -215,15 +230,15 @@ public class MetaInformation {
 	    document.add(table);
 	    document.add(new Phrase("\n\n"));
 	  	  
-       	//product.getMaintainers();
-    	
+    	//get related components of product	    
     	for (Iterator ite = product.getRelatedComponents().iterator(); 
 		ite.hasNext();)
 		{
 			RelatedComponent relComp = (RelatedComponent) ite.next();
 			createMetaInfoForRelatedComponent(document, relComp);
 		}
-    	    	
+    	
+    	//get specific components of product
     	for (Iterator ite = product.getSpecificComponents().iterator(); 
 		ite.hasNext();)
 		{
@@ -238,15 +253,20 @@ public class MetaInformation {
     	throws DocumentException
     {	
     	document.add(new Phrase("\n"));
+    	
+	    //write name of specific component    	
     	document.add(new Phrase("Specific Component: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(spComp.getName(),
 	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
 	    document.add(new Phrase("\n"));
+	    
+	    //write ID of specific component	    
 	    document.add(new Phrase("    ID: ",
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(spComp.getId()+"\n"));
-	     
+	    
+	    //write description of specific component
 	    document.add(new Phrase("    Description: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    Table table = new Table(1,1);  
@@ -257,13 +277,15 @@ public class MetaInformation {
 	    document.add(table);
 	    document.add(new Phrase("\n\n"));
 	    
+	    //get maintainers of specific component
 	    for (Iterator ite = spComp.getMaintainers().iterator(); 
 		ite.hasNext();)
 		{
 			User user = (User) ite.next();
         	createMetaInfoForMaintainer (document, user);
         }
-				
+		
+	    //get file descriptors of specific component
 		for (Iterator ite = spComp.getFileDescriptors().iterator(); 
 		ite.hasNext();)
 		{
@@ -277,15 +299,20 @@ public class MetaInformation {
     	throws DocumentException
     {
     	document.add(new Phrase("\n"));
+    	
+    	//write name of related component
     	document.add(new Phrase("Related Component: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(relComp.getName(),
 	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
 	    document.add(new Phrase("\n"));
+	    
+	    //write ID of related component
 	    document.add(new Phrase("    ID: ",
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(relComp.getId()+"\n"));
-	     
+	    
+	    //write description of related component
 	    document.add(new Phrase("    Description: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    Table table = new Table(1,1);  
@@ -294,7 +321,8 @@ public class MetaInformation {
 	    table.setSpacing(4);
 	    table.addCell(relComp.getDescription());
 	    document.add(table);
-	    	          
+	    
+	    //get file maintainers of related component
         for (Iterator ite = relComp.getMaintainers().iterator(); 
 		ite.hasNext();)
 		{
@@ -302,6 +330,7 @@ public class MetaInformation {
         	createMetaInfoForMaintainer (document, user);
         }
 		
+        //get file descriptors of related component
 		for (Iterator ite = relComp.getFileDescriptors().iterator(); 
 		ite.hasNext();)
 		{
@@ -314,6 +343,7 @@ public class MetaInformation {
     private void createMetaInfoForMaintainer(Document document, User user) 
     	throws DocumentException
     {
+    	//write name of maintainer
     	document.add(new Phrase("    Maintainer: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
     	document.add(new Phrase(user.getUsername())); 
@@ -326,15 +356,20 @@ public class MetaInformation {
 		throws DocumentException
 	{
 		document.add(new Phrase("\n"));
+		
+		//write name of component
 		document.add(new Phrase("Core Asset: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(comp.getName(),
 	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
 	    document.add(new Phrase("\n"));
+	    
+	    //write ID of component
 	    document.add(new Phrase("    ID: ",
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(comp.getId()+"\n"));
-	     
+	    
+	    //write description of component
 	    document.add(new Phrase("    Description: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    Table table = new Table(1,1);  
@@ -345,10 +380,20 @@ public class MetaInformation {
 	    document.add(table);
 	    document.add(new Phrase("\n"));
 	    
+	    //write status of component
 	    document.add(new Phrase("    Status: ",
-            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
-	    document.add(new Phrase(comp.getStatusSet().toString() + "\n"));
-		     
+	            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    if (comp.getStatusSet().isEmpty() == true){
+	    	document.add(new Phrase("not deprecated",
+	                FontFactory.getFont(FontFactory.HELVETICA, 12)));
+	    }
+	    else{
+	    	document.add(new Phrase("deprecated",
+	                FontFactory.getFont(FontFactory.HELVETICA, 12)));
+	    }
+	    document.add(new Phrase("\n"));
+	    
+		//get maintainer of component     
 		for (Iterator ite = comp.getMaintainers().iterator(); 
 		ite.hasNext();)
 		{
@@ -356,6 +401,7 @@ public class MetaInformation {
         	createMetaInfoForMaintainer (document, user);
         }
 		
+		//get variant of component
     	for (Iterator ite = comp.getVariants().iterator(); 
 		ite.hasNext();)
 		{
@@ -369,15 +415,20 @@ public class MetaInformation {
 		throws DocumentException
 	{
 		document.add(new Phrase("\n"));
+		
+		//write name of variant
 		document.add(new Phrase("Variant: ",
                 FontFactory.getFont(FontFactory.HELVETICA, 16)));
     	document.add(new Phrase(var.getName(),
 	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
 	    document.add(new Phrase("\n"));
+	    
+	    //write ID of variant
 	    document.add(new Phrase("    ID: ",
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(var.getId()+"\n"));
-	     
+	    
+	    //write description of variant
 	    document.add(new Phrase("    Description: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    Table table = new Table(1,1);  
@@ -387,11 +438,21 @@ public class MetaInformation {
 	    table.addCell(var.getDescription());
 	    document.add(table);
 	    document.add(new Phrase("\n"));
+
+	    //write status of variant
 	    document.add(new Phrase("    Status: ",
-            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
-	    document.add(new Phrase(var.getStatusSet().toString() + "\n"));
-		
-	          
+	            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    if (var.getStatusSet().isEmpty() == true){
+	    	document.add(new Phrase("not deprecated",
+	                FontFactory.getFont(FontFactory.HELVETICA, 12)));
+	    }
+	    else{
+	    	document.add(new Phrase("deprecated",
+	                FontFactory.getFont(FontFactory.HELVETICA, 12)));
+	    }
+	    document.add(new Phrase("\n"));
+	    
+	    //get components of variant      
 		for (Iterator ite = var.getComponents().iterator();
 		ite.hasNext();)
 		{
@@ -399,6 +460,7 @@ public class MetaInformation {
 			createMetaInfoForComponent(document, comp);
 		}
 		
+		//get releases of variant
 		for (Iterator ite = var.getReleases().iterator();
 		ite.hasNext();)
 		{
@@ -406,6 +468,7 @@ public class MetaInformation {
 			createMetaInfoForReleases(document, release);
 		}
 		
+		//get file descriptors of variant
 		for (Iterator ite = var.getFileDescriptors().iterator(); 
 		ite.hasNext();)
 		{
@@ -418,20 +481,50 @@ public class MetaInformation {
 	private void createMetaInfoForFileDescriptors(Document document, FileDescriptor fileDes)
 		throws DocumentException
 	{
+		
+		//write name of file descriptor
 		document.add(new Phrase("File Descriptor: ",
-                FontFactory.getFont(FontFactory.HELVETICA, 16)));
+                FontFactory.getFont(FontFactory.HELVETICA, 14)));
     	document.add(new Phrase(fileDes.getFilename(),
-	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
+	        FontFactory.getFont(FontFactory.HELVETICA, 14, Font.ITALIC))); 
 	    document.add(new Phrase("\n"));
-    	document.add(new Phrase("    Local path: ",
-	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC))); 
-	    document.add(new Phrase(fileDes.getLocalPath().toString() + "\n"));
+	    
+	    
+	    List list = new List(false, 12);
+	    List sublist;
+	    List subsublist;
+	   
+        sublist = new List(false, 10);
+        subsublist = new List(false, 10);
+        sublist.setListSymbol(new Chunk("", FontFactory.getFont
+				(FontFactory.HELVETICA, 12, Font.BOLD)));
+        subsublist.setListSymbol(new Chunk("", FontFactory.getFont
+				(FontFactory.HELVETICA, 12, Font.BOLD)));
+        
+        //write local path of file descriptor
+        sublist.add(new ListItem("Local path: ", FontFactory.getFont
+        		(FontFactory.HELVETICA, 12, Font.ITALIC)));
+        subsublist.add(new ListItem(fileDes.getLocalPath().toString(), 
+        		FontFactory.getFont(FontFactory.HELVETICA, 12)));
+        sublist.add(subsublist);
+        
+        //write revision of file descriptor
+        sublist.add(new ListItem("Revision: ",
+            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+        
+        list.add(sublist);
+        document.add(list);
+	    
+//    	document.add(new Phrase("    Local path: ",
+//	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+//    	document.add(new Phrase("\n" + "    "));
+//	    document.add(new Phrase(fileDes.getLocalPath().toString() + "\n"));
 //	    document.add(new Phrase("    Date of last change: ",
 //	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 //	    document.add(new Phrase(fileDes.getLastChange().toString() + "\n"));   
-	    document.add(new Phrase("    Revision: ",
-            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
-	    document.add(new Phrase(fileDes.getRevision()+"\n\n"));
+//	    document.add(new Phrase("    Revision: ",
+//            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    document.add(new Phrase("\n"));
 	     
 	}
 	
@@ -440,15 +533,20 @@ public class MetaInformation {
 		throws DocumentException
 	{
 		document.add(new Phrase("\n"));
+		
+		//write name of release
 		document.add(new Phrase("Release: ",
-                FontFactory.getFont(FontFactory.HELVETICA, 16)));
+                FontFactory.getFont(FontFactory.HELVETICA, 14)));
     	document.add(new Phrase(release.getName(),
-	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
+	        FontFactory.getFont(FontFactory.HELVETICA, 14, Font.ITALIC))); 
 	    document.add(new Phrase("\n"));
+	    
+	    //write ID of release
 	    document.add(new Phrase("    ID: ",
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(release.getId()+"\n"));
-	     
+	    
+	    //write description of realese
 	    document.add(new Phrase("    Description: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    Table table = new Table(1,1);  
@@ -458,11 +556,19 @@ public class MetaInformation {
 	    table.addCell(release.getDescription());
 	    document.add(table);
 	    document.add(new Phrase("\n"));
+	    
+	    //write status of release
 	    document.add(new Phrase("    Status: ",
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
-	    document.add(new Phrase(release.getStatusSet().toString() + "\n"));
-		
-	    
+	    if (release.getStatusSet().isEmpty() == true){
+	    	document.add(new Phrase("not deprecated",
+	                FontFactory.getFont(FontFactory.HELVETICA, 12)));
+	    }
+	    else{
+	    	document.add(new Phrase("deprecated",
+	                FontFactory.getFont(FontFactory.HELVETICA, 12)));
+	    }
+	    document.add(new Phrase("\n\n"));
 	}
 	
 }
