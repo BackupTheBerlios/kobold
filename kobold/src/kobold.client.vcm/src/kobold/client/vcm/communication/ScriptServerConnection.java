@@ -231,10 +231,6 @@ public class ScriptServerConnection implements IServerConnection
 	public void open(IProgressMonitor monitor,String[] command) throws IOException,
 			CVSAuthenticationException
 	{
-//	    Job job = new Job();
-//	    Workbench.getInstance().getProgressService().showInDialog(new Shell(),)
-//		vcmHostLocation = repositoryDescriptor.getHost();
-//		repositoryPath = repositoryDescriptor.getPath();
 		String[] actualCommand = new String[command.length + 3];
 		actualCommand[0] = skriptName; 
 		actualCommand[1] = command[0];
@@ -246,9 +242,8 @@ public class ScriptServerConnection implements IServerConnection
 		}
 		for (int i = 0; i < actualCommand.length; i++) {
 			System.out.print(actualCommand[i]);
-			System.out.print(" ** ");
+			System.out.print("**");
 		}
-		System.out.println("** Stopp endegelände");
 //		String[] command = ((CVSRepositoryLocation)location).getExtCommand(password);
 //		String[] command = {"C:\\Temp\\test","marvin"};
 		try {
@@ -411,7 +406,7 @@ public class ScriptServerConnection implements IServerConnection
 		    int index = 0, r = 0, s = 0, i = 0, lineCount = 250;
             try
             {
-                if(monitor != null)monitor.beginTask("VCM Action....",100000);
+                if(monitor != null)monitor.beginTask("VCM Action....",1000000);
                 
                 while (in.available() == 0 & errStream.available() == 0)
                 {
@@ -636,7 +631,7 @@ public class ScriptServerConnection implements IServerConnection
 	private String getUserName ()
 	{
 		//gets the userName
-		String uN = KoboldVCMPlugin.getDefault().getPreferenceStore().getString("User Name");
+		String uN = KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR);
  
 		if (uN.equals(""))
 		{
