@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.79 2004/08/25 10:58:35 vanto Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.80 2004/08/25 11:03:46 vanto Exp $
  *
  */
 package kobold.server;
@@ -87,15 +87,16 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	public static void main(String args[]) throws Exception {
 		String configFile = null;
 	    if (args.length < 1) {
-			System.err.println("Usage: java SecureKoboldWebServer port [administrator password] [configfile]");
+			System.err.println("Usage: java SecureKoboldWebServer port [configfile] [administrator password]");
 			System.exit(1);
 		}
-		if (args.length > 1) {
-		    adminPassword = args[1];
+
+	    if (args.length > 1) {
+		    configFile = args[1];
 		}
 
 		if (args.length > 2) {
-		    configFile = args[2];
+		    adminPassword = args[2];
 		}
 
 		int port = 0;
