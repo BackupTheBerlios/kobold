@@ -1,9 +1,9 @@
-@echo off
+
 cd %1
 
-if %3 == "local"	goto LOCAL	endif
+if %3 == local	goto LOCAL	endif
 
-if %2 == "CVS" goto CVS endif
+if %2 == CVS goto CVS endif
 goto ERROR
 
 :CVS
