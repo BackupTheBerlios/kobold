@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.35 2004/11/17 11:53:16 garbeam Exp $
+ * $Id: KoboldProject.java,v 1.36 2004/11/22 15:20:22 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -231,6 +231,18 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
 	                Iterator mit = sc.getMaintainers().iterator();
 	                while (mit.hasNext())
 	                ((AbstractMaintainedAsset)a).addMaintainer((User)mit.next());
+	            }
+	        }
+	       
+	        /* product maintainer */
+	        it = spl.getProducts().iterator();
+	        while (it.hasNext()) {
+	            kobold.common.data.Product p = (kobold.common.data.Product)it.next();
+	            Product prod  = productline.getProduct(p.getName());
+	            if (prod != null && prod instanceof AbstractMaintainedAsset) {
+	                Iterator mit = p.getMaintainers().iterator();
+	                while (mit.hasNext())
+	                prod.addMaintainer((User)mit.next());
 	            }
 	        }
 	        
