@@ -61,12 +61,12 @@
 
 Dieses Dokument beschreibt das Projekt ``Produktlinien'', das von Anfang Oktober
  2003 bis Anfang November 2004 an der
-Universität Stuttgart am Institut für Softwaretechnologie (ISTE) durchgeführt
+Universitï¿½t Stuttgart am Institut fï¿½r Softwaretechnologie (ISTE) durchgefï¿½hrt
 wurde. Das Projekt wurde von neun Softwaretechnik Studenten - Necati
 Aydin, Anselm Garbe, Tammo van Lessen, Michael Grosse, Armin Cont, Patrick Schneider,
-Oliver Rendgen, Martin Plies und Bettina Druckenmüller - im Rahmen eines Studienprojekts A
-durchgeführt. Im Folgenden wird ein Überblick über die erzielten
-Ergebnisse, den Projektverlauf und die persönlichen Eindrücke der
+Oliver Rendgen, Martin Plies und Bettina Druckenmï¿½ller - im Rahmen eines Studienprojekts A
+durchgefï¿½hrt. Im Folgenden wird ein ï¿½berblick ï¿½ber die erzielten
+Ergebnisse, den Projektverlauf und die persï¿½nlichen Eindrï¿½cke der
 Teilnehmer gegeben.
 
 \section{Hintergrund des Projekts}
@@ -90,7 +90,7 @@ umgesetzt wird.\par
 Idealziel einer gut konfigurierten Produktlinie ist es, ein Produkt
 durch einfache Kombination von angepassten Core-Assets zu
 erstellen. Eine Produktlinie ist also ideal konfiguriert, wenn die
-Produktlinien-Architektur für alle möglichen Produkte hinreichend
+Produktlinien-Architektur fï¿½r alle mï¿½glichen Produkte hinreichend
 spezifiziert ist. Der Produkt\-linien-Ingenieur hat genau
 diese Aufgabe. Er bestimmt die Architektur in dem er Core-Assets
 definiert und deren Grundbeziehungen zueinander spezifiziert (Scoping
@@ -98,27 +98,27 @@ und Domain-Engineering). Soll nun ein neues Produkt in die
 Produktlinie aufgenommen werden (Application Engineering), so muss es
 dieser Architektur folgen. Es werden dazu bereits existierende
 Varianten der Core-Assets mit neuen Varianten kombiniert und dem
-Produkt-Ingenieur übergeben, der die Verantwortung für das Produkt
-übernimmmt. Dieser hat dafür Sorge zu tragen, dass die Entwicklung an
+Produkt-Ingenieur ï¿½bergeben, der die Verantwortung fï¿½r das Produkt
+ï¿½bernimmmt. Dieser hat dafï¿½r Sorge zu tragen, dass die Entwicklung an
 dem Produkt nicht die Architektur der Produktlinie verletzt.\par 
 
-In dieser Hierarchie ist es wichtig, dass bestimmte Vorgänge nach
+In dieser Hierarchie ist es wichtig, dass bestimmte Vorgï¿½nge nach
 festen Regeln kommuniziert werden. Wenn z.B. in einem Produkt eine
 bereits existierende Variante eines Core-Assets verwendet wird, darf
-diese nicht von dem Produkt-Entwickler verändert werden. Veränderungen
-sind hier nur dem zuständigen Core-Asset-Entwickler gestattet. Dieser
-muss abwägen, ob die Veränderung sinnvoll ist, da er die
-Verantwortung für sein Modul, welches evtl. auch noch von anderen
+diese nicht von dem Produkt-Entwickler verï¿½ndert werden. Verï¿½nderungen
+sind hier nur dem zustï¿½ndigen Core-Asset-Entwickler gestattet. Dieser
+muss abwï¿½gen, ob die Verï¿½nderung sinnvoll ist, da er die
+Verantwortung fï¿½r sein Modul, welches evtl. auch noch von anderen
 Produkten verwendet wird, hat. Lehnt er dies ab, so muss der
 Produkt-Ingenieur eine produktspezifische Variante dieses Core-Assets
 entwickeln lassen. Dieser Vorgang ist sehr komplex, da mehrere Personen
 mit ihren Entscheidungen daran beteiligt sind. Um eine Produktlinie
-konsequent durchsetzen zu können, müssen diese Arbeitsabläufe
+konsequent durchsetzen zu kï¿½nnen, mï¿½ssen diese Arbeitsablï¿½ufe
 spezifiziert sein.\par
 
 Es bietet sich nun an, die Entwicklung von Produktlinien mit Werkzeugen zu
-unterstützen. Damit kann man sowohl das Configuration Managment
-vereinfachen, sowie die oben erwähnten Arbeitsabläufe modellieren und damit
+unterstï¿½tzen. Damit kann man sowohl das Configuration Managment
+vereinfachen, sowie die oben erwï¿½hnten Arbeitsablï¿½ufe modellieren und damit
 die Kommunikation und die Entwicklung erleichtern.
 
 \section{Anforderungen}
@@ -129,17 +129,17 @@ Angebotsdokument verbindlich mit dem Auftraggeber vereinbart wurden:
 
 \begin{itemize}
 	\item Produktlinie erstellen und bearbeiten vom Produktlinien-Ingenieur
-	\item Produkt erstellen, bearbeiten und löschen
+	\item Produkt erstellen, bearbeiten und lï¿½schen
 	\item graphische Darstellung von Produkt- und Produktlinienarchitekturen
 	\item Vergleich der Produkt- und Produktlinienarchitekturen in Form eines Schnittgraphen
-	\item Erfassung von Metadaten für jede Komponente und Beziehung
-	\item Konsistenzchecks durchführen
-	\item Erzeugung eines Überblick-Dokuments mit Metadaten und Abhängigkeiten
+	\item Erfassung von Metadaten fï¿½r jede Komponente und Beziehung
+	\item Konsistenzchecks durchfï¿½hren
+	\item Erzeugung eines ï¿½berblick-Dokuments mit Metadaten und Abhï¿½ngigkeiten
 	\item Produkt-Ingenieure anlegen
 	\item Verwaltung von Core Assets
 	\item Produkt-Entwickler verwalten
 	\item Produktlinien und Produkte nach Metadaten durchsuchen
-	\item Auslösen von Workflows
+	\item Auslï¿½sen von Workflows
 	\item Repositories ansehen
 	\item Arbeitsverzeichnis auschecken
 	\item Arbeitsverzeichnis einchecken
@@ -151,52 +151,52 @@ Angebotsdokument verbindlich mit dem Auftraggeber vereinbart wurden:
 
 \section{Kobold}
 
-Nach Abschluß der Entwicklungsarbeiten ist ein System etabliert, das, wie
-ursprünglich geplant, drei ausführbare Anwendungen umfasst:\par
+Nach Abschluï¿½ der Entwicklungsarbeiten ist ein System etabliert, das, wie
+ursprï¿½nglich geplant, drei ausfï¿½hrbare Anwendungen umfasst:\par
 
-Der persistente Kobold-Server ermöglicht die zentrale Verwaltung von Produktlinien- 
-und Benutzerdaten, sowie deren gegenseitigen Abhängigkeiten. Die im Server realisierten
+Der persistente Kobold-Server ermï¿½glicht die zentrale Verwaltung von Produktlinien- 
+und Benutzerdaten, sowie deren gegenseitigen Abhï¿½ngigkeiten. Die im Server realisierten
 Sicherheitsmechanismen erzwingen dabei die Durchsetzung der festgelegten Berechtigungen 
 und stellen die Konsistenz des Produktlinien- und Benutzerdatenmodells sicher, selbst wenn
 mit Hilfe der Clients der aktive Versuch der Sabotage unternommen wird.\par
 
-Die Kommunikation zwischen Clients und Server erfolgt über eine verschlüsselte SSL-Verbindung.
-Darüberhinaus können die Administartionsfunktionen des Servers durch ein zusätzliches Administartionspasswort
-geschützt werden.\par
+Die Kommunikation zwischen Clients und Server erfolgt ï¿½ber eine verschlï¿½sselte SSL-Verbindung.
+Darï¿½berhinaus kï¿½nnen die Administartionsfunktionen des Servers durch ein zusï¿½tzliches Administartionspasswort
+geschï¿½tzt werden.\par
 
-Die zweite ausführbare Anwendung des Kobold-Systems ist der User-Client. Über ihn können
-sämtliche Aufgaben des Kobold-Systems mit Ausnahme von Administrationsmaßnahmen durchgeführt werden.
-Der User-Client ist vollständig in die Eclipse-Plattform integriert und technisch von dieser
-abhängig. Pro Instanz kann jeweils ein Benutzer am System arbeiten, der sich mittels Benutzernamen
+Die zweite ausfï¿½hrbare Anwendung des Kobold-Systems ist der User-Client. ï¿½ber ihn kï¿½nnen
+sï¿½mtliche Aufgaben des Kobold-Systems mit Ausnahme von Administrationsmaï¿½nahmen durchgefï¿½hrt werden.
+Der User-Client ist vollstï¿½ndig in die Eclipse-Plattform integriert und technisch von dieser
+abhï¿½ngig. Pro Instanz kann jeweils ein Benutzer am System arbeiten, der sich mittels Benutzernamen
 und Kennwort am Server anmelden muss.\par
 
 Die Benutzerschnittstelle ist dabei durchgehend defensiv ausgelegt, d.h. Funktionen des Clients sind nur 
-dann anwählbar, wenn der jeweilige Benutzer dazu auch berechtigt ist und die jeweiligen Voraussetzungen dazu 
-erfüllt sind (so kann beispielsweise der Produktlinieneditor erst gestartet werden, nachdem die Verbindung zum 
-Server erfolgreich etabliert und die Berechtigung durch das System bestätigt wurde). Zusätzlich zu den serverseitigen
+dann anwï¿½hlbar, wenn der jeweilige Benutzer dazu auch berechtigt ist und die jeweiligen Voraussetzungen dazu 
+erfï¿½llt sind (so kann beispielsweise der Produktlinieneditor erst gestartet werden, nachdem die Verbindung zum 
+Server erfolgreich etabliert und die Berechtigung durch das System bestï¿½tigt wurde). Zusï¿½tzlich zu den serverseitigen
 Sicherheitsmechanismen verhindert also bereits die clientseitige Benutzerschnittstelle die beabsichtigte oder unbeabsichtigte
-Sabotage der Systemintegrität. Ferner wird dem Benutzer vom System selbst durch die Integration des
-Handbuchs im Client zusätzliche Hilfestellung bei den alltäglichen Aufgaben bei der Arbeit mit Kobold geboten
+Sabotage der Systemintegritï¿½t. Ferner wird dem Benutzer vom System selbst durch die Integration des
+Handbuchs im Client zusï¿½tzliche Hilfestellung bei den alltï¿½glichen Aufgaben bei der Arbeit mit Kobold geboten
 (beachte dazu auch das Kapitel zum Handbuch).\par
  
-Die dritte ausführbare Anwendung ist ein schlanker, text-basierter Client, der ausschließlich der Administartion
-des Servers dient. Die User- und Administrations-Schnittstellen des Servers sind vollständig entkoppelt und die 
-Clients selbst völlig unabhängig. Diese Aufteilung dient der Sicherheit der Systemintegrität. Trotz der extensiven 
+Die dritte ausfï¿½hrbare Anwendung ist ein schlanker, text-basierter Client, der ausschlieï¿½lich der Administartion
+des Servers dient. Die User- und Administrations-Schnittstellen des Servers sind vollstï¿½ndig entkoppelt und die 
+Clients selbst vï¿½llig unabhï¿½ngig. Diese Aufteilung dient der Sicherheit der Systemintegritï¿½t. Trotz der extensiven 
 Sicherheitsmechanismen stellen die Administartionsfunktionen des Kobold-Systems insofern ein Sicherheitsrisiko dar, 
-als sie bei bewusster oder fahrlässiger Verwendung die Arbeit der Benutzer potentiell erschweren können.\par
+als sie bei bewusster oder fahrlï¿½ssiger Verwendung die Arbeit der Benutzer potentiell erschweren kï¿½nnen.\par
 
-Zu den Administartionsaufgaben gehören das Anlegen und Entfernen von Produktlinien, deren Zuordnung zu physischen 
+Zu den Administartionsaufgaben gehï¿½ren das Anlegen und Entfernen von Produktlinien, deren Zuordnung zu physischen 
 VCM-Repositories, die Registrierung und datenkonsistenzwahrende Entfernung von Benutzern, sowie deren Zuordnung 
-zu Produktlinien. Des weiteren können zahlreiche Informationen zu den auf dem jeweils administrierten Server
+zu Produktlinien. Des weiteren kï¿½nnen zahlreiche Informationen zu den auf dem jeweils administrierten Server
 befindlichen Daten abgefragt werden.
 
-% sollten wir das noch ausführlicher machen? sind halt viele Informationen in den anderen Kapiteln aufgeführt
-% die wir ja nicht doppelt nennen sollten/müssen - ich finde, es reicht so; mal sehen, was die anderen beim
+% sollten wir das noch ausfï¿½hrlicher machen? sind halt viele Informationen in den anderen Kapiteln aufgefï¿½hrt
+% die wir ja nicht doppelt nennen sollten/mï¿½ssen - ich finde, es reicht so; mal sehen, was die anderen beim
 % Review sagen
  
 \section{Dokumente}
 
-Neben den zum System gehörenden Code-Dokumenten sind im Laufe des Projekts 
+Neben den zum System gehï¿½renden Code-Dokumenten sind im Laufe des Projekts 
 folgende Dokumente entstanden:
 
 \subsection{Angebot}
@@ -206,15 +206,15 @@ In einem knapp 50-seitigen Angebot wurden die Anforderungen und ein
 Projektablaufplan mit dem Auftraggeber vereinbart. Das Angebot
 beinhaltet desweiteren eine Risikoanalyse und eine Beschreibung des
 Prozessmodells und der geplanten Projektorganisation. In einem
-angehängten Begriffslexikon werden Begriffe der Problemdomäne
+angehï¿½ngten Begriffslexikon werden Begriffe der Problemdomï¿½ne
 definiert, die zur Kommunikation mit dem Auftraggeber und innerhalb
 des Teams verwendet wurden.
 
 \subsection{Spezifikation}
 
 Da Kobold mit einem iterativen Modell entwickelt wurde, wuchs auch die Spezifikation 
-von Iteration zu Iteration an. Die Spezifikation I legte in ihren 35 Seiten zunächst 
-einmal das Rahmengerüst von Kobold fest. In den darauffolgenden Iterationen wurden 
+von Iteration zu Iteration an. Die Spezifikation I legte in ihren 35 Seiten zunï¿½chst 
+einmal das Rahmengerï¿½st von Kobold fest. In den darauffolgenden Iterationen wurden 
 dann noch die fehlenden Use Cases spezifiziert und umgesetzt. Zum Schluss umfasste 
 die Spezifikation von Kobold knapp 55 Seiten.
 
@@ -222,118 +222,118 @@ die Spezifikation von Kobold knapp 55 Seiten.
 
 Nach Fertigstellung der ersten Spezifikation wurde ein umfassender Entwurf unter
 Zuhilfenahme der grafischen Entwurfssprache UML erstellt. Dabei wurde - wenn
-möglich - auf bekannte und bewährte Entwurfsmuster zurückgegriffen, unter anderem
+mï¿½glich - auf bekannte und bewï¿½hrte Entwurfsmuster zurï¿½ckgegriffen, unter anderem
 auf das model-view-controller- und singelton-pattern.\par
 
-Die Unterstützung der später verwendeten Programmiersprache Java für abstrakte
+Die Unterstï¿½tzung der spï¿½ter verwendeten Programmiersprache Java fï¿½r abstrakte
 Klassenschnittstellen (Interfaces) wurde extensiv dazu verwendet, bei kritischen, vor
-allem aber bei den Kommunikationsmodulen zwischen Server und Clients, eine günstige
-Ausgangssituation für spätere Iterationen und Wartungsarbeiten zu schaffen. Dazu wurden
+allem aber bei den Kommunikationsmodulen zwischen Server und Clients, eine gï¿½nstige
+Ausgangssituation fï¿½r spï¿½tere Iterationen und Wartungsarbeiten zu schaffen. Dazu wurden
 diese Schnittstellen bereits im ersten Entwurf sehr detailliert festgesetzt. Dieses
-Vorgehen hat sich sehr gut bewährt.\par
+Vorgehen hat sich sehr gut bewï¿½hrt.\par
 
-Die Aufgaben für die Client- und Serveranwendungen wurden ebenfalls bereits im ersten
+Die Aufgaben fï¿½r die Client- und Serveranwendungen wurden ebenfalls bereits im ersten
 Entwurf klar aufgeteilt. Neben einer Serveranwendung wurden zwei Clientanwendungen
-entworfen; eine zur Benutzung des Systems und eine davon unabhängige zur Administration
-des Servers. Die dabei festgesetzte, strenge Aufgabenteilung wurde in den späteren
-Iterationen mit lediglich marginalen Änderungen wie beschrieben umgesetzt.
+entworfen; eine zur Benutzung des Systems und eine davon unabhï¿½ngige zur Administration
+des Servers. Die dabei festgesetzte, strenge Aufgabenteilung wurde in den spï¿½teren
+Iterationen mit lediglich marginalen ï¿½nderungen wie beschrieben umgesetzt.
 
 \subsection{Handbuch}
 \label{handbuch}
 
 Dem Benutzer steht ein rund 120-seitiges mit Bildschirmfotos illustriertes
-Handbuch zur Verfügung. Das Handbuch enthält einen Referenzteil, der
+Handbuch zur Verfï¿½gung. Das Handbuch enthï¿½lt einen Referenzteil, der
 die Programmdialoge beschreibt und ein Tutorial, das dem
 unerfahrenen Benutzer anhand eines Beispiels einen leichten Einstieg
-in die Bedienung von Kobold ermöglicht.\par
+in die Bedienung von Kobold ermï¿½glicht.\par
 
-Darüber hinaus wurde der Tutorial-Teil des Handbuchs in Form von Eclipse-Cheat-Sheets
+Darï¿½ber hinaus wurde der Tutorial-Teil des Handbuchs in Form von Eclipse-Cheat-Sheets
 direkt in den Userclient des Systems integriert, so dass dessen Benutzer die darin
-enthaltenen Informationen direkt aus dem System heraus nutzen können ohne ihre
-Arbeitsumgebung dazu verlassen zu müssen.
+enthaltenen Informationen direkt aus dem System heraus nutzen kï¿½nnen ohne ihre
+Arbeitsumgebung dazu verlassen zu mï¿½ssen.
 
 \subsection{Interne Dokumente}
 
 Einige Dokumente wurden nur innerhalb des Teams verwendet und nicht an
 den Auftraggeber ausgeliefert. Zu nennen sind hier ein Anforderungsdokument, 
-Richtlinien zu Organisation und Qualitätssicherung sowie Testpläne und 
+Richtlinien zu Organisation und Qualitï¿½tssicherung sowie Testplï¿½ne und 
 -berichte.\par
 
-Dazu gehörten ferner die im Rahmen der Qualitätssicherungsmaßnahmen
-erstellten Dokumente, konkret schriftliche Inspektionsfeedbacks, Einträge
-im von der Berlios-Plattform bereitgestellten Bugtrackingsystem, sowie sämtliche
-Walkthrough-, Review- und Beschlußfassungsprotokolle.
+Dazu gehï¿½rten ferner die im Rahmen der Qualitï¿½tssicherungsmaï¿½nahmen
+erstellten Dokumente, konkret schriftliche Inspektionsfeedbacks, Eintrï¿½ge
+im von der Berlios-Plattform bereitgestellten Bugtrackingsystem, sowie sï¿½mtliche
+Walkthrough-, Review- und Beschluï¿½fassungsprotokolle.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Projektorganisation}
 
 \section{Projektrahmen}
 
-Das Projekt wurde im Rahmen eines Studienprojkets A an der Universität Stuttgart
-durchgeführt. Projekteigentümer war die Abteilung Programmiersprachen und Übersetzterbau
-des Instituts für Softwaretechnologie.\par
+Das Projekt wurde im Rahmen eines Studienprojkets A an der Universitï¿½t Stuttgart
+durchgefï¿½hrt. Projekteigentï¿½mer war die Abteilung Programmiersprachen und ï¿½bersetzterbau
+des Instituts fï¿½r Softwaretechnologie.\par
 
-Als Hilfestellung für die Projektmannschaft wurden begleitend zum Projekt selbst ein 
-vom Projekteigentümer durchgeführtes Seminar zur Produktlinienentwicklung sowie eine
-komplette Vorlesung zur Entwicklungstechnik des Reengineerings durchgeführt, an dem
+Als Hilfestellung fï¿½r die Projektmannschaft wurden begleitend zum Projekt selbst ein 
+vom Projekteigentï¿½mer durchgefï¿½hrtes Seminar zur Produktlinienentwicklung sowie eine
+komplette Vorlesung zur Entwicklungstechnik des Reengineerings durchgefï¿½hrt, an dem
 alle Mitglieder der Projketmannschaft teilnahmen.\par
 
-Aufgrund der für ein Studienprojekt untypisch hohen Verfügbarkeit an studentischen
-Arbeitskräften wurde die zu entwickelnde Software parallel von zwei neunköpfigen
-Entwicklerteams umgesetzt, die - soweit dies vom Projekteigentümer gestattet wurde -
+Aufgrund der fï¿½r ein Studienprojekt untypisch hohen Verfï¿½gbarkeit an studentischen
+Arbeitskrï¿½ften wurde die zu entwickelnde Software parallel von zwei neunkï¿½pfigen
+Entwicklerteams umgesetzt, die - soweit dies vom Projekteigentï¿½mer gestattet wurde -
 trotzt der Konkurrenzsituation kooperieren und sich durch stetigen Erfahrungsaustausch 
 gegenseitig motivieren konnten.
 
 \section{Das Team}
 
-Der zu diesem Bericht gehörige Auftragnehmer bestand aus einem der beiden
-Entwicklerteams, nämlich demjenigen, welches unter dem Namen Werkbold firmierte.
-Die zum Team gehörenden Studenten befanden sich zu Beginn des Projekts im fünften bzw. siebten Studiensemester. 
+Der zu diesem Bericht gehï¿½rige Auftragnehmer bestand aus einem der beiden
+Entwicklerteams, nï¿½mlich demjenigen, welches unter dem Namen Werkbold firmierte.
+Die zum Team gehï¿½renden Studenten befanden sich zu Beginn des Projekts im fï¿½nften bzw. siebten Studiensemester. 
 
-%TODO: Bild einfügen
+%TODO: Bild einfï¿½gen
 
 \subsection{Rollen}
 
 Auf die Vergabe von formalen Rollen wurden weitgehend verzichtet. 
 Die Zuteilung der Aufgaben erfolgte
-gemeinschaftlich, soweit möglich auf Basis freiwilliger Übernahme,
-in jedem Fall aber unter Beachtung der persönlichen Fähigkeiten, 
-während gemeinsamer Team-Treffen. Wurde eine Aufgabe von keinem der
-Entwickler übernommen, so wurde diese vom Projektleiter zugeteilt.
+gemeinschaftlich, soweit mï¿½glich auf Basis freiwilliger ï¿½bernahme,
+in jedem Fall aber unter Beachtung der persï¿½nlichen Fï¿½higkeiten, 
+wï¿½hrend gemeinsamer Team-Treffen. Wurde eine Aufgabe von keinem der
+Entwickler ï¿½bernommen, so wurde diese vom Projektleiter zugeteilt.
 
 
 \subsubsection{Projektleiter}
 
-Der Projektleiter vertrat die Interessen des Teams nach außen gegenüber 
-dem Auftraggeber, koordinierte die Projektplanung, überwachte den
-Entwicklungsfortschritt und förderte den Informationsaustausch im
+Der Projektleiter vertrat die Interessen des Teams nach auï¿½en gegenï¿½ber 
+dem Auftraggeber, koordinierte die Projektplanung, ï¿½berwachte den
+Entwicklungsfortschritt und fï¿½rderte den Informationsaustausch im
 Team und zum Auftraggeber. Die Rolle des Projektleiters wurde von
-Anselm Garbe übernommen.
+Anselm Garbe ï¿½bernommen.
 
 \subsubsection{Konfigurationsmanager}
 
 Der Konfigurationsmanager setzte die
 Entwicklungsumgebung auf und stellte die Verwaltung und
 Versionierung von Dokumenten und des Source-Codes sicher. Die Rolle des
-Konfigurationsmanagers wurde von Oliver Rendgen übernommen.
+Konfigurationsmanagers wurde von Oliver Rendgen ï¿½bernommen.
 
 \subsubsection{Dokumentationsmanager}
 
 Der Dokumentationsmanager war der
-technischer Berater für alle Dokumente, die in der Entwicklung
-enstanden. Er war für die Erstellung des Handbuchs verantwortlich.
-Die Rolle des Dokumentationsmanager wurde von Frau Bettina Druckenmüller 
-übernommen.
+technischer Berater fï¿½r alle Dokumente, die in der Entwicklung
+enstanden. Er war fï¿½r die Erstellung des Handbuchs verantwortlich.
+Die Rolle des Dokumentationsmanager wurde von Frau Bettina Druckenmï¿½ller 
+ï¿½bernommen.
 
 \subsubsection{QS-Manager}
 
-Der QS-Manager war verantwortlich für die
-generelle Organisation und Überwachung der
-Qualitätssicherungsarbeiten (vgl. dynamische
-Rolle "Qualitätssicherer"). Unter sein Aufgabenbereich fiel
-insbesondere die Vermeidung von Widersprüchen bei den zu
+Der QS-Manager war verantwortlich fï¿½r die
+generelle Organisation und ï¿½berwachung der
+Qualitï¿½tssicherungsarbeiten (vgl. dynamische
+Rolle "Qualitï¿½tssicherer"). Unter sein Aufgabenbereich fiel
+insbesondere die Vermeidung von Widersprï¿½chen bei den zu
 erstellenden QS-Dokumenten und die Sicherstellung deren Einhaltung
-durch das Team. Die Rolle des QS-Manager wurde von Armin Cont übernommen.
+durch das Team. Die Rolle des QS-Manager wurde von Armin Cont ï¿½bernommen.
 
 \subsubsection{Entwickler}
 
@@ -344,22 +344,22 @@ Teilnehmern belegt.
 \section{Schulungen}
 
 Aufgrund der unterschiedlichen Vorkenntnisse der einzelnen Teammitglieder
-wurde der naheligende Versuch unternommen, zumindest die gröbsten Unterschiede
-durch Schulungen auszugleichen, um ein gemeinsames Knowhow-Level für die weitere
+wurde der naheligende Versuch unternommen, zumindest die grï¿½bsten Unterschiede
+durch Schulungen auszugleichen, um ein gemeinsames Knowhow-Level fï¿½r die weitere
 Zusammenarbeit im Team zu erreichen.\par
 
-Die Schulungen wurden dabei von einem oder zwei Teammitgliedern durchgeführt, die
+Die Schulungen wurden dabei von einem oder zwei Teammitgliedern durchgefï¿½hrt, die
 in dem jeweiligen Themenbereichen besonders qualifiziert bzw. erfahren waren. Die
-Durchführung der Schulungen erfolgte standardisiert unter Zuhilfenahme von durch
-die Referenten vorbereiteten Schulungsmaterialien (Folien, Fallbeispiele, Übungen etc.) 
-mit abschließender schriftlicher Ausarbeitung, wenn dies von den Geschulten bzw. den
-Referenten im jeweiligen Fall für notwendig erachtet wurde.\par
+Durchfï¿½hrung der Schulungen erfolgte standardisiert unter Zuhilfenahme von durch
+die Referenten vorbereiteten Schulungsmaterialien (Folien, Fallbeispiele, ï¿½bungen etc.) 
+mit abschlieï¿½ender schriftlicher Ausarbeitung, wenn dies von den Geschulten bzw. den
+Referenten im jeweiligen Fall fï¿½r notwendig erachtet wurde.\par
 
-Nach den Schulungen waren die Referenten die ersten Ansprechpartner für Probleme, die
+Nach den Schulungen waren die Referenten die ersten Ansprechpartner fï¿½r Probleme, die
 den behandelten Themenbereichen zugeordnet werden konnten.\par
 
-In den durchgeführten Schulungen wurde ein breites Spektrum unterschiedlicher Themenbereiche
-abgedeckt, vom Umgang mit einzelnen Werkzeugen, über Entwurfstechniken, bis hin zu den
+In den durchgefï¿½hrten Schulungen wurde ein breites Spektrum unterschiedlicher Themenbereiche
+abgedeckt, vom Umgang mit einzelnen Werkzeugen, ï¿½ber Entwurfstechniken, bis hin zu den
 eingesetzten Entwicklungs- und Dokumentationssprachen:
 
 \begin{itemize}
@@ -369,8 +369,8 @@ eingesetzten Entwicklungs- und Dokumentationssprachen:
 	\item 04.02.04  Tracing (Open-Source) Projects with Maven (Tammo van Lessen) 
 	\item 23.02.04  Design Patterns (Armin Cont, Michael Grosse)  
 	\item 23.02.04  Eclipse SWT/GEF (Tammo van Lessen) 
-	\item 25.03.04  XML-RPC Kommunikation über HTTPS (Anselm Garbe)  
-	\item 25.03.04  Drools Regelengine (Bettina Druckenmüller)  
+	\item 25.03.04  XML-RPC Kommunikation ï¿½ber HTTPS (Anselm Garbe)  
+	\item 25.03.04  Drools Regelengine (Bettina Druckenmï¿½ller)  
 \end{itemize}
 
 
@@ -382,62 +382,82 @@ eingesetzten Entwicklungs- und Dokumentationssprachen:
 
 \section{Prozessmodell}
 
-Es wurde ein evolutionäres Vorgehensmodell\footnote{Vgl. Literatur, u.a. J.
+Es wurde ein evolutionï¿½res Vorgehensmodell\footnote{Vgl. Literatur, u.a. J.
 Ludewig, Sammlung von Kapiteln zum Software Engineering} angewendet, das sich
 in mehrere Iterationen unterteilte. Jede Iteration entsprach dem
-Wasserfall-Vorgehensmodell. Das Vorgehensmodell ähnelt dem Spiralmodell nach
+Wasserfall-Vorgehensmodell. Das Vorgehensmodell ï¿½hnelt dem Spiralmodell nach
 B.W. Boehm.
 Durch die Anwendung dieses Vorgehensmodells ergaben sich folgende Vorteile:
 
 \begin{itemize}
-\item Der Umfang der iterativen Spezifikationen und Entwürfe war wesentlich
+\item Der Umfang der iterativen Spezifikationen und Entwï¿½rfe war wesentlich
 kleiner als bei einer Wasserfall-Gesamtentwicklung. Der inkrementelle Umfang
-resultierte in einer geringeren Fehleranfälligkeit und garantierte somit einen
-höheren Qualitätsstandard.
+resultierte in einer geringeren Fehleranfï¿½lligkeit und garantierte somit einen
+hï¿½heren Qualitï¿½tsstandard.
 \item Der Entwicklungsfortschritt konnte somit vom Auftraggeber und vom
-Entwicklungsteam realistischer eingeschätzt werden, da regelmäßig
-eine neue Auslieferung durchgeführt wurde, die vom Auftraggeber abgenommen
+Entwicklungsteam realistischer eingeschï¿½tzt werden, da regelmï¿½ï¿½ig
+eine neue Auslieferung durchgefï¿½hrt wurde, die vom Auftraggeber abgenommen
 werden musste.
 \item Durch die Wahl der {\it J2SE} Technologie fand die Entwicklung
 nach modernen {\it Design Patterns}\footnote{Vgl. Literatur, Design
 Patterns, Erich Gamma} und objektorientierten Paradigmen statt. Im Gegensatz zu
 imperativen Technologien wurde dadurch eine geringere Kopplung der
 Software-Komponenten und somit eine bessere Zerlegung des Systems erreicht.
-Eine derart leicht durchführbare Zerlegung des Systems nach funktionalen
-Bestandteilen ermöglichte besonders das evolutionäre Vorgehen.
-\item Es konnten neue oder geänderte Anforderungen in einer späteren Iteration
-wesentlich flexibler im Entwicklunsprozess berücksichtigt und realisiert
+Eine derart leicht durchfï¿½hrbare Zerlegung des Systems nach funktionalen
+Bestandteilen ermï¿½glichte besonders das evolutionï¿½re Vorgehen.
+\item Es konnten neue oder geï¿½nderte Anforderungen in einer spï¿½teren Iteration
+wesentlich flexibler im Entwicklunsprozess berï¿½cksichtigt und realisiert
 werden.
 \end{itemize}
 
 Ein entscheidener Unterschied zu konventionellen Vorgehensmodellen war der
-höhere Kommunikationsaufwand zwischen dem Auftraggeber und dem Entwicklerteam.
-Dieser höhere Kommunikationsaufwand zeichnete sich in jedem Fall positiv für den
-Auftraggeber aus, da Anforderungen schon aufgrund der Quantität der
-Kommunikation besser einfliessen konnten. Außerdem hatte der Auftraggeber die
-Möglichkeit, nach jeder abgeschlossenen Iteration, auch größere Änderungswünsche
+hï¿½here Kommunikationsaufwand zwischen dem Auftraggeber und dem Entwicklerteam.
+Dieser hï¿½here Kommunikationsaufwand zeichnete sich in jedem Fall positiv fï¿½r den
+Auftraggeber aus, da Anforderungen schon aufgrund der Quantitï¿½t der
+Kommunikation besser einfliessen konnten. Auï¿½erdem hatte der Auftraggeber die
+Mï¿½glichkeit, nach jeder abgeschlossenen Iteration, auch grï¿½ï¿½ere ï¿½nderungswï¿½nsche
 einzubringen. \par
 
 
 \section{Projektplan}
 
-Bereits Während des Vorprojekts wurde ein grober Plan für das Gesamtprojekt erstellt,
+Bereits Wï¿½hrend des Vorprojekts wurde ein grober Plan fï¿½r das Gesamtprojekt erstellt,
 der Bestandteil des Angebots wurde. Dieser grobe Projektplan wurde zu Beginn der
-ersten Iteration gründlich überarbeitet und sehr detailiert festgelegt.\par
+ersten Iteration grï¿½ndlich ï¿½berarbeitet und sehr detailiert festgelegt.\par
 
-Da dem Kunden nach Abschluß jeder Iteartion die Möglichkeit gegeben wurde, aktiv auf
-die Entwicklung Einfluß zu nehmen und dieser davon auch mit offensichtlicher
-Begeisterung Gebrauch machte, wurde der ursprüngliche Projektplan zu Beginn jeder neuen
-Iteration an die vom Kunden neu geschaffenen Realitäten angepasst.
+Da dem Kunden nach Abschluï¿½ jeder Iteartion die Mï¿½glichkeit gegeben wurde, aktiv auf
+die Entwicklung Einfluï¿½ zu nehmen und dieser davon auch mit offensichtlicher
+Begeisterung Gebrauch machte, wurde der ursprï¿½ngliche Projektplan zu Beginn jeder neuen
+Iteration an die vom Kunden neu geschaffenen Realitï¿½ten angepasst.
 
 \subsection{Analyse und Angebot}
-Während der Anforderungsanalyse wurde in mehreren Treffen die
+Wï¿½hrend der Anforderungsanalyse wurde in mehreren Treffen die
 Anforderungen des Kunden ermittelt. Die Ergebnisse wurden in einem
 Angebot dokumentiert, das dem Kunden zur Abnahme vorgelegt wurde. Das
 Angebot beinhaltete eine Beschreibung des geplanten Projekts.
 
 \subsection{Spezifikation und Entwurf}
-%TODO!
+FÃ¼r die Erstellung der Spezifikation wurde zu Beginn der ersten Iteartion der mit Abstand
+grÃ¶ÃŸte Aufwand getrieben. Die im Vorfeld gesammelten Anforderungen wurden dabei so umfassend
+wie mÃ¶glich in die Spezifikation eingebunden, wobei der Kunde in Einzelfragen noch einige
+Male konsultiert wurde. In den nachfolgenden Iterationen wurde die Spezfikation angepasst,
+wenn dies notwendig wurde; die dadurch eingebrachten Ã„nderungen waren allerdings erwartungsgemÃ¤ÃŸ 
+von sehr geringem Umfang.\par
+Entsprechend der herausragenden Bedeutung der ersten Spezifikation, wurde diese allen zur VerfÃ¼gung
+stehenden QualitÃ¤tssicherungsmaÃŸnahmen unterzogen, von regelmÃ¤ÃŸigen schriftlichen Statements bereits
+der Vorversion, Ã¼ber zwei formale Reviews, bis hin zu einem abschlieÃŸenden protokollierten Walkthrough.
+Die Spezifikation wurde spÃ¤ter die Grundlage der ersten Abschlusstests des Kobold Systems.\par
+FÃ¼r den Architekturentwurf wurde ein Ã¤hnliches Vorgehen gewÃ¤hlt, das heiÃŸt der Aufwand fÃ¼r die Erstellung
+des Entwurfs wÃ¤hrend der ersten Iteration war deutlich grÃ¶ÃŸer, als der Anpassungsaufwand in den spÃ¤teren
+Iterationen. Als Vorbereitung wurde unmittelbar vor Beginn der Entwurfsarbeiten eine eigens dafÃ¼r anberaumte
+Schulung zum Thema Entwurfstechniken und Design Patterns durchgefÃ¼hrt und bei der Erstellung des Entwurfs
+wurde groÃŸer Wert auf die Verwendung diverser Entwurfsmuster gelegt, um eine mÃ¶glichst kopplungsfreie und
+wartungsfreundliche Struktur im System zu realisieren.\par
+Der Entwurf wurde in zwei groÃŸen Schritten erstellt. Ein relativ kleines Team, zu dem auch die Schulungsleiter
+der oben angesprochenen Schuluung gehÃ¶rten, erstellte zunÃ¤chst einen Grobentwurf, der intensiv vom restlichen 
+Team geprÃ¼ft und nach anschlieÃŸender Ausreifung durch die sehr detaillierte Ausgestaltung der wichtigsten Module 
+und aller Schnittstellen soweit verfeinert wurde, dass er wÃ¤hrend der spÃ¤ter folgenden Implementierungsarbeiten 
+mit groÃŸem Gewinn eingesetzt werden konnte.
 \subsection{Erste Iteration}
 %TODO!
 \subsection{Zweite Iteration}
@@ -447,26 +467,26 @@ Angebot beinhaltete eine Beschreibung des geplanten Projekts.
 
 \section{Handbuch}
 Das Handbuch wurde von einem einzelnen Entwickler parallel zu den Iterationen 
-erstellt und befand sich somit immer auf dem neuesten Stand. Es enthält eine 
-Beschreibung der graphischen Benutzungsoberfläche und der Funktionalität 
-von Kobold und ein Tutorial. Das Handbuch wurde in einem Review geprüft und
+erstellt und befand sich somit immer auf dem neuesten Stand. Es enthï¿½lt eine 
+Beschreibung der graphischen Benutzungsoberflï¿½che und der Funktionalitï¿½t 
+von Kobold und ein Tutorial. Das Handbuch wurde in einem Review geprï¿½ft und
 zusammen mit Kobold ausgeliefert.
 
 
 \section{Auslieferung}
-Die während der Präsentation ausgelieferten Ergebnisse sind in den
+Die wï¿½hrend der Prï¿½sentation ausgelieferten Ergebnisse sind in den
 beiden vorhergehenden Abschnitten beschrieben. Die Auslieferung
-markierte mit der Erfüllung der Projektanforderungen das vorläufige
+markierte mit der Erfï¿½llung der Projektanforderungen das vorlï¿½ufige
 Ende des Projekts.
 
 \section{Nachbesserung}
 %TODO: Wie lange war die Phase eigentlich?
 
-\section{Abschlussbericht und Präsentation}
+\section{Abschlussbericht und Prï¿½sentation}
 Der Abschlussbericht ist das vorliegende Dokument. Die
-Abschlusspräsentation ist für den 26.11.2004 geplant. Zusammen
+Abschlussprï¿½sentation ist fï¿½r den 26.11.2004 geplant. Zusammen
 mit einem ausgedruckten Exemplar des Abschlussberichts wird eine CD, die
-sämtliche Projektergebnisse beinhaltet, ausgeliefert werden.
+sï¿½mtliche Projektergebnisse beinhaltet, ausgeliefert werden.
 
 
 \section{Arbeitszeitverteilung}
@@ -480,7 +500,7 @@ sämtliche Projektergebnisse beinhaltet, ausgeliefert werden.
 \begin{figure}[h!]
   \centering
   \includegraphics[width=12.5cm]{praesentation/aufwand_pro_phase}
-  \caption{Zeitliche Aufwandsverteilung auf die Aktivitäten}
+  \caption{Zeitliche Aufwandsverteilung auf die Aktivitï¿½ten}
 \end{figure}
 
 
@@ -489,19 +509,19 @@ sämtliche Projektergebnisse beinhaltet, ausgeliefert werden.
 Die im Rahmen des Projekts eingesetzten Werkzeuge lassen sich grob in drei Kategorien
 einteilen:\par
 
-Als Kommunikationswerkzeuge wurden hauptsächlich verschiedene Emailsysteme und 
+Als Kommunikationswerkzeuge wurden hauptsï¿½chlich verschiedene Emailsysteme und 
 Mobilfunktelefone eingesetzt. Das Gros der im Rahmen des Projekts versendeten
-Emails lief über zwei eigens für dieses Projekt eingerichtete Verteilerlisten,
-eine Team-interne und eine das Team und den Projekteigentümer umfassende.\par
+Emails lief ï¿½ber zwei eigens fï¿½r dieses Projekt eingerichtete Verteilerlisten,
+eine Team-interne und eine das Team und den Projekteigentï¿½mer umfassende.\par
 
 Zur Erstellung von nicht-Code-Dokumenten aller Art wurde die Dokumentenerzeugungssprache
-Tech eingesetzt sowie der UML-Diagrammer ArgoUML für Entwurfsdokumente. In einigen
-Ausnahmefällen wurden das Präsentationswerkzeug Powerpoint (für einige Schulungen) sowie
+Tech eingesetzt sowie der UML-Diagrammer ArgoUML fï¿½r Entwurfsdokumente. In einigen
+Ausnahmefï¿½llen wurden das Prï¿½sentationswerkzeug Powerpoint (fï¿½r einige Schulungen) sowie
 diverse einfache Texteditoren eingesetzt.\par
 
 Zur Erstellung von Codedokumenten wurden die Editoren der integrierten Java Entwicklungsumgebung 
-der Eclipse-Plattform eingesetzt. Sämtliche Dokumente wurden über ein zentrales CVS-Repository 
-verwaltet, welches vom Fraunhofer Institut über die Berlios-Plattform zur Verfügung gestellt wurde.
+der Eclipse-Plattform eingesetzt. Sï¿½mtliche Dokumente wurden ï¿½ber ein zentrales CVS-Repository 
+verwaltet, welches vom Fraunhofer Institut ï¿½ber die Berlios-Plattform zur Verfï¿½gung gestellt wurde.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Statistische Analyse}
@@ -512,22 +532,22 @@ verwaltet, welches vom Fraunhofer Institut über die Berlios-Plattform zur Verfüg
 \begin{figure}[h!]
   \centering
   \includegraphics[width=15cm]{praesentation/lines_of_code}
-  \caption{Quellcode Zeilenanzahl über die Zeit}
+  \caption{Quellcode Zeilenanzahl ï¿½ber die Zeit}
 \end{figure}
 
 Das Diagramm zeigt die gesammte Zeilenanzahl des Quellcodes inklusive
-aller Kommentarzeilen über die Laufzeit des Projekts. Die vertikalen
+aller Kommentarzeilen ï¿½ber die Laufzeit des Projekts. Die vertikalen
 gestrichelten Linien geben die Versionsmarkierungen an.\par
 
 An dem Diagramm lassen sich auch die Iterationen ablesen. Dabei stehen die 
-Markierungen mit der Bezeichnung PP für einen jeweils neuen Projektplan und
-somit für eine neue Iteration. Die End-Deploy Markierungen zum Ende des Projektes
-stehen für einen weiteren Übergang in eine verkürzte Itertion, in der nur noch
+Markierungen mit der Bezeichnung PP fï¿½r einen jeweils neuen Projektplan und
+somit fï¿½r eine neue Iteration. Die End-Deploy Markierungen zum Ende des Projektes
+stehen fï¿½r einen weiteren ï¿½bergang in eine verkï¿½rzte Itertion, in der nur noch
 implementiert und getestet wurde.\par
 
 Es ist deutlich zu sehen, wie die Anzahl der Codezeilen nach Abschluss des ersten
 Entwurfes (Markierung E 1-0) rapide zu steigen beginnt. Die drei flachen Sektoren im August, September und Oktober zeigen die
-Prüfungszeit, in der die Mehrzahl der Team-Mitglieder ausfiehl. 
+Prï¿½fungszeit, in der die Mehrzahl der Team-Mitglieder ausfiehl. 
 
 
 \section{Umfang der Module}
@@ -538,18 +558,18 @@ Prüfungszeit, in der die Mehrzahl der Team-Mitglieder ausfiehl.
   \caption{Umfang der Module in Codezeilen}
 \end{figure}
 
-Dieses Diagramm zeigt Größenverhältnisse der Module, gemessen in
-Quellcodezeilen. Dabei fällt das PLAM-Modul besonders groß aus, da sich
-in diesem Modul die gesamte GUI-Implementierung befindet. Die Größen der
+Dieses Diagramm zeigt Grï¿½ï¿½enverhï¿½ltnisse der Module, gemessen in
+Quellcodezeilen. Dabei fï¿½llt das PLAM-Modul besonders groï¿½ aus, da sich
+in diesem Modul die gesamte GUI-Implementierung befindet. Die Grï¿½ï¿½en der
 VCM, Common und Server-Module spiegeln in keinem Fall den Aufwand wider.\par
 
 Die Daten des Tests befinden sich in dem Modul "other". Allerdings ist zu
-berücksichtigen, dass die meisten Testdaten dort nicht inbegriffen sind und
+berï¿½cksichtigen, dass die meisten Testdaten dort nicht inbegriffen sind und
 der automatisierte Test in den Modulen des jeweils zu testenden Teiles enthalten
 sind. 
 
 
-\section{Aufwand für die einzelnen Phasen}
+\section{Aufwand fï¿½r die einzelnen Phasen}
 
 \begin{figure}[h!]
   \centering
@@ -557,13 +577,13 @@ sind.
   \caption{Aufwand pro Phase gemessen in Arbeitszeit}
 \end{figure}
 
-Das Diagramm zeigt den prozentuellen Anteil der Arbeitszeit, der für die einzelnen
-Phasen aufgebracht wurde. Besonders auffällig ist der große Anteil der Implementierung
-mit über 60 Prozent. Im Vergleich dazu sind die Phasen Spezifikation und Entwurf 
-sehr kurz gehalten. Möglicherweise ist deshalb der Aufwand für die Implementierung 
-so groß ausgefallen. Aufgrund dessen ist bedauerlicherweise auch der Anteil am 
-Test relativ gering. Dies liegt mitunter daran, dass erst spät mit dem offiziellen Test
-begonnen wurde und größere Fehler im Programm oft einen Test vorzeitig beendeten.
+Das Diagramm zeigt den prozentuellen Anteil der Arbeitszeit, der fï¿½r die einzelnen
+Phasen aufgebracht wurde. Besonders auffï¿½llig ist der groï¿½e Anteil der Implementierung
+mit ï¿½ber 60 Prozent. Im Vergleich dazu sind die Phasen Spezifikation und Entwurf 
+sehr kurz gehalten. Mï¿½glicherweise ist deshalb der Aufwand fï¿½r die Implementierung 
+so groï¿½ ausgefallen. Aufgrund dessen ist bedauerlicherweise auch der Anteil am 
+Test relativ gering. Dies liegt mitunter daran, dass erst spï¿½t mit dem offiziellen Test
+begonnen wurde und grï¿½ï¿½ere Fehler im Programm oft einen Test vorzeitig beendeten.
 
 
 \section{Entwicklerkooperation}
@@ -593,24 +613,24 @@ begonnen wurde und größere Fehler im Programm oft einen Test vorzeitig beendeten
 Diese Tabelle zeigt zu einer Liste von Quellcode-Dateien die Anzahl
 von Entwicklern, die jeweils gemeinsam an einer Datei gearbeitet haben.
 Es sind nur die Top zehn Dateien angegeben, aber auch in einer Liste
-aller Dateien würden sich nie weniger als zwei Bearbeiter pro Datei
+aller Dateien wï¿½rden sich nie weniger als zwei Bearbeiter pro Datei
 finden lassen. 
 
-Es gab innerhalb des Teams für die Implementierung eines Moduls
-jeweils einen bekannten zuständigen Entwickler, der im besonderen mit
-dem Quellcode vertraut war. Mit diesem wurde vor grösseren Änderungen
-innerhalb seines Zuständigkeitsbereichs durch andere Entwickler
-Rücksprache gehalten, so daß Konflikte im vorraus vermieden werden
-konnten. Kleinere Änderungen oder Fehlerkorrekturen konnten im
-Zweifelsfall auch nachträglich oder über das Quellcode Repository
+Es gab innerhalb des Teams fï¿½r die Implementierung eines Moduls
+jeweils einen bekannten zustï¿½ndigen Entwickler, der im besonderen mit
+dem Quellcode vertraut war. Mit diesem wurde vor grï¿½sseren ï¿½nderungen
+innerhalb seines Zustï¿½ndigkeitsbereichs durch andere Entwickler
+Rï¿½cksprache gehalten, so daï¿½ Konflikte im vorraus vermieden werden
+konnten. Kleinere ï¿½nderungen oder Fehlerkorrekturen konnten im
+Zweifelsfall auch nachtrï¿½glich oder ï¿½ber das Quellcode Repository
 kommuniziert werden.
 
 Diese Form des ``Collective Code Ownership'' ist sehr positiv zu
-bewerten. Es hat Reibungsverluste bei Änderungen und die Entstehung
+bewerten. Es hat Reibungsverluste bei ï¿½nderungen und die Entstehung
 von Quellcode, der nur von einem einzelnen Entwickler verstanden und
-gewartet werden kann, vermieden. Alleine durch die Kenntniss, daß
-Quellcode von anderen gelesen wird, konnte die Lesbarkeit und Qualität
-erhöht werden.
+gewartet werden kann, vermieden. Alleine durch die Kenntniss, daï¿½
+Quellcode von anderen gelesen wird, konnte die Lesbarkeit und Qualitï¿½t
+erhï¿½ht werden.
 
 
 
@@ -619,174 +639,174 @@ erhöht werden.
 \begin{figure}[h!]
   \centering
   \includegraphics[width=15cm]{praesentation/commit_by_hour}
-  \caption{Uhrzeiten der CVS Repository Aktivität}
+  \caption{Uhrzeiten der CVS Repository Aktivitï¿½t}
 \end{figure}
 
-Das Diagramm zeigt die Uhrzeiten der Aktivitäten im Quellcode
-Repository. Eine höhere Anzahl Commits bedeutet eine höhere
-Aktivität. Typisch ist die erhöhte Aktivität zwischen 13 und 19 Uhr,
+Das Diagramm zeigt die Uhrzeiten der Aktivitï¿½ten im Quellcode
+Repository. Eine hï¿½here Anzahl Commits bedeutet eine hï¿½here
+Aktivitï¿½t. Typisch ist die erhï¿½hte Aktivitï¿½t zwischen 13 und 19 Uhr,
 die auch bei anderen Studienprojekten zu beobachten
-ist. Offensichtlich ist das eine übliche Zeit das Arbeitsergebnis z.B.
+ist. Offensichtlich ist das eine ï¿½bliche Zeit das Arbeitsergebnis z.B.
 zum Ende der Kernarbeitszeit in das Repository zu
-comitten. Bemerkenswert sind die Aktivitäten nach 22 Uhr, die bis in
-die Morgenstunden reichen. Es gibt eine ausgeprägte
+comitten. Bemerkenswert sind die Aktivitï¿½ten nach 22 Uhr, die bis in
+die Morgenstunden reichen. Es gibt eine ausgeprï¿½gte
 Bandbreite von bevorzugten Arbeitszeiten wobei die Arbeiter am Nachmittag
 eindeutig die Mehrheit im Team stellen. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Persönliche Berichte}
+\chapter{Persï¿½nliche Berichte}
 
 %TODO! -> alle!
 
 \section{Michael Grosse}
 
-%TODO: Bild einfügen
+%TODO: Bild einfï¿½gen
 
-\subsection{Tätigkeiten}
-Das Studienprojekt A - Kobold war für mich das erste Softwareprojekt in
-dieser Größenordnung. Da einige in unserem Projektteam das Studienprojekt B
+\subsection{Tï¿½tigkeiten}
+Das Studienprojekt A - Kobold war fï¿½r mich das erste Softwareprojekt in
+dieser Grï¿½ï¿½enordnung. Da einige in unserem Projektteam das Studienprojekt B
 vorgezogen hatten, hatte ich vor allem am Anfang noch recht wenig Erfahrung
 im Umgang mit vielen Projektteilnehmern.\par
-Meinte Tätigkeiten lassen sich am besten in die Tätigkeiten des Vorprojekts
-und des Hauptprojektes untergliedern. Während des Vorprojektes nahm ich, wie
-alle anderen, an allen Analysegeprächen mit den Kunden teil und erstellte
+Meinte Tï¿½tigkeiten lassen sich am besten in die Tï¿½tigkeiten des Vorprojekts
+und des Hauptprojektes untergliedern. Wï¿½hrend des Vorprojektes nahm ich, wie
+alle anderen, an allen Analysegeprï¿½chen mit den Kunden teil und erstellte
 mit meinen anderen Teammitgliedern zusammen hieraus einen groben Entwurf
 sowie das daraus resultierende Angebot.\par
-Im Hauptprojekt war ich zunächst an der Erstellung des Grobentwurfs
-beteiligt. Für das interne Seminar bereitete ich das Thema Design Patterns
+Im Hauptprojekt war ich zunï¿½chst an der Erstellung des Grobentwurfs
+beteiligt. Fï¿½r das interne Seminar bereitete ich das Thema Design Patterns
 zusammen mit Armin Cont vor.\par
 Nachdem die wichtigsten internen Schulungen gehalten waren, stand die
 Einarbeitung in Java und hier speziell in die recht komplexe Struktur von
-Eclipse an. Aufgrund meiner früheren Programmiererfahrung stellte Java an
-sich kaum ein Problem dar. Die von uns gewählte Eclipse Plattform jedoch ein
-umso größeres. Meine erste Aufgabe innerhalb der Programmierung war die
-Entwicklung einer Übersicht für unsere Workflowmeldungen.\par
-Hierfür musste zuerst einmal herausgefunden werden, welche der vielen von
-Eclipse zur Verfügung gestellten Darstellungsmöglichkeiten für das Projekt
-am sinnvollsten verwendet werden könnte. Aufgrund der, wie sich
-herausstellte, großen Komplexität dieser Aufgabe, bearbeitete ich diese
+Eclipse an. Aufgrund meiner frï¿½heren Programmiererfahrung stellte Java an
+sich kaum ein Problem dar. Die von uns gewï¿½hlte Eclipse Plattform jedoch ein
+umso grï¿½ï¿½eres. Meine erste Aufgabe innerhalb der Programmierung war die
+Entwicklung einer ï¿½bersicht fï¿½r unsere Workflowmeldungen.\par
+Hierfï¿½r musste zuerst einmal herausgefunden werden, welche der vielen von
+Eclipse zur Verfï¿½gung gestellten Darstellungsmï¿½glichkeiten fï¿½r das Projekt
+am sinnvollsten verwendet werden kï¿½nnte. Aufgrund der, wie sich
+herausstellte, groï¿½en Komplexitï¿½t dieser Aufgabe, bearbeitete ich diese
 Aufgabe zusammen mit Martin Plies.\par
 Nachdem diese Aufgabe erfolgreich zuende gebracht war, wurde mir
-aufgetragen, zusammen mit Bettina Druckenmüller die Erstellung der Workflows
+aufgetragen, zusammen mit Bettina Druckenmï¿½ller die Erstellung der Workflows
 zu entwickeln. Bei dieser Aufgabe war ich allerdings nur in den
 Anfangsphasen dabei.\par
 Danach wurde mir aufgetragen, alle Benutzersteuerungsdialoge, wie Benutzer
-anlegen, Benutzernamen ändern und Benutzer löschen zu erstellen. Diese
+anlegen, Benutzernamen ï¿½ndern und Benutzer lï¿½schen zu erstellen. Diese
 Aufgabe fiel mir recht leicht, da ich mich an der Struktur schon bestehender
-ähnlicher Dialoge recht gut orientieren konnte.\par
-Mit zunehmendem Projektverlauf bekam die Qualitätssicherung einen größeren
+ï¿½hnlicher Dialoge recht gut orientieren konnte.\par
+Mit zunehmendem Projektverlauf bekam die Qualitï¿½tssicherung einen grï¿½ï¿½eren
 Stellenwert, so dass ich bei Reviews und den einsetzenden Tests zunehmend
-eingesetzt wurde. Außerdem betreute ich die Testdurchführung unseres
+eingesetzt wurde. Auï¿½erdem betreute ich die Testdurchfï¿½hrung unseres
 Partnerteams.\par
 Bei den Abschlusstests lag meine Aufgabe darin, diese Tests zu organisieren
-und durchzuführen, sowie danach die entstandenen Fehlermeldungen in unseren
+und durchzufï¿½hren, sowie danach die entstandenen Fehlermeldungen in unseren
 Bugtracker einzutragen. \par
 Zum Abschluss des Projektes wirkte ich noch an der Erstellung der
-Abschlusspräsentation mit.
+Abschlussprï¿½sentation mit.
 
 \subsection{Beurteilung}
-Alles in allem gesehen würde ich sagen, dass Kobold ein perfektes Projekt
+Alles in allem gesehen wï¿½rde ich sagen, dass Kobold ein perfektes Projekt
 zum Lernen war. Aufgrund der sehr komplexen eingesetzten Technik, welche
-ursprünglich völlig unterschätzt worden war kamen unsere Zeitpläne
-regelmässig durcheinander.\par
-Das von uns gewählte evolutionäre Entwicklungsmodell zeigte in diesem
-Projekt seine Risiken, was mir persönlich zeigte, wie wichtig die
-Qualitätssicherung innerhalb eines Projektes ist.\par
-Für mich persönlich ergab sich ein recht tiefer Einblick in die Dynamiken
-einer größeren Gruppe. Auch lernte ich, wie wichtig eine frühzeitige und vor
-allem durchgängige Qualitätssicherung für das Wohl und Wehe eines Projektes
+ursprï¿½nglich vï¿½llig unterschï¿½tzt worden war kamen unsere Zeitplï¿½ne
+regelmï¿½ssig durcheinander.\par
+Das von uns gewï¿½hlte evolutionï¿½re Entwicklungsmodell zeigte in diesem
+Projekt seine Risiken, was mir persï¿½nlich zeigte, wie wichtig die
+Qualitï¿½tssicherung innerhalb eines Projektes ist.\par
+Fï¿½r mich persï¿½nlich ergab sich ein recht tiefer Einblick in die Dynamiken
+einer grï¿½ï¿½eren Gruppe. Auch lernte ich, wie wichtig eine frï¿½hzeitige und vor
+allem durchgï¿½ngige Qualitï¿½tssicherung fï¿½r das Wohl und Wehe eines Projektes
 ist. \par
-Was mich positiv überrascht hatte war zum einen der Große Zusammenhalt
+Was mich positiv ï¿½berrascht hatte war zum einen der Groï¿½e Zusammenhalt
 innerhalb der Gruppe, wie auch die gute Zusammenarbeit mit unserem
 "Konkurrenzteam".\par
-Der Lernerfolg dieses Projektes lässt sich in folgende Stichwörter fassen:
-Das evolutionäre Entwicklungsmodell, Eclipse als Plattform und der
-Stellenwert der Qualitätssicherung.
+Der Lernerfolg dieses Projektes lï¿½sst sich in folgende Stichwï¿½rter fassen:
+Das evolutionï¿½re Entwicklungsmodell, Eclipse als Plattform und der
+Stellenwert der Qualitï¿½tssicherung.
 
 
 \section{Armin Cont}
 
-%TODO: Bild einfügen
+%TODO: Bild einfï¿½gen
 
-\subsection{Tätigkeiten}
+\subsection{Tï¿½tigkeiten}
 
 Entsprechend dem Charakter einer Vorprojektphase (Strudelmodell) hatte ich das
-Vergnügen, mit meinen Teammitgliedern gemeinsam die durchzuführenden Aufgaben 
-anzugehen. Neben Analyse und Grobentwurf arbeitete ich hauptsächlich an der 
+Vergnï¿½gen, mit meinen Teammitgliedern gemeinsam die durchzufï¿½hrenden Aufgaben 
+anzugehen. Neben Analyse und Grobentwurf arbeitete ich hauptsï¿½chlich an der 
 Planung der Organisation des Projekts, was sowohl die Aufteilung der Rollen 
 mit einschloss als auch die Konzeption eines dazu passenden Entwicklungsmodells.
 Die Integration der Vorarbeiten resultierte in der Erstellung eines umfassenden
-Angebots für den Auftraggeber.\par
+Angebots fï¿½r den Auftraggeber.\par
 
 Nach der Angebotserteilung bestand meine erste Aufgabe darin, zusammen mit Anslem
 Garbe durch die Erstellung eines ersten, gemeinsamen Projektplans entsprechend dem 
-Angebot der Werkbold-Gruppe die konzeptionellen Grundlagen für die Entstehung eines 
-schlagkräftigen Entwicklerteams für das weitere Projekt zu legen.\par
+Angebot der Werkbold-Gruppe die konzeptionellen Grundlagen fï¿½r die Entstehung eines 
+schlagkrï¿½ftigen Entwicklerteams fï¿½r das weitere Projekt zu legen.\par
 
-Neben der danach anstehenden Arbeiten an der Spezifikation unseres künftigen Systems 
+Neben der danach anstehenden Arbeiten an der Spezifikation unseres kï¿½nftigen Systems 
 bereitete ich zusammen mit meinem Kollegen Michael Grosse die Schulung des Teams zur
 Verwendung von Entwurfsmustern im Software-Architekturentwurf vor, die unmittelbar vor 
 Beginn der Entwurfsarbeiten von uns gehalten wurde.\par
 
-Naheliegend war dann meine extensive Teilnahme an den Entwurfsarbeiten selbst, während 
+Naheliegend war dann meine extensive Teilnahme an den Entwurfsarbeiten selbst, wï¿½hrend 
 derer wir das (auch) durch die Schulung im Team etablierte Design-Know-How zur Erstellung eines
-zunächst groben und später weiter verfeinerten Entwurfs zum Einsatz bringen konnten.\par
+zunï¿½chst groben und spï¿½ter weiter verfeinerten Entwurfs zum Einsatz bringen konnten.\par
 
-Unglücklicherweise war es mir aufgrund einer länger andauernden, schweren Erkrankung nicht vergönnt,
-aktiv an den im Anschluß daran beginnenden Implementierungsarbeiten der ersten Iteration teilzunehmen,
-was mich jedoch bei meiner Rückkehr zum Ende der besagten ersten Iteration in die außerordentliche Lage
-versetzte, das bis zu dem Zeitpunkt entstandene System aus einem im höchsten Maße unvoreingenommenen
+Unglï¿½cklicherweise war es mir aufgrund einer lï¿½nger andauernden, schweren Erkrankung nicht vergï¿½nnt,
+aktiv an den im Anschluï¿½ daran beginnenden Implementierungsarbeiten der ersten Iteration teilzunehmen,
+was mich jedoch bei meiner Rï¿½ckkehr zum Ende der besagten ersten Iteration in die auï¿½erordentliche Lage
+versetzte, das bis zu dem Zeitpunkt entstandene System aus einem im hï¿½chsten Maï¿½e unvoreingenommenen
 Blickwinkel zu bewerten.\par
 
-Tatsächlich war es für mich eine sehr mühsame Aufgabe, das bestehende System anhand des umgesetzten Codes
-in seiner Gesamtheit zu verstehen, obwohl der usrprüngliche Entwurf noch weitestgehend erkennbar war. Wie
-sich herausstellen sollte, war diese Aufgabe tatsächlich nur mit der tatkräftigen Unterstützung einzelner 
-Kollegen möglich, die mir das System persönlich erklären mussten, um mich de facto in die Lage zu versetzen, 
-wieder produktiv für das Projekt tätig zu werden.\par
+Tatsï¿½chlich war es fï¿½r mich eine sehr mï¿½hsame Aufgabe, das bestehende System anhand des umgesetzten Codes
+in seiner Gesamtheit zu verstehen, obwohl der usrprï¿½ngliche Entwurf noch weitestgehend erkennbar war. Wie
+sich herausstellen sollte, war diese Aufgabe tatsï¿½chlich nur mit der tatkrï¿½ftigen Unterstï¿½tzung einzelner 
+Kollegen mï¿½glich, die mir das System persï¿½nlich erklï¿½ren mussten, um mich de facto in die Lage zu versetzen, 
+wieder produktiv fï¿½r das Projekt tï¿½tig zu werden.\par
 
-Während der nachfolgenden Monate konzentrierten sich meine Aufgaben im Rahmen der Implementierung hauptsächlich
+Wï¿½hrend der nachfolgenden Monate konzentrierten sich meine Aufgaben im Rahmen der Implementierung hauptsï¿½chlich
 auf die Umsetzung des Administrationsclients und die Erweiterung bzw. Anpassung des Kobold-Servers. Nach Fertigstellung
-der rudimentären Adminsitrationsfunktionen, zeigte sich die Notwendigkeit der Abhärtung des Servers zur Sicherstellung
-der Datenmodellintegrität, was aufgrund meines inzwischen sehr guten Verständnisses des Servers von mir durchgeführt wurde.\par
+der rudimentï¿½ren Adminsitrationsfunktionen, zeigte sich die Notwendigkeit der Abhï¿½rtung des Servers zur Sicherstellung
+der Datenmodellintegritï¿½t, was aufgrund meines inzwischen sehr guten Verstï¿½ndnisses des Servers von mir durchgefï¿½hrt wurde.\par
 
-Durch die mir zugetragenen Qualitätssicherungsaufgaben, konnte ich durch meine Kritik und meine katastrophalen Erfahrungen 
-beim Versuch des Verständnisses des Gesamtsystems nach meinem Wiedereintritt positiv auf die bis dato im Projekt vorherrschende 
+Durch die mir zugetragenen Qualitï¿½tssicherungsaufgaben, konnte ich durch meine Kritik und meine katastrophalen Erfahrungen 
+beim Versuch des Verstï¿½ndnisses des Gesamtsystems nach meinem Wiedereintritt positiv auf die bis dato im Projekt vorherrschende 
 Dokumentations- und Kommentierungskultur einwirken. Nicht zuletzt der hohen Disziplin und Sachlichkeit der Teammitglieder beim 
-Umgang mit persönlicher Kritik ist es zu verdanken, dass der von mir in diesem Zusammenhang erbrachte Aufwand trotz der anarchischen
-Natur des Studienprojekts nicht gänzlich vergebens war und zu nachvollziehbaren Ergebnissen geführt hat.\par
+Umgang mit persï¿½nlicher Kritik ist es zu verdanken, dass der von mir in diesem Zusammenhang erbrachte Aufwand trotz der anarchischen
+Natur des Studienprojekts nicht gï¿½nzlich vergebens war und zu nachvollziehbaren Ergebnissen gefï¿½hrt hat.\par
 
-Naheliegend war meine Tätigkeit an den vor allem gegen Ende der letzten Phasen forcierten Testarbeiten, für die ich neben meiner 
-Teilnahme bei deren Durchführung die vorbereitenden Testdokumente zunächst von der Spezifikation und später vom Handbuch abgeleiten 
-durfte. Meine letzte große Aufgabe im Projekt war die gemeinsam mit meiner Kollegin Bettina Druckemüller durchgeführte Erstellung des 
+Naheliegend war meine Tï¿½tigkeit an den vor allem gegen Ende der letzten Phasen forcierten Testarbeiten, fï¿½r die ich neben meiner 
+Teilnahme bei deren Durchfï¿½hrung die vorbereitenden Testdokumente zunï¿½chst von der Spezifikation und spï¿½ter vom Handbuch abgeleiten 
+durfte. Meine letzte groï¿½e Aufgabe im Projekt war die gemeinsam mit meiner Kollegin Bettina Druckemï¿½ller durchgefï¿½hrte Erstellung des 
 gemeinsamen Abschlussberichts.\par
 
 \subsection{Beurteilung}
 
-Müsste ich eine Zeitmaschine besteigen, um mir selbst vor Beginn dieses Projektes Rat zu geben, ob ich an diesem
-Projekt teilnehmen sollte oder nicht, so würde ich mich energisch dafür aussprechen, und zwar aus den folgenden
-Gründen: Neben dem unschätzbaren Erfahrungsgewinn im Umgang mit den von uns eingesetzten und von mir im Vorfeld 
-sträflich unterschätzten Technologien der Eclipse-basierten Javaentwicklung, hatte ich das große Glück eine bis
-dato von mir nicht gekannte Kultur der Softwareentwicklung kennenzulernen. So wäre es im Rahmen der Softwareprojekte, 
-an denen ich zuvor teilgenommen hatte, völlig unvorstellbar gewesen, die Konfigurationsverwaltung des Codes automatisch
-von einer Software durchführen zu lassen; einem Sakrileg wäre es gleichgekommen, jedem Entwickler das Recht
-einzuräumen, jedes beliebige Codedokument ohne Rücksprache zu ändern und sich dabei auf die Eigenverantwortung und 
+Mï¿½sste ich eine Zeitmaschine besteigen, um mir selbst vor Beginn dieses Projektes Rat zu geben, ob ich an diesem
+Projekt teilnehmen sollte oder nicht, so wï¿½rde ich mich energisch dafï¿½r aussprechen, und zwar aus den folgenden
+Grï¿½nden: Neben dem unschï¿½tzbaren Erfahrungsgewinn im Umgang mit den von uns eingesetzten und von mir im Vorfeld 
+strï¿½flich unterschï¿½tzten Technologien der Eclipse-basierten Javaentwicklung, hatte ich das groï¿½e Glï¿½ck eine bis
+dato von mir nicht gekannte Kultur der Softwareentwicklung kennenzulernen. So wï¿½re es im Rahmen der Softwareprojekte, 
+an denen ich zuvor teilgenommen hatte, vï¿½llig unvorstellbar gewesen, die Konfigurationsverwaltung des Codes automatisch
+von einer Software durchfï¿½hren zu lassen; einem Sakrileg wï¿½re es gleichgekommen, jedem Entwickler das Recht
+einzurï¿½umen, jedes beliebige Codedokument ohne Rï¿½cksprache zu ï¿½ndern und sich dabei auf die Eigenverantwortung und 
 Disziplin des entsprechenden Entwicklers zu verlassen.\par
 
-Die Erfahrung, dass dies in einem qualifizierten und angemessen disziplinierten Umfeld tatsächlich funktionieren kann, 
-hat in diesem Sinne meinen Horizont erweitert, auch wenn meine Aversion gegenüber einem solchen Vorgehen aufgrund der mit 
-unter eingetretenen Probleme eher bestätigt wurde. Den von kompromissloser Sachlichkeit und Kritikfähigkeit geprägten, 
+Die Erfahrung, dass dies in einem qualifizierten und angemessen disziplinierten Umfeld tatsï¿½chlich funktionieren kann, 
+hat in diesem Sinne meinen Horizont erweitert, auch wenn meine Aversion gegenï¿½ber einem solchen Vorgehen aufgrund der mit 
+unter eingetretenen Probleme eher bestï¿½tigt wurde. Den von kompromissloser Sachlichkeit und Kritikfï¿½higkeit geprï¿½gten, 
 offenen Umgang der Teammitglieder untereinander empfand ich, gerade im Hinblick auf meine teilweise sehr negativen Erfahrungen 
-außerhalb der Universität, als geradezu paradisisch. Diese von mir bis dahin nie erlebte Atmosphäre wird mir künftig als 
-- erreichbares - Ideal auch bei Softwareprojekten in einem weniger akdemisch-aufgeklärten Umfeld dienen.
+auï¿½erhalb der Universitï¿½t, als geradezu paradisisch. Diese von mir bis dahin nie erlebte Atmosphï¿½re wird mir kï¿½nftig als 
+- erreichbares - Ideal auch bei Softwareprojekten in einem weniger akdemisch-aufgeklï¿½rten Umfeld dienen.
 
 \appendix
 
-\chapter{Erklärung gemäß Prüfungsordnung}
+\chapter{Erklï¿½rung gemï¿½ï¿½ Prï¿½fungsordnung}
 
-Ich erkläre hiermit, dass ich im Rahmen meiner Mitarbeit am
-Studienprojekt A ``Produktlinien'' außer von den
-Betreuern vorgesehenen bzw. genehmigten Hilfsmitteln keine unzulässige
+Ich erklï¿½re hiermit, dass ich im Rahmen meiner Mitarbeit am
+Studienprojekt A ``Produktlinien'' auï¿½er von den
+Betreuern vorgesehenen bzw. genehmigten Hilfsmitteln keine unzulï¿½ssige
 Hilfe in Anspruch genommen habe.
 
 \vspace{2cm}
@@ -802,7 +822,7 @@ Stuttgart, den 25. Oktober 2004
   \vspace{1,5cm} \\
   \hhline{-~-} Oliver Rendgen & & Patrick Schneider \\
     \vspace{1,5cm} \\
-  \hhline{-~-} Armin Cont & & Bettina Druckenmüller \\
+  \hhline{-~-} Armin Cont & & Bettina Druckenmï¿½ller \\
   \vspace{1,5cm} \\
   \hhline{-~~} Tammo van Lessen \\
 \end{tabular}
