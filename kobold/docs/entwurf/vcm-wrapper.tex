@@ -116,9 +116,12 @@ besteht.
 
 \subsection{Einschränkungen bei der Implementierung}
 \begin{itemize}
-  \item Eclipse eigene VCM-Aktionen müssen abgefangen
+  \item ``eigene'' Eclipse VCM-Aktionen müssen abgefangen
   werden. Ansonsten können Daten ungesehen manipuliert
-  werden. Ggf. erlauben, aber den benutzer auf Folgen hinweisen.
-  \item 
+  werden. Ggf. erlauben, aber dann den Benutzer auf die Folgen
+  hinweisen.
+  \item ``eigene'' eclipse VCM-Aktionen sind nur über ``Extension
+  Points'' aufrufbar, daher muss im ``red book'' nach guten
+  Code-Schnittstellen geschaut werden.
   \item
 \end{itemize}

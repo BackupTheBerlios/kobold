@@ -27,9 +27,10 @@
 \BOOKMARK [2][-]{subsection.2.16.4}{Ablaufschritte beim Zugriff auf das Repository}{section.2.16}
 \BOOKMARK [2][-]{subsection.2.16.5}{M\366gliche Wrapper-Aktionen}{section.2.16}
 \BOOKMARK [2][-]{subsection.2.16.6}{Skriptausf\374hrung}{section.2.16}
-\BOOKMARK [2][-]{subsection.2.16.7}{Konsistenzcheck bei der Produktzusammenstellung}{section.2.16}
-\BOOKMARK [2][-]{subsection.2.16.8}{der initial Metadaten-Abgleich}{section.2.16}
-\BOOKMARK [2][-]{subsection.2.16.9}{Einschr\344nkungen bei der Implementierung}{section.2.16}
+\BOOKMARK [2][-]{subsection.2.16.7}{Der \(initiale\) Metadaten-Abgleich}{section.2.16}
+\BOOKMARK [2][-]{subsection.2.16.8}{Reihenfolge beim Schreiben von Metainformationen}{section.2.16}
+\BOOKMARK [2][-]{subsection.2.16.9}{Konsistenzcheck bei der Produktzusammenstellung}{section.2.16}
+\BOOKMARK [2][-]{subsection.2.16.10}{Einschr\344nkungen bei der Implementierung}{section.2.16}
 \BOOKMARK [0][-]{chapter.3}{Server}{}
 \BOOKMARK [1][-]{section.3.1}{\334berblick}{chapter.3}
 \BOOKMARK [1][-]{section.3.2}{Komponente Kobold Interface}{chapter.3}
