@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageQueue.java,v 1.8 2004/08/03 11:39:44 neccaino Exp $
+ * $Id: MessageQueue.java,v 1.9 2004/08/31 13:05:32 grosseml Exp $
  *
  */
 package kobold.server.controller;
@@ -75,8 +75,12 @@ public class MessageQueue {
 	 * @return the oldest message in the queue, does not remove it! 
 	 */
 	public AbstractKoboldMessage getMessage() {
-	    Object result = queue.getLast();
-	    
+	    Object result;
+		if(queue.size()>0){
+	    	result = queue.getLast();	
+	    } else {
+	    	result = null;
+	    }	    
 	    return (result == null) ? null : (AbstractKoboldMessage) result;
 	}
 
