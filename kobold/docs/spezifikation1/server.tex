@@ -1,7 +1,7 @@
 \chapter{Der Kobold Server}
 
-Der Kobold Server koordiniert die Arbeit der Benutzer von Kobold. Ein Benutzer ist dabei ein Benutzername 
-in Kobold. Diese sind dadurch bei ihrer Arbeit nicht an einen
+Der Kobold Server koordiniert die Arbeit der Benutzer von Kobold. Ein Benutzer ist dabei jede Person
+mit einem Benutzernamen und dem dazu passenden Passwort. Diese sind dadurch bei ihrer Arbeit nicht an einen
 festen Rechner gebunden, sondern können von jedem Rechner mit einem Kobold Client über den Kobold Server an 
 ihre Daten gelangen und diese bearbeiten. Ausserdem ermöglicht
 der Server eine Client-zu-Client-Kommunikation über eine Nachrichten-Queue, welche
@@ -10,9 +10,10 @@ in regelmässigen Abständen von den Clients abgefragt wird (Request/Response).\pa
 Der Server wird als HTTP-basierter {\it XML-RPC Server}
 \footnote{Nähere Informationen: http://ws.apache.org/xmlrpc/}
 implementiert und ist SSL-basiert. 
-Alle Informationen, die der Server bereitstellt sind persistent.\newline
+Alle Informationen, die der Server bereitstellt sind persistent.
 
-\subsection{Gespeicherte Daten auf dem Kobold Server}
+
+\section{Gespeicherte Daten auf dem Kobold Server}
 Für jeden Benutzer werden auf dem Kobold Server folgende Daten gespeichert:
 \begin{itemize}
 \item Benutzername
@@ -23,7 +24,7 @@ Für jeden Benutzer werden auf dem Kobold Server folgende Daten gespeichert:
 \end{itemize}
 
 Jeder Benutzer kann mehrere Rollen einnehmen, wie zum Beispiel Produktingenieur für Produkt X oder 
-Produktlinieningenieur für Produktlinie YZ. Diese Rollen werden in einer Liste unter dem Benutzername 
+Produktlinieningenieur für Produktlinie YZ. Diese Rollen werden in einer Liste unter dem Benutzernamen 
 gespeichert. Dabei besteht jedes Listenelement aus folgenden Daten:
 \begin{itemize}
 \item Liste von Produkten und Produktlinien
@@ -31,7 +32,7 @@ gespeichert. Dabei besteht jedes Listenelement aus folgenden Daten:
 
 Für jedes Produkt und jede Produktlinie in dieser Liste wird außerdem noch eine Liste der zugehörigen 
 Repositories angehängt. 
-Ist das Element ein Produkt, so werden auch die Daten der dazugehörigen Produktlinie erfasst.\newline
+Ist das Element ein Produkt, so werden auch die Daten der dazugehörigen Produktlinie erfasst.\par
 
 Für ein Repository werden folgende Daten gespeichert:
 \begin{itemize}
@@ -41,7 +42,7 @@ Für ein Repository werden folgende Daten gespeichert:
 \item Schreibrecht (ja/nein)
 \end{itemize}
 
-\subsection{Berechtigungskonzept}
+\section{Berechtigungskonzept}
 
 Zur Realisierung des produktlinien\-übergreifenden Berechtigungskonzepts
 verwaltet der Server alle benutzer-, rollen-, produktlinien- und
@@ -53,23 +54,35 @@ sich der Benutzer über einen Dialog beim Server mit Benutzername und Passwort an
 so werden in seinen Client die Daten der ihm unterstehenden Produktlinien und Produkte geladen. Der Benutzer
 kann dabei nur die Daten verändern, für die er auch eine Berechtigung besitzt.
 
-\subsection{Persistierung}
+\section{Persistierung}
 
 Die Persistierung aller für das Berechtigungskonzept notwendigen Daten wird
 durch eine abstrakte, XML-basierte Persistenzschicht realisiert, die es ermöglicht, die
-Datenhaltung flexibel zu organisieren.
+Datenhaltung flexibel zu organisieren.\par
+Die Persistenzschicht dient zur Speicherung aller Rollen-,
+Authentifizierungs-, PL- und Produktrelationen. Ihre Grundstruktur ist
+baumartig, sie ist im Speicher auf dem aktuellen Stand und
+wird innerhalb eines konfigurierbaren Timeouts persistiert (Default = 10 Minuten).\par
+In der XML-Struktur werden hierbei die folgenden Elemente persistiert:
+\begin{itemize}
+\item Benutzer
+\item Rollen
+\item Repositories
+\item Produktlinien
+\item Produkte
+\item Relationen
+\end{itemize}
 
-\subsection{Nachrichten-Queue}
+\section{Nachrichten-Queue}
 
-Der Kobold Server bildet für jeden Kobold-Benutzer eine Nachrichten-Queue. Werden Nachrichten oder Workflow-
-Objekte an einen Benutzer geschickt, so werden dieser in der Nachrichten-Queue in Form einer Warteschlange 
+Der Kobold Server bildet für jeden Kobold-Benutzer eine Nachrichten-Queue. Werden Nachrichten oder Workflow-Objekte an einen Benutzer geschickt, so werden dieser in der Nachrichten-Queue in Form einer Warteschlange 
 gespeichert und beim nächsten Login des Benutzers an den zuständigen Client weitergeleitet.
 Die vom Server angebotene Nachrichten-Queue ist zustandsbehaftet, d.h. nach einem
 Stromausfall oder anderen unvorhersehbaren Ereignissen ist die Nachrichten-Queue
 in der Regel ohne Datenverlust wiederherstellbar.\par
 Dadurch wird ein hoher Grad an Konsistenztreue und Zuverlässigkeit erreicht.\newline
 
-Für Nachrichte auf der Nachrichten-Queue werden folgende Daten benötigt:
+Für Nachrichten auf der Nachrichten-Queue werden folgende Daten benötigt:
 \begin{itemize}
 \item Absender
 \item Empfänger
@@ -79,7 +92,7 @@ Für Nachrichte auf der Nachrichten-Queue werden folgende Daten benötigt:
 \item Priorität
 \end{itemize}
 
-\subsection{Regelbasierte Workflowerzeugung}
+\section{Regelbasierte Workflowerzeugung}
 Führt ein Client eine Aktion aus, so wird diese dem Kobold Server gemeldet. Dieser wendet die Aktion als Fakt
 auf die Regelbasis an, die sich auf dem Server befindet. Es werden dabei alle Regeln durchlaufen. Stimmt das 
 Ereignis mit der Bedingung einer Regel überein, so 

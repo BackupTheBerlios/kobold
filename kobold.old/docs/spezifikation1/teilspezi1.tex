@@ -36,7 +36,7 @@ gespeichert:
 \end{itemize}
 
 \paragraph{Objekt:}
-Ein Objekt ist ein von Menschen geschaffenes Software Objekt wie zum Beispiel Quelltext uns Dokumentation. 
+Ein Objekt ist ein von Menschen geschaffenes Software Objekt wie zum Beispiel Quelltext und Dokumentation. 
 Als Metainformationen über ein Objekt wird gespeichert:
 \begin{itemize}
 \item Liste der Versionen
@@ -49,7 +49,7 @@ Als Metainformationen über ein Objekt wird gespeichert:
 \end{itemize}
 
 \paragraph{Skript:}
-Ein Skript wird bei der angegeben Aktion ausgeführt. Dies kann auch mit Parameterübergabe geschehen. 
+Ein Skript wird bei der angegebenen Aktion ausgeführt. Dies kann auch mit Parameterübergabe geschehen. 
 Diese Funktionalität wird allerdings erst in einer Folgeiteration entwickelt.
 \begin{itemize}
 \item Aktion
@@ -58,10 +58,10 @@ Diese Funktionalität wird allerdings erst in einer Folgeiteration entwickelt.
 \end{itemize}
 
 \paragraph{Variante:}
-Eine Variante besteht entweder aus weiteren Komponenten oder aus Releases. Sie besitzt dabei immer 
+Eine Variante besteht entweder aus weiteren Komponenten oder aus Objekten. Sie besitzt dabei immer 
 folgende Metainformationen:
 \begin{itemize}
-\item Liste aller Dateien
+\item Liste aller Objekte
 \item Versionsnummer
 \item Zuständiger
 \item Name
@@ -86,13 +86,12 @@ folgende Metainformationen gespeichert:
 
 \paragraph{Abhängigkeit:}
 Eine Abhängigkeit besteht zwischen zwei Knoten der Architektur. Für Abhängigkeiten zwischen mehr als zwei 
-Knoten werden Metaknoten verwendet. Für eine Abhängigkeit werden folgene Metainformationen gespeichert:
+Knoten werden Metaknoten verwendet. Für eine Abhängigkeit werden folgende Metainformationen gespeichert:
 \begin{itemize}
 \item Typ
 \item Richtung
 \item Knoten1
 \item Knoten2
-\item weiter beliebig attributierbar
 \end{itemize}
 
 \paragraph{Metaknoten:}
@@ -121,7 +120,7 @@ Speichern eine Architektur werden folgenden Metainformationen benötigt:
 \subsection{Repository Abstraction Layer:}
 
 Zur besseren Kommunikation mit dem Kobold Server wird ein Repository Abstraction Layer erstellt. 
-Dieses authentifiziert VCM-Aktionen zwischen Kobold und dem VCM des Kobold Clients.\newline
+Dieses authentifiziert VCM-Aktionen zwischen Kobold und dem VCM des Kobold Clients.\par
 
 Das Repository Abstraction Layer behandelt Anfragen vom Kobold Client an den Kobold Server, indem es diese 
 entweder an das eigentliche VCM weiterleitet oder mit einer passenden Meldung ablehnt.\par
