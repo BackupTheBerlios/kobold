@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.19 2004/06/24 11:58:18 rendgeor Exp $
+ * $Id: Productline.java,v 1.20 2004/06/24 14:11:14 rendgeor Exp $
  *
  */
 package kobold.common.model.productline;
@@ -367,4 +367,31 @@ public class Productline extends AbstractAsset
 	public String getGXLType() {
 		return GXL_TYPE;
 	}
+	
+	/* return the Product
+	 * @param name the name of the product
+	 */
+	public Product getProduct (String productName)
+	{
+		for (Iterator it = products.iterator(); it.hasNext();) {
+			Product product = (Product) it.next();
+			if (product.getName().equals(productName)) return product;
+		}	
+		System.out.println ("product "+productName + " not found!");
+		return null;
+	}
+
+	/* return the CoreAsset
+	 * @param name the name of the coreAsset
+	 */
+	public Component getComponent (String coreAssetName)
+	{
+		for (Iterator it = coreAssets.iterator(); it.hasNext();) {
+			Component ca = (Component) it.next();
+			if (ca.getName() == coreAssetName) return ca;
+		}	
+		return null;
+	}
+
+	
 }

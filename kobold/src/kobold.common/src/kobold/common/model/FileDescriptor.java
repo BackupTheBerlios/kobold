@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptor.java,v 1.3 2004/06/24 10:42:14 martinplies Exp $
+ * $Id: FileDescriptor.java,v 1.4 2004/06/24 14:11:14 rendgeor Exp $
  *
  */
 
@@ -55,6 +55,8 @@ public class FileDescriptor extends AbstractAsset {
 	private String revision;
 	private Date lastChanged;
 	private String lastAuthor;
+	//file or directory
+	private boolean fileOrDirectory = true;
 	
 	private List filedescs = new ArrayList();
 
@@ -98,6 +100,11 @@ public class FileDescriptor extends AbstractAsset {
 		    element.addAttribute("changed", dateFormat.format(lastChanged));
 		}
 
+
+		element.addAttribute("fileOrDirectory", fileOrDirectory + "");
+
+
+		
 		Element fds = element.addElement("filedescriptors");
 		Iterator it = filedescs.iterator();
 		while (it.hasNext()) {
@@ -114,18 +121,21 @@ public class FileDescriptor extends AbstractAsset {
 	 */
 	public void deserialize(Element element) 
 	{
-	    path = element.attributeValue("path");
-	    revision = element.attributeValue("revision");
-	    lastAuthor = element.attributeValue("author");
+	    setPath (element.attributeValue("path"));
+	    setRevision (element.attributeValue("revision"));
+	    setLastAuthor (element.attributeValue("author"));
 	    
 	    String ch = element.attributeValue("changed");
 	    if (ch != null) {
 	        try {
-                lastChanged = dateFormat.parse(ch);
+                setLastChanged (dateFormat.parse(ch));
             } catch (ParseException e) {
                 lastChanged = null;
             }
 	    }
+	    if ((element.attributeValue("fileOrDirectory") == "false"))
+	    setFile (false);
+	    
 	    
 		Iterator it = element.element("filedescriptors").elementIterator(AbstractAsset.FILE_DESCRIPTOR);
 		while (it.hasNext()) {
@@ -266,4 +276,34 @@ public class FileDescriptor extends AbstractAsset {
 	}
 	
 
+	/**
+	 * @return Returns the fileOrDirectory.
+	 */
+	public boolean isFile() {
+		return fileOrDirectory;
+	}
+
+	/**
+	 * @return Returns the fileOrDirectory.
+	 */
+	public boolean isDirectory() {
+		return !fileOrDirectory;
+	}
+
+	
+	/**
+	 * @param fileOrDirectory The fileOrDirectory to set.
+	 */
+	public void setFile (boolean fileOrDirectory) {
+		this.fileOrDirectory = fileOrDirectory;
+	}
+
+	/**
+	 * @param fileOrDirectory The fileOrDirectory to set.
+	 */
+	public void setDirectory (boolean fileOrDirectory) {
+		this.fileOrDirectory = !fileOrDirectory;
+	}
+
+	
 }

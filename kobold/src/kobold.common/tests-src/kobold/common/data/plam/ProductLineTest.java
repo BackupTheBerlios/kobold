@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.17 2004/06/24 11:58:18 rendgeor Exp $
+ * $Id: ProductLineTest.java,v 1.18 2004/06/24 14:11:14 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -200,6 +200,19 @@ public class ProductLineTest extends TestCase {
 		Productline p2 = new Productline("windows");
 		p2.deserialize(path);
 		
+		//--one product test
+		Product me = p2.getProduct("me");
+		assertTrue (me.getName().equals("me"));
+		//TODO
+		//warum funktionier das nicht:
+		//assertTrue (me.getName() == "me");
+
+		
+		//SpecificComponent compC;
+		//compC = (SpecificComponent)me.getComponent("compC", compC);
+		
+		//--one component test
+		Component compA = p2.getComponent ("coreAssetA");
 		
 		//product = manager.getProduct("windows");
 		//assertTrue (product.getName() == "windows");

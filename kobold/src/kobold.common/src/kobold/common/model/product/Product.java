@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.13 2004/06/24 11:58:18 rendgeor Exp $
+ * $Id: Product.java,v 1.14 2004/06/24 14:11:14 rendgeor Exp $
  *
  */
 
@@ -59,7 +59,7 @@ import kobold.common.model.AbstractAsset;
 public class Product extends AbstractAsset {
 
 	// containers
-	private List productReleases = new ArrayList();
+	private List component = new ArrayList();
 	private List specificComponents = new ArrayList();
 	private List relatedComponents = new ArrayList();
 	private RepositoryDescriptor repositoryDescriptor = null;
@@ -94,7 +94,7 @@ public class Product extends AbstractAsset {
 		Element productElement = super.serialize();
 
 		Element prodRelElement = productElement.addElement("releases");
-		for (Iterator it = productReleases.iterator(); it.hasNext(); ) {
+		for (Iterator it = component.iterator(); it.hasNext(); ) {
 			System.out.println ("release serialized");	
 			ProductRelease prodRelease = (ProductRelease) it.next();
 			prodRelElement.add(prodRelease.serialize());
@@ -149,7 +149,7 @@ public class Product extends AbstractAsset {
 	 */
 	public void deserialize(Element element) {
 		super.deserialize(element);
-		setName(element.attributeValue("name"));
+		//setName(element.attributeValue("name"));
 
 		
 		System.out.println ("start deserializing!");
@@ -226,17 +226,46 @@ public class Product extends AbstractAsset {
 		//component.setParent(this);
 	}
 
+	
+	/**
+	 * Gets a component.
+	 *
+	 * @param componentName contains the name of the component
+	 */
+/*	public AbstractAsset getComponent(String componentName, SpecificComponent returnComponent) {
+
+		List components = null;
+		if (returnComponent instanceof SpecificComponent) {
+			components = specificComponents;
+			System.out.println ("i'm a specificComp.!");
+		}
+		else if(returnComponent instanceof RelatedComponent) 
+		{
+			components = relatedComponents;
+			System.out.println ("i'm a relatedComp.!");
+		}
+
+		if (components != null)
+		for (Iterator it = components.iterator(); it.hasNext(); ) {
+			AbstractAsset aa = (AbstractAsset)it.next();
+			if (aa.getName().equals(componentName)) return aa;
+		}	
+		System.out.println ("component "+componentName + " not found!");
+		return null;
+
+	}	
+*/
 	public void addProductRelease (ProductRelease productRelease)
 	{
 		if (productRelease != null)
-		productReleases.add (productRelease);
+		component.add (productRelease);
 	}
 	
 	/**
 	 * @return
 	 */
 	public List getProductReleases() {
-		return productReleases;
+		return component;
 	}
 
 	/**
