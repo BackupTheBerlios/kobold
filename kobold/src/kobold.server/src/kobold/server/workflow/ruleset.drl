@@ -2,7 +2,6 @@
 		  xmlns="http://drools.org/rules"
           xmlns:java="http://drools.org/semantics/java">
 
-
     <rule name="test rule">
         <parameter identifier="msg">
             <java:class>kobold.common.data.WorkflowMessage</java:class>
@@ -12,5 +11,4 @@
             System.out.println( "This works." );
         </java:consequence>
     </rule>
-
 </rule-set>
