@@ -111,12 +111,6 @@ public class PasswordDialog extends TitleAreaDialog{
 		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
 		panel.setFont(parent.getFont());
 
-		labelUsername = new Label(panel, SWT.NONE);
-		labelUsername.setText("Username: ");
-		textUsername = new Text(panel, SWT.BORDER);
-		textUsername.setText(KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR));
-		//textUsername.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
         //password
         labelPassword = new Label(panel,SWT.NONE);
         labelPassword.setText("Password: ");
@@ -124,35 +118,15 @@ public class PasswordDialog extends TitleAreaDialog{
         textPassword.setEchoChar('*');
         textPassword.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		if(textUsername.getText().equals(""))
-		{
-			textUsername.setFocus();
-		} 
-		else
-		{
-			textPassword.setFocus();
-		}
+		
+		textPassword.setFocus();
     }
    
     protected void okPressed()
     {
-    
-	    KoboldProject tmpProj = KoboldPLAMPlugin.getCurrentKoboldProject();
-       
-
-      	if (textPassword.getText().equals(tmpProj.getPassword())){
-      		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_USER_STR, textUsername.getText());
-      		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_PWD_STR, textPassword.getText());
-      	}
-      	else
-      	{
-        		MessageDialog.openError(getShell(), "Kobold Error", 
-        				"Password or Username incorrect. "
-						+ "Please try again.");
-       	}
-
+    	super.okPressed();
         
-        super.okPressed();
+        
     }
     
     protected void cancelPressed(){
