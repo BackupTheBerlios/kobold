@@ -21,12 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposerCommand.java,v 1.3 2004/07/27 17:05:36 martinplies Exp $
+ * $Id: ProductComposerCommand.java,v 1.4 2004/08/01 18:24:31 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.command;
 
-import kobold.client.plam.editor.ProductComposer;
+import kobold.client.plam.editor.tool.ProductComposer;
 import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.gef.commands.Command;
@@ -55,6 +55,8 @@ public class ProductComposerCommand extends Command
         if (composer.isOpen(asset)) {
             composer.setUsed(asset);
         } else if (composer.isUsed(asset)) {
+            composer.setMustNotUse(asset);
+        } else {
             composer.setOpen(asset);
         }
 
