@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetAction.java,v 1.4 2004/09/20 14:40:47 neco Exp $
+ * $Id: DeleteAssetAction.java,v 1.5 2004/09/22 19:43:40 neco Exp $
  *
  */
 package kobold.client.plam.action;
+
+import java.util.Iterator;
 
 import kobold.client.plam.editor.command.DeleteAssetCommand;
 import kobold.client.plam.editor.dialog.DeleteDeprecatedDialog;
@@ -33,6 +35,7 @@ import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.productline.Productline;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -48,28 +51,25 @@ import org.eclipse.ui.actions.ActionDelegate;
  */
 public class DeleteAssetAction extends ActionDelegate {
 	
+//    private ISelection selection;
     private AbstractAsset selection;
     
     public void run(IAction action)
-    {
+    
+    { 
+    	DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
+    	deleteCommand.setAsset(selection);  
 
-    	if (selection instanceof Productline)
-    	{ 
-    		DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
-            deleteCommand.setAsset(selection);
-            MessageDialog.openInformation(Display.getDefault().getActiveShell(), 
-                	"Delete Selected Asset", "Deleting productlines is not allowed!"); 
-    	} 
-    	else{
-    	
-        DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
-        deleteCommand.setAsset(selection);
-        
-
-        Shell shell = Display.getDefault().getActiveShell();
-		DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, deleteCommand); 
-		dialog.open();
-    	}
+    	Shell shell = Display.getDefault().getActiveShell();
+  		DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, deleteCommand); 
+  		dialog.open();
+  		
+//    	DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
+//        deleteCommand.setSelection(selection);
+//        Shell shell = Display.getDefault().getActiveShell();
+//		DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, deleteCommand); 
+//		dialog.open();
+	
     }
      
     /**
@@ -78,13 +78,24 @@ public class DeleteAssetAction extends ActionDelegate {
     public void selectionChanged(IAction action, ISelection selection) {
        IStructuredSelection sel = (StructuredSelection)selection;
        
-       boolean enable = false;
+       boolean enable = true;
        this.selection = null;
+       
+       
 
+//       for (Iterator it = sel.iterator(); it.hasNext();) {
+//       	   if (!(it.next() instanceof AbstractAsset)) {
+//       	   		enable = false;
+//       	   }
+//       }
        if (sel.getFirstElement() instanceof AbstractAsset) {
-           this.selection = (AbstractAsset)sel.getFirstElement();
-           enable = true;
-       }
+        this.selection = (AbstractAsset)sel.getFirstElement();
+        enable = true;
+		}
+	      
+//       if (enable) {
+//           this.selection = sel;
+//       }
        if (action != null) {
            action.setEnabled(enable);
        }

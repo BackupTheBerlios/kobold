@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.12 2004/09/20 22:07:26 martinplies Exp $
+ * $Id: DeleteAssetCommand.java,v 1.13 2004/09/22 19:43:24 neco Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -53,6 +53,8 @@ import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
@@ -71,7 +73,12 @@ public class DeleteAssetCommand extends Command
     private int action = 0;
  //   private AbstractAsset selection;
     AbstractAsset parent;
+
+    private ISelection selection;
     
+    public void setSelection(ISelection sel) {
+    	selection = sel;
+    }
 
     public DeleteAssetCommand() {        
     }
@@ -97,8 +104,19 @@ public class DeleteAssetCommand extends Command
         }
     }
     
-    public void execute(int action)
-    {
+    public void execute(int action) {
+//    	if (selection == null) {
+//    		return;
+//    	}
+//    	for (Iterator it = ((IStructuredSelection)selection).iterator(); it.hasNext();) {
+//    	
+//    		setAsset((AbstractAsset)it.next());
+//    		exec(action);
+//    	}
+//    }
+//    
+//    private void exec(int action)
+//    {
         this.action = action;
         if (action == DEPRECATED) {
             makeAssetDeprecated(asset);
@@ -161,8 +179,7 @@ public class DeleteAssetCommand extends Command
             ModelStorage.deleteProductComponentDirectory((ProductComponent)asset);
             index = pcc.getRelatedComponents().indexOf(asset);
             pcc.removeProductComponent((ProductComponent) asset);
-        }
-        
+        }      
         
     }
    
