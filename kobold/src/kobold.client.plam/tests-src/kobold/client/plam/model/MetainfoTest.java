@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetainfoTest.java,v 1.1 2004/08/04 17:41:03 neco Exp $
+ * $Id: MetainfoTest.java,v 1.2 2004/08/05 17:05:37 neco Exp $
  *
  */
 package kobold.client.plam.model;
@@ -35,6 +35,7 @@ import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
+import kobold.common.data.User;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.apache.commons.id.uuid.state.InMemoryStateImpl;
@@ -63,6 +64,11 @@ public class MetainfoTest extends TestCase {
 	
 		Productline pl = new Productline();
 		pl.setName("PLtest23");
+		pl.setDescription("jfdhvjhjjhf fdjhohfv jhlohgjgjh," +
+				"gfufuzzhzhhhhhhhhhhhhhhhhhh" + 
+				"jfdhvjhjjhf fdjhohfv jhlohgjgjh," +
+				"gfufuzzhzhhhhhhhhhhhhhhhhhh");
+	
 
 		/////--------Product----------------
 		//add a product
@@ -76,6 +82,7 @@ public class MetainfoTest extends TestCase {
 		
 		Product productB = new Product ();
 		productB.setName("xp");
+		
 		
 		pl.addProduct(productA);
 		pl.addProduct(productB);

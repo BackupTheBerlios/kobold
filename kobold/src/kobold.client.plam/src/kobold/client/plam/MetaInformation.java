@@ -6,6 +6,7 @@
  */
 package kobold.client.plam;
 
+import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
@@ -29,6 +30,7 @@ import com.lowagie.text.FontFactory;
 import com.lowagie.text.HeaderFooter;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
+import com.lowagie.text.Table;
 import com.lowagie.text.pdf.PdfWriter;
 
 
@@ -115,14 +117,25 @@ public class MetaInformation {
     private void createMetaInfoForPL (Document document, Productline pl) 
     	throws DocumentException
     {
-        document.add(new Paragraph("Productline:",
-        	FontFactory.getFont(FontFactory.HELVETICA, 18)));
-        document.add(new Phrase("	 Name: " + pl.getName() + "\n"));
-        document.add(new Phrase("	 Discription: " + pl.getDescription()+"\n"));
-        document.add(new Phrase("	 ID: " + pl.getId()+"\n"));
-        
-        document.add(new Paragraph("Products:",
-            FontFactory.getFont(FontFactory.HELVETICA, 16)));
+    	document.add(new Phrase("Productline: ",
+    		FontFactory.getFont(FontFactory.HELVETICA, 20)));
+        document.add(new Phrase(pl.getName(),
+                FontFactory.getFont(FontFactory.HELVETICA, 20, Font.ITALIC))); 
+        document.add(new Phrase("\n\n"));
+        document.add(new Phrase("    ID: ",
+                FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+        document.add(new Phrase(pl.getId()+"\n"));
+         
+        document.add(new Phrase("    Discription: ",
+            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+        Table table = new Table(1,1);  
+        table.setBorderWidth(0);
+        table.setPadding(4);
+        table.setSpacing(4);
+        table.addCell(pl.getDescription());
+        document.add(table);
+        document.add(new Phrase("\n\n"));
+                
     	for (Iterator ite = pl.getProducts().iterator(); 
 		ite.hasNext();)
         {
@@ -130,8 +143,6 @@ public class MetaInformation {
 			createMetaInfoForProduct (document, product);
 		}
     
-    	document.add(new Paragraph("Components",
-            FontFactory.getFont(FontFactory.HELVETICA, 14)));
     	for (Iterator ite = pl.getComponents().iterator(); 
 		ite.hasNext();)
 		{
@@ -139,8 +150,7 @@ public class MetaInformation {
 			createMetaInfoForComponent (document, comp);
 		}	
 		
-    	document.add(new Paragraph("Maintainers"));
-        for (Iterator ite = pl.getMaintainers().iterator();
+    	for (Iterator ite = pl.getMaintainers().iterator();
         ite.hasNext();)
         {
         	User user = (User) ite.next();
@@ -153,23 +163,34 @@ public class MetaInformation {
     private void createMetaInfoForProduct(Document document, Product product) 
     	throws DocumentException
     {
-    	document.add(new Phrase("	 Name: " + product.getName() + "\n"));
-        document.add(new Phrase("	 Description: " + product.getDescription() + "\n"));
-        document.add(new Phrase("	 ID: " + product.getId() + "\n"));
-        
+    	document.add(new Phrase("Product:  ",
+                FontFactory.getFont(FontFactory.HELVETICA, 18)));
+    	document.add(new Phrase(product.getName(),
+		    FontFactory.getFont(FontFactory.HELVETICA, 18, Font.ITALIC)));
+		document.add(new Phrase("\n\n"));
+		document.add(new Phrase("    ID: ",
+            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    document.add(new Phrase(product.getId() + "\n"));
+	     
+	    document.add(new Phrase("    Discription: ",
+	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    Table table = new Table(1,1);  
+	    table.setBorderWidth(0);
+	    table.setPadding(4);
+	    table.setSpacing(4);
+	    table.addCell(product.getDescription());
+	    document.add(table);
+	    document.add(new Phrase("\n\n"));
+	  	  
        	//product.getMaintainers();
     	
-        document.add(new Paragraph("RelatedComponents",
-            FontFactory.getFont(FontFactory.HELVETICA, 14)));
     	for (Iterator ite = product.getRelatedComponents().iterator(); 
 		ite.hasNext();)
 		{
 			RelatedComponent relComp = (RelatedComponent) ite.next();
 			createMetaInfoForRelatedComponent(document, relComp);
 		}
-    	
-    	document.add(new Paragraph("SpezificComponents",
-            FontFactory.getFont(FontFactory.HELVETICA, 14)));
+    	    	
     	for (Iterator ite = product.getSpecificComponents().iterator(); 
 		ite.hasNext();)
 		{
@@ -183,19 +204,32 @@ public class MetaInformation {
     private void createMetaInfoForSpecificComponents(Document document, SpecificComponent spComp) 
     	throws DocumentException
     {	
-    	document.add(new Phrase("	 Name: " + spComp.getName() + "\n"));
-        document.add(new Phrase("    Description: " + spComp.getDescription() + "\n"));
-        document.add(new Phrase("    ID: " + spComp.getId() + "\n"));
-		
-        document.add(new Paragraph("Maintainers"));
-		for (Iterator ite = spComp.getMaintainers().iterator(); 
+    	document.add(new Phrase("SpecificComponent: ",
+                FontFactory.getFont(FontFactory.HELVETICA, 16)));
+    	document.add(new Phrase(spComp.getName(),
+	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
+	    document.add(new Phrase("\n"));
+	    document.add(new Phrase("    ID: ",
+            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    document.add(new Phrase(spComp.getId()+"\n"));
+	     
+	    document.add(new Phrase("    Discription: ",
+	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    Table table = new Table(1,1);  
+	    table.setBorderWidth(0);
+	    table.setPadding(4);
+	    table.setSpacing(4);
+	    table.addCell(spComp.getDescription());
+	    document.add(table);
+	    document.add(new Phrase("\n\n"));
+	    
+	    for (Iterator ite = spComp.getMaintainers().iterator(); 
 		ite.hasNext();)
 		{
 			User user = (User) ite.next();
         	createMetaInfoForMaintainer (document, user);
         }
-		
-		document.add(new Paragraph("FileDescriptors"));
+				
 		for (Iterator ite = spComp.getFileDescriptors().iterator(); 
 		ite.hasNext();)
 		{
@@ -208,20 +242,31 @@ public class MetaInformation {
     private void createMetaInfoForRelatedComponent(Document document, RelatedComponent relComp) 
     	throws DocumentException
     {
-    	document.add(new Phrase("	 Name: " + relComp.getName() + "\n"));
-        document.add(new Phrase("	 Description: " + relComp.getDescription() + "\n"));
-        document.add(new Phrase("	 ID: " + relComp.getId() + "\n"));
-		//relComp.getMaintainers();
-		
-        document.add(new Paragraph("Maintainers"));
-		for (Iterator ite = relComp.getMaintainers().iterator(); 
+    	document.add(new Phrase("RelatedComponent: ",
+                FontFactory.getFont(FontFactory.HELVETICA, 16)));
+    	document.add(new Phrase(relComp.getName(),
+	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
+	    document.add(new Phrase("\n"));
+	    document.add(new Phrase("    ID: ",
+            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    document.add(new Phrase(relComp.getId()+"\n"));
+	     
+	    document.add(new Phrase("    Discription: ",
+	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    Table table = new Table(1,1);  
+	    table.setBorderWidth(0);
+	    table.setPadding(4);
+	    table.setSpacing(4);
+	    table.addCell(relComp.getDescription());
+	    document.add(table);
+	    	          
+        for (Iterator ite = relComp.getMaintainers().iterator(); 
 		ite.hasNext();)
 		{
 			User user = (User) ite.next();
         	createMetaInfoForMaintainer (document, user);
         }
 		
-		document.add(new Paragraph("FileDescriptors"));
 		for (Iterator ite = relComp.getFileDescriptors().iterator(); 
 		ite.hasNext();)
 		{
@@ -234,20 +279,37 @@ public class MetaInformation {
     private void createMetaInfoForMaintainer(Document document, User user) 
     	throws DocumentException
     {
-    	document.add(new Phrase("	 Username: " + user.getUsername() + "\n"));	
-    		
+    	document.add(new Phrase("Maintainer: ",
+                FontFactory.getFont(FontFactory.HELVETICA, 14)));
+    	document.add(new Phrase(user.getUsername(),
+	        FontFactory.getFont(FontFactory.HELVETICA, 14, Font.ITALIC))); 
+	    document.add(new Phrase("\n"));
+    	
 	}
 	
 	// MetaInformation for Components
 	private void createMetaInfoForComponent(Document document, Component comp)
 		throws DocumentException
 	{
-    	document.add(new Phrase("	 Name: " + comp.getName() + "\n"));
-        document.add(new Phrase("	 Description: " + comp.getDescription() + "\n"));
-        document.add(new Phrase("	 ID: " + comp.getId() + "\n"));
-		//comp.getMaintainers();
-		
-        document.add(new Paragraph("Maintainers"));
+		document.add(new Phrase("Component: ",
+                FontFactory.getFont(FontFactory.HELVETICA, 16)));
+    	document.add(new Phrase(comp.getName(),
+	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
+	    document.add(new Phrase("\n"));
+	    document.add(new Phrase("    ID: ",
+            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    document.add(new Phrase(comp.getId()+"\n"));
+	     
+	    document.add(new Phrase("    Discription: ",
+	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    Table table = new Table(1,1);  
+	    table.setBorderWidth(0);
+	    table.setPadding(4);
+	    table.setSpacing(4);
+	    table.addCell(comp.getDescription());
+	    document.add(table);
+	    document.add(new Phrase("\n\n"));
+	   
 		for (Iterator ite = comp.getMaintainers().iterator(); 
 		ite.hasNext();)
 		{
@@ -255,8 +317,6 @@ public class MetaInformation {
         	createMetaInfoForMaintainer (document, user);
         }
 		
-		document.add(new Paragraph("Variants",
-            FontFactory.getFont(FontFactory.HELVETICA, 14)));
     	for (Iterator ite = comp.getVariants().iterator(); 
 		ite.hasNext();)
 		{
@@ -269,12 +329,25 @@ public class MetaInformation {
 	private void createMetaInfoForVariants(Document document, Variant var) 
 		throws DocumentException
 	{
-    	document.add(new Phrase("	 Name: " + var.getName() + "\n"));
-        document.add(new Phrase("	 Description: " + var.getDescription() + "\n"));
-        document.add(new Phrase("	 ID: " + var.getId() + "\n"));		
-		
-        document.add(new Paragraph("Components",
-            FontFactory.getFont(FontFactory.HELVETICA, 14)));
+		document.add(new Phrase("Variant: ",
+                FontFactory.getFont(FontFactory.HELVETICA, 16)));
+    	document.add(new Phrase(var.getName(),
+	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
+	    document.add(new Phrase("\n"));
+	    document.add(new Phrase("    ID: ",
+            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    document.add(new Phrase(var.getId()+"\n"));
+	     
+	    document.add(new Phrase("    Discription: ",
+	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    Table table = new Table(1,1);  
+	    table.setBorderWidth(0);
+	    table.setPadding(4);
+	    table.setSpacing(4);
+	    table.addCell(var.getDescription());
+	    document.add(table);
+	    document.add(new Phrase("\n\n"));
+	          
 		for (Iterator ite = var.getComponents().iterator();
 		ite.hasNext();)
 		{
@@ -282,7 +355,6 @@ public class MetaInformation {
 			createMetaInfoForComponent(document, comp);
 		}
 		
-		document.add(new Paragraph("Releases"));
 		for (Iterator ite = var.getReleases().iterator();
 		ite.hasNext();)
 		{
@@ -290,7 +362,6 @@ public class MetaInformation {
 			createMetaInfoForReleases(document, release);
 		}
 		
-		document.add(new Paragraph("FileDescriptors"));
 		for (Iterator ite = var.getFileDescriptors().iterator(); 
 		ite.hasNext();)
 		{
@@ -303,20 +374,46 @@ public class MetaInformation {
 	private void createMetaInfoForFileDescriptors(Document document, FileDescriptor fileDes)
 		throws DocumentException
 	{
-		document.add(new Phrase("	 Name: " + fileDes.getLocalPath().toString() + "\n"));
-        document.add(new Phrase("	 Description: " + fileDes.getLastChange().toString() + "\n"));
-        document.add(new Phrase("	 ID: " + fileDes.getRevision() + "\n"));
-				
+		document.add(new Phrase("FileDescriptor: ",
+                FontFactory.getFont(FontFactory.HELVETICA, 16)));
+    	document.add(new Phrase(fileDes.getFilename(),
+	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
+	    document.add(new Phrase("\n"));
+    	document.add(new Phrase("    Local path: ",
+	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC))); 
+	    document.add(new Phrase(fileDes.getLocalPath().toString() + "\n"));
+	    document.add(new Phrase("    Date of last change: ",
+	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    document.add(new Phrase(fileDes.getLastChange().toString() + "\n"));   
+	    document.add(new Phrase("    Revision: ",
+            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    document.add(new Phrase(fileDes.getRevision()+"\n\n"));
+	     
 	}
 	
 	// MetaInformation for Releases
 	private void createMetaInfoForReleases(Document document, Release release)
 		throws DocumentException
 	{
-		document.add(new Phrase("	 Name: " + release.getName() + "\n"));
-		document.add(new Phrase("	 Description: " + release.getDescription() + "\n"));
-		document.add(new Phrase("	 ID: " + release.getId() + "\n"));
-				
+		document.add(new Phrase("Release: ",
+                FontFactory.getFont(FontFactory.HELVETICA, 16)));
+    	document.add(new Phrase(release.getName(),
+	        FontFactory.getFont(FontFactory.HELVETICA, 16, Font.ITALIC))); 
+	    document.add(new Phrase("\n"));
+	    document.add(new Phrase("    ID: ",
+            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    document.add(new Phrase(release.getId()+"\n"));
+	     
+	    document.add(new Phrase("    Discription: ",
+	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    Table table = new Table(1,1);  
+	    table.setBorderWidth(0);
+	    table.setPadding(4);
+	    table.setSpacing(4);
+	    table.addCell(release.getDescription());
+	    document.add(table);
+	    document.add(new Phrase("\n\n"));
+	    
 	}
 	
 }
