@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.12 2004/08/01 09:25:21 martinplies Exp $
+ * $Id: Productline.java,v 1.13 2004/08/01 12:07:36 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -39,6 +39,7 @@ import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IGXLExport;
+import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.product.Product;
 
@@ -48,6 +49,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.XMLWriter;
+import org.eclipse.core.runtime.IPath;
 
 /**
  * @author rendgeor
@@ -64,7 +66,6 @@ public class Productline extends AbstractRootAsset
 	
 	//the repository-path
 	private String repositoryPath;
-	private String localPath;
 
     public Productline() 
 	{
@@ -152,16 +153,16 @@ public class Productline extends AbstractRootAsset
 	/**
 	 * Serializes the productline and write it to a xml-file
 	 */
-	public void serializeProductline (String path)
+	public void serializeProductline ()
 	{
-		serializeProductline(path, false);
+		serializeProductline(false);
 	}
 
 	/**
 	 * Serializes the productline, products and cas and write it to the xml-files
 	 */
 	
-	public void serializeProductline (String path, boolean serializeAll)
+	public void serializeProductline (boolean serializeAll)
 	{
 		//creates a document
 		Document document = DocumentHelper.createDocument();
@@ -170,12 +171,12 @@ public class Productline extends AbstractRootAsset
 		Element root = document.addElement("productlinemetainfo");
 		
 		//add the serialized element
-		root.add (serialize (path, serializeAll));
+		root.add (serialize (serializeAll));
 		
 		//write it to an xml-file
 			 XMLWriter writer;
 			try {
-				writer = new XMLWriter(new FileWriter(path+ File.separatorChar + getName() 
+				writer = new XMLWriter(new FileWriter (getLocalPath().toOSString() /*+ File.separatorChar + getName() */ 
 													+ File.separatorChar + "PL" + File.separatorChar + ".productlinemetainfo.xml"));
 				writer.write(document);
 				writer.close();
@@ -189,13 +190,13 @@ public class Productline extends AbstractRootAsset
 	/**
 	 * returns a Serialized productline.
 	 */
-	private Element serialize(String path) {
-		return serialize (path, false);
+	public Element serialize() {
+		return serialize (false);
 	}
 	
-	private Element serialize(String path, boolean serializeAll) {
+	private Element serialize(boolean serializeAll) {
 		
-		createPlDirectory (path);
+		createPlDirectory ();
 		
 		//get the AbstractAsset info
 		Element root = super.serialize();
@@ -206,18 +207,18 @@ public class Productline extends AbstractRootAsset
 		//now all products
 		for (Iterator it = products.iterator(); it.hasNext();) {
 			Product product = (Product) it.next();
-			//product.serializeProduct(path);
+			//product.serializeProduct();
 
 			// Store only a file reference to the product here. 
 			Element pEl = productsEl.addElement("product");
 			pEl.addAttribute("refid", product.getId());
 			
 			//create product dirs
-			createProductDirectory(path, product);
+			createProductDirectory(product);
 			
 			//serializeAll?
 			if (serializeAll)
-				product.serializeProduct(path);
+				product.serializeProduct();
 
 		}
 		
@@ -228,11 +229,11 @@ public class Productline extends AbstractRootAsset
 				componentsEl.add(component.serialize());
 				
 				//create component dirs
-				createComponentDirectory(path, component);
+				createComponentDirectory(component);
 
 				//serializeAll?
 				if (serializeAll)
-					component.serializeComponent(path);
+					component.serializeComponent();
 
 
 		}
@@ -244,69 +245,70 @@ public class Productline extends AbstractRootAsset
 		return root;
 	}
 	
-	private void createPlDirectory (String path) {
+	private void createPlDirectory () {
 		//create directory for the PL
-		File newDir = new File(path + File.separatorChar + getName());
+		String name = getLocalPath().toOSString() /*+ File.separatorChar + getName()*/;
+		File newDir = new File (name);
 
 		if (newDir.mkdir()==true)
-			System.out.println("Directory was created");
+			System.out.println("Project Directory was created");
 			else
-			System.out.println("Directory already existed");
+			System.out.println("Project Directory already existed");
 
 		
-		newDir = new File(path+ File.separatorChar + getName() + File.separatorChar + "PL");
+		newDir = new File (getLocalPath().toOSString()/*+ File.separatorChar + getName() */+ File.separatorChar + "PL");
 		
 		if (newDir.mkdir()==true)
-			System.out.println("Directory was created");
+			System.out.println("Project-PL Directory was created");
 			else
-			System.out.println("Directory already existed");
+			System.out.println("Project-PL Directory already existed");
 		
-		newDir = new File(path+ File.separatorChar +getName() + File.separator 
+		newDir = new File (getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
 				+ "PRODUCTS");
 		if (newDir.mkdir()==true)
-			System.out.println("Directory was created");
+			System.out.println("Project-PL-Product Directory was created");
 			else
-			System.out.println("Directory already existed");
+			System.out.println("Project-PL-Product Directory already existed");
 
-		newDir = new File(path+ File.separatorChar +getName() + File.separator 
+		newDir = new File (getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
 				+ "CAS");
 		if (newDir.mkdir()==true)
-			System.out.println("Directory was created");
+			System.out.println("Project-PL-CAS Directory was created");
 			else
-			System.out.println("Directory already existed");
+			System.out.println("Project-PL-CAS Directory already existed");
 
 	}
 	
-	private void createProductDirectory (String path, Product product)
+	private void createProductDirectory (Product product)
 	{
 		//create directory for every product			
-		File newDir = new File(path+ File.separatorChar +getName() + File.separator 
+		File newDir = new File (getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
 										+ "PRODUCTS" + File.separator + product.getName());
 
 
 		if (newDir.mkdir()==true)
 		{
-			System.out.println("Directory was created");
+			System.out.println("Project-PL-Products-Dirs Directory was created");
 		}
 		else
-		System.out.println("Directory already existed");
+		System.out.println("Project-PL-Products-Dirs Directory already existed");
 	}
 
 	
-	private void createComponentDirectory (String path, Component component)
+	private void createComponentDirectory (Component component)
 	{
 	
 		//create directory for every component			
-		File newDir = new File(path+ File.separatorChar +getName() + File.separator 
+		File newDir = new File (getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
 										+ "CAS" + File.separator + component.getName());
 
 		if (newDir.mkdir()==true)
 		{
-			System.out.println("Directory was created");
+			System.out.println("Project-PL-CAS-Dirs Directory was created");
 		}
 
 		else
-		System.out.println("Directory already existed");
+		System.out.println("Project-PL-CAS-Dirs Directory already existed");
 	
 	}	
 	public void deserialize(Element element) {
@@ -406,4 +408,12 @@ public class Productline extends AbstractRootAsset
 		return null;
 	}
 
+	/**
+	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
+	 */
+	
+	public IPath getLocalPath() {
+	    return ModelStorage.getPathForAsset(this);		
+	}
+	
 }

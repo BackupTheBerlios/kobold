@@ -48,7 +48,7 @@ public class CheckoutAction extends KoboldAction {
 		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 		try
 		{
-			((Productline)testAssets[0]).serializeProductline("C:\\Temp\\",true);
+			((Productline)testAssets[0]).serializeProductline(true);
 			repoAccess.checkout(testAssets,IResource.DEPTH_INFINITE,null);
 		}
 		catch (Exception e)

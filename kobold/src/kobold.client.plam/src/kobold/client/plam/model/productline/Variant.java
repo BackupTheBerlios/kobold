@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.16 2004/07/29 15:17:49 garbeam Exp $
+ * $Id: Variant.java,v 1.17 2004/08/01 12:07:36 rendgeor Exp $
  *
  */
 
@@ -285,9 +285,13 @@ public class Variant extends AbstractAsset
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
 	 */
+	
 	public IPath getLocalPath() {
 	    return ModelStorage.getPathForAsset(this);		
 	}
+	
+
+
   
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getRemoteRepository()

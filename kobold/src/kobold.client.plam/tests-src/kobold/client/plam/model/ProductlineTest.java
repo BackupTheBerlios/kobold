@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineTest.java,v 1.2 2004/07/29 16:33:51 rendgeor Exp $
+ * $Id: ProductlineTest.java,v 1.3 2004/08/01 12:07:36 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -170,8 +170,10 @@ public class ProductlineTest extends TestCase {
 		//coreAssetB.serializeComponent("/tmp");
 		/**/
 
+		
 		//do all
-		pl.serializeProductline(path, true);
+		//
+		//pl.serializeProductline(true);
 		//pl.serialize("/tmp", true);
 
 		

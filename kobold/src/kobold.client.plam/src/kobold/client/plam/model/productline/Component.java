@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.7 2004/07/29 17:18:25 garbeam Exp $
+ * $Id: Component.java,v 1.8 2004/08/01 12:07:36 rendgeor Exp $
  *
  */
 
@@ -99,7 +99,7 @@ public class Component extends AbstractMaintainedAsset
 
 	
 
-	public void serializeComponent (String path)
+	public void serializeComponent ()
 	{
 		//creates a document
 		Document document = DocumentHelper.createDocument();
@@ -113,9 +113,9 @@ public class Component extends AbstractMaintainedAsset
 		//write it to an xml-file
 			 XMLWriter writer;
 			try {
-				writer = new XMLWriter(new FileWriter(path+ File.separatorChar + ((AbstractAsset)getParent()).getName() 
-													+ File.separatorChar + "CAS" 
-													+ File.separatorChar + getName () + File.separatorChar 
+				writer = new XMLWriter(new FileWriter (getLocalPath().toOSString()/*+ File.separatorChar + ((AbstractAsset)getParent()).getName() */
+													/*+ File.separatorChar + "CAS" 
+													+ File.separatorChar + getName () */+ File.separatorChar 
 													+ ".coreassetmetainfo.xml"));
 				writer.write(document);
 				writer.close();

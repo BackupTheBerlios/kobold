@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.7 2004/07/29 14:39:19 rendgeor Exp $
+ * $Id: Product.java,v 1.8 2004/08/01 12:07:36 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -39,6 +39,7 @@ import java.util.Map;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IGXLExport;
+import kobold.client.plam.model.ModelStorage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,6 +49,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.eclipse.core.runtime.IPath;
 
 /**
  * This class represents a product.  
@@ -60,7 +62,6 @@ public class Product extends AbstractRootAsset
 	private List specificComponents = new ArrayList();
 	private List relatedComponents = new ArrayList();
 
-	private String localPath;
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#Product";
 		
 	/**
@@ -75,10 +76,10 @@ public class Product extends AbstractRootAsset
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Product(Element element, AbstractAsset parent, String path) {
+	public Product(Element element, AbstractAsset parent) {
 		super(element.attributeValue("name"));
 		setParent(parent);
-		deserializeProduct(path);
+		deserializeProduct();
 	}
 	
 	/**
@@ -113,7 +114,7 @@ public class Product extends AbstractRootAsset
 	}
 
 	
-	public void serializeProduct (String path)
+	public void serializeProduct ()
 	{
 		//creates a document
 		Document document = DocumentHelper.createDocument();
@@ -127,8 +128,8 @@ public class Product extends AbstractRootAsset
 		//write it to an xml-file
 			 XMLWriter writer;
 			try {
-				writer = new XMLWriter(new FileWriter(path+ File.separatorChar + ((AbstractAsset)getParent()).getName() 
-													+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
+				writer = new XMLWriter(new FileWriter(getLocalPath().toOSString()/*+ File.separatorChar + ((AbstractAsset)getParent()).getName() */
+													/*+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() */
 													+ File.separatorChar + ".productmetainfo.xml"));
 				writer.write(document);
 				writer.close();
@@ -178,12 +179,12 @@ public class Product extends AbstractRootAsset
 
 	}
 	
-	private void deserializeProduct(String path) {
+	private void deserializeProduct() {
 		
 		SAXReader reader = new SAXReader();
 		Document document = null;
 		try {
-			document = reader.read(path+
+			document = reader.read(getLocalPath().toOSString()+
 			 File.separatorChar + ((AbstractAsset)getParent()) .getName()
 			+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
 			+ File.separatorChar + ".productmetainfo.xml");
@@ -191,7 +192,7 @@ public class Product extends AbstractRootAsset
 			//give the result to the deserializer
 			deserialize(document.getRootElement().element(AbstractAsset.PRODUCT));
 		} catch (DocumentException e) {
-			System.err.print(path+ File.separatorChar + ((AbstractAsset)getParent()).getName()
+			System.err.print(getLocalPath().toOSString()+ File.separatorChar + ((AbstractAsset)getParent()).getName()
 			+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
 			+ File.separatorChar + ".productmetainfo.xml" +  " read error");
 			//Log log = LogFactory.getLog("kobold.server.controller.ProductManager");
@@ -250,28 +251,12 @@ public class Product extends AbstractRootAsset
 		return Collections.unmodifiableList(specificComponents);
 	}
 
-	/**
-     * @return Returns the localPath.
-     */
-    public String getLocalPath()
-    {
-        return localPath;
-    }
     
-    /**
-     * @param localRepository The localRepository to set.
-     */
-    public void setLocalPath(String localPath)
-    {
-        this.localPath = localPath;
-    }
-
 	/* (non-Javadoc)
 	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
 	 */
 	public Map getGXLAttributes() {
 		HashMap attributes = new HashMap();
-		attributes.put("localPath",localPath);
 		return attributes;
 	}
 
@@ -291,4 +276,13 @@ public class Product extends AbstractRootAsset
 	public String getGXLType() {
 		return GXL_TYPE;
 	}
+	
+	/**
+	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
+	 */
+	
+	public IPath getLocalPath() {
+	    return ModelStorage.getPathForAsset(this);		
+	}
+	
 }
