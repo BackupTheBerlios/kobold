@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptChooserDialog.java,v 1.7 2004/08/31 21:06:14 garbeam Exp $
+ * $Id: ScriptChooserDialog.java,v 1.8 2004/09/20 16:35:59 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -185,7 +185,7 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		buttons.setLayoutData(new GridData(GridData.FILL_BOTH));
 		buttons.setFont(parent.getFont());
 		add = new Button(buttons, SWT.NONE);
-		add.setText("&Add...");
+		add.setText("&Assign Script...");
 		add.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 			    FileDialog fd = new FileDialog(getShell());
@@ -194,23 +194,27 @@ public class ScriptChooserDialog extends TitleAreaDialog
 			    if (result != null) {
 			        IStructuredSelection sel = (IStructuredSelection)viewer.getSelection();
 			        if (sel != null) {
-    			        SDTreeItem sdItem = (SDTreeItem) sel.getFirstElement();
-    			        ScriptDescriptor sd = new ScriptDescriptor(result, sdItem.getType());
-    			        sd.setPath(result);
-    			        sdItem.addSDItem(new SDTreeItem(sd.getName(), sd.getVcmActionType(), sd));
+    			        for (Iterator iter = sel.iterator(); iter.hasNext();) {
+        			        SDTreeItem sdItem = (SDTreeItem) iter.next();
+        			        ScriptDescriptor sd = new ScriptDescriptor(result, sdItem.getType());
+        			        sd.setPath(result);
+        			        sdItem.addSDItem(new SDTreeItem(sd.getName(), sd.getVcmActionType(), sd));
+    			        }
     			        viewer.refresh();
 			        }
 			    }
 			}
 		});
 		remove = new Button(buttons, SWT.NONE);
-		remove.setText("&Remove");
+		remove.setText("&Unassign Script(s)");
 		remove.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 			    IStructuredSelection sel = (IStructuredSelection)viewer.getSelection();
 			    if (sel != null) {
-			        SDTreeItem item = (SDTreeItem) sel.getFirstElement();
-			        item.getParent().removeSDItem(item);
+			        for (Iterator iter = sel.iterator(); iter.hasNext();) {
+    			        SDTreeItem item = (SDTreeItem) iter.next();
+    			        item.getParent().removeSDItem(item);
+			        }
 			        viewer.refresh();
 			    }
 			}
