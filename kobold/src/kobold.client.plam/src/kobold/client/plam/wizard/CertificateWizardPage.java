@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CertificateWizardPage.java,v 1.1 2004/08/02 13:00:58 garbeam Exp $
+ * $Id: CertificateWizardPage.java,v 1.2 2004/08/02 14:41:18 garbeam Exp $
  */
 package kobold.client.plam.wizard;
 
@@ -72,7 +72,7 @@ public class CertificateWizardPage extends WizardPage {
 	/**
 	 * Creates the area for selecting the certificate
 	 */
-	public void createCertificateChooser(Composite parent) {
+	public void createCertificateChooser(final Composite parent) {
 	    
 		// project server group
 		Composite certGroup = new Composite(parent, SWT.NONE);
@@ -105,6 +105,8 @@ public class CertificateWizardPage extends WizardPage {
 		importButton.setText("&Import certificate...");
 		importButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+			    NewCertificateDialog dlg = new NewCertificateDialog(parent.getShell());
+			    dlg.open();
 		    	// TODO: pop up import certificate dialog
 			}
 		});
