@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.23 2004/08/06 00:43:59 vanto Exp $
+ * $Id: Variant.java,v 1.24 2004/08/06 03:40:44 martinplies Exp $
  *
  */
 
@@ -137,8 +137,7 @@ public class Variant extends AbstractAsset
 	}
 
 	public void addComponent(Component comp)
-	{
-		addToPool();
+	{		
 	    addComponent(comp, -1);
 	}
 	
@@ -148,7 +147,6 @@ public class Variant extends AbstractAsset
 	 * @param component contains the new component
 	 */
 	public void addComponent(Component component, int index) {
-		addToPool();
 		if (index >= 0) {
 			components.add(index, component);
 		} else {
@@ -156,6 +154,7 @@ public class Variant extends AbstractAsset
 		}
 
 		component.setParent(this);
+		addToPool(component);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, component);
 	}
 
@@ -183,7 +182,6 @@ public class Variant extends AbstractAsset
 	
 	public void addRelease(Release release)
 	{
-		addToPool();
 	    addRelease(release, -1);
 	}
 	
@@ -193,7 +191,6 @@ public class Variant extends AbstractAsset
 	 * @param version contains the new version
 	 */
 	public void addRelease(Release release, int index) {
-		addToPool();
 		if (index >= 0) {
 			releases.add(index, release);
 		} else {
@@ -201,6 +198,7 @@ public class Variant extends AbstractAsset
 		}
 
 		release.setParent(this);
+		addToPool(release);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, release);
 	}
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.13 2004/08/05 19:09:16 grosseml Exp $
+ * $Id: Component.java,v 1.14 2004/08/06 03:40:44 martinplies Exp $
  *
  */
 
@@ -116,7 +116,6 @@ public class Component extends AbstractMaintainedAsset
 
 
 	public void addVariant(Variant var){
-		addToPool();
 		addVariant(var, -1);
 	}
 
@@ -127,7 +126,6 @@ public class Component extends AbstractMaintainedAsset
 	 */
 	public void addVariant(Variant variant, int index) 
 	{
-		addToPool();
 		if (index >= 0) {
 			variants.add(index, variant);
 		} else {
@@ -135,6 +133,7 @@ public class Component extends AbstractMaintainedAsset
 		}
 
 		variant.setParent(this);
+		addToPool(variant);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, variant);
 	}
     

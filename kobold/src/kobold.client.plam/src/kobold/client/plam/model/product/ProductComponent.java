@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.10 2004/08/05 19:09:16 grosseml Exp $
+ * $Id: ProductComponent.java,v 1.11 2004/08/06 03:40:59 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -63,9 +63,9 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 
 	public void addProductComponent(ProductComponent comp)
 	{
-		addToPool();
 		prodComps.add(comp);
 		comp.setParent(this);
+		addToPool(comp);
 	}
 	
 	public void removeProductComponent(ProductComponent comp)
