@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldTemplateTransferDropTargetListener.java,v 1.3 2004/08/03 19:55:57 vanto Exp $
+ * $Id: KoboldTemplateTransferDropTargetListener.java,v 1.4 2004/08/05 12:57:04 rendgeor Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -92,11 +92,13 @@ public class KoboldTemplateTransferDropTargetListener extends
     			final Object model = getCreateRequest().getNewObject();
     			if ((model != null) && (model instanceof AbstractAsset) 
     			        && !(model instanceof MetaNode)) {
-    			    AssetConfigurationDialog dlg = new AssetConfigurationDialog(getViewer().getControl().getShell(), (AbstractAsset)model);
     			    CommandStack cs = getViewer().getEditDomain().getCommandStack();
+    			    
+    			    AssetConfigurationDialog dlg = new AssetConfigurationDialog(getViewer().getControl().getShell(), (AbstractAsset)model);
     			    if (dlg.open() == Dialog.CANCEL && cs.canUndo()
     			            && cs.getUndoCommand() == command) {
     			        cs.undo();
+    			        
     			    }
     			}
     		} else {

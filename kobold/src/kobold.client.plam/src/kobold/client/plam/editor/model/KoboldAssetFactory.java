@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldAssetFactory.java,v 1.7 2004/08/04 17:31:16 memyselfandi Exp $
+ * $Id: KoboldAssetFactory.java,v 1.8 2004/08/05 12:57:04 rendgeor Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -40,7 +40,10 @@ import org.eclipse.gef.requests.CreationFactory;
  */
 public class KoboldAssetFactory implements CreationFactory
 {
-	public static int iter = 0;
+	//iterators for the different assets
+	public static int iterC = 0;
+	public static int iterV = 0;
+	public static int iterR = 0;
     private String id;
     
     public KoboldAssetFactory(String id) 
@@ -53,19 +56,22 @@ public class KoboldAssetFactory implements CreationFactory
      */
     public Object getNewObject()
     {
-    	iter++;
-    	
+    	//TODO: check for unique names, instead don't create asset
+  	
         if (id.equals(AbstractAsset.COMPONENT)) {
-            Component c = new Component();
-            c.setName(id+iter);
+        	iterC++;
+        	Component c = new Component();
+            c.setName(id+iterC);
             return c;
         } else if (id.equals(AbstractAsset.VARIANT)) {
+        	iterV++;
             Variant c = new Variant();
-            c.setName(id+iter);
+            c.setName(id+iterV);
             return c;
         } else if (id.equals(AbstractAsset.RELEASE)) {
+        	iterR++;
             Release c = new Release();
-            c.setName(id+iter);
+            c.setName(id+iterR);
             return c;
         } else if (id.equals(MetaNode.AND)) {
             return new MetaNode(MetaNode.AND);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.17 2004/08/05 09:13:01 vanto Exp $
+ * $Id: ModelStorage.java,v 1.18 2004/08/05 12:57:04 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -40,6 +40,7 @@ import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.apache.log4j.Logger;
@@ -203,6 +204,8 @@ public class ModelStorage
                     
                     //write the products metafile
                     serializeProduct(pl, monitor);
+
+                    //create CAS subdirs
                     serializeCoreassets(pl, monitor);
                     
                     ServerHelper.updateProductline(pl.getKoboldProject());
@@ -385,11 +388,52 @@ public class ModelStorage
 	            KoboldPLAMPlugin.log(e);
 	        }
 	        finally {
+                //create Variant dirs in each component
+                serializeVariants(component, monitor);
+	        	
 	            monitor.done();
 	        }	    	
 
 	        }
 		}
 
+	public static void serializeVariants (Component co, IProgressMonitor monitor)
+	{
+		//get the CAS-directory
+		//the PL directory
+        IProject project = co.getRoot().getKoboldProject().getProject();
+       	IFolder casFolder = project.getFolder(co.getRoot().getName());
+        //CAS-dir
+        casFolder = casFolder.getFolder(COREASSETS_FOLDER_NAME);
+        casFolder = casFolder.getFolder(co.getName());
+        
+		//get all vars
+    	List vars = co.getVariants();
+    	
+        //for each variant
+		for (Iterator it = vars.iterator(); it.hasNext();) {
+			Variant variant = (Variant) it.next();
+		       
+	        //create the dir
+	        IFolder specialVariantFolder = casFolder.getFolder(variant.getName());
+
+			
+			//createDirectory
+	        try {
+		        if (!specialVariantFolder.exists()) {
+		            specialVariantFolder.create(true, true, monitor);
+		        }
+	        } catch (CoreException e) {
+	            KoboldPLAMPlugin.log(e);
+	        }
+	        finally {
+	            monitor.done();
+	        }	    	
+
+	        }
+		}
+
+	
+	
 	}
 
