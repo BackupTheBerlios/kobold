@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.24 2004/11/05 10:32:31 grosseml Exp $
+ * $Id: WorkflowDialog.java,v 1.25 2004/11/22 14:43:13 garbeam Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -117,7 +117,7 @@ public class WorkflowDialog extends TitleAreaDialog {
 		topPanel.setFont(parent.getFont());
 				new Label(topPanel, SWT.NONE).setText("Sender:");
 		if (msg instanceof WorkflowMessage) {
-    		new Label(topPanel, SWT.NONE).setText(msg.getSender() + " (" + msg.getRole() + ")");
+    		new Label(topPanel, SWT.NONE).setText(msg.getSender());
 		}
 		else {
     		new Label(topPanel, SWT.NONE).setText(msg.getSender());

@@ -207,7 +207,7 @@
             id="ProductComponentContrib">
          <action
                enablesFor="1"
-               label="%PromoteToProductline"
+               label="Promote To Productline"
                class="kobold.client.plam.action.PromoteProductComponentAction"
                id="kobold.client.plam.PromoteAction"/>
       </objectContribution>
