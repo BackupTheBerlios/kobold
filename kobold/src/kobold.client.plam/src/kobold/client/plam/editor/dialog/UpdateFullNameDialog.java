@@ -70,8 +70,8 @@ public class UpdateFullNameDialog extends TitleAreaDialog{
     
     protected Control createDialogArea(Composite parent)
     {
-        setTitle("New User");
-        setMessage("Creates new users");
+        setTitle("Change Full Name");
+        setMessage("Changes the users full name");
         Composite composite = (Composite) super.createDialogArea(parent);
         
         createContent(composite);
