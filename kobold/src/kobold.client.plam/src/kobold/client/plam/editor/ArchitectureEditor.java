@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.36 2004/09/21 10:52:10 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.37 2004/09/21 10:53:59 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -334,6 +334,14 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	}
 
 
+    /**
+     * @see org.eclipse.ui.ISaveablePart#isSaveOnCloseNeeded()
+     */
+    public boolean isSaveOnCloseNeeded()
+    {
+        return true;
+    }
+    
 	/* palette stuff */
 	protected CustomPalettePage createPalettePage() 
 	{
