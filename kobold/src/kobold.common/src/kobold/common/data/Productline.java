@@ -21,13 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.17 2004/08/02 09:20:05 vanto Exp $
+ * $Id: Productline.java,v 1.18 2004/08/02 10:12:13 garbeam Exp $
  *
  */
 package kobold.common.data;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
