@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.50 2004/07/17 13:02:20 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.51 2004/07/19 10:28:45 neccaino Exp $
  *
  */
 package kobold.server;
@@ -328,6 +328,27 @@ public class SecureKoboldWebServer implements IKoboldServer,
                     return unassignPle((String)arguments.elementAt(0),
                                        (String)arguments.elementAt(1),
                                        (String)arguments.elementAt(2));
+                }
+                catch(Exception e){
+                    logger.info("Exception during execute()", e);
+                    return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }
+            else if (methodName.equals("getPles")){
+                try{
+                    // admin method so leave without noticing the WorkflowEngine
+                    return getPles((String)arguments.elementAt(0),
+                                   (String)arguments.elementAt(1));
+                }
+                catch(Exception e){
+                    logger.info("Exception during execute()", e);
+                    return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }
+            else if (methodName.equals("getProductlines")){
+                try{
+                    // admin method so leave without noticing the WorkflowEngine
+                    return getProductlines((String)arguments.elementAt(0));
                 }
                 catch(Exception e){
                     logger.info("Exception during execute()", e);
@@ -656,4 +677,35 @@ public class SecureKoboldWebServer implements IKoboldServer,
         
 		return IKoboldServerAdministration.RETURN_OK;
 	}
+    
+    /**
+     * This method returns the usernames of all users that are assigned to
+     * the specified productline.
+     * 
+     * @param adminPassword the Kobold server's administration password
+     * @param nameOfProductline name of the productline whose maintainers' names
+     *        should be returned
+     * @return String containing all assigned usernames (seperated by '\n') or
+     *         one of the IKoboldServerAdministration error strings
+     * 
+     * TODO: implement
+     */
+    public String getPles(String adminPassword, String nameOfProductline){
+        return RETURN_FAIL; // until implemented
+    }
+    
+    /**
+     * This method returns the names of all productlines that are currently 
+     * registered on the called Kobold server.
+     *  
+     * @param adminPassword the Kobold server's administration password
+     * @return String containing all the registered productlines' names
+     *         (seperated by '\n')  or one of the IKoboldServerAdministration 
+     *         error strings
+     * 
+     * TODO: implement
+     */
+    public String getProductlines(String adminPassword){
+        return RETURN_FAIL; //until impl.
+    }
 }
