@@ -121,7 +121,7 @@ public class ScriptServerConnection implements IServerConnection
 	 */
 	public ScriptServerConnection(String repositoryPath) {
 
-		if (repositoryPath != "noUser")
+		if (!"noUser".equals(repositoryPath))
 		{
 			this.repositoryPath = repositoryPath;
 			this.user = getUserName();

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineFactory.java,v 1.3 2004/08/04 18:29:39 garbeam Exp $
+ * $Id: ProductlineFactory.java,v 1.4 2004/08/31 20:14:07 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -43,6 +43,7 @@ public class ProductlineFactory
         p.setResource(pl.getResource());
         p.setId(pl.getId());
         p.setDescription("(Please configure your product line properly)");
+        
         return p;
     }
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.26 2004/08/23 13:00:42 vanto Exp $
+ * $Id: Variant.java,v 1.27 2004/08/31 20:14:07 vanto Exp $
  *
  */
 
@@ -319,4 +319,13 @@ public class Variant extends AbstractAsset
         }
         return null;
     }
+    
+	public List getChildren()
+	{
+	    List l = new ArrayList();
+	    l.addAll(getComponents());
+	    l.addAll(getReleases());
+	    return l;
+	}
+
 }

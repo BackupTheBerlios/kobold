@@ -21,14 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.24 2004/08/30 14:06:04 garbeam Exp $
+ * $Id: AbstractAsset.java,v 1.25 2004/08/31 20:14:07 vanto Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -450,5 +449,10 @@ public abstract class AbstractAsset implements ISerializable, INode
     
     public List getBeforeScripts() {
         return beforeScripts;
+    }
+    
+    public List getChildren() 
+    {
+        return Collections.EMPTY_LIST;
     }
 }

@@ -21,13 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.33 2004/08/24 11:10:03 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.34 2004/08/31 20:14:07 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +103,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * @author Tammo
  */
 public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette 
-	implements IViewModelProvider, PropertyChangeListener {
+	implements IViewModelProvider {
 
     protected static final String PALETTE_DOCK_LOCATION = "Dock location"; //$NON-NLS-1$
     protected static final String PALETTE_SIZE = "Palette Size"; //$NON-NLS-1$
@@ -122,7 +120,6 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	private PaletteRoot root;
 	private KeyHandler keyHandler;
 	private boolean isSaving = false;
-	private boolean isDirty = false;
 	private OutlinePage outlinePage;
 	
 	private AbstractRootAsset model = new Productline();
@@ -292,11 +289,10 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 			isSaving = true;
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 		    KoboldProject pp = model.getKoboldProject();
-			pp.storeViewModelContainer(model, viewModel, monitor);
 			pp.store();
-			isDirty = false;
-			//pp.getProductline().serializeAll();
 			getCommandStack().markSaveLocation();
+			pp.storeViewModelContainer(model, viewModel, monitor);
+
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -322,7 +318,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	 * @see org.eclipse.ui.ISaveablePart#isDirty()
 	 */
 	public boolean isDirty() {
-		return getCommandStack().isDirty() || isDirty;
+		return getCommandStack().isDirty() || model.getKoboldProject().isDirty();
 	}
 
 	/**
@@ -511,12 +507,9 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	
     protected void setInput(IEditorInput input)
     {
-    	if (model != null) {
-    	    model.removeModelChangeListener(this);
-    	}
         super.setInput(input);
 		model = getArchEditorInput().getAsset();
-		model.addModelChangeListener(this);
+
 	    KoboldProject pp = model.getKoboldProject();
 	    ViewModelContainer vmc = pp.restoreViewModelContainer(model); 
 	    
@@ -539,13 +532,5 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     			getGraphicalViewer().setContents(model);
     		}
     	}  
-    }
-
-    /**
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    public void propertyChange(PropertyChangeEvent arg0)
-    {
-        isDirty = true;
     }
 }

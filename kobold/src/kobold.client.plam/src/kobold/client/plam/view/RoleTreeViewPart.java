@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.20 2004/08/25 02:27:02 vanto Exp $
+ * $Id: RoleTreeViewPart.java,v 1.21 2004/08/31 20:14:07 vanto Exp $
  *
  */
 package kobold.client.plam.view;
@@ -130,6 +130,7 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 		memento = null;
 
 		hookContextMenu();
+		getSite().setSelectionProvider(viewer);
     }
 
     /**

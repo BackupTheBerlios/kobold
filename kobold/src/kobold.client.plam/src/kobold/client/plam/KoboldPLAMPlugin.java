@@ -21,15 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.24 2004/08/30 13:18:13 garbeam Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.25 2004/08/31 20:14:07 vanto Exp $
  *
  */
 package kobold.client.plam;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -37,6 +39,11 @@ import java.util.ResourceBundle;
 import kobold.client.plam.controller.SSLHelper;
 import kobold.client.plam.listeners.IProjectChangeListener;
 import kobold.client.plam.listeners.IVCMActionListener;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.IFileDescriptorContainer;
+import kobold.client.plam.model.IVariantContainer;
+import kobold.client.plam.model.ModelStorage;
+import kobold.client.plam.model.productline.Variant;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,7 +51,12 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.core.internal.resources.ResourceException;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceStatus;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -52,13 +64,15 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.
  */
-public class KoboldPLAMPlugin extends AbstractUIPlugin {
+public class KoboldPLAMPlugin extends AbstractUIPlugin 
+							  implements IResourceChangeListener {
 	
 	private static final Log logger = LogFactory.getLog(KoboldPLAMPlugin.class);
 	public static final String ID = "kobold.client.plam";
@@ -270,9 +284,19 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
     public void start(BundleContext ctx) throws Exception
     {
         super.start(ctx);
+        getWorkspace().addResourceChangeListener(this);
         initSSLProperties();
     }
     
+    /* (non-Javadoc)
+     * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+     */
+    public void stop(BundleContext context) throws Exception
+    {
+        getWorkspace().removeResourceChangeListener(this);
+        super.stop(context);
+    }
+
     public void initSSLProperties() {
 		// set properties
 		try {
@@ -287,5 +311,104 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
         } catch (Exception e) {
 			logger.error("Could not find client configuration",e);
         }
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
+     */
+    public void resourceChanged(final IResourceChangeEvent event)
+    {
+        logger.debug("resource changed: "+event.getType()+";"+event.getDelta());
+        final List assets = getAssetsByDelta(event.getDelta());
+        if (assets == null) {
+            logger.debug("no corresponding asset found");
+            return;
+        }
+        Display.getDefault().asyncExec(new Runnable() {
+        public void run()
+        {
+
+        Iterator it = assets.iterator();
+        while (it.hasNext()) {
+            AbstractAsset asset = (AbstractAsset)it.next();
+            if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
+                // update vcm
+                if (asset != null && asset instanceof IFileDescriptorContainer) {
+
+                            getVCMListener().refreshFiledescriptors((IFileDescriptorContainer)asset);
+                }
+            } else if (event.getType() == IResourceChangeEvent.PRE_DELETE) {
+                // delete asset
+                if (asset != null && asset instanceof Variant) {
+                    ((IVariantContainer)asset.getParent()).removeVariant((Variant)asset);
+                }
+            }
+        }
+        }
+        });
+
+    }
+
+    private List getAssetsByDelta(IResourceDelta delta)
+    {
+        try {
+	        AssetFinderVisitor afv = new AssetFinderVisitor();
+            delta.accept(afv);
+            return afv.getAssets();
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    
+    /**
+     * Finds the asset corresponding to the given changed delta (only one resource!!)
+     */
+    private class AssetFinderVisitor implements IResourceDeltaVisitor {
+        private AbstractAsset asset = null;    
+        private boolean valid = false;
+        private IResourceDelta oldDelta = null;
+        private IResourceDelta oDelta = null;
+        private List assets = new ArrayList();        
+        public boolean visit(IResourceDelta delta) throws CoreException
+        {
+            if (oDelta == null) {
+                oDelta = delta;
+            }
+
+            if (delta.getResource() instanceof IFile) {
+                return false;
+            } else if (delta.getResource() instanceof IProject) {
+                IProject p = (IProject) delta.getResource();
+                if (KoboldProject.hasKoboldNature(p)) {
+                    asset = ((KoboldProject) p.getNature(KoboldProject.NATURE_ID)).getProductline();
+                    logger.debug(asset.getName());
+                    //
+                    getAssetsByDelta(asset, assets, oDelta);
+
+                }
+                return false;
+            } 
+            return true;
+        }
+
+        public List getAssets() 
+        {
+            return assets;
+        }
+
+        private void getAssetsByDelta(AbstractAsset root, List assets, IResourceDelta delta) 
+        {
+            if (delta.findMember(ModelStorage.getFolderForAsset(root).getFullPath()) != null) {
+                assets.add(root);
+                logger.debug("asset resource has been changed:"+root);
+            }
+            Iterator it = root.getChildren().iterator();
+            while (it.hasNext()) {
+                getAssetsByDelta((AbstractAsset)it.next(), assets, delta);
+            }
+        }
+
     }
 }

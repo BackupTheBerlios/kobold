@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.12 2004/08/28 11:31:10 vanto Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.13 2004/08/31 20:14:07 vanto Exp $
  *
  */
 package kobold.client.plam.view;
@@ -114,7 +114,7 @@ public class RoleTreeActionGroup extends ActionGroup
 				new NewWizardMenu(newMenu, window, false);
 			}
 		}		
-		
+
 		manager.add(deleteAction);
 		manager.add(new Separator());
 		manager.add(refreshFDAction);

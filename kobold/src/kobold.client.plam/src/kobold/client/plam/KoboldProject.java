@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.22 2004/08/30 13:18:13 garbeam Exp $
+ * $Id: KoboldProject.java,v 1.23 2004/08/31 20:14:07 vanto Exp $
  *
  */
 package kobold.client.plam;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -43,14 +45,16 @@ import java.util.Map;
 import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.editor.model.ViewModelContainer;
 import kobold.client.plam.listeners.IVCMActionListener;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.ProductlineFactory;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.workflow.LocalMessageQueue;
+import kobold.common.data.Component;
 import kobold.common.data.User;
-import kobold.common.io.ScriptDescriptor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -79,7 +83,8 @@ import org.eclipse.ui.progress.IProgressService;
 /**
  * @author Tammo
  */
-public class KoboldProject implements IProjectNature, IResourceChangeListener
+public class KoboldProject implements IProjectNature, IResourceChangeListener, 
+	PropertyChangeListener 
 {
 	public static final Log logger = LogFactory.getLog(KoboldProject.class);
 	
@@ -97,6 +102,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	private Productline productline;
 
 	private Map userPool;
+	private boolean isDirty = false;
 
     protected transient List vcmListeners = new LinkedList();
     
@@ -192,7 +198,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 		        productline = ProductlineFactory.create(spl);
 			    productline.setProject(this);
 			    productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
-			    
+		        
 		        ModelStorage.storeModel(productline);
 
 			    //check out from repo
@@ -212,14 +218,18 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	            logger.debug("Maintainer added: " + user);
 	        }
 	        
-	        /*Product p = new Product(productline);
-	        p.setName("Test Product");
-	        p.addComponent(new SpecificComponent("test"));
-	        p.addComponent(new SpecificComponent("test2"));
-	        p.setProject(this);
-	        p.setResource("testp");
-	        productline.addProduct(p);*/
-
+	        it = spl.getCoreAssets().iterator();
+	        while (it.hasNext()) {
+	            Component sc = (Component)it.next();
+	            AbstractAsset a = productline.getAssetById(sc.getId());
+	            if (a != null && a instanceof AbstractMaintainedAsset) {
+	                Iterator mit = sc.getMaintainers().iterator();
+	                while (mit.hasNext())
+	                ((AbstractMaintainedAsset)a).addMaintainer((User)mit.next());
+	            }
+	        }
+	        
+	        productline.addModelChangeListener(this);
 
 	    }
 
@@ -362,9 +372,10 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	            }});
 	    } catch (InvocationTargetException e) {
 	    } catch (InterruptedException e) {}
-	    
+
 	    if (productline != null) {
 	        ModelStorage.storeModel(productline);
+	        isDirty = false;
 	    }
 	}
     
@@ -547,4 +558,28 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	        logger.error("no vcm listener registered");
 	    }
 	}
+	
+	public boolean isDirty()
+	{
+	    return isDirty;
+	}
+	
+    /**
+     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+     */
+    public void propertyChange(PropertyChangeEvent arg0)
+    {
+        isDirty = true;
+    }
+
+    /**
+     * @see java.lang.Object#finalize()
+     */
+    protected void finalize() throws Throwable
+    {
+        if (productline != null) {
+            productline.removeModelChangeListener(this);
+        }
+        super.finalize();
+    }
 }

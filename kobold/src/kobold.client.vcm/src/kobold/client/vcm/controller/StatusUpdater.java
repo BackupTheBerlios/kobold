@@ -21,34 +21,31 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.34 2004/08/31 13:27:04 memyselfandi Exp $
+ * $Id: StatusUpdater.java,v 1.35 2004/08/31 20:14:26 vanto Exp $
  * 
  */
 package kobold.client.vcm.controller;
 
-import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
-import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.FileDescriptorHelper;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.KoboldVCMPlugin;
-import kobold.client.vcm.communication.*;
+import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.client.vcm.preferences.VCMPreferencePage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsole;
-import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.internal.progress.ProgressManager;
 
 /**
  * @author rendgeor
@@ -67,38 +64,45 @@ public class StatusUpdater {
 	 * Listener who acts on the delivered FD-container and updates all included FD(s)
 	 * @param fileDescriptorContainer, the FD-container to update
 	 */
-	public void updateFileDescriptors(IFileDescriptorContainer fileDescriptorContainer)
+	public void updateFileDescriptors(final IFileDescriptorContainer fdCon)
 	{
-
-	    String tmpString = fileDescriptorContainer.getLocalPath().toOSString();
-	    
-		//command line command with the stats script to the changed part of the meta-data containing FD(s)
-		String[] command = {"perl", getScriptPath() + 
+		String tmpString = fdCon.getLocalPath().toOSString();
+		final String[] command = {"perl", getScriptPath() + 
 							"stats.pl", tmpString.substring(0,tmpString.length()-1)};
-	    logger.debug("updateFileDescriptors: " + command[0] + command[1] + command[2]);
-		//process the connection (open and parse the input)
-		processConnection(command, fileDescriptorContainer);
-	}
-	
-	public void processConnection (String[] command,
-									IFileDescriptorContainer fileDescriptorContainer)
-	{
-		ScriptServerConnection conn = new ScriptServerConnection("noUser");
-
-
-		try 
-		{
-			String iString="";
-			iString = conn.open(command,"");
-			//conn.open(new NullProgressMonitor(), command);
-			System.out.println(iString);
-			conn.close();
-			parseInputString(fileDescriptorContainer,iString);
-
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	    try {
+	        ProgressManager.getInstance().busyCursorWhile(new IRunnableWithProgress() {
+	            public void run(IProgressMonitor monitor)
+	            throws InvocationTargetException, InterruptedException
+	            {
+	                monitor.beginTask("Regenerating file descriptors...", 2);
+	                ScriptExecuter se = new ScriptExecuter(command);
+	                String res;
+	                try {
+	                    res = se.open(monitor);
+	                    monitor.worked(1);
+	                    se.close();
+	                    if (res != null) {
+	                        parseInputString(fdCon, res);
+	                        monitor.worked(2);
+	                    } else {
+	                        logger.warn("script has returned null");
+	                    }
+	                } catch (IOException e) {
+	                    MessageDialog.openError(Display.getDefault().getActiveShell(),
+	                            "VCM Error", e.getLocalizedMessage());
+	                } catch (Exception e1) {
+	                    e1.printStackTrace();
+	                }
+	                finally {
+	                    monitor.done();
+	                }
+	                
+	            }
+	        });
+	    } catch (InvocationTargetException e) {
+	    } catch (InterruptedException e) {
+	        logger.info("FD Update cancelled.");
+	    }
 	}
 
 	

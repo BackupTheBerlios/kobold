@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.17 2004/08/25 14:59:13 vanto Exp $
+ * $Id: Component.java,v 1.18 2004/08/31 20:14:07 vanto Exp $
  *
  */
 
@@ -188,7 +188,12 @@ public class Component extends AbstractMaintainedAsset
 	        User u = (User)it.next();
 	        sc.addMaintainer(u);
 	    }
+	    
 	    return sc;
 	}
 
+	public List getChildren()
+	{
+	    return getVariants();
+	}
 }

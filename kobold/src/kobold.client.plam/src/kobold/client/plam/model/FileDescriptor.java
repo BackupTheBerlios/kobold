@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.17 2004/08/25 04:08:08 martinplies Exp $
+ * $Id: FileDescriptor.java,v 1.18 2004/08/31 20:14:07 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -31,7 +31,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import kobold.client.plam.model.edges.INode;
 import kobold.client.plam.model.product.SpecificComponent;
@@ -39,6 +38,8 @@ import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 import kobold.common.io.RepositoryDescriptor;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
@@ -49,7 +50,8 @@ import org.eclipse.core.runtime.Path;
  *
  * @author garbeam
  */
-public class FileDescriptor implements IFileDescriptorContainer, INode, IGXLExport {
+public class FileDescriptor implements IFileDescriptorContainer, 
+							INode, IGXLExport, IAdaptable {
 
     private List children = new ArrayList();
     private IFileDescriptorContainer parentAsset;
@@ -310,6 +312,23 @@ public class FileDescriptor implements IFileDescriptorContainer, INode, IGXLExpo
      */
     public List getMaintainers() {
         // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    /* (non-Javadoc)
+     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+     */
+    public Object getAdapter(Class adapter)
+    {
+        if (adapter == IResource.class) {
+            if (isDirectory()) {
+                //FIXME
+                return getParentAsset().getRoot().getProductline().getKoboldProject().getProject().getFolder(getLocalPath());
+            } else {
+                return getParentAsset().getRoot().getProductline().getKoboldProject().getProject().getFile(getLocalPath());
+            }
+        }
         return null;
     }
 }
