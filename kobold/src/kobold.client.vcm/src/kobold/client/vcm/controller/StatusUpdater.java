@@ -21,11 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.13 2004/07/29 15:19:50 garbeam Exp $
+ * $Id: StatusUpdater.java,v 1.14 2004/07/29 15:57:51 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
 
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,12 +36,16 @@ import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.FileDescriptorHelper;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.vcm.KoboldVCMPlugin;
-import kobold.client.vcm.communication.ScriptServerConnection;
+import kobold.client.vcm.communication.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * @author rendgeor
@@ -76,10 +81,18 @@ public class StatusUpdater {
 	{
 		ScriptServerConnection conn = new ScriptServerConnection("faceLoc");
 
+
 		try 
 		{
 			conn.open(command);
-			String iString = conn.getInputStream().toString();
+			
+			//convert the stream to a string
+			String iString = "";
+			InputThreadToString it = new InputThreadToString ();
+			it.setInputStream(conn.getInputStream());
+			//write the output to iString
+			it.run(iString);
+			
 			//parse the string
 			parseInputString(fileDescriptorContainer, iString);
 			
