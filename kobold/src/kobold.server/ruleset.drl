@@ -39,23 +39,7 @@
 			answer.addWorkflowControl(cont);
 			kobold.server.controller.MessageManager.getInstance().sendMessage(answer);
         </java:consequence>
-        <java:consequence>
-        //This is just the confirmation message for the sender
-            kobold.common.data.WorkflowMessage confirm = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());
-			confirm.addParentId(msg.getId());	
-			confirm.setSender(msg.getSender());	
-			confirm.setSubject("New Request for a Core Group Commit");
-			confirm.setStep(msg.getStep() + 1);
-			// gets the sender's inputs
-			java.util.HashMap map = msg.getWorkflowData();
-			confirm.setReceiver(msg.getSender());
-			confirm.setMessageText("Programmer "+msg.getSender() + " would like to suggest " +
-					"committing the asset " + map.get("asset") +  
-					" to a Core Group. (S)He added the following comment: " +
-					" Please note: This is just a confirmation message! " +
-					msg.getComment());
-        			kobold.server.controller.MessageManager.getInstance().sendMessage(confim);
-        </java:consequence>
+        
     </rule>
 
 
