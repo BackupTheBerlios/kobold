@@ -2,17 +2,16 @@
 		  xmlns="http://drools.org/rules"
           xmlns:java="http://drools.org/semantics/java">
           
-          
 	/**
 	 * Rule No.1
 	 * Core Group Suggestion
 	 * transfers the suggestion from p to his pe
-	 */          
+	 */               
     <rule name="Core Group Suggestion - Step 1">
         <parameter identifier="msg">
             <java:class>kobold.common.data.WorkflowMessage</java:class>
         </parameter>
-        <java:condition>(msg.getWorkflowType().equals("Core Group Suggestion") && msg.getStep() == 1)</java:condition>
+        <java:condition> (msg.getWorkflowType().equals("Core Group Suggestion")) &amp;&amp; (msg.getStep() == 1) </java:condition>
         <java:consequence>
             kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());
 			answer.addParentId(msg.getId());	
@@ -54,7 +53,7 @@
         <parameter identifier="msg">
             <java:class>kobold.common.data.WorkflowMessage</java:class>
         </parameter>
-        <java:condition>(msg.getWorkflowType().equals("Core Group Suggestion") && msg.getStep() == 2)</java:condition>
+        <java:condition>msg.getWorkflowType().equals("Core Group Suggestion") &amp;&amp; msg.getStep() == 2</java:condition>
         <java:consequence>
             java.lang.String decision = "";
 			kobold.common.data.AbstractKoboldMessage answer;
@@ -108,7 +107,7 @@
         <parameter identifier="msg">
             <java:class>kobold.common.data.WorkflowMessage</java:class>
         </parameter>
-        <java:condition>(msg.getWorkflowType().equals("Core Group Suggestion") && msg.getStep() == 3)</java:condition>
+        <java:condition>msg.getWorkflowType().equals("Core Group Suggestion") &amp;&amp; msg.getStep() == 3</java:condition>
         <java:consequence>
             //gets the sender's inputs
 			java.util.HashMap map = msg.getWorkflowData();
@@ -177,6 +176,7 @@
 			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);
         </java:consequence>
     </rule>
+
 
 
 
