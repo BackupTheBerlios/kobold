@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.21 2004/08/05 19:09:16 grosseml Exp $
+ * $Id: Variant.java,v 1.22 2004/08/05 20:50:54 vanto Exp $
  *
  */
 
@@ -230,6 +230,7 @@ public class Variant extends AbstractAsset
     {
         filedescs.add(fd);
         fd.setParentAsset(this);
+        fireStructureChange(AbstractAsset.ID_FILE_DESCRIPTORS, fd);
     }
 
     /**
@@ -239,6 +240,7 @@ public class Variant extends AbstractAsset
     {
         filedescs.remove(fd);
         fd.setParentAsset(null);
+        fireStructureChange(AbstractAsset.ID_FILE_DESCRIPTORS, fd);
     }
 
     /**
