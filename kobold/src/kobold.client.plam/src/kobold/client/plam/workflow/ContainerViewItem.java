@@ -8,16 +8,16 @@ package kobold.client.plam.workflow;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import kobold.common.data.WorkflowItem;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-
-import java.util.*;
 
 /**
  * @author meiner1

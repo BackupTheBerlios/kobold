@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.8 2004/07/01 11:27:25 vanto Exp $
+ * $Id: GXLExportDialog.java,v 1.9 2004/07/01 14:37:02 vanto Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -30,9 +30,6 @@ import java.io.File;
 import java.io.IOException;
 
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.productline.Component;
-import kobold.client.plam.model.productline.Variant;
-import kobold.common.data.User;
 import kobold.common.exception.GXLException;
 import net.sourceforge.gxl.GXLDocument;
 import net.sourceforge.gxl.GXLGraph;

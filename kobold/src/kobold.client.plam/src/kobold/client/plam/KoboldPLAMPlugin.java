@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.9 2004/05/20 21:34:45 vanto Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.10 2004/07/01 14:37:02 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -47,7 +47,8 @@ import org.eclipse.core.resources.IResourceStatus;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPluginDescriptor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
@@ -57,6 +58,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 public class KoboldPLAMPlugin extends AbstractUIPlugin {
 	
 	private static final Log logger = LogFactory.getLog(KoboldPLAMPlugin.class);
+	public static final String ID = "kobold.client.plam";
 	
 	//The shared instance.
 	private static KoboldPLAMPlugin plugin;
@@ -70,8 +72,8 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 	/**
 	 * The constructor.
 	 */
-	public KoboldPLAMPlugin(IPluginDescriptor descriptor) {
-		super(descriptor);
+	public KoboldPLAMPlugin() {
+		super();
 		plugin = this;
 		currentProject = null;
 		
@@ -92,6 +94,31 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 
 	}
 
+	/**
+	 * Convenience method for logging statuses to the plugin log
+	 * 
+	 * @param status  the status to log
+	 */
+	public static void log(IStatus status) {
+		getDefault().getLog().log(status);
+	}
+	
+	/**
+	 * Convenience method for logging a TeamException in such a way that the
+	 * stacktrace is logged as well.
+	 * @param e
+	 */
+	public static void log(CoreException e) {
+		IStatus status = e.getStatus();
+		log (status.getSeverity(), status.getMessage(), e);
+	}
+	
+	/**
+	 * Log the given exception along with the provided message and severity indicator
+	 */
+	public static void log(int severity, String message, Throwable e) {
+		log(new Status(severity, ID, 0, message, e));
+	}
 	/**
 	 * Returns the shared instance.
 	 */
@@ -130,7 +157,7 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
     {
         try
         {
-            URL installURL = getDefault().getDescriptor().getInstallURL();
+            URL installURL = getDefault().getBundle().getEntry("/");//getDefault().getDescriptor().getInstallURL();
             URL url = new URL(installURL, name);
             return ImageDescriptor.createFromURL(url);
         }

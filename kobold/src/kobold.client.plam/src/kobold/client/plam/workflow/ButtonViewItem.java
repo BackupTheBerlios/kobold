@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ButtonViewItem.java,v 1.2 2004/05/18 14:23:40 martinplies Exp $
+ * $Id: ButtonViewItem.java,v 1.3 2004/07/01 14:37:02 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -30,10 +30,6 @@ package kobold.client.plam.workflow;
 import kobold.common.data.WorkflowItem;
 import kobold.common.data.WorkflowMessage;
 
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
