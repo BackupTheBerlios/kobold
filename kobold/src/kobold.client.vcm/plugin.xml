@@ -63,6 +63,12 @@
                id="kobold.client.vcm.addaction">
          </action>
          <action
+               label="Remove"
+               class="kobold.client.vcm.popup.action.RemoveAction"
+               menubarPath="kobold.client.vcm.menu1/group1"
+               id="kobold.client.vcm.removeaction">
+         </action>
+         <action
                label="Import..."
                class="kobold.client.vcm.popup.action.ImportAction"
                menubarPath="kobold.client.vcm.menu1/group1"

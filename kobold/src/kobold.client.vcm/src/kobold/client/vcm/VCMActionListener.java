@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.7 2004/09/22 16:54:10 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.8 2004/09/22 17:28:33 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -165,7 +165,7 @@ public class VCMActionListener implements IVCMActionListener
 			command[6] = pl.getRepositoryDescriptor().getHost();
 			command[7] = pl.getRepositoryDescriptor().getRoot();
 			command[8] = pl.getRepositoryDescriptor().getPath();
-			command[9] = "default commit";
+			command[9] = "\"default commit\"";
 			for (int j = 0; j < command.length; j++) {
 				System.out.print(command[j]);
 				System.out.print(" ");
@@ -178,7 +178,7 @@ public class VCMActionListener implements IVCMActionListener
     			if (connection.getReturnValue() != 0) {
     			    // next we initially import
                     command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.IMPORTPL).concat(KoboldRepositoryHelper.getScriptExtension());
-        			command[9] = "initial pl import";
+        			command[9] = "\"initial pl import\"";
                     connection.open(progress, command);
         			connection.close();	
     			    
