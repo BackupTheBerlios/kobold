@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentFigure.java,v 1.4 2004/05/18 00:12:29 vanto Exp $
+ * $Id: ComponentFigure.java,v 1.5 2004/06/22 23:30:12 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -36,7 +36,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * ComponentFigure
  * 
  * @author Tammo van Lessen
- * @version $Id: ComponentFigure.java,v 1.4 2004/05/18 00:12:29 vanto Exp $
+ * @version $Id: ComponentFigure.java,v 1.5 2004/06/22 23:30:12 vanto Exp $
  */
 public class ComponentFigure extends AbstractNodeFigure {
     
@@ -44,7 +44,7 @@ public class ComponentFigure extends AbstractNodeFigure {
     {
 		super();
 		setBackgroundColor(ColorConstants.tooltipBackground);
-		((ToolbarLayout)getContentPane().getLayoutManager()).setVertical(false);
+		//((ToolbarLayout)getContentPane().getLayoutManager()).setVertical(false);
     }
 
 	/**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeEditPart.java,v 1.4 2004/06/22 17:19:01 vanto Exp $
+ * $Id: AbstractNodeEditPart.java,v 1.5 2004/06/22 23:30:12 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -30,6 +30,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import kobold.client.plam.editor.model.IViewModelProvider;
+import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.editor.policy.ContainerEditPolicy;
 import kobold.client.plam.editor.policy.GraphicalNodeEditPolicy;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
@@ -40,11 +41,13 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.ui.IViewLayout;
 
 /**
  * @author Tammo
@@ -68,13 +71,14 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
+		System.out.println(prop);
 		if (AbstractAsset.ID_CHILDREN.equals(prop))
 			refreshChildren();
 		//else if (AbstractAsset.ID_INPUTS.equals(prop))
 		//	refreshTargetConnections();
 		//else if (AbstractAsset.ID_OUTPUTS.equals(prop))
 		//	refreshSourceConnections();
-		else if (prop.equals(AbstractAsset.ID_SIZE) || prop.equals(AbstractAsset.ID_LOCATION))
+		else if (prop.equals(ViewModel.ID_SIZE) || prop.equals(ViewModel.ID_LOCATION))
 			refreshVisuals();
 	}
 
@@ -111,39 +115,50 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 		return (AbstractAsset)getModel();
 	}
 	
+	private ViewModel getViewModel()
+	{
+	    IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getViewer().getEditDomain()).getEditorPart();
+	    return vmp.getViewModelContainer().getViewModel(getAsset());
+	}
+
 	/**
 	 * Updates the visuals. 
 	 */
 	protected void refreshVisuals() {
-		Point loc = ((IViewModelProvider)getViewer()).getViewModel().getViewProperties(getAsset()).getLocation();
-		Dimension size= ((IViewModelProvider)getViewer()).getViewModel().getViewProperties(getAsset()).getSize();
+
+	    ViewModel vm = getViewModel();
+		Point loc = vm.getLocation();
+		Dimension size= vm.getSize();
 		Rectangle r = new Rectangle(loc ,size);
 
 		((GraphicalEditPart) getParent()).setLayoutConstraint(
-			this,
-			getFigure(),
-			r);
+			this, getFigure(), r);
 	}
 	
 
+	
 	/**
-	 * @see org.eclipse.gef.EditPart#activate()
-	 */
-	public void activate() {
-		if (isActive() == false) {
-			super.activate();
-			((AbstractAsset) getModel()).addPropertyChangeListener(this);
-		}
-	}
+     * @see org.eclipse.gef.EditPart#activate()
+     */
+    public void activate()
+    {
+        if (isActive() == false) {
+            super.activate();
+            getAsset().addPropertyChangeListener(this);
+            getViewModel().addPropertyChangeListener(this);
+        }
+    }
 
 	/**
-	 * @see org.eclipse.gef.EditPart#deactivate()
-	 */
-	public void deactivate() {
-		if (isActive()) {
-		   super.deactivate();
-		   ((AbstractAsset) getModel()).removePropertyChangeListener(this);
-		}
-	}
+     * @see org.eclipse.gef.EditPart#deactivate()
+     */
+    public void deactivate()
+    {
+        if (isActive()) {
+            super.deactivate();
+            getAsset().removePropertyChangeListener(this);
+            getViewModel().removePropertyChangeListener(this);
+        }
+    }
 
 }

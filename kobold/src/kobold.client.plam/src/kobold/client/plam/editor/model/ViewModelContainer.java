@@ -21,79 +21,52 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ViewProperties.java,v 1.1 2004/06/22 17:19:01 vanto Exp $
+ * $Id: ViewModelContainer.java,v 1.1 2004/06/22 23:30:11 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
 
 import kobold.common.data.ISerializable;
+import kobold.common.model.AbstractAsset;
 
 
 /**
- * @author Tammo
+ * @author vanto
  */
-public class ViewProperties implements ISerializable
+public class ViewModelContainer implements ISerializable 
 {
-	private Dimension size;
-	private Point location;
- 
-    public ViewProperties() 
-    {
-    	size = new Dimension(150,100);
-    	location = new Point(5,5);
+    private Map propertyByModelId = new HashMap();
+    
+    public ViewModel getViewModel(AbstractAsset asset) {
+        ViewModel prop = (ViewModel)propertyByModelId.get(asset.getId());
+        if (prop == null) {
+            prop = new ViewModel();
+            propertyByModelId.put(asset.getId(), prop);
+        }
+        
+        return prop;
     }
-    
-    public ViewProperties(Element element)
-    {
-        size = new Dimension();
-        location = new Point();
-        deserialize(element);
-    }
-    
-    public Point getLocation()
-    {
-        return location;
-    }
-    
-    public void setLocation(Point location)
-    {
-        this.location = location;
-    }
-    
-    
-    /**
-     * @return Returns the dimension.
-     */
-    public Dimension getSize()
-    {
-        return size;
-    }
-    
-    
-    /**
-     * @param dimension The dimension to set.
-     */
-    public void setSize(Dimension size)
-    {
-        this.size = size;
-    }
-    
+
     /**
      * @see kobold.common.data.ISerializable#serialize()
      */
     public Element serialize()
     {
-        Element element = DocumentHelper.createElement("prop");
+        Element element = DocumentHelper.createElement("viewmodel");
         
-        element.addAttribute("x", ""+location.x);
-        element.addAttribute("x", ""+location.y);
-        element.addAttribute("h", ""+size.height);
-        element.addAttribute("w", ""+size.height);
+        Iterator it = propertyByModelId.keySet().iterator();
+        while (it.hasNext()) {
+            String id = (String)it.next();
+            ViewModel prop = (ViewModel)propertyByModelId.get(id);
+            element.add(prop.serialize().addAttribute("id", id));
+        }
         
         return element;
     }
@@ -103,10 +76,12 @@ public class ViewProperties implements ISerializable
      */
     public void deserialize(Element element)
     {
-        location.setLocation(Integer.parseInt(element.attributeValue("x")),
-            Integer.parseInt(element.attributeValue("y")));
-        size.height = Integer.parseInt(element.attributeValue("h"));
-        size.width = Integer.parseInt(element.attributeValue("w"));
+        Iterator it = element.elementIterator("prop");
+        while (it.hasNext()) {
+            Element el = (Element)it.next();
+            //FIXME find model instance and set it as parent for viewmodel
+            propertyByModelId.put(el.attribute("id"), new ViewModel(element));
+        }
     }
-
+   
 }

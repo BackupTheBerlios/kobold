@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeFigure.java,v 1.4 2004/05/18 00:12:29 vanto Exp $
+ * $Id: AbstractNodeFigure.java,v 1.5 2004/06/22 23:30:12 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -77,15 +77,15 @@ public abstract class AbstractNodeFigure extends Shape {
 		scrollpane.setViewport(new FreeformViewport());
 		scrollpane.setContents(pane);*/
 
-		pane = new Figure();
+		/*pane = new Figure();
 		pane.setBorder(new MarginBorder(5));
 		ToolbarLayout tl = new ToolbarLayout();
 		tl.setSpacing(15);
 		pane.setLayoutManager(tl);
 		
-		add(pane);
+		add(pane);*/
 
-		//init1();
+		init1();
 	}
 
 	public void init1() {

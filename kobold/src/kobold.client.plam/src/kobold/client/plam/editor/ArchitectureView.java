@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureView.java,v 1.3 2004/05/17 02:12:23 vanto Exp $
+ * $Id: ArchitectureView.java,v 1.4 2004/06/22 23:30:12 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -29,6 +29,8 @@ package kobold.client.plam.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import kobold.client.plam.editor.model.IViewModelProvider;
+import kobold.client.plam.editor.model.ViewModelContainer;
 import kobold.client.plam.model.ModelFactory;
 
 import org.eclipse.core.runtime.IAdaptable;
@@ -69,10 +71,11 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * 
  * @author Tammo
  */
-public class ArchitectureView extends ViewPart {
+public class ArchitectureView extends ViewPart implements IViewModelProvider {
 	private GraphicalViewer graphicalViewer;
 	private EditDomain editDomain;
 	private ActionRegistry actionRegistry;
+	private ViewModelContainer vmp = new ViewModelContainer();
 	
 	public ArchitectureView()
 	{
@@ -257,6 +260,15 @@ public class ArchitectureView extends ViewPart {
 			 }
 		 }
 	 }
+
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.editor.model.IViewModelProvider#getViewModelContainer()
+     */
+    public ViewModelContainer getViewModelContainer()
+    {
+        return vmp;
+    }
 
 
 }

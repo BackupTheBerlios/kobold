@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineEditPart.java,v 1.1 2004/06/22 17:19:01 vanto Exp $
+ * $Id: ProductlineEditPart.java,v 1.2 2004/06/22 23:30:12 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -30,8 +30,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+import kobold.client.plam.editor.model.IViewModelProvider;
+import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
-import kobold.client.plam.model.Model;
+import kobold.common.model.AbstractAsset;
 import kobold.common.model.productline.Productline;
 
 import org.eclipse.draw2d.AutomaticRouter;
@@ -43,6 +45,7 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ManhattanConnectionRouter;
+import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
@@ -55,7 +58,7 @@ import org.eclipse.gef.tools.MarqueeDragTracker;
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductlineEditPart.java,v 1.1 2004/06/22 17:19:01 vanto Exp $
+ * @version $Id: ProductlineEditPart.java,v 1.2 2004/06/22 23:30:12 vanto Exp $
  */
 public class ProductlineEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
@@ -142,6 +145,17 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
         }
     }
 
+	protected AbstractAsset getAsset()
+	{
+		return (AbstractAsset)getModel();
+	}
+	
+	private ViewModel getViewModel()
+	{
+	    IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getViewer().getEditDomain()).getEditorPart();
+	    return vmp.getViewModelContainer().getViewModel(getAsset());
+	}
+    
     /**
      * @see org.eclipse.gef.EditPart#activate()
      */
@@ -149,7 +163,7 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
     {
         if (isActive() == false) {
             super.activate();
-            ((Model) getModel()).addPropertyChangeListener(this);
+            getAsset().addPropertyChangeListener(this);
         }
     }
 
@@ -160,7 +174,7 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
     {
         if (isActive()) {
             super.deactivate();
-            ((Model) getModel()).removePropertyChangeListener(this);
+            getAsset().removePropertyChangeListener(this);
         }
     }
 

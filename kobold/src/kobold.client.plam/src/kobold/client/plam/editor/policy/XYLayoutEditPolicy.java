@@ -21,15 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: XYLayoutEditPolicy.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
+ * $Id: XYLayoutEditPolicy.java,v 1.3 2004/06/22 23:30:12 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
 
 import kobold.client.plam.editor.command.SetConstraintCommand;
-import kobold.client.plam.model.pline.graph.AbstractNode;
+import kobold.client.plam.editor.model.IViewModelProvider;
+import kobold.client.plam.editor.model.ViewModel;
+import kobold.common.model.AbstractAsset;
 
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -41,7 +44,7 @@ import org.eclipse.gef.requests.CreateRequest;
  * XYLayoutEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: XYLayoutEditPolicy.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
+ * @version $Id: XYLayoutEditPolicy.java,v 1.3 2004/06/22 23:30:12 vanto Exp $
  */
 public class XYLayoutEditPolicy 
 	extends org.eclipse.gef.editpolicies.XYLayoutEditPolicy {
@@ -58,7 +61,10 @@ public class XYLayoutEditPolicy
      */
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
 		SetConstraintCommand locationCommand = new SetConstraintCommand();
-		locationCommand.setPart((AbstractNode)child.getModel());
+
+	    IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getHost().getViewer().getEditDomain()).getEditorPart();
+		ViewModel vp = vmp.getViewModelContainer().getViewModel((AbstractAsset)child.getModel());
+		locationCommand.setViewModel(vp);
 		locationCommand.setLocation((Rectangle)constraint);
 		return locationCommand;
     }

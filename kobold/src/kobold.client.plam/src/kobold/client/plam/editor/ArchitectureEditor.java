@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.7 2004/06/22 17:19:01 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.8 2004/06/22 23:30:12 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -30,9 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.editor.model.ViewModel;
-import kobold.client.plam.model.Model;
-import kobold.client.plam.model.ModelFactory;
+import kobold.client.plam.editor.model.IViewModelProvider;
+import kobold.client.plam.editor.model.ViewModelContainer;
+import kobold.common.model.productline.Component;
+import kobold.common.model.productline.Productline;
+import kobold.common.model.productline.Variant;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IAdaptable;
@@ -88,13 +90,13 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  *
  * @author Tammo
  */
-public class ArchitectureEditor extends GraphicalEditorWithPalette {
+public class ArchitectureEditor extends GraphicalEditorWithPalette 
+	implements IViewModelProvider {
 
 	protected static final String PALETTE_SIZE = "Palette Size"; //$NON-NLS-1$
 	protected static final int DEFAULT_PALETTE_SIZE = 130;
 
-	private Model model;
-	private ViewModel viewModel;
+	private ViewModelContainer viewModel;
 	
 	/**
 	 * Creates a new HelloGefEditor object.
@@ -103,11 +105,10 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette {
 	{
 		super();
 		setEditDomain(new DefaultEditDomain(this));
-		model = ModelFactory.createTestModel();
-		viewModel = new ViewModel();
+		viewModel = new ViewModelContainer();
 	}
 
-	public ViewModel getViewModel()
+	public ViewModelContainer getViewModelContainer()
 	{
 	    return viewModel;
 	}
@@ -184,7 +185,27 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette {
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#initializeGraphicalViewer()
 	 */
 	protected void initializeGraphicalViewer() {
-		getGraphicalViewer().setContents(model);
+		Productline model = new Productline("PL Compiler");
+		
+		Component ca1 = new Component("CA Frontend");
+		Component ca2 = new Component("CA Backend");
+		model.addCoreAsset(ca1);
+		model.addCoreAsset(ca2);
+		
+		Variant va1 = new Variant("VA Java");
+		Variant va2 = new Variant("VA C++");
+		Variant va3 = new Variant("VA ADA");
+		
+		Variant va4 = new Variant("VA x86");
+		Variant va5 = new Variant("VA PPC");
+		
+		ca1.addVariant(va1);
+		ca1.addVariant(va2);
+		ca1.addVariant(va3);
+		
+		ca2.addVariant(va4);
+		ca2.addVariant(va5);
+	    getGraphicalViewer().setContents(model);
 	}
 
 	/**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantEditPart.java,v 1.4 2004/06/22 17:19:01 vanto Exp $
+ * $Id: VariantEditPart.java,v 1.5 2004/06/22 23:30:12 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -37,7 +37,7 @@ import org.eclipse.draw2d.IFigure;
  * VariantEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: VariantEditPart.java,v 1.4 2004/06/22 17:19:01 vanto Exp $
+ * @version $Id: VariantEditPart.java,v 1.5 2004/06/22 23:30:12 vanto Exp $
  */
 public class VariantEditPart extends AbstractNodeEditPart {
 
@@ -51,7 +51,7 @@ public class VariantEditPart extends AbstractNodeEditPart {
 		figure.setTitle(getAsset().getName());
 		//figure.setSize(getAsset().getSize());
 		//figure.setLocation(getAsset().getLocation());
-		refreshVisuals();
+		//refreshVisuals();
 
 		//ScriptDescriptor sd = getNode().getScriptDescriptor();
 		//figure.showScriptLabel(sd != null);
