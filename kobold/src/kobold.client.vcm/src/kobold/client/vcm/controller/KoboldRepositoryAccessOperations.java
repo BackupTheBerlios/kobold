@@ -32,9 +32,12 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.logging.ConsoleHandler;
 
+import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.communication.CVSSererConnection;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.common.data.UserContext;
+import kobold.common.io.RepositoryDescriptor;
 
 import org.eclipse.core.internal.compatibility.PluginActivator;
 import org.eclipse.core.internal.model.PluginMap;
@@ -42,15 +45,19 @@ import org.eclipse.core.internal.plugins.DefaultPlugin;
 import org.eclipse.core.internal.plugins.PluginClassLoader;
 import org.eclipse.core.internal.plugins.PluginDescriptor;
 import org.eclipse.core.internal.plugins.PluginRegistry;
+import org.eclipse.core.internal.resources.Resource;
 import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.internal.runtime.PlatformActivator;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.PluginVersionIdentifier;
 import org.eclipse.core.runtime.model.PluginRegistryModel;
 import org.eclipse.osgi.framework.internal.core.ConsoleMsg;
+import org.eclipse.osgi.framework.stats.ResourceBundleStats;
 import org.eclipse.team.core.TeamException;
 import org.eclipse.team.internal.core.streams.PollingInputStream;
 import org.eclipse.ui.console.ConsolePlugin;
@@ -75,9 +82,23 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 //	CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de","come2me");
 	private static UserContext userContext = null;
 	
+	// RepositoryDescriptor of the current Project
+	private RepositoryDescriptor currentVCMProvider = null;
+	
+	// skriptExtension
+	private String skriptExtension = null;
+	
+	// Path of the current Skript Directory (installation Dir)
+	private Path skriptPath = null;
+	
 	public KoboldRepositoryAccessOperations()
 	{
-//		PluginDescriptor.
+		KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
+		String tmpLocation = plugin.getBundle().getLocation();
+		this.skriptPath = new Path(tmpLocation.substring(8,tmpLocation.length()));
+		this.skriptPath = (Path)skriptPath.append("skripts" + IPath.SEPARATOR);
+		System.out.println(skriptPath.toOSString());
+		
 	}
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#precheckin(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
@@ -162,6 +183,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		try
 		{
 			connection.open(progress);
+			
 		}
 		catch (Exception e)
 		{
@@ -260,5 +282,11 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			
 		}
 		//		 FIXME Imlpement functionality Iteraion II
+	}
+	/**
+	 * @param currentVCMProvider The currentVCMProvider to set.
+	 */
+	public void setCurrentVCMProvider(RepositoryDescriptor currentVCMProvider) {
+		this.currentVCMProvider = currentVCMProvider;
 	}
 }

@@ -30,7 +30,6 @@ import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.core.TeamException;
 import org.eclipse.team.internal.ui.actions.TeamAction;
@@ -38,7 +37,7 @@ import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
-public class CommitAction extends TeamAction implements IObjectActionDelegate {
+public class CommitAction extends TeamAction {
 
 	//The selected Object
 	IResource currentSelection = null;
@@ -117,16 +116,6 @@ public class CommitAction extends TeamAction implements IObjectActionDelegate {
 //		}
 		
 	
-
-	/**
-	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
-	 */
-	public void selectionChanged(IAction action, ISelection selection) {
-		if (selection instanceof IResource) {
-			currentSelection = (IResource)selection;
-		}
-		
-	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.ui.actions.TeamAction#isEnabled()

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin
-   id="kobold.client.vcm"
+   id="ekobold.client.vcm"
    name="Kobold VCM Plug-in"
    version="1.0.0"
    provider-name="Werkbold"
@@ -40,45 +40,44 @@
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             adaptable="true"
-            objectClass="org.eclipse.core.resources.IFile"
+            objectClass="kobold.common.model.AbstractAsset"
             id="kobold.client.vcm.contribution1">
          <action
                label="Commit"
                class="kobold.client.vcm.popup.action.CommitAction"
-               menubarPath="team.main/group1"
+               menubarPath="kobold.client.vcm.menu1/group1"
                enablesFor="1"
                id="kobold.client.vcm.commitaction">
          </action>
          <action
                label="Synchronize"
                class="kobold.client.vcm.popup.action.SynchronizeAction"
-               menubarPath="team.main/group1"
+               menubarPath="kobold.client.vcm.menu1/group1"
                enablesFor="1"
                id="kobold.client.vcm.synchronizeaction">
          </action>
          <action
                label="Update"
                class="kobold.client.vcm.popup.action.UpdateAction"
-               menubarPath="team.main/group1"
+               menubarPath="kobold.client.vcm.menu1/group1"
                enablesFor="1"
                id="kobold.client.vcm.updateaction">
          </action>
-         <filter
-               name="projectPersistentProperty"
-               value="org.eclipse.team.core.repository=kobold.client.vcm.controller.WrapperProvider">
-         </filter>
          <action
                label="Add"
                class="kobold.client.vcm.popup.action.AddAction"
-               menubarPath="team.main/group1"
+               menubarPath="kobold.client.vcm.menu1/group1"
                id="kobold.client.vcm.addaction">
          </action>
          <action
                label="Import..."
                class="kobold.client.vcm.popup.action.ImportAction"
-               menubarPath="team.main/group1"
+               menubarPath="kobold.client.vcm.menu1/group1"
                id="kobold.client.vcm.importaction">
          </action>
+         <menu
+               label="Version Control"
+               id="kobold.client.vcm.menu1"/>
       </objectContribution>
       <objectContribution
             adaptable="true"

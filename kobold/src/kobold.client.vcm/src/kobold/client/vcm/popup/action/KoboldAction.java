@@ -27,13 +27,15 @@
  */
 package kobold.client.vcm.popup.action;
 
-import kobold.common.data.Product;
-import kobold.common.data.Productline;
+
+import kobold.common.model.product.Product;
+import kobold.common.model.productline.Productline;
+import kobold.common.model.productline.Variant;
 
 import org.eclipse.core.internal.resources.Resource;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.team.core.TeamException;
 import org.eclipse.team.internal.ui.actions.TeamAction;
 import org.eclipse.ui.IActionDelegate;
@@ -48,8 +50,9 @@ import org.eclipse.ui.IObjectActionDelegate;
  */
 public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 
-	private Productline selectedProductLine = null;
-	private Product selectedProduct = null;
+	protected Productline selectedProductLine = null;
+	protected Product selectedProduct = null;
+	protected Variant selectedVariant = null;
 	protected Resource testResource[] = null;
 	
 	/* (non-Javadoc)
@@ -67,9 +70,23 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-		if (selection instanceof IResource) {
-			testResource[0] = (Resource)selection;
+		IStructuredSelection structSelection =((IStructuredSelection)selection);
+		for (int i = 0; i < structSelection.size(); i++) {
+			if (structSelection.getFirstElement() instanceof Productline) {
+				selectedProductLine = (Productline)structSelection.getFirstElement();
+				System.out.println(selectedProductLine.getName());
+			}
+			if (structSelection.getFirstElement() instanceof Product) {
+				selectedProduct = (Product)structSelection.getFirstElement();
+				System.out.println(selectedProduct.getName());
+			}
+			if (structSelection.getFirstElement() instanceof Variant) {
+				selectedVariant = (Variant)structSelection.getFirstElement();
+				System.out.println(selectedVariant.getName());
+			}
+			
 		}
+
 		
 	}
 

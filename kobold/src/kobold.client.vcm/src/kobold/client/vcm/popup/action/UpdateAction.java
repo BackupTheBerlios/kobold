@@ -30,13 +30,11 @@ import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
-public class UpdateAction implements IObjectActionDelegate {
+public class UpdateAction extends KoboldAction {
 
 	IResource[] currentSelection = null;
 	/**
@@ -80,25 +78,6 @@ public class UpdateAction implements IObjectActionDelegate {
 				shell,
 				"Kobold VCM Plug-in",
 				"postupdate (postcheckout) was executed.");
-	}
-
-	/**
-	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
-	 */
-	public void selectionChanged(IAction action, ISelection selection) {
-		if (selection instanceof StructuredSelection)
-		{
-			currentSelection = new IResource[((StructuredSelection)selection).size()];
-			for (int i = 0; i < ((StructuredSelection)selection).size(); i++) {
-				currentSelection[i] = (IResource)((StructuredSelection)selection).getFirstElement();
-				/* @FIXME firstElement?!
-				 */
-			}
-//			currentSelection[0] = (IResource)selection;
-		}
-		else
-		{
-		}
 	}
 
 }
