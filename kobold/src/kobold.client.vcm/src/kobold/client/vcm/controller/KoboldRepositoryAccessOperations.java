@@ -289,14 +289,13 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                 command[0] = vcmScriptPath;
 			    command[1] = localPath;
 			    command[2] = rd.getType();
-			    command[3] = rd.getType();
-			    command[4] = rd.getProtocol();
-			    command[5] = userName;
-			    command[6] = password; 
-				command[7] = rd.getHost();
-				command[8] = rd.getRoot();
-				command[9] = rd.getPath();
-				command[10] = lastParam != null ? lastParam : "";
+			    command[3] = rd.getProtocol();
+			    command[4] = userName;
+			    command[5] = password; 
+				command[6] = rd.getHost();
+				command[7] = rd.getRoot();
+				command[8] = rd.getPath();
+				command[9] = lastParam != null ? lastParam : "";
 				for (int j = 0; j < command.length; j++) {
 					System.out.print(command[j]);
 					System.out.print(" ");
