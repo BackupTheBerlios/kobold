@@ -1,16 +1,16 @@
-<rules xmlns="http://drools.org/rules" xmlns:java="http://drools.org/semantics/java"> 
-<semantics module="org.drools.semantics.java"/> 
+<rule-set name="cheese rules"
+		  xmlns="http://drools.org/rules"
+          xmlns:java="http://drools.org/semantics/java">
 
 
-<rule-set 	name="Kobold">
+    <rule name="Bob Likes Cheese">
+        <parameter identifier="bob">
+            <java:class>kobold.common.data.WorkflowMessage</java:class>
+        </parameter>
+        <java:condition>1 == 1</java:condition>
+        <java:consequence>
+            System.out.println( "Bob likes cheese." );
+        </java:consequence>
+    </rule>
 
-	<rule name="Client's Action">
-		<parameter identifier="workflowMessage">
-			<java:class xmlns:java="http://drools.org/semantics/java"> type="kobold.common.data.WorkflowMessage"</java:class>
-		</parameter>
-			<java:consequence xmlns:java="http://drools.org/semantics/java">
-				workflowMessage.setMessageText("Erfolg!");
-				modifyObject(workflowMessage);
-			</java:consequence>
-	</rule>
 </rule-set>
