@@ -22,13 +22,22 @@ possibilities:
 \begin{itemize}
 	\item Checking out a product
 	\item Exporting through GXL
+	\item Changing Kobold properties
 \end{itemize}
 Look up the explanations in the "Tutorial" section.
 
 \section{Architecture Editor}
 
-The Architecture Editor displays the architecture of the product,
+The Architecture Editor (see \ref{architecture}) displays the architecture of the product,
 or product line respectively, that is selected in the Role View. \par
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{architecture.png}
+   \caption{Architecture Editor}
+\label{architecture}
+\end{center}
+\end{figure}\par
 
 Architectures are directed graphs that consist of nodes and edges. 
 Nodes represent components, variants and files. Directed edges represent
@@ -53,7 +62,18 @@ The Architecture Editor offers you the following options:
 	\item Creating a custom component
 	\item Deleting a custom component
 \end{itemize}
-Look up the explanations in the "Tutorial" section.
+
+Most of them can be reached through the palette (see \ref{palette}), that opens up when you click on it.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{palette.png}
+   \caption{The palette}
+\label{palette}
+\end{center}
+\end{figure}\par
+
+Please look up the explanations in the "Tutorial" section.
 
 \section{Role View}
 
@@ -150,9 +170,17 @@ Look up the explanations in the "Tutorial" section.
 
 \section{Minimap}
 
-The Minimap is on the left side beneath the Role View. It shows the whole architecture.
+The Minimap (see \ref{map}) is on the left side beneath the Role View. It shows the whole architecture.
 By clicking at one spot on the map, the Architecture Editor automatically centers on that
 spot. 
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{outline.png}
+   \caption{Minimap}
+\label{map}
+\end{center}
+\end{figure}\par
 
 
 \section{Server Administration Tool}
