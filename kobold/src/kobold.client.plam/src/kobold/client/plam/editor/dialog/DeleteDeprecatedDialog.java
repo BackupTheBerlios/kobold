@@ -21,13 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteDeprecatedDialog.java,v 1.2 2004/09/20 00:45:24 vanto Exp $
+ * $Id: DeleteDeprecatedDialog.java,v 1.3 2004/09/20 14:41:31 neco Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
 import kobold.client.plam.editor.command.DeleteAssetCommand;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.MetaNode;
 
+import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
@@ -48,7 +51,7 @@ public class DeleteDeprecatedDialog extends TitleAreaDialog{
 	
 	private DeleteAssetCommand cmd;
 	private Label label;
-	 	
+	private AbstractAsset selection; 	
    
     public DeleteDeprecatedDialog(Shell parentShell, DeleteAssetCommand cmd)
     {
@@ -58,21 +61,22 @@ public class DeleteDeprecatedDialog extends TitleAreaDialog{
     
     protected void createButtonsForButtonBar(Composite parent) 
     {
-        createButton(parent, IDialogConstants.PROCEED_ID, "Set Deprecated", true);
-        createButton(parent, IDialogConstants.CLOSE_ID, "Delete", true);
-        createButton(parent, IDialogConstants.CANCEL_ID, "Cancel", true);
+    		createButton(parent, IDialogConstants.PROCEED_ID, "&Set Deprecated", true);
+    		createButton(parent, IDialogConstants.CLOSE_ID, "&Delete", true);
+    		createButton(parent, IDialogConstants.CANCEL_ID, "&Cancel", true);
     }
 
     
     protected Control createDialogArea(Composite parent)
     {
-        getShell().setText("Delete or set deprecated");
-        setTitle("Delete or set deprecated");
-//        setMessage("Select the action in the checkbox.");
-        Composite composite = (Composite) super.createDialogArea(parent);
-        
-        createContent(composite);
-        return composite;
+	    getShell().setText("Delete or Set Deprecated");
+	    setTitle("Delete or Set Deprecated");
+	    setMessage("If you delete this asset, it will be removed permanently.");
+	
+		Composite composite = (Composite) super.createDialogArea(parent);
+	    
+	    createContent(composite);
+	    return composite;
     }
     
     private void createContent(Composite parent){
@@ -93,7 +97,9 @@ public class DeleteDeprecatedDialog extends TitleAreaDialog{
 		       
 //		label = new Label(panel,SWT.NONE);
 //      label.setText("You have the possibility to delete the selected asset or to set it deprecated.");
-        label = new Label(panel,SWT.NONE);
+       
+		
+		label = new Label(panel,SWT.NONE);
         label.setText("Press \"Delete\" to remove the selected asset from the architecture.");
         label = new Label(panel,SWT.NONE);
         label.setText("Press \"Set Deprecated\" to change the status of the selected asset.");

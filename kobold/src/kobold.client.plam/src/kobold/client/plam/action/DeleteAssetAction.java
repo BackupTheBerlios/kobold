@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetAction.java,v 1.3 2004/09/20 00:45:24 vanto Exp $
+ * $Id: DeleteAssetAction.java,v 1.4 2004/09/20 14:40:47 neco Exp $
  *
  */
 package kobold.client.plam.action;
@@ -29,8 +29,11 @@ package kobold.client.plam.action;
 import kobold.client.plam.editor.command.DeleteAssetCommand;
 import kobold.client.plam.editor.dialog.DeleteDeprecatedDialog;
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.MetaNode;
+import kobold.client.plam.model.productline.Productline;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -49,14 +52,26 @@ public class DeleteAssetAction extends ActionDelegate {
     
     public void run(IAction action)
     {
+
+    	if (selection instanceof Productline)
+    	{ 
+    		DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
+            deleteCommand.setAsset(selection);
+            MessageDialog.openInformation(Display.getDefault().getActiveShell(), 
+                	"Delete Selected Asset", "Deleting productlines is not allowed!"); 
+    	} 
+    	else{
+    	
         DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
         deleteCommand.setAsset(selection);
         
+
         Shell shell = Display.getDefault().getActiveShell();
 		DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, deleteCommand); 
 		dialog.open();
+    	}
     }
-    
+     
     /**
      * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
      */
@@ -65,11 +80,11 @@ public class DeleteAssetAction extends ActionDelegate {
        
        boolean enable = false;
        this.selection = null;
+
        if (sel.getFirstElement() instanceof AbstractAsset) {
            this.selection = (AbstractAsset)sel.getFirstElement();
            enable = true;
        }
-       
        if (action != null) {
            action.setEnabled(enable);
        }

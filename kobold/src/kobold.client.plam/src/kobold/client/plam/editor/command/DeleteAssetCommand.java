@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.8 2004/09/20 11:36:11 martinplies Exp $
+ * $Id: DeleteAssetCommand.java,v 1.9 2004/09/20 14:41:14 neco Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -169,9 +169,23 @@ public class DeleteAssetCommand extends Command
    
     public void execute()
     {
+    	if (asset instanceof MetaNode)
+    	{ 
+    		DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
+            deleteCommand.setAsset(asset);
+//            if (MessageDialog.openQuestion(Display.getDefault().getActiveShell(), 
+//                	"Delete Selected Asset", "Are you sure to delete this asset?")) 
+//            {
+                deleteCommand.execute(DeleteAssetCommand.DELETE);
+//            } 
+
+    	} 
+    	else{
+    	
         Shell shell = Display.getDefault().getActiveShell();
 		DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, this); 
 		dialog.open();
+    	}
     }
     
     public void undo()
