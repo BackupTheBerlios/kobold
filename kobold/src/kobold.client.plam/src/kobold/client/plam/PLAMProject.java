@@ -21,17 +21,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.7 2004/06/24 00:38:23 garbeam Exp $
+ * $Id: PLAMProject.java,v 1.8 2004/06/24 01:22:37 vanto Exp $
  *
  */
 package kobold.client.plam;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import kobold.common.data.Productline;
+import kobold.client.plam.editor.model.ViewModelContainer;
+import kobold.common.model.productline.Component;
+import kobold.common.model.productline.Productline;
+import kobold.common.model.productline.Variant;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,7 +49,9 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
  * Stores all PLAM project information
@@ -56,12 +63,12 @@ public class PLAMProject
 	private final static Log logger = LogFactory.getLog(PLAMProject.class);
 	
 	private IFile plamFile;
+	private IProject project;
 	
 	private URL serverUrl;
 	private String username;
 	private String password;
 	private String productline;
-	private Productline productLine;
 
 	
 	/**
@@ -73,6 +80,7 @@ public class PLAMProject
 	public PLAMProject(IFile plamFile)
 	{
 		this.plamFile = plamFile;
+		this.project = plamFile.getProject();
 	}
 	
 	/**
@@ -188,31 +196,64 @@ public class PLAMProject
 	/**
 	 * @return Returns the productline or null if not stored.
 	 */
-	public String getProductline() {
-		return productline;
+	public Productline getProductline() {
+	    Productline model = new Productline("PL Compiler");
+	    model.setParent(this);
+	    
+		Component ca1 = new Component("CA Frontend");
+		Component ca2 = new Component("CA Backend");
+		model.addComponent(ca1);
+		model.addComponent(ca2);
+		
+		Variant va1 = new Variant("VA Java");
+		Variant va2 = new Variant("VA C++");
+		Variant va3 = new Variant("VA ADA");
+		
+		Variant va4 = new Variant("VA x86");
+		Variant va5 = new Variant("VA PPC");
+		
+		ca1.addVariant(va1);
+		ca1.addVariant(va2);
+		ca1.addVariant(va3);
+		
+		ca2.addVariant(va4);
+		ca2.addVariant(va5);
+
+	    return model;
 	}
 	
 	/**
+	 * @return Returns the productline or null if not stored.
+	 */
+	public String getProductlineName() {
+		return productline;
+	}
+
+	/**
 	 * @param productline The productline to set.
 	 */
-	public void setProductline(String productline) 
+	public void setProductlineName(String productline) 
 	{
 		this.productline = productline;
 	}
 
+    /**
+     * @param viewModel
+     * @param monitor
+     */
+    public void storeViewModelContainer(ViewModelContainer viewModel, IProgressMonitor monitor) 
+    		throws Exception
+    {
+        IFile vmFile = project.getFile("viewdata");
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+   		XMLWriter writer;
+   		writer = new XMLWriter(out, OutputFormat.createPrettyPrint());
+   		writer.write(viewModel.serialize());
+   		writer.close();
+   		vmFile.setContents(new ByteArrayInputStream(out.toByteArray()), 
+    			true, false, monitor);
+    	out.close();
+    }
 
-	/**
-	 * @return
-	 */
-	public Productline getProductLine() {
-		return productLine;
-	}
-
-	/**
-	 * @param productline
-	 */
-	public void setProductLine(Productline productline) {
-		productLine = productline;
-	}
 
 }
