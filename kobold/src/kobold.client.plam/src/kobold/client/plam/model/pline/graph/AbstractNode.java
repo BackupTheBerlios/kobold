@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNode.java,v 1.8 2004/05/06 16:58:21 vanto Exp $
+ * $Id: AbstractNode.java,v 1.9 2004/05/14 00:30:14 vanto Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
@@ -32,6 +32,7 @@ import java.net.URI;
 
 import kobold.common.data.IdManager;
 import kobold.common.io.ScriptDescriptor;
+import net.sourceforge.gxl.GXLAttr;
 import net.sourceforge.gxl.GXLGraph;
 import net.sourceforge.gxl.GXLInt;
 import net.sourceforge.gxl.GXLLocator;
@@ -42,6 +43,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.ui.views.properties.IPropertyDescriptor;
+import org.eclipse.ui.views.properties.PropertyDescriptor;
 
 /**
  * AbstractNode
@@ -50,7 +53,7 @@ import org.eclipse.draw2d.geometry.Point;
  *
  * @author Tammo van Lessen
  */
-public abstract class AbstractNode extends GXLNode
+public abstract class AbstractNode extends GXLNode //implements IPropertySource
  {
 	protected static final Log logger = LogFactory.getLog(AbstractNode.class);
 	private Dimension dimension = new Dimension(100,50);
@@ -59,6 +62,21 @@ public abstract class AbstractNode extends GXLNode
 	protected transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 	
 	private GXLGraph graph = new GXLGraph(IdManager.getInstance().getModelId("container"));
+
+	protected static IPropertyDescriptor[] descriptors = null;
+	public static final String
+		ID_CHILDREN = "children", 	//$NON-NLS-1$
+		ID_INPUTS = "inputs",	//$NON-NLS-1$
+		ID_OUTPUTS = "outputs",	//$NON-NLS-1$
+		ID_SIZE = "size",         //$NON-NLS-1$
+		ID_LOCATION = "location"; //$NON-NLS-1$
+
+	static{
+		descriptors = new IPropertyDescriptor[]{
+			new PropertyDescriptor(ID_SIZE, "Size"),
+			new PropertyDescriptor(ID_LOCATION, "Location")
+		};
+	}
 
 	/**
 	 * @param id
@@ -104,7 +122,7 @@ public abstract class AbstractNode extends GXLNode
 	 * This method returns the dimension of the graphical object, or null if it is not set
 	 * @return
 	 */
-	public Dimension getDimension() 
+	public Dimension getSize() 
 	{
 		return dimension;
 	}
@@ -128,7 +146,12 @@ public abstract class AbstractNode extends GXLNode
 	 */
 	public ScriptDescriptor getScriptDescriptor() 
 	{
-		return null;
+		GXLAttr attr = getAttr("scriptdesc"); 
+		if (attr == null)
+			return null;
+			
+		URI id = ((GXLLocator)attr.getValue()).getURI();
+		return ScriptDescriptor.getById(id);
 	}
 
 	/**
@@ -158,9 +181,11 @@ public abstract class AbstractNode extends GXLNode
 	 * This method sets the dimension of the graphical object
 	 * @param dimension
 	 */
-	public void setDimension(Dimension dimension) 
+	public void setSize(Dimension dimension) 
 	{
+		if (this.dimension.equals(dimension)) return;
 		this.dimension = dimension;
+		firePropertyChange(ID_SIZE, null, dimension);  //$NON-NLS-1$
 	}
 
 	/**
@@ -190,7 +215,9 @@ public abstract class AbstractNode extends GXLNode
 	 */
 	public void setLocation(Point point) 
 	{
+		if (location.equals(point)) return;
 		location = point;
+		firePropertyChange(ID_LOCATION, null, point);  //$NON-NLS-1$
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener l)
@@ -203,4 +230,13 @@ public abstract class AbstractNode extends GXLNode
 		listeners.removePropertyChangeListener(l);
 	}
 
+	protected void firePropertyChange(String prop, Object old, Object newValue){
+		listeners.firePropertyChange(prop, old, newValue);
+	}
+
+	protected void fireStructureChange(String prop, Object child){
+		listeners.firePropertyChange(prop, null, child);
+	}
+
+	//TODO implement IPropertySource
 }

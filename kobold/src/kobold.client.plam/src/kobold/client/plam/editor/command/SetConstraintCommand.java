@@ -21,58 +21,75 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SetConstraintCommand.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * $Id: SetConstraintCommand.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
 
+import kobold.client.plam.model.pline.graph.AbstractNode;
+
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 
 /**
  * SetConstraintCommand
  * 
  * @author Tammo van Lessen
- * @version $Id: SetConstraintCommand.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * @version $Id: SetConstraintCommand.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
  */
 public class SetConstraintCommand extends Command {
 
-    private EditPart editpart;
-    private Rectangle oldRect;
-    private Rectangle newRect;
+    private AbstractNode model;
+    private Point newPos;
+    private Dimension newSize;
+	private Point oldPos;
+	private Dimension oldSize;
+
 
     //~ Methods ----------------------------------------------------------------
 
+	public void setLocation(Rectangle r){
+		setLocation(r.getLocation());
+		setSize(r.getSize());
+	}
 
-    public void setRect(Rectangle r)
-    {
-        newRect = r ;
-    }
+	public void setLocation(Point p) {
+		newPos = p;
+	}
 
-    public void setEditPart(EditPart editpart)
-    {
-        this.editpart = editpart;
-    }
+	public void setSize(Dimension p) {
+		newSize = p;
+	}
 
-    public void execute()
-    {
-        ((GraphicalEditPart) editpart.getParent()).setLayoutConstraint(editpart,
-           ((GraphicalEditPart)editpart).getFigure(), newRect);
+	public void setPart(AbstractNode model) {
+		this.model = model;
+	}
 
-    }
+	public void execute() {
+		oldSize = model.getSize();
+		oldPos  = model.getLocation();
+		model.setLocation(newPos);
+		model.setSize(newSize);
+	}
+
+	public String getLabel(){
+		if (oldSize.equals(newSize))
+			return "Move";
+		return "Resize";
+	}
 
     public void redo()
     {
-        //model.setSize(newSize);
-        //model.setLocation(newPos);
+        model.setSize(newSize);
+        model.setLocation(newPos);
     }
 
     public void undo()
     {
-        //model.setSize(oldSize);
-        //model.setLocation(oldPos);
+        model.setSize(oldSize);
+        model.setLocation(oldPos);
     }
 
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptDescriptor.java,v 1.3 2004/04/28 16:24:18 vanto Exp $
+ * $Id: ScriptDescriptor.java,v 1.4 2004/05/14 00:33:29 vanto Exp $
  *
  */
 package kobold.common.io;
@@ -49,9 +49,29 @@ public class ScriptDescriptor
 		id = IdManager.getInstance().getScriptId(name);
     }
     
+    private ScriptDescriptor()
+    {
+    }
+     
+    private void setId(URI id)
+    {
+    	this.id = id.getFragment();
+    }
+    
     public URI getId()
     {
     	return URI.create(BASE_URI + id);
+    }
+    
+    public static ScriptDescriptor getById(URI id)
+    {
+    	if (id == null) 
+    		return null;
+    		
+    	// TODO: create SD and fill load the right script!
+    	ScriptDescriptor sd = new ScriptDescriptor();
+		sd.setId(id);    	
+    	return sd;	
     }
     	
 }

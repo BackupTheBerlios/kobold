@@ -21,17 +21,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentFigure.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * $Id: ComponentFigure.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FreeformLayer;
+import org.eclipse.draw2d.FreeformLayout;
+import org.eclipse.draw2d.FreeformViewport;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.RectangleFigure;
+import org.eclipse.draw2d.ScrollPane;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Color;
@@ -42,14 +47,15 @@ import org.eclipse.swt.widgets.Display;
  * ComponentFigure
  * 
  * @author Tammo van Lessen
- * @version $Id: ComponentFigure.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * @version $Id: ComponentFigure.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
  */
 public class ComponentFigure extends RectangleFigure {
     
     public static Color classColor = new Color(null, 255, 255, 206);
     private IFigure pane;
     private Label label;
-    
+	private Label scriptLabel;
+	
     public ComponentFigure(String name) 
     {
         ToolbarLayout layout = new ToolbarLayout();
@@ -66,6 +72,11 @@ public class ComponentFigure extends RectangleFigure {
         label.setFont(classFont);
         label.setLabelAlignment(PositionConstants.CENTER);
         add(label);
+
+		scriptLabel = new Label("SCRIPT");
+		scriptLabel.setFont(classFont);
+		scriptLabel.setLabelAlignment(PositionConstants.RIGHT);
+		add(scriptLabel);
         
 /*        pane = new FreeformLayer();
         //pane.setLayoutManager(new FreeformLayout());
@@ -80,14 +91,37 @@ public class ComponentFigure extends RectangleFigure {
         
         add(scrollpane);*/
 
-        pane = new Figure();
-        pane.setBorder(new MarginBorder(5));
-        ToolbarLayout tl = new ToolbarLayout();
-        tl.setSpacing(5);
-        pane.setLayoutManager(tl);
-        add(pane);
+		pane = new Figure();
+		pane.setBorder(new MarginBorder(5));
+		ToolbarLayout tl = new ToolbarLayout();
+		tl.setSpacing(5);
+		pane.setLayoutManager(tl);
+		add(pane);
+
+		//init1();
     }
-    
+
+	public void init1() {
+		setBorder(new MarginBorder(5));
+		ScrollPane scrollpane = new ScrollPane();
+		pane = new FreeformLayer();
+		pane.setLayoutManager(new FreeformLayout());
+		//setLayoutManager(new StackLayout());
+		add(scrollpane);
+		scrollpane.setViewport(new FreeformViewport());
+		scrollpane.setContents(pane);
+
+		
+		setBackgroundColor(ColorConstants.listBackground);
+		setOpaque(true);
+	}
+	
+	public void setScript(boolean s)
+	{
+		scriptLabel.setVisible(s);
+	}
+
+	
     /**
      * @return
      */

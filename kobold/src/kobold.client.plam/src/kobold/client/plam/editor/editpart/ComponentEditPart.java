@@ -21,38 +21,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentEditPart.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * $Id: ComponentEditPart.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import kobold.client.plam.editor.figure.ComponentFigure;
-import kobold.client.plam.editor.policy.ContainerEditPolicy;
-import kobold.client.plam.editor.policy.GraphicalNodeEditPolicy;
-import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
 import kobold.client.plam.model.pline.graph.AbstractNode;
 import kobold.client.plam.model.pline.graph.ComponentNode;
+import kobold.common.io.ScriptDescriptor;
 
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.ConnectionEditPart;
-import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.NodeEditPart;
-import org.eclipse.gef.Request;
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 /**
  * ComponentEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ComponentEditPart.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * @version $Id: ComponentEditPart.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
  */
-public class ComponentEditPart extends AbstractGraphicalEditPart
-        implements PropertyChangeListener, NodeEditPart {
+public class ComponentEditPart extends AbstractNodeEditPart {
 
     private ComponentFigure figure;
     
@@ -61,64 +50,15 @@ public class ComponentEditPart extends AbstractGraphicalEditPart
      */
     protected IFigure createFigure() {
         figure = new ComponentFigure(((ComponentNode)getModel()).getName());
-        figure.setSize(((ComponentNode)getModel()).getDimension());
-		figure.setLocation(((ComponentNode)getModel()).getLocation());
-        
+        figure.setSize(((AbstractNode)getModel()).getSize());
+		figure.setLocation(((AbstractNode)getModel()).getLocation());
+
+		ScriptDescriptor sd = getNode().getScriptDescriptor();
+		figure.setScript(sd != null);
+
         return figure;
     }
 
-    /**
-     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
-     */
-    protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-            new GraphicalNodeEditPolicy());
-        installEditPolicy(EditPolicy.CONTAINER_ROLE, new ContainerEditPolicy());
-        installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicy());
-    }
-
-    /**
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    public void propertyChange(PropertyChangeEvent evt) {
-        String prop = evt.getPropertyName();
-        if (prop.equals("child")) {
-           System.out.println("refresh");
-           refreshChildren();
-        }
-    }
-
-    /**
-     * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
-     */
-    public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-        // TODO
-        return null;
-    }
-
-    /**
-     * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
-     */
-    public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-        // TODO
-        return null;
-    }
-
-    /**
-     * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
-     */
-    public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-        // TODO
-        return null;
-    }
-
-    /**
-     * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
-     */
-    public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-        // TODO
-        return null;
-    }
 
     /**
      * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren() You
@@ -137,27 +77,4 @@ public class ComponentEditPart extends AbstractGraphicalEditPart
     public IFigure getContentPane() {
         return figure.getContentPane();
     }
-
-    /**
-     * @see org.eclipse.gef.EditPart#activate()
-     */
-    public void activate()
-    {
-        if (isActive() == false) {
-            super.activate();
-            ((AbstractNode) getModel()).addPropertyChangeListener(this);
-        }
-    }
-
-    /**
-     * @see org.eclipse.gef.EditPart#deactivate()
-     */
-    public void deactivate()
-    {
-        if (isActive()) {
-            super.deactivate();
-            ((AbstractNode) getModel()).removePropertyChangeListener(this);
-        }
-    }
-
 }

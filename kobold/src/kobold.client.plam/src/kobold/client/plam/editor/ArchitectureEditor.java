@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.4 2004/05/06 16:58:21 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.5 2004/05/14 00:30:14 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -29,21 +29,21 @@ package kobold.client.plam.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.Model;
 import kobold.client.plam.model.ModelFactory;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.parts.ScrollableThumbnail;
 import org.eclipse.draw2d.parts.Thumbnail;
+import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.SharedImages;
@@ -55,11 +55,21 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.CopyTemplateAction;
+import org.eclipse.gef.ui.actions.GEFActionConstants;
+import org.eclipse.gef.ui.actions.ZoomInAction;
+import org.eclipse.gef.ui.actions.ZoomOutAction;
+import org.eclipse.gef.ui.palette.PaletteContextMenuProvider;
+import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithPalette;
+import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
+import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.gef.ui.stackview.CommandStackInspectorPage;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -69,6 +79,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -79,6 +90,9 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * @author Tammo
  */
 public class ArchitectureEditor extends GraphicalEditorWithPalette {
+
+	protected static final String PALETTE_SIZE = "Palette Size"; //$NON-NLS-1$
+	protected static final int DEFAULT_PALETTE_SIZE = 130;
 
 	private Model model;
 	
@@ -101,6 +115,32 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette {
 		setSite(iSite);
 		System.out.println(iInput.getName());
 		setInput(iInput);
+	}
+
+	/**
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithPalette#getInitialPaletteSize()
+	 */
+	protected int getInitialPaletteSize() {
+		return KoboldPLAMPlugin.getDefault().getPreferenceStore().getInt(PALETTE_SIZE);
+	}
+
+	/**
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithPalette#handlePaletteResized(int)
+	 */
+	protected void handlePaletteResized(int newSize) {
+		KoboldPLAMPlugin.getDefault().getPreferenceStore().setValue(PALETTE_SIZE, newSize);
+	}
+
+	protected void hookPaletteViewer() {
+		super.hookPaletteViewer();
+		final CopyTemplateAction copy = 
+				(CopyTemplateAction)getActionRegistry().getAction(GEFActionConstants.COPY);
+		getPaletteViewer().addSelectionChangedListener(copy);
+		getPaletteViewer().getContextMenu().addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {
+				manager.appendToGroup(GEFActionConstants.GROUP_COPY, copy);
+			}
+		});
 	}
 
 	/**
@@ -142,21 +182,56 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette {
 	}
 
 	/**
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithPalette#configurePaletteViewer()
+	 */
+	protected void configurePaletteViewer() {
+		super.configurePaletteViewer();
+		PaletteViewer viewer = (PaletteViewer)getPaletteViewer();
+		ContextMenuProvider provider = new PaletteContextMenuProvider(viewer);
+		getPaletteViewer().setContextMenu(provider);
+		//viewer.setCustomizer(new KoboldPaletteCustomizer());
+	}
+
+	public void dispose() {
+		CopyTemplateAction copy = (CopyTemplateAction)getActionRegistry().getAction(GEFActionConstants.COPY);
+		getPaletteViewer().removeSelectionChangedListener(copy);
+	
+		super.dispose();
+	}
+
+	/**
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
 	 */
 	protected void configureGraphicalViewer()
 	{
 		super.configureGraphicalViewer();
+		ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer)getGraphicalViewer();
 
-		GraphicalViewer viewer = getGraphicalViewer();
+		ScalableFreeformRootEditPart root = new ScalableFreeformRootEditPart();
 
-		viewer.setRootEditPart(new ScalableFreeformRootEditPart());
+		List zoomLevels = new ArrayList(3);
+		zoomLevels.add(ZoomManager.FIT_ALL);
+		zoomLevels.add(ZoomManager.FIT_WIDTH);
+		zoomLevels.add(ZoomManager.FIT_HEIGHT);
+		root.getZoomManager().setZoomLevelContributions(zoomLevels);
+
+		IAction zoomIn = new ZoomInAction(root.getZoomManager());
+		IAction zoomOut = new ZoomOutAction(root.getZoomManager());
+		getActionRegistry().registerAction(zoomIn);
+		getActionRegistry().registerAction(zoomOut);
+		getSite().getKeyBindingService().registerAction(zoomIn);
+		getSite().getKeyBindingService().registerAction(zoomOut);
+
+		viewer.setRootEditPart(root);
+
 		viewer.setEditPartFactory(new GraphicalPartFactory());
-
-		// If you don't put this line, then moving figures by drag & drop
-		// above the left or top limit of the editor window will lead to
-		// an infinite loop!
-		((FigureCanvas) viewer.getControl()).setScrollBarVisibility(FigureCanvas.ALWAYS);
+		//ContextMenuProvider provider = new AEContextMenuProvider(viewer, getActionRegistry());
+		//viewer.setContextMenu(provider);
+		//getSite().registerContextMenu("org.eclipse.gef.examples.logic.editor.contextmenu", //$NON-NLS-1$
+		//	provider, viewer);
+		
+		//viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer)
+		//	.setParent(getCommonKeyHandler()));
 
 	}
 

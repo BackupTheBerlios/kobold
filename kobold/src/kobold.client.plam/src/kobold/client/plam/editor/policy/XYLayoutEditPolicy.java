@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: XYLayoutEditPolicy.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * $Id: XYLayoutEditPolicy.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
 
 import kobold.client.plam.editor.command.SetConstraintCommand;
+import kobold.client.plam.model.pline.graph.AbstractNode;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -40,7 +41,7 @@ import org.eclipse.gef.requests.CreateRequest;
  * XYLayoutEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: XYLayoutEditPolicy.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * @version $Id: XYLayoutEditPolicy.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
  */
 public class XYLayoutEditPolicy 
 	extends org.eclipse.gef.editpolicies.XYLayoutEditPolicy {
@@ -56,13 +57,10 @@ public class XYLayoutEditPolicy
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
-			SetConstraintCommand locationCommand = new SetConstraintCommand();
-
-			locationCommand.setEditPart(child);
-			locationCommand.setRect((Rectangle) constraint);
-
-			// System.out.println("HelloXYLayoutEditPolicy.createChangeConstraintCommand() return command="+locationCommand);
-			return locationCommand;
+		SetConstraintCommand locationCommand = new SetConstraintCommand();
+		locationCommand.setPart((AbstractNode)child.getModel());
+		locationCommand.setLocation((Rectangle)constraint);
+		return locationCommand;
     }
 
     /**

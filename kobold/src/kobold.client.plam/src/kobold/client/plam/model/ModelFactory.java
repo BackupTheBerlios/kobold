@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelFactory.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * $Id: ModelFactory.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -64,6 +64,7 @@ public class ModelFactory {
 		c2.addVariant(var1);
 		c2.addVariant(var2);
 		var2.addComponent(c2c);
+		var2.setScriptDescriptor(new ScriptDescriptor("MyScript"));
 		c2c.addVariant(var3);
 	
 		VersionNode version = new VersionNode("1.0");
