@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.38 2004/09/20 06:47:02 martinplies Exp $
+ * $Id: ModelStorage.java,v 1.39 2004/09/20 18:50:57 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -459,14 +459,20 @@ public class ModelStorage
         for (Iterator it = cas.iterator(); it.hasNext();) {
             Component component = (Component) it.next();
             
+            if (component.getResource() == null) {
+                // Resource of Component is null
+                logger.error("Component \""+component.getName()+"\" has no resource!");
+                continue;
+            }
             //create the dir
             IFolder specialComponentFolder = casFolder.getFolder(component.getResource());
             
             
             //createDirectory
             try {
+                
                 if (!specialComponentFolder.exists()) {
-                	System.out.println("Now create comp-dir:" + specialComponentFolder.toString());
+                    System.out.println("Now create comp-dir:" + specialComponentFolder.toString());
                     specialComponentFolder.create(true, true, monitor);
                 }
             } catch (CoreException e) {
@@ -494,8 +500,14 @@ public class ModelStorage
         for (Iterator it = cas.iterator(); it.hasNext();) {
             Component component = (Component) it.next();
             
-            //create the dir
-
+            
+            if (component.getResource() == null) {
+                // Resource of Component is null
+                logger.error("Component \""+component.getName()+"\" has no resource!");
+                continue;
+            }
+            
+            //create the dir            
             IFolder specialComponentFolder = project.getFolder(path.toString());
             specialComponentFolder = specialComponentFolder.getFolder(component.getResource());
             
@@ -541,7 +553,10 @@ public class ModelStorage
         //for each variant
         for (Iterator it = vars.iterator(); it.hasNext();) {
             Variant variant = (Variant) it.next();
-            
+            if (variant.getResource() == null){
+                logger.error("Variant \""+variant.getName()+"\" has no resource!");
+                continue;
+            }              
             //create the dir
             //IFolder specialVariantFolder = casFolder.getFolder(variant.getResource());
             IFolder specialVariantFolder = project.getFolder(path.toString());
