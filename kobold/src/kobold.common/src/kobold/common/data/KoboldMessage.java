@@ -78,6 +78,11 @@ public class KoboldMessage {
 		return id;
 	}
 
+	protected String getType() 
+	{
+		return KoboldMessage.TYPE;
+	}
+	
 	/**
 	 * @return
 	 */
@@ -168,6 +173,7 @@ public class KoboldMessage {
 	 */
 	public Element serialize() {
 		Element xmsg = DocumentHelper.createElement("message");
+		xmsg.addAttribute("type", getType());
 		xmsg.addAttribute("id", id);
 		xmsg.addAttribute("priority", priority);
 
@@ -248,6 +254,7 @@ public class KoboldMessage {
 	public static KoboldMessage createMessage(Element el)
 	{
 		String type = el.attributeValue("type");
+
 		if (type == null)
 			return null;
 		

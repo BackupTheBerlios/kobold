@@ -49,7 +49,7 @@ public class WorkflowMessage extends KoboldMessage {
 		controlItems.add(item);
 	}
 	
-	public WorkflowItem[] getWorkflowControl()
+	public WorkflowItem[] getWorkflowControls()
 	{
 		return (WorkflowItem[])controlItems.toArray(new WorkflowItem[0]);
 	}
@@ -107,6 +107,11 @@ public class WorkflowMessage extends KoboldMessage {
 	protected void deserialize(Element data) 
 	{
 		super.deserialize(data);
+	}
+
+	protected String getType() 
+	{
+		return WorkflowMessage.TYPE;
 	}
 
 	/**
