@@ -2,14 +2,14 @@
 %% StuPro A, Produktlinien (Kobold)
 %% Team Werkbold
 %% Spezifikation I
-%% $Id: spezifikation1.tex,v 1.7 2004/02/15 15:55:38 bettina Exp $
+%% $Id: spezifikation1.tex,v 1.8 2004/02/15 16:07:14 memyselfandi Exp $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[a4paper,titlepage,12pt,ngerman]{scrbook}
 \usepackage{../common/header}
 \usepackage{supertabular}
 
-\RCSdef $Revision: 1.7 $
-\RCSdef $Date: 2004/02/15 15:55:38 $
+\RCSdef $Revision: 1.8 $
+\RCSdef $Date: 2004/02/15 16:07:14 $
 
 %\newcommand\version{Version \today \xspace}
 \newcommand\version{Version 1.0\xspace}
@@ -62,15 +62,21 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Inhaltsverzeichnis
-
 \tableofcontents
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \include{einleitung}
 \include{drools}
 \include{client}
+\include{gxl}
 \include{teilspezi1}
 \include{server}
-\include{nichtfunktional}
+\include{nichtfunktional} 
+\bibliographystyle{alpha}
+\begin{thebibliography}{99}\bibname{Lalal}
+\bibitem{lh} Helmut Kopka (1996): \textsl{\LaTeX \vspace{0.1cm} Einführung Band1}, 2.Auflage %%@
+Addison-Wesley, München
+\end{thebibliography} 
+
 
 
 
