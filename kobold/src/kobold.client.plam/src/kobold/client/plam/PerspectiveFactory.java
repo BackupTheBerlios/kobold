@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PerspectiveFactory.java,v 1.8 2004/08/25 01:50:32 vanto Exp $
+ * $Id: PerspectiveFactory.java,v 1.9 2004/08/31 11:20:02 memyselfandi Exp $
  *
  */
 package kobold.client.plam;
@@ -61,7 +61,7 @@ public class PerspectiveFactory implements IPerspectiveFactory {
 		outputfolder.addView(KoboldConstants.ID_WORKFLOW_VIEW);
 		outputfolder.addPlaceholder(IPageLayout.ID_BOOKMARKS);
 		//outputfolder.addPlaceholder(SearchUI.SEARCH_RESULT_VIEW_ID);
-		//outputfolder.addPlaceholder(IConsoleConstants.ID_CONSOLE_VIEW);
+		outputfolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
 		//outputfolder.addPlaceholder(JavaUI.ID_SOURCE_VIEW);
 		//outputfolder.addPlaceholder(JavaUI.ID_JAVADOC_VIEW);
 
