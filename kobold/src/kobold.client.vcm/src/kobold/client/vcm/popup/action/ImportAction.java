@@ -79,7 +79,10 @@ public class ImportAction extends KoboldAction {
 			
 			try
 			{
+			    repoAccess.preImport(testAssets,IResource.DEPTH_INFINITE,null,true);
 				repoAccess.importing(testAssets,IResource.DEPTH_INFINITE,progress);
+				repoAccess.postImport(testAssets,IResource.DEPTH_INFINITE,null,true);
+
 			}
 			catch (Exception e)
 			{

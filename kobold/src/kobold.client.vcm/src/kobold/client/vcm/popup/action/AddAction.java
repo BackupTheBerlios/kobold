@@ -65,6 +65,8 @@ public class AddAction extends KoboldAction {
 	 */
 		public void run(IAction action) {
 			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
+
+			
 			try
 			{
 				//gets the stored userData
@@ -80,7 +82,11 @@ public class AddAction extends KoboldAction {
 //						"stats.pl", "/home/rendgeor/workspace/kobold.client.vcm/"};
 //				
 //				statUp.processConnection(command, var);
+
+			    repoAccess.preAdd(testAssets,IResource.DEPTH_INFINITE,null,true);
 				repoAccess.add(testAssets,IResource.DEPTH_INFINITE,null,true);
+				repoAccess.postAdd(testAssets,IResource.DEPTH_INFINITE,null,true);
+
 			}
 			catch (Exception e)
 			{

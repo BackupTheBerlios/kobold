@@ -617,7 +617,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#preUpdate(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void preUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress) throws TeamException {
+	public void preUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
 	    try
         {
 		    for (int i = 0; i < resources.length; i++)
@@ -652,7 +652,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postUpdate(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void postUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress) throws TeamException {
+	public void postUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
 	    try
         {
 		    for (int i = 0; i < resources.length; i++)

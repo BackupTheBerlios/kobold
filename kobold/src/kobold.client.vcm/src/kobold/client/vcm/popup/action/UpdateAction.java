@@ -51,7 +51,9 @@ public class UpdateAction extends KoboldAction {
 		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 		try
 		{
+		    repoAccess.preUpdate(testAssets,IResource.DEPTH_INFINITE,null,true);
 			repoAccess.update(testAssets,IResource.DEPTH_INFINITE,null);
+		    repoAccess.postUpdate(testAssets,IResource.DEPTH_INFINITE,null,true);
 		}
 		catch (Exception e)
 		{

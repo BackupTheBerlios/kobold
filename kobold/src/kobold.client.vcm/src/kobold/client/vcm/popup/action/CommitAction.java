@@ -64,7 +64,9 @@ public class CommitAction extends KoboldAction {
 			IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 			try
 			{
+			    repoAccess.preCheckin(testAssets,IResource.DEPTH_INFINITE,null,true);
 				repoAccess.checkin(testAssets,IResource.DEPTH_INFINITE,progress);
+			    repoAccess.postCheckin(testAssets,IResource.DEPTH_INFINITE,null,true);
 			}
 			catch (Exception e)
 			{

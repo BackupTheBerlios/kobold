@@ -67,9 +67,9 @@ public interface KoboldRepositoryOperations extends SimpleAccessOperations {
 	public void update(AbstractAsset[] resources, int depth, IProgressMonitor progress)
 	throws TeamException;
 	
-	public void preUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress)
+	public void preUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation)
 	throws TeamException;
 	
-	public void postUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress)
+	public void postUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation)
 	throws TeamException;
 }
