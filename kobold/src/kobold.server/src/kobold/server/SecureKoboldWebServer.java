@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.23 2004/06/16 15:08:06 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.24 2004/06/23 11:48:08 neccaino Exp $
  *
  */
 package kobold.server;
@@ -54,7 +54,7 @@ import org.apache.xmlrpc.XmlRpcHandler;
 import org.apache.xmlrpc.secure.SecureWebServer;
 
 /**
- * @author garbeam
+ * @author garbeam, contan
  *
  * Implements the server interface and delegates all RPCs to its
  * appropriate methods.
@@ -185,6 +185,9 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			else if (methodName.equals("invalidateMessage")) {
 				invalidateMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
 										AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
+			}
+			else if (methodName.equals("validateSATAccessibility")){
+				return validateSATAccessibility((String)arguments.elementAt(0));
 			}
 		} catch (Exception e) {
 			logger.info("Exception during execute()", e);
@@ -427,5 +430,9 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	public void invalidateMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
 		MessageManager.getInstance().invalidateMessage(userContext,
 																					koboldMessage);
+	}
+	
+	public String validateSATAccessibility(String adminPassword){
+		return this.NO_RESULT; // until fully implemented
 	}
 }
