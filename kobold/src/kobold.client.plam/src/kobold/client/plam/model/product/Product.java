@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.24 2004/09/20 11:36:52 martinplies Exp $
+ * $Id: Product.java,v 1.25 2004/09/20 17:45:05 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -317,7 +317,7 @@ public class Product extends AbstractRootAsset
             addSpecificComponent((SpecificComponent)comp, index);
 		}
 		else if (comp instanceof RelatedComponent) {
-		    addSpecificComponent((SpecificComponent)comp, index);
+		    addRelatedComponent((RelatedComponent)comp, index);
 		}
     }
     public void addSpecificComponent(SpecificComponent comp){
