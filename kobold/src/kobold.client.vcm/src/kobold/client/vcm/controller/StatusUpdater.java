@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.20 2004/08/05 19:31:35 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.21 2004/08/05 20:52:06 garbeam Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -42,6 +42,7 @@ import kobold.client.vcm.preferences.VCMPreferencePage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
@@ -86,6 +87,7 @@ public class StatusUpdater {
 		{
 			String iString="";
 			iString = conn.open(command,"");
+			//conn.open(new NullProgressMonitor(), command);
 			System.out.println(iString);
 			conn.close();
 			parseInputString(fileDescriptorContainer,iString);
@@ -154,11 +156,11 @@ public class StatusUpdater {
 		            if (revision.endsWith("*")) {
 		                // not managed yet by version control system
 		                if (revision.equals("*")) {
-        		             FileDescriptorHelper.createFile(filename, "", new Date(), true,
+        		             FileDescriptorHelper.createFile(filename, "", null, true,
         		                    						 fileDescriptorContainer);
 		                }
 		                else if (revision.equals("T*")) {
-                             FileDescriptorHelper.createFile(filename, "", new Date(), false,
+                             FileDescriptorHelper.createFile(filename, "", null, false,
         		                    						 fileDescriptorContainer);
 		                }
 		                else {
@@ -169,12 +171,16 @@ public class StatusUpdater {
 			        //it's a file
 		            else {
     	            
-    		            Date date = new Date((localLine.nextToken()));
+    		            Date date = new Date(Long.parseLong(localLine.nextToken()));
     		            	/*3*/
     		            	//date = df.parse(localLine.nextToken());
     
-                        /*4*/boolean isBinary = localLine.nextToken().equals("binary");                    
-                        
+    		  
+    		            boolean isBinary = false;
+    		            if (localLine.hasMoreTokens()) {
+                        /*4*/isBinary = localLine.nextToken().equals("binary");                    
+    		            }
+    		            
 		                //add the new FD
     		            FileDescriptorHelper.createFile (filename, revision, date, isBinary, fileDescriptorContainer);
     		            //System.out.println(line.nextToken());
