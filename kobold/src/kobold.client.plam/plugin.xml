@@ -150,11 +150,18 @@
             </objectContribution>
    </extension>
    <extension
+         id="ccc"
+         name="kobold"
          point="org.eclipse.ui.preferencePages">
       <page
-            class="kobold.client.plam.KoboldPlamPreferencePage"
+            class="kobold.client.plam.preferences.MainPreferencePage"
             name="Kobold"
-            id="kobold.client.plam.KoboldPlamPreferencePage"/>
+            id="kobold.client.plam.mainpage"/>
+      <page
+            class="kobold.client.plam.preferences.SSLPreferencePage"
+            category="kobold.client.plam.mainpage"
+            name="SSL"
+            id="kobold.client.plam.SSLPreferencePage"/>
    </extension>
 
 </plugin>
