@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.9 2004/06/24 09:35:55 rendgeor Exp $
+ * $Id: Product.java,v 1.10 2004/06/24 10:21:07 grosseml Exp $
  *
  */
 
@@ -58,9 +58,9 @@ import kobold.common.model.AbstractAsset;
 public class Product extends AbstractAsset {
 
 	// containers
-	private List productReleases;
-	private List specificComponents;
-	private List relatedComponents;
+	private List productReleases = new ArrayList();
+	private List specificComponents = new ArrayList();
+	private List relatedComponents = new ArrayList();
 	private RepositoryDescriptor repositoryDescriptor = null;
 	private String localPath;
 		
@@ -71,10 +71,6 @@ public class Product extends AbstractAsset {
 	 */
 	public Product(String productName) {
 		super(productName);
-		
-		productReleases = new ArrayList();
-		specificComponents = new ArrayList();
-		relatedComponents = new ArrayList();
 	}
 	
 	/**
@@ -82,7 +78,7 @@ public class Product extends AbstractAsset {
 	 * @param productName
 	 */
 	public Product(Element element, AbstractAsset parent, String path) {
-		setName(element.attributeValue("name"));
+		super(element.attributeValue("name"));
 		setParent(parent);
 		deserialize(path);
 	}
@@ -147,22 +143,21 @@ public class Product extends AbstractAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		Element realElement = element.element (AbstractAsset.PRODUCT);
-		super.deserialize(realElement);
+		super.deserialize(element);
 		//setName(element.attributeValue("name"));
 		// TODO
 		
 		System.out.println ("start deserializing!");
 	    
-		Iterator it = realElement.elementIterator("releases");
+		Iterator it = element.elementIterator("releases");
 		while (it.hasNext()) {
 		    Element pEl = (Element)it.next();
 		    /* load and create the product by finding its local path and 
 		     		  deserializing it from there.
 		    */
-			addProductRelease(new ProductRelease (pEl));
+		    addProductRelease(new ProductRelease (pEl));
 		}
-		it = realElement.elementIterator("specific-components");
+		it = element.elementIterator("specific-components");
 		while (it.hasNext()) {
 		    Element pEl = (Element)it.next();
 		    /* load and create the product by finding its local path and 
@@ -171,7 +166,7 @@ public class Product extends AbstractAsset {
 			addComponent(new SpecificComponent (pEl));
 		}
 
-		it = realElement.elementIterator("releated-component");
+		it = element.elementIterator("releated-component");
 		while (it.hasNext()) {
 		    Element pEl = (Element)it.next();
 		    /* load and create the product by finding its local path and 
@@ -192,7 +187,7 @@ public class Product extends AbstractAsset {
 			+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
 			+ File.separatorChar + ".productmetainfo.xml");
 		} catch (DocumentException e) {
-			System.out.print(path+ File.separatorChar + ((AbstractAsset)getParent()).getName()
+			System.err.print(path+ File.separatorChar + ((AbstractAsset)getParent()).getName()
 			+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
 			+ File.separatorChar + ".productmetainfo.xml" +  " read error");
 			//Log log = LogFactory.getLog("kobold.server.controller.ProductManager");
@@ -200,7 +195,7 @@ public class Product extends AbstractAsset {
 		}
 
 		//give the result to the deserializer
-		deserialize(document.getRootElement());
+		deserialize(document.getRootElement().element(AbstractAsset.PRODUCT));
 	}
 	
 

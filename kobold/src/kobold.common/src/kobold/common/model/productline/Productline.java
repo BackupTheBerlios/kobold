@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.14 2004/06/24 09:35:55 rendgeor Exp $
+ * $Id: Productline.java,v 1.15 2004/06/24 10:21:07 grosseml Exp $
  *
  */
 package kobold.common.model.productline;
@@ -249,14 +249,11 @@ public class Productline extends AbstractAsset
 
 	
 	public void deserialize(Element element, String path) {
-		
-		Element realElement = element.element (AbstractAsset.PRODUCT_LINE);
-		
 		System.out.println ("start deserializing!");
-	    super.deserialize(realElement);
-	    repositoryPath = realElement.attributeValue("repositoryPath");
+	    super.deserialize(element);
+	    repositoryPath = element.attributeValue("repositoryPath");
 	    
-		Iterator it = realElement.element("products").elementIterator(AbstractAsset.PRODUCT);
+		Iterator it = element.element("products").elementIterator(AbstractAsset.PRODUCT);
 		while (it.hasNext()) {
 		    Element pEl = (Element)it.next();
 		    /* load and create the product by finding its local path and 
@@ -269,7 +266,7 @@ public class Productline extends AbstractAsset
 		}
 		
 		//Same here with coreassets.
-		it = realElement.element("coreassets").elementIterator(AbstractAsset.COMPONENT);
+		it = element.element("coreassets").elementIterator(AbstractAsset.COMPONENT);
 		while (it.hasNext()) {
 			Element pEl = (Element)it.next();
 			/*load and create the coreAsset by finding its local path and 
@@ -302,7 +299,7 @@ public class Productline extends AbstractAsset
 		}
 
 		//give the result to the deserializer
-		deserialize(document.getRootElement(), path);
+		deserialize(document.getRootElement().element(AbstractAsset.PRODUCT_LINE), path);
 	}
 
 	/**

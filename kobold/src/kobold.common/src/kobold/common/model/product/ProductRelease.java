@@ -21,12 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductRelease.java,v 1.2 2004/06/21 22:35:35 garbeam Exp $
+ * $Id: ProductRelease.java,v 1.3 2004/06/24 10:21:07 grosseml Exp $
  *
  */
 
 package kobold.common.model.product;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -42,6 +45,8 @@ import org.dom4j.Element;
  */
 public class ProductRelease implements ISerializable {
 
+	private DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSZ");
+	
 	// container
 	private List releases;
 	private Date creationDate;
@@ -69,7 +74,9 @@ public class ProductRelease implements ISerializable {
 	 */
 	public Element serialize() {
 		Element productRelease = DocumentHelper.createElement("product-release");
-		productRelease.addAttribute("created", creationDate.toLocaleString());
+		if (creationDate != null) {
+			productRelease.addAttribute("created", dateFormat.format(creationDate));
+		}
 		
 		Element releasesElement = productRelease.addElement("releases");
 		for (Iterator it = releases.iterator(); it.hasNext(); ) {
@@ -85,7 +92,11 @@ public class ProductRelease implements ISerializable {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		creationDate = new Date(element.attributeValue("created"));
+		if (element.attributeValue("created") != null) {
+			try {
+				creationDate = dateFormat.parse(element.attributeValue("created"));
+			} catch (ParseException e) {}
+		}
 	}
 
 	/**
