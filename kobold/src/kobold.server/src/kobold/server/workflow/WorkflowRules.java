@@ -42,17 +42,20 @@ public class WorkflowRules {
 			"answer.setStep(msg.getStep() + 1);"+
 			// gets the sender's inputs
 			"java.util.HashMap map = msg.getWorkflowData();" +
-			"answer.setReceiver(msg.getReceiver());" +
+			"answer.setReceiver(map.get(\"recipient\"));" +
 			"answer.setMessageText(\"Programmer \"+msg.getSender() + \" would like to suggest " +
 					"committing the file \" + map.get(\"file\") + \" in component \" + map.get(\"component\") + \" "+
 					"to a Core Group. He added the following comment: \"" +
 					"msg.getComment());" +
 			// adds decision possibilities for the pe
+			"kobold.common.data.WorkflowItem recipient = new kobold.common.data.WorkflowItem(\"recipient\",\"Recipient (PLE)\",kobold.common.data.WorkflowItem.TEXT);"+
 			"kobold.common.data.WorkflowItem rb1 = new kobold.common.data.WorkflowItem(\"true\",\"Assent and transfer to PLE\",kobold.common.data.WorkflowItem.RADIO);"+
 			"kobold.common.data.WorkflowItem rb2 = new kobold.common.data.WorkflowItem(\"false\",\"Dismiss suggestion\", kobold.common.data.WorkflowItem.RADIO);"+
 			"kobold.common.data.WorkflowItem cont = new kobold.common.data.WorkflowItem(\"decision\",\"Decision: \",kobold.common.data.WorkflowItem.CONTAINER);"+
 			"cont.addChild(rb1);"+
 			"cont.addChild(rb2);" +
+			"answer.addWorkflowControl(recipient);" +
+			"answer.putWorkflowData(\"P\", map.get(\"P\"));"+
 			"answer.putWorkflowData(\"file\", map.get(\"file\"));"+
 			"answer.putWorkflowData(\"component\", map.get(\"component\"));"+
 			"answer.addWorkflowControl(cont);" +
@@ -83,7 +86,7 @@ public class WorkflowRules {
 		"answer.setStep(msg.getStep()+1);"+
 		//if the pe supports the suggestion
 		"if (decision.equals(\"true\")){"+
-			"answer.setReceiver(\"\");"+ //TODO
+			"answer.setReceiver(map.get(\"recipient\"));"+ 
 			"answer.setSubject(\"New Request for a Core Group Commit\");"+
 			"answer.setMessageText(\"Product Engineer \" + msg.getSender() + \" got a suggestion from one of his programmers to " +
 					"commit the file \" + map.get(\"file\") + \" in component \" + map.get(\"component\") + \" "+
@@ -96,12 +99,14 @@ public class WorkflowRules {
 			"container.addChild(radio1);"+
 			"container.addChild(radio2);"+
 			"answer.addWorkflowControl(container);"+
+			"answer.putWorkflowData(\"P\", map.get(\"P\"));"+
+			"answer.putWorkflowData(\"PE\", answer.getSender());"+
+			"answer.putWorkflowData(\"file\", map.get(\"file\"));"+
+			"answer.putWorkflowData(\"component\", map.get(\"component\"));"+
 		"}"+
 		// if the pe rejects
 		"else if (decision.equals(\"false\")){"+
-			"kobold.server.controller.GlobalMessageContainer gmc = kobold.server.controller.GlobalMessageContainer.getInstance();"+
-			"kobold.common.data.WorkflowMessage wfm = (kobold.common.data.WorkflowMessage)gmc.getMessage(msg.getParentIds()[0]);"+
-			"answer.setReceiver(wfm.getSender());"+
+			"answer.setReceiver(map.get(\"P\"));"+
 			"answer.setSubject(\"Core Group suggestion rejected\");"+
 			"answer.setMessageText(\"Your suggestion was rejected by \"+msg.getSender() +\" due to the following reasons: \" +"+
 					 "msg.getComment());"+
@@ -139,10 +144,8 @@ public class WorkflowRules {
 				"String decision = \"\";"+
 				"decision = map.get(\"decision\");"+
 				//setting the recipients
-				"kobold.server.controller.GlobalMessageContainer gmc = GlobalMessageContainer.getInstance();"+
-				"kobold.common.data.WorkflowMessage wfm = (kobold.common.data.WorkflowMessage)gmc.getMessage(msg.getParentIds()[0]);"+
-				"answerP.setReceiver(wfm.getSender());"+
-				"answerPE.setReceiver(wfm.getSender());"+
+				"answerP.setReceiver(map.get(\"P\"));"+
+				"answerPE.setReceiver(map.get(\"PE\"));"+
 				// if the ple assents
 				"if (decision.equals(\"true\")){"+
 					"answerP.setSubject(\"Core Group Suggestion accepted\");"+
