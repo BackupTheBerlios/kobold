@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PerspectiveFactory.java,v 1.6 2004/06/24 01:26:42 vanto Exp $
+ * $Id: PerspectiveFactory.java,v 1.7 2004/08/04 22:40:57 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -29,6 +29,7 @@ package kobold.client.plam;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
 
 /**
  * @see IPerspectiveFactory
@@ -54,7 +55,7 @@ public class PerspectiveFactory implements IPerspectiveFactory {
 		//folder.addView(JavaUI.ID_TYPE_HIERARCHY);
 		folder.addView(KoboldConstants.ID_ROLE_TREE_VIEW);
 		folder.addPlaceholder(IPageLayout.ID_RES_NAV);
-		
+
 		// add workflow view
 		IFolderLayout outputfolder= layout.createFolder("bottom", IPageLayout.BOTTOM, (float)0.75, editorArea); //$NON-NLS-1$
 		outputfolder.addView(KoboldConstants.ID_WORKFLOW_VIEW);
@@ -67,10 +68,11 @@ public class PerspectiveFactory implements IPerspectiveFactory {
 		// put architecture view to the big right area, below the hidden editor
 		//layout.addView(KoboldConstants.ID_ARCHITECTURE_VIEW, IPageLayout.BOTTOM, (float)0.7, editorArea);
 
+		
 		// place outline below role tree
 		IFolderLayout outlineFolder = layout.createFolder("outline", IPageLayout.BOTTOM, (float)0.75, "left");
 		outlineFolder.addView(IPageLayout.ID_OUTLINE);
-		
+
 		// show editors
 		layout.setEditorAreaVisible(true);
 		
@@ -78,7 +80,7 @@ public class PerspectiveFactory implements IPerspectiveFactory {
 		layout.addShowViewShortcut(KoboldConstants.ID_ROLE_TREE_VIEW);
 		layout.addShowViewShortcut(KoboldConstants.ID_WORKFLOW_VIEW);
 		layout.addShowViewShortcut(KoboldConstants.ID_ARCHITECTURE_VIEW);
-
+		
 		// views - standard workbench
 		//layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
 		//layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
@@ -87,6 +89,8 @@ public class PerspectiveFactory implements IPerspectiveFactory {
 		// add new wizard
 		layout.addPerspectiveShortcut(KoboldConstants.ID_PERSPECTIVE);
 		layout.addNewWizardShortcut(KoboldConstants.ID_NEW_WIZARD);
-			
+
+		//show cheatsheet
+		new OpenCheatSheetAction("kobold.client.plam.cheatsheet").run();
 	}
 }
