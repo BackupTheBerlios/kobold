@@ -21,17 +21,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.11 2004/06/23 15:05:41 rendgeor Exp $
+ * $Id: ProductLineTest.java,v 1.12 2004/06/24 00:12:51 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
-import org.dom4j.Element;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
+
+
+import java.util.Date;
 
 import junit.framework.TestCase;
+import kobold.common.io.RepositoryDescriptor;
 import kobold.common.model.FileDescriptor;
 import kobold.common.model.Release;
+import kobold.common.model.product.Product;
+import kobold.common.model.product.SpecificComponent;
 import kobold.common.model.productline.Component;
 import kobold.common.model.productline.Productline;
 import kobold.common.model.productline.Variant;
@@ -56,22 +59,25 @@ public class ProductLineTest extends TestCase {
 	
 	public void testSerialize() {
 		
-		
+
 		Productline pl = new Productline("windows");
+		/*
 		pl.setRepositoryPath("bla.blubber.com");
 		
 		/////--------Product----------------
 		//add a product
-		/*Product productA = new Product ("me");
-		productA.setRepositoryPath("cvs.berlios.de");
+		Product productA = new Product ("me");
+		
+		RepositoryDescriptor descriptor = new RepositoryDescriptor ();
+		productA.setRepositoryDescriptor(descriptor);
+		
 		Product productB = new Product ("xp");
-		productA.setRepositoryPath("svn.berlios.de");
 		
 		pl.addProduct(productA);
 		pl.addProduct(productB);
 
-		//--add component
-		ComponentSpecific componentC = new ComponentSpecific ("compC");
+		//--add component (specific)
+		SpecificComponent componentC = new SpecificComponent ("compC");
 		productA.addComponent(componentC);
 		
 		//--add Release
@@ -97,11 +103,9 @@ public class ProductLineTest extends TestCase {
 		fd1.addFileDescriptor(fd1_1);
 		fd1.addFileDescriptor(fd1_2);
 		
-		*/
-
-		//ReleaseB has no FD!
+		//Note: ReleaseB has no FD!
 		
-		/////--------CoreAsset--------------------------------------------------
+		/////--------Component (CoreAsset)--------------------------------------------------
 		//add a component
 		Component coreAssetA = new Component("coreAssetA");
 		coreAssetA.setRepositoryPath("cvs.berlios.de");
@@ -140,10 +144,27 @@ public class ProductLineTest extends TestCase {
 		//Release releaseGet = (Release) fd2.getParent();
 		//Productline plGet = (Productline) fd2.getRoot ();
 		
+	
+
 		//------------------------------
 		//serialize the whole product-line (all included)
-		// .productlinemetainfo 
-		Element ser = pl.serialize();
+ 
+		//.productmetainfo 
+		//pl.serializeProductline("/tmp", 0);
+
+		//do all
+		pl.serializeAll("/tmp");
+		
+ 		//serialize the products
+		//productA.serializeProduct("/tmp");
+		//productB.serializeProduct("/tmp");
+		
+		//serialize the coreAssets
+		//coreAssetA.serializeComponent("/tmp");
+		//coreAssetB.serializeComponent("/tmp");
+		*/
+
+		/*Element ser = pl.serialize();
 		try {
 			XMLWriter w = new XMLWriter(System.out, OutputFormat.createPrettyPrint());
 			w.write(ser);
@@ -157,17 +178,13 @@ public class ProductLineTest extends TestCase {
 			w.write(ser);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 
-		//.productmetainfo 
-		//pl.serialize("test-productmetainfo.xml", 1);
-		//.coreassetmetainfo 
-		//pl.serialize("test-coreassetmetainfo.xml", 2);
+
+	//----------------------------DESRERAILIZING------------------------------------------------		
+	
 		
-		//pl.removeProduct();
-		//...	
-
-		//pl.deserialize("test-product.xml");
+		pl.deserialize("/tmp");
 		
 		//product = manager.getProduct("windows");
 		//assertTrue (product.getName() == "windows");

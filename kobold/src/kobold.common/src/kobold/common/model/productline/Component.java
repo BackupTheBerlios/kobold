@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.6 2004/06/23 13:34:58 vanto Exp $
+ * $Id: Component.java,v 1.7 2004/06/24 00:12:51 rendgeor Exp $
  *
  */
 
@@ -32,10 +32,20 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.io.IOException;
+import java.io.File;
+import java.io.FileWriter;
+
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.IVariantContainer;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.io.XMLWriter;
 /**
  * @author garbeam
  */
@@ -81,6 +91,32 @@ public class Component extends AbstractAsset
 		element.addAttribute("repositoryPath", repositoryPath);
 		
 		return element;
+	}
+
+	public void serializeComponent (String path)
+	{
+		//creates a document
+		Document document = DocumentHelper.createDocument();
+		
+		//get the abstractAsset information
+		Element root = document.addElement("coreassetmetainfo");
+		
+		//add the serialized element
+		root.add (serialize ());
+		
+		//write it to an xml-file
+			 XMLWriter writer;
+			try {
+				writer = new XMLWriter(new FileWriter(path+ File.separatorChar + getParent().getName() 
+													+ File.separatorChar + "CAS" 
+													+ File.separatorChar + getName () + File.separatorChar 
+													+ ".productlinemetainfo.xml"));
+				writer.write(document);
+				writer.close();
+			} catch (IOException e) {
+				Log log = LogFactory.getLog("kobold....");
+				log.error(e);
+			}	
 	}
 
 	/**

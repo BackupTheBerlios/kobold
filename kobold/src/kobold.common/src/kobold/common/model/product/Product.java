@@ -21,17 +21,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.3 2004/06/22 11:29:16 vanto Exp $
+ * $Id: Product.java,v 1.4 2004/06/24 00:12:51 rendgeor Exp $
  *
  */
 
 package kobold.common.model.product;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.io.XMLWriter;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import java.io.File;
+import java.io.IOException;
 
 import java.util.Iterator;
 
@@ -99,6 +108,32 @@ public class Product extends AbstractAsset {
 	
 		return productElement;
 	}
+
+	public void serializeProduct (String path)
+	{
+		//creates a document
+		Document document = DocumentHelper.createDocument();
+		
+		//get the abstractAsset information
+		Element root = document.addElement("productmetainfo");
+		
+		//add the serialized element
+		root.add (serialize ());
+		
+		//write it to an xml-file
+			 XMLWriter writer;
+			try {
+				writer = new XMLWriter(new FileWriter(path+ File.separatorChar + getParent().getName() 
+													+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
+													+ File.separatorChar + ".productlinemetainfo.xml"));
+				writer.write(document);
+				writer.close();
+			} catch (IOException e) {
+				Log log = LogFactory.getLog("kobold....");
+				log.error(e);
+			}	
+	}
+
 
 	/**
 	 * Deserializes this product.
