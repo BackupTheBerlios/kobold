@@ -21,12 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LayoutRetargetAction.java,v 1.1 2004/09/21 12:58:25 vanto Exp $
+ * $Id: LayoutRetargetAction.java,v 1.2 2004/09/23 10:39:45 vanto Exp $
  *
  */
 package kobold.client.plam.editor.action;
 
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.actions.LabelRetargetAction;
+import org.eclipse.ui.internal.WorkbenchImages;
 
 
 /**
@@ -42,12 +44,9 @@ public class LayoutRetargetAction extends LabelRetargetAction
     public LayoutRetargetAction()
     {
     	super(LayoutAction.ID, "Layout");
-//    	setImageDescriptor(WorkbenchImages.getImageDescriptor(
-//								ISharedImages.IMG_TOOL_UNDO));
-//    	setHoverImageDescriptor(WorkbenchImages.getImageDescriptor(
-//								ISharedImages.IMG_TOOL_UNDO_HOVER));
-//    	setDisabledImageDescriptor(WorkbenchImages.getImageDescriptor(
-//								ISharedImages.IMG_TOOL_UNDO_DISABLED));
+    	setImageDescriptor(WorkbenchImages.getImageDescriptor(
+								ISharedImages.IMG_DEF_VIEW));
+    	setToolTipText("Layout Connected Graph");
     }
 
 }

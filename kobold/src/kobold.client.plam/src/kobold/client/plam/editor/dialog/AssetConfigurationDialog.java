@@ -21,12 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.33 2004/09/22 15:35:26 martinplies Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.34 2004/09/23 10:39:45 vanto Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,6 +41,7 @@ import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.IVariantContainer;
+import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.ProductComponent;
@@ -615,7 +615,8 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         super.okPressed();
         
         // store Model
-        this.asset.getRoot().getKoboldProject().store();
+        //this.asset.getRoot().getKoboldProject().store();
+        ModelStorage.storeModel(asset.getRoot().getProductline());
     }
     
     private void makeAssetDeprecated(AbstractAsset asset) 
