@@ -20,6 +20,9 @@
       <library name="contrib/dom4j/jaxen-1.1-beta-2/jaxen-1.1-beta-2.jar">
          <export name="*"/>
       </library>
+      <library name="contrib/log4j/log4j-1.2.8.jar">
+         <export name="*"/>
+      </library>
       <library name="contrib/jakarta-commons/commons-logging.jar">
          <export name="*"/>
       </library>
