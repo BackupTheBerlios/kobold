@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAssetEditPart.java,v 1.10 2004/08/31 20:14:07 vanto Exp $
+ * $Id: AbstractAssetEditPart.java,v 1.11 2004/09/01 03:23:31 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -58,6 +58,7 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -84,19 +85,24 @@ public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
-		String prop = evt.getPropertyName();
+		final String prop = evt.getPropertyName();
+		Display.getDefault().asyncExec(new Runnable() {
 
-		if (AbstractAsset.ID_CHILDREN.equals(prop) 
-		        || AbstractAsset.ID_FILE_DESCRIPTORS.equals(prop)) {
-			refreshChildren();
-		} else if (EdgeContainer.ID_SOURCE_CHANGED.equals(prop)) {
-			refreshSourceConnections();
-		} else if (EdgeContainer.ID_TARGET_CHANGED.equals(prop)) {
-			refreshTargetConnections();
-		} else /*if (prop.equals(ViewModel.ID_SIZE) || prop.equals(ViewModel.ID_LOCATION) 
-		        || prop.equals(AbstractAsset.ID_DATA))*/ {
-			refreshVisuals();
-		}
+            public void run()
+            {
+        		if (AbstractAsset.ID_CHILDREN.equals(prop) 
+        		        || AbstractAsset.ID_FILE_DESCRIPTORS.equals(prop)) {
+        			refreshChildren();
+        		} else if (EdgeContainer.ID_SOURCE_CHANGED.equals(prop)) {
+        			refreshSourceConnections();
+        		} else if (EdgeContainer.ID_TARGET_CHANGED.equals(prop)) {
+        			refreshTargetConnections();
+        		} else /*if (prop.equals(ViewModel.ID_SIZE) || prop.equals(ViewModel.ID_LOCATION) 
+        		        || prop.equals(AbstractAsset.ID_DATA))*/ {
+        			refreshVisuals();
+        		}
+            }
+        });
 	}
 
 	/**
