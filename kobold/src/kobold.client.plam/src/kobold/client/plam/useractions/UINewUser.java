@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UINewUser.java,v 1.4 2004/08/02 12:06:51 martinplies Exp $
+ * $Id: UINewUser.java,v 1.5 2004/08/05 09:45:40 grosseml Exp $
  *
  */
 package kobold.client.plam.useractions;
@@ -115,6 +115,7 @@ public class UINewUser extends Dialog	{
     public void okPressed(){
         Useractions acts = new Useractions();
         acts.createUser(textRealName.getText(),textUserName.getText(), textPassword.getText(), textConfPass.getText());
+        this.close();
     }
     
     public void cancelPressed(){
