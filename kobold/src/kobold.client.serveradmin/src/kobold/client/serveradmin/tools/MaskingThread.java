@@ -37,8 +37,8 @@ package kobold.client.serveradmin.tools;
  * @author contan
  */
 public class MaskingThread extends Thread {
-    private String prompt = "";
-    
+    protected String prompt = "";
+      
     public MaskingThread(String prompt){
         this.prompt = prompt;
     }
@@ -46,13 +46,17 @@ public class MaskingThread extends Thread {
     public void run(){
         while(true) {
             try  {
-             	sleep(10);               
-             	System.out.print("\r" + prompt + "              \r" + prompt);
-             	System.out.flush();
+                mask();
             }
             catch(Exception e) {
                 continue;
             }
         }        
+    }
+    
+    protected void mask() throws Exception {
+        sleep(10);               
+        System.out.print("\r" + prompt + "              \r" + prompt);
+        System.out.flush();        
     }
 }
