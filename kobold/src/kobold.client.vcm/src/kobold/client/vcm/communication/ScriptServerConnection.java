@@ -34,9 +34,11 @@ import java.io.OutputStream;
 import java.util.Iterator;
 
 import kobold.client.vcm.KoboldVCMPlugin;
+import kobold.client.vcm.preferences.VCMPreferencePage;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.internal.ccvs.core.IServerConnection;
@@ -201,6 +203,10 @@ public class ScriptServerConnection implements IServerConnection
 			((InputThreadToConsole)inputThread).setReturnString(returnStr);
 //			((InputThreadToConsole)errorThread).setReturnString(returnStr);
 			inputThread.run();
+			while(inputThread.isAlive())
+			{
+			    System.out.println(((InputThreadToConsole)inputThread).getReturnString());
+			}
 //			errorThread.run();
 			return ((InputThreadToConsole)inputThread).getReturnString();
 		} finally {
@@ -280,6 +286,8 @@ public class ScriptServerConnection implements IServerConnection
 	{
 		try
 		{
+		    if(inputStream!=null)
+		    if(inputStream.available()==0)
 			if (inputStream != null) inputStream.close();
 		}
 		finally
@@ -296,7 +304,6 @@ public class ScriptServerConnection implements IServerConnection
 				if (errorThread != null) 
 					{
 					while (errorThread.isAlive()) {
-						System.out.println("lal");
 						
 					}
 					errorThread.stop();
@@ -396,7 +403,7 @@ public class ScriptServerConnection implements IServerConnection
 			this.proc = proc;
 		}
 public void run(){
-    int index = 0, r = 0, s = 0, i = 0, lineCount = 150;
+    int index = 0, r = 0, s = 0, i = 0, lineCount = 250;
             try
             {
 
@@ -408,16 +415,14 @@ public void run(){
                 {
                     while (in.available() != 0 && (r = in.read()) != -1)
                     {
-                        if (r == NEWLINE)
-                            break;
+//                        if (r == NEWLINE)break;
                         readLineBuffer = append(readLineBuffer, index++,
                                 (byte) r);
                     }
                     while (errStream.available() != 0
                             && (s = errStream.read()) != -1)
                     {
-                        if (s == NEWLINE)
-                            break;
+//                        if (s == NEWLINE) break;
                         readLineBuffer = append(readLineBuffer, index++,
                                 (byte) s);
                     }
@@ -594,7 +599,8 @@ public void run(){
  
 		if (uN.equals(""))
 		{
-			uN = getPreference ("User Name");
+		    
+			uN = getPreference (VCMPreferencePage.KOBOLD_VCM_USER_STR);
 			//@ FIXME Dangerouse ;)
 			setUserName(uN);
 			return uN;
@@ -611,7 +617,7 @@ public void run(){
 	protected void setUserName (String userName)
 	{
 		//set the default userName (initial)
-		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("User Name", userName);
+		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_USER_STR, userName);
 	}
 
 	/**
@@ -621,11 +627,12 @@ public void run(){
 	private String getUserPassword ()
 	{
 		//gets the userPassword
-		String uP = KoboldVCMPlugin.getDefault().getPluginPreferences().getString("User Password");
- 
-		if (uP.equals(""))
+	    Preferences prefs = KoboldVCMPlugin.getDefault().getPluginPreferences();
+		String uP = prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
+		
+		if (prefs.getBoolean(VCMPreferencePage.KOBOLD_VCM_ASK_PWD))
 		{
-			uP = getPreference ("User Password");
+			uP = getPreference (VCMPreferencePage.KOBOLD_VCM_PWD_STR);
 			setUserPassword(uP);
 			return uP;
 		}
@@ -638,7 +645,7 @@ public void run(){
 	 */
 	private void setUserPassword (String userPassword)
 	{
-		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("User Password",userPassword);
+		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_PWD_STR,userPassword);
 	}
 
 	/**
@@ -648,6 +655,17 @@ public void run(){
 	 */
 	private String getPreference (String type)
 	{
+	    String preferenceName = "";
+	    if (type.equals(VCMPreferencePage.KOBOLD_VCM_PWD_STR))
+        {
+	        preferenceName = type;
+            type = "VCM User Password"; 
+        } 
+	    if (type.equals(VCMPreferencePage.KOBOLD_VCM_USER_STR))
+	    {
+	        preferenceName = type;
+	        type = "VCM User Name";
+	    }
 		InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
 		//open the dialog
 		in.open();
