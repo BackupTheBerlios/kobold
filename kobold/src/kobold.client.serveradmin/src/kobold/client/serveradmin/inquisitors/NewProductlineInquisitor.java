@@ -21,22 +21,44 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package kobold.client.serveradmin.inquisitors;
 
 import kobold.client.serveradmin.tools.BasicInquisitor;
+import kobold.common.io.RepositoryDescriptor;
 
 /**
- * This Inquisitor class is used to manage the new user SAT command.
+ * This Inquisitor class is used to manage the new productline SAT command.
  * 
  * @see kobold.client.serveradmin.tools.BasicInquisitor
  * 
- * @author Caino
+ * @author contan
  */
-public class TestInquisitor extends BasicInquisitor {
-	public TestInquisitor() {
-        addQuestion("1", "username", "unknown", false);
-        addQuestion("2", "fullname", "nobody", false);
-        addQuestion("3", "password", "", true);
+public class NewProductlineInquisitor extends BasicInquisitor {
+	public NewProductlineInquisitor() {
+        containingAction = "new productline";
+        addQuestion("1", "productline name\t\t", "unknown", false);
+        addQuestion("2", "productline resource\t", "unknown", false);
+        addQuestion("3", "repository type\t\t", "cvs", false);
+        addQuestion("4", "repository protocol\t", "pserver", false);
+        addQuestion("5", "repository host\t\t", "cvs.werkbold.org", false);
+        addQuestion("6", "repository root\t\t", "/cvsroot/unknown/", false);
+        addQuestion("7", "repository module path\t", "unknown", false);
+    }
+    
+    public RepositoryDescriptor getRepositoryDescriptor() {
+        String type = getAnswer("repository type\t\t");;
+        String protocol = getAnswer("repository protocol\t");
+        String host = getAnswer("repository host\t\t");
+        String root = getAnswer("repository root\t\t");
+        String path = getAnswer("repository module path\t");
+        return new RepositoryDescriptor(type, protocol, host, root, path);                               
+    }
+    
+    public String getName() {
+        return getAnswer("productline name\t\t");
+    }
+    
+    public String getResource() {
+        return getAnswer("productline resource\t");
     }
 }
