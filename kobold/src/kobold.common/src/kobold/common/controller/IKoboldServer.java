@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.6 2004/06/23 13:40:36 neccaino Exp $
+ * $Id: IKoboldServer.java,v 1.7 2004/06/24 06:49:38 neccaino Exp $
  *
  */
 
@@ -190,4 +190,35 @@ public interface IKoboldServer {
 	 *				   accessible that way, "" otherwise 
 	 */
 	public String satCreateNewProductline(String adminPassword, String plname);
+	
+	/**
+	 * this method is used by SAT-Clients to remove a productline
+	 * on the KoboldServer
+	 * 
+	 * @param adminPassword server administartion password
+	 * @param plname name of the new productline
+	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 */
+	public String satRemoveProductline(String adminPassword, String plname);
+	
+	/**
+	 * this method is used by SAT-Clients to set a productline's new PLE
+	 * 
+	 * @param adminPassword server administartion password
+	 * @param plname name of the new productline
+	 * @param username name of the user who should become plsname's
+	 *                 new PLE
+	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 */
+	public String satAddPLE(String adminPassword, String plname, String username);
+	
+	/**
+	 * this method is used by SAT-Clients to invalidate a productline's 
+	 * PLE
+	 * 
+	 * @param adminPassword server administartion password
+	 * @param plname name of the new productline
+	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 */
+	public String satRemovePLE(String adminPassword, String plname);
 }

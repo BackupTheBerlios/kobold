@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.30 2004/06/23 14:13:05 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.31 2004/06/24 06:46:29 neccaino Exp $
  *
  */
 package kobold.server;
@@ -483,5 +483,51 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 */
 	public String satCreateNewProductline(String adminPassword, String plname){
 		return IKoboldServer.NO_RESULT; // until fully implemented
+	}
+	
+	/**
+	 * this method is used by SAT-Clients to remove a new productline
+	 * on the KoboldServer
+	 * 
+	 * NOTE: this member has not yet been fully implemented!
+	 * (stub has been inserted to avoid comp. errors)
+	 *
+     * @param adminPassword server administartion password
+	 * @param plname name of the new productline
+	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 */
+	public String satRemoveProductline(String adminPassword, String plname){
+		return IKoboldServer.NO_RESULT;// until fully implemented
+	}
+	
+	/**
+	 * this method is used by SAT-Clients to set a productline's new PLE
+     * 
+	 * NOTE: this member has not yet been fully implemented!
+	 * (stub has been inserted to avoid comp. errors)
+	 * 
+     * @param adminPassword server administartion password
+	 * @param plname name of the new productline
+	 * @param username name of the user who should become plsname's
+	 *                 new PLE
+	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 */
+	public String satAddPLE(String adminPassword, String plname, String username){
+		return IKoboldServer.NO_RESULT;// until fully implemented
+	}
+	
+	/**
+	 * this method is used by SAT-Clients to invalidate a productline's 
+	 * PLE
+	 * 
+	 * NOTE: this member has not yet been fully implemented!
+	 * (stub has been inserted to avoid comp. errors)
+	 * 
+	 * @param adminPassword server administartion password
+	 * @param plname name of the new productline
+	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 */
+	public String satRemovePLE(String adminPassword, String plname){
+		return IKoboldServer.NO_RESULT;// until fully implemented
 	}
 }
