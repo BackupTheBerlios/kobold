@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.8 2004/06/24 03:35:01 rendgeor Exp $
+ * $Id: Product.java,v 1.9 2004/06/24 09:35:55 rendgeor Exp $
  *
  */
 
@@ -151,6 +151,36 @@ public class Product extends AbstractAsset {
 		super.deserialize(realElement);
 		//setName(element.attributeValue("name"));
 		// TODO
+		
+		System.out.println ("start deserializing!");
+	    
+		Iterator it = realElement.elementIterator("releases");
+		while (it.hasNext()) {
+		    Element pEl = (Element)it.next();
+		    /* load and create the product by finding its local path and 
+		     		  deserializing it from there.
+		    */
+			addProductRelease(new ProductRelease (pEl));
+		}
+		it = realElement.elementIterator("specific-components");
+		while (it.hasNext()) {
+		    Element pEl = (Element)it.next();
+		    /* load and create the product by finding its local path and 
+		     		  deserializing it from there.
+		    */
+			addComponent(new SpecificComponent (pEl));
+		}
+
+		it = realElement.elementIterator("releated-component");
+		while (it.hasNext()) {
+		    Element pEl = (Element)it.next();
+		    /* load and create the product by finding its local path and 
+		     		  deserializing it from there.
+		    */
+		    addComponent(new RelatedComponent (pEl));	
+		}
+
+
 	}
 	public void deserialize(String path) {
 		
@@ -196,6 +226,11 @@ public class Product extends AbstractAsset {
 		//component.setParent(this);
 	}
 
+	public void addProductRelease (ProductRelease productRelease)
+	{
+		productReleases.add (productRelease);
+	}
+	
 	/**
 	 * @return
 	 */
