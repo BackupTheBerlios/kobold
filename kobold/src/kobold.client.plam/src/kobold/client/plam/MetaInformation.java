@@ -6,7 +6,6 @@
  */
 package kobold.client.plam;
 
-import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
@@ -28,6 +27,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.HeaderFooter;
+import com.lowagie.text.Image;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Table;
@@ -62,7 +62,11 @@ public class MetaInformation {
             document.add(new Paragraph("Meta-Informations",
                 	FontFactory.getFont(FontFactory.HELVETICA, 40, Font.ITALIC)));
             document.add(new Paragraph(new Date().toString()));
-            
+            document.add(new Phrase("\n\n\n"));
+            Image logo = Image.getInstance("icons/Kobold_logo.png");
+            logo.scaleAbsolute(500, 300);
+            logo.setAlignment(Image.MIDDLE);
+            document.add(logo);
            /* try 
             {
                 Watermark watermark = new Watermark(Image.getInstance("icons/kobold_persp.gif"), 200, 420);
@@ -126,7 +130,7 @@ public class MetaInformation {
                 FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
         document.add(new Phrase(pl.getId()+"\n"));
          
-        document.add(new Phrase("    Discription: ",
+        document.add(new Phrase("    Description: ",
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
         Table table = new Table(1,1);  
         table.setBorderWidth(0);
@@ -172,7 +176,7 @@ public class MetaInformation {
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(product.getId() + "\n"));
 	     
-	    document.add(new Phrase("    Discription: ",
+	    document.add(new Phrase("    Description: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    Table table = new Table(1,1);  
 	    table.setBorderWidth(0);
@@ -213,7 +217,7 @@ public class MetaInformation {
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(spComp.getId()+"\n"));
 	     
-	    document.add(new Phrase("    Discription: ",
+	    document.add(new Phrase("    Description: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    Table table = new Table(1,1);  
 	    table.setBorderWidth(0);
@@ -251,7 +255,7 @@ public class MetaInformation {
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(relComp.getId()+"\n"));
 	     
-	    document.add(new Phrase("    Discription: ",
+	    document.add(new Phrase("    Description: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    Table table = new Table(1,1);  
 	    table.setBorderWidth(0);
@@ -300,7 +304,7 @@ public class MetaInformation {
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(comp.getId()+"\n"));
 	     
-	    document.add(new Phrase("    Discription: ",
+	    document.add(new Phrase("    Description: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    Table table = new Table(1,1);  
 	    table.setBorderWidth(0);
@@ -308,8 +312,12 @@ public class MetaInformation {
 	    table.setSpacing(4);
 	    table.addCell(comp.getDescription());
 	    document.add(table);
-	    document.add(new Phrase("\n\n"));
-	   
+	    document.add(new Phrase("\n"));
+	    
+	    document.add(new Phrase("    Status: ",
+            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    document.add(new Phrase(comp.getStatusSet().toString() + "\n"));
+		     
 		for (Iterator ite = comp.getMaintainers().iterator(); 
 		ite.hasNext();)
 		{
@@ -338,7 +346,7 @@ public class MetaInformation {
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(var.getId()+"\n"));
 	     
-	    document.add(new Phrase("    Discription: ",
+	    document.add(new Phrase("    Description: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    Table table = new Table(1,1);  
 	    table.setBorderWidth(0);
@@ -346,7 +354,11 @@ public class MetaInformation {
 	    table.setSpacing(4);
 	    table.addCell(var.getDescription());
 	    document.add(table);
-	    document.add(new Phrase("\n\n"));
+	    document.add(new Phrase("\n"));
+	    document.add(new Phrase("    Status: ",
+            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    document.add(new Phrase(var.getStatusSet().toString() + "\n"));
+		
 	          
 		for (Iterator ite = var.getComponents().iterator();
 		ite.hasNext();)
@@ -404,7 +416,7 @@ public class MetaInformation {
             FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    document.add(new Phrase(release.getId()+"\n"));
 	     
-	    document.add(new Phrase("    Discription: ",
+	    document.add(new Phrase("    Description: ",
 	        FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
 	    Table table = new Table(1,1);  
 	    table.setBorderWidth(0);
@@ -412,7 +424,11 @@ public class MetaInformation {
 	    table.setSpacing(4);
 	    table.addCell(release.getDescription());
 	    document.add(table);
-	    document.add(new Phrase("\n\n"));
+	    document.add(new Phrase("\n"));
+	    document.add(new Phrase("    Status: ",
+            FontFactory.getFont(FontFactory.HELVETICA, 12, Font.ITALIC)));
+	    document.add(new Phrase(release.getStatusSet().toString() + "\n"));
+		
 	    
 	}
 	
