@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.24 2004/09/21 20:13:24 vanto Exp $
+ * $Id: FileDescriptor.java,v 1.25 2004/09/22 23:43:25 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -145,7 +145,8 @@ public class FileDescriptor implements IFileDescriptorContainer,
      */
     public void setParentAsset(IFileDescriptorContainer parentAsset)
     {
-        if (!((parentAsset instanceof Variant)
+        if (!(  (parentAsset == null)
+               || (parentAsset instanceof Variant)
                || (parentAsset instanceof ProductComponent))) {
             
             throw new IllegalArgumentException("parent must be an instance of Variant or ProductComponent");
