@@ -21,10 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Edge.java,v 1.6 2004/07/29 11:36:13 martinplies Exp $
+ * $Id: Edge.java,v 1.7 2004/07/29 20:53:33 martinplies Exp $
  *
  */
 package kobold.client.plam.model.edges;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import kobold.client.plam.model.AbstractAsset;
 
@@ -38,18 +41,18 @@ import org.dom4j.Element;
  * This Class represent an Edge in the graph. Instances of this class are Elemnts of the EdgeConatainer.
  * The Attriubutes startNode and taregetNode must not change here.  
  */
+
 public class Edge {
     public static final String KOBOLD_EDGE = "Kobold Edge";
     
     private INode startNode;
     private INode targetNode;
     private String type;
-    private int edgeCount; // Number of edges, that this this edge represent
+    private int edgeCount = 1; // Number of edges, that this this edge represent
     
     // kobold edge types
     public static final String INCLUDE = "edge.include";
     public static final String EXCLUDE = "edge.exclude";
-    public static final String BAUHAUS = "edge.bauhaus";
     
     /**
      * @param startNode2
@@ -66,6 +69,10 @@ public class Edge {
         this.targetNode = targetNode;
         this.type = type;
         this.edgeCount = number;
+    }
+    
+    public Edge(Element element) {
+        deserialize (element);
     }
     
     
@@ -117,10 +124,18 @@ public class Edge {
         return getClass().getName() + " [start:"+startNode+", target:" + targetNode 
         	+ ", type:" + type + ", amount:" + edgeCount + "]";
     }
-
+    
     /**
-     * 
+     * @return Returns all Kobold edge typs.
      */
+    public static Set getKoboldEdgeTypes (){
+        Set types = new HashSet();
+        types.add(INCLUDE);
+        types.add(EXCLUDE);
+        return types;
+    }
+    
+
     public Element serialize() throws ClassCastException {
         Element element = DocumentHelper.createElement("Edge");
         AbstractAsset startAsset = (AbstractAsset) this.startNode;
@@ -129,6 +144,14 @@ public class Edge {
         element.addAttribute("to", targetAsset.getId());
         element.addAttribute("type", type);
         return element;
+    }
+    
+    
+    public void deserialize (Element element){
+        type = element.attributeValue("type");
+        String fromAssetId = element.attributeValue("from");
+        String  toAssetId = element.attributeValue("to");        
+        //FIXME get Asssets                
     }
     
 
