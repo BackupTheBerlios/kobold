@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.21 2004/11/09 11:55:07 memyselfandi Exp $
+ * $Id: VCMActionListener.java,v 1.22 2004/11/09 12:08:44 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -160,9 +160,9 @@ public class VCMActionListener implements IVCMActionListener
 
     
     /**
-     * @see kobold.client.plam.listeners.IVCMActionListener#addTotProduct(kobold.client.plam.model.product.Product)
+     * @see kobold.client.plam.listeners.IVCMActionListener#addToProduct(kobold.client.plam.model.product.Product)
      */
-    public void addTotProduct(kobold.client.plam.model.product.Product product, Release release) {
+    public void addToProduct(kobold.client.plam.model.product.Product product, Release release) {
         
         // First we create a temporary folder into which we want to check out the product 
         ResourceInfo test = null;
@@ -359,6 +359,7 @@ public class VCMActionListener implements IVCMActionListener
     			if (connection.getReturnValue() != 0) {
     			    // update failed, let's try to checkout
                     command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.CHECKOUT).concat(KoboldRepositoryHelper.getScriptExtension());
+                    command[1] = p.getLocation().toOSString();
         			connection.open(progress, command);
         			connection.close();	
         			
