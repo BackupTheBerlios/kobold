@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.8 2004/05/15 01:24:17 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.9 2004/05/15 19:52:16 vanto Exp $
  *
  */
 package kobold.server;
@@ -43,6 +43,8 @@ import kobold.server.controller.ProductManager;
 import kobold.server.controller.SessionManager;
 import kobold.server.controller.UserManager;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.xmlrpc.XmlRpcHandler;
 import org.apache.xmlrpc.secure.SecureWebServer;
 
@@ -53,6 +55,9 @@ import org.apache.xmlrpc.secure.SecureWebServer;
  * appropriate methods.
  */
 public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
+	
+	private static final Log logger = LogFactory.getLog(SecureKoboldWebServer.class);
+	
 	// the xml-rpc webserver
 	private static SecureWebServer server;
 
@@ -86,66 +91,71 @@ public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 	public Object execute(String methodName, Vector arguments)
 		throws Exception
 	{
-		if (methodName.equals("login")) {
-			return login((String)arguments.elementAt(0), (String)arguments.elementAt(1));
-		}
-		else if (methodName.equals("logout")) {
-			logout((UserContext)arguments.elementAt(0));
-		}
-		else if (methodName.equals("getRoles")) {
-			return getRoles((UserContext)arguments.elementAt(0));
-		}
-		else if (methodName.equals("addUser")) {
-			addUser((UserContext)arguments.elementAt(0),
+		try {
+			if (methodName.equals("login")) {
+				return login((String)arguments.elementAt(0), (String)arguments.elementAt(1));
+			}
+			else if (methodName.equals("logout")) {
+				logout((UserContext)arguments.elementAt(0));
+			}
+			else if (methodName.equals("getRoles")) {
+				return getRoles((UserContext)arguments.elementAt(0));
+			}
+			else if (methodName.equals("addUser")) {
+				addUser((UserContext)arguments.elementAt(0),
 						  (String)arguments.elementAt(1),
 						  (String)arguments.elementAt(2),
 						  (String)arguments.elementAt(3));
-		}
-		else if (methodName.equals("getProductline")) {
-			return getProductline((UserContext)arguments.elementAt(0),
+			}
+			else if (methodName.equals("getProductline")) {
+				return getProductline((UserContext)arguments.elementAt(0),
 											  (String)arguments.elementAt(1));
-		}
-		else if (methodName.equals("getProduct")) {
-			return getProduct((UserContext)arguments.elementAt(0),
+			}
+			else if (methodName.equals("getProduct")) {
+				return getProduct((UserContext)arguments.elementAt(0),
 										 (String)arguments.elementAt(1));
-		}
-		else if (methodName.equals("addProduct")) {
-			addProduct((UserContext)arguments.elementAt(0),
+			}
+			else if (methodName.equals("addProduct")) {
+				addProduct((UserContext)arguments.elementAt(0),
 							  (Product)arguments.elementAt(1));
-		}
-		else if (methodName.equals("addRole")) {
-			addRole((UserContext)arguments.elementAt(0),
+			}
+			else if (methodName.equals("addRole")) {
+				addRole((UserContext)arguments.elementAt(0),
 						 (String)arguments.elementAt(1), 
 						 (Role)arguments.elementAt(2));
-		}
-		else if (methodName.equals("removeRole")) {
-			removeRole((UserContext)arguments.elementAt(0),
+			}
+			else if (methodName.equals("removeRole")) {
+				removeRole((UserContext)arguments.elementAt(0),
 							   (String)arguments.elementAt(1),
 								(Role)arguments.elementAt(2));
-		}
-		else if (methodName.equals("applyProductlineModifications")) {
-			applyProductlineModifications((UserContext)arguments.elementAt(0),
+			}
+			else if (methodName.equals("applyProductlineModifications")) {
+				applyProductlineModifications((UserContext)arguments.elementAt(0),
 														(Productline)arguments.elementAt(1));
-		}
-		else if (methodName.equals("applyProductModifications")) {
-			applyProductModifications((UserContext)arguments.elementAt(0),
+			}
+			else if (methodName.equals("applyProductModifications")) {
+				applyProductModifications((UserContext)arguments.elementAt(0),
 													(Product)arguments.elementAt(1));
-		}
-		else if (methodName.equals("removeUser")) {
-			removeUser((UserContext)arguments.elementAt(0),
+			}
+			else if (methodName.equals("removeUser")) {
+				removeUser((UserContext)arguments.elementAt(0),
 								(String)arguments.elementAt(1));
-		}
-		else if (methodName.equals("sendMessage")) {
-			sendMessage((UserContext)arguments.elementAt(0),
+			}
+			else if (methodName.equals("sendMessage")) {
+				sendMessage((UserContext)arguments.elementAt(0),
 								 (KoboldMessage)arguments.elementAt(1));
-		}
-		else if (methodName.equals("fetchMessage")) {
-			return fetchMessage((UserContext)arguments.elementAt(0));
-		}
-		else if (methodName.equals("invalidateMessage")) {
+			}
+			else if (methodName.equals("fetchMessage")) {
+				return fetchMessage((UserContext)arguments.elementAt(0));
+			}
+			else if (methodName.equals("invalidateMessage")) {
 			invalidateMessage((UserContext)arguments.elementAt(0),
 										(KoboldMessage)arguments.elementAt(1));
-		}	
+			}
+		} catch (Exception e) {
+			logger.info("Exception during execute()", e);
+			throw e;	
+		}
 		return null;
 	}
 
