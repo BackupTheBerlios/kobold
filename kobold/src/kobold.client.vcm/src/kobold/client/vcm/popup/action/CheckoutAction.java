@@ -25,6 +25,7 @@
 
 package kobold.client.vcm.popup.action;
 
+import kobold.client.plam.model.productline.Productline;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
@@ -45,10 +46,10 @@ public class CheckoutAction extends KoboldAction {
 	 */
 	public void run(IAction action) {
 		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
-		IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 		try
 		{
-			repoAccess.checkout(testAssets,IResource.DEPTH_INFINITE,progress);
+			((Productline)testAssets[0]).serializeProductline("C:\\Temp\\",true);
+			repoAccess.checkout(testAssets,IResource.DEPTH_INFINITE,null);
 		}
 		catch (Exception e)
 		{

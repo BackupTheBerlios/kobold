@@ -27,11 +27,16 @@ package kobold.client.vcm.popup.action;
 
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
+import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
+import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.io.XMLWriter;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.team.core.TeamException;
@@ -52,8 +57,11 @@ public class ImportAction extends KoboldAction {
 		public void run(IAction action) {
 			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 			IProgressMonitor progress = KoboldPolicy.monitorFor(null);
-//			((Productline)testAssets[0]).serialize();
-			
+//			KoboldVCMPlugin
+			((Variant)testAssets[0]).getLocalPath();//serializeProductline("C:\\Temp",true);
+			IFolder if1 = ((Productline)testAssets[0]).getProject().getPath();
+			String ip = if1.getFullPath().toOSString();
+			RepositoryDescriptor rdsc = ((Productline)testAssets[0]).getRepositoryDescriptor();
 			boolean test = testAssets[0] instanceof AbstractRootAsset;
 			
 

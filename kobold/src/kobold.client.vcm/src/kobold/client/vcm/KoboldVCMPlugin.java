@@ -29,14 +29,18 @@ package kobold.client.vcm;
 import org.eclipse.ui.plugin.*;
 //import org.eclipse.core.runtime.*;
 import org.eclipse.core.resources.*;
+import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
 import java.util.*;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.KoboldProjectNature;
+import kobold.client.plam.PLAMProject;
 import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.productline.Productline;
+import kobold.client.vcm.controller.StatusUpdater;
 
 /**
  * The main plugin class to be used in the desktop.
@@ -58,20 +62,6 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	public KoboldVCMPlugin() { // Removed the deprecated constructor using - IPluginDescriptor descriptor
 		super();
 		plugin = this;
-		KoboldPLAMPlugin.getCurrentProjectNature().getPLAMProject().getProductline().addVCMActionListener(new IVCMActionListener() {
-			/* (non-Javadoc)
-			 * @see kobold.client.plam.listeners.IVCMActionListener#refreshFiledescriptors(kobold.client.plam.model.IFileDescriptorContainer)
-			 */
-			public void refreshFiledescriptors(
-					IFileDescriptorContainer container) {
-				
-				System.out.println("lalal");
-				
-				System.out.println("*********Refresch File Descriptors:" + container.getLocalPath()/*.getFullPath()*/.toString());
-				
-
-			}
-		});
 		try {
 			resourceBundle= ResourceBundle.getBundle("kobold.client.vcm.KoboldVCMPluginResources");
 
@@ -84,6 +74,29 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		Plugin plugin = KoboldPLAMPlugin.getDefault();
+		PLAMProject project = null;
+//		PLAMProject nature=KoboldPLAMPlugin.getCurrentProjectNature().getPLAMProject(); 
+//		if (project != null) {
+//			project.getProductline().addVCMActionListener(new IVCMActionListener() {
+//				/* (non-Javadoc)
+//				 * @see kobold.client.plam.listeners.IVCMActionListener#refreshFiledescriptors(kobold.client.plam.model.IFileDescriptorContainer)
+//				 */
+//				public void refreshFiledescriptors(
+//						IFileDescriptorContainer container) {
+//					StatusUpdater st = new StatusUpdater();
+//					st.updateFileDescriptors(container);
+//					
+//					System.out.println("lalal");
+//					
+//					System.out.println("*********Refresch File Descriptors:" + container.getLocalPath()/*.getFullPath()*/.toString());
+//					
+//
+//				}
+//			});
+
+//		}
+		
 	}
 
 	/**

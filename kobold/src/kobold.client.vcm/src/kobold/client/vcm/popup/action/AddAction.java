@@ -28,7 +28,6 @@ package kobold.client.vcm.popup.action;
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 import kobold.client.vcm.controller.StatusUpdater;
-import kobold.client.vcm.test.VCMTest;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;

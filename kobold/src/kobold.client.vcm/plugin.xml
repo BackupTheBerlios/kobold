@@ -8,7 +8,9 @@
    class="kobold.client.vcm.KoboldVCMPlugin">
 
    <runtime>
-      <library name="kobold-vcm.jar"/>
+      <library name="kobold-vcm.jar">
+         <export name="*"/>
+      </library>
    </runtime>
    <requires>
       <import plugin="org.eclipse.core.resources"/>

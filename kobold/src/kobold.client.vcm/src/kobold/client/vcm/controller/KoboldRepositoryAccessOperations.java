@@ -29,6 +29,7 @@ package kobold.client.vcm.controller;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.KoboldVCMPlugin;
@@ -84,6 +85,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	private final String ADD = "add.";
 	private final String UPDATE = "update.";
 	private final String COMMIT = "commit.";
+	private final String CHECKOUT = "checkout";
 	public KoboldRepositoryAccessOperations()
 	{
 		KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
@@ -97,13 +99,13 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		{
 			this.skriptPath = new Path(tmpLocation.substring(8,tmpLocation.length()));
 			this.skriptPath = (Path)skriptPath.append("scripts" + IPath.SEPARATOR);
-			skriptExtension = "bat";
+			skriptExtension = ".bat";
 		}
 		else
 			{
 			this.skriptPath = new Path(tmpLocation.substring(7,tmpLocation.length()));
 			this.skriptPath = (Path)skriptPath.append("scripts" + IPath.SEPARATOR);
-				skriptExtension = "sh";
+				skriptExtension = ".sh";
 			}
 			
 		
@@ -164,15 +166,21 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				
 				if (assets[i] instanceof Productline) {
 					productLine = (Productline) assets[i];
-					repositoryPath = productLine.getRepositoryPath();
+					
+//					repositoryPath
+					RepositoryDescriptor repoDesc = productLine.getRepositoryDescriptor();
+					System.out.println("lalla");;
+					
+//					repoDesc.
+					
 					// @ FIXME init the local Path by getting the WorkspacePAth etc
 //					localPath = productLine
 				}
-				if (assets[i] instanceof Product) {
-					product = (Product) assets[i];
-//					getRepositoryPath
-					localPath = product.getLocalPath();
-				}
+//				if (assets[i] instanceof Product) {
+//					product = (Product) assets[i];
+////					getRepositoryPath
+//					localPath = product.getLocalPath();
+//				}
 				if (assets[i] instanceof Variant) {
 					variant = (Variant) assets[i];
 //					variant.get
@@ -265,9 +273,11 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("checkout working", 2);
 			// @ FIXME read password and user out of whatever
+//			((Component)resources[0]).ge
 			ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
+			initConnection(connection,resources);
 			// @  FIXME this needs to be changes to the given skript not the usual!
-			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
+			connection.setSkriptName(skriptPath.toOSString().concat(CHECKOUT).concat(skriptExtension));
 			connection.open(progress);
 			// wait(5000);
 			// connection.readInpuStreamsToConsole();
