@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptorHelper.java,v 1.7 2004/08/06 11:07:18 garbeam Exp $
+ * $Id: FileDescriptorHelper.java,v 1.8 2004/08/24 11:01:49 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -97,6 +97,9 @@ public class FileDescriptorHelper
         StringTokenizer tz = new StringTokenizer(dirName, ""+IPath.SEPARATOR);
         while (tz.hasMoreTokens()) {
              String resource = tz.nextToken();
+             if (resource.equals(".") || resource.equals("")) {
+                 continue;
+             }
              FileDescriptor tmp = fd.getFileDescriptor(resource);
              if (tmp == null) {
                  tmp = new FileDescriptor();
