@@ -16,7 +16,7 @@
       <import plugin="org.eclipse.gef"/>
       <import plugin="org.eclipse.swt"/>
       <import plugin="kobold.commons"/>
-      <import plugin="kobold.vcm"/>
+      <import plugin="kobold.client.vcm"/>
    </requires>
 
 
