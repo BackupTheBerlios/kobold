@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.30 2004/10/18 16:26:32 garbeam Exp $
+ * $Id: KoboldProject.java,v 1.31 2004/10/18 16:48:43 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -56,7 +56,6 @@ import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.workflow.LocalMessageQueue;
-import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Component;
 import kobold.common.data.User;
 
