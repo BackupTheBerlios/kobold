@@ -1,14 +1,14 @@
 \chapter{Funktionale Anforderungen}
 \section{Iteration I}
 \subsection{Der Kobold Client}
-Der Client basiert grundlegend auf der Eclipse Plattform und deren Widgettoolkit und ist
+Der Client basiert grundlegend auf der Eclipse Plattform und deren Standard Widgettoolkit (SWT) und ist
 dadurch von dessen nativer Schnittstelle abhängig. 
 Er wird als 'Feature-Set' implementiert und mit einem 'Product Branding' versehen.
 'Product Branding' umfasst die Änderung der Fensternamen und der Produktsymbole, sowie
 eine Willkommensseite, die einen kurzen Überblick über Funktionalität und Zweck des Kobold Tools geben soll.
 
 Das 'Feature-Set' wird als Set von internationalisierbaren Eclipse Plugins implementiert.
-Die Ausgangsperspektive besteht aus 4 Teilen:
+Die Ausgangsperspektive dieses Sets besteht aus 4 Teilen:
 \begin{itemize}
 	\item Der Produktlinienarchitektur Editor
 	\item Die Rollen View
@@ -33,14 +33,18 @@ an den Client übergeben; der Client reagiert seinerseits mit dem Bereitstellen d
 
 \subsubsection{Der Produktlinienarchitektur Editor}
 In diesem View wird die je nach aktiver Rolle relevante Ansicht auf die Architektur der Produktlinie
-angezeigt. Die grafische Notation orientiert sich dabei an der in dem Paper \cite{paper} festgelegten Struktur.
+angezeigt. Der Editor bietet die Möglichkeit Grundlegenden Operationen die für die Erstellung einer Produktlinienarchitektur nötig sind.
+Konkret bedeutet dies, es besteht die Möglichkeit neue Komponenten zu erstellen. Sobald eine Komponente existiert können ihr Varianten hinzugefügt werden.
+Zwischen einzelnen Architekturelementen können 
+Die grafische Notation orientiert sich dabei an der in dem Paper \cite{paper} festgelegten Struktur.
 Die View bietet die Möglichkeit, verschiedene Zoomstufen einzustellen. Eine mögliche Folge daraus ist,
 dass im aktuellen Ausschnitt möglicherweise nicht die ganze Architektur zu sehen ist.\par
 Der Benutzer kann im Editor außerdem zwei Architekturen überlappen und in diesem Schnittgraphen deren Gemeinsamkeiten
 und Unterschiede graphisch sichtbar machen. 
-Um trotzdem den Überblick zu gewährleisten, wird eine Minimap zur Verfügung gestellt.\par
-Um dies grafisch darzustellen, hier noch einmal die 3 verschiedenen Ansichten auf die
-Produktlinien- bzw. Produktarchitektur.
+Um trotzdem den Überblick zu gewährleisten, wird eine Minimap zur Verfügung gestellt, die eine navigierbare Miniaturansicht der aktiven Architektur
+anzeigt.\par
+Es gibt die Möglichkeit über ein Kontextmenü oder eine Tastenkombination die Eigenschaften des ausgewählten Knotens anzuzeigen.
+In den folgenden Abschnitten  werdeb die 3 verschiedenen Ansichten auf die Produktlinien- bzw. Produktarchitektur beschrieben.
 
 \paragraph{Ansicht der Rolle ProduktlinienIngenieur}
 Der Produktlinieningenieur hat die Möglichkeit, zwischen zwei Ansichten zu wechseln.
