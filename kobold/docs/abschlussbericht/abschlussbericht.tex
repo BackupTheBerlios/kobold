@@ -59,7 +59,7 @@
 
 \section{Zweck des Dokuments}
 
-Dieses Dokument beschreibt das Projekt ``Produktlinien'', das von Anfang Oktober
+Dieses Dokument beschreibt das Studienprojekt ``Kobold'', das von Anfang Oktober
  2003 bis Anfang November 2004 an der
 Universität Stuttgart am Institut für Softwaretechnologie (ISTE) durchgeführt
 wurde. Das Projekt wurde von neun Softwaretechnik Studenten - Necati
@@ -88,9 +88,9 @@ Um eine effiziente Produktlinienentwicklung in der Softwareentwicklung
 zu etablieren, ist es wichtig, dass diese Produktstrategie konsequent
 umgesetzt wird.\par
 
-Idealziel einer gut konfigurierten Produktlinie ist es, ein Produkt
-durch einfache Kombination von angepassten Core-Assets zu
-erstellen. Eine Produktlinie ist also ideal konfiguriert, wenn die
+Hauptmotivation für die Durchführung einer Produktlinienentwicklung ist, 
+später einzelne Produkte durch einfache Kombination von angepassten Core-Assets 
+erstellen zu können. Eine Produktlinie ist also ideal konfiguriert, wenn die
 Produktlinien-Architektur für alle möglichen Produkte hinreichend
 spezifiziert ist. Der Produkt\-linien-Ingenieur hat genau
 diese Aufgabe. Er bestimmt die Architektur in dem er Core-Assets
@@ -135,14 +135,14 @@ Angebotsdokument verbindlich mit dem Auftraggeber vereinbart wurden:
 	\item graphische Darstellung von Produkt- und Produktlinienarchitekturen
 	\item Vergleich der Produkt- und Produktlinienarchitekturen in Form eines Schnittgraphen
 	\item Erfassung von Metadaten für jede Komponente und Beziehung
-	\item Konsistenzchecks durchführen
+	\item Konsistenzprüfungen durchführen
 	\item Erzeugung eines Überblick-Dokuments mit Metadaten und Abhängigkeiten
 	\item Produkt-Ingenieure anlegen
 	\item Verwaltung von Core Assets
 	\item Produkt-Entwickler verwalten
 	\item Produktlinien und Produkte nach Metadaten durchsuchen
 	\item Auslösen von Workflows
-	\item Repositories ansehen
+	\item Inhalt von Repositories anzeigen
 	\item Arbeitsverzeichnis auschecken
 	\item Arbeitsverzeichnis einchecken
 \end{itemize}
@@ -154,11 +154,11 @@ Angebotsdokument verbindlich mit dem Auftraggeber vereinbart wurden:
 
 \section{Kobold}
 
-Nach Abschluß der Entwicklungsarbeiten ist ein System etabliert, das, wie
+Nach Abschluß der Entwicklungsarbeiten ist ein System implementiert, das, wie
 ursprünglich geplant, drei ausführbare Anwendungen umfasst:\par
 
-Der persistente Kobold-Server ermöglicht die zentrale Verwaltung von Produktlinien- 
-und Benutzerdaten, sowie deren gegenseitigen Abhängigkeiten. Die im Server realisierten
+Der Kobold-Server ermöglicht die zentrale Verwaltung und Persistierung von Produktlinien- 
+und Benutzerdaten. Die im Server realisierten
 Sicherheitsmechanismen erzwingen dabei die Durchsetzung der festgelegten Berechtigungen 
 und stellen die Konsistenz des Produktlinien- und Benutzerdatenmodells sicher, selbst wenn
 mit Hilfe der Clients der aktive Versuch der Sabotage unternommen wird.\par
@@ -170,13 +170,13 @@ geschützt werden.\par
 Die zweite ausführbare Anwendung des Kobold-Systems ist der User-Client. Über ihn können
 sämtliche Aufgaben des Kobold-Systems mit Ausnahme von Administrationsmaßnahmen durchgeführt werden.
 Der User-Client ist vollständig in die Eclipse-Plattform integriert und technisch von dieser
-abhängig. Pro Instanz kann jeweils ein Benutzer am System arbeiten, der sich mittels Benutzernamen
+abhängig. Pro ausgeführter Instanz kann jeweils ein Benutzer am System arbeiten, der sich mittels Benutzernamen
 und Kennwort am Server anmelden muss.\par
 
 Die Benutzerschnittstelle ist dabei durchgehend defensiv ausgelegt, d.h. Funktionen des Clients sind nur 
 dann anwählbar, wenn der jeweilige Benutzer dazu auch berechtigt ist und die jeweiligen Voraussetzungen dazu 
 erfüllt sind (so kann beispielsweise ein Projekt erst angelegt werden, nachdem die Verbindung zum 
-Server erfolgreich etabliert und die Berechtigung durch das System bestätigt wurde). Zusätzlich zu den serverseitigen
+Server erfolgreich aufgebaut und die Berechtigung durch das System bestätigt wurde). Zusätzlich zu den serverseitigen
 Sicherheitsmechanismen verhindert also bereits die clientseitige Benutzerschnittstelle die beabsichtigte oder unbeabsichtigte
 Sabotage der Systemintegrität. Ferner wird dem Benutzer vom System selbst durch die Integration des
 Handbuchs im Client zusätzliche Hilfestellung bei den alltäglichen Aufgaben bei der Arbeit mit Kobold geboten
@@ -184,7 +184,7 @@ Handbuchs im Client zusätzliche Hilfestellung bei den alltäglichen Aufgaben bei 
  
 Die dritte ausführbare Anwendung ist ein schlanker, text-basierter Client, der ausschließlich der Administration
 des Servers dient. Die Benutzer- und Administrations-Schnittstellen des Servers sind vollständig entkoppelt und die 
-Clients selbst völlig unabhängig. Diese Aufteilung dient der Sicherheit der Systemintegrität. Trotz der extensiven 
+beiden Client-Applikationen voneinander unabhängig. Diese Aufteilung dient der Sicherheit der Systemintegrität. Trotz der extensiven 
 Sicherheitsmechanismen stellen die Administrationsfunktionen des Kobold-Systems insofern ein Sicherheitsrisiko dar, 
 als sie bei bewusster oder fahrlässiger Verwendung die Arbeit der Benutzer potentiell erschweren können.\par
 
@@ -219,7 +219,7 @@ des Teams verwendet wurden.
 Da Kobold mit einem iterativen Modell entwickelt wurde, wuchs auch die Spezifikation 
 von Iteration zu Iteration an. Die Spezifikation I legte in ihren 35 Seiten zunächst 
 einmal das Rahmengerüst von Kobold fest. In den darauffolgenden Iterationen wurden 
-dann noch die fehlenden Use Cases spezifiziert und umgesetzt. Zum Schluss umfasste 
+die fehlenden Use Cases spezifiziert und umgesetzt. Zum Schluss umfasste 
 die Spezifikation von Kobold knapp 55 Seiten.
 
 \subsection{Entwurf}
@@ -240,12 +240,12 @@ Die Aufgaben für die Client- und Serveranwendungen wurden ebenfalls bereits im e
 Entwurf klar aufgeteilt. Neben einer Serveranwendung wurden zwei Clientanwendungen
 entworfen; eine zur Benutzung des Systems und eine davon unabhängige zur Administration
 des Servers. Die dabei festgesetzte, strenge Aufgabenteilung wurde in den späteren
-Iterationen mit lediglich marginalen Änderungen wie beschrieben umgesetzt.
+Iterationen mit lediglich marginalen Änderungen, wie beschrieben, umgesetzt.
 
 \subsection{Handbuch}
 \label{handbuch}
 
-Dem Benutzer steht ein rund 120-seitiges mit Scrrenshots illustriertes
+Dem Benutzer steht ein rund 120-seitiges, mit Screenshots illustriertes,
 Handbuch zur Verfügung. Das Handbuch enthält einen Referenzteil, der
 die Programmdialoge beschreibt und ein Tutorial, das dem
 unerfahrenen Benutzer anhand eines Beispiels einen leichten Einstieg
@@ -266,7 +266,7 @@ Richtlinien zu Organisation und Qualitätssicherung sowie Testpläne und
 Dazu gehörten ferner die im Rahmen der Qualitätssicherungsmaßnahmen
 erstellten Dokumente, konkret schriftliche Inspektionsfeedbacks, Einträge
 im von der Berlios-Plattform bereitgestellten Bugtrackingsystem, sowie sämtliche
-Walkthrough-, Review- und Beschlußfassungsprotokolle.
+Walkthrough-, Review- und Sitzungsprotokolle.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -280,7 +280,7 @@ des Instituts für Softwaretechnologie.\par
 
 Als Hilfestellung für die Projektmannschaft wurden begleitend zum Projekt selbst ein 
 vom Projekteigentümer durchgeführtes Seminar zur Produktlinienentwicklung sowie eine
-komplette Vorlesung zur Entwicklungstechnik des Reengineerings durchgeführt, an dem
+komplette Vorlesung zur Entwicklungstechnik des Reengineerings durchgeführt, an der
 alle Mitglieder der Projektmannschaft teilnahmen.\par
 
 Aufgrund der für ein Studienprojekt untypisch hohen Verfügbarkeit an studentischen
@@ -342,7 +342,7 @@ durch das Team. Die Rolle des QS-Manager wurde von Armin Cont übernommen.
 
 \subsubsection{Entwickler}
 
-Die Aufgabe der Entwickler war die Erstellung des Quellcodes und das
+Die Aufgabe der Entwickler beinhaltete die Erstellung des Quellcodes und das
 Verfassen der Dokumente. Die Rolle der Entwickler wurde von allen
 Teilnehmern belegt.
 
@@ -375,7 +375,7 @@ eingesetzten Entwicklungs- und Dokumentationssprachen:
 	\item 23.02.04  Design Patterns (Armin Cont, Michael Grosse)  
 	\item 23.02.04  Eclipse SWT/GEF (Tammo van Lessen) 
 	\item 25.03.04  XML-RPC Kommunikation über HTTPS (Anselm Garbe)  
-	\item 25.03.04  Drools Regelengine (Bettina Druckenmüller)  
+	\item 25.03.04  Drools Regelengine (Bettina Druckenmüller), ITEX (Necati Aydin) und GXL (Martin Plies)
 \end{itemize}
 
 
@@ -432,7 +432,7 @@ der Bestandteil des Angebots wurde. Dieser grobe Projektplan wurde zu Beginn der
 ersten Iteration gründlich überarbeitet und sehr detailiert festgelegt.\par
 
 Da dem Kunden nach Abschluß jeder Iteration die Möglichkeit gegeben wurde, aktiv auf
-die Entwicklung Einfluß zu nehmen und dieser davon auch oft davon Gebrauch machte, 
+die Entwicklung Einfluß zu nehmen und dieser auch oft davon Gebrauch machte, 
 wurde der ursprüngliche Projektplan zu Beginn jeder neuen
 Iteration an die vom Kunden neu geschaffenen Realitäten angepasst.
 
@@ -450,9 +450,10 @@ wie möglich in die Spezifikation eingebunden, wobei der Kunde in Einzelfragen no
 Male konsultiert wurde. In den nachfolgenden Iterationen wurde die Spezfikation angepasst,
 wenn dies notwendig wurde; die dadurch eingebrachten Änderungen waren allerdings erwartungsgemäß 
 von sehr geringem Umfang.\par
+
 Entsprechend der herausragenden Bedeutung der ersten Spezifikation, wurde diese allen zur Verfügung
-stehenden Qualitätssicherungsmaßnahmen unterzogen, von regelmäßigen schriftlichen Statements bereits
-der Vorversion, über zwei formale Reviews, bis hin zu einem abschließenden protokollierten Walkthrough.
+stehenden Qualitätssicherungsmaßnahmen unterzogen, von regelmäßigen schriftlichen Statements, über zwei 
+formale Reviews, bis hin zu einem abschließenden protokollierten Walkthrough.
 Die Spezifikation wurde später die Grundlage der ersten Abschlusstests des Kobold Systems.\par
 Für den Architekturentwurf wurde ein ähnliches Vorgehen gewählt, das heißt der Aufwand für die Erstellung
 des Entwurfs während der ersten Iteration war deutlich größer, als der Anpassungsaufwand in den späteren
@@ -471,7 +472,7 @@ mit großem Gewinn eingesetzt werden konnte.
 Das Handbuch wurde von einem einzelnen Entwickler parallel zu den Iterationen 
 erstellt und befand sich somit immer auf dem neuesten Stand. Es enthält eine 
 Beschreibung der graphischen Benutzungsoberfläche und der Funktionalität 
-von Kobold und ein Tutorial. Das Handbuch wurde in einem Review geprüft und
+von Kobold, sowie ein Tutorial. Das Handbuch wurde in einem Review geprüft und
 zusammen mit Kobold ausgeliefert.
 
 
@@ -513,12 +514,8 @@ sämtliche Projektergebnisse beinhaltet, ausgeliefert werden.
 
 \section{Werkzeuge}
 
-Die im Rahmen des Projekts eingesetzten Werkzeuge lassen sich grob in drei Kategorien
-einteilen:\par
-
-Als Kommunikationswerkzeuge wurden hauptsächlich verschiedene Emailsysteme und 
-Mobilfunktelefone eingesetzt. Das Gros der im Rahmen des Projekts versendeten
-Emails lief über zwei eigens für dieses Projekt eingerichtete Verteilerlisten,
+Das vorherrschende Kommunikationsmedium im Projekt war die Email; dabei lief das Gros 
+der versendeten Emails über zwei eigens für dieses Projekt eingerichtete Verteilerlisten,
 eine Team-interne und eine das Team und den Projekteigentümer umfassende.\par
 
 Zur Erstellung von Nicht-Code-Dokumenten aller Art wurde die Dokumentenerzeugungssprache
@@ -553,9 +550,10 @@ somit für eine neue Iteration. Die End-Deploy Markierungen zum Ende des Projekte
 stehen für einen weiteren Übergang in eine verkürzte Itertion, in der nur noch
 implementiert und getestet wurde.\par
 
-Es ist deutlich zu sehen, wie die Anzahl der Codezeilen nach Abschluss des ersten
-Entwurfes (Markierung E 1-0) rapide zu steigen beginnt. Die drei flachen Sektoren im August, September und Oktober zeigen die
-Prüfungszeit, in der die Mehrzahl der Team-Mitglieder ausfiel. 
+Es ist deutlich zu sehen, wie die Anzahl der ASCII-Zeilen nach Abschluss des ersten
+Entwurfes (Markierung E 1-0) rapide zu steigen beginnt. Die drei flachen Sektoren im 
+August, September und Oktober ergaben sich aufgrund des Umstands, dass die meisten 
+Teammitglieder während der Prüfungszeit weniger für das Projekt arbeiten konnten.
 
 
 \section{Umfang der Module}
@@ -569,7 +567,7 @@ Prüfungszeit, in der die Mehrzahl der Team-Mitglieder ausfiel.
 Dieses Diagramm zeigt Größenverhältnisse der Module, gemessen in
 Quellcodezeilen. Dabei fällt das PLAM-Modul besonders groß aus, da sich
 in diesem Modul die gesamte GUI-Implementierung befindet. Die Größen der
-VCM, Common und Server-Module spiegeln nicht den Aufwand wider.\par
+VCM, Common und Server-Module spiegeln nicht den Aufwand wieder.\par
 
 Die Daten des Tests befinden sich in dem Modul ``other´´. Allerdings ist zu
 berücksichtigen, dass die meisten Testdaten dort nicht inbegriffen sind und
@@ -666,6 +664,10 @@ eindeutig die Mehrheit im Team stellen.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Persönliche Berichte}
 
+Nachfolgend sind die persönlichen Berichte der einzelnen Mitarbeiter aufgeführt.
+Sie rekapitulieren den Verlauf des Projekts jeweils aus dem Blickwinkel der 
+einzelnen Entwickler und geben einen Einblick über die ganz persönlichen Erfahrungen,
+die sie aus diesem Projekt in ihre weitere Zukunft mitnehmen werden. 
 
 %TODO! -> alle!
 
