@@ -110,19 +110,27 @@ public class KoboldRepositoryHelper {
     	KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
     	String tmpLocation = plugin.getBundle().getLocation();
     	// The Location String contains "@update/" this needs to be removed
-	
+       	//gets the scriptPath
+    	String scriptPath = plugin.getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_SCRIPT_LOCATION);
+    
     	Path result;
-    	String tmpString = System.getProperty("os.name");
-    	// This tests what OS is used and sets the skript extension accordingly
-    	if (tmpString.indexOf("Win",0) != -1 ) 
-    	{
-    		result = new Path(tmpLocation.substring(8,tmpLocation.length()));
-    		result = (Path)result.append("scripts" + IPath.SEPARATOR);
+    	
+    	if (scriptPath == null || scriptPath.equals("")) {
+        	String tmpString = System.getProperty("os.name");
+        	// This tests what OS is used and sets the skript extension accordingly
+        	if (tmpString.indexOf("Win",0) != -1 ) 
+        	{
+        		result = new Path(tmpLocation.substring(8,tmpLocation.length()));
+        		result = (Path)result.append("scripts" + IPath.SEPARATOR);
+        	}
+        	else
+        	{
+        		result = new Path(tmpLocation.substring(7,tmpLocation.length()));
+        		result = (Path)result.append("scripts" + IPath.SEPARATOR);
+        	}
     	}
-    	else
-    	{
-    		result = new Path(tmpLocation.substring(7,tmpLocation.length()));
-    		result = (Path)result.append("scripts" + IPath.SEPARATOR);
+    	else {
+    	    result = new Path(scriptPath);
     	}
     	
     	return result;

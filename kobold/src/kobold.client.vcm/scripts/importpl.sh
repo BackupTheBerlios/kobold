@@ -19,10 +19,10 @@ cd $1
 
 if [ $3 = "local" ] ; then
 
-    cvs -z3 -d $7 import -l -m $9 $8 $4 R0
+    cvs -z3 -d $7 import -m $9 $8 $4 R0
 
 else
 
-    cvs -z3 -d :$3:$4:$5@$6:$7 import -l -m $9 $8 $4 R0
+    cvs -z3 -d :$3:$4:$5@$6:$7 import -m $9 $8 $4 R0
 
 fi
