@@ -15,6 +15,7 @@ import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 
 import com.lowagie.text.Document;
@@ -108,10 +109,10 @@ public class MetaInformation {
     public void createMetaInfoForProduct(Document document, Product p1) 
     {
     	Product product = new Product("Product1");
-
         product.getName();
     	product.getDescription();
-    	product.getMaintainers();
+    	//product.getMaintainers();
+    	product.getId();
     	
     	for (Iterator ite = product.getRelatedComponents().iterator(); 
 		ite.hasNext();)
@@ -119,6 +120,7 @@ public class MetaInformation {
 			RelatedComponent relComp = (RelatedComponent) ite.next();
 			createMetaInfoForRelatedComponent(document, relComp);
 		}
+    	
     	for (Iterator ite = product.getSpecificComponents().iterator(); 
 		ite.hasNext();)
 		{
@@ -133,25 +135,65 @@ public class MetaInformation {
 	{
 		spComp.getName();
 		spComp.getDescription();
-		spComp.getMaintainers();
+		//spComp.getMaintainer();
+		
+		for (Iterator ite = spComp.getMaintainers().iterator(); 
+		ite.hasNext();)
+		{
+			User user = (User) ite.next();
+        	createMetaInfoForMaintainer (document, user);
+        }
+	}
+			
+	//MetaInformation for RelatedComponents
+	private void createMetaInfoForRelatedComponent(Document document, RelatedComponent relComp) 
+	{
+		relComp.getName();
+		relComp.getDescription();
+		//relComp.getMaintainers();
+		
+		for (Iterator ite = relComp.getMaintainers().iterator(); 
+		ite.hasNext();)
+		{
+			User user = (User) ite.next();
+        	createMetaInfoForMaintainer (document, user);
+        }
 	}
 	
+	//MetaInformation for Maintainer
+	private void createMetaInfoForMaintainer(Document document, User user) 
+	{
+		user.getUsername();	
+	}
+	
+	//MetaInformation for Components
 	private void createMetaInfoForComponent(Document document, Component comp)
 	{
 		comp.getName();
 		comp.getDescription();
 		comp.getMaintainers();	
+		
+    	for (Iterator ite = comp.getVariants().iterator(); 
+		ite.hasNext();)
+		{
+			Variant var = (Variant) ite.next();
+			createMetaInfoForVariants(document, var);
+		}
 	}
 	
-	private void createMetaInfoForRelatedComponent(Document document, RelatedComponent relComp) 
+	//MetaInformation for Variants
+	private void createMetaInfoForVariants(Document document, Variant var) 
 	{
-		relComp.getName();
-		relComp.getDescription();
-		relComp.getMaintainers();
-	}
-	
-	private void createMetaInfoForMaintainer(Document document, User user) 
-	{
-		user.getUsername();	
+		var.getName();
+		var.getDescription();
+		var.getId();
+		
+		
+		for (Iterator ite = var.getComponents().iterator();
+		ite.hasNext();)
+		{
+			Component comp = (Component) ite.next();
+			createMetaInfoForComponent(document, comp);
+		}
 	}
 }
