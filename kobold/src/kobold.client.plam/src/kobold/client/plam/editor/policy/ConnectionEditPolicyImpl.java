@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ConnectionEditPolicyImpl.java,v 1.2 2004/07/23 23:25:15 vanto Exp $
+ * $Id: ConnectionEditPolicyImpl.java,v 1.3 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.policy;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.command.DeleteConnectionCommand;
 import kobold.client.plam.model.edges.Edge;
@@ -39,6 +41,11 @@ import org.eclipse.gef.requests.GroupRequest;
  */
 public class ConnectionEditPolicyImpl extends ConnectionEditPolicy
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ConnectionEditPolicyImpl.class);
 
     /**
      * @see org.eclipse.gef.editpolicies.ConnectionEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)

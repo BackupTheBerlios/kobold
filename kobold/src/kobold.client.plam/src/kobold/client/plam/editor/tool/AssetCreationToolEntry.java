@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetCreationToolEntry.java,v 1.1 2004/08/03 19:39:20 vanto Exp $
+ * $Id: AssetCreationToolEntry.java,v 1.2 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.tool;
+
+import org.apache.log4j.Logger;
 
 import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
@@ -39,6 +41,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
  */
 public class AssetCreationToolEntry extends CombinedTemplateCreationEntry
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(AssetCreationToolEntry.class);
 
     /**
      * Constructs a combined CreationTool and Template Entry with the given parameters.

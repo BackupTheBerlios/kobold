@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractComposableEditPart.java,v 1.3 2004/08/05 14:19:33 vanto Exp $
+ * $Id: AbstractComposableEditPart.java,v 1.4 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
+
+import org.apache.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 
@@ -40,6 +42,12 @@ import kobold.client.plam.model.AbstractAsset;
  */
 public abstract class AbstractComposableEditPart extends AbstractAssetEditPart
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(AbstractComposableEditPart.class);
+
 	/**
 	 * Toggles the composing mode on refresh. 
 	 */

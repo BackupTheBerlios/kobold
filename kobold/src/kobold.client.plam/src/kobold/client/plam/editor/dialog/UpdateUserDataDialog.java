@@ -21,9 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateUserDataDialog.java,v 1.10 2004/09/23 13:43:19 vanto Exp $
+ * $Id: UpdateUserDataDialog.java,v 1.11 2004/11/05 10:32:32 grosseml Exp $
  */
 package kobold.client.plam.editor.dialog;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
@@ -43,6 +45,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 public class UpdateUserDataDialog extends TitleAreaDialog{
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(UpdateUserDataDialog.class);
 	
     private Label labelRealName;
     private Label labelPassword;

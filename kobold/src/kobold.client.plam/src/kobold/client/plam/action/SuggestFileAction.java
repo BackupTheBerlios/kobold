@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SuggestFileAction.java,v 1.5 2004/09/20 06:43:01 martinplies Exp $
+ * $Id: SuggestFileAction.java,v 1.6 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.action;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.AbstractAsset;
@@ -45,6 +47,11 @@ import org.eclipse.swt.widgets.Shell;
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class SuggestFileAction extends Action {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(SuggestFileAction.class);
 	
 	private Shell shell;
     private AbstractAsset selection;
@@ -66,7 +73,7 @@ public class SuggestFileAction extends Action {
 			cgDialog.open();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("run()", e);
 		}
     }
 

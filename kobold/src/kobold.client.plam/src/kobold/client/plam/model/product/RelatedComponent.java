@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.15 2004/10/21 21:32:40 martinplies Exp $
+ * $Id: RelatedComponent.java,v 1.16 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model.product;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,11 @@ import org.dom4j.Element;
 
 public class RelatedComponent extends ProductComponent 
                               implements IGXLExport {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(RelatedComponent.class);
 
 	private Variant  relatedVariant;
 	private Release relatedRelease;

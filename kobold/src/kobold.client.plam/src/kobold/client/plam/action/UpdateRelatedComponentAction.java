@@ -21,12 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateRelatedComponentAction.java,v 1.2 2004/10/13 22:41:12 martinplies Exp $
+ * $Id: UpdateRelatedComponentAction.java,v 1.3 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 
 
 package kobold.client.plam.action;
+
+import org.apache.log4j.Logger;
+
 /**
  * @author pliesmn
  *
@@ -49,6 +52,11 @@ import org.eclipse.ui.actions.ActionDelegate;
  * 
  */
 public class UpdateRelatedComponentAction extends ActionDelegate {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(UpdateRelatedComponentAction.class);
 
 
     private IProductComponentContainer productComponentContainer;

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractStatus.java,v 1.3 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: AbstractStatus.java,v 1.4 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
+
+import org.apache.log4j.Logger;
 
 import kobold.common.data.ISerializable;
 
@@ -38,6 +40,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
  */
 public abstract class AbstractStatus implements ISerializable
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(AbstractStatus.class);
+
     public static final String DEPRECATED_ID = "deprecated";
     
     public static final AbstractStatus DEPRECATED_STATUS = new DeprecatedStatus();

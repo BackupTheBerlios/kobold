@@ -24,6 +24,8 @@
  *
  */package kobold.client.plam.action;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.plam.editor.dialog.AddToProductDialog;
 import kobold.client.plam.model.productline.Variant;
 
@@ -39,6 +41,11 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class AddToProduct implements IObjectActionDelegate
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(AddToProduct.class);
+
     private Variant currentVarriant = null;
 
     /**

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PaletteHelper.java,v 1.10 2004/09/21 20:13:24 vanto Exp $
+ * $Id: PaletteHelper.java,v 1.11 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +58,10 @@ import org.eclipse.gef.palette.ToolEntry;
  */
 public class PaletteHelper
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(PaletteHelper.class);
 
     static List createProductlineCategories(){
     	List categories = new ArrayList();

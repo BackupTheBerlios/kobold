@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.20 2004/11/05 01:51:06 martinplies Exp $
+ * $Id: ProductComponent.java,v 1.21 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model.product;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,6 +54,11 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 									   implements IGXLExport,
 									   			  IFileDescriptorContainer,
 									   			  IProductComponentContainer{
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ProductComponent.class);
 
 	private List relatedComps = new ArrayList();
 	private List specificComps = new ArrayList();
@@ -201,7 +208,10 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 				return fd;
 			}
 		}	
-		System.out.println ("fd "+name + " not found!");
+		if (logger.isDebugEnabled()) {
+			logger.debug("getFileDescriptor(String) - fd " + name
+					+ " not found!");
+		}
 		return null;
 	}
 

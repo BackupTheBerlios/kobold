@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteConnectionCommand.java,v 1.2 2004/07/26 18:39:16 vanto Exp $
+ * $Id: DeleteConnectionCommand.java,v 1.3 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.command;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.edges.Edge;
@@ -37,6 +39,12 @@ import org.eclipse.gef.commands.Command;
  */
 public class DeleteConnectionCommand extends Command
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(DeleteConnectionCommand.class);
+
     private Edge edge;
     private AbstractRootAsset root;
 

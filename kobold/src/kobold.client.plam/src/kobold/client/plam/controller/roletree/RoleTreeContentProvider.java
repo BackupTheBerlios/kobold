@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.39 2004/08/31 20:14:07 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.40 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
+
+import org.apache.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -70,6 +72,12 @@ import org.eclipse.jface.viewers.Viewer;
 public class RoleTreeContentProvider implements IStructuredContentProvider, 
 					ITreeContentProvider, IResourceChangeListener, PropertyChangeListener 
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(RoleTreeContentProvider.class);
+
 	private static Object[] EMPTY_ARRAY = new Object[0];
 	private IWorkspace input;
 	protected TreeViewer viewer;
@@ -168,7 +176,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
                     return new Productline[] {pl};
                 }
             } catch (CoreException e) {
-                e.printStackTrace();
+				logger.error("getChildren(Object)", e);
             }
     	    return new Object[0];
     	    
@@ -269,6 +277,12 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 
 	public class TreeContainer
 	{
+		/**
+		 * Logger for this class
+		 
+		private static final Logger logger = Logger
+				.getLogger(TreeContainer.class);
+        */
 	    private Object data;
 	    private String id;
 	    
@@ -315,6 +329,12 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	
 	public class ArchitectureItem 
 	{
+		/**
+		 * Logger for this class
+		 
+		private static final Logger logger = Logger
+				.getLogger(ArchitectureItem.class);
+        */
 	    private AbstractRootAsset asset;
 
         ArchitectureItem(AbstractRootAsset asset)
@@ -326,6 +346,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
         {
             return asset;
         }
+        
 	}
 
 	/**

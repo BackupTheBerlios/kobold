@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.14 2004/09/23 13:43:19 vanto Exp $
+ * $Id: DeleteAssetCommand.java,v 1.15 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.command;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -63,6 +65,12 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class DeleteAssetCommand extends Command
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(DeleteAssetCommand.class);
+
     public static final int DELETE = 1;
     public static final int DEPRECATED = 2;
     private AbstractAsset asset;

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineContainerEditPolicy.java,v 1.5 2004/09/21 20:54:30 vanto Exp $
+ * $Id: ProductlineContainerEditPolicy.java,v 1.6 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.policy;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.command.CreateComponentCommand;
 import kobold.client.plam.editor.command.CreateMetaNodeCommand;
@@ -50,6 +52,11 @@ import org.eclipse.gef.requests.GroupRequest;
  */
 public class ProductlineContainerEditPolicy extends ContainerEditPolicy
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ProductlineContainerEditPolicy.class);
 
     /**
      * @see org.eclipse.gef.editpolicies.ContainerEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
@@ -88,7 +95,9 @@ public class ProductlineContainerEditPolicy extends ContainerEditPolicy
      */
     protected Command getAddCommand(GroupRequest request)
     {
-        System.out.println("add");
+		if (logger.isDebugEnabled()) {
+			logger.debug("getAddCommand(GroupRequest) - add");
+		}
         return null;
     }
     
@@ -97,7 +106,9 @@ public class ProductlineContainerEditPolicy extends ContainerEditPolicy
      */
     protected Command getCloneCommand(ChangeBoundsRequest request)
     {
-        System.out.println("clone");
+		if (logger.isDebugEnabled()) {
+			logger.debug("getCloneCommand(ChangeBoundsRequest) - clone");
+		}
         return null;
     }
     
@@ -106,7 +117,9 @@ public class ProductlineContainerEditPolicy extends ContainerEditPolicy
      */
     protected Command getOrphanChildrenCommand(GroupRequest request)
     {
-        System.out.println("orphan");
+		if (logger.isDebugEnabled()) {
+			logger.debug("getOrphanChildrenCommand(GroupRequest) - orphan");
+		}
         return null;
     }
 }

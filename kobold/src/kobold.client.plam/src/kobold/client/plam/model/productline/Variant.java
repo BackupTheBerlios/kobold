@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.30 2004/11/05 01:51:07 martinplies Exp $
+ * $Id: Variant.java,v 1.31 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 
 package kobold.client.plam.model.productline;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,6 +57,10 @@ public class Variant extends AbstractAsset
 					 implements IGXLExport, IComponentContainer,
 					 			IReleaseContainer, IFileDescriptorContainer,
 					 			IAdaptable {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(Variant.class);
 
 	private List components = new ArrayList();
 	private List releases = new ArrayList();
@@ -262,7 +268,10 @@ public class Variant extends AbstractAsset
 				return fd;
 			}
 		}	
-		System.out.println ("fd "+name + " not found!");
+		if (logger.isDebugEnabled()) {
+			logger.debug("getFileDescriptor(String) - fd " + name
+					+ " not found!");
+		}
 		return null;
 	}
 

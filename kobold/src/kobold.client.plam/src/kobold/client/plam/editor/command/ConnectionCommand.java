@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ConnectionCommand.java,v 1.3 2004/08/03 15:16:40 vanto Exp $
+ * $Id: ConnectionCommand.java,v 1.4 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.command;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.edges.Edge;
@@ -39,6 +41,12 @@ import org.eclipse.gef.commands.Command;
  */
 public class ConnectionCommand extends Command
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ConnectionCommand.class);
+
     private INode sourceNode;
     private INode targetNode;
     

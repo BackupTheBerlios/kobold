@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.38 2004/11/05 01:51:07 martinplies Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.39 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
+
+import org.apache.log4j.Logger;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -95,6 +97,11 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
  */
 public class AssetConfigurationDialog extends TitleAreaDialog
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(AssetConfigurationDialog.class);
 
     private AbstractAsset asset;
     private Text resource;
@@ -322,8 +329,14 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 	 */
 	private void prettyPrintFD(FileDescriptor fd, String prefix) {
 	    String newPrefix = prefix + IPath.SEPARATOR +   fd.getFilename();
-	    System.out.println("fd: "+ newPrefix + "\t" + fd.getRevision() +
-	                       ((fd.getLastChange() != null) ? "\t" + fd.getLastChange().toString() : ""));
+		if (logger.isDebugEnabled()) {
+			logger.debug("prettyPrintFD(FileDescriptor, String) - fd: "
+					+ newPrefix
+					+ "t"
+					+ fd.getRevision()
+					+ ((fd.getLastChange() != null) ? "t"
+							+ fd.getLastChange().toString() : ""));
+		}
 
 	    //get all children
 	    for (Iterator iterator = fd.getFileDescriptors().iterator();

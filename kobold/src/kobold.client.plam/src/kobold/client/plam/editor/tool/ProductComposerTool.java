@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposerTool.java,v 1.6 2004/10/21 21:32:40 martinplies Exp $
+ * $Id: ProductComposerTool.java,v 1.7 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.tool;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.ArchitectureEditor;
 import kobold.client.plam.editor.KoboldGraphicalViewer;
@@ -48,6 +50,11 @@ import org.eclipse.gef.tools.TargetingTool;
  */
 public class ProductComposerTool extends TargetingTool
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ProductComposerTool.class);
 
     public static final String REQ_COMPOSE = "compose";
     

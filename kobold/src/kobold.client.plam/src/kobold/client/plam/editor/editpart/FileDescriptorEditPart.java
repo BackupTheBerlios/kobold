@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorEditPart.java,v 1.8 2004/11/05 01:51:06 martinplies Exp $
+ * $Id: FileDescriptorEditPart.java,v 1.9 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
+
+import org.apache.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -57,6 +59,12 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 public class FileDescriptorEditPart extends AbstractGraphicalEditPart 
 									implements PropertyChangeListener, NodeEditPart 
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(FileDescriptorEditPart.class);
+
     private FileDescriptorFigure figure;
     private ChopboxAnchor anchor;
     private AbstractRootAsset root;

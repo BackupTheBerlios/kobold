@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.18 2004/09/22 14:27:16 vanto Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.19 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.view;
+
+import org.apache.log4j.Logger;
 
 import java.util.Iterator;
 
@@ -68,6 +70,12 @@ import org.eclipse.ui.part.DrillDownAdapter;
  */
 public class RoleTreeActionGroup extends ActionGroup
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(RoleTreeActionGroup.class);
+
     public static final String GROUP_NEW = "roletree.group.new"; //$NON-NLS-1$
     
     private IWorkbenchWindow window;
@@ -203,7 +211,7 @@ public class RoleTreeActionGroup extends ActionGroup
 		                new ArchitectureEditorInput(ai.getAsset());
 		            page.openEditor(editorInput, KoboldConstants.ID_ARCH_EDITOR, true);
 		    } catch (PartInitException e) {
-		        e.printStackTrace();
+				logger.error("handleDoubleClick(DoubleClickEvent)", e);
 		    }
 		} else if (obj instanceof AbstractAsset && configureAssetAction.isEnabled()
 		         && !(obj instanceof FileDescriptor)) { 

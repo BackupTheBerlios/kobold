@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponentFigure.java,v 1.4 2004/09/21 20:13:24 vanto Exp $
+ * $Id: ProductComponentFigure.java,v 1.5 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.figure;
+
+import org.apache.log4j.Logger;
 
 import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.ColorConstants;
@@ -40,6 +42,11 @@ import org.eclipse.draw2d.geometry.Rectangle;
  */
 public abstract class ProductComponentFigure extends AbstractNodeFigure
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ProductComponentFigure.class);
 
     protected Dimension corner = new Dimension(8, 8);
     private IFigure fdPane;

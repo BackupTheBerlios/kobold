@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantEditPart.java,v 1.14 2004/09/01 01:08:29 vanto Exp $
+ * $Id: VariantEditPart.java,v 1.15 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +48,16 @@ import org.eclipse.gef.GraphicalEditPart;
  * VariantEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: VariantEditPart.java,v 1.14 2004/09/01 01:08:29 vanto Exp $
+ * @version $Id: VariantEditPart.java,v 1.15 2004/11/05 10:32:32 grosseml Exp $
  */
 public class VariantEditPart extends AbstractComposableEditPart 
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(VariantEditPart.class);
+
     private VariantFigure figure;
 
     /**

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldColors.java,v 1.1 2004/07/23 22:27:11 vanto Exp $
+ * $Id: KoboldColors.java,v 1.2 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor;
+
+import org.apache.log4j.Logger;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.swt.graphics.Color;
@@ -37,6 +39,11 @@ import org.eclipse.swt.graphics.Color;
  */
 public interface KoboldColors
 {
+	/**
+	 * Logger for this class
+	
+	private static final Logger logger = Logger.getLogger(KoboldColors.class);
+      */
     /**
      * Misc. colors
      */

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CreateReleaseCommand.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
+ * $Id: CreateReleaseCommand.java,v 1.3 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.command;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.Release;
@@ -35,6 +37,12 @@ import kobold.client.plam.model.Release;
  */
 public class CreateReleaseCommand extends AbstractCreateCommand
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(CreateReleaseCommand.class);
+
     private IReleaseContainer parent;
     private Release child;
 

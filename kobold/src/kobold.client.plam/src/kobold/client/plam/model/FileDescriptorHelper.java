@@ -21,10 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptorHelper.java,v 1.12 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: FileDescriptorHelper.java,v 1.13 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
+
+import org.apache.log4j.Logger;
 
 import java.util.Date;
 import java.util.StringTokenizer;
@@ -40,6 +42,12 @@ import org.eclipse.core.runtime.IPath;
  */
 public class FileDescriptorHelper
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(FileDescriptorHelper.class);
+
 	/**
 	 * Creates a file FileDescriptor for a file and all directories in which the file is included.
 	 * @param filename the filename to create

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewUserAction.java,v 1.5 2004/10/06 15:08:23 garbeam Exp $
+ * $Id: NewUserAction.java,v 1.6 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.action;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
@@ -44,6 +46,11 @@ import org.eclipse.ui.actions.ActionDelegate;
  */
 public class NewUserAction extends ActionDelegate
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(NewUserAction.class);
+
     public void run(IAction action)
     {
         KoboldProject proj = KoboldPLAMPlugin.getCurrentKoboldProject();

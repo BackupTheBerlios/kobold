@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.31 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: Productline.java,v 1.32 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model.productline;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,6 +53,10 @@ import org.eclipse.core.runtime.IPath;
 public class Productline extends AbstractRootAsset
                          implements IComponentContainer,
                          			IGXLExport{
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(Productline.class);
     
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#productline";
 
@@ -247,7 +253,10 @@ public class Productline extends AbstractRootAsset
 				return product;
 			}
 		}	
-		System.out.println ("product "+productName + " not found!");
+		if (logger.isDebugEnabled()) {
+			logger.debug("getProduct(String) - product " + productName
+					+ " not found!");
+		}
 		return null;
 	}
 

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ConfigureAssetAction.java,v 1.4 2004/09/20 06:43:12 martinplies Exp $
+ * $Id: ConfigureAssetAction.java,v 1.5 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.action;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
@@ -45,6 +47,12 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class ConfigureAssetAction extends Action
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ConfigureAssetAction.class);
+
     private Shell shell;
     private AbstractAsset selection;
     

@@ -21,9 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EditRepositoryDescriptorDialog.java,v 1.2 2004/08/31 11:03:45 garbeam Exp $
+ * $Id: EditRepositoryDescriptorDialog.java,v 1.3 2004/11/05 10:32:32 grosseml Exp $
  */
 package kobold.client.plam.editor.dialog;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.product.Product;
@@ -41,6 +43,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 public class EditRepositoryDescriptorDialog extends TitleAreaDialog{
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(EditRepositoryDescriptorDialog.class);
 	
     private Label labelType;
     private Label labelProtocol;

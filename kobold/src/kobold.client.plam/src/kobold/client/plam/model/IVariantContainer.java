@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVariantContainer.java,v 1.2 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: IVariantContainer.java,v 1.3 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
+
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -36,6 +38,12 @@ import kobold.client.plam.model.productline.Variant;
  */
 public interface IVariantContainer
 {
+	/**
+	 * Logger for this class
+	 
+	private static final Logger logger = Logger
+			.getLogger(IVariantContainer.class);
+*/
 	/**
 	 * Adds a variant and has to set its parent to this asset.
 	 *

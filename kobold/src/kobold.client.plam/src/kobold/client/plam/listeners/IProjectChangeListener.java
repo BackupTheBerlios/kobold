@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IProjectChangeListener.java,v 1.1 2004/05/15 15:03:29 vanto Exp $
+ * $Id: IProjectChangeListener.java,v 1.2 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.listeners;
+
+import org.apache.log4j.Logger;
 
 import java.util.EventListener;
 
@@ -36,7 +38,12 @@ import org.eclipse.core.resources.IProject;
  * @author Tammo
  */
 public interface IProjectChangeListener extends EventListener {
-
+	/**
+	 * Logger for this class
+	 
+	private static final Logger logger = Logger
+			.getLogger(IProjectChangeListener.class);
+*/
 	/**
 	 * Notification that the active kobold project has changed.
 	 *  

@@ -21,10 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.28 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: FileDescriptor.java,v 1.29 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
+
+import org.apache.log4j.Logger;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -54,6 +56,10 @@ import org.eclipse.core.runtime.Path;
  */
 public class FileDescriptor implements IFileDescriptorContainer, 
 							INode, IGXLExport, IAdaptable {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(FileDescriptor.class);
 
     private List children = new ArrayList();
     private IFileDescriptorContainer parentAsset;
@@ -196,7 +202,10 @@ public class FileDescriptor implements IFileDescriptorContainer,
             fd.setParentAsset(parentAsset);
         }
         fireStructureChange(AbstractAsset.ID_FILE_DESCRIPTORS, fd);
-        System.out.println ("fd "+fd.filename + " added!");
+		if (logger.isDebugEnabled()) {
+			logger.debug("addFileDescriptor(FileDescriptor) - fd "
+					+ fd.filename + " added!");
+		}
     }
 
 
@@ -232,7 +241,10 @@ public class FileDescriptor implements IFileDescriptorContainer,
 				return fd;
 			}
 		}	
-		System.out.println ("fd "+name + " not found!");
+		if (logger.isDebugEnabled()) {
+			logger.debug("getFileDescriptor(String) - fd " + name
+					+ " not found!");
+		}
 		return null;
 	}
 

@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.13 2004/10/21 21:32:40 martinplies Exp $
+ * $Id: SpecificComponent.java,v 1.14 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 
 package kobold.client.plam.model.product;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,6 +44,11 @@ import org.dom4j.Element;
  */
 public class SpecificComponent extends ProductComponent 
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(SpecificComponent.class);
 
 
 	private List releases = new ArrayList();

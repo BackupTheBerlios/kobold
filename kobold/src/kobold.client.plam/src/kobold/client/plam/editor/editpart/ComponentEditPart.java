@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentEditPart.java,v 1.11 2004/08/06 01:30:02 vanto Exp $
+ * $Id: ComponentEditPart.java,v 1.12 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
+
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -40,10 +42,15 @@ import org.eclipse.gef.EditPolicy;
  * ComponentEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ComponentEditPart.java,v 1.11 2004/08/06 01:30:02 vanto Exp $
+ * @version $Id: ComponentEditPart.java,v 1.12 2004/11/05 10:32:32 grosseml Exp $
  */
 public class ComponentEditPart extends AbstractComposableEditPart 
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ComponentEditPart.class);
 
     private ComponentFigure figure;
     

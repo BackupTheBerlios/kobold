@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductRelease.java,v 1.4 2004/10/21 21:32:40 martinplies Exp $
+ * $Id: ProductRelease.java,v 1.5 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 
 package kobold.client.plam.model.product;
+
+import org.apache.log4j.Logger;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -44,6 +46,10 @@ import org.dom4j.Element;
  */
 public class ProductRelease extends AbstractAsset
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(ProductRelease.class);
 
 	private DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSZ");
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#ProductReleases";

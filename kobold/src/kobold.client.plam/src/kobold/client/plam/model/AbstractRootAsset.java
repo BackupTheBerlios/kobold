@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.19 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: AbstractRootAsset.java,v 1.20 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
+
+import org.apache.log4j.Logger;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -50,6 +52,12 @@ import org.dom4j.Element;
  */
 public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(AbstractRootAsset.class);
+
     private KoboldProject project;
     protected Map releasePool = new HashMap();
     protected transient PropertyChangeSupport changeListeners = new PropertyChangeSupport(this); 

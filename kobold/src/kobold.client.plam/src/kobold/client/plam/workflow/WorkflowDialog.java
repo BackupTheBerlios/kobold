@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.23 2004/08/24 20:04:26 garbeam Exp $
+ * $Id: WorkflowDialog.java,v 1.24 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.workflow;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author pliesmn
@@ -56,6 +58,11 @@ import org.eclipse.swt.widgets.Text;
  * Renders a workflow.
  */
 public class WorkflowDialog extends TitleAreaDialog {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(WorkflowDialog.class);
+
 	String description;
 	AbstractKoboldMessage msg;
 	private List viewItems = new ArrayList();
@@ -162,7 +169,9 @@ public class WorkflowDialog extends TitleAreaDialog {
 		if (msg instanceof WorkflowMessage) {
 		   WorkflowMessage wm = (WorkflowMessage) msg;
 		   this.containerItem.applyValues(this);		
-		   System.out.println(wm.getWorkflowData());
+		if (logger.isDebugEnabled()) {
+			logger.debug("okPressed()" + wm.getWorkflowData());
+		}
 		   
 		   wm.setComment(comment.getText());
 		   try {

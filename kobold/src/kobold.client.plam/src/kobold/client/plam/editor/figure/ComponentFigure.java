@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentFigure.java,v 1.8 2004/08/05 20:42:31 vanto Exp $
+ * $Id: ComponentFigure.java,v 1.9 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.figure;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.KoboldColors;
 
@@ -37,9 +39,14 @@ import org.eclipse.swt.graphics.Color;
  * ComponentFigure
  * 
  * @author Tammo van Lessen
- * @version $Id: ComponentFigure.java,v 1.8 2004/08/05 20:42:31 vanto Exp $
+ * @version $Id: ComponentFigure.java,v 1.9 2004/11/05 10:32:31 grosseml Exp $
  */
 public class ComponentFigure extends AbstractNodeFigure {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ComponentFigure.class);
     
     public ComponentFigure() 
     {

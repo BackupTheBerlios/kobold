@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineEditPart.java,v 1.15 2004/09/23 13:43:19 vanto Exp $
+ * $Id: ProductlineEditPart.java,v 1.16 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
+
+import org.apache.log4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -80,10 +82,15 @@ import org.eclipse.ui.PlatformUI;
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductlineEditPart.java,v 1.15 2004/09/23 13:43:19 vanto Exp $
+ * @version $Id: ProductlineEditPart.java,v 1.16 2004/11/05 10:32:32 grosseml Exp $
  */
 public class ProductlineEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ProductlineEditPart.class);
 
     /** Singleton instance of MarqueeDragTracker. */
     static DragTracker dragTracker = null;
@@ -144,7 +151,7 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
 		            try {
                         page.openEditor(editorInput, KoboldConstants.ID_ARCH_EDITOR, true);
                     } catch (PartInitException e) {
-                        e.printStackTrace();
+						logger.error("actionPerformed(ActionEvent)", e);
                     }
 
                 }

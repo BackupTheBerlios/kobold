@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponentEditPart.java,v 1.11 2004/10/07 18:28:02 vanto Exp $
+ * $Id: RelatedComponentEditPart.java,v 1.12 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -52,6 +54,12 @@ import org.eclipse.ui.internal.WorkbenchPlugin;
  */
 public class RelatedComponentEditPart extends AbstractAssetEditPart
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(RelatedComponentEditPart.class);
+
     private RelatedComponentFigure figure;
     
     /**
@@ -179,7 +187,12 @@ public class RelatedComponentEditPart extends AbstractAssetEditPart
     
     private class RelatedStatus extends AbstractStatus 
     {
-
+		/**
+		 * Logger for this class
+		 
+		private static final Logger logger = Logger
+				.getLogger(RelatedStatus.class);
+        */
         /* (non-Javadoc)
          * @see kobold.client.plam.model.AbstractStatus#getId()
          */

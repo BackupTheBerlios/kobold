@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: OpenFileAction.java,v 1.4 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: OpenFileAction.java,v 1.5 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
+
+import org.apache.log4j.Logger;
 
 import java.util.Iterator;
 
@@ -40,6 +42,10 @@ import org.eclipse.ui.ide.IDE;
  *
  */
 public class OpenFileAction extends SelectionListenerAction{
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(OpenFileAction.class);
 
     private IWorkbenchPage workbenchPage;
 
@@ -60,7 +66,7 @@ public class OpenFileAction extends SelectionListenerAction{
                    IDE.openEditor(workbenchPage, (IFile) obj, activate);
             } catch (PartInitException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+				logger.error("run()", e);
             }
          }
        }

@@ -21,10 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FilterDialog.java,v 1.1 2004/10/08 15:46:01 martinplies Exp $
+ * $Id: FilterDialog.java,v 1.2 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.workflow;
+
+import org.apache.log4j.Logger;
+
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -44,6 +47,10 @@ import org.eclipse.swt.widgets.TableItem;
  * The filter is set here, but filtering is not started here
  */
 public class FilterDialog extends TitleAreaDialog {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(FilterDialog.class);
 
     private KoboldMessageFilter filter;
     private Table table;

@@ -21,10 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: Messages.java,v 1.3 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: Messages.java,v 1.4 2004/11/05 10:32:32 grosseml Exp $
  *  
  */
 package kobold.client.plam.wizard;
+
+import org.apache.log4j.Logger;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -33,6 +35,11 @@ import java.util.ResourceBundle;
  * @author Tammo
  */
 public class Messages {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(Messages.class);
+
 	private static final String BUNDLE_NAME = "kobold.client.plam.wizard.wizard";//$NON-NLS-1$
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
 			.getBundle(BUNDLE_NAME);

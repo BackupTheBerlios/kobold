@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.48 2004/11/05 01:51:06 martinplies Exp $
+ * $Id: ModelStorage.java,v 1.49 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
@@ -103,10 +103,16 @@ public class ModelStorage
                     // TODO: load products
                 } catch (CoreException e) {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
+					logger
+							.error(
+									"loadModel(KoboldProject, kobold.common.data.Productline)",
+									e);
                 } catch (DocumentException e) {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
+					logger
+							.error(
+									"loadModel(KoboldProject, kobold.common.data.Productline)",
+									e);
                 }
             }
         } else {
@@ -163,7 +169,10 @@ public class ModelStorage
             
         } catch (CoreException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+			logger
+					.error(
+							"createFile(IFile, IProgressMonitor, ByteArrayOutputStream)",
+							e);
         } finally {
             monitor.done();
         }
@@ -207,10 +216,10 @@ public class ModelStorage
                         
                     } catch (UnsupportedEncodingException e) {
                         // TODO Auto-generated catch block
-                        e.printStackTrace();
+						logger.error("run(IProgressMonitor)", e);
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
-                        e.printStackTrace();
+						logger.error("run(IProgressMonitor)", e);
                         
                     } finally {
                         monitor.done();
@@ -226,9 +235,9 @@ public class ModelStorage
                 }
             });
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+			logger.error("storeModel(Productline)", e);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+			logger.error("storeModel(Productline)", e);
         }
     }
     
@@ -430,10 +439,12 @@ public class ModelStorage
                 
             } catch (UnsupportedEncodingException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+				logger.error("serializeProduct(Productline, IProgressMonitor)",
+						e);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+				logger.error("serializeProduct(Productline, IProgressMonitor)",
+						e);
             }
             //Part of generating all subfolders
             //List of all related components
@@ -508,7 +519,11 @@ public class ModelStorage
             try {
                 
                 if (!specialComponentFolder.exists()) {
-                    System.out.println("Now create comp-dir:" + specialComponentFolder.toString());
+					if (logger.isDebugEnabled()) {
+						logger
+								.debug("serializeCoreassets(Productline, IProgressMonitor) - Now create comp-dir:"
+										+ specialComponentFolder.toString());
+					}
                     specialComponentFolder.create(true, true, monitor);
                 }
             } catch (CoreException e) {
@@ -551,7 +566,11 @@ public class ModelStorage
             //createDirectory
             try {
                 if (!specialComponentFolder.exists()) {
-                	System.out.println("Now create comp-dir:" + specialComponentFolder.toString());
+					if (logger.isDebugEnabled()) {
+						logger
+								.debug("serializeCoreassets(Variant, IProgressMonitor) - Now create comp-dir:"
+										+ specialComponentFolder.toString());
+					}
                     specialComponentFolder.create(true, true, monitor);
                 }
             } catch (CoreException e) {
@@ -644,10 +663,10 @@ public class ModelStorage
                     return p;                    
                 } catch (CoreException e) {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
+					logger.error("retrieveProduct(Productline, String)", e);
                 } catch (DocumentException e) {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
+					logger.error("retrieveProduct(Productline, String)", e);
                 }
             }
         }
@@ -665,10 +684,12 @@ public class ModelStorage
             getFolderForAsset(variant).delete(true, monitor);
         } catch (CoreException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+			logger.error("deleteVariantDirectory(Variant)", e);
         }
     	
-    	System.out.println("Delete: "+path);
+		if (logger.isDebugEnabled()) {
+			logger.debug("deleteVariantDirectory(Variant) - Delete: " + path);
+		}
     }
 
     public static void deleteComponentDirectory (Component comp)
@@ -680,9 +701,12 @@ public class ModelStorage
             getFolderForAsset(comp).delete(true, monitor);
         } catch (CoreException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+			logger.error("deleteComponentDirectory(Component)", e);
         }
-    	System.out.println("Delete: "+path);
+		if (logger.isDebugEnabled()) {
+			logger.debug("deleteComponentDirectory(Component) - Delete: "
+					+ path);
+		}
     }
     
 
@@ -693,7 +717,9 @@ public class ModelStorage
             getFolderForAsset(comp).delete(true, monitor);
         } catch (CoreException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+			logger
+					.error("deleteProductComponentDirectory(ProductComponent)",
+							e);
         }
     	//deleteTree(path);
     }

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaInfoAction.java,v 1.6 2004/09/23 13:43:19 vanto Exp $
+ * $Id: MetaInfoAction.java,v 1.7 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.action;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.MetaInformation;
 import kobold.client.plam.model.AbstractAsset;
@@ -46,6 +48,11 @@ import org.eclipse.ui.actions.ActionDelegate;
  */
 public class MetaInfoAction extends ActionDelegate
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(MetaInfoAction.class);
+
     private AbstractAsset selectedAsset;
     
     public void run(IAction action)

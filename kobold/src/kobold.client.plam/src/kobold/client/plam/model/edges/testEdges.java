@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: testEdges.java,v 1.4 2004/11/05 01:51:07 martinplies Exp $
+ * $Id: testEdges.java,v 1.5 2004/11/05 10:32:32 grosseml Exp $
  */
 
 package kobold.client.plam.model.edges;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.model.productline.Component;
 
@@ -35,6 +37,10 @@ import kobold.client.plam.model.productline.Component;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class testEdges {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(testEdges.class);
 
     public testEdges() {}
     public static void main(String[] args) {
@@ -45,8 +51,12 @@ public class testEdges {
     void test1() {}
     
     static void o(boolean b, String s){
-      if (b) {System.out.println("OK Test: "+s);}
-      else {System.out.println("Failur Test: "+s);};
+      if (b) {	if (logger.isDebugEnabled()) {
+		logger.debug("o(boolean, String) - OK Test: " + s);
+	}}
+      else {	if (logger.isDebugEnabled()) {
+		logger.debug("o(boolean, String) - Failur Test: " + s);
+	}};
     }
     
     

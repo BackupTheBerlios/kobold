@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FlowLayoutEditPolicyImpl.java,v 1.1 2004/08/06 01:30:02 vanto Exp $
+ * $Id: FlowLayoutEditPolicyImpl.java,v 1.2 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.policy;
+
+import org.apache.log4j.Logger;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
@@ -38,6 +40,11 @@ import org.eclipse.gef.requests.CreateRequest;
  */
 public class FlowLayoutEditPolicyImpl extends FlowLayoutEditPolicy
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(FlowLayoutEditPolicyImpl.class);
 
     /**
      * @see org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)

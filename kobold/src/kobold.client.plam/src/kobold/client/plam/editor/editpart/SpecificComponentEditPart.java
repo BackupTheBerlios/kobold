@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponentEditPart.java,v 1.6 2004/10/07 18:28:02 vanto Exp $
+ * $Id: SpecificComponentEditPart.java,v 1.7 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,12 @@ import org.eclipse.gef.EditPolicy;
  */
 public class SpecificComponentEditPart extends AbstractAssetEditPart
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(SpecificComponentEditPart.class);
+
     private SpecificComponentFigure figure;
     
     /**

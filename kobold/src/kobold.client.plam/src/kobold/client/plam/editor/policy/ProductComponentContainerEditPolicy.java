@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponentContainerEditPolicy.java,v 1.1 2004/10/07 18:28:02 vanto Exp $
+ * $Id: ProductComponentContainerEditPolicy.java,v 1.2 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.policy;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.command.CreateProductComponentCommand;
 import kobold.client.plam.editor.model.IViewModelProvider;
@@ -47,6 +49,11 @@ import org.eclipse.gef.requests.GroupRequest;
  */
 public class ProductComponentContainerEditPolicy extends ContainerEditPolicy
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ProductComponentContainerEditPolicy.class);
 
     /**
      * @see org.eclipse.gef.editpolicies.ContainerEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)

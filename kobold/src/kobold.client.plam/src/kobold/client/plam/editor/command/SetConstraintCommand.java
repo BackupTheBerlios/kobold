@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SetConstraintCommand.java,v 1.4 2004/09/21 20:54:30 vanto Exp $
+ * $Id: SetConstraintCommand.java,v 1.5 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.command;
+
+import org.apache.log4j.Logger;
 
 
 
@@ -39,9 +41,14 @@ import org.eclipse.gef.commands.Command;
  * SetConstraintCommand
  * 
  * @author Tammo van Lessen
- * @version $Id: SetConstraintCommand.java,v 1.4 2004/09/21 20:54:30 vanto Exp $
+ * @version $Id: SetConstraintCommand.java,v 1.5 2004/11/05 10:32:31 grosseml Exp $
  */
 public class SetConstraintCommand extends Command {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(SetConstraintCommand.class);
 
     private AssetView model;
     private Point newPos;

@@ -25,6 +25,8 @@
  */
 package kobold.client.plam.editor.dialog;
 
+import org.apache.log4j.Logger;
+
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.widgets.Composite;
 
@@ -34,6 +36,11 @@ import org.eclipse.swt.widgets.Composite;
  * This class provides password functionality for StringFieldEditors
  */
 public class PasswordFieldEditor extends StringFieldEditor {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(PasswordFieldEditor.class);
 	
 	public PasswordFieldEditor (String name, String labelText, Composite parent)
 	{

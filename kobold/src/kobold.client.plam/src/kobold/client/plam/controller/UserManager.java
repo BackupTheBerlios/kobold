@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.3 2004/09/22 14:27:16 vanto Exp $
+ * $Id: UserManager.java,v 1.4 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.controller;
+
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -40,6 +42,10 @@ import kobold.common.data.UserContext;
  * 
  */
 public class UserManager {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(UserManager.class);
 	
 	/**
 	 * If password and confirmpassword are equal the method creates

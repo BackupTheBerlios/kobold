@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IGXLExport.java,v 1.4 2004/09/23 13:43:19 vanto Exp $
+ * $Id: IGXLExport.java,v 1.5 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
+
+import org.apache.log4j.Logger;
 
 
 /**
@@ -34,7 +36,11 @@ package kobold.client.plam.model;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public interface IGXLExport {
-		
+	/**
+	 * Logger for this class
+	
+	private static final Logger logger = Logger.getLogger(IGXLExport.class);
+	 */	
 
 
 }

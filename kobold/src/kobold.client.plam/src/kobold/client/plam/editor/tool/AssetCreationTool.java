@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetCreationTool.java,v 1.3 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: AssetCreationTool.java,v 1.4 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.tool;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
 import kobold.client.plam.model.AbstractAsset;
@@ -44,6 +46,11 @@ import org.eclipse.jface.dialogs.Dialog;
  */
 public class AssetCreationTool extends CreationTool
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(AssetCreationTool.class);
 
     /**
      * Constructs a new AbstractCreationTool with the given factory.

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVCMActionListener.java,v 1.10 2004/10/26 15:07:38 garbeam Exp $
+ * $Id: IVCMActionListener.java,v 1.11 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.listeners;
+
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -47,7 +49,12 @@ import org.eclipse.core.resources.IProject;
  */
 public interface IVCMActionListener
 {
-    
+	/**
+	 * Logger for this class
+	
+	private static final Logger logger = Logger
+			.getLogger(IVCMActionListener.class);
+     */
     /**
      * updates a Release of a RealatedComponent
      * @param rc   Release that should be updates

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldGraphicalViewer.java,v 1.7 2004/09/21 10:24:19 vanto Exp $
+ * $Id: KoboldGraphicalViewer.java,v 1.8 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor;
+
+import org.apache.log4j.Logger;
 
 import java.util.Iterator;
 
@@ -46,6 +48,12 @@ import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
  */
 public class KoboldGraphicalViewer extends ScrollingGraphicalViewer
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(KoboldGraphicalViewer.class);
+
 	private boolean isComposing = false; 
 	private ProductComposer composer = null; 
 

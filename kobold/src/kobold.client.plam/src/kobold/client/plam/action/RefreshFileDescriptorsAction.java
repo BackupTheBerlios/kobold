@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RefreshFileDescriptorsAction.java,v 1.1 2004/08/04 20:53:08 vanto Exp $
+ * $Id: RefreshFileDescriptorsAction.java,v 1.2 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.action;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.IFileDescriptorContainer;
@@ -40,6 +42,12 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class RefreshFileDescriptorsAction extends Action
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(RefreshFileDescriptorsAction.class);
+
     private Shell shell;
     private IFileDescriptorContainer selection;
     

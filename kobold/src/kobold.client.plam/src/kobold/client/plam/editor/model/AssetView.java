@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetView.java,v 1.2 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: AssetView.java,v 1.3 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.model;
+
+import org.apache.log4j.Logger;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -43,6 +45,11 @@ import org.eclipse.draw2d.geometry.Point;
  */
 public class AssetView implements ISerializable
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(AssetView.class);
+
 	public static final String
 		ID_SIZE = "size",         //$NON-NLS-1$
 		ID_LOCATION = "location"; //$NON-NLS-1$

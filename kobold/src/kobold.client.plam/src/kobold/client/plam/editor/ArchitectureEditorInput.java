@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditorInput.java,v 1.5 2004/09/01 02:58:22 vanto Exp $
+ * $Id: ArchitectureEditorInput.java,v 1.6 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.model.AbstractRootAsset;
 
@@ -39,6 +41,11 @@ import org.eclipse.ui.IPersistableElement;
  */
 public class ArchitectureEditorInput implements IEditorInput, IPersistableElement
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ArchitectureEditorInput.class);
 
     private AbstractRootAsset asset;
 

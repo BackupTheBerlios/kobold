@@ -25,6 +25,8 @@
  */
 package kobold.client.plam.action;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.plam.editor.dialog.UpdateUserDataDialog;
 
 import org.eclipse.jface.action.IAction;
@@ -38,6 +40,11 @@ import org.eclipse.ui.actions.ActionDelegate;
  * Provides the opportunity to change the current user's password
  */
 public class ChangePasswordAction extends ActionDelegate {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ChangePasswordAction.class);
 	
     public void run(IAction action)
     {

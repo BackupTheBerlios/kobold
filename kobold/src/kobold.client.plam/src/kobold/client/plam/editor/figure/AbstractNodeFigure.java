@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeFigure.java,v 1.11 2004/11/05 01:51:07 martinplies Exp $
+ * $Id: AbstractNodeFigure.java,v 1.12 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.figure;
+
+import org.apache.log4j.Logger;
 
 import java.text.MessageFormat;
 import java.util.Iterator;
@@ -54,6 +56,11 @@ import org.eclipse.swt.graphics.FontData;
  * @author Tammo
  */
 public abstract class AbstractNodeFigure extends ComposableFigure {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(AbstractNodeFigure.class);
 
     
 	public static Color classColor = new Color(null, 255, 255, 206);
@@ -119,6 +126,12 @@ public abstract class AbstractNodeFigure extends ComposableFigure {
 
 	public static class TitleBarFigure extends Figure
 	{
+		/**
+		 * Logger for this class
+		 */
+		private static final Logger logger = Logger
+				.getLogger(TitleBarFigure.class);
+
 		private Label titleLabel;
 		private Figure iconWidget;
 		

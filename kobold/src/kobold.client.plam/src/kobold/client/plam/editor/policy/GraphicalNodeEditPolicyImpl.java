@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalNodeEditPolicyImpl.java,v 1.8 2004/08/06 01:30:02 vanto Exp $
+ * $Id: GraphicalNodeEditPolicyImpl.java,v 1.9 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.policy;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.command.ConnectionCommand;
 import kobold.client.plam.model.AbstractAsset;
@@ -40,10 +42,15 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * GraphicalNodeEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.8 2004/08/06 01:30:02 vanto Exp $
+ * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.9 2004/11/05 10:32:31 grosseml Exp $
  */
 public class GraphicalNodeEditPolicyImpl
     extends org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(GraphicalNodeEditPolicyImpl.class);
 
     /**
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.CreateConnectionRequest)

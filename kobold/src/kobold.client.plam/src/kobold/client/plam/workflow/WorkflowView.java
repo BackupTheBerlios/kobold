@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.28 2004/10/08 15:47:30 martinplies Exp $
+ * $Id: WorkflowView.java,v 1.29 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.workflow;
+
+import org.apache.log4j.Logger;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -84,6 +86,11 @@ import org.eclipse.ui.part.ViewPart;
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class WorkflowView extends ViewPart implements IProjectChangeListener {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(WorkflowView.class);
+
 	private TableViewer viewer;
 	private WorkflowContentProvider contentProvider;
 
@@ -345,7 +352,12 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	}
 
 	class KoboldSelectionListener implements SelectionListener {
-	    
+		/**
+		 * Logger for this class
+		 
+		private static final Logger logger = Logger
+				.getLogger(KoboldSelectionListener.class);
+	    */
 	    int columnNo;
 	    
 	    public KoboldSelectionListener (int columnNo){
@@ -365,6 +377,12 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	
 
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
+		/**
+		 * Logger for this class
+		x
+		private static final Logger logger = Logger
+				.getLogger(ViewLabelProvider.class);
+*/
 		private final Image kImage = KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif").createImage();
 		private final Image wImage = KoboldPLAMPlugin.getImageDescriptor("icons/wflow.gif").createImage();		
 		private final Image hiImage = KoboldPLAMPlugin.getImageDescriptor("icons/high.gif").createImage();

@@ -6,6 +6,8 @@
  */
 package kobold.client.plam.preferences;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.plam.KoboldPLAMPlugin;
 
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -20,6 +22,11 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  */
 public class MainPreferencePage extends FieldEditorPreferencePage
 implements IWorkbenchPreferencePage {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(MainPreferencePage.class);
 
     public MainPreferencePage() {
         super(GRID);

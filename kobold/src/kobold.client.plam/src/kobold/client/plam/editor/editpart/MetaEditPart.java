@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaEditPart.java,v 1.3 2004/08/06 01:30:02 vanto Exp $
+ * $Id: MetaEditPart.java,v 1.4 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.KoboldColors;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
@@ -41,6 +43,11 @@ import org.eclipse.gef.EditPolicy;
  */
 public class MetaEditPart extends AbstractAssetEditPart
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(MetaEditPart.class);
+
     private Label label;
     
     /**

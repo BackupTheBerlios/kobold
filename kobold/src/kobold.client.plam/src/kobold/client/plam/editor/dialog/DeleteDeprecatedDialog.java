@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteDeprecatedDialog.java,v 1.4 2004/09/23 13:43:19 vanto Exp $
+ * $Id: DeleteDeprecatedDialog.java,v 1.5 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.command.DeleteAssetCommand;
 import kobold.client.plam.model.AbstractAsset;
@@ -46,6 +48,11 @@ import org.eclipse.swt.widgets.Shell;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class DeleteDeprecatedDialog extends TitleAreaDialog{
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(DeleteDeprecatedDialog.class);
 	
 	private DeleteAssetCommand cmd;
 	private Label label;

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponentFigure.java,v 1.2 2004/09/01 01:08:29 vanto Exp $
+ * $Id: SpecificComponentFigure.java,v 1.3 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.figure;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.KoboldColors;
 
@@ -36,6 +38,12 @@ import org.eclipse.swt.graphics.Color;
  */
 public class SpecificComponentFigure extends ProductComponentFigure
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(SpecificComponentFigure.class);
+
     protected Dimension corner = new Dimension(8, 8);
     
     /**

@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldContextMenuProvider.java,v 1.6 2004/07/23 20:31:54 vanto Exp $
+ * $Id: KoboldContextMenuProvider.java,v 1.7 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 
 package kobold.client.plam.editor;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.action.ConfigureAssetAction;
 import kobold.client.plam.editor.action.GXLExportAction;
@@ -46,6 +48,12 @@ import org.eclipse.ui.actions.ActionFactory;
  */
 public class KoboldContextMenuProvider extends ContextMenuProvider
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(KoboldContextMenuProvider.class);
+
     private ActionRegistry actionRegistry;
 
     public KoboldContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateFullNameAction.java,v 1.4 2004/08/24 13:17:57 garbeam Exp $
+ * $Id: UpdateFullNameAction.java,v 1.5 2004/11/05 10:32:32 grosseml Exp $
  * 
  */
 package kobold.client.plam.action;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.dialog.UpdateUserDataDialog;
 
@@ -39,6 +41,11 @@ import org.eclipse.ui.actions.ActionDelegate;
  * Action for updating the Full Name of an user
  */
 public class UpdateFullNameAction extends ActionDelegate {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(UpdateFullNameAction.class);
 
     public void run(IAction action)
     {

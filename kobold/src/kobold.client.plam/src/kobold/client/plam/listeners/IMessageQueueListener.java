@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IMessageQueueListener.java,v 1.2 2004/05/18 11:22:48 vanto Exp $
+ * $Id: IMessageQueueListener.java,v 1.3 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.listeners;
+
+import org.apache.log4j.Logger;
 
 import java.util.EventListener;
 
@@ -37,7 +39,12 @@ import kobold.common.data.AbstractKoboldMessage;
  * @author Tammo
  */
 public interface IMessageQueueListener extends EventListener {
-
+	/**
+	 * Logger for this class
+	
+	private static final Logger logger = Logger
+			.getLogger(IMessageQueueListener.class);
+ */
 	void addMessage(AbstractKoboldMessage msg);
 	void removeMessage(AbstractKoboldMessage msg);
 	void rebuild();

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposerCommand.java,v 1.6 2004/08/05 01:35:08 martinplies Exp $
+ * $Id: ProductComposerCommand.java,v 1.7 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.command;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.tool.ProductComposer;
 import kobold.client.plam.model.AbstractAsset;
@@ -40,6 +42,12 @@ import org.eclipse.gef.commands.Command;
  */
 public class ProductComposerCommand extends Command
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ProductComposerCommand.class);
+
     private AbstractAsset asset;
     private ProductComposer composer;
     private boolean ctrlKey;

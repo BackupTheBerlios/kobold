@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposerRequest.java,v 1.2 2004/08/04 08:50:12 vanto Exp $
+ * $Id: ProductComposerRequest.java,v 1.3 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.tool;
+
+import org.apache.log4j.Logger;
 
 import org.eclipse.gef.requests.LocationRequest;
 
@@ -34,6 +36,12 @@ import org.eclipse.gef.requests.LocationRequest;
  */
 public class ProductComposerRequest extends LocationRequest
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ProductComposerRequest.class);
+
     private boolean ctrlKey;
     
     /**

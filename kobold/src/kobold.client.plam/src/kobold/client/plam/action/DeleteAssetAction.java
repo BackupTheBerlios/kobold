@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetAction.java,v 1.6 2004/09/23 13:43:19 vanto Exp $
+ * $Id: DeleteAssetAction.java,v 1.7 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.action;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.command.DeleteAssetCommand;
 import kobold.client.plam.editor.dialog.DeleteDeprecatedDialog;
@@ -44,6 +46,11 @@ import org.eclipse.ui.actions.ActionDelegate;
  * Excute actions of DeleteAction and DeleteCommand.
  */
 public class DeleteAssetAction extends ActionDelegate {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(DeleteAssetAction.class);
 	
 //    private ISelection selection;
     private AbstractAsset selection;

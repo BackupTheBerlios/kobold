@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComposeEditPolicy.java,v 1.5 2004/08/04 08:50:12 vanto Exp $
+ * $Id: ComposeEditPolicy.java,v 1.6 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.policy;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.ArchitectureEditor;
 import kobold.client.plam.editor.KoboldGraphicalViewer;
@@ -49,6 +51,11 @@ import org.eclipse.gef.editpolicies.AbstractEditPolicy;
  */
 public class ComposeEditPolicy extends AbstractEditPolicy
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ComposeEditPolicy.class);
 
     public Command getCommand(Request request)
     {

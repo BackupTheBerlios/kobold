@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IReleaseContainer.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: IReleaseContainer.java,v 1.2 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
+
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -34,6 +36,12 @@ import java.util.List;
  */
 public interface IReleaseContainer
 {
+	/**
+	 * Logger for this class
+	 
+	private static final Logger logger = Logger
+			.getLogger(IReleaseContainer.class);
+*/
 	/**
 	 * Adds a release and has to set its parent to this asset.
 	 *

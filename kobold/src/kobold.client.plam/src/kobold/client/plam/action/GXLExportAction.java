@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportAction.java,v 1.2 2004/07/23 20:31:54 vanto Exp $
+ * $Id: GXLExportAction.java,v 1.3 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.action;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.wizard.GXLExportDialog;
@@ -44,6 +46,11 @@ import org.eclipse.ui.actions.ActionDelegate;
  * @author vanto
  */
 public class GXLExportAction extends ActionDelegate {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(GXLExportAction.class);
 
     private AbstractAsset selectedAsset;
     

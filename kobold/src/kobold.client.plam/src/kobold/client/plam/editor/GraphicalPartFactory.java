@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalPartFactory.java,v 1.10 2004/09/01 01:08:29 vanto Exp $
+ * $Id: GraphicalPartFactory.java,v 1.11 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.editpart.ComponentEditPart;
 import kobold.client.plam.editor.editpart.EdgeEditPart;
@@ -56,6 +58,11 @@ import org.eclipse.gef.EditPartFactory;
  * @author Tammo
  */
 public class GraphicalPartFactory implements EditPartFactory {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(GraphicalPartFactory.class);
 
 	/** 
 	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)

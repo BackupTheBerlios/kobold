@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.19 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: Component.java,v 1.20 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 
 package kobold.client.plam.model.productline;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,6 +51,10 @@ import org.eclipse.core.runtime.IPath;
  */
 public class Component extends AbstractMaintainedAsset 
 	                   implements IGXLExport, IVariantContainer {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(Component.class);
 
 	public static final String GXL_TYPE = "http://kobold.berlios.de/types#component";
 	//the variants

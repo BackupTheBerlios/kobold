@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ContainerViewItem.java,v 1.8 2004/08/26 16:58:05 martinplies Exp $
+ * $Id: ContainerViewItem.java,v 1.9 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 
 package kobold.client.plam.workflow;
+
+import org.apache.log4j.Logger;
 
 
 
@@ -49,6 +51,12 @@ import org.eclipse.swt.widgets.Group;
  * 
  */
 public class ContainerViewItem extends AbstractViewItem {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ContainerViewItem.class);
+
 	private WorkflowItem[] items; 
 	private List viewItems = new ArrayList(); // no Radio Items
 	private List radioItems = new ArrayList();

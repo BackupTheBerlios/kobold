@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.26 2004/10/21 21:32:40 martinplies Exp $
+ * $Id: Product.java,v 1.27 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model.product;
+
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,6 +53,10 @@ import org.eclipse.core.runtime.IPath;
  */
 public class Product extends AbstractRootAsset
                      implements IGXLExport, IProductComponentContainer{
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(Product.class);
 
 	// containers
 	private List productReleases = new ArrayList();
@@ -88,7 +94,9 @@ public class Product extends AbstractRootAsset
 
 		Element prodRelElement = productElement.addElement("releases");
 		for (Iterator it = productReleases.iterator(); it.hasNext(); ) {
-			System.out.println ("release serialized");	
+			if (logger.isDebugEnabled()) {
+				logger.debug("serialize() - release serialized");
+			}	
 			ProductRelease prodRelease = (ProductRelease) it.next();
 			prodRelElement.add(prodRelease.serialize());
 
@@ -164,9 +172,12 @@ public class Product extends AbstractRootAsset
 			//give the result to the deserializer
 			deserialize(document.getRootElement().element(AbstractAsset.PRODUCT));
 		} catch (DocumentException e) {
-			System.err.print(getLocalPath().toOSString()+ File.separatorChar + ((AbstractAsset)getParent()).getName()
-			+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
-			+ File.separatorChar + ".productmetainfo.xml" +  " read error");
+			logger.error("deserializeProduct()" + getLocalPath().toOSString()
+					+ File.separatorChar
+					+ ((AbstractAsset) getParent()).getName()
+					+ File.separatorChar + "PRODUCTS" + File.separatorChar
+					+ getName() + File.separatorChar
+					+ ".productmetainfo.xml read error", e);
 			//Log log = LogFactory.getLog("kobold.server.controller.ProductManager");
 			//log.error(e);
 		}

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.16 2004/08/25 16:33:47 vanto Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.17 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
+
+import org.apache.log4j.Logger;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -65,6 +67,12 @@ import org.eclipse.ui.model.IWorkbenchAdapter;
  */
 public class RoleTreeLabelProvider extends LabelProvider
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(RoleTreeLabelProvider.class);
+
 	private Map imgCache = null;
 	private final Image depr = KoboldPLAMPlugin.getImageDescriptor("icons/deprecated.gif").createImage();
 	
@@ -171,6 +179,12 @@ public class RoleTreeLabelProvider extends LabelProvider
 
     private class DecoratorImageDescriptor extends CompositeImageDescriptor 
     {
+		/**
+		 * Logger for this class
+		 
+		private static final Logger logger = Logger
+				.getLogger(DecoratorImageDescriptor.class);
+        */
         private Image srcImage, ovrImage;
         private Point size;
         

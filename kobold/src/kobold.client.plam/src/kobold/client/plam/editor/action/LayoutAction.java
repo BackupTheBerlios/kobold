@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LayoutAction.java,v 1.3 2004/09/21 20:54:30 vanto Exp $
+ * $Id: LayoutAction.java,v 1.4 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.action;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +57,11 @@ import org.eclipse.gef.ui.actions.WorkbenchPartAction;
  */
 public class LayoutAction extends WorkbenchPartAction
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(LayoutAction.class);
+
     public static final String ID = "kobold.client.plam.editor.action.LayoutAction";
     private ArchitectureEditor editor;
     

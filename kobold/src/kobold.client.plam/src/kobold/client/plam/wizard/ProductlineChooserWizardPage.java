@@ -21,10 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ProductlineChooserWizardPage.java,v 1.5 2004/08/03 19:39:20 vanto Exp $
+ * $Id: ProductlineChooserWizardPage.java,v 1.6 2004/11/05 10:32:32 grosseml Exp $
  *  
  */
 package kobold.client.plam.wizard;
+
+import org.apache.log4j.Logger;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -47,6 +49,11 @@ import org.eclipse.swt.widgets.Listener;
  * @author Tammo
  */
 public class ProductlineChooserWizardPage extends WizardPage implements ISelectionChangedListener {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ProductlineChooserWizardPage.class);
 
     public static final String PAGE_ID = "KOBOLD_WIZARD_ROLES";
     private Map plNames;

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeprecatedStatus.java,v 1.3 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: DeprecatedStatus.java,v 1.4 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
+
+import org.apache.log4j.Logger;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.ISharedImages;
@@ -36,6 +38,12 @@ import org.eclipse.ui.PlatformUI;
  */
 public class DeprecatedStatus extends AbstractStatus
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(DeprecatedStatus.class);
+
     /**
      * @see kobold.client.plam.model.AbstractStatus#getId()
      */

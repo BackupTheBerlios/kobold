@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IFileDescriptorContainer.java,v 1.11 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: IFileDescriptorContainer.java,v 1.12 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
+
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -38,6 +40,12 @@ import org.eclipse.core.runtime.IPath;
  */
 public interface IFileDescriptorContainer
 {
+	/**
+	 * Logger for this class
+	
+	private static final Logger logger = Logger
+			.getLogger(IFileDescriptorContainer.class);
+ */
 	/**
 	 * Adds a filedescriptor.
 	 *

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: BendpointEditPolicyImpl.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
+ * $Id: BendpointEditPolicyImpl.java,v 1.2 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.policy;
+
+import org.apache.log4j.Logger;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.BendpointEditPolicy;
@@ -36,6 +38,11 @@ import org.eclipse.gef.requests.BendpointRequest;
  */
 public class BendpointEditPolicyImpl extends BendpointEditPolicy
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(BendpointEditPolicyImpl.class);
 
     /**
      * @see org.eclipse.gef.editpolicies.BendpointEditPolicy#getCreateBendpointCommand(org.eclipse.gef.requests.BendpointRequest)

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeEditPart.java,v 1.4 2004/08/25 01:50:32 vanto Exp $
+ * $Id: EdgeEditPart.java,v 1.5 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.policy.ConnectionEditPolicyImpl;
 import kobold.client.plam.model.edges.Edge;
@@ -43,6 +45,10 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
  */
 public class EdgeEditPart extends AbstractConnectionEditPart 
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(EdgeEditPart.class);
 
     protected IFigure createFigure()
 	{

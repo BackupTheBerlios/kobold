@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowContentProvider.java,v 1.4 2004/10/21 21:32:40 martinplies Exp $
+ * $Id: WorkflowContentProvider.java,v 1.5 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.workflow;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.listeners.IMessageQueueListener;
 import kobold.common.data.AbstractKoboldMessage;
@@ -36,6 +38,12 @@ import org.eclipse.jface.viewers.Viewer;
 class WorkflowContentProvider implements IStructuredContentProvider,
 		IMessageQueueListener
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(WorkflowContentProvider.class);
+
 	private final WorkflowView view;
 	private LocalMessageQueue input;
 	private boolean filtered;

@@ -25,6 +25,8 @@
  */
 package kobold.client.plam.preferences;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.controller.SSLHelper;
 import kobold.client.plam.editor.dialog.PasswordFieldEditor;
@@ -44,6 +46,11 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class SSLPreferencePage extends FieldEditorPreferencePage
         implements IWorkbenchPreferencePage {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(SSLPreferencePage.class);
 
     public SSLPreferencePage() {
         super(GRID);

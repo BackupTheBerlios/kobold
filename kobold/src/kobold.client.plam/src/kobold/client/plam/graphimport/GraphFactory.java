@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphFactory.java,v 1.7 2004/11/05 01:51:07 martinplies Exp $
+ * $Id: GraphFactory.java,v 1.8 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.graphimport;
+
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.util.HashMap;
@@ -50,6 +52,11 @@ import org.eclipse.swt.widgets.Shell;
 
 
 public class GraphFactory {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(GraphFactory.class);
+
  private Map m = new HashMap();
  
  public GraphFactory(){

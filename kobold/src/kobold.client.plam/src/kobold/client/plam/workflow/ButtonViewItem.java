@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ButtonViewItem.java,v 1.4 2004/10/21 21:32:40 martinplies Exp $
+ * $Id: ButtonViewItem.java,v 1.5 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.workflow;
+
+import org.apache.log4j.Logger;
 
 
 import kobold.common.data.WorkflowItem;
@@ -37,6 +39,10 @@ import org.eclipse.swt.widgets.Composite;
  * @author Tammo
  */
 public class ButtonViewItem extends AbstractViewItem {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(ButtonViewItem.class);
 
 	private Button button;
 	private int type; 

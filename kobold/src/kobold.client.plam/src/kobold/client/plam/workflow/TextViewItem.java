@@ -6,6 +6,8 @@
  */
 package kobold.client.plam.workflow;
 
+import org.apache.log4j.Logger;
+
 import kobold.common.data.WorkflowItem;
 
 import org.eclipse.swt.SWT;
@@ -22,6 +24,11 @@ import org.eclipse.swt.widgets.Text;
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
 public class TextViewItem extends AbstractViewItem {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(TextViewItem.class);
+
 	private Text textWidget;
 	
 	/**

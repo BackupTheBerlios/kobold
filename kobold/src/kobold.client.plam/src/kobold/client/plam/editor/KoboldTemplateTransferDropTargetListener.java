@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldTemplateTransferDropTargetListener.java,v 1.4 2004/08/05 12:57:04 rendgeor Exp $
+ * $Id: KoboldTemplateTransferDropTargetListener.java,v 1.5 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
 import kobold.client.plam.editor.model.KoboldAssetFactory;
@@ -48,6 +50,11 @@ import org.eclipse.swt.dnd.DND;
 public class KoboldTemplateTransferDropTargetListener extends
         TemplateTransferDropTargetListener
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(KoboldTemplateTransferDropTargetListener.class);
 
     /**
      * Creates a new TransferDropTargetListener with the given viewer.

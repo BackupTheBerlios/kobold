@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CreateMetaNodeCommand.java,v 1.1 2004/07/23 22:27:11 vanto Exp $
+ * $Id: CreateMetaNodeCommand.java,v 1.2 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.command;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.MetaNode;
@@ -35,6 +37,12 @@ import kobold.client.plam.model.MetaNode;
  */
 public class CreateMetaNodeCommand extends AbstractCreateCommand
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(CreateMetaNodeCommand.class);
+
     private AbstractRootAsset parent;
     private MetaNode child;
 

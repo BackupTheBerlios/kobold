@@ -21,10 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.26 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: NewProjectWizard.java,v 1.27 2004/11/05 10:32:32 grosseml Exp $
  *  
  */
 package kobold.client.plam.wizard;
+
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -61,6 +63,12 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
  * Wizard for creating new Kobold Productlines Projects
  */
 public class NewProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(NewProjectWizard.class);
+
 	private IWorkbench workbench;
 	private IStructuredSelection selection;
 
@@ -204,7 +212,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 		try {
 			newProject.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
-			e.printStackTrace();
+			logger.error("createNewProject()", e);
 		}
 		return newProjectHandle;
 	}
@@ -214,7 +222,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 		try {
 			kNature = (KoboldProject)project.getNature(KoboldProject.NATURE_ID);
 		} catch (CoreException e) {
-			e.printStackTrace();
+			logger.error("createProjectResources(IProject)", e);
 		}
 		if (kNature != null) {
 			// create project info
@@ -226,8 +234,13 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			
 			// fetch server PL
 			Productline pl = ServerHelper.fetchProductline(kNature);
-			System.out.println(pl.getRepositoryDescriptor());
-			System.out.println(pl.getId());
+			if (logger.isDebugEnabled()) {
+				logger.debug("createProjectResources(IProject)"
+						+ pl.getRepositoryDescriptor());
+			}
+			if (logger.isDebugEnabled()) {
+				logger.debug("createProjectResources(IProject)" + pl.getId());
+			}
 			// create secure client
 			// -> moved lazy to KoboldProjectNature
 									

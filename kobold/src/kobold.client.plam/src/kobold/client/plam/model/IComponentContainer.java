@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IComponentContainer.java,v 1.2 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: IComponentContainer.java,v 1.3 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
+
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
@@ -36,6 +38,12 @@ import kobold.client.plam.model.productline.Component;
  */
 public interface IComponentContainer
 {
+	/**
+	 * Logger for this class
+	 
+	private static final Logger logger = Logger
+			.getLogger(IComponentContainer.class);
+*/
 	/**
 	 * Adds a component and has to set its parent to this asset.
 	 *

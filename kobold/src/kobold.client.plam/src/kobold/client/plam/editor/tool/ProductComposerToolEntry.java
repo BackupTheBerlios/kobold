@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposerToolEntry.java,v 1.1 2004/07/22 16:42:23 vanto Exp $
+ * $Id: ProductComposerToolEntry.java,v 1.2 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.tool;
+
+import org.apache.log4j.Logger;
 
 import org.eclipse.gef.SharedImages;
 import org.eclipse.gef.Tool;
@@ -38,6 +40,11 @@ import org.eclipse.gef.palette.ToolEntry;
  */
 public class ProductComposerToolEntry extends ToolEntry
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ProductComposerToolEntry.class);
     
     /**
      * Creates a new ProductComposerToolEntry.

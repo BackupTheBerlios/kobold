@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldActionBarContributor.java,v 1.4 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: KoboldActionBarContributor.java,v 1.5 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.editor;
+
+import org.apache.log4j.Logger;
 
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -54,6 +56,11 @@ import org.eclipse.ui.actions.RetargetAction;
  */
 public class KoboldActionBarContributor extends ActionBarContributor
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(KoboldActionBarContributor.class);
 
     /**
      * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CreateProductComponentCommand.java,v 1.1 2004/09/21 20:13:24 vanto Exp $
+ * $Id: CreateProductComponentCommand.java,v 1.2 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.command;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.model.IProductComponentContainer;
 import kobold.client.plam.model.product.ProductComponent;
@@ -35,6 +37,12 @@ import kobold.client.plam.model.product.ProductComponent;
  */
 public class CreateProductComponentCommand extends AbstractCreateCommand
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(CreateProductComponentCommand.class);
+
     private IProductComponentContainer parent;
     private ProductComponent child;
 

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineFactory.java,v 1.4 2004/08/31 20:14:07 vanto Exp $
+ * $Id: ProductlineFactory.java,v 1.5 2004/11/05 10:32:32 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.model.productline.Productline;
 
@@ -36,6 +38,12 @@ import kobold.client.plam.model.productline.Productline;
  */
 public class ProductlineFactory
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ProductlineFactory.class);
+
     public static Productline create(kobold.common.data.Productline pl)
     {
         Productline p = new Productline();

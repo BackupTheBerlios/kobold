@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractViewItem.java,v 1.2 2004/05/18 14:23:40 martinplies Exp $
+ * $Id: AbstractViewItem.java,v 1.3 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.workflow;
+
+import org.apache.log4j.Logger;
 
 import kobold.common.data.WorkflowItem;
 
@@ -34,6 +36,11 @@ import org.eclipse.swt.widgets.Composite;
  * @author Tammo
  */
 public abstract class AbstractViewItem {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(AbstractViewItem.class);
 
 	protected WorkflowItem item;
 

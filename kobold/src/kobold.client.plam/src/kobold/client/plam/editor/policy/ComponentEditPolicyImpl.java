@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentEditPolicyImpl.java,v 1.2 2004/08/28 11:31:10 vanto Exp $
+ * $Id: ComponentEditPolicyImpl.java,v 1.3 2004/11/05 10:32:31 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.policy;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.command.DeleteAssetCommand;
 import kobold.client.plam.model.AbstractAsset;
@@ -39,6 +41,11 @@ import org.eclipse.gef.requests.GroupRequest;
 public class ComponentEditPolicyImpl extends
         org.eclipse.gef.editpolicies.ComponentEditPolicy
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ComponentEditPolicyImpl.class);
 
     protected Command createDeleteCommand(GroupRequest deleteRequest)
     {

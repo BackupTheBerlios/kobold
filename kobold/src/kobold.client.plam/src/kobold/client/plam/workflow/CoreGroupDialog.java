@@ -21,11 +21,13 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 * DEALINGS IN THE SOFTWARE.
 *
-* $Id: CoreGroupDialog.java,v 1.8 2004/09/23 13:43:20 vanto Exp $
+* $Id: CoreGroupDialog.java,v 1.9 2004/11/05 10:32:31 grosseml Exp $
 *
 */
 
 package kobold.client.plam.workflow;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.controller.ServerHelper;
@@ -53,6 +55,11 @@ import org.eclipse.swt.widgets.Shell;
  * to a PE, the PE can forward the suggestion to his PLE if he supports the suggestion.
  */
 public class CoreGroupDialog extends TitleAreaDialog {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(CoreGroupDialog.class);
 
 	private Button pe;
 	private Button ple;
@@ -175,7 +182,9 @@ public class CoreGroupDialog extends TitleAreaDialog {
 	}
 	
 	public void cancelPressed(){
-		System.out.println("close pressed");
+		if (logger.isDebugEnabled()) {
+			logger.debug("cancelPressed() - close pressed");
+		}
 		this.close(); 
 	}
 
