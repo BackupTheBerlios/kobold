@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.8 2004/05/17 09:16:32 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.9 2004/05/17 09:26:43 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Vector;
 
 import kobold.common.controller.IKoboldServer;
+import kobold.common.controller.RPCMessageTransformer;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
@@ -45,6 +46,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlrpc.XmlRpcClientException;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.secure.SecureXmlRpcClient;
+import org.dom4j.Element;
 
 import sun.misc.BASE64Decoder;
 
@@ -79,7 +81,8 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(password);
 		try {
 			Object result = client.execute("login", v);
-			return (UserContext)result;
+			Element element = RPCMessageTransformer.decode((String)result);
+			return new UserContext(element);
 		} catch (Exception exception) {
 			log.error(exception);
 		}
