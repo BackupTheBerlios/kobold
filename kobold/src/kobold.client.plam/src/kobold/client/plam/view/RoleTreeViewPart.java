@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.19 2004/08/24 15:45:45 vanto Exp $
+ * $Id: RoleTreeViewPart.java,v 1.20 2004/08/25 02:27:02 vanto Exp $
  *
  */
 package kobold.client.plam.view;
@@ -32,8 +32,8 @@ import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider;
 import kobold.client.plam.controller.roletree.RoleTreeLabelProvider;
-
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Productline;
 
 import org.apache.commons.logging.Log;
@@ -167,8 +167,12 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 		} else if (selected instanceof AbstractAsset) {
 		    p = ((AbstractAsset)selected).getRoot().getKoboldProject().getProject();
 		} else if (selected instanceof RoleTreeContentProvider.TreeContainer) {
-		    p = ((RoleTreeContentProvider.TreeContainer)selected).getPL()
-		    	.getRoot().getKoboldProject().getProject();
+		    Object data = ((RoleTreeContentProvider.TreeContainer)selected).getData();
+		    if (data instanceof Productline) {
+		        p = ((Productline)data).getKoboldProject().getProject();
+		    } else if (data instanceof Product) {
+		        p = ((Product)data).getProductline().getKoboldProject().getProject(); 
+		    }
 		} else if (selected instanceof RoleTreeContentProvider.ArchitectureItem) {
 		    p = ((RoleTreeContentProvider.ArchitectureItem)selected).getAsset()
 	    		.getRoot().getKoboldProject().getProject();
@@ -234,7 +238,13 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 				} else if (o instanceof RoleTreeContentProvider.TreeContainer) {
 					IMemento elementMem = m.createChild(TAG_TREEELEMENT);
 				    elementMem.putString(TAG_PATH, ((RoleTreeContentProvider.TreeContainer) elements[i]).getId());
-				    elementMem.putString(TAG_PLID, ((RoleTreeContentProvider.TreeContainer) elements[i]).getPL().getId());
+				    Object data = ((RoleTreeContentProvider.TreeContainer) elements[i]).getData();
+				    if (data instanceof Productline) {
+				        elementMem.putString(TAG_PLID, ((Productline)data).getId());    
+				    } else if (data instanceof Product) {
+				        elementMem.putString(TAG_PLID, ((Product)data).getProductline().getId());
+				    }
+				    
 				} else if (o instanceof RoleTreeContentProvider.ArchitectureItem) {
 					IMemento elementMem = m.createChild(TAG_ARCHELEMENT);
 				}
@@ -256,7 +266,13 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 				} else if (o instanceof RoleTreeContentProvider.TreeContainer) {
 					IMemento elementMem = m.createChild(TAG_TREEELEMENT);
 				    elementMem.putString(TAG_PATH, ((RoleTreeContentProvider.TreeContainer) expandedElements[i]).getId());
-				    elementMem.putString(TAG_PLID, ((RoleTreeContentProvider.TreeContainer) expandedElements[i]).getPL().getId());
+				    Object data = ((RoleTreeContentProvider.TreeContainer) expandedElements[i]).getData();
+				    if (data instanceof Productline) {
+				        elementMem.putString(TAG_PLID, ((Productline)data).getId());    
+				    } else if (data instanceof Product) {
+				        elementMem.putString(TAG_PLID, ((Product)data).getProductline().getId());
+				    }
+
 				}
 			}
 		}

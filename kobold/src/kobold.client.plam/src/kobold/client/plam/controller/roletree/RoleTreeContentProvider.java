@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.35 2004/08/25 01:35:28 martinplies Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.36 2004/08/25 02:27:02 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -42,7 +42,6 @@ import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.FileDescriptor;
-import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.ProductComponent;
@@ -190,7 +189,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     	 	
     	} else if ((parentElement instanceof TreeContainer) 
     	        && ((TreeContainer)parentElement).id.equals("assets")) {
-    	    return ((TreeContainer)parentElement).productline.getComponents().toArray();
+    	    return ((Productline)((TreeContainer)parentElement).data).getComponents().toArray();
     	
     	} else if (parentElement instanceof Component) {
     	    List list = new ArrayList();
@@ -208,14 +207,19 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 
     	} else if ((parentElement instanceof TreeContainer) 
     	        && ((TreeContainer)parentElement).id.equals("products")) {
-    	    return ((TreeContainer)parentElement).productline.getProducts().toArray();
+    	    return ((Productline)((TreeContainer)parentElement).data).getProducts().toArray();
     	} else if (parentElement instanceof Product) {
     	    List list = new ArrayList();
     	    list.add(new ArchitectureItem((Product)parentElement));
-    	    list.addAll(((Product)parentElement).getRelatedComponents());
-    	    list.addAll(((Product)parentElement).getSpecificComponents());
-    	    list.addAll(((Product)parentElement).getProductReleases());
-    	    list.addAll(((Product)parentElement).getMaintainers());
+    	    list.add(new TreeContainer("components", parentElement));
+    	    return list.toArray();
+    	} else if ((parentElement instanceof TreeContainer)
+    	        && ((TreeContainer)parentElement).id.equals("components")) {
+    	    List list = new ArrayList();
+    	    list.addAll(((Product)((TreeContainer)parentElement).data).getRelatedComponents());
+    	    list.addAll(((Product)((TreeContainer)parentElement).data).getSpecificComponents());
+    	    list.addAll(((Product)((TreeContainer)parentElement).data).getProductReleases());
+    	    list.addAll(((Product)((TreeContainer)parentElement).data).getMaintainers());
     	    return list.toArray();
     	} else if (parentElement instanceof ProductComponent) {
     	    List list = new ArrayList();
@@ -244,7 +248,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
         } else if (element instanceof User) {
             return null; //fix
         } else if (element instanceof TreeContainer) {
-            return ((TreeContainer)element).productline;
+            return ((TreeContainer)element).data;
         }
         return null;
     }
@@ -283,16 +287,16 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 
 	public class TreeContainer
 	{
-	    private Productline productline;
+	    private Object data;
 	    private String id;
 	    
-	    public TreeContainer(String id, Productline pl) {
-	        this.productline = pl;
+	    public TreeContainer(String id, Object data) {
+	        this.data = data;
 	        this.id = id;
 	    }
 	    
-	    public Productline getPL() {
-	        return productline;
+	    public Object getData() {
+	        return data;
 	    }
 	    
 	    public String getId() {
@@ -305,8 +309,10 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	            return "Users";
 	        else if (id.equals("assets"))
 	            return "Core-Assets";
-	        if (id.equals("products"))
+	        else if (id.equals("products"))
 	            return "Products";
+	        else if (id.equals("components"))
+	            return "Components";
 	        else return "unkown id";
 	    }
 	    

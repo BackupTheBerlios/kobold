@@ -21,20 +21,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponentEditPart.java,v 1.4 2004/08/25 01:50:32 vanto Exp $
+ * $Id: RelatedComponentEditPart.java,v 1.5 2004/08/25 02:27:02 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import kobold.client.plam.editor.figure.RelatedComponentFigure;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
+import kobold.client.plam.model.AbstractStatus;
 import kobold.client.plam.model.product.RelatedComponent;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.internal.WorkbenchPlugin;
 
 
 /**
@@ -51,6 +57,9 @@ public class RelatedComponentEditPart extends AbstractAssetEditPart
     {
         figure = new RelatedComponentFigure();
 		figure.setTitle(getAsset().getName());
+		Set set = new HashSet(getAsset().getStatusSet());
+		set.add(new RelatedStatus());
+		figure.setStatusSet(set);
     
         return figure;
     }
@@ -59,6 +68,9 @@ public class RelatedComponentEditPart extends AbstractAssetEditPart
     {
         super.refreshVisuals();
         figure.setTitle((getAsset().getName() == null) ? "" : getAsset().getName());
+		Set set = new HashSet(getAsset().getStatusSet());
+		set.add(new RelatedStatus());
+		figure.setStatusSet(set);
     }
 
     /**
@@ -85,5 +97,42 @@ public class RelatedComponentEditPart extends AbstractAssetEditPart
         List children = new ArrayList(); 
         children.addAll(((RelatedComponent)getModel()).getProductComponents());
         return children;
+    }
+    
+    private class RelatedStatus extends AbstractStatus 
+    {
+
+        /* (non-Javadoc)
+         * @see kobold.client.plam.model.AbstractStatus#getId()
+         */
+        public String getId()
+        {
+            return "related";
+        }
+
+        /* (non-Javadoc)
+         * @see kobold.client.plam.model.AbstractStatus#getName()
+         */
+        public String getName()
+        {
+            return "Related Component";
+        }
+
+        /* (non-Javadoc)
+         * @see kobold.client.plam.model.AbstractStatus#getDescription()
+         */
+        public String getDescription()
+        {
+            return "{0} is a related component and points to a core asset";
+        }
+
+        /* (non-Javadoc)
+         * @see kobold.client.plam.model.AbstractStatus#getIcon()
+         */
+        public ImageDescriptor getIcon()
+        {
+            return WorkbenchPlugin.getDefault().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_UP);
+        }
+        
     }
 }
