@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.63 2004/07/29 17:18:25 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.64 2004/08/01 11:53:11 garbeam Exp $
  *
  */
 package kobold.server;
@@ -55,6 +55,8 @@ import org.apache.commons.id.uuid.state.InMemoryStateImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.PatternLayout;
 import org.apache.xmlrpc.XmlRpcHandler;
 import org.apache.xmlrpc.secure.SecureWebServer;
 
@@ -100,7 +102,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			System.exit(1);
 		}
 		
-		BasicConfigurator.configure();
+		BasicConfigurator.configure(new ConsoleAppender(new PatternLayout("[%p] %C - %F - %m%n")));
 		
         // set UUID node manager class
         System.setProperty("org.apache.commons.id.uuid.state.State", InMemoryStateImpl.class.getName());

@@ -21,13 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ProductLineChooserWizardPage.java,v 1.9 2004/07/07 01:55:43 vanto Exp $
+ * $Id: ProductLineChooserWizardPage.java,v 1.10 2004/08/01 11:53:11 garbeam Exp $
  *  
  */
 package kobold.client.plam.wizard;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -111,9 +109,6 @@ public class ProductLineChooserWizardPage extends WizardPage implements ISelecti
 	
 	void setProductlines(List pls)
 	{
-		//FIXME:
-		pls.add("");
-		pls.add("dummy");
 	    combo.setItems((String[])pls.toArray(new String[0]));
 	}
 	
