@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.31 2004/11/09 17:19:20 rendgeor Exp $
+ * $Id: FileDescriptor.java,v 1.32 2004/11/10 12:56:40 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -200,8 +200,8 @@ public class FileDescriptor implements IFileDescriptorContainer,
         fd.setParent(this);
         if (parentAsset != null) {
             fd.setParentAsset(parentAsset);
+	        fireStructureChange(AbstractAsset.ID_FILE_DESCRIPTORS, fd);
         }
-        fireStructureChange(AbstractAsset.ID_FILE_DESCRIPTORS, fd);
 		if (logger.isDebugEnabled()) {
 			logger.debug("addFileDescriptor(FileDescriptor) - fd "
 					+ fd.filename + " added!");

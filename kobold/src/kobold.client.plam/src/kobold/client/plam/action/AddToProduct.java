@@ -69,23 +69,19 @@ public class AddToProduct implements IObjectActionDelegate
     /* (non-Javadoc)
      * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
      */
-    public void run(IAction action)
-    {
+    public void run(IAction action) {
         AddToProductDialog addToProductDialog = new AddToProductDialog(new Shell(),currentRelease);
         addToProductDialog.open();
-
     }
 
     /* (non-Javadoc)
      * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
      */
-    public void selectionChanged(IAction action, ISelection selection)
-    {
+    public void selectionChanged(IAction action, ISelection selection) {
         IStructuredSelection structSelection =((IStructuredSelection)selection);
-        currentRelease = (Release)(structSelection.getFirstElement());
-        
-        
-
+        if (structSelection.getFirstElement() instanceof Release) {
+	        currentRelease = (Release)(structSelection.getFirstElement());
+        }
     }
 
 }
