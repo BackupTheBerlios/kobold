@@ -458,7 +458,7 @@ gegebenen Metadaten und liefert als Rückgabe ein Delta.
 \subsubsection{Entwurfsdetails}
 
 Der VCM-Wrapper wird als Repository Provider {\it
-VCMWrapperProvider} für die Eclipse Team
+WrapperProvider} für die Eclipse Team
 Komponente realisiert und erbt demzufolge von der abstrakten Klasse:
 \begin{verbatim}
 org.eclipse.team.core.RepositoryProvider
@@ -471,8 +471,8 @@ Definition verwendet:
 
 \begin{verbatim}
 <extension point="org.eclipse.team.core.repository">
-  <repository class="kobold.client.controller.vcm.VCMWrapperProvider"
-      id="kobold.client.controller.vcm.VCMWrapperProvider"/>
+  <repository class="kobold.client.controller.vcm.WrapperProvider"
+      id="kobold.client.controller.vcm.WrapperProvider"/>
 </extension>
 \end{verbatim}
 %------------------------------------------------------------
