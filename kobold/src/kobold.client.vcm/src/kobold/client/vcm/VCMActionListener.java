@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.4 2004/09/22 13:58:12 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.5 2004/09/22 15:06:59 vanto Exp $
  *
  */
 package kobold.client.vcm;
@@ -38,7 +38,14 @@ import kobold.client.vcm.controller.StatusUpdater;
  */
 public class VCMActionListener implements IVCMActionListener
 {
-
+    /*
+     * INFO: So kommt man an das Verzeichnis für die xml datei.
+     *   IProject project = kp.getProject();
+     *   IFolder plmeta = project.getFolder(spl.getResource());
+     *
+     */
+    
+    
     /**
      * @see kobold.client.plam.listeners.IVCMActionListener#refreshFiledescriptors(kobold.client.plam.model.IFileDescriptorContainer)
      */

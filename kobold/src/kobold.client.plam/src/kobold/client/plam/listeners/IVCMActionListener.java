@@ -21,13 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVCMActionListener.java,v 1.4 2004/09/21 16:24:50 garbeam Exp $
+ * $Id: IVCMActionListener.java,v 1.5 2004/09/22 15:06:58 vanto Exp $
  *
  */
 package kobold.client.plam.listeners;
 
-import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
+import kobold.client.plam.model.productline.Productline;
+
+import org.eclipse.core.resources.IProject;
 
 
 /**
@@ -51,13 +53,13 @@ public interface IVCMActionListener
      * 
      * @param container
      */
-    void updateProductline(AbstractRootAsset rootAsset);
-
+    void updateProductline(kobold.common.data.Productline spl, IProject p);
+    
     /**
      * Commit productline.
      * 
      * @param container
      */
-    void commitProductline(AbstractRootAsset rootAsset);
+    void commitProductline(Productline pl);
  
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.25 2004/09/21 20:54:30 vanto Exp $
+ * $Id: KoboldProject.java,v 1.26 2004/09/22 15:06:58 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -192,6 +192,8 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
             }
             
             // FIXME: perform an vcm update.
+            updateProductline(spl, getProject());
+            
             productline = ModelStorage.loadModel(this, spl);
 	        
 		    if (productline == null) {
@@ -200,10 +202,10 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
 			    productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
 		        
 		        ModelStorage.storeModel(productline);
-
+		        commitProductline(productline);
 			    //check out from repo
 			    logger.debug("checkout pl");
-			    updateProductline(productline);
+			    
 		    } else {
 		        productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
 		        productline.setProject(this);
@@ -375,6 +377,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
 
 	    if (productline != null) {
 	        ModelStorage.storeModel(productline);
+	        commitProductline(productline);     
 	        isDirty = false;
 	    }
 	}
@@ -549,11 +552,21 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
 	    }
 	}
 	
-	public void updateProductline(Productline pl) 
+	public void updateProductline(kobold.common.data.Productline spl, IProject p) 
 	{
 	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
 	    if (l != null) {
-	        l.updateProductline(pl);
+	        l.updateProductline(spl, p);
+	    } else {
+	        logger.error("no vcm listener registered");
+	    }
+	}
+	
+	public void commitProductline(Productline pl)
+	{
+	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
+	    if (l != null) {
+	        l.commitProductline(pl);
 	    } else {
 	        logger.error("no vcm listener registered");
 	    }
