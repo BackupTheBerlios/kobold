@@ -46,7 +46,7 @@ public class TextViewItem extends AbstractViewItem {
 		//control.setBackground(ColorConstants.white);
 		Label label = new Label(control,SWT.NONE);
 		label.setText(item.getDescription());
-		textWidget = new Text(control, SWT.NONE);		
+		textWidget = new Text(control, SWT.BORDER);		
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		textWidget.setLayoutData(data);
 
