@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.13 2004/10/05 17:56:27 martinplies Exp $
+ * $Id: RelatedComponent.java,v 1.14 2004/10/13 22:44:49 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -29,6 +29,8 @@ package kobold.client.plam.model.product;
 import java.util.ArrayList;
 import java.util.List;
 
+import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.Release;
@@ -57,7 +59,7 @@ public class RelatedComponent extends ProductComponent
 							 Release release) {
 		super(variant.getParent().getName());
 		relatedVariant = variant;
-		this.relatedRelease = release;
+		this.relatedRelease = release;		
 	}
 	
 	
@@ -137,8 +139,10 @@ public class RelatedComponent extends ProductComponent
        Release head = relatedVariant.getHead();
        if (head != null && head != this.getRelatedRelease()) {
             this.relatedRelease = head;
-            //FIXME add files to productrepository
-       }           
+            KoboldProject proj = KoboldPLAMPlugin.getCurrentKoboldProject();
+            proj.updateRelease(this, head); 
+       }
     }
+    
 
 }
