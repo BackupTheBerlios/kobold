@@ -36,6 +36,7 @@ import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -58,7 +59,8 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 	protected Productline selectedProductLine = null;
 	protected Product selectedProduct = null;
 	protected Variant selectedVariant = null;
-	protected AbstractAsset testAssets[] = null;
+	// Problems creating an AssetArray changing to Object
+	protected Object testAssets[] = null;
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.ui.actions.TeamAction#isEnabled()
@@ -79,7 +81,7 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 		
 		for (int i = 0; i < structSelection.size(); i++) {
 			if (i == 0) {
-				testAssets = new AbstractAsset[structSelection.size()];
+				testAssets = new Object[structSelection.size()];
 			}
 			if (structSelection.getFirstElement() instanceof AbstractAsset) {
 				testAssets[i] = (AbstractAsset)structSelection.getFirstElement();
@@ -101,15 +103,15 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 	
 	public String getLocalPath ()
 	{
-		IWorkspaceRoot ws = KoboldVCMPlugin.getDefault().getWorkspace().getRoot();
-		return ws.toString();
+		IPath wsPath = KoboldVCMPlugin.getDefault().getWorkspace().getRoot().getFullPath();
+		return wsPath.toOSString();
 	}
 
-	public void initUserData ()
+	private void initUserData ()
 	{
 		//set the default userName and password (initial)
-		KoboldVCMPlugin.getDefault().getPreferenceStore().setDefault("userName","");
-		KoboldVCMPlugin.getDefault().getPreferenceStore().setDefault("userPassword","");
+		KoboldVCMPlugin.getDefault().getPreferenceStore().setDefault("User Name","");
+		KoboldVCMPlugin.getDefault().getPreferenceStore().setDefault("User Password","");
 	}
 
 	
@@ -120,7 +122,7 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
  
 		if (uN.equals(""))
 		{
-			uN = getPreference ("userName");
+			uN = getPreference ("User Name");
 			setUserName(uN);
 			return uN;
 		}
@@ -129,7 +131,7 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 
 	}
 
-	public void setUserName (String userName)
+	protected void setUserName (String userName)
 	{
 		//set the default userName (initial)
 		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("userName", userName);
@@ -139,28 +141,27 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 	public String getUserPassword ()
 	{
 		//gets the userPassword
-		String uP = KoboldVCMPlugin.getDefault().getPreferenceStore().getString("userPassword");
+		String uP = KoboldVCMPlugin.getDefault().getPluginPreferences().getString("userPassword");
  
 		if (uP.equals(""))
 		{
-			uP = getPreference ("userPassword");
+			uP = getPreference ("User Password");
 			setUserPassword(uP);
 			return uP;
 		}
 		return uP;
 	}
 
-	public void setUserPassword (String userPassword)
+	private void setUserPassword (String userPassword)
 	{
 		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("userPassword",userPassword);
 	}
 
-	public String getPreference (String type)
+	private String getPreference (String type)
 	{
-		InputDialog in = new InputDialog (new Shell(), type, "", null, null);
+		InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
 		//open the dialog
 		in.open();
-		System.out.println(in.getValue());
 		return in.getValue ();
 	}
 

@@ -25,10 +25,18 @@
 
 package kobold.client.vcm.popup.action;
 
+import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
+import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.productline.Component;
+import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
 
+import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.team.core.TeamException;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
@@ -58,6 +66,8 @@ public class AddAction extends KoboldAction {
 			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 			try
 			{
+				getUserName();
+//				((Component)testAssets[0])
 //				repoAccess.precheckout(testAssets,IResource.DEPTH_INFINITE,null,false);
 			}
 			catch (Exception e)
@@ -65,7 +75,7 @@ public class AddAction extends KoboldAction {
 				e.printStackTrace();
 			}
 //			Shell shell = new Shell();
-//			MessageDialog.openInformation(
+			
 //				shell,
 //				"Kobold VCM Plug-in",
 //				"preAdd was executed.");

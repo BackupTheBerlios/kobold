@@ -50,7 +50,7 @@ public class ImportAction extends KoboldAction {
 			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 			IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 			if (selectedProduct != null) {
-				repoAccess.setCurrentVCMProvider(selectedProduct.getRepositoryDescriptor());
+//				repoAccess.setCurrentVCMProvider(selectedProduct.getRepositoryDescriptor());
 			}
 			else if (selectedProductLine != null) {
 				// @ TODO Impkement changes
@@ -58,7 +58,7 @@ public class ImportAction extends KoboldAction {
 			}
 			try
 			{
-				repoAccess.precheckin(testAssets,IResource.DEPTH_INFINITE,progress,true);
+//				repoAccess.precheckin(testAssets,IResource.DEPTH_INFINITE,progress,true);
 			}
 			catch (Exception e)
 			{
@@ -66,7 +66,7 @@ public class ImportAction extends KoboldAction {
 			}
 			try
 			{
-				repoAccess.checkin(testAssets,IResource.DEPTH_INFINITE,progress);
+//				repoAccess.checkin(testAssets,IResource.DEPTH_INFINITE,progress);
 			}
 			catch (Exception e)
 			{
