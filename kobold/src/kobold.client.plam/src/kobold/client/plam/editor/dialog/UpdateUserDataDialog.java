@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateUserDataDialog.java,v 1.5 2004/08/25 09:23:23 garbeam Exp $
+ * $Id: UpdateUserDataDialog.java,v 1.6 2004/09/08 00:11:31 grosseml Exp $
  */
 package kobold.client.plam.editor.dialog;
 
@@ -49,11 +49,13 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
     private Label labelPassword;
     private Label labelOldPassword;
     private Label labelNewPassword;
+    private Label labelConfPassword;
     
     private Text textRealName;
     private Text textPassword;
     private Text textOldPassword;
     private Text textNewPassword;
+    private Text textConfPassword;
     
     private boolean isEditFullName;
 	private String userName;
@@ -132,6 +134,14 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
             textNewPassword = new Text(panel, SWT.BORDER);
             textNewPassword.setEchoChar('*');
             textNewPassword.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+            //confirm password
+            labelConfPassword = new Label(panel,SWT.NONE);
+            labelConfPassword.setText("Confirm password:");
+            textConfPassword = new Text(panel, SWT.BORDER);
+            textConfPassword.setEchoChar('*');
+            textConfPassword.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
         }
     
     }
