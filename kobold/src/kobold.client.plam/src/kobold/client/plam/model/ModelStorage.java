@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.53 2004/11/09 15:41:54 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.54 2004/11/09 16:17:32 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -66,7 +66,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.ide.dialogs.UpdateProjectCapabilityWizard;
 import org.eclipse.ui.progress.IProgressService;
 
 
@@ -75,8 +74,6 @@ import org.eclipse.ui.progress.IProgressService;
  */
 public class ModelStorage
 {
-    //public static final String COREASSETS_FOLDER_NAME = "CAS";
-    //public static final String PRODUCTS_FOLDER_NAME = "PRODUCTS";
     public static final String PRODUCTLINE_META_FILE = ".productlinemetainfo.xml";
     public static final String PRODUCT_META_FILE = ".productmetainfo.xml";
     
@@ -139,17 +136,6 @@ public class ModelStorage
                 plFolder.create(true, true, monitor);
             }
             
-            /*?
-            IFolder plFolder2 = plFolder.getFolder(COREASSETS_FOLDER_NAME);
-            if (!plFolder2.exists()) {
-                plFolder2.create(true, true, monitor);
-            }
-            
-            plFolder2 = plFolder.getFolder(PRODUCTS_FOLDER_NAME);
-            if (!plFolder2.exists()) {
-                plFolder2.create(true, true, monitor);
-            }
-            */
         } catch (CoreException e) {
             KoboldPLAMPlugin.log(e);
         } finally {
