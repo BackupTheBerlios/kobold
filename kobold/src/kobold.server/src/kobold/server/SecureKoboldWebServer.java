@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.74 2004/08/06 10:57:32 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.75 2004/08/10 10:29:24 neccaino Exp $
  *
  */
 package kobold.server;
@@ -586,17 +586,8 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			return IKoboldServerAdministration.RETURN_FAIL;
 		}
         
-        // 2.) get the productline's id
-        ProductlineManager plm = ProductlineManager.getInstance();
-        String id = plm.getProductlineIdByName(nameOfProductline);
-        
-		// 3.) remove the productline
-        if (id != null){
-        	return plm.removeProductline(id) ? RETURN_OK : RETURN_FAIL;
-        }
-        else{
-            return RETURN_FAIL;
-        }
+		// 2.) remove the productline
+      	return ProductlineManager.getInstance().removeProductlineByName(nameOfProductline) ? RETURN_OK : RETURN_FAIL;
 	} 
 	
 	/**
@@ -634,19 +625,14 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		User cuser = suser.getSecureRepresentation();
 
         // 5.) stop if the productline does not exist
-        String id = plm.getProductlineIdByName(nameOfProductline);
-        Productline pl = null;
+        Productline pl = plm.getProductlineByName(nameOfProductline);
         
-        if (id != null){
-        	pl = plm.getProductline(id);           
-        }
-
         if (pl == null){
             return IKoboldServerAdministration.RETURN_FAIL;
         }
 
         // 6.) stop if the user has already been assigned
-        if (pl.getMaintainers().contains(cuser)){
+        if (pl.isMaintainer(nameOfUser)){
             return IKoboldServerAdministration.RETURN_FAIL;
         }
         
@@ -689,19 +675,14 @@ public class SecureKoboldWebServer implements IKoboldServer,
         User cuser = suser.getSecureRepresentation();
         
         // 5.) stop if the productline doesn't exist
-        Productline pl = null;
-        String id = plm.getProductlineIdByName(nameOfProductline);
+        Productline pl = plm.getProductlineByName(nameOfProductline);
         
-        if (id != null){
-        	pl = plm.getProductline(id);
-        }
-
         if (pl == null){
             return IKoboldServerAdministration.RETURN_FAIL;
         }
 
         // 6.) stop if the user has not yet been assigned to the productline
-        if (!pl.getMaintainers().contains(cuser)){
+        if (!pl.isMaintainer(nameOfUser)){
             return IKoboldServerAdministration.RETURN_FAIL;
         }
         
@@ -729,12 +710,8 @@ public class SecureKoboldWebServer implements IKoboldServer,
         
         // 2.) check if productline exists
         ProductlineManager plm = ProductlineManager.getInstance();
-        String id = plm.getProductlineIdByName(nameOfProductline);
-        Productline pl = null;
+        Productline pl = plm.getProductlineByName(nameOfProductline);
         
-        if (id != null){
-        	pl = plm.getProductline(id);
-        }
         if (pl == null){
             return IKoboldServerAdministration.RETURN_FAIL;
         }
