@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.21 2004/09/01 02:58:22 vanto Exp $
+ * $Id: FileDescriptor.java,v 1.22 2004/09/18 10:34:15 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -66,7 +66,8 @@ public class FileDescriptor implements IFileDescriptorContainer,
     private boolean isDirectory = false;
     
     protected transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-    
+    private static final String GXL_TYPE = "http://kobold.berlios.de/types#FileDescriptor";
+	
     public FileDescriptor() {
     }
 
@@ -307,8 +308,7 @@ public class FileDescriptor implements IFileDescriptorContainer,
      * @see kobold.client.plam.model.IGXLExport#getGXLType()
      */
     public String getGXLType() {
-        // TODO Auto-generated method stub
-        return null;
+        return GXL_TYPE;
     }
 
 

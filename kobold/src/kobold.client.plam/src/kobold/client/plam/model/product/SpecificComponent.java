@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.9 2004/08/23 13:00:42 vanto Exp $
+ * $Id: SpecificComponent.java,v 1.10 2004/09/18 10:35:51 martinplies Exp $
  *
  */
 
@@ -130,9 +130,8 @@ public class SpecificComponent extends ProductComponent
      * @see kobold.common.model.IGXLExport#getGXLType()
      */
     public String getGXLType()
-    {
-        // TODO Auto-generated method stub
-        return null;
+    {     
+        return GXL_TYPE;
     }
 }
 
