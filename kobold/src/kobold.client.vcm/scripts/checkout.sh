@@ -19,18 +19,10 @@ cd $1
 
 if [ $3 = "local" ] ; then
 
-    if [ $# > 8 ] ; then
-        cvs -z3 -d $7 co -d . -r $9 $8
-    else
-        cvs -z3 -d $7 co -d . $8
-    fi
+    cvs -z3 -d $7 co -d . $8
 
 else
 
-    if [ $# > 8 ] ; then
-        cvs -z3 -d :$3:$4:$5@$6:$7 co -d . -r $9 $8
-    else
-        cvs -z3 -d :$3:$4:$5@$6:$7 co -d . $8
-    fi
+    cvs -z3 -d :$3:$4:$5@$6:$7 co -d . $8
 
 fi
