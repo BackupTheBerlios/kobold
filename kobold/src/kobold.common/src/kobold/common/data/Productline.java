@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.20 2004/08/03 16:46:35 garbeam Exp $
+ * $Id: Productline.java,v 1.21 2004/08/26 10:57:26 neccaino Exp $
  *
  */
 package kobold.common.data;
@@ -76,6 +76,7 @@ public class Productline extends Asset {
 	}
 
 	/**
+     * TODO: change to id mapping
 	 * Adds a new product to this productline. Please note that each registered
      * product needs to have its own (unique) name. Adding of a prodct with a
      * name that has already been registered will be refused. 
@@ -100,7 +101,8 @@ public class Productline extends Asset {
 	}
 	
 	/**
-	 * Gets a product by its name.
+     * TODO: change to id mapping
+	 * Gets a product by its name. 
 	 * @param productName the product name.
      * @return the product with the specified name or null if no product with
      *         that name exists
@@ -110,6 +112,7 @@ public class Productline extends Asset {
 	}
 	
 	/**
+     * TODO: change to id mapping
 	 * Gets a coreasset by its name.
 	 * @param coreAssetName the coreasset.
      * @return the coreasset with the specified name or null if no coreasset with
@@ -118,10 +121,24 @@ public class Productline extends Asset {
 	public Component getCoreAsset(String coreAssetName) {
 	    return (Component)products.get(coreAssetName);
 	}
+    
+    /**
+     * Gets a coreasset by its name.
+     * 
+     * NOTE: not yet implemented
+     *  
+     * @param coreAssetName name of the coreasset to get.
+     * @return the coreasset with the specified name or null if no coreasset 
+     *         with that name exists
+     */
+    public Component getCoreAssetByName(String coreAssetName) {
+        //TODO: implement
+        return null;
+    }
 	
 	/**
-	 * Gets all products.
-     * @return the products
+     * Gets all products.
+     * @return List containing every registered product
 	 */
 	public List getProducts() {
 	    return new ArrayList(products.values());
@@ -129,14 +146,15 @@ public class Productline extends Asset {
 	
 	/**
 	 * Gets all coreassets.
-     * @return the coreassets
+     * @return List containing every registered core asset
 	 */
 	public List getCoreAssets() {
 	    return new ArrayList(coreassets.values());
 	}
 	
 	/**
-	 * Removes the passed product from this productline if its reagistered.
+     * TODO: change to id mapping
+	 * Removes the passed product from this productline if it is registered.
 	 * @param product the product to remove.
      * @return the removed Product if it was part of this productline or null 
      *         if not
@@ -150,8 +168,22 @@ public class Productline extends Asset {
         
         return ret;
 	}
+    
+    /**
+     * Removes a product by its name.
+     * 
+     * NOTE: not yet implemented
+     * 
+     * @param productName name of the product to remove
+     * @return the removed Product object, or null if no product with the 
+     *         specified name exists
+     */
+    public Product removeProductByName(String productName) {
+        return null; //TODO: implement
+    }
 
 	/**
+     * TODO: change to id mapping
 	 * Adds new core asset to this productline. Please note that each registered
      * coreasset needs to have its own (unique) name. Adding of a ca with a
      * name that has already been registered will be refused. 
@@ -174,6 +206,7 @@ public class Productline extends Asset {
 	}
 	
 	/**
+     * TODO: change to id mapping
 	 * Removes a coreasset from this productline, if it is registered.
 	 * @param coreasset the coreassset to remove.
      * @return the removed coreasset if it existed as part of this productline 
@@ -188,6 +221,19 @@ public class Productline extends Asset {
         
         return ret;
 	}
+    
+    /**
+     * Removes a core asset by its name.
+     * 
+     * NOTE: not yet implemented
+     * 
+     * @param coreAssetName name of the core asset to remove
+     * @return the removed core asset or null if no core asset with the 
+     *         specified name exists
+     */
+    public Component removeCoreAssetByName(String coreAssetName) {
+        return null; //TODO: implement
+    }
 
 	/**
 	 * Serializes this productline.

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.13 2004/08/03 16:46:35 garbeam Exp $
+ * $Id: Product.java,v 1.14 2004/08/26 10:57:45 neccaino Exp $
  *
  */
 
@@ -41,7 +41,7 @@ import org.dom4j.Element;
  */
 public class Product extends Asset {
 
-	private List components = new ArrayList();
+	private List components = new ArrayList(); //TODO: change to id mapping
 	
 	/**
 	 * Basic constructor.
@@ -67,12 +67,14 @@ public class Product extends Asset {
 	
 	/**
 	 * Returns all components of this product.
+     * @return List containing all registered components
 	 */
 	public List getComponents() {
 		return components;
 	}
 	
 	/**
+     * TODO: change to id mapping
 	 * Adds new component to this product.
 	 * @param component the component.
 	 */
@@ -81,6 +83,7 @@ public class Product extends Asset {
 	}
 
 	/**
+     * TODO: change to id mapping
 	 * Removes an existing component from this product.
 	 * @param component the component.
 	 */
