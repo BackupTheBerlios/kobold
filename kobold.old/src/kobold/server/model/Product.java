@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.2 2004/04/08 13:53:26 garbeam Exp $
+ * $Id: Product.java,v 1.3 2004/04/08 14:50:25 garbeam Exp $
  *
  */
 
@@ -50,7 +50,7 @@ public class Product {
      * @return information about the product
      * @see kobold.util.data.ProductInfo 
      */
-    public getInfo(ProductInfo arg1) {
+    public ProductInfo getInfo() {
         return null;  
     }
 

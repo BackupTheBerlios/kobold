@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerInterface.java,v 1.1 2004/04/08 13:53:26 garbeam Exp $
+ * $Id: ServerInterface.java,v 1.2 2004/04/08 14:50:25 garbeam Exp $
  *
  */
 
@@ -122,7 +122,7 @@ public interface ServerInterface {
     /**
      * @see kobold.server.model.ProductlineAdmin.removeProduct(java.lang.String)
      */
-    public void removeProduct(String sessionID, void arg1, String product);
+    public void removeProduct(String sessionID, String product);
 
     /**
      * @see kobold.server.model.ProductlineAdmin.removeRole(kobold.util.data.Role)
