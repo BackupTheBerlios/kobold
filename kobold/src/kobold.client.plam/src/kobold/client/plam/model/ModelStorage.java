@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.35 2004/08/31 20:50:25 vanto Exp $
+ * $Id: ModelStorage.java,v 1.36 2004/09/09 14:21:20 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -269,7 +269,15 @@ public class ModelStorage
      */
     public static IPath getPathForAsset(AbstractAsset asset) {
         
-        AbstractRootAsset root = asset.getRoot();
+
+        AbstractRootAsset root = asset.getRoot();        
+        return new Path(root.getKoboldProject().getProject().getLocation()
+                + "" + IPath.SEPARATOR + getLocalPathForAsset(asset));
+    }
+    
+    public static IPath getLocalPathForAsset (AbstractAsset asset)
+    {
+
         String thePath = "";
         while (asset != null) {
             
@@ -292,9 +300,7 @@ public class ModelStorage
             
             asset = asset.getParent();
         }
-        
-        return new Path(root.getKoboldProject().getProject().getLocation()
-                + "" + IPath.SEPARATOR + thePath);
+        return new Path(thePath);
     }
     
 
@@ -460,6 +466,7 @@ public class ModelStorage
             //createDirectory
             try {
                 if (!specialComponentFolder.exists()) {
+                	System.out.println("Now create comp-dir:" + specialComponentFolder.toString());
                     specialComponentFolder.create(true, true, monitor);
                 }
             } catch (CoreException e) {
@@ -474,17 +481,60 @@ public class ModelStorage
             
         }
     }
+
+    public static void serializeCoreassets (Variant var, IProgressMonitor monitor)
+    {
+        IPath path = getLocalPathForAsset(var);
+        
+        IProject project = ((Productline)var.getRoot()).getKoboldProject().getProject();
+        //get all cas
+        List cas = var.getComponents();
+        
+        //for each component
+        for (Iterator it = cas.iterator(); it.hasNext();) {
+            Component component = (Component) it.next();
+            
+            //create the dir
+
+            IFolder specialComponentFolder = project.getFolder(path.toString());
+            specialComponentFolder = specialComponentFolder.getFolder(component.getResource());
+            
+            
+            //createDirectory
+            try {
+                if (!specialComponentFolder.exists()) {
+                	System.out.println("Now create comp-dir:" + specialComponentFolder.toString());
+                    specialComponentFolder.create(true, true, monitor);
+                }
+            } catch (CoreException e) {
+                KoboldPLAMPlugin.log(e);
+            }
+            finally {
+                //create Variant dirs in each component
+                serializeVariants(component, monitor);
+                
+                monitor.done();
+            }	    	
+            
+        }
+    }
+
     
     public static void serializeVariants (Component co, IProgressMonitor monitor)
     {
         //get the CAS-directory
         //the PL directory
-        IProject project = co.getRoot().getKoboldProject().getProject();
-        IFolder casFolder = project.getFolder(co.getRoot().getResource());
+        //IProject project = co.getRoot().getKoboldProject().getProject();
+        //IFolder casFolder = project.getFolder(co.getRoot().getResource());
         //CAS-dir
-        casFolder = casFolder.getFolder(COREASSETS_FOLDER_NAME);
-        casFolder = casFolder.getFolder(co.getResource());
+        //casFolder = casFolder.getFolder(COREASSETS_FOLDER_NAME);
+        //casFolder = casFolder.getFolder(co.getResource());
         
+        IPath path = getLocalPathForAsset(co);
+        
+        IProject project = ((Productline)co.getRoot()).getKoboldProject().getProject();
+
+    	
         //get all vars
         List vars = co.getVariants();
         
@@ -493,8 +543,9 @@ public class ModelStorage
             Variant variant = (Variant) it.next();
             
             //create the dir
-            IFolder specialVariantFolder = casFolder.getFolder(variant.getResource());
-            
+            //IFolder specialVariantFolder = casFolder.getFolder(variant.getResource());
+            IFolder specialVariantFolder = project.getFolder(path.toString());
+            specialVariantFolder = specialVariantFolder.getFolder(variant.getResource());
             
             //createDirectory
             try {
@@ -505,6 +556,9 @@ public class ModelStorage
                 KoboldPLAMPlugin.log(e);
             }
             finally {
+                //create CAS dirs in each Variant
+                serializeCoreassets(variant, monitor);
+
                 monitor.done();
             }	    	
             
