@@ -114,17 +114,25 @@ public class CVSSererConnection implements IServerConnection
 			process = Util.createProcess(command, monitor);
 
 			inputStream = new PollingInputStream(new TimeoutInputStream(process.getInputStream(),
-				8192 /*bufferSize*/, 1000 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
+				8192 /*bufferSize*/, 2900 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
 			outputStream = new PollingOutputStream(new TimeoutOutputStream(process.getOutputStream(),
 				8192 /*buffersize*/, 1000 /*writeTimeout*/, 1000 /*closeTimeout*/), 60, monitor);
 
 			// XXX need to do something more useful with stderr
 			// discard the input to prevent the process from hanging due to a full pipe
-//			errStream = (process.getErrorStream());
+			errStream = (process.getErrorStream());
 			connected = true;
-//			Thread thread = new Thread(new DiscardInputThread(errStream));
-			readInpuStreamsToConsole();
-//			thread.run();
+			ConsolePlugin.getDefault();
+			MessageConsoleStream stream = null;
+			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
+			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
+				new IConsole[] {console});
+			stream = console.newMessageStream();
+			Thread inputThread = new InputThreadToConsole(process.getInputStream(), stream);
+			Thread errorThread = new InputThreadToConsole(process.getErrorStream(), stream);
+//			readInpuStreamsToConsole();
+			inputThread.run();
+			errorThread.run();
 		} finally {
 			if (! connected) {
 				try {
@@ -150,12 +158,21 @@ public class CVSSererConnection implements IServerConnection
 				8192 /*bufferSize*/, 1000 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
 			outputStream = new PollingOutputStream(new TimeoutOutputStream(process.getOutputStream(),
 				8192 /*buffersize*/, 1000 /*writeTimeout*/, 1000 /*closeTimeout*/), 60, monitor);
-
 			// XXX need to do something more useful with stderr
 			// discard the input to prevent the process from hanging due to a full pipe
-			Thread thread = new DiscardInputThread(process.getErrorStream());
+			ConsolePlugin.getDefault();
+			MessageConsoleStream stream = null;
+			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
+			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
+				new IConsole[] {console});
+			stream = console.newMessageStream();
 			connected = true;
-			readInpuStreamsToConsole();
+			Thread inputThread = new InputThreadToConsole(process.getInputStream(), stream);
+			Thread errorThread = new InputThreadToConsole(process.getErrorStream(), stream);
+//			readInpuStreamsToConsole();
+			inputThread.run();
+			errorThread.run();
+//			readInpuStreamsToConsole();
 		} finally {
 			if (! connected) {
 				try {
@@ -208,7 +225,7 @@ public class CVSSererConnection implements IServerConnection
 		if (this.connected) 
 		{
 			ConsolePlugin.getDefault();
-			MessageConsole console= new MessageConsole("CVS Console",null);
+			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
 				new IConsole[] {console});
 			MessageConsoleStream stream = console.newMessageStream();
@@ -218,20 +235,17 @@ public class CVSSererConnection implements IServerConnection
 //			stream.print("TESCHD");
 			int index = 0;
 			int r = 0;
-			try
-			{				
-			if (err != null)
-				{
+			try	{				
+				if (err != null) {
 					while ((err.available() != 0) && (r = err.read()) != -1 ) {
 						readLineBuffer = append(readLineBuffer, index++, (byte) r);
 					}
 				}
-			if(pis != null)
+				if(pis != null)
 				{
 					while ((pis.available() != 0) && (r = pis.read()) != -1 ) {
 						readLineBuffer = append(readLineBuffer, index++, (byte) r);
 					}
-					
 				}
 
 				
@@ -257,11 +271,13 @@ public class CVSSererConnection implements IServerConnection
 	
 	// XXX need to do something more useful with stderr
 	// discard the input to prevent the process from hanging due to a full pipe
-	private static class DiscardInputThread extends Thread {
+	private static class InputThreadToConsole extends Thread {
 		private InputStream in;
 		private byte[] readLineBuffer = new byte[256];
-		public DiscardInputThread(InputStream in) {
+		private MessageConsoleStream stream = null;
+		public InputThreadToConsole(InputStream in,MessageConsoleStream stream ) {
 			this.in = in;
+			this.stream = stream;
 		}
 		public void run() {
 			
@@ -269,16 +285,17 @@ public class CVSSererConnection implements IServerConnection
 				try {
 					
 					int r,index = 0;
+					System.out.println(in.toString()+" :"+in.available());
 					while ((in.available() != 0) && (r = in.read()) != -1 ) {
-//						if (r == NEWLINE) break;
 						readLineBuffer = append(readLineBuffer, index++, (byte) r);
 					}
-					String result = new String(readLineBuffer, 0, index);
-					System.out.println(result);
+				
+					stream.print(new String(readLineBuffer, 0, index));
 				} finally {
 					in.close();
 				}
 			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		private static byte[] append(byte[] buffer, int index, byte b) {
