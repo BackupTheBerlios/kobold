@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetainfoTest.java,v 1.4 2004/08/05 19:13:15 neco Exp $
+ * $Id: MetainfoTest.java,v 1.5 2004/08/05 19:21:04 neco Exp $
  *
  */
 package kobold.client.plam.model;
@@ -73,7 +73,7 @@ public class MetainfoTest extends TestCase {
 
 		/////--------Product----------------
 		//add a product
-		Product productA = new Product ();
+		Product productA = new Product (pl);
 		productA.setName("me");
 		
 		RepositoryDescriptor descriptor = new RepositoryDescriptor ();
@@ -81,7 +81,7 @@ public class MetainfoTest extends TestCase {
 		
 		productA.addProductRelease(new ProductRelease(new Date(10,10,04)));
 		
-		Product productB = new Product ();
+		Product productB = new Product (pl);
 		productB.setName("xp");
 		
 		
