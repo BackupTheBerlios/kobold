@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.27 2004/09/10 14:27:49 rendgeor Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.28 2004/09/18 10:35:34 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.plam.model.AbstractRootAsset;
@@ -43,6 +44,7 @@ import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.IVariantContainer;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.product.ProductComponent;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
@@ -555,7 +557,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
             {
             	//resource name now generated automaically
             	resource.setText(generateResourceName(name.getText()));
-            }
+            }         
         }
 
         if (!description.getText().equals(asset.getDescription())) {
@@ -594,6 +596,9 @@ public class AssetConfigurationDialog extends TitleAreaDialog
             asset.setResourceDefined(true);
         }
         super.okPressed();
+        
+        // store Model
+        this.asset.getRoot().getKoboldProject().store();
     }
     
     private void makeAssetDeprecated(AbstractAsset asset) 
@@ -609,6 +614,10 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         if (asset instanceof IReleaseContainer) {
             assetList.addAll(((IReleaseContainer)asset).getReleases());
         }
+        if (asset instanceof ProductComponent) {
+            assetList.addAll(((ProductComponent)asset).getProductComponents());
+        }
+        
 
         Iterator it = assetList.iterator();
         while (it.hasNext()) {
