@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.3 2004/07/07 15:40:52 garbeam Exp $
+ * $Id: User.java,v 1.4 2004/07/14 16:01:50 garbeam Exp $
  *
  */
 
@@ -53,6 +53,7 @@ public class User implements ISerializable {
 	private String userName;
 	private String password;
 	private String fullName;
+	private boolean isValid;
 
 	/**
 	 * Basic constructor.
@@ -61,6 +62,7 @@ public class User implements ISerializable {
 	    this.userName = userName;
 	    this.fullName = fullName;
 	    this.password = password;
+	    this.isValid = true;
 	}
 	
 	/**
@@ -80,6 +82,7 @@ public class User implements ISerializable {
 
 	    this.userName = element.elementText("username");
 	    this.fullName = element.elementText("fullname");
+	    this.isValid = element.element("isvalid").equals("yes");
 	    
 		try {
 			this.password =
@@ -103,6 +106,7 @@ public class User implements ISerializable {
 		user.addElement("username").addText(this.userName);
 		user.addElement("password").addText(
 				new BASE64Encoder().encode(this.password.getBytes()));
+		user.addElement("isvalid").addText(isValid ? "yes" : "no");
 
         return user;
 	}
@@ -161,5 +165,21 @@ public class User implements ISerializable {
 	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	
+	/**
+	 * Sets the validation info of this user.
+	 * @param valid the validation info.
+	 * @author garbeam
+	 */
+	public void setValid(boolean valid) {
+	    this.isValid = valid;
+	}
+	
+	/**
+	 * Returns the validation info of this user.
+	 */
+	public boolean isValid() {
+	    return this.isValid;
 	}
 }

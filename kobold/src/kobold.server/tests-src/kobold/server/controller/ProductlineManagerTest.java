@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManagerTest.java,v 1.1 2004/07/07 15:40:52 garbeam Exp $
+ * $Id: ProductlineManagerTest.java,v 1.2 2004/07/14 16:01:50 garbeam Exp $
  *
  */
 
@@ -60,7 +60,7 @@ public class ProductlineManagerTest extends TestCase {
 		manager.addProductline(productline);
 		manager.serialize("test-products.xml");
 		
-		manager.removeProductLine(productline);
+		manager.removeProductline("zucker");
 		
 	}
 	
@@ -69,7 +69,7 @@ public class ProductlineManagerTest extends TestCase {
 		
 	    manager.deserialize("test-product.xml");
 		
-		assertTrue(manager.getProductLine("zucker").
+		assertTrue(manager.getProductline("zucker").
 		        getRepositoryDescriptor().getHost().equals("zurcker.org"));
 	}
 }

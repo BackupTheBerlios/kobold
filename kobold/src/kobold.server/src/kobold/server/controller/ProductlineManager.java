@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.1 2004/07/07 15:40:52 garbeam Exp $
+ * $Id: ProductlineManager.java,v 1.2 2004/07/14 16:01:50 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -91,7 +91,7 @@ public class ProductlineManager {
 	 *
 	 * @param productlineName the name of the productLine.
 	 */
-	public Productline getProductLine(String productlineName) {
+	public Productline getProductline(String productlineName) {
 		return (Productline) productlines.get(productlineName);
 	}
 
@@ -100,8 +100,8 @@ public class ProductlineManager {
 	 * 
 	 * @param productline the productline to remove.
 	 */
-	public void removeProductLine(Productline productline) {
-		productlines.remove(productline);
+	public void removeProductline(String productlineName) {
+		productlines.remove(productlineName);
 	}
 
 	/**

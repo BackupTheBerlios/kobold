@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.48 2004/07/14 15:08:05 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.49 2004/07/14 16:01:50 garbeam Exp $
  *
  */
 package kobold.server;
@@ -63,11 +63,11 @@ import org.apache.xmlrpc.secure.SecureWebServer;
  * appropriate methods.
  */
 public class SecureKoboldWebServer implements IKoboldServer, 
-XmlRpcHandler,
-IKoboldServerAdministration{
+                                              XmlRpcHandler,
+                                              IKoboldServerAdministration{
 	
 	private static final Log logger = LogFactory.getLog(SecureKoboldWebServer.class);
-	
+
 	// the xml-rpc webserver
 	private static SecureWebServer server;
 	
@@ -102,19 +102,20 @@ IKoboldServerAdministration{
 		server.start();
 		System.err.println("Listening on port " + port);
 	}
-	
+
 	/**
 	 * Basic delegation of RPC to the specific handler method.
 	 * @see org.apache.xmlrpc.XmlRpcHandler#execute(java.lang.String, java.util.Vector)
 	 */
 	public Object execute(String methodName, Vector arguments)
-	throws Exception
+		throws Exception
 	{
 		Vector sniffArgs = new Vector();
 		try {
 			if (methodName.equals("login")) {
 				sniffArgs.add(new String((String)arguments.elementAt(0)));
 				sniffArgs.add(new String((String)arguments.elementAt(1)));
+				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 				UserContext userContext = login((String)arguments.elementAt(0), (String)arguments.elementAt(1));
 				if (userContext !=  null) {
 					return RPCMessageTransformer.encode(userContext.serialize());
@@ -124,6 +125,7 @@ IKoboldServerAdministration{
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				sniffArgs.add(uc);
+				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 				logout(uc);
 			}
 			else if (methodName.equals("addUser")) {
@@ -133,16 +135,16 @@ IKoboldServerAdministration{
 				sniffArgs.add(arguments.elementAt(1));
 				sniffArgs.add(arguments.elementAt(2));
 				sniffArgs.add(arguments.elementAt(3));
-				
+				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 				addUser(uc, (String)arguments.elementAt(1),
-						(String)arguments.elementAt(2),
-						(String)arguments.elementAt(3));
+						    (String)arguments.elementAt(2),
+						    (String)arguments.elementAt(3));
 			}
 			else if (methodName.equals("getAllUsers")) {
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				sniffArgs.add(uc);
-				
+				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 				List users = getAllUsers(uc);
 				List result = new ArrayList();
 				for (Iterator iterator = users.iterator(); iterator.hasNext(); ) {
@@ -158,10 +160,10 @@ IKoboldServerAdministration{
 						RPCMessageTransformer.decode((String)arguments.elementAt(1)));
 				sniffArgs.add(uc);
 				sniffArgs.add(user);
-				
+				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 				removeUser(uc, user);
 			}
-			else if (methodName.equals("updateUserPassword")){
+			else if (methodName.equals("updateUserPassword")) {
 				UserContext uc = new UserContext (
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				kobold.common.data.User user = new kobold.common.data.User(
@@ -170,26 +172,26 @@ IKoboldServerAdministration{
 				String newPassword = (String)arguments.elementAt(3);
 				sniffArgs.add(uc);
 				sniffArgs.add(user);
-				
+				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 				updateUserPassword(uc, user, oldPassword, newPassword);
 			}
-			
-			else if (methodName.equals("updateUserFullName")){
+			else if (methodName.equals("updateUserFullName")) {
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				kobold.common.data.User user = new kobold.common.data.User(
 						RPCMessageTransformer.decode((String)arguments.elementAt(1)));
 				String password = (String)arguments.elementAt(2);
-				
+				sniffArgs.add(uc);
+				sniffArgs.add(user);
+				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 				updateUserFullName(uc, user, password);
 				
 			}
-			
 			else if (methodName.equals("getProductlineNames")) {			
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				sniffArgs.add(uc);
-				
+				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 				// no need to serialize string lists
 				return getProductlineNames(uc);
 			}
@@ -198,7 +200,7 @@ IKoboldServerAdministration{
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				sniffArgs.add(uc);
 				sniffArgs.add(arguments.elementAt(1));
-				
+				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 				return RPCMessageTransformer.encode(
 						getProductline(uc, (String)arguments.elementAt(1)).serialize());
 			}
@@ -207,46 +209,46 @@ IKoboldServerAdministration{
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				Productline productline = new Productline(
 						RPCMessageTransformer.decode((String)arguments.elementAt(1)));
-				
 				sniffArgs.add(uc);
 				sniffArgs.add(productline);
-				
+				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 				updateProductline(uc, productline);
-				
-			
 			}
 			else if (methodName.equals("updateProduct")) {
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				String productlineName = (String)arguments.elementAt(1);
-				Productline productline = ProductlineManager.getInstance().getProductLine(productlineName);
+				Productline productline = ProductlineManager.getInstance().getProductline(productlineName);
 				Product product = new Product(productline,
 						RPCMessageTransformer.decode((String)arguments.elementAt(2)));
-				
 				sniffArgs.add(uc);
+				sniffArgs.add(productlineName);
 				sniffArgs.add(product);
-				
+				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 				updateProduct(uc, productlineName, product);
 			}
 			else if (methodName.equals("updateComponent")) {
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
-				String productName = (String)arguments.elementAt(1);
-				//				Product product = ProductlineManager.getInstance().getProduct(productName);
-				//			Component component = new Component(product,
-				//				RPCMessageTransformer.decode((String)arguments.elementAt(2)));
-				
+				String productlineName = (String)arguments.elementAt(1);
+				String productName = (String)arguments.elementAt(2);
+				Productline productline = ProductlineManager.getInstance().getProductline(productlineName);
+				Product product = productline.getProduct(productName);
+				Component component = new Component(product,
+						RPCMessageTransformer.decode((String)arguments.elementAt(3)));
 				sniffArgs.add(uc);
-				//	sniffArgs.add(component);
-				
-				//updateComponent(uc, productName, component);
+				sniffArgs.add(productlineName);
+				sniffArgs.add(productName);
+				sniffArgs.add(component);
+				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
+				updateComponent(uc, productlineName, productName, component);
 			}
 			else if (methodName.equals("sendMessage")) {
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				AbstractKoboldMessage msg =
 					AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1)));
-				
+
 				sniffArgs.add(uc);
 				sniffArgs.add(msg);
 				sendMessage(uc, msg);
@@ -265,188 +267,204 @@ IKoboldServerAdministration{
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
 				AbstractKoboldMessage msg =
 					AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1)));
-				
+
 				sniffArgs.add(uc);
 				sniffArgs.add(msg);
 				
 				invalidateMessage(uc, msg);
-				
+			
 			}
-			else if (methodName.equals("checkAdministrability")){
-				try{
-					// admin method so leave without noticing the WorkflowEngine
-					return checkAdministrability((String)arguments.elementAt(0));
-				}
-				catch(Exception e){
-					logger.info("Exception during execute()", e);
-					return IKoboldServerAdministration.RETURN_FAIL;
-				}
-			}
-			else if (methodName.equals("newProductline")){
-				try{
-					// admin method so leave without noticing the WorkflowEngine
-					return newProductline((String)arguments.elementAt(0),
-							(String)arguments.elementAt(1),
-							(RepositoryDescriptor)arguments.elementAt(2));
-				}
-				catch(Exception e){
-					logger.info("Exception during execute()", e);
-					return IKoboldServerAdministration.RETURN_FAIL;
-				}
-			}
-			else if (methodName.equals("invalidateProductline")){
-				try{
-					// admin method so leave without noticing the WorkflowEngine
-					return invalidateProductline((String)arguments.elementAt(0),
-							(String)arguments.elementAt(1));
-				}
-				catch(Exception e){
-					logger.info("Exception during execute()", e);
-					return IKoboldServerAdministration.RETURN_FAIL;
-				}
-			}
-			else if (methodName.equals("assignPle")){
-				try{
-					// admin method so leave without noticing the WorkflowEngine
-					return assignPle((String)arguments.elementAt(0),
-							(String)arguments.elementAt(1),
-							(String)arguments.elementAt(2));
-				}
-				catch(Exception e){
-					logger.info("Exception during execute()", e);
-					return IKoboldServerAdministration.RETURN_FAIL;
-				}
-			}
-			else if (methodName.equals("unassignPle")){
-				try{
-					// admin method so leave without noticing the WorkflowEngine
-					return unassignPle((String)arguments.elementAt(0),
-							(String)arguments.elementAt(1));
-				}
-				catch(Exception e){
-					logger.info("Exception during execute()", e);
-					return IKoboldServerAdministration.RETURN_FAIL;
-				}
-			}
+			/*******************************************************************************************
+			 * IKoboldServerAdministration Interface implementation.
+			 */
+            else if (methodName.equals("checkAdministrability")){
+                try{
+                   // admin method so leave without noticing the WorkflowEngine
+                   return checkAdministrability((String)arguments.elementAt(0));
+                }
+                catch(Exception e){
+                   logger.info("Exception during execute()", e);
+                   return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }
+            else if (methodName.equals("newProductline")){
+                try{
+                    // admin method so leave without noticing the WorkflowEngine
+                    return newProductline((String)arguments.elementAt(0),
+                                          (String)arguments.elementAt(1),
+                                          (RepositoryDescriptor)arguments.elementAt(2));
+                }
+                catch(Exception e){
+                    logger.info("Exception during execute()", e);
+                    return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }
+            else if (methodName.equals("invalidateProductline")){
+                try{
+                   // admin method so leave without noticing the WorkflowEngine
+                   return invalidateProductline((String)arguments.elementAt(0),
+                                                (String)arguments.elementAt(1));
+                }
+                catch(Exception e){
+                    logger.info("Exception during execute()", e);
+                    return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }
+            else if (methodName.equals("assignPle")){
+                try{
+                    // admin method so leave without noticing the WorkflowEngine
+                    return assignPle((String)arguments.elementAt(0),
+                                     (String)arguments.elementAt(1),
+                                     (String)arguments.elementAt(2));
+                }
+                catch(Exception e){
+                   logger.info("Exception during execute()", e);
+                   return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }
+            else if (methodName.equals("unassignPle")){
+                try{
+                    // admin method so leave without noticing the WorkflowEngine
+                    return unassignPle((String)arguments.elementAt(0),
+                                       (String)arguments.elementAt(1));
+                }
+                catch(Exception e){
+                    logger.info("Exception during execute()", e);
+                    return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }
 		} catch (Exception e) {
 			logger.info("Exception during execute()", e);
 			throw e;	
 		}
-		
-		WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 		return IKoboldServer.NO_RESULT;
 	}
-	
+
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#login(String, String)}
 	 */
 	public UserContext login(String userName, String password) {
 		return SessionManager.getInstance().login(userName, password);
 	}
-	
+
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#logout(UserContext)}
 	 */
 	public void logout(UserContext userContext) {
 		SessionManager.getInstance().logout(userContext);
 	}
-	
+
 	/**
 	 * @see kobold.common.controller.IKoboldServer#getAllUsers(kobold.common.data.UserContext)
 	 */
 	public List getAllUsers(UserContext userContext) {
-		List users = UserManager.getInstance().getAllUsers();
-		List result = new ArrayList();
-		
-		for (Iterator iterator = users.iterator(); iterator.hasNext(); ) {
-			kobold.server.data.User user = (kobold.server.data.User) iterator.next();
-			result.add(new User(user.getUserName(), user.getFullName()).serialize());
-		}
-		
+	    List users = UserManager.getInstance().getAllUsers();
+	    List result = new ArrayList();
+	    
+	    for (Iterator iterator = users.iterator(); iterator.hasNext(); ) {
+	        kobold.server.data.User user = (kobold.server.data.User) iterator.next();
+	        result.add(new User(user.getUserName(), user.getFullName()).serialize());
+	    }
+	    
 		return result;
 	}
-	
+
 	/**
 	 * @see kobold.common.controller.IKoboldServer#updateUserFullName(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String)
 	 */
 	public void updateUserFullName(UserContext userContext, User user, String password) {
-		UserManager manager = UserManager.getInstance();
-		kobold.server.data.User serverUser = manager.getUser(userContext.getUserName());
-		if (userContext.getUserName().equals(user.getUsername())
-				&& serverUser.getUserName().equals(userContext.getUserName())
-				&& password.equals(serverUser.getPassword())) 
-		{
-			serverUser.setFullName(user.getFullname());
-		}
+	    UserManager manager = UserManager.getInstance();
+	    kobold.server.data.User serverUser = manager.getUser(userContext.getUserName());
+	    if (userContext.getUserName().equals(user.getUsername())
+	        && serverUser.getUserName().equals(userContext.getUserName())
+	        && password.equals(serverUser.getPassword())) 
+	    {
+	        serverUser.setFullName(user.getFullname());
+	    }
 	}
-	
+
 	/**
 	 * @see kobold.common.controller.IKoboldServer#updateUserPassword(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String, java.lang.String)
 	 */
 	public void updateUserPassword(UserContext userContext, User user,
-			String oldPassword, String newPassword)
+	        	                   String oldPassword, String newPassword)
 	{
-		UserManager manager = UserManager.getInstance();
-		kobold.server.data.User serverUser = manager.getUser(userContext.getUserName());
-		if (userContext.getUserName().equals(user.getUsername())
-				&& serverUser.getUserName().equals(userContext.getUserName())
-				&& oldPassword.equals(serverUser.getPassword())) 
-		{
-			serverUser.setPassword(newPassword);
-		}
+	    UserManager manager = UserManager.getInstance();
+	    kobold.server.data.User serverUser = manager.getUser(userContext.getUserName());
+	    if (userContext.getUserName().equals(user.getUsername())
+	        && serverUser.getUserName().equals(userContext.getUserName())
+	        && oldPassword.equals(serverUser.getPassword())) 
+	    {
+	        serverUser.setPassword(newPassword);
+	    }
 	}
-	
+
 	/**
 	 * @see kobold.common.controller.IKoboldServer#removeUser(kobold.common.data.UserContext, kobold.common.data.User)
 	 */
-	public void removeUser(UserContext userContext, kobold.common.data.User user) {
+	public void removeUser(UserContext userContext, User user) {
+	    UserManager manager = UserManager.getInstance();
+	    kobold.server.data.User serverUser = manager.getUser(user.getUsername());
+	    UserManager.getInstance().removeUser(serverUser);
 	}
-	
+
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#addUser(UserContext, String, String, String)}
 	 */
 	public void addUser(UserContext userContext, String userName,
-			String password, String fullName)
+						String password, String fullName)
 	{
 		UserManager.getInstance().addUser(
-				new kobold.server.data.User(userName, fullName, password));
+		        new kobold.server.data.User(userName, fullName, password));
 	}
 	
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#getProductline(UserContext, String)}
 	 */
 	public Productline getProductline(UserContext userContext, String plName) {
-		ProductlineManager productManager = ProductlineManager.getInstance();
-		return productManager.getProductLine(plName);
+		ProductlineManager productlineManager = ProductlineManager.getInstance();
+		return productlineManager.getProductline(plName);
 	}
-	
+
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#updateProductline(UserContext, Productline)}
 	 */
 	public void updateProductline(UserContext userContext, Productline productline) {
-		
+	    ProductlineManager productlineManager = ProductlineManager.getInstance();
+	    productlineManager.removeProductline(productline.getName());
+	    productlineManager.addProductline(productline);
 	}
-	
+
 	/**
 	 * @see kobold.common.controller.IKoboldServer#getProductlineNames(kobold.common.data.UserContext)
 	 */
 	public List getProductlineNames(UserContext userContext) {
-		// TODO Auto-generated method stub
-		return null;
+	    ProductlineManager productlineManager = ProductlineManager.getInstance();
+	    return productlineManager.getProductlineNames();
 	}
-	
+
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#updateProduct(UserContext, String, Product)}
 	 */
 	public void updateProduct(UserContext userContext, String productlineName, Product product) {
+	    ProductlineManager productlineManager = ProductlineManager.getInstance();
+	    Productline productline = (Productline) product.getParent();
+	    productline.removeProduct(product); // removes old product, only the product name is used
+	    productline.addProduct(product);
+	    updateProductline(userContext, productline);
 	}
-	
+
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#updateProduct(UserContext, String, Product)}
 	 */
-	public void updateComponent(UserContext userContext, String productName, Component component) {
+	public void updateComponent(UserContext userContext, String productlineName, String productName, Component component) {
+	    ProductlineManager productlineManager = ProductlineManager.getInstance();
+	    Product product = (Product) component.getParent();
+	    product.removeComponent(component); // removes old component, only the component name is used
+	    product.addComponent(component);
+	    updateProduct(userContext, productlineName, product);
 	}
-	
+
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#sendMessage(UserContext, AbstractKoboldMessage)}
 	 */
@@ -458,14 +476,14 @@ IKoboldServerAdministration{
 			MessageManager.getInstance().sendMessage(userContext, koboldMessage);
 		}
 	}
-	
+
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#fetchMessage(UserContext)}
 	 */
 	public AbstractKoboldMessage fetchMessage(UserContext userContext) {
 		return MessageManager.getInstance().fetchMessage(userContext);
 	}
-	
+
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#invalidateMessage(UserContext, AbstractKoboldMessage)}
 	 */
@@ -473,14 +491,6 @@ IKoboldServerAdministration{
 		MessageManager.getInstance().invalidateMessage(userContext, koboldMessage);
 	}
 	
-	
-	/**
-	 * @see kobold.common.controller.IKoboldServer#updateComponent(kobold.common.data.UserContext, java.lang.String, java.lang.String, kobold.common.data.Component)
-	 */
-	public void updateComponent(UserContext userContext, String productlineName, String productName, Component component) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 /*
 --------------------------------------------------------------------------------
@@ -562,7 +572,7 @@ IKoboldServerAdministration{
 		
 		// 2.) [check if the passed productline exists and] remove it
 		ProductlineManager plm = ProductlineManager.getInstance();
-		plm.removeProductLine(plm.getProductLine(nameOfProductline));
+		plm.removeProductline(nameOfProductline);
 		//TODO: check the return of removeProductline as soon as there is one
 		
 		return IKoboldServerAdministration.RETURN_OK;
@@ -600,7 +610,7 @@ IKoboldServerAdministration{
 		User cuser = new User(suser.getUserName(), suser.getFullName());
 		
 		// 4.) assign the user
-		plm.getProductLine(nameOfProductline).addMaintainer(cuser);
+		plm.getProductline(nameOfProductline).addMaintainer(cuser);
 		
 		//TODO: check error return from um and plm as soon as there will be one
 		
