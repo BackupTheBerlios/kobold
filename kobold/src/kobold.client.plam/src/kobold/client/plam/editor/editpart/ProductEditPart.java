@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductEditPart.java,v 1.1 2004/08/06 01:57:29 vanto Exp $
+ * $Id: ProductEditPart.java,v 1.2 2004/09/21 20:13:24 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -33,6 +33,7 @@ import java.util.List;
 
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
+import kobold.client.plam.editor.policy.ProductContainerEditPolicy;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
@@ -66,7 +67,7 @@ import org.eclipse.swt.graphics.Font;
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductEditPart.java,v 1.1 2004/08/06 01:57:29 vanto Exp $
+ * @version $Id: ProductEditPart.java,v 1.2 2004/09/21 20:13:24 vanto Exp $
  */
 public class ProductEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
@@ -110,7 +111,7 @@ public class ProductEditPart extends AbstractGraphicalEditPart
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicyImpl());
-        //installEditPolicy(EditPolicy.CONTAINER_ROLE, new ProductlineContainerEditPolicy());
+        installEditPolicy(EditPolicy.CONTAINER_ROLE, new ProductContainerEditPolicy());
     }
 
     /**
@@ -120,7 +121,7 @@ public class ProductEditPart extends AbstractGraphicalEditPart
         String prop = evt.getPropertyName();
         if (prop.equals(AbstractAsset.ID_CHILDREN) 
             || prop.equals(AbstractAsset.ID_META)) {
-           refreshChildren();
+            refreshChildren();
         } else {
             refreshVisuals();
         }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldAssetFactory.java,v 1.8 2004/08/05 12:57:04 rendgeor Exp $
+ * $Id: KoboldAssetFactory.java,v 1.9 2004/09/21 20:13:24 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -29,6 +29,7 @@ package kobold.client.plam.editor.model;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.Release;
+import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Variant;
 
@@ -40,11 +41,11 @@ import org.eclipse.gef.requests.CreationFactory;
  */
 public class KoboldAssetFactory implements CreationFactory
 {
+    private String id;
 	//iterators for the different assets
 	public static int iterC = 0;
 	public static int iterV = 0;
 	public static int iterR = 0;
-    private String id;
     
     public KoboldAssetFactory(String id) 
     {
@@ -56,27 +57,24 @@ public class KoboldAssetFactory implements CreationFactory
      */
     public Object getNewObject()
     {
-    	//TODO: check for unique names, instead don't create asset
-  	
         if (id.equals(AbstractAsset.COMPONENT)) {
-        	iterC++;
-        	Component c = new Component();
-            c.setName(id+iterC);
+            Component c = new Component();
+            c.setName(id+ ++iterC);
             return c;
         } else if (id.equals(AbstractAsset.VARIANT)) {
-        	iterV++;
             Variant c = new Variant();
-            c.setName(id+iterV);
+            c.setName(id+ ++iterV);
             return c;
         } else if (id.equals(AbstractAsset.RELEASE)) {
-        	iterR++;
             Release c = new Release();
-            c.setName(id+iterR);
+            c.setName(id+ ++iterR);
             return c;
         } else if (id.equals(MetaNode.AND)) {
             return new MetaNode(MetaNode.AND);
         } else if (id.equals(MetaNode.OR)) {
             return new MetaNode(MetaNode.OR);
+        } else if (id.equals(AbstractAsset.SPECIFIC_COMPONENT)) {
+            return new SpecificComponent(id);
         } else {
             return null;
         }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.30 2004/09/20 16:33:18 rendgeor Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.31 2004/09/21 20:13:24 vanto Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -33,7 +33,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.KoboldProject;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.plam.model.AbstractRootAsset;
@@ -57,7 +56,6 @@ import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -717,7 +715,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 				{
 					//System.out.println ("HALLO.dupl: "+resName);
     				//rename the resourceName
-    				resName = resName.concat("m");
+    				resName = resName.concat("_1");
     				//do return
     				return avoidEqualRecourceNames(resName);    				
 

@@ -21,49 +21,45 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractCreateCommand.java,v 1.3 2004/09/21 20:13:24 vanto Exp $
+ * $Id: CreateProductComponentCommand.java,v 1.1 2004/09/21 20:13:24 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
 
-import org.eclipse.gef.commands.Command;
+import kobold.client.plam.model.IProductComponentContainer;
+import kobold.client.plam.model.product.ProductComponent;
 
 
 /**
  * @author Tammo
  */
-public abstract class AbstractCreateCommand extends Command
+public class CreateProductComponentCommand extends AbstractCreateCommand
 {
-	
-    public AbstractCreateCommand()
-    {
-        super("Create Asset");
-    }
+    private IProductComponentContainer parent;
+    private ProductComponent child;
 
-	protected abstract void addChildToParent();
-	protected abstract void removeChildFromParent();
-	
-	/**
-     * @see org.eclipse.gef.commands.Command#execute()
-     */
-    public void execute()
+    
+    public void setParent(IProductComponentContainer parent)
     {
-        redo();
+        this.parent = parent;
+    }
+    
+    public void setChild(ProductComponent child)
+    {
+        this.child = child;
     }
     
     /**
-     * @see org.eclipse.gef.commands.Command#redo()
      */
-    public void redo()
+    protected void addChildToParent()
     {
-        addChildToParent();
+        parent.addProductComponent(child);
     }
     
     /**
-     * @see org.eclipse.gef.commands.Command#undo()
      */
-    public void undo()
+    protected void removeChildFromParent()
     {
-        removeChildFromParent();
+        parent.removeProductComponent(child);
     }
 }

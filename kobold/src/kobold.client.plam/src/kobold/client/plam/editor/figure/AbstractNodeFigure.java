@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeFigure.java,v 1.8 2004/08/05 20:42:31 vanto Exp $
+ * $Id: AbstractNodeFigure.java,v 1.9 2004/09/21 20:13:24 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -35,6 +35,7 @@ import kobold.client.plam.model.AbstractStatus;
 import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.FreeformViewport;
@@ -43,7 +44,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.ScrollPane;
-import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -92,6 +92,11 @@ public abstract class AbstractNodeFigure extends ComposableFigure {
 		titlebar.setTitle(title);
 	}
 
+	public void setDesc(String desc)
+	{
+		titlebar.setDesc(desc);
+	}
+
 	public void setStatusSet(Set status) {
 	    titlebar.setStatusSet(status);
 	    
@@ -122,6 +127,7 @@ public abstract class AbstractNodeFigure extends ComposableFigure {
 		private Label scriptLabel;
 		private Set statusSet;
 		private String title;
+		private Label descLabel;
 		
 		private static Font font;
 		static {
@@ -133,9 +139,11 @@ public abstract class AbstractNodeFigure extends ComposableFigure {
 		public TitleBarFigure()
 		{
 			super();
-			ToolbarLayout tbl = new ToolbarLayout();
-			tbl.setVertical(false);
-			setLayoutManager(tbl);
+			
+			IFigure container = new Figure();
+			container.setLayoutManager(new FlowLayout(true));
+			
+			setLayoutManager(new FlowLayout(false));
 			setBorder(new MarginBorder(3));
 			
 			titleLabel = new Label();
@@ -144,13 +152,19 @@ public abstract class AbstractNodeFigure extends ComposableFigure {
 			titleLabel.setFont(font);
 			titleLabel.setForegroundColor(ColorConstants.black);
 
-			add(titleLabel);
+			container.add(titleLabel);
 			
 			iconWidget = new Figure();
-			iconWidget.setLayoutManager(tbl);
-			add(iconWidget);
+			iconWidget.setLayoutManager(new FlowLayout(true));
+			container.add(iconWidget);
 			
-			
+			add(container);
+			descLabel = new Label();
+			descLabel.setLabelAlignment(Label.LEFT);
+			descLabel.setFont(font);
+			descLabel.setForegroundColor(ColorConstants.gray);
+			descLabel.setVisible(false);
+			add(descLabel);
 //			scriptLabel = new Label(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJS_INFO_TSK));
 //			scriptLabel.setTextAlignment(Label.RIGHT);
 //			scriptLabel.setToolTip(new Label("This Asset contains Scripts"));
@@ -174,6 +188,15 @@ public abstract class AbstractNodeFigure extends ComposableFigure {
 		public void setTitle(String title) {
 		    this.title = title;
 		    titleLabel.setText(title);
+		}
+		
+		public void setDesc(String desc) {
+		    if (desc != null) {
+		        descLabel.setText(desc);
+		        descLabel.setVisible(true);
+		    } else {
+		        descLabel.setVisible(false);
+		    }
 		}
 		
 		public void setStatusSet(Set statusSet)

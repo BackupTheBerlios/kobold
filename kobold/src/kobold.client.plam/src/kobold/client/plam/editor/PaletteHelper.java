@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PaletteHelper.java,v 1.9 2004/08/24 11:10:03 vanto Exp $
+ * $Id: PaletteHelper.java,v 1.10 2004/09/21 20:13:24 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -69,8 +69,27 @@ public class PaletteHelper
 
     static List createProductCategories(){
     	List categories = new ArrayList();
-    	
+    	categories.add(createProductTools());
     	return categories;
+    }
+
+
+    static PaletteContainer createProductTools()
+    {
+    	PaletteDrawer drawer = new PaletteDrawer("Productline Assets");
+    	drawer.setUserModificationPermission(PaletteEntry.PERMISSION_FULL_MODIFICATION);
+
+       	AssetCreationToolEntry combined = new AssetCreationToolEntry(
+    		"Specific Component",
+    		"Insert a new Product-Specific Component.",
+    		AbstractAsset.SPECIFIC_COMPONENT,
+    		new KoboldAssetFactory(AbstractAsset.SPECIFIC_COMPONENT),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/component.gif"),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/component.gif")
+    	);
+       	
+    	drawer.add(combined);
+    	return drawer; 
     }
 
     static PaletteContainer createControlGroup(PaletteRoot root){

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponentFigure.java,v 1.3 2004/09/21 12:58:25 vanto Exp $
+ * $Id: ProductComponentFigure.java,v 1.4 2004/09/21 20:13:24 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -29,15 +29,11 @@ package kobold.client.plam.editor.figure;
 import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.jface.resource.JFaceResources;
 
 /**
  * @author Tammo
@@ -47,7 +43,7 @@ public abstract class ProductComponentFigure extends AbstractNodeFigure
 
     protected Dimension corner = new Dimension(8, 8);
     private IFigure fdPane;
-    private Label desc;
+//    private Label desc;
     
     /**
      * 
@@ -62,14 +58,9 @@ public abstract class ProductComponentFigure extends AbstractNodeFigure
         tbl.setMinorSpacing(2);
         fdPane.setLayoutManager(tbl);
         fdPane.setBackgroundColor(ColorConstants.gray);
-        desc = new Label();
-        desc.setLabelAlignment(Label.LEFT);
-		font = JFaceResources.getDefaultFont();
-		desc.setFont(font);
-		desc.setForegroundColor(ColorConstants.gray);
 
-        add(desc);
         add(fdPane);
+        
         getLayoutManager().setConstraint(fdPane, BorderLayout.BOTTOM);
     }
     
@@ -107,9 +98,6 @@ public abstract class ProductComponentFigure extends AbstractNodeFigure
 
 	public void setDescription(String desc) 
 	{
-	    this.desc.setText(desc);
-	    this.desc.setLocation(new Point(5, 5));
-	    this.desc.setSize(FigureUtilities.getTextExtents(desc, this.desc.getFont()));
-
+	    setDesc(desc);
 	}
 }

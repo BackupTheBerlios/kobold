@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.23 2004/09/20 06:46:27 martinplies Exp $
+ * $Id: FileDescriptor.java,v 1.24 2004/09/21 20:13:24 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -52,7 +52,7 @@ import org.eclipse.core.runtime.Path;
  *
  * @author garbeam
  */
-public class FileDescriptor extends AbstractAsset implements IFileDescriptorContainer, 
+public class FileDescriptor implements IFileDescriptorContainer, 
 							INode, IGXLExport, IAdaptable {
 
     private List children = new ArrayList();
@@ -132,7 +132,7 @@ public class FileDescriptor extends AbstractAsset implements IFileDescriptorCont
     /**
      * @return Returns the parent.
      */
-    public AbstractAsset getParent()
+    public FileDescriptor getParent()
     {
         return parent;
     }
@@ -194,7 +194,8 @@ public class FileDescriptor extends AbstractAsset implements IFileDescriptorCont
         if (parentAsset != null) {
             fd.setParentAsset(parentAsset);
         }
-    	System.out.println ("fd "+fd.filename + " added!");
+        fireStructureChange(AbstractAsset.ID_FILE_DESCRIPTORS, fd);
+        System.out.println ("fd "+fd.filename + " added!");
     }
 
 
@@ -206,6 +207,7 @@ public class FileDescriptor extends AbstractAsset implements IFileDescriptorCont
         children.remove(fd);
         fd.setParent(null);
         fd.setParentAsset(null);
+        fireStructureChange(AbstractAsset.ID_FILE_DESCRIPTORS, fd);
     }
 
 
@@ -238,9 +240,9 @@ public class FileDescriptor extends AbstractAsset implements IFileDescriptorCont
 	 */
 	public IPath getLocalPath() {
 	    if (parent != null){
-	       return new Path(((FileDescriptor)getParent()).getLocalPath().toString() + filename);
+	       return new Path(getParent().getLocalPath().toString() + filename);
 	    } else {
-	        return new Path( this.parentAsset.getLocalPath().toString() + filename);
+	        return new Path(parentAsset.getLocalPath().toString() + filename);
 	    }
 	}
 
@@ -273,7 +275,7 @@ public class FileDescriptor extends AbstractAsset implements IFileDescriptorCont
      * @see kobold.client.plam.model.edges.INode#getRoot()
      */
     public AbstractRootAsset getRoot() {
-        return this.getParentAsset().getRoot();
+        return getParentAsset().getRoot();
     }
 
 	/**
@@ -281,7 +283,7 @@ public class FileDescriptor extends AbstractAsset implements IFileDescriptorCont
 	 */
 	public RepositoryDescriptor getRemoteRepository() {
 		RepositoryDescriptor repositoryDescriptor =
-			new RepositoryDescriptor(((FileDescriptor)getParent()).getRemoteRepository().serialize());
+			new RepositoryDescriptor(getParent().getRemoteRepository().serialize());
 		repositoryDescriptor.setPath(repositoryDescriptor.getPath() + filename);
 		return repositoryDescriptor;
 	}
@@ -341,7 +343,7 @@ public class FileDescriptor extends AbstractAsset implements IFileDescriptorCont
 		listeners.removePropertyChangeListener(l);
 	}
 
-	/*protected final void fireStructureChange(String prop, Object child){
+	protected final void fireStructureChange(String prop, Object child){
 		listeners.firePropertyChange(prop, null, child);
 
 		AbstractRootAsset root = getRoot();
@@ -354,7 +356,7 @@ public class FileDescriptor extends AbstractAsset implements IFileDescriptorCont
 
 	}
 
-*/
+
     /* (non-Javadoc)
      * @see kobold.client.plam.model.edges.INode#getId()
      */
