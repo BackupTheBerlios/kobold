@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.38 2004/09/20 16:03:31 garbeam Exp $
+ * $Id: StatusUpdater.java,v 1.39 2004/09/21 15:10:38 garbeam Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -73,9 +73,10 @@ public class StatusUpdater {
 	{
 		String tmpString = fdCon.getLocalPath().toOSString();
 		final String[] command = {"perl", getScriptPath() + 
-							"stats.pl", tmpString.substring(0,tmpString.length()-1)};
+        					      "stats.pl", tmpString.substring(0,tmpString.length()-1)};
+	    logger.debug("running: " + command[0] + " " + command[1] + " " + command[2]);
+	    
 	    try {
-	        
 	        ProgressManager.getInstance().runInUI(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), new WorkspaceModifyDelegatingOperation(new IRunnableWithProgress() {
 	            public void run(IProgressMonitor monitor)
 	            throws InvocationTargetException, InterruptedException

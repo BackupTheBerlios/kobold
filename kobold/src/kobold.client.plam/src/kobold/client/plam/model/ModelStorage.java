@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.39 2004/09/20 18:50:57 martinplies Exp $
+ * $Id: ModelStorage.java,v 1.40 2004/09/21 15:10:37 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -310,9 +310,10 @@ public class ModelStorage
         AbstractAsset asset = (AbstractAsset)fd.getParentAsset();
         IFolder folder = getFolderForAsset(asset);
         String relP = fd.getFilename();
+        fd = (FileDescriptor)fd.getParent();
         while (fd != null) {
-            fd = (FileDescriptor)fd.getParent();        
-            relP = fd.getFilename() + IPath.SEPARATOR + relP ;            
+            relP = fd.getFilename() + IPath.SEPARATOR + relP ;
+            fd = (FileDescriptor)fd.getParent();
         }
         return folder.findMember(relP);
     }

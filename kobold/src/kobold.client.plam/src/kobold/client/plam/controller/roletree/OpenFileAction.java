@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: OpenFileAction.java,v 1.1 2004/09/19 22:27:23 martinplies Exp $
+ * $Id: OpenFileAction.java,v 1.2 2004/09/21 15:10:37 garbeam Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -39,13 +39,9 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.SelectionListenerAction;
 import org.eclipse.ui.ide.IDE;
 
-
-
 /**
  * @author pliesmn
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class OpenFileAction extends SelectionListenerAction{
 
@@ -72,7 +68,5 @@ public class OpenFileAction extends SelectionListenerAction{
             }
          }
        }
-        
     }
-
 }
