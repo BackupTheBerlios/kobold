@@ -21,13 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CreateVariantCommand.java,v 1.1 2004/06/23 12:58:10 vanto Exp $
+ * $Id: CreateVariantCommand.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
 
-import kobold.common.model.IVariantContainer;
-import kobold.common.model.productline.Variant;
+import kobold.client.plam.model.IVariantContainer;
+import kobold.client.plam.model.productline.Variant;
 
 
 /**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentContainerEditPolicy.java,v 1.1 2004/06/23 12:58:10 vanto Exp $
+ * $Id: ComponentContainerEditPolicy.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
@@ -29,9 +29,9 @@ package kobold.client.plam.editor.policy;
 import kobold.client.plam.editor.command.CreateVariantCommand;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModelContainer;
-import kobold.common.model.AbstractAsset;
-import kobold.common.model.IVariantContainer;
-import kobold.common.model.productline.Variant;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.IVariantContainer;
+import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.commands.Command;

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ViewModel.java,v 1.4 2004/06/28 01:24:24 vanto Exp $
+ * $Id: ViewModel.java,v 1.5 2004/07/01 11:27:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -34,8 +34,8 @@ import org.dom4j.Element;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
+import kobold.client.plam.model.AbstractAsset;
 import kobold.common.data.ISerializable;
-import kobold.common.model.AbstractAsset;
 
 
 /**

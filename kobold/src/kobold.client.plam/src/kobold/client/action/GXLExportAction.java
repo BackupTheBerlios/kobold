@@ -6,8 +6,8 @@
  */
 package kobold.client.action;
 
+import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.wizard.GXLExportDialog;
-import kobold.common.model.AbstractAsset;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;

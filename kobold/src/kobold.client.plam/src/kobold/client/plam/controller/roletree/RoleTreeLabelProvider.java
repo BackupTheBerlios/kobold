@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.8 2004/06/27 18:41:26 vanto Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.9 2004/07/01 11:27:25 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -32,16 +32,16 @@ import java.util.Map;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.TreeContainer;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.Release;
+import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.productline.Component;
+import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.RoleP;
 import kobold.common.data.RolePE;
 import kobold.common.data.RolePLE;
 import kobold.common.data.User;
-import kobold.common.model.AbstractAsset;
-import kobold.common.model.Release;
-import kobold.common.model.product.Product;
-import kobold.common.model.productline.Component;
-import kobold.common.model.productline.Productline;
-import kobold.common.model.productline.Variant;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.resource.ImageDescriptor;

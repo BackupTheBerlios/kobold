@@ -21,18 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteCommand.java,v 1.3 2004/06/24 01:26:42 vanto Exp $
+ * $Id: DeleteCommand.java,v 1.4 2004/07/01 11:27:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
 
-import kobold.common.model.AbstractAsset;
-import kobold.common.model.IComponentContainer;
-import kobold.common.model.IReleaseContainer;
-import kobold.common.model.IVariantContainer;
-import kobold.common.model.Release;
-import kobold.common.model.productline.Component;
-import kobold.common.model.productline.Variant;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.IComponentContainer;
+import kobold.client.plam.model.IReleaseContainer;
+import kobold.client.plam.model.IVariantContainer;
+import kobold.client.plam.model.Release;
+import kobold.client.plam.model.productline.Component;
+import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.gef.commands.Command;
 

@@ -26,7 +26,7 @@
 
 package kobold.client.vcm.controller;
 
-import kobold.common.model.AbstractAsset;
+import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.team.core.TeamException;

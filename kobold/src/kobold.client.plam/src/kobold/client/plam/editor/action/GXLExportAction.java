@@ -6,9 +6,9 @@
  */
 package kobold.client.plam.editor.action;
 
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.Release;
 import kobold.client.plam.wizard.GXLExportDialog;
-import kobold.common.model.AbstractAsset;
-import kobold.common.model.Release;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;

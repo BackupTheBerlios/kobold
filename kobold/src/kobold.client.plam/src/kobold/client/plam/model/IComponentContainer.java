@@ -21,45 +21,47 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CreateComponentCommand.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
+ * $Id: IComponentContainer.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
  *
  */
-package kobold.client.plam.editor.command;
+package kobold.client.plam.model;
 
-import kobold.client.plam.model.IComponentContainer;
+import java.util.List;
+
 import kobold.client.plam.model.productline.Component;
 
 
 /**
  * @author Tammo
  */
-public class CreateComponentCommand extends AbstractCreateCommand
+public interface IComponentContainer
 {
-    private IComponentContainer parent;
-    private Component child;
+	/**
+	 * Adds a component and has to set its parent to this asset.
+	 *
+	 * @param component to add
+	 */
+    void addComponent(Component comp);
 
-    public void setParent(IComponentContainer parent)
-    {
-        this.parent = parent;
-    }
-    
-    public void setChild(Component child)
-    {
-        this.child = child;
-    }
+	/**
+	 * Adds a component at the given index and has to set its 
+	 * parent to this asset.
+	 *
+	 * @param component to add
+	 */
+    void addComponent(Component comp, int index);
+
+    /**
+	 * Removes a component and has to set its parent to null.
+	 *
+	 * @param component to remove
+	 */
+    void removeComponent(Component comp);
     
     /**
-     * @see org.eclipse.gef.commands.Command#redo()
+     * Returns an unmodifiable list of components.
+     * 
+     * @return list of components
      */
-    protected void addChildToParent()
-    {
-        parent.addComponent(child);
-    }
-    
-    /**
-     */
-    protected void removeChildFromParent()
-    {
-        parent.removeComponent(child);
-    }
+    List getComponents();
 }

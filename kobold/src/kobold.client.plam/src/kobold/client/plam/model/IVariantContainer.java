@@ -21,45 +21,47 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CreateComponentCommand.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
+ * $Id: IVariantContainer.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
  *
  */
-package kobold.client.plam.editor.command;
+package kobold.client.plam.model;
 
-import kobold.client.plam.model.IComponentContainer;
-import kobold.client.plam.model.productline.Component;
+import java.util.List;
+
+import kobold.client.plam.model.productline.Variant;
 
 
 /**
  * @author Tammo
  */
-public class CreateComponentCommand extends AbstractCreateCommand
+public interface IVariantContainer
 {
-    private IComponentContainer parent;
-    private Component child;
+	/**
+	 * Adds a variant and has to set its parent to this asset.
+	 *
+	 * @param variant to add
+	 */
+    void addVariant(Variant var);
 
-    public void setParent(IComponentContainer parent)
-    {
-        this.parent = parent;
-    }
-    
-    public void setChild(Component child)
-    {
-        this.child = child;
-    }
+	/**
+	 * Adds a variant at the given index and has to set its 
+	 * parent to this asset.
+	 *
+	 * @param variant to add
+	 */
+    void addVariant(Variant var, int index);
+
+    /**
+	 * Removes a variant and has to set its parent to null.
+	 *
+	 * @param variant to remove
+	 */
+    void removeVariant(Variant var);
     
     /**
-     * @see org.eclipse.gef.commands.Command#redo()
+     * Returns an unmodifiable list of variants.
+     * 
+     * @return list of variants
      */
-    protected void addChildToParent()
-    {
-        parent.addComponent(child);
-    }
-    
-    /**
-     */
-    protected void removeChildFromParent()
-    {
-        parent.removeComponent(child);
-    }
+    List getVariants();
 }

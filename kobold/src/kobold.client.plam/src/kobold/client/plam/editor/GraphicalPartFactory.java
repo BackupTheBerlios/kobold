@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalPartFactory.java,v 1.4 2004/06/22 23:30:12 vanto Exp $
+ * $Id: GraphicalPartFactory.java,v 1.5 2004/07/01 11:27:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -29,9 +29,9 @@ package kobold.client.plam.editor;
 import kobold.client.plam.editor.editpart.ComponentEditPart;
 import kobold.client.plam.editor.editpart.ProductlineEditPart;
 import kobold.client.plam.editor.editpart.VariantEditPart;
-import kobold.common.model.productline.Component;
-import kobold.common.model.productline.Productline;
-import kobold.common.model.productline.Variant;
+import kobold.client.plam.model.productline.Component;
+import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;

@@ -21,45 +21,38 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CreateComponentCommand.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
+ * $Id: IFileDescriptorContainer.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
  *
  */
-package kobold.client.plam.editor.command;
+package kobold.client.plam.model;
 
-import kobold.client.plam.model.IComponentContainer;
-import kobold.client.plam.model.productline.Component;
+import java.util.List;
+
 
 
 /**
  * @author Tammo
  */
-public class CreateComponentCommand extends AbstractCreateCommand
+public interface IFileDescriptorContainer
 {
-    private IComponentContainer parent;
-    private Component child;
+	/**
+	 * Adds a filedescriptor.
+	 *
+	 * @param filedescriptor to add
+	 */
+    void addFileDescriptor(FileDescriptor fd);
 
-    public void setParent(IComponentContainer parent)
-    {
-        this.parent = parent;
-    }
-    
-    public void setChild(Component child)
-    {
-        this.child = child;
-    }
+    /**
+	 * Removes a filedescriptor.
+	 *
+	 * @param filedescriptor to remove
+	 */
+    void removeFileDescriptor(FileDescriptor fd);
     
     /**
-     * @see org.eclipse.gef.commands.Command#redo()
+     * Returns an unmodifiable list of filedescriptors.
+     * 
+     * @return list of filedescriptors
      */
-    protected void addChildToParent()
-    {
-        parent.addComponent(child);
-    }
-    
-    /**
-     */
-    protected void removeChildFromParent()
-    {
-        parent.removeComponent(child);
-    }
+    List getFileDescriptors();
 }

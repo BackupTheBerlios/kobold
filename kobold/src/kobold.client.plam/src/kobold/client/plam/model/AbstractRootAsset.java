@@ -21,82 +21,82 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditorInput.java,v 1.3 2004/07/01 11:27:25 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
  *
  */
-package kobold.client.plam.editor;
+package kobold.client.plam.model;
 
-import kobold.client.plam.model.AbstractRootAsset;
-
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IPersistableElement;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
+ * This is the abstract root for Productline.
+ * 
  * @author Tammo
  */
-public class ArchitectureEditorInput implements IEditorInput
+public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 {
-
-    private AbstractRootAsset asset;
-
-    public ArchitectureEditorInput(AbstractRootAsset asset) 
-    {
-        this.asset = asset;
-    }
-    
-    public AbstractRootAsset getAsset()
-    {
-        return asset;
-    }
+    private Object project;
+    private Map userPool = new HashMap();
+    protected Map releasePool = new HashMap();
+    protected transient PropertyChangeSupport changeListeners = new PropertyChangeSupport(this); 
     
     /**
-     * @see org.eclipse.ui.IEditorInput#exists()
+     * Default constructor. 
      */
-    public boolean exists()
+    public AbstractRootAsset()
     {
-        return false;
     }
 
     /**
-     * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
+     * Name constructor. 
      */
-    public ImageDescriptor getImageDescriptor()
+    public AbstractRootAsset(String name)
     {
-        return null;
+        super(name);
     }
 
+    
     /**
-     * @see org.eclipse.ui.IEditorInput#getName()
+     * @param project The project to set.
      */
-    public String getName()
+    public void setProject(Object project)
     {
-        return asset.getName();
+        this.project = project;
     }
-
+    
+    
     /**
-     * @see org.eclipse.ui.IEditorInput#getPersistable()
+     * @return Returns the project.
      */
-    public IPersistableElement getPersistable()
+    public Object getProject()
     {
-        return null;
+        return project;
     }
-
+    
     /**
-     * @see org.eclipse.ui.IEditorInput#getToolTipText()
+     * @return Returns the userPool.
      */
-    public String getToolTipText()
+    public Map getUserPool()
     {
-        return ""+asset.getDescription();
+        return userPool;
     }
 
-    /**
-     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
-     */
-    public Object getAdapter(Class adapter)
-    {
-        return null;
-    }
+    public void addModelChangeListener(PropertyChangeListener l)
+	{
+		changeListeners.addPropertyChangeListener(l);
+	}
 
+	public void removeModelChangeListener(PropertyChangeListener l)
+	{
+		changeListeners.removePropertyChangeListener(l);
+	}
+	
+	public void fireModelChange() 
+	{
+	    changeListeners.firePropertyChange("refresh", false, true);
+	}
 }

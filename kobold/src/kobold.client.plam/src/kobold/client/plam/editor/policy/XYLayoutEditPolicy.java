@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: XYLayoutEditPolicy.java,v 1.6 2004/06/28 01:17:42 vanto Exp $
+ * $Id: XYLayoutEditPolicy.java,v 1.7 2004/07/01 11:27:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
@@ -29,7 +29,7 @@ package kobold.client.plam.editor.policy;
 import kobold.client.plam.editor.command.SetConstraintCommand;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
-import kobold.common.model.AbstractAsset;
+import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DefaultEditDomain;
@@ -44,7 +44,7 @@ import org.eclipse.gef.requests.CreateRequest;
  * XYLayoutEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: XYLayoutEditPolicy.java,v 1.6 2004/06/28 01:17:42 vanto Exp $
+ * @version $Id: XYLayoutEditPolicy.java,v 1.7 2004/07/01 11:27:25 vanto Exp $
  */
 public class XYLayoutEditPolicy 
 	extends org.eclipse.gef.editpolicies.XYLayoutEditPolicy {

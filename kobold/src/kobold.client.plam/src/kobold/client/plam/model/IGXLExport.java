@@ -21,45 +21,44 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CreateComponentCommand.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
+ * $Id: IGXLExport.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
  *
  */
-package kobold.client.plam.editor.command;
+package kobold.client.plam.model;
 
-import kobold.client.plam.model.IComponentContainer;
-import kobold.client.plam.model.productline.Component;
-
+import java.util.List;
+import java.util.Map;
 
 /**
- * @author Tammo
+ * @author meiner
+ *
+ * TODO To change the template for this generated type comment go to
+ * Window - Preferences - Java - Code Style - Code Templates
  */
-public class CreateComponentCommand extends AbstractCreateCommand
-{
-    private IComponentContainer parent;
-    private Component child;
+public interface IGXLExport {
 
-    public void setParent(IComponentContainer parent)
-    {
-        this.parent = parent;
-    }
-    
-    public void setChild(Component child)
-    {
-        this.child = child;
-    }
-    
-    /**
-     * @see org.eclipse.gef.commands.Command#redo()
-     */
-    protected void addChildToParent()
-    {
-        parent.addComponent(child);
-    }
-    
-    /**
-     */
-    protected void removeChildFromParent()
-    {
-        parent.removeComponent(child);
-    }
+	/**
+	 * Create a Map with the Attributes of the Childclass.
+	 * It contains only Attributes that should be in the 
+	 * GXL Graph.
+	 * The Attributes must be Strings.
+	 * 
+	 * @return Map with the Attributes that shoud be in+
+	 * the GXLGraph.
+	 */
+	public Map getGXLAttributes();
+	
+	/**
+	 * The List contains only Childclassse of this class.
+	 * @return List List with the children of this GXLNode
+	 */
+	public List getGXLChildren();
+	
+	/**
+	 * 
+	 * @return String the GXL type of the Childclass.
+	 */
+	public String getGXLType();
+
+
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PaletteHelper.java,v 1.2 2004/06/23 12:58:10 vanto Exp $
+ * $Id: PaletteHelper.java,v 1.3 2004/07/01 11:27:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -31,7 +31,7 @@ import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.editor.model.KoboldAssetFactory;
-import kobold.common.model.AbstractAsset;
+import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;

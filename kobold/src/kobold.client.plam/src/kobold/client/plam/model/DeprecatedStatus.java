@@ -21,82 +21,48 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditorInput.java,v 1.3 2004/07/01 11:27:25 vanto Exp $
+ * $Id: DeprecatedStatus.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
  *
  */
-package kobold.client.plam.editor;
-
-import kobold.client.plam.model.AbstractRootAsset;
+package kobold.client.plam.model;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IPersistableElement;
 
 
 /**
  * @author Tammo
  */
-public class ArchitectureEditorInput implements IEditorInput
+public class DeprecatedStatus extends AbstractStatus
 {
-
-    private AbstractRootAsset asset;
-
-    public ArchitectureEditorInput(AbstractRootAsset asset) 
-    {
-        this.asset = asset;
-    }
-    
-    public AbstractRootAsset getAsset()
-    {
-        return asset;
-    }
-    
     /**
-     * @see org.eclipse.ui.IEditorInput#exists()
+     * @see kobold.client.plam.model.IStatus#getId()
      */
-    public boolean exists()
+    public String getId()
     {
-        return false;
+        return DEPRECATED_ID;
     }
 
     /**
-     * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
-     */
-    public ImageDescriptor getImageDescriptor()
-    {
-        return null;
-    }
-
-    /**
-     * @see org.eclipse.ui.IEditorInput#getName()
+     * @see kobold.client.plam.model.IStatus#getName()
      */
     public String getName()
     {
-        return asset.getName();
+        return "deprecated";
     }
 
     /**
-     * @see org.eclipse.ui.IEditorInput#getPersistable()
+     * @see kobold.client.plam.model.IStatus#getDescription()
      */
-    public IPersistableElement getPersistable()
+    public String getDescription()
+    {
+        return "{0} is deprecated. Please choose an alternative.";
+    }
+
+    /**
+     * @see kobold.client.plam.model.IStatus#getIcon()
+     */
+    public ImageDescriptor getIcon()
     {
         return null;
     }
-
-    /**
-     * @see org.eclipse.ui.IEditorInput#getToolTipText()
-     */
-    public String getToolTipText()
-    {
-        return ""+asset.getDescription();
-    }
-
-    /**
-     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
-     */
-    public Object getAdapter(Class adapter)
-    {
-        return null;
-    }
-
 }

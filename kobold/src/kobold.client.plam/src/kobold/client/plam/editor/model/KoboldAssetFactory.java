@@ -21,15 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldAssetFactory.java,v 1.1 2004/06/23 02:26:23 vanto Exp $
+ * $Id: KoboldAssetFactory.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
 
-import kobold.common.model.AbstractAsset;
-import kobold.common.model.Release;
-import kobold.common.model.productline.Component;
-import kobold.common.model.productline.Variant;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.Release;
+import kobold.client.plam.model.productline.Component;
+import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.gef.requests.CreationFactory;
 

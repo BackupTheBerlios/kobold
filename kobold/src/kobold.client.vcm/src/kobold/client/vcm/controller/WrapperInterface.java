@@ -21,18 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WrapperInterface.java,v 1.3 2004/06/24 09:58:59 grosseml Exp $
+ * $Id: WrapperInterface.java,v 1.4 2004/07/01 11:27:44 vanto Exp $
  *
  */
 package kobold.client.vcm.controller;
 
 import java.util.List;
 
+import kobold.client.plam.model.FileDescriptor;
 import kobold.common.data.UserContext;
 import kobold.common.exception.VCMIOException;
 import kobold.common.exception.VCMNotPermitException;
 import kobold.common.exception.VCMScriptInvocationException;
-import kobold.common.io.FileDescriptor;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.io.ScriptDescriptor;
 

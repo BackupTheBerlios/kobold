@@ -21,45 +21,45 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CreateComponentCommand.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
+ * $Id: IReleaseContainer.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
  *
  */
-package kobold.client.plam.editor.command;
+package kobold.client.plam.model;
 
-import kobold.client.plam.model.IComponentContainer;
-import kobold.client.plam.model.productline.Component;
+import java.util.List;
 
 
 /**
  * @author Tammo
  */
-public class CreateComponentCommand extends AbstractCreateCommand
+public interface IReleaseContainer
 {
-    private IComponentContainer parent;
-    private Component child;
+	/**
+	 * Adds a release and has to set its parent to this asset.
+	 *
+	 * @param release to add
+	 */
+    void addRelease(Release release);
 
-    public void setParent(IComponentContainer parent)
-    {
-        this.parent = parent;
-    }
-    
-    public void setChild(Component child)
-    {
-        this.child = child;
-    }
+	/**
+	 * Adds a release at the given index and has to set its 
+	 * parent to this asset.
+	 *
+	 * @param release to add
+	 */
+    void addRelease(Release release, int index);
+
+    /**
+	 * Removes a release and has to set its parent to null.
+	 *
+	 * @param release to remove
+	 */
+    void removeRelease(Release release);
     
     /**
-     * @see org.eclipse.gef.commands.Command#redo()
+     * Returns an unmodifiable list of releases.
+     * 
+     * @return list of releases
      */
-    protected void addChildToParent()
-    {
-        parent.addComponent(child);
-    }
-    
-    /**
-     */
-    protected void removeChildFromParent()
-    {
-        parent.removeComponent(child);
-    }
+    List getReleases();
 }

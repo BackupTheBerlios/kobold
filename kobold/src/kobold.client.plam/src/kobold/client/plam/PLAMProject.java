@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.12 2004/06/27 23:52:32 vanto Exp $
+ * $Id: PLAMProject.java,v 1.13 2004/07/01 11:27:25 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -34,9 +34,9 @@ import java.io.InputStream;
 import java.net.URL;
 
 import kobold.client.plam.editor.model.ViewModelContainer;
-import kobold.common.model.productline.Component;
-import kobold.common.model.productline.Productline;
-import kobold.common.model.productline.Variant;
+import kobold.client.plam.model.productline.Component;
+import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

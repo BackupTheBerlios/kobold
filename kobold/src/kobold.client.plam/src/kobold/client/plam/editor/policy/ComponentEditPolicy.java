@@ -21,13 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentEditPolicy.java,v 1.1 2004/06/23 12:58:10 vanto Exp $
+ * $Id: ComponentEditPolicy.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
 
 import kobold.client.plam.editor.command.DeleteCommand;
-import kobold.common.model.AbstractAsset;
+import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.GroupRequest;

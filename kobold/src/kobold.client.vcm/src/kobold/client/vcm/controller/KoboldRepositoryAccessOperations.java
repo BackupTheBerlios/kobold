@@ -26,8 +26,7 @@ package kobold.client.vcm.controller;
 
 
 
-import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.common.model.AbstractAsset;
+import kobold.client.plam.model.AbstractAsset;
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.communication.CVSSererConnection;
 import kobold.client.vcm.communication.KoboldPolicy;

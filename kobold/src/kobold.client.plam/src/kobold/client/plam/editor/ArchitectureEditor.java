@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.18 2004/06/29 15:50:38 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.19 2004/07/01 11:27:25 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -35,8 +35,8 @@ import kobold.client.plam.PLAMProject;
 import kobold.client.plam.editor.action.GXLExportAction;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModelContainer;
-import kobold.common.model.AbstractRootAsset;
-import kobold.common.model.productline.Productline;
+import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.productline.Productline;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IAdaptable;
