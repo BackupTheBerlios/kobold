@@ -46,21 +46,15 @@ public class ContainerViewItem extends AbstractViewItem {
 	 */
 	public Composite createViewControl(Composite parent) {
 		
-		Composite control = new Composite(parent, SWT.NONE);
+		Group container = new Group(parent, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
-		control.setLayout(gridLayout);
+		container.setLayout(gridLayout);
 		
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		control.setLayoutData(data);
-
-		//control.setBackground(ColorConstants.white);
-
-		container = new Group(control, SWT.NONE);
-		container.setText(item.getDescription());
-		
-		data = new GridData(GridData.FILL_HORIZONTAL);
 		container.setLayoutData(data);
+
+		//container.setBackground(ColorConstants.white);
 
 		// add Children ViewItems
 		for (int i = 0; i < items.length; i++) {
@@ -84,7 +78,7 @@ public class ContainerViewItem extends AbstractViewItem {
 			}
 		}
 		
-		return control;			
+		return container;			
 	}
 
 	/* (non-Javadoc)
