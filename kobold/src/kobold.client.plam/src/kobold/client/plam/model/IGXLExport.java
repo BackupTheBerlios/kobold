@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IGXLExport.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: IGXLExport.java,v 1.2 2004/07/15 13:57:48 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author meiner
+ * @author pliesmn
  *
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates

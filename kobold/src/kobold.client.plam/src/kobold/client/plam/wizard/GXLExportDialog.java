@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.9 2004/07/01 14:37:02 vanto Exp $
+ * $Id: GXLExportDialog.java,v 1.10 2004/07/15 13:58:25 martinplies Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -56,7 +56,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * @author meiner
+ * @author pliesmn
  * 
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates

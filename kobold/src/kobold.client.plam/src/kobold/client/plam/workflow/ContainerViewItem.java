@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
 /**
- * @author meiner1
+ * @author pliesmn
  * 
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Generation - Code and Comments
