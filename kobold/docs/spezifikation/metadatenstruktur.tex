@@ -1,1 +1,74 @@
-\section{Metadatenstruktur}
+\section{Metadaten}
+Kobold verwendet Metadaten um Informationen über erstellte
+Produktlinien, Produkte und den verwendeten Core-Assets in XML-Dateien
+zu persistieren, um diese Informationen an verschiedenen
+Arbeitsplätzen zu verwenden. Diese Dateien werden in einem Repository
+gespeichert und stehen unter Versionskontrolle.
+%-----------------------------------------------
+\subsection{Datenstruktur}
+Die Verzeichnisstruktur im Workspace spiegelt den Navigationsbaum
+wieder. Dabei werden dynamisch beim deserialisieren der Metadateien
+die folgenden Verzeichnisse, die nicht unter Versionskontrolle stehen,
+angelegt.
+
+Workspace/NameDerProduktlinie/
+\\				PL/.productlinemetainfo
+\\				PRODUCTS/NameProdukt/.productmetainfo
+\\				CA/.coreassetmetainfo
+
+Die Datei ``.productlinemetainfo'' beschreibt welche Produkte innerhalb
+der Produktlinie liegen. Die aufgeführten Produkte werden innerhalb der Datei
+``.productmetainfo'' des jeweiligen Produktverzeichnises genau
+spezifiziert. Informationen über die verwendeten Core-Asset
+Komponenten werden durch die Datei ``.coreassetmetainfo'' erfasst.
+
+\subsection{Produktlinien-Metainformation}
+Die Datei ``.productlinemetainfo'' enthält folgende Informationen über
+vorhandene Produkte:
+\begin{itemize}
+  \item{vorhandene Produkte: Name}
+\end{itemize}
+
+\subsection{Produkt-Metainformation}
+Die Datei ``.productmetainfo'' enthält folgende Informationen über
+das jeweilige Produkt:
+\begin{itemize}
+  \item{verwendete Komponente (type=''pspec''): Name}
+  \begin{itemize}
+    \item{verschiedene Versionen: Name}
+    \begin{itemize}
+      \item{Filedeskriptor: Pfad, Version der Datei, Letzte
+          Änderung an Datei, Letzter Bearbeiter}
+    \end{itemize}
+  \end{itemize}
+%--------------------------
+  \item{verwendete Komponente (type=''related''): Name}
+  \begin{itemize}
+    \item{verwendete Variante: Name, Version}
+    \begin{itemize}
+      \item{Filedeskriptor: Pfad, Version der Datei, Letzte
+          Änderung an Datei, Letzter Bearbeiter}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsection{Core-Asset-Metainformation}
+Die Datei ``.coreassetmetainfo'' enthält folgende Informationen über
+die verwendeten Core-Assets:
+\begin{itemize}
+  \item{verwendete Core-Assets: Name}
+  \begin{itemize}
+    \item{verwendete Komponente: Name}
+    \begin{itemize}
+      \item{verwendete Variante: Name}
+      \begin{itemize}
+        \item{verwendete Version: Name}
+        %\begin{itemize}
+          \item{Filedeskriptor: Pfad, Version der Datei, Letzte
+          Änderung an Datei, Letzter Bearbeiter}
+        %\end{itemize}
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
