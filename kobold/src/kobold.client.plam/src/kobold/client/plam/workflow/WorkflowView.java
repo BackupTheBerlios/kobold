@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.16 2004/06/27 22:20:37 bettina Exp $
+ * $Id: WorkflowView.java,v 1.17 2004/08/02 17:23:54 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -30,8 +30,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.listeners.IProjectChangeListener;
-import kobold.common.data.*;
+import kobold.common.data.AbstractKoboldMessage;
+import kobold.common.data.KoboldMessage;
+import kobold.common.data.UserContext;
+import kobold.common.data.WorkflowItem;
+import kobold.common.data.WorkflowMessage;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.Action;
@@ -120,7 +125,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		viewer.setLabelProvider(new ViewLabelProvider());
 		//viewer.setSorter(new NameSorter());
 
-		viewer.setInput(KoboldPLAMPlugin.getCurrentMessageQueue());
+		viewer.setInput(KoboldPLAMPlugin.getCurrentKoboldProject().getMessageQueue());
 		
 		makeActions();
 		hookContextMenu();
@@ -187,7 +192,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private void makeActions() {
 		fetchAction = new Action() {
 			public void run() {
-				KoboldPLAMPlugin.getCurrentMessageQueue().fetchMessages();
+				KoboldPLAMPlugin.getCurrentKoboldProject().getMessageQueue().fetchMessages();
 				
 			}
 		};
@@ -219,7 +224,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
 				if (obj instanceof AbstractKoboldMessage) {
-					KoboldPLAMPlugin.getCurrentMessageQueue().removeMessage((AbstractKoboldMessage)obj);
+					KoboldPLAMPlugin.getCurrentKoboldProject().getMessageQueue().removeMessage((AbstractKoboldMessage)obj);
 				}
 			}
 		};
@@ -231,8 +236,9 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 				
 				WorkflowMessage msg = new WorkflowMessage("TextMail");
 				try {
-					UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-					msg.setSender(user.getUserName());
+					//UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
+					UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
+				    msg.setSender(ctx.getUserName());
 					msg.setStep(1);
 					msg.setReceiver("-");
 					msg.setSubject("-");
@@ -244,7 +250,8 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 					WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
 					wfDialog.open();	
 				} catch (Exception e) {
-					showMessage("A project must be selected!");
+					// FIXME: Diesen Bullshit mal richtig behandeln!!!!!!
+				    showMessage("A project must be selected!");
 				}
 			}
 		};
@@ -255,11 +262,12 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 			public void run() {
 				WorkflowMessage msg = new WorkflowMessage("Core Group Suggestion");
 				try {
-					UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();					
-					msg.setSender(user.getUserName());	
+					UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
+				    					
+					msg.setSender(ctx.getUserName());	
 					msg.setStep(1);
 					msg.setReceiver("PE");
-					msg.putWorkflowData("P", user.getUserName());
+					msg.putWorkflowData("P", ctx.getUserName());
 					/** may be used later
 						if (role instanceof RolePE) {
 							msg.setStep(2);
@@ -317,7 +325,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	{
 		viewer.getControl().getDisplay().asyncExec(new Runnable() {
 			public void run() {
-				viewer.setInput(KoboldPLAMPlugin.getCurrentMessageQueue());
+				viewer.setInput(KoboldPLAMPlugin.getCurrentKoboldProject().getMessageQueue());
 				viewer.refresh();	
 			}
 		});

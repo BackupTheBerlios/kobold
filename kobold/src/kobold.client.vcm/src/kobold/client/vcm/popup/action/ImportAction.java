@@ -59,8 +59,8 @@ public class ImportAction extends KoboldAction {
 			IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 //			KoboldVCMPlugin
 			((Variant)testAssets[0]).getLocalPath();//serializeProductline("C:\\Temp",true);
-			IFolder if1 = ((Productline)testAssets[0]).getProject().getPath();
-			String ip = if1.getFullPath().toOSString();
+			//IFolder if1 = ((Productline)testAssets[0]).getKoboldProject().getPath();
+			//String ip = if1.getFullPath().toOSString();
 			RepositoryDescriptor rdsc = ((Productline)testAssets[0]).getRepositoryDescriptor();
 			boolean test = testAssets[0] instanceof AbstractRootAsset;
 			

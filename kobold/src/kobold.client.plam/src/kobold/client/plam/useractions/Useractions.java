@@ -8,9 +8,11 @@ package kobold.client.plam.useractions;
 
 import java.util.List;
 
-import kobold.client.plam.controller.*;
-import kobold.common.data.*;
-import kobold.client.plam.*;
+import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.controller.SecureKoboldClient;
+import kobold.client.plam.controller.ServerHelper;
+import kobold.common.data.User;
+import kobold.common.data.UserContext;
 
 /**
  * @author grosseml
@@ -35,10 +37,8 @@ public class Useractions {
 			return false;
 		}
 		
-        SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();		
-        UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-        
-		client.addUser(currUser,userName,password,realName);
+        UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());	
+		SecureKoboldClient.getInstance().addUser(ctx,userName,password,realName);
 		
 		return true;
 		
@@ -47,30 +47,25 @@ public class Useractions {
 	public void removeUser(String userName){
         User user = new User("Username","mismatch"); //the user to be removed
 		
-		SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();		
-        UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-
-        client.removeUser(currUser,getOneUser(userName));
+        UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
+        SecureKoboldClient.getInstance().removeUser(ctx, getOneUser(userName));
 	}
 	
 	public void changePassword(String newPassword, String confirmPassword){
 		if(newPassword.equals(confirmPassword)){
-			SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();
-			UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-			client.updateUserPassword(currUser,getOneUser(currUser.getUserName()), confirmPassword,newPassword);
+		    UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
+		    SecureKoboldClient.getInstance().updateUserPassword(ctx, getOneUser(ctx.getUserName()), confirmPassword, newPassword);
 		}
 	}
 	
 	public void updateFullName(String userName, String newName, String password){
 		
-		SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();		
-        UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-        
+	    UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());        
         User user = getOneUser(userName);
         
         user.setFullname(newName);
         
-        client.updateUserFullName(currUser, user , password);
+        SecureKoboldClient.getInstance().updateUserFullName(ctx, user , password);
 		
 	}
 	
@@ -81,11 +76,10 @@ public class Useractions {
 	 * returns one User
 	 */
 	private User getOneUser(String userName){
-        User user = new User("Username","mismatch"); //the user to be removed
+        User user = null;
 		
-		SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();		
-        UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-        List userList = client.getAllUsers(currUser);
+        UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
+        List userList = SecureKoboldClient.getInstance().getAllUsers(ctx);
         for (int i = 0; i<userList.size();i++)
         {
         	User tempUser = (User)userList.get(i);

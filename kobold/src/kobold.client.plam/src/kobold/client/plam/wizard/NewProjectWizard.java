@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.21 2004/08/02 16:52:31 garbeam Exp $
+ * $Id: NewProjectWizard.java,v 1.22 2004/08/02 17:23:54 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -29,8 +29,7 @@ package kobold.client.plam.wizard;
 import java.lang.reflect.InvocationTargetException;
 
 import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.KoboldProjectNature;
-import kobold.client.plam.PLAMProject;
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.workflow.LocalMessageQueue;
 import kobold.common.data.KoboldMessage;
@@ -57,7 +56,6 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
-import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
 /**
  * Wizard for creating new Kobold Productlines Projects
@@ -177,7 +175,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 		description.setLocation(newPath);
 
 		// set project nature
-		description.setNatureIds(new String[] {KoboldProjectNature.NATURE_ID});
+		description.setNatureIds(new String[] {KoboldProject.NATURE_ID});
 		
 		// set project set builder
 		// TODO
@@ -187,11 +185,10 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			protected void execute(IProgressMonitor monitor)
 					throws CoreException {
 				createProject(description, newProjectHandle, monitor);
-				createProjectResources(newProject);
 			}
 		};
 		
-		BasicNewProjectResourceWizard.updatePerspective(config);
+		//BasicNewProjectResourceWizard.updatePerspective(config);
 		// create project
 		try {
 			getContainer().run(true, true, op);
@@ -202,7 +199,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 		}
 
 		newProject = newProjectHandle;
-
+		createProjectResources(newProject);		
 		try {
 			newProject.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
@@ -212,25 +209,24 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 	}
 	
 	protected void createProjectResources(IProject project) {
-		KoboldProjectNature kNature = null;
+		KoboldProject kNature = null;
 		try {
-			kNature = (KoboldProjectNature)project.getNature(KoboldProjectNature.NATURE_ID);
+			kNature = (KoboldProject)project.getNature(KoboldProject.NATURE_ID);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 		if (kNature != null) {
 			// create project info
-			PLAMProject p = kNature.getPLAMProject();
-			p.setServerUrl(serverPage.getServerURL());
-			p.setUsername(serverPage.getUsername());
-			p.setPassword(serverPage.getPassword());
-			p.setProductlineName(chooserPage.getProductlineName());
-			p.store();
+			kNature.setServerURL(serverPage.getServerURL());
+			kNature.setUserName(serverPage.getUsername());
+			kNature.setPassword(serverPage.getPassword());
+			kNature.setProductlineId(chooserPage.getProductlineName());
+			kNature.store();
 			
 			// fetch server PL
-			//Productline pl = ServerHelper.fetchProductline(p);
-			//System.out.println(pl.getRepositoryDescriptor());
-			//System.out.println(pl.getId());
+			Productline pl = ServerHelper.fetchProductline(kNature);
+			System.out.println(pl.getRepositoryDescriptor());
+			System.out.println(pl.getId());
 			// create secure client
 			// -> moved lazy to KoboldProjectNature
 									
@@ -238,7 +234,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			LocalMessageQueue mq = kNature.getMessageQueue();
 			KoboldMessage welcome = new KoboldMessage();
 			welcome.setSender("null");
-			welcome.setReceiver(p.getUsername());
+			welcome.setReceiver(kNature.getUserName());
 			welcome.setSubject("Welcome");
 			welcome.setMessageText("Just have fun!");
 			mq.addMessage(welcome);

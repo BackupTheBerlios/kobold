@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.17 2004/08/02 16:31:25 garbeam Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.18 2004/08/02 17:23:53 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -188,18 +188,18 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
     		// deselect
     		currentProject = null;
     	} else {
-			boolean hasKoboldNature = p.hasNature(KoboldProjectNature.NATURE_ID);
+			boolean hasKoboldNature = p.hasNature(KoboldProject.NATURE_ID);
 			if (hasKoboldNature) {
 				currentProject = p;
 				// (de)activate msgqueues and update markers
 				if (old != null) {
-					KoboldProjectNature kpn = ((KoboldProjectNature)old.getNature(KoboldProjectNature.NATURE_ID));
+					KoboldProject kpn = ((KoboldProject)old.getNature(KoboldProject.NATURE_ID));
 				    kpn.getMessageQueue().deactivate();
-					kpn.getPLAMProject().store();
+					kpn.store();
 				}
 				
-				KoboldProjectNature kpn = ((KoboldProjectNature)p.getNature(KoboldProjectNature.NATURE_ID));
-				kpn.getPLAMProject().update();
+				KoboldProject kpn = ((KoboldProject)p.getNature(KoboldProject.NATURE_ID));
+				kpn.load();
 				kpn.getMessageQueue().activate();
 			} else {
     			throw new ResourceException(IResourceStatus.RESOURCE_WRONG_TYPE, p.getFullPath(), "Project has wrong nature", null);		
@@ -234,29 +234,23 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 		projectChangeListeners.remove(listener);
 	}
 
-	public static KoboldProjectNature getCurrentProjectNature() 
+	public static KoboldProject getCurrentKoboldProject() 
 	{
 		if (getCurrentProject() == null)
 			return null;
 		
 		try {
-			return (KoboldProjectNature)getCurrentProject().getNature(KoboldProjectNature.NATURE_ID);
+			return (KoboldProject)getCurrentProject().getNature(KoboldProject.NATURE_ID);
 		} catch (CoreException e) {
 			return null;
 		}
 	}
 	
-	public static SecureKoboldClient getCurrentClient() 
-	{
-		return (getCurrentProjectNature() == null)?null 
-			: getCurrentProjectNature().getClient(); 
-	}
-	
-	public static LocalMessageQueue getCurrentMessageQueue() 
-	{
-		return (getCurrentProjectNature() == null)?null 
-			: getCurrentProjectNature().getMessageQueue(); 
-	}
+//	public static LocalMessageQueue getCurrentMessageQueue() 
+//	{
+//		return (getCurrentProjectNature() == null)?null 
+//			: getCurrentProjectNature().getMessageQueue(); 
+//	}
 	
     public void start(BundleContext ctx) throws Exception
     {

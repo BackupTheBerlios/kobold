@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.13 2004/08/02 16:52:31 garbeam Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.14 2004/08/02 17:23:54 vanto Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -69,6 +69,10 @@ public class NewProjectWizardServerPage extends WizardPage {
 	private Button testButton;
 	private Button importButton;
 
+	private URL serverURL;
+	private String username = "";
+	private String password = "";
+	
 	private boolean serverOk = false;
 	
 	private Listener nameModifyListener = new Listener() {
@@ -163,6 +167,7 @@ public class NewProjectWizardServerPage extends WizardPage {
 		testButton.setText("Test connection");
 		testButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+			        setValues();
                     SecureKoboldClient client = SecureKoboldClient.getInstance();
                     UserContext context = client.login(getServerURL(), getUsername(), getPassword());
                     if (context != null) {
@@ -220,7 +225,7 @@ public class NewProjectWizardServerPage extends WizardPage {
 		//	return false;
 		//}
 		try {
-			new URL(serverUrlField.getText());
+			serverURL = new URL(serverUrlField.getText());
 		} catch (MalformedURLException e) {
 			// malformed url -> page not valid
 			setErrorMessage(Messages.getString("NewProjectWizardServerPage.InvalidUrlMsg")); //$NON-NLS-1$
@@ -245,32 +250,38 @@ public class NewProjectWizardServerPage extends WizardPage {
 		setErrorMessage(null);
 		setMessage(null);
 
+		
 		return true;
 	}
 
+	private void setValues() {
+		username = usernameField.getText();
+		password = passwordField.getText();
+		try {
+            serverURL = new URL(serverUrlField.getText());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+	}
+	
 	/**
 	 * Returns the server url
 	 */	
 	public URL getServerURL() {	
-		try {
-			return new URL(serverUrlField.getText());
-		} catch (MalformedURLException e) {
-			// should not happen because url-string gets always validated in validatePage() 
-		}
-		return null;
+		return serverURL;
 	}
 
 	/**
 	 * Returns the server url
 	 */	
 	public String getUsername() {	
-		return usernameField.getText();
+		return username;
 	}
 
 	/**
 	 * Returns the server url
 	 */	
 	public String getPassword() {	
-		return passwordField.getText();
+		return password;
 	}
 }

@@ -21,13 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.17 2004/08/01 12:07:36 rendgeor Exp $
+ * $Id: Variant.java,v 1.18 2004/08/02 17:23:54 vanto Exp $
  *
  */
 
 package kobold.client.plam.model.productline;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -35,7 +34,6 @@ import java.util.List;
 import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IFileDescriptorContainer;
@@ -46,10 +44,7 @@ import kobold.client.plam.model.Release;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.Element;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.NullProgressMonitor;
 
 /**
  * @author garbeam

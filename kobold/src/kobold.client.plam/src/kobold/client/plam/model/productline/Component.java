@@ -21,15 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.9 2004/08/01 12:54:35 rendgeor Exp $
+ * $Id: Component.java,v 1.10 2004/08/02 17:23:54 vanto Exp $
  *
  */
 
 package kobold.client.plam.model.productline;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -43,12 +40,7 @@ import kobold.client.plam.model.IVariantContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.common.io.RepositoryDescriptor;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.dom4j.io.XMLWriter;
 import org.eclipse.core.runtime.IPath;
 
 /**

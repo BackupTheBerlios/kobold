@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.6 2004/07/29 15:17:49 garbeam Exp $
+ * $Id: ProductComponent.java,v 1.7 2004/08/02 17:23:53 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -33,7 +33,6 @@ import java.util.List;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
-import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.IGXLExport;
@@ -41,9 +40,6 @@ import kobold.client.plam.model.ModelStorage;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.Element;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 
 /**

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.11 2004/07/29 16:33:51 rendgeor Exp $
+ * $Id: FileDescriptor.java,v 1.12 2004/08/02 17:23:54 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -38,8 +38,6 @@ import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 import kobold.common.io.RepositoryDescriptor;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 

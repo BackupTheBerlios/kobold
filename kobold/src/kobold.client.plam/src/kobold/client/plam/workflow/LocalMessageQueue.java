@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LocalMessageQueue.java,v 1.9 2004/05/19 22:50:52 vanto Exp $
+ * $Id: LocalMessageQueue.java,v 1.10 2004/08/02 17:23:54 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -36,7 +36,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
-import kobold.client.plam.KoboldProjectNature;
+import kobold.client.plam.KoboldProject;
+import kobold.client.plam.controller.SecureKoboldClient;
+import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.listeners.IMessageQueueListener;
 import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.UserContext;
@@ -172,14 +174,14 @@ public class LocalMessageQueue  {
 	
 	public void fetchMessages() {
 		try {
-			KoboldProjectNature nature = (KoboldProjectNature)queueFile.getProject().getNature(KoboldProjectNature.NATURE_ID);
-			UserContext context = nature.getUserContext(); 
-			if (nature.getUserContext() != null) {
+			KoboldProject project = (KoboldProject)queueFile.getProject().getNature(KoboldProject.NATURE_ID);
+			UserContext context = ServerHelper.getUserContext(project); 
+			if (context != null) {
 				AbstractKoboldMessage msg = null;
-				while ((msg = nature.getClient().fetchMessage(context)) != null) {
+				while ((msg = SecureKoboldClient.getInstance().fetchMessage(context)) != null) {
 					logger.info(msg);
 				    addMessage(msg);
-				    nature.getClient().invalidateMessage(context, msg);
+				    SecureKoboldClient.getInstance().invalidateMessage(context, msg);
 				}
 			}
 		} catch (CoreException e) {

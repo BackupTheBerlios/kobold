@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractMaintainedAsset.java,v 1.2 2004/07/07 15:40:11 garbeam Exp $
+ * $Id: AbstractMaintainedAsset.java,v 1.3 2004/08/02 17:23:54 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -31,9 +31,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.dom4j.Element;
-
 import kobold.common.data.User;
+
+import org.dom4j.Element;
 
 
 /**

@@ -21,20 +21,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerHelper.java,v 1.2 2004/08/02 14:36:03 vanto Exp $
+ * $Id: ServerHelper.java,v 1.3 2004/08/02 17:23:53 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import kobold.client.plam.KoboldProject;
-import kobold.client.plam.PLAMProject;
 import kobold.common.data.Productline;
 import kobold.common.data.UserContext;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**

@@ -21,12 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeEditPart.java,v 1.2 2004/07/23 23:25:15 vanto Exp $
+ * $Id: EdgeEditPart.java,v 1.3 2004/08/02 17:23:54 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
-import kobold.client.plam.editor.policy.BendpointEditPolicyImpl;
 import kobold.client.plam.editor.policy.ConnectionEditPolicyImpl;
 import kobold.client.plam.model.edges.Edge;
 

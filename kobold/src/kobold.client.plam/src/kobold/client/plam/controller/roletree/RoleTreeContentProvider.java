@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.21 2004/08/02 09:23:04 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.22 2004/08/02 17:23:54 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -35,7 +35,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import kobold.client.plam.KoboldProjectNature;
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
@@ -77,14 +77,14 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 			IProject p = projects[i];
 			boolean isKoboldProject = false;
 			try {
-				isKoboldProject = p.hasNature(KoboldProjectNature.NATURE_ID);
-				KoboldProjectNature kpn = (KoboldProjectNature)p.getNature(KoboldProjectNature.NATURE_ID);
+				isKoboldProject = p.hasNature(KoboldProject.NATURE_ID);
+				KoboldProject kpn = (KoboldProject)p.getNature(KoboldProject.NATURE_ID);
 
 				if (isKoboldProject) {
 					kobolds.add(p);
 					
 					// listen to model changes.
-					Productline pl = kpn.getPLAMProject().getProductline();
+					Productline pl = kpn.getProductline();
 					if (pl != null && !listenRootAssets.contains(pl)) {
 					    listenRootAssets.add(pl);
 					    pl.addModelChangeListener(this);
@@ -152,8 +152,8 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 		
     	if (parentElement instanceof IProject) {
     	 	try {
-                KoboldProjectNature nature = (KoboldProjectNature)((IProject)parentElement).getNature(KoboldProjectNature.NATURE_ID);
-                Productline pl = nature.getPLAMProject().getProductline(); 
+                KoboldProject nature = (KoboldProject)((IProject)parentElement).getNature(KoboldProject.NATURE_ID);
+                Productline pl = nature.getProductline(); 
                 if (pl != null) {
                     return new Productline[] {pl};
                 }

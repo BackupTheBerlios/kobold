@@ -21,22 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NodeAssignmentDialog.java,v 1.3 2004/08/02 12:06:51 martinplies Exp $
+ * $Id: NodeAssignmentDialog.java,v 1.4 2004/08/02 17:23:54 vanto Exp $
  *
  */
 package kobold.client.plam.graphimport;
 
-import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.FileDescriptor;
-import kobold.client.plam.model.product.ProductComponent;
 
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -47,9 +43,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 
 
 /**

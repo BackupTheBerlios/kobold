@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.16 2004/06/22 14:10:42 bettina Exp $
+ * $Id: WorkflowDialog.java,v 1.17 2004/08/02 17:23:54 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -33,9 +33,13 @@ package kobold.client.plam.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
-import kobold.common.data.*;
-import kobold.client.plam.*;
-
+import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.controller.SecureKoboldClient;
+import kobold.client.plam.controller.ServerHelper;
+import kobold.common.data.AbstractKoboldMessage;
+import kobold.common.data.UserContext;
+import kobold.common.data.WorkflowItem;
+import kobold.common.data.WorkflowMessage;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -121,12 +125,13 @@ public class WorkflowDialog extends Dialog {
 		   
 		   wm.setComment(comment.getText());
 		   try {
-		   	UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
-		   	wm.setSender(user.getUserName());
-		   	KoboldPLAMPlugin.getCurrentClient().sendMessage(user, wm);
+		   	UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
+		   	wm.setSender(ctx.getUserName());
+		   	SecureKoboldClient.getInstance().sendMessage(ctx, wm);
 		   } catch (Exception e) {
-			wm.setSender("unknown");
-			KoboldPLAMPlugin.getCurrentClient().sendMessage(null, wm);
+			// FIXME: Bullshit!
+		    //wm.setSender("unknown");
+			//SecureKoboldClient.getInstance().sendMessage(null, wm);
 		   }
 		}
 	    this.close();

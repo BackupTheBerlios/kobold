@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.8 2004/08/02 15:17:06 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.9 2004/08/02 17:23:53 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -70,13 +70,13 @@ public class ModelStorage
     
     public static final Logger logger = Logger.getLogger(ModelStorage.class);
     
-    public static Productline loadModel(IProject project)
+    public static Productline loadModel(IProject project, kobold.common.data.Productline spl)
     {
         logger.debug("Loading model...");
         Productline pl = null;
         
 		//get the PL directory
-     	IFolder plmeta = project.getFolder(pl.getName());
+     	IFolder plmeta = project.getFolder(spl.getName());
         if (plmeta.exists()) {
             IFile modelFile = plmeta.getFile(PRODUCTLINE_META_FILE);
             if (modelFile.exists()) {
@@ -110,7 +110,7 @@ public class ModelStorage
 		//create directory for the PL
 		
 		//the PL directory
-        IProject project = pl.getProject().getIProject();
+        IProject project = pl.getKoboldProject().getProject();
         
         //getFolder: runtime-workbench-workspace/assasasasa/
        	//create dir: runtime-workbench-workspace/assasasasa/New\ product\ line/
@@ -175,7 +175,7 @@ public class ModelStorage
                 	
                 	
             		//get the PL directory
-                    IProject project = pl.getProject().getIProject();
+                    IProject project = pl.getKoboldProject().getProject();
                  	IFolder plmeta = project.getFolder(pl.getName());
                 	
                 	//create the PL,PRODUCTS,CAS directories
@@ -284,7 +284,7 @@ public class ModelStorage
             asset = asset.getParent();
         }
         
-        return new Path(root.getProject().getIProject().getLocation()
+        return new Path(root.getKoboldProject().getProject().getLocation()
                         + "" + IPath.SEPARATOR + thePath);
     }
     
@@ -294,7 +294,7 @@ public class ModelStorage
 	{
 		//get the PRODUCTS-directory
 		//the PL directory
-        IProject project = pl.getProject().getIProject();
+        IProject project = pl.getKoboldProject().getProject();
        	IFolder productsFolder = project.getFolder(pl.getName());
         //PRODUCTS-dir
         productsFolder = productsFolder.getFolder(PRODUCTS_FOLDER_NAME);

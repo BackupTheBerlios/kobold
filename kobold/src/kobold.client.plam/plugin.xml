@@ -91,12 +91,12 @@
       </perspectiveExtension>
    </extension>
    <extension
-         id="KoboldProjectNature"
-         name="%nature.KoboldProjectNature"
+         id="KoboldProject"
+         name="%nature.KoboldProject"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
-               class="kobold.client.plam.KoboldProjectNature">
+               class="kobold.client.plam.KoboldProject">
          </run>
       </runtime>
    </extension>

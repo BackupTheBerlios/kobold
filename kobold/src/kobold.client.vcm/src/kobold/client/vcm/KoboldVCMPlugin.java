@@ -26,21 +26,17 @@
 
 package kobold.client.vcm;
 
-import org.eclipse.ui.plugin.*;
-//import org.eclipse.core.runtime.*;
-import org.eclipse.core.resources.*;
-import org.eclipse.core.runtime.Plugin;
-import org.osgi.framework.BundleContext;
-
-import java.util.*;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.KoboldProjectNature;
-import kobold.client.plam.PLAMProject;
-import kobold.client.plam.listeners.IVCMActionListener;
-import kobold.client.plam.model.IFileDescriptorContainer;
-import kobold.client.plam.model.productline.Productline;
-import kobold.client.vcm.controller.StatusUpdater;
+import kobold.client.plam.KoboldProject;
+
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Plugin;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.
@@ -75,7 +71,7 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		Plugin plugin = KoboldPLAMPlugin.getDefault();
-		PLAMProject project = null;
+		KoboldProject project = null;
 //		PLAMProject nature=KoboldPLAMPlugin.getCurrentProjectNature().getPLAMProject(); 
 //		if (project != null) {
 //			project.getProductline().addVCMActionListener(new IVCMActionListener() {

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ViewModelContainer.java,v 1.5 2004/07/01 11:27:25 vanto Exp $
+ * $Id: ViewModelContainer.java,v 1.6 2004/08/02 17:23:53 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -30,11 +30,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-
 import kobold.client.plam.model.AbstractAsset;
 import kobold.common.data.ISerializable;
+
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 
 
 /**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.27 2004/07/26 18:39:16 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.28 2004/08/02 17:23:54 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.PLAMProject;
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.editor.action.ConfigureAssetAction;
 import kobold.client.plam.editor.action.GXLExportAction;
 import kobold.client.plam.editor.model.IViewModelProvider;
@@ -283,7 +283,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	    try {
 			isSaving = true;
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-		    PLAMProject pp = model.getProject();
+		    KoboldProject pp = model.getKoboldProject();
 			pp.storeViewModelContainer(viewModel, monitor);
 			pp.store();
 			//pp.getProductline().serializeAll();
@@ -503,15 +503,14 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     {
     	super.setInput(input);
 		model = getArchEditorInput().getAsset();
-		if (model.getProject() instanceof PLAMProject) {
-		    PLAMProject pp = (PLAMProject)model.getProject();
-		    try {
-                viewModel = pp.restoreViewModelContainer();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-		}
- 
+
+	    KoboldProject pp = model.getKoboldProject();
+	    try {
+            viewModel = pp.restoreViewModelContainer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 		setPartName(getArchEditorInput().getName());
 		//setTitle(getArchEditorInput().getName());
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.13 2004/08/01 09:25:21 martinplies Exp $
+ * $Id: EdgeContainer.java,v 1.14 2004/08/02 17:23:54 vanto Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -29,7 +29,6 @@ package kobold.client.plam.model.edges;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -40,14 +39,12 @@ import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
-import kobold.client.plam.workflow.LocalMessageQueue;
 import kobold.common.data.ISerializable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.dom4j.QName;
 
 /**
  * An EdgeContainer contains all edges of a product or a 
