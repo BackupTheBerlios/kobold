@@ -1,11 +1,11 @@
 \chapter{Der Kobold Client}
 Der Client basiert grundlegend auf der Eclipse Plattform und deren Widgettoolkit und ist
 dadurch von dessen nativer Schnittstelle abhängig. 
-Er wird als "Feature-Set" implementiert und mit "Product Branding" versehen.
-"Product Branding" umfasst die Änderung der Fensternamen und der Produktsymbole, sowie
-einer Willkommensseite, die einen kurzen Überblick über Funktionalität und Zweck des Kobold Tools geben soll.
+Er wird als 'Feature-Set' implementiert und mit einem 'Product Branding' versehen.
+'Product Branding' umfasst die Änderung der Fensternamen und der Produktsymbole, sowie
+eine Willkommensseite, die einen kurzen Überblick über Funktionalität und Zweck des Kobold Tools geben soll.
 
-Das Feature-Set wird als Set von internationalisierbaren Eclipse Plugins implementiert.
+Das 'Feature-Set' wird als Set von internationalisierbaren Eclipse Plugins implementiert.
 Die Ausgangsperspektive besteht aus 4 Teilen:
 \begin{itemize}
 	\item Der Produktlinienarchitektur Editor
@@ -14,8 +14,8 @@ Die Ausgangsperspektive besteht aus 4 Teilen:
 	\item Die Minimap
 \end{itemize}
 Diese werden in den jeweiligen Unterkapiteln näher beschrieben.
-Um das Rollenprinzip konsistent durchzusetzen, ist eine zentrale Anmeldung an dem Kobold Serverdienst nötig.
-Details zu der serverseitigen Lösung finden Sie in Kapitel 5.
+Um das Rollenprinzip konsistent durchzusetzen, ist eine zentrale Anmeldung am Kobold Serverdienst nötig.\par
+Die Oberfläche des Kobold-Clients wird in der nachfolgenden Abbildung prototypisch dargestellt.
 
  \begin{figure}[ht]
 \includegraphics[width=15cm]{../angebot/screenshot.png}
@@ -23,7 +23,7 @@ Details zu der serverseitigen Lösung finden Sie in Kapitel 5.
 \end{figure}
 
 \section{Authentifizierung}
-Die Authentifizierung am Server erfolgt durch RPC. Der Benutzer kann bei der Erstbenutzung des 
+Die Authentifizierung am Server ist RPC-basiert. Der Benutzer kann bei der Erstbenutzung des 
 Clients wählen, ob er sich bei jedem Programmstart authentifiziern will oder ob das Passwort
 und der Benutzername gespeichert werden sollen. Prinzipiell ist ein Ändern von Daten im nichtauthentifizierten
 Zustand nicht möglich. Mit der Authentifizierung werden die Rollen, die dem Benutzer zugeteilt sind,
@@ -32,11 +32,13 @@ an den Client übergeben; der Client reagiert seinerseits mit dem Bereitstellen d
 \section{Der Produktlinienarchitektur Editor}
 In diesem View wird die je nach aktiver Rolle relevante Ansicht auf die Architektur der Produktlinie
 angezeigt. Die grafische Notation orientiert sich dabei an der in dem Paper \cite{paper} festgelegten Struktur.
+Die View bietet die Möglichkeit, verschiedene Zoomstufen einzustellen. Eine mögliche Folge daraus ist,
+dass im aktuellen Ausschnitt möglicherweise nicht die ganze Architektur zu sehen ist.\par
+Der Benutzer kann im Editor außerdem zwei Architekturen überlappen und in diesem Schnittgraphen deren Gemeinsamkeiten
+und Unterschiede graphisch sichtbar machen. 
+Um trotzdem den Überblick zu gewährleisten, wird eine Minimap zur Verfügung gestellt.\par
 Um dies grafisch darzustellen, hier noch einmal die 3 verschiedenen Ansichten auf die
 Produktlinien- bzw. Produktarchitektur.
-Die Ansicht bietet die Möglichkeit, verschiedene Zoomstufen einzustellen. Eine mögliche Folge daraus ist,
-dass im aktuellen Ausschnitt möglicherweise nicht die ganze Architektur zu sehen ist.
-Um trotzdem den Überblick zu gewährleisten, wird eine Minimap zur Verfügung gestellt.
 
 \subsection{Ansicht der Rolle ProduktlinienIngenieur}
 Der Produktlinieningenieur hat die Möglichkeit, zwischen zwei Ansichten zu wechseln.
