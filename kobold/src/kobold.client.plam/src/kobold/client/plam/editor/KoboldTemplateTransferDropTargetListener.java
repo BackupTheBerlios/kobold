@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldTemplateTransferDropTargetListener.java,v 1.2 2004/08/03 19:39:20 vanto Exp $
+ * $Id: KoboldTemplateTransferDropTargetListener.java,v 1.3 2004/08/03 19:55:57 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -31,11 +31,14 @@ import kobold.client.plam.editor.model.KoboldAssetFactory;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.MetaNode;
 
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.swt.dnd.DND;
 
 
 /**
@@ -78,18 +81,45 @@ public class KoboldTemplateTransferDropTargetListener extends
      */
     protected void handleDrop()
     {
-        super.handleDrop();
-        
-    	final Object model = getCreateRequest().getNewObject();
-    	if ((getCommand().canExecute()) && (model != null) && (model instanceof AbstractAsset) 
-    	        && !(model instanceof MetaNode)) {
-    	    AssetConfigurationDialog dlg = new AssetConfigurationDialog(getViewer().getControl().getShell(), (AbstractAsset)model);
-    	    CommandStack cs = getViewer().getEditDomain().getCommandStack();
-    	    if (dlg.open() == Dialog.CANCEL && cs.canUndo()
-    	            && cs.getUndoCommand() == getCommand()) {
-    	        cs.undo();
-    	    }
+    	updateTargetRequest();
+    	updateTargetEditPart();
+    	
+    	if (getTargetEditPart() != null) {
+    		Command command = getCommand();
+    		if (command != null && command.canExecute()) {
+    			getViewer().getEditDomain().getCommandStack().execute(command);
+    			
+    			final Object model = getCreateRequest().getNewObject();
+    			if ((model != null) && (model instanceof AbstractAsset) 
+    			        && !(model instanceof MetaNode)) {
+    			    AssetConfigurationDialog dlg = new AssetConfigurationDialog(getViewer().getControl().getShell(), (AbstractAsset)model);
+    			    CommandStack cs = getViewer().getEditDomain().getCommandStack();
+    			    if (dlg.open() == Dialog.CANCEL && cs.canUndo()
+    			            && cs.getUndoCommand() == command) {
+    			        cs.undo();
+    			    }
+    			}
+    		} else {
+    			getCurrentEvent().detail = DND.DROP_NONE;
+    		}
+    	} else {
+    		getCurrentEvent().detail = DND.DROP_NONE;
     	}
-
+    	selectAddedObject();
+    }
+    
+    /* CPL */
+    private void selectAddedObject() {
+    	Object model = getCreateRequest().getNewObject();
+    	if (model == null)
+    		return;
+    	EditPartViewer viewer = getViewer();
+    	viewer.getControl().forceFocus();
+    	Object editpart = viewer.getEditPartRegistry().get(model);
+    	if (editpart instanceof EditPart) {
+    		//Force a layout first.
+    		getViewer().flush();
+    		viewer.select((EditPart)editpart);
+    	}
     }
 }
