@@ -2,12 +2,25 @@
 
 \section{Über dieses Dokument}
 
-Diese Spezifikation beschreibt das Rahmensystem und seine Basisfunktionalitäten von Kobold, die im Laufe der ersten Iteration erstellt werden sollen. Die Beschreibung der funktionalen Anforderungen in Form von UseCases wird erst in den Spezifikation nachfolgender Iterationen geschehen.\par
-Sie bietet damit Grundlage für die weitere Entwicklung von Kobold innerhalb der ersten Iteration. Dies schließt besonders die Absprache mit dem Kunden, das Benutzerhandbuch, den Entwurf, die Implementierung und den Test des Systems mit ein.
+Diese Spezifikation beschreibt das Rahmensystem und die Basisfunktionalitäten von Kobold, die im Laufe der ersten Iteration erstellt werden sollen.\par
+Sie ist damit Grundlage für die weitere Entwicklung von Kobold innerhalb der ersten Iteration. Darunter fallen auch die Absprache mit dem Auftraggeber, das Benutzerhandbuch, der Entwurf, die Implementierung und der Test des Systems.
 Die Spezifikation bietet außerdem eine wichtige Grundlage für spätere Wartungsarbeiten und für eventuelle Wiederverwendung.\par
-Das Dokument ist an die Mitglieder der Projektgruppe sowie an den Kunden und dessen technische Berater gerichtet.\par
-Dieses Dokument ist Vertragsbestandteil für die weitere Entwicklung von Kobold und somit auch Grundlage für die Abnahme nach der ersten Iteration.
+Das Dokument ist an die Mitglieder des Teams sowie an den Auftraggeber und dessen technische Berater gerichtet.\par
+Nach Fertigstellung des Dokuments wird dieses vom Auftraggeber abgenommen. Es ist von da an Vertragsbestandteil für die weitere Entwicklung von Kobold und somit auch Grundlage für die Abnahme nach der ersten Iteration.
 
 \section{Über Kobold}
 
-Das wesentliche Einsatzziel des Produktlininen Management Systems Kobold ist die werkzeugunterstützte Entwicklung und Pflege von Softwareproduktlinien und die Etablierung eines rollenbasierten Entwicklungsprozesses. Dieser soll eine effiziente Produktlinienentwicklung ermöglichen und wird durch Kobold unterstützt.
+Das wesentliche Einsatzziel des Produktlininen Management Systems Kobold ist die werkzeugunterstützte 
+Entwicklung und Pflege von Softwareproduktlinien und die Etablierung eines rollenbasierten 
+Entwicklungsprozesses. Dieser soll eine effiziente Produktlinienentwicklung ermöglichen und wird durch 
+Kobold unterstützt.\newline
+
+Die Architektur von Kobold gliedert sich in zwei Teile: den Server und den Client. \par
+Der Client bietet dem Benutzer eine graphische Benutzeroberfläche, mit der er seine Produktlinien und seine 
+Produkte verwalten kann. Er kann sich damit seine Architekturen ansehen und verändern, neue Rollen verteilen, 
+Nachrichten verschicken, etc. (Näheres siehe Kapitel 2). Die Koordination einer Produktlinie verläuft dabei 
+über den Server.\par
+Der Server verwaltet die Daten der einzelnen Benutzer und steuert ihre Zugriffsrechte. Er bietet den 
+Clients außerdem einen eigenen Nachrichtendienst. Führt der Client eine Aktion durch, so untersucht der Server 
+diese auf mögliche Inkonsistenzen, die dabei auftreten können. Der Server verwaltet auch die Repositories, in 
+denen die Daten der Produkte und Produktlinien gespeichert und versioniert werden. 
