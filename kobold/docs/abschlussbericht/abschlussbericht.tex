@@ -183,6 +183,24 @@ die Spezifikation von Kobold knapp 55 Seiten.
 % interface-technologie für Kommunikationsmodule zu besserer Wartbarkeit -
 % trennung von admin- und user-system-teile
 
+Nach Fertigstellung der ersten Spezifikation wurde ein umfassender Entwurf unter
+Zuhilfenahme der grafischen Entwurfssprache UML erstellt. Dabei wurde - wenn
+möglich - auf bekannte und bewährte Entwurfsmuster zurückgegriffen, unter anderem
+auf das model-view-controller- und singelton-pattern.
+
+Die Unterstützung der später verwendeten Programmiersprache Java für abstrakte
+Klassenschnittstellen (Interfaces) wurde extensiv dazu verwendet, bei kritischen, vor
+allem aber bei den Kommunikationsmodulen zwischen Server und Clients, eine günstige
+Ausgangssituation für spätere Iterationen und Wartungsarbeiten zu schaffen. Dazu wurden
+diese Schnittstellen bereits im ersten Entwurf sehr detailliert festgesetzt. Dieses
+Vorgehen hat sich sehr gut bewährt.
+
+Die Aufgaben für die Client- und Serveranwendungen wurden ebenfalls bereits im ersten
+Entwurf klar aufgeteilt. Neben einer Serveranwendung wurden zwei Clientanwendungen
+entworfen; eine zur Benutzung des Systems und eine davon unabhängige zur Administration
+des Servers. Die dabei festgesetzte, strenge Aufgabenteilung wurde in den späteren
+Iterationen mit lediglich marginalen Änderungen wie beschrieben umgesetzt.
+
 \subsection{Handbuch}
 \label{handbuch}
 
@@ -192,7 +210,10 @@ die Programmdialoge beschreibt und ein Tutorial, das dem
 unerfahrenen Benutzer anhand eines Beispiels einen leichten Einstieg
 in die Bedienung von Kobold ermöglicht.
 
-% cheat sheets = in's System integrierter Teil des Handbuchs ?
+Darüber hinaus wurde der Tutorial-Teil des Handbuchs in Form von Eclipse-Cheat-Sheets
+direkt in den Userclient des Systems integriert, so dass dessen Benutzer die darin
+enthaltenen Informationen direkt aus dem System heraus nutzen können ohne ihre
+Arbeitsumgebung dazu verlassen zu müssen.
 
 \subsection{Interne Dokumente}
 
