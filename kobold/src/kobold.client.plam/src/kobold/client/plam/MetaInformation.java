@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 
+import org.eclipse.core.runtime.IPath;
+
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.Release;
@@ -42,6 +44,12 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class MetaInformation {
 
+	private IPath filePath;
+	
+	public MetaInformation(IPath filePath) {
+		this.filePath = filePath;
+	}
+
 	public void getMetaData(AbstractAsset asset) {
 		System.out.println("Metadaten");
         
@@ -53,7 +61,7 @@ public class MetaInformation {
             // create a writer that listens to the document
             // and directs a PDF-stream to a file
             
-            PdfWriter.getInstance(document, new FileOutputStream("MetaInfo.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(filePath.toOSString()));
             
             // open the document
             document.open();
@@ -62,7 +70,7 @@ public class MetaInformation {
             document.add(new Paragraph("Meta-Informations",
                 	FontFactory.getFont(FontFactory.HELVETICA, 40, Font.ITALIC)));
             document.add(new Paragraph(new Date().toString()));
-            document.add(new Phrase("\n\n\n"));
+            document.add(new Phrase("\n\n\n\n\n\n"));
             Image logo = Image.getInstance("icons/Kobold_logo.png");
             logo.scaleAbsolute(500, 300);
             logo.setAlignment(Image.MIDDLE);

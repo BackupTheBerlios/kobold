@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetainfoTest.java,v 1.3 2004/08/05 18:04:14 martinplies Exp $
+ * $Id: MetainfoTest.java,v 1.4 2004/08/05 19:13:15 neco Exp $
  *
  */
 package kobold.client.plam.model;
@@ -31,14 +31,15 @@ import junit.framework.TestCase;
 import kobold.client.plam.MetaInformation;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.ProductRelease;
+import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
-import kobold.common.data.User;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.apache.commons.id.uuid.state.InMemoryStateImpl;
+import org.eclipse.core.runtime.Path;
 
 
 
@@ -72,7 +73,7 @@ public class MetainfoTest extends TestCase {
 
 		/////--------Product----------------
 		//add a product
-		Product productA = new Product (pl);
+		Product productA = new Product ();
 		productA.setName("me");
 		
 		RepositoryDescriptor descriptor = new RepositoryDescriptor ();
@@ -80,7 +81,7 @@ public class MetainfoTest extends TestCase {
 		
 		productA.addProductRelease(new ProductRelease(new Date(10,10,04)));
 		
-		Product productB = new Product (pl);
+		Product productB = new Product ();
 		productB.setName("xp");
 		
 		
@@ -90,6 +91,10 @@ public class MetainfoTest extends TestCase {
 		//--add component (specific)
 		SpecificComponent componentC = new SpecificComponent ("compC");
 		productA.addComponent(componentC);
+		
+		//RelatedComponent relComp = new RelatedComponent();
+		//relComp.setName("related_A");
+		//productB.addComponent(relComp);
 		
 		//--add Release
 		Release releaseA = new Release ();
@@ -127,6 +132,8 @@ public class MetainfoTest extends TestCase {
 		//--add FD
 		FileDescriptor fd2 = new FileDescriptor ();
 		fd2.setFilename("bla");
+		 
+	
 		
 		//ReleaseC.addFileRevision(fd2);
 
@@ -141,7 +148,7 @@ public class MetainfoTest extends TestCase {
 		//Productline plGet = (Productline) fd2.getRoot ();
 		
 	
-		MetaInformation metaInformation = new MetaInformation();
+		MetaInformation metaInformation = new MetaInformation(new Path("Metainfo.pdf"));
 		metaInformation.getMetaData(pl);
 
 	}
