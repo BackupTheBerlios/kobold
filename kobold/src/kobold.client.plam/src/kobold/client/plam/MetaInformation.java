@@ -95,11 +95,11 @@ public class MetaInformation {
             	createMetaInfoForVariants(document, (Variant)asset);
             }
             
-            // DEBUG stuff
+           /* // DEBUG stuff
             Productline pl = new Productline();
             pl.setName("PL");
             createMetaInfoForPL(document, pl);
-                             	
+           */                  	
         }
         catch(DocumentException de) {
             System.err.println(de.getMessage());
@@ -117,9 +117,9 @@ public class MetaInformation {
     {
         document.add(new Paragraph("Productline:",
         	FontFactory.getFont(FontFactory.HELVETICA, 18)));
-        document.add(new Phrase("Name: " + pl.getName() + "\n"));
-        document.add(new Phrase("Discription: " + pl.getDescription()+"\n"));
-        document.add(new Phrase("ID: " + pl.getId()+"\n"));
+        document.add(new Phrase("	 Name: " + pl.getName() + "\n"));
+        document.add(new Phrase("	 Discription: " + pl.getDescription()+"\n"));
+        document.add(new Phrase("	 ID: " + pl.getId()+"\n"));
         
         document.add(new Paragraph("Products:",
             FontFactory.getFont(FontFactory.HELVETICA, 16)));
@@ -153,9 +153,9 @@ public class MetaInformation {
     private void createMetaInfoForProduct(Document document, Product product) 
     	throws DocumentException
     {
-    	document.add(new Phrase("Name: " + product.getName() + "\n"));
-        document.add(new Phrase("Description: " + product.getDescription() + "\n"));
-        document.add(new Phrase("ID: " + product.getId() + "\n"));
+    	document.add(new Phrase("	 Name: " + product.getName() + "\n"));
+        document.add(new Phrase("	 Description: " + product.getDescription() + "\n"));
+        document.add(new Phrase("	 ID: " + product.getId() + "\n"));
         
        	//product.getMaintainers();
     	
@@ -183,9 +183,9 @@ public class MetaInformation {
     private void createMetaInfoForSpecificComponents(Document document, SpecificComponent spComp) 
     	throws DocumentException
     {	
-    	document.add(new Phrase("Name: " + spComp.getName() + "\n"));
-        document.add(new Phrase("Description: " + spComp.getDescription() + "\n"));
-        document.add(new Phrase("ID: " + spComp.getId() + "\n"));
+    	document.add(new Phrase("	 Name: " + spComp.getName() + "\n"));
+        document.add(new Phrase("    Description: " + spComp.getDescription() + "\n"));
+        document.add(new Phrase("    ID: " + spComp.getId() + "\n"));
 		
         document.add(new Paragraph("Maintainers"));
 		for (Iterator ite = spComp.getMaintainers().iterator(); 
@@ -208,9 +208,9 @@ public class MetaInformation {
     private void createMetaInfoForRelatedComponent(Document document, RelatedComponent relComp) 
     	throws DocumentException
     {
-    	document.add(new Phrase("Name: " + relComp.getName() + "\n"));
-        document.add(new Phrase("Description: " + relComp.getDescription() + "\n"));
-        document.add(new Phrase("ID: " + relComp.getId() + "\n"));
+    	document.add(new Phrase("	 Name: " + relComp.getName() + "\n"));
+        document.add(new Phrase("	 Description: " + relComp.getDescription() + "\n"));
+        document.add(new Phrase("	 ID: " + relComp.getId() + "\n"));
 		//relComp.getMaintainers();
 		
         document.add(new Paragraph("Maintainers"));
@@ -234,7 +234,7 @@ public class MetaInformation {
     private void createMetaInfoForMaintainer(Document document, User user) 
     	throws DocumentException
     {
-    	document.add(new Phrase("Username: " + user.getUsername() + "\n"));	
+    	document.add(new Phrase("	 Username: " + user.getUsername() + "\n"));	
     		
 	}
 	
@@ -242,9 +242,9 @@ public class MetaInformation {
 	private void createMetaInfoForComponent(Document document, Component comp)
 		throws DocumentException
 	{
-    	document.add(new Phrase("Name: " + comp.getName() + "\n"));
-        document.add(new Phrase("Description: " + comp.getDescription() + "\n"));
-        document.add(new Phrase("ID: " + comp.getId() + "\n"));
+    	document.add(new Phrase("	 Name: " + comp.getName() + "\n"));
+        document.add(new Phrase("	 Description: " + comp.getDescription() + "\n"));
+        document.add(new Phrase("	 ID: " + comp.getId() + "\n"));
 		//comp.getMaintainers();
 		
         document.add(new Paragraph("Maintainers"));
@@ -269,9 +269,9 @@ public class MetaInformation {
 	private void createMetaInfoForVariants(Document document, Variant var) 
 		throws DocumentException
 	{
-    	document.add(new Phrase("Name: " + var.getName() + "\n"));
-        document.add(new Phrase("Description: " + var.getDescription() + "\n"));
-        document.add(new Phrase("ID: " + var.getId() + "\n"));		
+    	document.add(new Phrase("	 Name: " + var.getName() + "\n"));
+        document.add(new Phrase("	 Description: " + var.getDescription() + "\n"));
+        document.add(new Phrase("	 ID: " + var.getId() + "\n"));		
 		
         document.add(new Paragraph("Components",
             FontFactory.getFont(FontFactory.HELVETICA, 14)));
@@ -303,9 +303,9 @@ public class MetaInformation {
 	private void createMetaInfoForFileDescriptors(Document document, FileDescriptor fileDes)
 		throws DocumentException
 	{
-		document.add(new Phrase("Name: " + fileDes.getLocalPath().toString() + "\n"));
-        document.add(new Phrase("Description: " + fileDes.getLastChange().toString() + "\n"));
-        document.add(new Phrase("ID: " + fileDes.getRevision() + "\n"));
+		document.add(new Phrase("	 Name: " + fileDes.getLocalPath().toString() + "\n"));
+        document.add(new Phrase("	 Description: " + fileDes.getLastChange().toString() + "\n"));
+        document.add(new Phrase("	 ID: " + fileDes.getRevision() + "\n"));
 				
 	}
 	
@@ -313,9 +313,9 @@ public class MetaInformation {
 	private void createMetaInfoForReleases(Document document, Release release)
 		throws DocumentException
 	{
-		document.add(new Phrase("Name: " + release.getName() + "\n"));
-		document.add(new Phrase("Description: " + release.getDescription() + "\n"));
-		document.add(new Phrase("ID: " + release.getId() + "\n"));
+		document.add(new Phrase("	 Name: " + release.getName() + "\n"));
+		document.add(new Phrase("	 Description: " + release.getDescription() + "\n"));
+		document.add(new Phrase("	 ID: " + release.getId() + "\n"));
 				
 	}
 	
