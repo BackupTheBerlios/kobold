@@ -72,15 +72,23 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
 		String tmpLocation = plugin.getBundle().getLocation();
 		// The Location String contains "@update/" this needs to be removed
-		this.skriptPath = new Path(tmpLocation.substring(8,tmpLocation.length()));
-		this.skriptPath = (Path)skriptPath.append("scripts" + IPath.SEPARATOR);
+		
+		
 		String tmpString = System.getProperty("os.name");
 		// This tests what OS is used and sets the skript extension accordingly
 		if (tmpString.indexOf("Win",0) != -1 ) 
 		{
+			this.skriptPath = new Path(tmpLocation.substring(8,tmpLocation.length()));
+			this.skriptPath = (Path)skriptPath.append("scripts" + IPath.SEPARATOR);
 			skriptExtension = "bat";
 		}
-		else skriptExtension = "sh";
+		else
+			{
+			this.skriptPath = new Path(tmpLocation.substring(7,tmpLocation.length()));
+			this.skriptPath = (Path)skriptPath.append("scripts" + IPath.SEPARATOR);
+				skriptExtension = "sh";
+			}
+			
 		
 	}
 	/* (non-Javadoc)
@@ -97,7 +105,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 				connection.open(progress);
 				// wait(5000);
-				connection.readInpuStreamsToConsole();
+				// connection.readInpuStreamsToConsole();
 				connection.close();	
 				progress.done();
 			} catch (Exception e) {
@@ -119,7 +127,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 					connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 					connection.open(progress);
 					// wait(5000);
-					connection.readInpuStreamsToConsole();
+					// connection.readInpuStreamsToConsole();
 					connection.close();	
 					progress.done();
 				} catch (Exception e) {
@@ -142,7 +150,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 				connection.open(progress);
 				// wait(5000);
-				connection.readInpuStreamsToConsole();
+				// connection.readInpuStreamsToConsole();
 				connection.close();	
 				progress.done();
 			} catch (Exception e) {
@@ -166,7 +174,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 				connection.open(progress);
 				// wait(5000);
-				connection.readInpuStreamsToConsole();
+				// connection.readInpuStreamsToConsole();
 				connection.close();	
 				progress.done();
 			} catch (Exception e) {
@@ -188,7 +196,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 			connection.open(progress);
 			// wait(5000);
-			connection.readInpuStreamsToConsole();
+			// connection.readInpuStreamsToConsole();
 			connection.close();	
 			progress.done();
 		} catch (Exception e) {
@@ -210,7 +218,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 			connection.open(progress);
 			// wait(5000);
-			connection.readInpuStreamsToConsole();
+			// connection.readInpuStreamsToConsole();
 			connection.close();	
 			progress.done();
 		} catch (Exception e) {
@@ -231,7 +239,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			connection.setSkriptName(skriptPath.toOSString().concat(COMMIT).concat(skriptExtension));
 			connection.open(progress);
 			// wait(5000);
-//			connection.readInpuStreamsToConsole();
+//			// connection.readInpuStreamsToConsole();
 			connection.close();	
 			progress.done();
 		} catch (Exception e) {
@@ -296,7 +304,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 				connection.open(progress);
 				// wait(5000);
-				connection.readInpuStreamsToConsole();
+				// connection.readInpuStreamsToConsole();
 				connection.close();	
 				progress.done();
 			} catch (Exception e) {
@@ -322,7 +330,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 				connection.open(progress);
 				// wait(5000);
-				connection.readInpuStreamsToConsole();
+				// connection.readInpuStreamsToConsole();
 				connection.close();	
 				progress.done();
 			} catch (Exception e) {
