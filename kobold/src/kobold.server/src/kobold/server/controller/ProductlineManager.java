@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.2 2004/07/14 16:01:50 garbeam Exp $
+ * $Id: ProductlineManager.java,v 1.3 2004/07/19 11:46:15 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -80,10 +80,23 @@ public class ProductlineManager {
 	/**
 	 * Adds a new productline.
 	 *
-	 * @param productline String containing the new productLine name
+	 * @param productline the productline to add
+     * @return true, if the new productline has been added successfully, false,
+     *         if the productline could not be added (e.g. because there already
+     *         existes a productline with the same name as the new one).
 	 */
-	public void addProductline(Productline productLine) {
-		productlines.put(productLine.getName(), productLine);
+	public boolean addProductline(Productline productLine) {
+        Object o = productlines.put(productLine.getName(), productLine);
+        
+        if (o != null){
+            // Obviously a productline with the name specified in 'productLine
+            // already existed, so undo the change and signal error
+            productlines.put(productLine.getName(), o);
+            return false;
+        }
+        else{
+            return true;
+        }
 	}
 
 	/**
@@ -98,10 +111,12 @@ public class ProductlineManager {
 	/**
 	 * Removes the specified productline.
 	 * 
-	 * @param productline the productline to remove.
+	 * @param productline String containing the name the productline to remove.
+     * @return true, if the productloine with the specified name existed, false
+     *         otherwise
 	 */
-	public void removeProductline(String productlineName) {
-		productlines.remove(productlineName);
+	public boolean removeProductline(String productlineName) {
+		return (productlines.remove(productlineName) != null);
 	}
 
 	/**
