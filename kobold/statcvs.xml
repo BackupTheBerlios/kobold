@@ -32,11 +32,21 @@
     <projectName>Kobold PLAM</projectName>
     <outputDir>xdocs/statcvs-xml</outputDir>
     <renderer>xdoc</renderer>
-<!--    <include>src/de/berlios/statcvs/xml/**/*.java</include> -->
+<!--    <include>src/de/berlios/statcvs/xml/**/*.java</include>
     <modules type="map">
       <setting key="Documentation">docs/**/*.tex</setting>
       <setting key="Sources">src/**/*.java</setting>
       <setting key="Site">xdocs/**/*</setting>
-    </modules>
+    </modules> -->
+
+    <include>src/**/*.java;src/**/*.properties;src/**/*.xml</include>
+    <exclude>src/kobold/**</exclude>
+    <modules type="map">
+      <setting key="PLAM">src/kobold.client.plam/src/**</setting>
+      <setting key="VCM">src/kobold.client.vcm/src/**</setting>
+      <setting key="Common">src/kobold.common/src/**</setting>
+      <setting key="Server">src/kobold.server/src/**</setting>
+      <setting key="Unit-Tests">src/**/tests-src/**</setting>
+    </modules> 
   </settings>
 </statcvs>
