@@ -58,11 +58,11 @@ public class AddAction extends KoboldAction {
 			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 			try
 			{
-				repoAccess.precheckout(testResource,IResource.DEPTH_INFINITE,null,true);
+//				repoAccess.precheckout(testAssets,IResource.DEPTH_INFINITE,null,false);
 			}
 			catch (Exception e)
 			{
-				// TODO: handle exception
+				e.printStackTrace();
 			}
 //			Shell shell = new Shell();
 //			MessageDialog.openInformation(

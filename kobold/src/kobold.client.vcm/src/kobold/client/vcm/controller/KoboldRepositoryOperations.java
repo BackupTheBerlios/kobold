@@ -26,26 +26,37 @@
 
 package kobold.client.vcm.controller;
 
-import org.eclipse.core.resources.IResource;
+import kobold.common.model.AbstractAsset;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.team.core.TeamException;
 import org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations;
 
 /**
  * @author schneipk
- ** @ TODO shitty and not needed interface
+ ** This interface extends the eclipse simple Access operations and implements
+ *	the changes needed to perform operations before and after the normal VCM operations
  */
 public interface KoboldRepositoryOperations extends SimpleAccessOperations {
 	
-	public void precheckin(IResource[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	public void precheckin(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 	
-	public void postcheckin(IResource[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	public void postcheckin(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 	
-	public void precheckout(IResource[] resources, int depth, boolean performOperation) throws TeamException;
+	public void precheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 	
-	public void postcheckout(IResource[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	public void postcheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 
-	public void preget(IResource[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	public void preget(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
 	
-	public void postGet(IResource[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	public void postGet(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException;
+	
+	public void checkin(AbstractAsset[] resources, int depth, IProgressMonitor progress)throws TeamException; 
+	
+	public void checkout(AbstractAsset[] resources, int depth, IProgressMonitor progress) throws TeamException;
+	
+	public void get(AbstractAsset[] resources, int depth, IProgressMonitor progress)
+			throws TeamException;
+
+	
 }

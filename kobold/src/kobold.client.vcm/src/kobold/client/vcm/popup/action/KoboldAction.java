@@ -28,6 +28,7 @@
 package kobold.client.vcm.popup.action;
 
 
+import kobold.common.model.AbstractAsset;
 import kobold.common.model.product.Product;
 import kobold.common.model.productline.Productline;
 import kobold.common.model.productline.Variant;
@@ -53,7 +54,7 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 	protected Productline selectedProductLine = null;
 	protected Product selectedProduct = null;
 	protected Variant selectedVariant = null;
-	protected Resource testResource[] = null;
+	protected AbstractAsset testAssets[] = null;
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.ui.actions.TeamAction#isEnabled()
@@ -71,18 +72,22 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
 		IStructuredSelection structSelection =((IStructuredSelection)selection);
+		
 		for (int i = 0; i < structSelection.size(); i++) {
+			if (i == 0) {
+				testAssets = new AbstractAsset[structSelection.size()];
+			}
+			if (structSelection.getFirstElement() instanceof AbstractAsset) {
+				testAssets[i] = (AbstractAsset)structSelection.getFirstElement();
+			}
 			if (structSelection.getFirstElement() instanceof Productline) {
 				selectedProductLine = (Productline)structSelection.getFirstElement();
-				System.out.println(selectedProductLine.getName());
 			}
 			if (structSelection.getFirstElement() instanceof Product) {
 				selectedProduct = (Product)structSelection.getFirstElement();
-				System.out.println(selectedProduct.getName());
 			}
 			if (structSelection.getFirstElement() instanceof Variant) {
 				selectedVariant = (Variant)structSelection.getFirstElement();
-				System.out.println(selectedVariant.getName());
 			}
 			
 		}

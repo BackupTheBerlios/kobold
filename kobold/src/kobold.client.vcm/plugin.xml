@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin
-   id="ekobold.client.vcm"
+   id="kobold.client.vcm"
    name="Kobold VCM Plug-in"
    version="1.0.0"
    provider-name="Werkbold"
@@ -48,13 +48,6 @@
                menubarPath="kobold.client.vcm.menu1/group1"
                enablesFor="1"
                id="kobold.client.vcm.commitaction">
-         </action>
-         <action
-               label="Synchronize"
-               class="kobold.client.vcm.popup.action.SynchronizeAction"
-               menubarPath="kobold.client.vcm.menu1/group1"
-               enablesFor="1"
-               id="kobold.client.vcm.synchronizeaction">
          </action>
          <action
                label="Update"

@@ -76,6 +76,11 @@ public class CVSSererConnection implements IServerConnection
 	
 	// Process spawn to run the command
 	private Process process;
+	 
+	// The absolute path and name of the skript to be excecuted
+	private String skriptName = null;
+	
+	
 	
 	
 	/** 
@@ -98,10 +103,14 @@ public class CVSSererConnection implements IServerConnection
 	public void open(IProgressMonitor monitor) throws IOException,
 			CVSAuthenticationException
 	{
-//		String[] command = ((CVSRepositoryLocation)location).getExtCommand(password);
-		String[] command = {"C:\\Temp\\CVS\\cvs.exe", "-d" ,":pserver:memyselfandi:come2me@cvs.berlios.de:/cvsroot/kobold" ,"co","Produktlinie 1"};
+
 		connected = false;
 		try {
+			String[] command = new String[1];
+			if (skriptName != null) 
+			{
+				command[0] = skriptName;
+			}
 			process = Util.createProcess(command, monitor);
 
 			inputStream = new PollingInputStream(new TimeoutInputStream(process.getInputStream(),
@@ -114,7 +123,7 @@ public class CVSSererConnection implements IServerConnection
 //			errStream = (process.getErrorStream());
 			connected = true;
 //			Thread thread = new Thread(new DiscardInputThread(errStream));
-//			readInpuStreamsToConsole();
+			readInpuStreamsToConsole();
 //			thread.run();
 		} finally {
 			if (! connected) {
@@ -129,11 +138,11 @@ public class CVSSererConnection implements IServerConnection
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.ccvs.core.IServerConnection#open(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void open(IProgressMonitor monitor,String[] command1) throws IOException,
+	public void open(IProgressMonitor monitor,String[] command) throws IOException,
 			CVSAuthenticationException
 	{
 //		String[] command = ((CVSRepositoryLocation)location).getExtCommand(password);
-		String[] command = {"C:\\Temp\\test","marvin"};
+//		String[] command = {"C:\\Temp\\test","marvin"};
 		try {
 			process = Util.createProcess(command, monitor);
 
@@ -146,6 +155,7 @@ public class CVSSererConnection implements IServerConnection
 			// discard the input to prevent the process from hanging due to a full pipe
 			Thread thread = new DiscardInputThread(process.getErrorStream());
 			connected = true;
+			readInpuStreamsToConsole();
 		} finally {
 			if (! connected) {
 				try {
@@ -177,14 +187,13 @@ public class CVSSererConnection implements IServerConnection
 				outputStream = null;
 				if (process != null) process.destroy();
 			}
-		} // TODO 
+		} 
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.ccvs.core.IServerConnection#getInputStream()
 	 */
 	public InputStream getInputStream()
 	{
-		// TODO Auto-generated method stub
 		return inputStream;
 	}
 	/* (non-Javadoc)
@@ -192,22 +201,21 @@ public class CVSSererConnection implements IServerConnection
 	 */
 	public OutputStream getOutputStream()
 	{
-		// TODO Auto-generated method stub
 		return outputStream;
 	}
 	public void readInpuStreamsToConsole()
 	{
-//		if (this.connected) 
+		if (this.connected) 
 		{
 			ConsolePlugin.getDefault();
 			MessageConsole console= new MessageConsole("CVS Console",null);
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
 				new IConsole[] {console});
-			MessageConsoleStream stream =console.newMessageStream();
+			MessageConsoleStream stream = console.newMessageStream();
+			InputStream err = this.errStream;// (InputStream)process.getErrorStream();
 			InputStream pis = this.inputStream; //(InputStream)process.getInputStream();
-			InputStream err = process.getErrorStream();//this.errStream;
-			OutputStream os1 = this.outputStream;//process.getOutputStream();
-			
+//			OutputStream os1 = this.outputStream;//process.getOutputStream();
+//			stream.print("TESCHD");
 			int index = 0;
 			int r = 0;
 			try
@@ -288,5 +296,11 @@ public class CVSSererConnection implements IServerConnection
 	 */
 	public InputStream getErrStream() {
 		return errStream;
+	}
+	/**
+	 * @param skriptName The Skript Name to be executed.
+	 */
+	public void setSkriptName(String skriptName) {
+		this.skriptName = skriptName;
 	}
 }

@@ -25,21 +25,17 @@
 
 package kobold.client.vcm.popup.action;
 
+import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.core.TeamException;
 import org.eclipse.ui.IActionDelegate;
-import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
 
 public class ImportAction extends KoboldAction {
 
-	//The selected Object
-	IResource currentSelection = null;
 	/**
 	 * Constructor for Action1.
 	 */
@@ -52,32 +48,35 @@ public class ImportAction extends KoboldAction {
 	 */
 		public void run(IAction action) {
 			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
+			IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 			if (selectedProduct != null) {
 				repoAccess.setCurrentVCMProvider(selectedProduct.getRepositoryDescriptor());
-			} 
+			}
+			else if (selectedProductLine != null) {
+				// @ TODO Impkement changes
+//				repoAccess.setCurrentVCMProvider(selectedProductLine.getRepositoryDescriptor());
+			}
 			try
 			{
-//				repoAccess.precheckin(currentSelection,IResource.DEPTH_INFINITE,null);
+				repoAccess.precheckin(testAssets,IResource.DEPTH_INFINITE,progress,true);
 			}
 			catch (Exception e)
 			{
-				// TODO: handle exception
+				e.printStackTrace();
 			}
-			Shell shell = new Shell();
-			MessageDialog.openInformation(
-				shell,
-				"Kobold VCM Plug-in",
-				"preImport was executed.");
-//			repoAccess.checkin();
-			MessageDialog.openInformation(
-					shell,
-					"Kobold VCM Plug-in",
-					"Import was executed.");
+			try
+			{
+				repoAccess.checkin(testAssets,IResource.DEPTH_INFINITE,progress);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 //			repoAccess.postcheckin();
-			MessageDialog.openInformation(
-					shell,
-					"Kobold VCM Plug-in",
-					"postImport was executed.");
+//			MessageDialog.openInformation(
+//					shell,
+//					"Kobold VCM Plug-in",
+//					"postImport was executed.");
 		}
 
 

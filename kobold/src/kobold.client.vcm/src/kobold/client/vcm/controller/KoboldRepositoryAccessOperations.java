@@ -25,50 +25,20 @@
 package kobold.client.vcm.controller;
 
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.logging.ConsoleHandler;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.common.model.AbstractAsset;
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.communication.CVSSererConnection;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.common.data.UserContext;
 import kobold.common.io.RepositoryDescriptor;
 
-import org.eclipse.core.internal.compatibility.PluginActivator;
-import org.eclipse.core.internal.model.PluginMap;
-import org.eclipse.core.internal.plugins.DefaultPlugin;
-import org.eclipse.core.internal.plugins.PluginClassLoader;
-import org.eclipse.core.internal.plugins.PluginDescriptor;
-import org.eclipse.core.internal.plugins.PluginRegistry;
-import org.eclipse.core.internal.resources.Resource;
-import org.eclipse.core.internal.resources.Workspace;
-import org.eclipse.core.internal.runtime.PlatformActivator;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Plugin;
-import org.eclipse.core.runtime.PluginVersionIdentifier;
-import org.eclipse.core.runtime.model.PluginRegistryModel;
-import org.eclipse.osgi.framework.internal.core.ConsoleMsg;
-import org.eclipse.osgi.framework.stats.ResourceBundleStats;
 import org.eclipse.team.core.TeamException;
-import org.eclipse.team.internal.core.streams.PollingInputStream;
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsole;
-import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
-import org.eclipse.ui.internal.Workbench;
-import org.eclipse.ui.internal.WorkbenchPage;
-import org.eclipse.ui.internal.ide.WorkbenchActionBuilder;
-import org.eclipse.update.internal.configurator.PluginEntry;
-
 /**
  * @author schneipk
  *
@@ -79,7 +49,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	
 	/* The Connection to the specified Repository used by the Repository Access Operations
 	 */ 
-//	CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de","come2me");
+
 	private static UserContext userContext = null;
 	
 	// RepositoryDescriptor of the current Project
@@ -90,122 +60,182 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	
 	// Path of the current Skript Directory (installation Dir)
 	private Path skriptPath = null;
+
+	// The prefix/name for the skripts
 	
+	private final String IMPORT = "import.";
+	private final String ADD = "add.";
+	private final String UPDATE = "update.";
+	private final String COMMIT = "commit.";
 	public KoboldRepositoryAccessOperations()
 	{
 		KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
 		String tmpLocation = plugin.getBundle().getLocation();
+		// The Location String contains "@update/" this needs to be removed
 		this.skriptPath = new Path(tmpLocation.substring(8,tmpLocation.length()));
-		this.skriptPath = (Path)skriptPath.append("skripts" + IPath.SEPARATOR);
-		System.out.println(skriptPath.toOSString());
+		this.skriptPath = (Path)skriptPath.append("scripts" + IPath.SEPARATOR);
+		String tmpString = System.getProperty("os.name");
+		// This tests what OS is used and sets the skript extension accordingly
+		if (tmpString.indexOf("Win",0) != -1 ) 
+		{
+			skriptExtension = "bat";
+		}
+		else skriptExtension = "sh";
 		
 	}
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#precheckin(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void precheckin(IResource[] resources, int depth,
+	public void precheckin(AbstractAsset[] resources, int depth,
 			IProgressMonitor progress, boolean performOperation) throws TeamException {
-		// TODO Implement functionality in Iteration II
+		if (performOperation) {
+			try {
+				progress = KoboldPolicy.monitorFor(progress);
+				progress.beginTask("precheckin working", 2);
+				// @ FIXME read password and user out of whatever
+				CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de.","come2me");
+				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
+				connection.open(progress);
+				// wait(5000);
+				connection.readInpuStreamsToConsole();
+				connection.close();	
+				progress.done();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postcheckin(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void postcheckin(IResource[] resources, int depth,
+	public void postcheckin(AbstractAsset[] resources, int depth,
 			IProgressMonitor progress, boolean performOperation) throws TeamException {
-//		 TODO Implement functionality in Iteration II
+			if (performOperation) {
+				try {
+					progress = KoboldPolicy.monitorFor(progress);
+					progress.beginTask("postcheckin working", 2);
+					// @ FIXME read password and user out of whatever
+					CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de.","come2me");
+					connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
+					connection.open(progress);
+					// wait(5000);
+					connection.readInpuStreamsToConsole();
+					connection.close();	
+					progress.done();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
 	}
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#precheckout(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void precheckout(IResource[] resources, int depth, IProgressMonitor progress, boolean performOperation
+	public void precheckout(AbstractAsset[] resources, int depth, IProgressMonitor progress, boolean performOperation
 			) throws TeamException {
-		try {
-			if (performOperation) {
+		if (performOperation) {
+			try {
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("precheckout working", 2);
-////				File test = new File("C:\\temp\\test.bat");
-//				String[] test = {"-l","schneipk","cvs.berlios.de"};
-//				Process pr = Runtime.getRuntime().exec("C:\\temp\\test.bat");
-//				InputStream is = pr.getInputStream();
-//				OutputStream os = pr.getOutputStream();
-//				InputStream errSt =  pr.getErrorStream();
-//				os.write(0);
+				// @ FIXME read password and user out of whatever
 				CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de.","come2me");
+				// @  FIXME this needs to be changes to the given skript not the usual!
+				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 				connection.open(progress);
+				// wait(5000);
 				connection.readInpuStreamsToConsole();
-				connection.close();
+				connection.close();	
+				progress.done();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			//			 FIXME Implement functionality in Iteration II
 		}
 	}
 	
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postcheckout(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void postcheckout(IResource[] resources, int depth,
+	public void postcheckout(AbstractAsset[] resources, int depth,
 			IProgressMonitor progress, boolean performOperation ) throws TeamException {
 		if (performOperation) {
-			
+			try {
+				progress = KoboldPolicy.monitorFor(progress);
+				progress.beginTask("postcheckout working", 2);
+				// @ FIXME read password and user out of whatever
+				CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de.","come2me");
+				// @  FIXME this needs to be changes to the given skript not the usual!
+				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
+				connection.open(progress);
+				// wait(5000);
+				connection.readInpuStreamsToConsole();
+				connection.close();	
+				progress.done();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#get(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void get(IResource[] resources, int depth, IProgressMonitor progress)
+	public void get(AbstractAsset[] resources, int depth, IProgressMonitor progress)
 			throws TeamException {
-		progress = KoboldPolicy.monitorFor(progress);
-//		progress.beginTask(KoboldPolicy.bind("get.working"), resources.length);
-//		userContext = Plugin.
-		CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de","come2me");
-		try
-		{
+		try {
+			progress = KoboldPolicy.monitorFor(progress);
+			progress.beginTask("update working", 2);
+			// @ FIXME read password and user out of whatever
+			CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de.","come2me");
+			// @  FIXME this needs to be changes to the given skript not the usual!
+			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 			connection.open(progress);
+			// wait(5000);
+			connection.readInpuStreamsToConsole();
+			connection.close();	
+			progress.done();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		catch (Exception e)
-		{
-			// TODO: handle exception
-		}
-		
 		
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#checkout(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void checkout(IResource[] resources, int depth,
+	public void checkout(AbstractAsset[] resources, int depth,
 			IProgressMonitor progress) throws TeamException {
-		//		 FIXME Implement functionality 
-		progress = KoboldPolicy.monitorFor(progress);
-		progress.beginTask(KoboldPolicy.bind("checkout.working"), resources.length);
-		CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de","come2me");
-		try
-		{
+		try {
+			progress = KoboldPolicy.monitorFor(progress);
+			progress.beginTask("checkout working", 2);
+			// @ FIXME read password and user out of whatever
+			CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de.","come2me");
+			// @  FIXME this needs to be changes to the given skript not the usual!
+			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 			connection.open(progress);
-			
-		}
-		catch (Exception e)
-		{
-			// TODO: handle exception
+			// wait(5000);
+			connection.readInpuStreamsToConsole();
+			connection.close();	
+			progress.done();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#checkin(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void checkin(IResource[] resources, int depth,
+	public void checkin(AbstractAsset[] resources, int depth,
 			IProgressMonitor progress) throws TeamException {
-		// FIXME Implement functionality 
-		progress = KoboldPolicy.monitorFor(progress);
-		progress.beginTask(KoboldPolicy.bind("checkin.working"), resources.length);
-		CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de","come2me");
-		try
-		{
+		try {
+			progress = KoboldPolicy.monitorFor(progress);
+			progress.beginTask("checkin working", 2);
+			// @ FIXME read password and user out of whatever
+			CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de.","come2me");
+			// @  FIXME this needs to be changes to the given skript not the usual!
+			connection.setSkriptName(skriptPath.toOSString().concat(COMMIT).concat(skriptExtension));
 			connection.open(progress);
-		}
-		catch (Exception e)
-		{
-			// TODO: handle exception
+			// wait(5000);
+//			connection.readInpuStreamsToConsole();
+			connection.close();	
+			progress.done();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	/* (non-Javadoc)
@@ -253,40 +283,85 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postGet(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void postGet(IResource[] resources, int depth,
+	public void postGet(AbstractAsset[] resources, int depth,
 			IProgressMonitor progress, boolean performOperation) throws TeamException
 	{
 		if (performOperation) {
-			
+			try {
+				progress = KoboldPolicy.monitorFor(progress);
+				progress.beginTask("postget working", 2);
+				// @ FIXME read password and user out of whatever
+				CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de.","come2me");
+				// @  FIXME this needs to be changes to the given skript not the usual!
+				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
+				connection.open(progress);
+				// wait(5000);
+				connection.readInpuStreamsToConsole();
+				connection.close();	
+				progress.done();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		// FIXME Imlpement functionality Iteraion II
 	}
-	/* (non-Javadoc)
-	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#precheckout(org.eclipse.core.resources.IResource[], int)
-	 */
-	public void precheckout(IResource[] resources, int depth, boolean performOperation)
-			throws TeamException
-	{
-		if (performOperation) {
-			
-		}
-	}
+
 	
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#preget(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void preget(IResource[] resources, int depth,
+	public void preget(AbstractAsset[] resources, int depth,
 			IProgressMonitor progress, boolean performOperation) throws TeamException
 	{
 		if (performOperation) {
-			
+			try {
+				progress = KoboldPolicy.monitorFor(progress);
+				progress.beginTask("preget working", 2);
+				// @ FIXME read password and user out of whatever
+				CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de.","come2me");
+				// @  FIXME this needs to be changes to the given skript not the usual!
+				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
+				connection.open(progress);
+				// wait(5000);
+				connection.readInpuStreamsToConsole();
+				connection.close();	
+				progress.done();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
 		}
-		//		 FIXME Imlpement functionality Iteraion II
 	}
 	/**
 	 * @param currentVCMProvider The currentVCMProvider to set.
 	 */
 	public void setCurrentVCMProvider(RepositoryDescriptor currentVCMProvider) {
 		this.currentVCMProvider = currentVCMProvider;
+	}
+	/* (non-Javadoc)
+	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postcheckout(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
+	 */
+	public void postcheckout(IResource[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
+		// TODO Auto-generated method stub
+		
+	}
+	/* (non-Javadoc)
+	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#get(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void get(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException {
+//		 TODO Not needed with type IResource using AbstractAsset instead
+		
+	}
+	/* (non-Javadoc)
+	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#checkout(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void checkout(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException {
+//		 TODO Not needed with type IResource using AbstractAsset instead
+		
+	}
+	/* (non-Javadoc)
+	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#checkin(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void checkin(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException {
+		// TODO Not needed with type IResource using AbstractAsset instead
+		
 	}
 }
