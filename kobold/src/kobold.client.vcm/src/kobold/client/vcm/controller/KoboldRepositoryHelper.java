@@ -199,7 +199,10 @@ public class KoboldRepositoryHelper {
         Preferences prefs = KoboldVCMPlugin.getDefault().getPluginPreferences();
     	String uP = prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
     	
-    	if (prefs.getBoolean(VCMPreferencePage.KOBOLD_VCM_ASK_PWD) || prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR).equals(""))
+    	// The customer asked to make it possible for the password to be ""
+    	// The following code won't be needed anymore
+    	// || prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR).equals("")
+    	if (prefs.getBoolean(VCMPreferencePage.KOBOLD_VCM_ASK_PWD) )
     	{
     		uP = getPreference(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
     		if (uP != null) {
