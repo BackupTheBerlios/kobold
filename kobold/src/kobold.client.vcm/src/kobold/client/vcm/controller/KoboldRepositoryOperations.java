@@ -41,7 +41,11 @@ public interface KoboldRepositoryOperations extends SimpleAccessOperations {
 	
 	public void postcheckin(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException;
 	
-	public void precheckout(IResource resources, int depth) throws TeamException;
+	public void precheckout(IResource[] resources, int depth) throws TeamException;
 	
 	public void postcheckout(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException;
+
+	public void preget(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException;
+	
+	public void postGet(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException;
 }

@@ -25,6 +25,8 @@
 
 package kobold.client.vcm.popup.action;
 
+import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
+
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -51,6 +53,7 @@ public class SynchronizeAction implements IObjectActionDelegate {
 	 * @see IActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
+		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 		Shell shell = new Shell();
 		MessageDialog.openInformation(
 			shell,

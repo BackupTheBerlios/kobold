@@ -20,7 +20,7 @@
       <import plugin="org.eclipse.team.cvs.core"/>
       <import plugin="kobold.commons"/>
       <import plugin="org.eclipse.team.ui"/>
-      <import plugin="kobold.commons"/>
+      <import plugin="org.eclipse.ui.ide"/>
    </requires>
 
 
@@ -90,22 +90,6 @@
             class="kobold.client.vcm.controller.VCMConfigurationWizard"
             id="kobold.client.vcm.wizard">
       </wizard>
-   </extension>
-   <extension
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run
-               class="kobold.client.vcm.ProjectNature1">
-         </run>
-      </runtime>
-   </extension>
-   <extension
-         point="org.eclipse.ui.ide.projectNatureImages">
-      <image
-            natureId="kobold.client.vcm.KoboldVCMProjectNature"
-            id="kobold.client.vcm.NatureImage"
-            icon="icons/full/wizards/fsicon_wiz.gif">
-      </image>
    </extension>
 
 </plugin>

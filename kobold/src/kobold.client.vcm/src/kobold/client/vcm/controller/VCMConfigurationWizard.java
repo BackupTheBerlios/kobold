@@ -37,7 +37,7 @@ import org.eclipse.team.ui.IConfigurationWizard;
  * @see Wizard
  */
 public class VCMConfigurationWizard extends Wizard implements IConfigurationWizard {
-	private IProject project;
+	private IProject currentProject;
 	/**
 	 *
 	 */
@@ -49,7 +49,7 @@ public class VCMConfigurationWizard extends Wizard implements IConfigurationWiza
 	 */
 	public boolean performFinish()  {
 		try {
-			RepositoryProvider.map(project,KoboldVCMPlugin.getPROVIDER_ID());
+			RepositoryProvider.map(currentProject,KoboldVCMPlugin.getPROVIDER_ID());
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -61,7 +61,14 @@ public class VCMConfigurationWizard extends Wizard implements IConfigurationWiza
 	 * @see Wizard#init
 	 */
 	public void init(IWorkbench workbench, IProject project)  {
-		this.project = project;
+		try
+			{
+				this.currentProject = project;
+			}
+			catch (Exception e)
+			{
+				System.out.println("lala");
+			}
 //		workbench.getActiveWorkbenchWindow().getWorkbench().
 	}
 }

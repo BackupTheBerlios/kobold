@@ -25,6 +25,9 @@
 
 package kobold.client.vcm.popup.action;
 
+import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
+
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -34,6 +37,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public class UpdateAction implements IObjectActionDelegate {
 
+	IResource[] currentSelection = null;
 	/**
 	 * Constructor for Action1.
 	 */
@@ -51,17 +55,43 @@ public class UpdateAction implements IObjectActionDelegate {
 	 * @see IActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
+		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
+		try
+		{
+			repoAccess.precheckout(currentSelection,IResource.DEPTH_INFINITE,null);
+		}
+		catch (Exception e)
+		{
+			// TODO: handle exception
+		}
 		Shell shell = new Shell();
 		MessageDialog.openInformation(
 			shell,
 			"Kobold VCM Plug-in",
-			"Update was executed.");
+			"preupdate (precheckout) was executed.");
+//		repoAccess.checkout();
+		MessageDialog.openInformation(
+				shell,
+				"Kobold VCM Plug-in",
+				"update (checkout) was executed.");
+//		repoAccess.postcheckout();
+		MessageDialog.openInformation(
+				shell,
+				"Kobold VCM Plug-in",
+				"postupdate (postcheckout) was executed.");
 	}
 
 	/**
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
+		if (selection instanceof IResource)
+		{
+			currentSelection[0] = (IResource)selection;
+		}
+		else
+		{
+		}
 	}
 
 }

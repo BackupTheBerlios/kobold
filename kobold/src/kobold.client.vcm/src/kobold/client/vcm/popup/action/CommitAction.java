@@ -27,17 +27,18 @@ package kobold.client.vcm.popup.action;
 
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.team.core.TeamException;
+import org.eclipse.team.internal.ui.actions.TeamAction;
+import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
-public class CommitAction implements IObjectActionDelegate {
+public class CommitAction extends TeamAction implements IObjectActionDelegate {
 
 	//The selected Object
 	IResource currentSelection = null;
@@ -57,20 +58,65 @@ public class CommitAction implements IObjectActionDelegate {
 	/**
 	 * @see IActionDelegate#run(IAction)
 	 */
-	public void run(IAction action) {
-		Shell shell = new Shell();
-		
-
-		KoboldRepositoryAccessOperations ao = new KoboldRepositoryAccessOperations();
-		IProgressMonitor monitor;
-//		selection
-		try {
-			ao.precheckout(currentSelection,0);
-		} catch (Exception e) {
-			// TODO: handle exception
+		public void run(IAction action) {
+			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
+			try
+			{
+//				repoAccess.precheckin(currentSelection,IResource.DEPTH_INFINITE,null);
+			}
+			catch (Exception e)
+			{
+				// TODO: handle exception
+			}
+			Shell shell = new Shell();
+			MessageDialog.openInformation(
+				shell,
+				"Kobold VCM Plug-in",
+				"prcommit (precheckin) was executed.");
+//			repoAccess.checkin();
+			MessageDialog.openInformation(
+					shell,
+					"Kobold VCM Plug-in",
+					"update (checkin) was executed.");
+//			repoAccess.postcheckin();
+			MessageDialog.openInformation(
+					shell,
+					"Kobold VCM Plug-in",
+					"postupdate (postcheckin) was executed.");
 		}
+//			run(new WorkspaceModifyOperation() {
+//				public void execute(IProgressMonitor monitor) throws InterruptedException {
+//					try {
+//						Map table = CommitAction.this.getProviderMapping();
+//						monitor.beginTask(null, table.size() * 1000);
+//						monitor.setTaskName(KoboldPolicy.bind("GetAction.working")); //$NON-NLS-1$
+//						for (Iterator iter = table.keySet().iterator(); iter.hasNext();) {
+//							IProgressMonitor subMonitor = new SubProgressMonitor(monitor, 1000);
+//							WrapperProvider provider = (WrapperProvider) iter.next();
+//							List list = (List) table.get(provider);
+//							IResource[] providerResources = (IResource[]) list.toArray(new IResource[list.size()]);
+////							provider.getOperations().get(providerResources, IResource.DEPTH_INFINITE, isOverwriteOutgoing(), subMonitor);
+//						}
+//					} finally {
+//						monitor.done();
+//					}
+//				}
+//			}, KoboldPolicy.bind("GetAction.problemMessage"), TeamAction.PROGRESS_DIALOG); //$NON-NLS-1$		
+//
+//		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
+//		IProgressMonitor monitor;
+////		selection
+//		try {
+//			
+//			repoAccess.precheckin(currentSelection,IResource.DEPTH_INFINITE,null);
+//			repoAccess.checkin();
+//			repoAccess.postcheckin();
+////			ao.precheckin(currentSelection,0);
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
 		
-	}
+	
 
 	/**
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
@@ -82,4 +128,12 @@ public class CommitAction implements IObjectActionDelegate {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.team.internal.ui.actions.TeamAction#isEnabled()
+	 */
+	protected boolean isEnabled() throws TeamException
+	{
+		
+		return true;
+	}
 }
