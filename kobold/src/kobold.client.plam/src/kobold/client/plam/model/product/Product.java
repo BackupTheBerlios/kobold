@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.3 2004/07/22 16:14:47 martinplies Exp $
+ * $Id: Product.java,v 1.4 2004/07/22 22:18:42 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.AbstractMaintainedAsset;
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.common.io.RepositoryDescriptor;
@@ -54,7 +54,7 @@ import org.dom4j.io.XMLWriter;
 /**
  * This class represents a product.  
  */
-public class Product extends AbstractMaintainedAsset
+public class Product extends AbstractRootAsset
                      implements IGXLExport{
 
 	// containers
