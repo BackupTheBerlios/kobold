@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalPartFactory.java,v 1.8 2004/07/23 22:27:11 vanto Exp $
+ * $Id: GraphicalPartFactory.java,v 1.9 2004/08/06 01:57:29 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -29,12 +29,18 @@ package kobold.client.plam.editor;
 import kobold.client.plam.editor.editpart.ComponentEditPart;
 import kobold.client.plam.editor.editpart.EdgeEditPart;
 import kobold.client.plam.editor.editpart.MetaEditPart;
+import kobold.client.plam.editor.editpart.ProductEditPart;
 import kobold.client.plam.editor.editpart.ProductlineEditPart;
+import kobold.client.plam.editor.editpart.RelatedComponentEditPart;
 import kobold.client.plam.editor.editpart.ReleaseEditPart;
+import kobold.client.plam.editor.editpart.SpecificComponentEditPart;
 import kobold.client.plam.editor.editpart.VariantEditPart;
 import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.edges.Edge;
+import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.product.RelatedComponent;
+import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
@@ -69,6 +75,14 @@ public class GraphicalPartFactory implements EditPartFactory {
 		    editPart = new EdgeEditPart();
 		}
 
+		else if (model instanceof Product) {
+		    editPart = new ProductEditPart();
+		} else if (model instanceof SpecificComponent) {
+		    editPart = new SpecificComponentEditPart();
+		} else if (model instanceof RelatedComponent) {
+		    editPart = new RelatedComponentEditPart();
+		}
+		
 		if (editPart != null) {
 			editPart.setModel(model);
 		}
