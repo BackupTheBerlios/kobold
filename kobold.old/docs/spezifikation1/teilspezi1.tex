@@ -1,27 +1,29 @@
 \subsubsection{Metainformationen}
 
-Als Metainformationen werden alle Informationen zu Produkten und
-Produktlinien verstanden, die für das \product System notwendig sind,
-jedoch weder auf dem zentrlen Kobold Serverdienst noch aus
+Der Begriff Metainformationen umfasst alle Informationen zu
+Produkten und Produktlinien, die für das \product System notwendig
+sind, jedoch weder aus dem zentralen Kobold Serverdienst noch aus
 Repository-Informationen gewonnen werden können.\par
 
-Um Meta-Informationen zu den unten aufgeführten Elementen in Kobold zu
-speichern, bietet Kobold eine Metainformationskomponente als
-eigenständiges Plug-In, das die Metainformationen verwaltet. Dieses
-ermöglicht außerdem eine gezielte Suche nach Elementen mit bestimmten
-Eigenschaften. Metainformationen werden auch für eine genaue Zuordnung
-und Identifikation eines Elementes benötigt.\par
-Dieses Kapitel liefert eine genaue Auflistung der geplanten Metainformationen.\newline
+Um die notwendigen Meta-Informationen der unten aufgeführten
+Elemente in Kobold zu speichern, wird eine
+Metainformationskomponente als eigenständiges Plug-In realisiert,
+das alle Metainformationen verwaltet. Es ermöglicht außerdem eine
+gezielte Suche nach Elementen mit bestimmten Eigenschaften.
+Metainformationen werden auch für eine genaue Zuordnung und
+Identifikation eines Elementes verwendet.\par Dieses Kapitel
+liefert eine genaue Auflistung der geplanten
+Metainformationen.\newline
 
 \paragraph{Produkt:}
-Ein Produkt besitzt folgende Metainformationen:
+Für jedes Produkt werden folgende Metainformationen gespeichert:
 \begin{itemize}
 \item Name
 \item Liste aller Releases
 \end{itemize}
 
 \paragraph{Release:}
-Ein Release besitzt folgende Metainformationen:
+Für jedes Release werden folgende Metainformationen gespeichert:
 \begin{itemize}
 \item Liste der Objekte
 \item Erstellungsdatum
@@ -35,9 +37,10 @@ Für eine Version werden folgende Metainformationen gespeichert:
 \end{itemize}
 
 \paragraph{Objekt:}
-Ein Objekt ist ein von Menschen geschaffenes Software Objekt wie zum Beispiel Quelltext und Dokumentation. 
-I.d.R. ist ein Objekt eine Datei.
-Als Metainformationen über ein Objekt wird gespeichert:
+Ein Objekt ist ein beliebiges Softwaredokument (zum Beispiel
+Quelltext oder Dokumentation), das in der Regel als Datei
+vorliegt. Für jedes Objekt werden folgende Metainformationen
+gespeichert:
 \begin{itemize}
 \item Liste der Versionen
 \item Liste der releasefähigen Versionen
@@ -49,8 +52,9 @@ Als Metainformationen über ein Objekt wird gespeichert:
 \end{itemize}
 
 \paragraph{Skript:}
-Ein Skript wird bei der angegebenen Aktion ausgeführt. Dies kann auch mit Parameterübergabe geschehen. 
-Diese Funktionalität wird allerdings erst in einer Folgeiteration entwickelt.
+Die Unterstützung für Skripte wird erst in einer Folgeiteration
+realisiert. Folgende Metainformationen werden dafür
+voraussichtlich gespeichert werden:
 \begin{itemize}
 \item Aktion
 \item Parameter
@@ -59,7 +63,7 @@ Diese Funktionalität wird allerdings erst in einer Folgeiteration entwickelt.
 \end{itemize}
 
 \paragraph{Variante:}
-Eine Variante besitzt folgende Metainformationen:
+Für jede Variante werden folgende Metainformationen gespeichert:
 \begin{itemize}
 \item Liste aller Objekte
 \item Versionsnummer
@@ -84,7 +88,8 @@ Für jede Komponente werden folgende Metainformationen gespeichert:
 \end{itemize}
 
 \paragraph{Abhängigkeit:}
-Für eine Abhängigkeit werden folgende Metainformationen gespeichert:
+Für jede Abhängigkeit werden folgende Metainformationen
+gespeichert:
 \begin{itemize}
 \item Typ
 \item Richtung
@@ -93,14 +98,16 @@ Für eine Abhängigkeit werden folgende Metainformationen gespeichert:
 \end{itemize}
 
 \paragraph{Metaknoten:}
-Für Metaknoten werden nur folgende Metainformationen benötigt:
+Für jeden Metaknoten werden folgende Metainformationen
+gespeichert:
 \begin{itemize}
 \item Typ
 \item ID
 \end{itemize}
 
 \paragraph{Architektur:}
-Für eine Architektur werden folgenden Metainformationen benötigt:
+Für jede Architektur werden folgenden Metainformationen
+gespeichert:
 \begin{itemize}
 \item Liste der Metaknoten
 \item Liste der Abhängigkeiten
@@ -115,18 +122,18 @@ Für eine Architektur werden folgenden Metainformationen benötigt:
 
 \subsubsection{VCM Wrapper}
 
-Um die Zugriffsrechte auf Repositories aus dem Kobold-Client heraus 
-konsistent durchzusetzen und die automatisierte aktionsbasierte
-Nachrichtenzustellung zum Kobold Serverdienst zu ermöglichen, wird ein
-VCM Wrapper erstellt, welche die von Eclipse zur Verfügung gestellte
-Repository Abstraction Layer wrappt.\par
-Der VCM Wrapper fängt VCM-Aktionen an die Eclipse Repository Abstraction
-Layer ab und prüft, ob die VCM-Aktion konform zu den Berechtigungen der
-ausführenden Rolle sind. Ist dies der Fall, leitet der VCM Wrapper
-die eigentliche VCM-Aktion an das Eclipse Repository Abstraction Layer
-weiter. Ist dies nicht der Fall, wird ein Workflow durch den Server
-angestoßen und die VCM-Aktion verweigert.\par
-Darüber hinaus bietet der VCM-Wrapper die automatische Übernahme von
-Repository-Zugriffskonfigurationen, die aus einer Produktlinien- oder
-Produktkonfiguration vom Kobold Serverdienst zur Verfügung gestellt
-werden, in die Eclipse-Repository Konfiguration.
+Um die Zugriffsrechte auf Repositories aus dem Kobold-Client
+heraus konsistent durchzusetzen und die automatisierte
+Nachrichtenzustellung zum Kobold Serverdienst zu ermöglichen, wird
+ein VCM Wrapper erstellt, der das von Eclipse zur Verfügung
+gestellte Repository Abstraction Layer wrappt.\par Der VCM Wrapper
+fängt VCM-Aktionen an das Repository Abstraction Layer ab und
+prüft, ob die VCM-Aktionen konform zu den Berechtigungen der
+aktuellen Rolle des Benutzers sind. Ist dies der Fall, leitet der
+VCM Wrapper die eigentliche VCM-Aktion an das Eclipse Repository
+Abstraction Layer weiter. Ist dies nicht der Fall, wird ein
+Workflow durch den Server angestoßen und die VCM-Aktion
+verweigert.\par Darüber hinaus ermöglicht der VCM-Wrapper die
+automatische Übernahme von Repository-Zugriffskonfigurationen aus
+den Produktlinien- oder Produktkonfigurationen, die vom \product
+Serverdienst zur Verfügung gestellt werden.
