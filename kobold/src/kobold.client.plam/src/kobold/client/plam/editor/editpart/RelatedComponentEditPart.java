@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponentEditPart.java,v 1.7 2004/09/01 02:58:22 vanto Exp $
+ * $Id: RelatedComponentEditPart.java,v 1.8 2004/09/19 22:34:52 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -34,9 +34,7 @@ import java.util.Set;
 import kobold.client.plam.editor.figure.RelatedComponentFigure;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
 import kobold.client.plam.model.AbstractStatus;
-import kobold.client.plam.model.product.ProductComponent;
 import kobold.client.plam.model.product.RelatedComponent;
-import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;
@@ -108,7 +106,7 @@ public class RelatedComponentEditPart extends AbstractAssetEditPart
     {
         List children = new ArrayList(); 
         children.addAll(((RelatedComponent)getModel()).getProductComponents());
-        //children.addAll(((RelatedComponent)getModel()).getFileDescriptors());
+        children.addAll(((RelatedComponent)getModel()).getFileDescriptors());
         return children;
     }
     
