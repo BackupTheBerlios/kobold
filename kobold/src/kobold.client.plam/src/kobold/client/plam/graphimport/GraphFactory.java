@@ -21,13 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
+ * $Id: GraphFactory.java,v 1.3 2004/07/29 20:51:34 martinplies Exp $
  *
  */
 package kobold.client.plam.graphimport;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -36,26 +35,18 @@ import java.util.Map;
 import java.util.Set;
 
 import kobold.client.plam.model.FileDescriptor;
+import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.edges.INode;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.ProductComponent;
 
-import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
-import org.dom4j.Node;
 import org.dom4j.QName;
 import org.dom4j.io.SAXReader;
 import org.eclipse.swt.widgets.Shell;
-import org.xml.sax.SAXException;
-
-import net.sourceforge.gxl.GXLDocument;
-import net.sourceforge.gxl.GXLGXL;
-import net.sourceforge.gxl.GXLGraph;
-import net.sourceforge.gxl.GXLType;
-import net.sourceforge.gxl.*;
 
 
 /**
@@ -144,7 +135,7 @@ private void addFileDescsToMap(Map map, FileDescriptor filedesc){
  
  public EdgeContainer importGraph(File gxlGraph, Product product) throws DocumentException{
      EdgeContainer edgeContainer = new EdgeContainer(product);
-     
+     Set koboldTypes = Edge.getKoboldEdgeTypes();
      // parse xml
      SAXReader xmlReader = new SAXReader();
      Document doc = xmlReader.read(gxlGraph);
@@ -177,8 +168,14 @@ private void addFileDescsToMap(Map map, FileDescriptor filedesc){
            } 
            Element  type = gxlEdge.element("type");
            if (type != null &&  type.attributeValue("href") != null){
+               String typeStr = type.attributeValue("href");
+               if(koboldTypes.contains(type)){                   
+                   // extern edges must not have the same type likekobold edges.
+                   // so type is renamed.
+                   typeStr = typeStr +".extern";
+               }
              // create new Edge
-             edgeContainer.addEdge((INode) nodes.get(fromId), (INode) nodes.get(toId), type.attributeValue("href"), edgeCount);
+             edgeContainer.addEdge((INode) nodes.get(fromId), (INode) nodes.get(toId), typeStr, edgeCount);
            }          
         }
      } 
