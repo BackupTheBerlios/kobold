@@ -25,70 +25,50 @@
 
 package kobold.client.vcm.popup.action;
 
-import kobold.client.plam.model.AbstractRootAsset;
-import kobold.client.plam.model.productline.Productline;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
-import org.dom4j.io.XMLWriter;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.team.core.TeamException;
-import org.eclipse.ui.IActionDelegate;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
 
-public class ImportAction extends KoboldAction {
 
-	/**
-	 * Constructor for Action1.
-	 */
-	public ImportAction() {
-		super();
-	}
-
+/**
+ * @author pschneid
+ *
+ */
+public class CheckoutAction extends KoboldAction {
 	/**
 	 * @see IActionDelegate#run(IAction)
 	 */
-		public void run(IAction action) {
-			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
-			IProgressMonitor progress = KoboldPolicy.monitorFor(null);
-//			((Productline)testAssets[0]).serialize();
-			
-			boolean test = testAssets[0] instanceof AbstractRootAsset;
-			
-
-			
-			try
-			{
-//				repoAccess.precheckin(testAssets,IResource.DEPTH_INFINITE,progress,true);
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-			try
-			{
-//				repoAccess.checkin(testAssets,IResource.DEPTH_INFINITE,progress);
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-//			repoAccess.postcheckin();
-//			MessageDialog.openInformation(
-//					shell,
-//					"Kobold VCM Plug-in",
-//					"postImport was executed.");
+	public void run(IAction action) {
+		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
+		IProgressMonitor progress = KoboldPolicy.monitorFor(null);
+		try
+		{
+			repoAccess.checkout(testAssets,IResource.DEPTH_INFINITE,progress);
 		}
-
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.team.internal.ui.actions.TeamAction#isEnabled()
-	 */
-	protected boolean isEnabled() throws TeamException
-	{
-		
-		return true;
+		catch (Exception e)
+		{
+			// TODO: handle exception
+		}
+		Shell shell = new Shell();
+		MessageDialog.openInformation(
+			shell,
+			"Kobold VCM Plug-in",
+			"preupdate (precheckout) was executed.");
+//		repoAccess.checkout();
+		MessageDialog.openInformation(
+				shell,
+				"Kobold VCM Plug-in",
+				"update (checkout) was executed.");
+//		repoAccess.postcheckout();
+		MessageDialog.openInformation(
+				shell,
+				"Kobold VCM Plug-in",
+				"postupdate (postcheckout) was executed.");
 	}
-}
 
+}

@@ -32,7 +32,7 @@ import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.KoboldVCMPlugin;
-import kobold.client.vcm.communication.CVSSererConnection;
+import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.common.data.UserContext;
 import kobold.common.io.RepositoryDescriptor;
@@ -61,7 +61,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	private RepositoryDescriptor currentVCMProvider = null;
 	
 	// The VCM Repository User, Password and Repository Path
-	private String password, user, repositoryPath = "";
+	private String  repositoryPath = "";
 	
 	// The fields used to store the selected Types(productline, etc..)
 	private Productline productLine = null;
@@ -118,7 +118,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("precheckin working", 2);
 				// @ FIXME read password and user out of whatever
-				CVSSererConnection connection = new CVSSererConnection(repositoryPath,user ,password);
+				ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
 				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 				connection.open(progress);
 				// wait(5000);
@@ -140,7 +140,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 					progress = KoboldPolicy.monitorFor(progress);
 					progress.beginTask("postcheckin working", 2);
 					// @ FIXME read password and user out of whatever
-					CVSSererConnection connection = new CVSSererConnection(repositoryPath,user ,password);
+					ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
 					connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 					connection.open(progress);
 					// wait(5000);
@@ -155,7 +155,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	
 	/*
 	 */
-	private void initConnection(CVSSererConnection connection, AbstractAsset[] assets)
+	private void initConnection(ScriptServerConnection connection, AbstractAsset[] assets)
 	{
 		// @ FIXME Fehlerbehandlung & Auswahl der richtigen Resource
 		if(assets != null)
@@ -184,13 +184,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 //					release.get
 				}				
 			}
-		}
-		if (user == null || password == null || repositoryPath != null || user.equals("") || password.equals("")) {
-			Shell shell = new Shell();
-			MessageDialog.openError(shell,"Error","You have not entered a correct Username or Password or Repository is not Set");
-		} else {
-			
-		}		
+		}	
 		
 	}
 	
@@ -204,7 +198,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("precheckout working", 2);
 			
-					CVSSererConnection connection = new CVSSererConnection(repositoryPath, user, password);
+					ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
 					connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 					initConnection(connection , resources);
 					connection.open(progress);
@@ -227,7 +221,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("postcheckout working", 2);
 				// @ FIXME read password and user out of whatever
-				CVSSererConnection connection = new CVSSererConnection(repositoryPath,user ,password);
+				ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
 				// @  FIXME this needs to be changes to the given skript not the usual!
 				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 				connection.open(progress);
@@ -249,7 +243,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("update working", 2);
 			// @ FIXME read password and user out of whatever
-			CVSSererConnection connection = new CVSSererConnection(repositoryPath,user ,password);
+			ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
 			// @  FIXME this needs to be changes to the given skript not the usual!
 			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 			connection.open(progress);
@@ -271,7 +265,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("checkout working", 2);
 			// @ FIXME read password and user out of whatever
-			CVSSererConnection connection = new CVSSererConnection(repositoryPath,user ,password);
+			ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
 			// @  FIXME this needs to be changes to the given skript not the usual!
 			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 			connection.open(progress);
@@ -292,7 +286,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("checkin working", 2);
 			// @ FIXME read password and user out of whatever
-			CVSSererConnection connection = new CVSSererConnection(repositoryPath,user ,password);
+			ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
 			// @  FIXME this needs to be changes to the given skript not the usual!
 			connection.setSkriptName(skriptPath.toOSString().concat(COMMIT).concat(skriptExtension));
 			connection.open(progress);
@@ -357,7 +351,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("postget working", 2);
 				// @ FIXME read password and user out of whatever
-				CVSSererConnection connection = new CVSSererConnection(repositoryPath,user ,password);
+				ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
 				// @  FIXME this needs to be changes to the given skript not the usual!
 				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 				connection.open(progress);
@@ -383,7 +377,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("preget working", 2);
 				// @ FIXME read password and user out of whatever
-				CVSSererConnection connection = new CVSSererConnection(repositoryPath,user ,password);
+				ScriptServerConnection connection = new ScriptServerConnection(repositoryPath);
 				// @  FIXME this needs to be changes to the given skript not the usual!
 				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 				connection.open(progress);
@@ -430,18 +424,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		// TODO Not needed with type IResource using AbstractAsset instead
 		
 	}
-	/**
-	 * @param password The password to set.
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	/**
-	 * @param user The user to set.
-	 */
-	public void setUser(String user) {
-		this.user = user;
-	}
+
 	/**
 	 * @param repositoryPath The repositoryPath to be set.
 	 */

@@ -37,12 +37,6 @@ import org.eclipse.ui.IWorkbenchPart;
 public class UpdateAction extends KoboldAction {
 
 	IResource[] currentSelection = null;
-	/**
-	 * Constructor for Action1.
-	 */
-	public UpdateAction() {
-		super();
-	}
 
 	/**
 	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
