@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.8 2004/07/26 17:34:52 martinplies Exp $
+ * $Id: EdgeContainer.java,v 1.9 2004/07/29 11:36:13 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -39,11 +39,14 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.workflow.LocalMessageQueue;
 import kobold.common.data.ISerializable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.QName;
 
 /**
  * An EdgeContainer contains all edges of a product or a 
@@ -67,7 +70,9 @@ public class EdgeContainer implements ISerializable {
     
     private Map startNodesList = new HashMap();
     private Map targetNodesList = new HashMap();
-    private AbstractRootAsset root; 
+    private AbstractRootAsset root;
+
+    private String type = "EdgeContainer"; 
 
     
     public EdgeContainer(AbstractRootAsset root) {
@@ -348,10 +353,32 @@ public class EdgeContainer implements ISerializable {
     }
     
     public Element serialize() {
-        // TODO
-        return null;
+        Element element = DocumentHelper.createElement(getType());
+        element.addAttribute("root", root.getId());
+        Element edges = element.addElement("edges");
+        for (Iterator edgesListIte = this.startNodesList.entrySet().iterator(); edgesListIte.hasNext();){
+           for(Iterator edgeIte =((List)edgesListIte).iterator(); edgeIte.hasNext();){
+               Edge edge = (Edge) edgeIte;                
+               if(edge.getType().equals(Edge.INCLUDE) || edge.getType().equals(Edge.EXCLUDE)){                   
+                 try {
+                    edges.add(edge.serialize());
+                } catch (ClassCastException e) {
+                	private static final Log logger = LogFactory.getLog(EdgeConatainer.class);
+                }
+               } // else it is an Bauhaus edge theese are not serialised.
+           }            
+        }    
+        
+        return element;
     }
     
+    /**
+     * @return
+     */
+    private String getType() {
+        return type;
+    }
+
     /* (non-Javadoc)
      * @see kobold.common.data.ISerializable#deserialize(org.dom4j.Element)
      */

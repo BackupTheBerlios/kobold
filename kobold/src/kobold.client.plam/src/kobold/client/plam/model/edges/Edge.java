@@ -21,10 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Edge.java,v 1.5 2004/07/23 23:25:14 vanto Exp $
+ * $Id: Edge.java,v 1.6 2004/07/29 11:36:13 martinplies Exp $
  *
  */
 package kobold.client.plam.model.edges;
+
+import kobold.client.plam.model.AbstractAsset;
+
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 
 
 /**
@@ -112,4 +117,19 @@ public class Edge {
         return getClass().getName() + " [start:"+startNode+", target:" + targetNode 
         	+ ", type:" + type + ", amount:" + edgeCount + "]";
     }
+
+    /**
+     * 
+     */
+    public Element serialize() throws ClassCastException {
+        Element element = DocumentHelper.createElement("Edge");
+        AbstractAsset startAsset = (AbstractAsset) this.startNode;
+        AbstractAsset targetAsset = (AbstractAsset) this.targetNode;
+        element.addAttribute("from", startAsset.getId());
+        element.addAttribute("to", targetAsset.getId());
+        element.addAttribute("type", type);
+        return element;
+    }
+    
+
 }
