@@ -42,17 +42,12 @@ A new Eclipse instance will open with the Kobold feature set enabled.
 
 
 \subsection{Kobold Server Administration Tool}
-To start the Kobold Server Administration Tool within Eclipse just select 'Run...' in the
-'Run' menu from
-Eclipse and select the class
-{\it kobold.client.serveradmin.ServerAdministrationTool}.
-
-You've to enter only one VM argument which is needed to locate the {\it
-sat.properties} file and to suite your local requirements: \par
+The Kobold Server Administartion Tool is delivered as an executable jar file that is
+intended to be run inside a terminal. One argument must be passed which is needed 
+to locate the{\it sat.properties} file and to suite your local requirements: \par
 
 \begin{verbatim}
--Dkobold.sat.configFile=/home/garbeam/eclipse/
-kobold.client.serveradmin/sat.properties
+java -Dkobold.sat.configFile=/home/kobold.client.serveradmin/sat.properties -jar serveradmin.jar
 \end{verbatim}
 
 \section{Setting the Kobold preferences}
@@ -661,54 +656,80 @@ enter your new full name (see \ref{fullname}). Confirm the changes with your pas
 
 \section{SAT-related}
 
-\subsection{Creating a product line}
-Enter the command 'newpl'. You are asked to enter the name of the new product
-line and its meta data. Once you confirmed your entry, the product line is created.
+\subsection{Setting up the server connection}
+At startup the SAT tries per default to establish a connection to a server running 
+at 'localhost' on port 23232 without a set administartion password. You can change
+those default settings at any time by entering the command 'setserver'.\par
+
+After entering that command the current properties of the server connection are 
+listed (note that the password is not shown in plain text). Enter '1' to change
+the server's ip, '2' to change the server's port and '3' to change the administration
+password.\par
+
+If you decide to set or change a password the SAT provides secure password masking by
+prompting a region of 8 randomly changing characters into which your input is - randomly - 
+echoed to. This happens because it is not possible to prevent the java input stream from
+echoing to the console. Nonetheless echoing into that region makes it virtually impossible 
+to determine which of the prompted characters are echoed and which are generated randomly.\par
+
+When you have finished modifiying the connection properties confirm by entereing 'p'. The SAT 
+tries to establish the new connection. Enter 'c' to cancel the action.
+
+\subsection{Creating a productline}
+Enter the command 'newpl'. A listing is shown with the properties of the lately created
+productline. You can change the properties as described above. By enetering 'p' the SAT
+tries to create a new productline with the current settings. \par
+
+Please not that every productline of a Kobold server must have an unique name. Creation
+of a productline with an already assigned name will be refused by the server.
 
 \subsection{Deleting a product line}
-Enter the command 'rempl'. You are then asked to enter the name of the product
-line you want to remove. Once you confirmed your entry, the product line is deleted.
+Enter the command 'rempl'. All registered productline's names are listed and you are 
+asked to enter the name of the productline you want to remove. Once you confirmed your 
+entry, the productline is deleted.
 
-\subsection{Upgrading an existing user to PLE status}
+\subsection{Assigning an existing user to a productline as PLE}
 Enter the command 'assignple'. You are asked to enter the name of the person you want
-to upgrade as PLE. Finally, enter the name of the product line you want to assign
-the new PLE to. Once you confirmed your entry, the user has PLE rights.
+to become PLE. Finally, enter the name of the productline you want to assign the new 
+PLE to. Once you confirmed your entry, the user has PLE rights.
 
 \subsection{Removing PLE rights}
 Enter the command 'unassignple'. You are asked to enter the name of the user who shall 
-no longer have PLE rights. Also, enter the name of the product line you want to
+no longer have PLE rights. Also, enter the name of the productline you want to
 remove the PLE from. Once you confirmed your entry, the user is no longer PLE of
 the entered product line.
 
 \subsection{Getting a list of all existing commands}
-Enter the command 'help' and you get a list of all the commands of this tool and
+Enter the command 'help' to get a list of all the commands of this tool and
 their meanings.
 
 \subsection{Getting information about SAT's version and licence}
 Enter the command 'about' and you get information about the programm's version and licence.
 
-\subsection{Changing the URL}
-Enter the command 'seturl'. Enter a new url to change the current url.
-
-\subsection{Changing the password}
-Enter the command 'setpasswd' and then a new password in order to change the password that is used to access
-the current server.
-
 \subsection{Creating a new user}
-Enter the command 'newuser'. Enter the name, username and password of the new user and confirm.
+Enter the command 'newuser'. A listing is shown with the properties of the lately created
+user, his/her username, fullname and initial password. After enetering 'p' a new user with
+the shown properties is created on the server.\par
+
+Note that every registered user needs to have its own unique username. Creation of a new user 
+with a username that's already been registered will be refused by the server.
 
 \subsection{Deleting a user}
-Enter the command 'remuser'. Enter the username of the user in order to remove him/her from the server.
+Enter the command 'remuser'. A listing with all registered usernames is shown and you are
+asked to enter the username of the user you like to remove from the server. A check is
+performed to determine if the specified user is still assigned to an asset. If so, you are
+informed by the SAT and given the possibility to cancel the action.
 
 \subsection{Getting a list of all productlines}
-Enter the command 'pllist' in order to get a list of all existing productlines.
+Enter the command 'pllist' in order to get a list of all productlines registered on the 
+current server.
 
 \subsection{Getting a list of all ples of a productline}
 Enter the command 'plelist' and then the name of the productline in order to get a list
  of the assigned ples.
  
 \subsection{Getting a list of all registered users}
-Enter the command 'userlist' in order to get a list of all existing users.
+Enter the command 'userlist' in order to get a list of all registered users.
 
 \subsection{Exiting the tool}
 Enter the command "exit".
