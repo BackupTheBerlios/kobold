@@ -31,7 +31,12 @@ import java.util.ResourceBundle;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
+import kobold.client.plam.listeners.IVCMActionListener;
+import kobold.client.plam.model.IFileDescriptorContainer;
+import kobold.client.vcm.controller.StatusUpdater;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Plugin;
@@ -71,25 +76,29 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		Plugin plugin = KoboldPLAMPlugin.getDefault();
-		KoboldProject project = null;
-//		PLAMProject nature=KoboldPLAMPlugin.getCurrentProjectNature().getPLAMProject(); 
-//		if (project != null) {
-//			project.getProductline().addVCMActionListener(new IVCMActionListener() {
-//				/* (non-Javadoc)
-//				 * @see kobold.client.plam.listeners.IVCMActionListener#refreshFiledescriptors(kobold.client.plam.model.IFileDescriptorContainer)
-//				 */
-//				public void refreshFiledescriptors(
-//						IFileDescriptorContainer container) {
-//					StatusUpdater st = new StatusUpdater();
-//					st.updateFileDescriptors(container);
-//					
-//					System.out.println("lalal");
-//					
-//					System.out.println("*********Refresch File Descriptors:" + container.getLocalPath()/*.getFullPath()*/.toString());
-//					
-//
-//				}
-//			});
+		IProject projects[] = KoboldPLAMPlugin.getDefault().getWorkspace().getRoot().getProjects();
+		if (projects != null) {
+			for (int i = 0; i < projects.length; i++) {
+				IProjectNature nature = projects[i].getNature(KoboldProject.NATURE_ID);
+				if (nature != null) {
+//					()
+//					((KoboldProject)nature.getProject()).addVCMActionListener(new IVCMActionListener() {
+//						/* (non-Javadoc)
+//						 * @see kobold.client.plam.listeners.IVCMActionListener#refreshFiledescriptors(kobold.client.plam.model.IFileDescriptorContainer)
+//						 */
+//						public void refreshFiledescriptors(
+//								IFileDescriptorContainer container) {
+//							StatusUpdater st = new StatusUpdater();
+//							st.updateFileDescriptors(container);
+//							System.out.println("TEST STATUS");
+//						}
+//					});
+				}
+			}
+			
+		} else {
+
+		} 
 
 		
 	}

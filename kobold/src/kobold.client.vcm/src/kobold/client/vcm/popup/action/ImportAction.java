@@ -26,12 +26,16 @@
 package kobold.client.vcm.popup.action;
 
 import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.FileDescriptor;
+import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.ModelStorage;
+import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
+import kobold.client.vcm.controller.StatusUpdater;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.io.XMLWriter;
@@ -59,11 +63,14 @@ public class ImportAction extends KoboldAction {
 			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 			IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 //			KoboldVCMPlugin
-			((Productline)testAssets[0]).getLocalPath();//serializeProductline("C:\\Temp",true);
+//			((Productline)testAssets[0]).getLocalPath();//serializeProductline("C:\\Temp",true);
 			//IFolder if1 = ((Productline)testAssets[0]).getKoboldProject().getPath();
 			//String ip = if1.getFullPath().toOSString();
-			ModelStorage.storeModel(((Productline)testAssets[0]));
-			RepositoryDescriptor rdsc = ((Productline)testAssets[0]).getRepositoryDescriptor();
+//			ModelStorage.storeModel(((Productline)testAssets[0]));
+			StatusUpdater st = new StatusUpdater();
+			
+			st.updateFileDescriptors(((Variant)testAssets[0]));
+//			RepositoryDescriptor rdsc = ((Productline)testAssets[0]).getRepositoryDescriptor();
 			boolean test = testAssets[0] instanceof AbstractRootAsset;
 			
 

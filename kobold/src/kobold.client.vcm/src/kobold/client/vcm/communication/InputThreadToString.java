@@ -28,7 +28,7 @@ public class InputThreadToString extends Thread {
 				if (in != null) {
 				int r,index = 0;
 //				System.out.println(in.toString()+" :"+in.available());
-				while ((in.available() != 0) && (r = in.read()) != -1 ) {
+				while ((r = in.read()) != -1 ) {
 					readLineBuffer = append(readLineBuffer, index++, (byte) r);
 				}
 			

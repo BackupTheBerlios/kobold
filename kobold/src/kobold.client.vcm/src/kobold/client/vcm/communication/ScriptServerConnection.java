@@ -164,15 +164,12 @@ public class ScriptServerConnection implements IServerConnection
 	 * @throws IOException
 	 * @throws CVSAuthenticationException
 	 */
-	public void open(String[] command) throws IOException,
+	public void open(String[] command, String returnStr) throws IOException,
 	CVSAuthenticationException
 {
 		IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 		connected = false;
 		try {
-			if (skriptName != null) {
-				command[0] = skriptName;
-			}
 			process = Util.createProcess(command,progress);
 
 			inputStream = new PollingInputStream(new TimeoutInputStream(process
@@ -188,7 +185,14 @@ public class ScriptServerConnection implements IServerConnection
 			// full pipe
 			errStream = (process.getErrorStream());
 			connected = true;
-
+			Thread errorThread = new InputThreadToConsole(process.getErrorStream(), null);
+//			errorThread.
+			Thread inputThread = new InputThreadToConsole(process.getInputStream(), null);
+			((InputThreadToConsole)inputThread).setTest(returnStr);
+//			readInpuStreamsToConsole();
+//			errorThread.run();
+			System.out.println(",ajdckansldnlknasl");
+			inputThread.run();
 		} finally {
 			if (!connected) {
 				try {
@@ -357,6 +361,7 @@ public class ScriptServerConnection implements IServerConnection
 		private InputStream in;
 		private byte[] readLineBuffer = new byte[512];
 		private MessageConsoleStream stream = null;
+		String test = null;
 		public InputThreadToConsole(InputStream in,MessageConsoleStream stream ) {
 			this.in = in;
 			this.stream = stream;
@@ -379,7 +384,11 @@ public class ScriptServerConnection implements IServerConnection
 //					}
 					}
 //					stream.getConsole().
-					stream.print(new String(readLineBuffer, 0, index));
+					if(test != null)
+						test = new String(readLineBuffer, 0, index);
+					else{
+						stream.print(new String(readLineBuffer, 0, index));
+					}
 				}
 				} finally {
 					in.close();
@@ -396,6 +405,12 @@ public class ScriptServerConnection implements IServerConnection
 			}
 			buffer[index]= b;
 			return buffer;
+		}
+		/**
+		 * @param test The test to set.
+		 */
+		public void setTest(String test) {
+			this.test = test;
 		}
 	}
 	/**
@@ -424,11 +439,11 @@ public class ScriptServerConnection implements IServerConnection
 	private String getUserName ()
 	{
 		//gets the userName
-		String uN = KoboldVCMPlugin.getDefault().getPreferenceStore().getString("Repository User Name");
+		String uN = KoboldVCMPlugin.getDefault().getPreferenceStore().getString("User Name");
  
 		if (uN.equals(""))
 		{
-			uN = getPreference ("Repository User Name");
+			uN = getPreference ("User Name");
 			setUserName(uN);
 			return uN;
 		}

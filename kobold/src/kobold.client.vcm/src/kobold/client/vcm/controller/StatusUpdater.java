@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.14 2004/07/29 15:57:51 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.15 2004/08/04 17:30:57 memyselfandi Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -84,17 +84,11 @@ public class StatusUpdater {
 
 		try 
 		{
-			conn.open(command);
+			String iString="", string2 = "";
+			conn.open(command,iString);
 			
 			//convert the stream to a string
-			String iString = "";
-			InputThreadToString it = new InputThreadToString ();
-			it.setInputStream(conn.getInputStream());
-			//write the output to iString
-			it.run(iString);
-			
-			//parse the string
-			parseInputString(fileDescriptorContainer, iString);
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();
