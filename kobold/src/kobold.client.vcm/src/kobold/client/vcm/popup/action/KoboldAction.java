@@ -31,11 +31,7 @@ package kobold.client.vcm.popup.action;
 
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.product.Product;
-import kobold.client.plam.model.productline.Productline;
-import kobold.client.plam.model.productline.Variant;
 
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.InputDialog;
@@ -56,9 +52,6 @@ import org.eclipse.ui.IObjectActionDelegate;
  */
 public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 
-	protected Productline selectedProductLine = null;
-	protected Product selectedProduct = null;
-	protected Variant selectedVariant = null;
 	// Problems creating an AssetArray changing to Object
 	protected AbstractAsset testAssets[] = null;
 	
@@ -82,18 +75,10 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 		for (int i = 0; i < structSelection.size(); i++) {
 			if (i == 0) {
 				testAssets = new AbstractAsset[structSelection.size()];
+				
 			}
 			if (structSelection.getFirstElement() instanceof AbstractAsset) {
 				testAssets[i] = (AbstractAsset)structSelection.getFirstElement();
-			}
-			if (structSelection.getFirstElement() instanceof Productline) {
-				selectedProductLine = (Productline)structSelection.getFirstElement();
-			}
-			if (structSelection.getFirstElement() instanceof Product) {
-				selectedProduct = (Product)structSelection.getFirstElement();
-			}
-			if (structSelection.getFirstElement() instanceof Variant) {
-				selectedVariant = (Variant)structSelection.getFirstElement();
 			}
 			
 		}
@@ -101,26 +86,26 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 		
 	}
 	
-	/**
-	 * Gets the local path of the workspace
-	 * @return the local path
-	 */
-	public String getLocalPath ()
-	{
-		IPath wsPath = KoboldVCMPlugin.getDefault().getWorkspace().getRoot().getFullPath();
-		return wsPath.toOSString();
-	}
+//	/**
+//	 * Gets the local path of the workspace
+//	 * @return the local path
+//	 */
+//	public String getLocalPath ()
+//	{
+//		IPath wsPath = KoboldVCMPlugin.getDefault().getWorkspace().getRoot().getFullPath();
+//		return wsPath.toOSString();
+//	}
 
 	/**
 	 * Initialize the userName and the userPassword
 	 *
 	 */
-	private void initUserData ()
-	{
-		//set the default userName and password (initial)
-		KoboldVCMPlugin.getDefault().getPreferenceStore().setDefault("User Name","");
-		KoboldVCMPlugin.getDefault().getPreferenceStore().setDefault("User Password","");
-	}
+//	private void initUserData ()
+//	{
+//		//set the default userName and password (initial)
+//		KoboldVCMPlugin.getDefault().getPreferenceStore().setDefault("User Name","");
+//		KoboldVCMPlugin.getDefault().getPreferenceStore().setDefault("User Password","");
+//	}
 
 	/**
 	 * Gets the userName
@@ -129,11 +114,11 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 	public String getUserName ()
 	{
 		//gets the userName
-		String uN = KoboldVCMPlugin.getDefault().getPreferenceStore().getString("userName");
+		String uN = KoboldVCMPlugin.getDefault().getPreferenceStore().getString("Repository User Name");
  
 		if (uN.equals(""))
 		{
-			uN = getPreference ("User Name");
+			uN = getPreference ("Repository User Name");
 			setUserName(uN);
 			return uN;
 		}
@@ -149,7 +134,7 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 	protected void setUserName (String userName)
 	{
 		//set the default userName (initial)
-		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("userName", userName);
+		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("User Name", userName);
 	}
 
 	/**

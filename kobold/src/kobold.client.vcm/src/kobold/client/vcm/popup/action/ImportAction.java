@@ -25,6 +25,7 @@
 
 package kobold.client.vcm.popup.action;
 
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
@@ -49,13 +50,10 @@ public class ImportAction extends KoboldAction {
 		public void run(IAction action) {
 			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 			IProgressMonitor progress = KoboldPolicy.monitorFor(null);
-			if (selectedProduct != null) {
-//				repoAccess.setCurrentVCMProvider(selectedProduct.getRepositoryDescriptor());
-			}
-			else if (selectedProductLine != null) {
-				// @ TODO Impkement changes
-//				repoAccess.setCurrentVCMProvider(selectedProductLine.getRepositoryDescriptor());
-			}
+			boolean test = testAssets[0] instanceof AbstractRootAsset;
+			
+
+			
 			try
 			{
 //				repoAccess.precheckin(testAssets,IResource.DEPTH_INFINITE,progress,true);
