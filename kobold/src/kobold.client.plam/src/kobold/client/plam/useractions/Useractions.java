@@ -64,7 +64,11 @@ public class Useractions {
 		SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();		
         UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
         
-        client.updateUserFullName(currUser, getOneUser(userName), password);
+        User user = getOneUser(userName);
+        
+        user.setFullname(newName);
+        
+        client.updateUserFullName(currUser, user , password);
 		
 	}
 	
