@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.13 2004/05/18 18:38:07 vanto Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.14 2004/05/18 18:46:42 garbeam Exp $
  *
  */
 package kobold.server;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -101,7 +103,14 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			    logout(uc);
 			}
 			else if (methodName.equals("getRoles")) {
-				return getRoles((UserContext)arguments.elementAt(0));
+				List result = new ArrayList();
+				List roles = getRoles(new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0))));
+				for (Iterator it = roles.iterator(); it.hasNext(); ) {
+					Role role = (Role) it.next();
+					result.add(RPCMessageTransformer.encode(role.serialize()));
+				}
+				return result;
 			}
 			else if (methodName.equals("addUser")) {
 				addUser(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
@@ -115,8 +124,9 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 											  (String)arguments.elementAt(1)).serialize());
 			}
 			else if (methodName.equals("getProduct")) {
-				return getProduct(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-										 (String)arguments.elementAt(1));
+				return RPCMessageTransformer.encode(
+										 getProduct(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
+										 (String)arguments.elementAt(1)).serialize());
 			}
 			else if (methodName.equals("addProduct")) {
 				addProduct(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
@@ -149,7 +159,8 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 								 AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
 			}
 			else if (methodName.equals("fetchMessage")) {
-				return fetchMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))));
+				return RPCMessageTransformer.encode(
+						fetchMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0)))).serialize());
 			}
 			else if (methodName.equals("invalidateMessage")) {
 				invalidateMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
