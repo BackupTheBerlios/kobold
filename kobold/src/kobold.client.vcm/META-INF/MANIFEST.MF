@@ -15,5 +15,6 @@ Require-Bundle: org.eclipse.core.resources,
  org.eclipse.team.ui,
  kobold.client.plam,
  org.eclipse.ui.console,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide
 Eclipse-AutoStart: true
