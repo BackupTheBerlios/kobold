@@ -21,13 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.2 2004/06/09 11:47:47 rendgeor Exp $
+ * $Id: ComponentSpecific.java,v 1.1 2004/06/09 14:33:13 rendgeor Exp $
  *
  */
 
 package kobold.common.data.plam;
 
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import java.util.HashMap;
@@ -35,32 +34,21 @@ import java.util.HashMap;
 /**
  * @author garbeam
  */
-public class Component implements IAsset {
-
-	private String componentName;
+public class ComponentSpecific extends AbstractComponent {
 
 	//the variants and versions
-	private HashMap variants;
+
 	private HashMap versions;
 	/**
 	 * Basic constructor.
 	 * @param componentName
 	 * @param productLineName
 	 */
-	public Component (String componentName, boolean relatedType) {
-		super();
-		this.componentName = componentName;
+	public ComponentSpecific (String componentName) {
+		super(componentName);
 		
-		//related type
-		if (relatedType)
-		{
-			variants = new HashMap ();
-		}
 		//p-spec type
-		else
-		{
-			versions = new HashMap ();
-		}
+		versions = new HashMap ();
 		
 	}
 	
@@ -68,56 +56,12 @@ public class Component implements IAsset {
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Component (Element element) {
-		deserialize(element);
+	public ComponentSpecific (Element element) {
+		super (element);
 	}
 	
-	/**
-	 * Serializes the product.
-	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
-	 */
-	public Element serialize() {
-		Element product = DocumentHelper.createElement("product");
-		product.addText(this.componentName);
-		//product.addElement("productline").addText(this.productLineName);
-		return product;
-	}
-
-	/**
-	 * Deserializes this product.
-	 * @param productName
-	 */
-	public void deserialize(Element element) {
-		Element product = element.element("product");
-		this.componentName = element.getText();
-		//this.productLineName = element.elementText("productline");
-	}
 
 
-	/**
-	 * @see kobold.common.data.AbstractProduct#getType()
-	 */
-	public String getType() {
-		return IAsset.COMPONENT;
-	}
-
-    /**
-     * @see kobold.common.data.IAsset#getName()
-     */
-    public String getName()
-    {
-        return componentName;
-    }
-    
-
-	/**
-	 * Adds a new variant.
-	 *
-	 * @param variant contains the new variant
-	 */
-	public void addVariant(Variant variant) {
-		variants.put(variant.getName(), variant);
-	}
 
 	/**
 	 * Adds a new version.
@@ -130,3 +74,4 @@ public class Component implements IAsset {
 
 	
 }
+

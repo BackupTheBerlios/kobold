@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.3 2004/06/09 14:33:13 rendgeor Exp $
+ * $Id: AbstractComponent.java,v 1.1 2004/06/09 14:33:13 rendgeor Exp $
  *
  */
 
@@ -30,35 +30,27 @@ package kobold.common.data.plam;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
-import java.util.HashMap;
-
 /**
  * @author garbeam
  */
-public class Product extends AbstractAsset {
+public abstract class AbstractComponent extends AbstractAsset {
 
-	//the components
-	private HashMap components;	
-	
-	//the repository-path
-	String repositoryPath;
-	
 	/**
 	 * Basic constructor.
-	 * @param productName
+	 * @param componentName
 	 * @param productLineName
 	 */
-	public Product (String productName) {
-		super(productName);
+	public AbstractComponent (String componentName) {
+		super();
+		setName (componentName);
 		
-		components = new HashMap();
 	}
 	
 	/**
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Product (Element element) {
+	public AbstractComponent (Element element) {
 		deserialize(element);
 	}
 	
@@ -68,7 +60,7 @@ public class Product extends AbstractAsset {
 	 */
 	public Element serialize() {
 		Element product = DocumentHelper.createElement("product");
-		product.addText(getName());
+		product.addText(getName ());
 		//product.addElement("productline").addText(this.productLineName);
 		return product;
 	}
@@ -78,51 +70,21 @@ public class Product extends AbstractAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		setName(element.getText());
+		Element product = element.element("product");
+		setName (element.getText());
 		//this.productLineName = element.elementText("productline");
 	}
-
-	/**
-	 * @return name of the dependent productline.
-
-	public String getDependsName() {
-		return productLineName;
-	}
-	 */
 
 
 	/**
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
 	public String getType() {
-		return AbstractAsset.PRODUCT;
+		return getType();
 	}
 
-  
-	/**
-	 * Adds a new component.
-	 *
-	 * @param component contains the new component
-	 */
-	public void addComponent(ComponentRelated component) {
-		components.put(component.getName(), component);
-	}
 
-	public void addComponent(ComponentSpecific component) {
-		components.put(component.getName(), component);
-	}
 
-    
-	/**
-	 * @return Returns the repositoryPath.
-	 */
-	public String getRepositoryPath() {
-		return repositoryPath;
-	}
-	/**
-	 * @param repositoryPath The repositoryPath to set.
-	 */
-	public void setRepositoryPath(String repositoryPath) {
-		this.repositoryPath = repositoryPath;
-	}
+
+	
 }

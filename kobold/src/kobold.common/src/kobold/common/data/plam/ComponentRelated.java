@@ -21,35 +21,55 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IAsset.java,v 1.1 2004/06/03 12:01:50 rendgeor Exp $
+ * $Id: ComponentRelated.java,v 1.1 2004/06/09 14:33:13 rendgeor Exp $
  *
  */
+
 package kobold.common.data.plam;
 
+import org.dom4j.Element;
+
+import java.util.HashMap;
 
 /**
- * @author Tammo
- *
+ * @author garbeam
  */
-public interface IAsset extends ISerializable {
+public class ComponentRelated extends AbstractComponent {
 
-	public static final String PRODUCT_LINE = "productline";
-	public static final String PRODUCT = "product";
-	public static final String CORE_ASSET = "coreAsset";
-	public static final String COMPONENT = "component";
-	public static final String VARIANT = "variant";
-	public static final String VERSION = "version";
-	public static final String FILE_DESCRIPTOR = "fileDescriptor";
-	
+	//the variants
+	private HashMap variants;
 
-	String getName();
+	/**
+	 * Basic constructor.
+	 * @param componentName
+	 * @param productLineName
+	 */
+	public ComponentRelated (String componentName) {
+		super(componentName);
+		
+		variants = new HashMap ();
+
+	}
 	
 	/**
-	 * Returns the type of this Asset.
-	 * Possible values are AbstractAsset.PRODUCT and AbstractAsset.PRODUCT_LINE
-	 * 
-	 * @return the type of this asset
+	 * DOM constructor.
+	 * @param productName
 	 */
-	public String getType();
+	public ComponentRelated (Element element) {
+		super (element);
+	}
+	
 
+
+	/**
+	 * Adds a new variant.
+	 *
+	 * @param variant contains the new variant
+	 */
+	public void addVariant(Variant variant) {
+		variants.put(variant.getName(), variant);
+	}
+
+
+	
 }

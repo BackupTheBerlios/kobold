@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.2 2004/06/09 11:47:47 rendgeor Exp $
+ * $Id: Variant.java,v 1.3 2004/06/09 14:33:13 rendgeor Exp $
  *
  */
 
@@ -35,9 +35,7 @@ import java.util.HashMap;
 /**
  * @author garbeam
  */
-public class Variant implements IAsset {
-
-	private String variantName;
+public class Variant extends AbstractAsset {
 
 	private HashMap components;
 	private HashMap versions;
@@ -48,8 +46,7 @@ public class Variant implements IAsset {
 	 * @param productLineName
 	 */
 	public Variant (String productName) {
-		super();
-		this.variantName = productName;
+		super(productName);
 		
 		components = new HashMap ();
 		versions  = new HashMap ();
@@ -69,7 +66,7 @@ public class Variant implements IAsset {
 	 */
 	public Element serialize() {
 		Element product = DocumentHelper.createElement("product");
-		product.addText(this.variantName);
+		product.addText(getName());
 		//product.addElement("productline").addText(this.productLineName);
 		return product;
 	}
@@ -80,7 +77,7 @@ public class Variant implements IAsset {
 	 */
 	public void deserialize(Element element) {
 		Element product = element.element("product");
-		this.variantName = element.getText();
+		setName (element.getText());
 		//this.productLineName = element.elementText("productline");
 	}
 
@@ -97,22 +94,15 @@ public class Variant implements IAsset {
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
 	public String getType() {
-		return IAsset.VARIANT;
+		return AbstractAsset.VARIANT;
 	}
 
-    /**
-     * @see kobold.common.data.IAsset#getName()
-     */
-    public String getName()
-    {
-        return variantName;
-    }
 	/**
 	 * Adds a new component.
 	 *
 	 * @param component contains the new component
 	 */
-	public void addComponent(Component component) {
+	public void addComponent(ComponentRelated component) {
 		components.put(component.getName(), component);
 	}
 

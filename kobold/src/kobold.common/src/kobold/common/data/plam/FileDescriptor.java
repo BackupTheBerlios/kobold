@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptor.java,v 1.3 2004/06/09 11:47:47 rendgeor Exp $
+ * $Id: FileDescriptor.java,v 1.4 2004/06/09 14:33:13 rendgeor Exp $
  *
  */
 
@@ -33,10 +33,9 @@ import org.dom4j.Element;
 /**
  * @author garbeam
  */
-public class FileDescriptor implements IAsset {
+public class FileDescriptor extends AbstractAsset {
 
-	private String fileDescriptorName;
-	
+
 	//the config
 	String path;
 	String version;
@@ -54,7 +53,7 @@ public class FileDescriptor implements IAsset {
 	 */
 	public FileDescriptor (String fileDescriptorName) {
 		super();
-		this.fileDescriptorName = fileDescriptorName;
+		setName (fileDescriptorName);
 	}
 	
 	/**
@@ -71,7 +70,7 @@ public class FileDescriptor implements IAsset {
 	 */
 	public Element serialize() {
 		Element product = DocumentHelper.createElement("product");
-		product.addText(this.fileDescriptorName);
+		product.addText(getName ());
 		//product.addElement("productline").addText(this.productLineName);
 		return product;
 	}
@@ -82,7 +81,7 @@ public class FileDescriptor implements IAsset {
 	 */
 	public void deserialize(Element element) {
 		Element product = element.element("product");
-		this.fileDescriptorName = element.getText();
+		setName (element.getText ());
 		//this.productLineName = element.elementText("productline");
 	}
 
@@ -99,7 +98,7 @@ public class FileDescriptor implements IAsset {
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
 	public String getType() {
-		return IAsset.FILE_DESCRIPTOR;
+		return AbstractAsset.FILE_DESCRIPTOR;
 	}
 
     /**
@@ -107,7 +106,7 @@ public class FileDescriptor implements IAsset {
      */
     public String getName()
     {
-        return fileDescriptorName;
+        return getName ();
     }
 	/**
 	 * Adds a new fileDescriptor.

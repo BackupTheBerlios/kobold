@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CoreAsset.java,v 1.2 2004/06/03 13:44:17 rendgeor Exp $
+ * $Id: CoreAsset.java,v 1.3 2004/06/09 14:33:13 rendgeor Exp $
  *
  */
 
@@ -35,9 +35,7 @@ import java.util.HashMap;
 /**
  * @author garbeam
  */
-public class CoreAsset implements IAsset {
-
-	private String coreAssetName;
+public class CoreAsset extends AbstractAsset {
 
 	//the components
 	private HashMap components;
@@ -51,8 +49,7 @@ public class CoreAsset implements IAsset {
 	 * @param productLineName
 	 */
 	public CoreAsset (String productName) {
-		super();
-		this.coreAssetName = productName;
+		super(productName);
 	}
 	
 	/**
@@ -69,7 +66,7 @@ public class CoreAsset implements IAsset {
 	 */
 	public Element serialize() {
 		Element product = DocumentHelper.createElement("coreAsset");
-		product.addText(this.coreAssetName);
+		product.addText (getName ());
 		//product.addElement("productline").addText(this.productLineName);
 		return product;
 	}
@@ -80,7 +77,7 @@ public class CoreAsset implements IAsset {
 	 */
 	public void deserialize(Element element) {
 		Element product = element.element("coreAsset");
-		this.coreAssetName = element.getText();
+		setName (element.getText ());
 		//this.productLineName = element.elementText("productline");
 	}
 
@@ -97,7 +94,7 @@ public class CoreAsset implements IAsset {
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
 	public String getType() {
-		return IAsset.CORE_ASSET;
+		return AbstractAsset.CORE_ASSET;
 	}
 
     /**
@@ -105,7 +102,7 @@ public class CoreAsset implements IAsset {
      */
     public String getName()
     {
-        return coreAssetName;
+        return getName ();
     }
 
 	/**
@@ -113,7 +110,7 @@ public class CoreAsset implements IAsset {
 	 *
 	 * @param component contains the new component
 	 */
-	public void addComponent(Component component) {
+	public void addComponent(ComponentRelated component) {
 		components.put(component.getName(), component);
 	}
     

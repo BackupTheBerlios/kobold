@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Version.java,v 1.2 2004/06/09 11:47:47 rendgeor Exp $
+ * $Id: Version.java,v 1.3 2004/06/09 14:33:13 rendgeor Exp $
  *
  */
 
@@ -33,9 +33,7 @@ import org.dom4j.Element;
 /**
  * @author garbeam
  */
-public class Version implements IAsset {
-
-	private String versionName;
+public class Version extends AbstractAsset {
 
 	private FileDescriptor fileDescriptor;
 	/**
@@ -43,8 +41,7 @@ public class Version implements IAsset {
 	 * @param productName
 	 */
 	public Version (String productName) {
-		super();
-		this.versionName = productName;
+		super (productName);
 
 	}
 	
@@ -62,7 +59,7 @@ public class Version implements IAsset {
 	 */
 	public Element serialize() {
 		Element product = DocumentHelper.createElement("product");
-		product.addText(this.versionName);
+		product.addText (getName ());
 		//product.addElement("productline").addText(this.productLineName);
 		return product;
 	}
@@ -73,7 +70,7 @@ public class Version implements IAsset {
 	 */
 	public void deserialize(Element element) {
 		Element product = element.element("product");
-		this.versionName = element.getText();
+		setName (element.getText ());
 		//this.productLineName = element.elementText("productline");
 	}
 
@@ -90,7 +87,7 @@ public class Version implements IAsset {
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
 	public String getType() {
-		return IAsset.VERSION;
+		return AbstractAsset.VERSION;
 	}
 
     /**
@@ -98,7 +95,7 @@ public class Version implements IAsset {
      */
     public String getName()
     {
-        return versionName;
+        return getName();
     }
     
 	/**

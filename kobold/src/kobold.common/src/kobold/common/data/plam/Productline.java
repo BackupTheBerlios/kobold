@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.4 2004/06/09 10:55:46 rendgeor Exp $
+ * $Id: Productline.java,v 1.5 2004/06/09 14:33:13 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -44,11 +44,8 @@ import org.dom4j.io.XMLWriter;
 /**
  * @author rendgeor
  */
-public class Productline {
+public class Productline extends AbstractAsset{
 
-	//name of the PL
-	private String name;
-	
 	//the products and core-assets
 	private HashMap products;
 	private HashMap coreAssets;
@@ -57,8 +54,7 @@ public class Productline {
 	String repositoryPath;
 	
 	
-	private String productlineStore = "productline.xml";
-	
+
 	//create a instance
 	static private Productline instance;
 
@@ -72,10 +68,13 @@ public class Productline {
 	/**Basic constructor of this singleton.
 	 */
 	public Productline(String name) {
-		this.name = name;
+		setName (name);
 		
 		products = new HashMap ();
 		coreAssets = new HashMap ();
+		
+		//set the parent
+		setParent(0);
 		
 	}
 
@@ -120,15 +119,6 @@ public class Productline {
 	
 	
 	/**
-	 * Serializes the file specified
-	 * @param serializeLevel defines the part of the metadata to serialize
-	 * 
-	 */
-	public void serialize(int serializeLevel) {
-		serialize(this.productlineStore, serializeLevel);
-	}
-	
-	/**
 	 * Serializes the productline.
 	 * @see kobold.common.data.plam.Product#serialize(org.dom4j.Element)
 	 * @param serializeLevel defines the part of the metadata to serialize
@@ -164,13 +154,24 @@ public class Productline {
 			writer.write(document);
 			writer.close();
 		} catch (IOException e) {
-			Log log = LogFactory.getLog("kobold.server.controller.ProductAdmin");
+			Log log = LogFactory.getLog("kobold....");
 			log.error(e);
 		}	
 	
 	}
 
-
+	/**
+	 * not used
+	 */
+	public Element serialize () {
+		serialize ("bla.xml", 0);
+		Element element = DocumentHelper.createElement("bla");;
+		return element;
+	}
+	
+	public void deserialize(Element element) {
+	deserialize("bla.xml");
+	}
 	/**
 	 * Deserializes all products and coreAssets from the specified file.
 	 * 
@@ -207,18 +208,10 @@ public class Productline {
 	}
 
 	/**
-	 * Deserializes all products and coreAssets from
-	 * the productlineStore.
-	 */
-	public void deserialize() {
-		deserialize(productlineStore);
-	}
-
-	/**
 	 * @see kobold.common.data.IAsset#getType()
 	 */
 	public String getType() {
-		return IAsset.PRODUCT_LINE;
+		return AbstractAsset.PRODUCT_LINE;
 	}
 
     /**
@@ -226,14 +219,14 @@ public class Productline {
      */
     public String getName()
     {
-        return name;
+        return getName();
     }
 
 	/**
 	 * @param name The name to set.
 	 */
 	public void setName(String name) {
-		this.name = name;
+		setName (name);
 	}
 	
 	
