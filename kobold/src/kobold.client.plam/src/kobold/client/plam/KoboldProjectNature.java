@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProjectNature.java,v 1.10 2004/05/19 16:08:37 martinplies Exp $
+ * $Id: KoboldProjectNature.java,v 1.11 2004/08/01 14:26:40 memyselfandi Exp $
  *
  */
 package kobold.client.plam;
@@ -49,7 +49,7 @@ public class KoboldProjectNature implements IProjectNature, IResourceChangeListe
 	public static final String WORKFLOW_FILENAME = ".messages"; //$NON-NLS-1$
 	public static final String PLAM_FILENAME = ".kobold"; //$NON-NLS-1$
 
-	private IProject project;
+	private IProject project = null;
 	private PLAMProject plamProject = null;
 	private LocalMessageQueue mqueue = null;
 	private SecureKoboldClient client = null;

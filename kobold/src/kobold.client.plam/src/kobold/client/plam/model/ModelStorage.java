@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.4 2004/08/01 12:54:35 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.5 2004/08/01 14:26:40 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model;
@@ -104,14 +104,15 @@ public class ModelStorage
         return pl;        
     }
     
-    public static void storeModel(final Productline pl, final IProject project)
+    public static void storeModel(final Productline pl)
     {
         logger.debug("Storing model...");
         IProgressService progressService = PlatformUI.getWorkbench().getProgressService();
         try {
             progressService.busyCursorWhile(new IRunnableWithProgress(){
                 public void run(IProgressMonitor monitor) {
-                    IFolder plmeta = project.getFolder(".plmeta");
+                    IProject project = pl.getProject().getIProject();
+                	IFolder plmeta = project.getFolder(".plmeta");
                     
                     if (!plmeta.exists()) {
                         try {
@@ -229,43 +230,15 @@ public class ModelStorage
                         + File.separator + thePath);
     }
     
-	/**
-	 * Serializes the productline and write it to a xml-file
-	 */
-	public void serializeProductline (Productline pl)
-	{
-		serializeProductline(pl,false);
-	}
-    
-    
+  
 	/**
 	 * Serializes the productline, products and cas and write it to the xml-files
 	 */
-	public void serializeProductline (Productline pl, boolean serializeAll)
+	public void serializeProductline (Productline pl)
 	{
 		//creates the PL directories
 		createPlDirectory (pl);
 		
-		//creates a document
-		Document document = DocumentHelper.createDocument();
-		
-		//get the abstractAsset information
-		Element root = document.addElement("productlinemetainfo");
-		
-		//add the serialized element
-		root.add (pl.serialize (serializeAll));
-		
-		//write it to an xml-file
-			 XMLWriter writer;
-			try {
-				writer = new XMLWriter(new FileWriter (pl.getLocalPath().toOSString() /*+ File.separatorChar + getName() */ 
-													+ File.separatorChar + "PL" + File.separatorChar + ".productlinemetainfo.xml"));
-				writer.write(document);
-				writer.close();
-			} catch (IOException e) {
-				Log log = LogFactory.getLog("kobold: ModelStorage:Productline");
-				log.error(e);
-			}	
 	}
 	
 	private void createPlDirectory (Productline pl) {
@@ -302,7 +275,7 @@ public class ModelStorage
 
 	}	
 	
-	public void serializeProduct (Product product)
+	public static void serializeProduct (Product product)
 	{
 		//creates a document
 		Document document = DocumentHelper.createDocument();
@@ -311,7 +284,7 @@ public class ModelStorage
 		Element root = document.addElement("productmetainfo");
 		
 		//add the serialized element
-		root.add (product.serialize ());
+		root.add (product.serialize());
 
 		//write it to an xml-file
 			 XMLWriter writer;

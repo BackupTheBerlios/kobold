@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.14 2004/08/01 12:54:35 rendgeor Exp $
+ * $Id: Productline.java,v 1.15 2004/08/01 14:26:40 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -159,10 +159,6 @@ public class Productline extends AbstractRootAsset
 	 * returns a Serialized productline.
 	 */
 	public Element serialize() {
-		return serialize (false);
-	}
-	
-	public Element serialize(boolean serializeAll) {
 		
 
 		//get the AbstractAsset info
@@ -171,8 +167,6 @@ public class Productline extends AbstractRootAsset
 		//serialize all products and coreAssets
 		Element productsEl = root.addElement("products");
 
-		ModelStorage ms = new ModelStorage();
-		
 		//now all products
 		for (Iterator it = products.iterator(); it.hasNext();) {
 			Product product = (Product) it.next();
@@ -183,13 +177,10 @@ public class Productline extends AbstractRootAsset
 			pEl.addAttribute("refid", product.getId());
 			
 			//create product dirs
-			createProductDirectory(product);
+			// TODO createProductDirectory(product);
 			
 
-			//serializeAll?
-			if (serializeAll)
-				//product.serializeProduct();
-				ms.serializeProduct(product);
+				//TODO ms.serializeProduct(product);
 
 		}
 		
@@ -200,12 +191,10 @@ public class Productline extends AbstractRootAsset
 				componentsEl.add(component.serialize());
 				
 				//create component dirs
-				createComponentDirectory(component);
+				//TODO createComponentDirectory(component);
 
 				//serializeAll?
-				if (serializeAll)
-					//component.serializeComponent();
-					ms.serializeComponent(component);
+				//TODO	ms.serializeComponent(component);
 
 
 		}

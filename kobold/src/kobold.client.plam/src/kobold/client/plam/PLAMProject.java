@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.19 2004/07/28 16:57:12 memyselfandi Exp $
+ * $Id: PLAMProject.java,v 1.20 2004/08/01 14:26:40 memyselfandi Exp $
  *
  */
 package kobold.client.plam;
@@ -141,7 +141,7 @@ public class PLAMProject
 			writer.close();
 			
 			if (pl != null) {
-			    ModelStorage.storeModel(pl, plamFile.getProject());
+			    ModelStorage.storeModel(pl);
 			}
 		} catch (IOException e) {
 			logger.debug("Error while writing PLAM config.", e);
