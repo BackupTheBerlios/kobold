@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowContentProvider.java,v 1.2 2004/05/18 11:21:50 vanto Exp $
+ * $Id: WorkflowContentProvider.java,v 1.3 2004/10/08 15:47:03 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -68,31 +68,9 @@ class WorkflowContentProvider implements IStructuredContentProvider,
 	}
 	
 	public Object[] getElements(Object parent) {
-		//TODO filter
-		/*if (filtered && input != null) {
-			List filteredMsgs = new ArrayList();
-			KoboldMessage[] msgs = input.getMessages();
-			for (int i = 0; i < msgs.length; i++) {
-				if (msgs[i] instanceof WorkflowMessage 
-						&& (WorkflowMessage)msgs[i].isSend()) {
-					
-					filteredMsgs.add(msgs[i]);
-				}
-			}
-			return filteredMsgs.toArray();
-		}*/
 		return (input == null)?new Object[0]:input.getMessages();
 	}
 
-	public boolean isFiltered()
-	{
-		return filtered;
-	}
-	
-	public void setFiltered(boolean filtered)
-	{
-		this.filtered = filtered;
-	}
 	
 	/**
 	 * @see kobold.client.plam.listeners.IMessageQueueListener#addMessage(kobold.common.data.KoboldMessage)
