@@ -25,25 +25,14 @@
 
 package kobold.client.vcm.popup.action;
 
-import java.util.List;
-
-import kobold.client.plam.model.ModelStorage;
-import kobold.client.plam.model.Release;
 import kobold.client.plam.model.productline.Productline;
-import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
-import kobold.common.io.RepositoryDescriptor;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionDelegate;
-
 
 /**
  * @author pschneid
- *
  */
 public class CheckoutAction extends KoboldAction {
 	/**
@@ -53,30 +42,11 @@ public class CheckoutAction extends KoboldAction {
 		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 		try
 		{
-
-		    repoAccess.preCheckout(testAssets,IResource.DEPTH_INFINITE,null,true);
-		    repoAccess.checkout(testAssets,IResource.DEPTH_INFINITE,null);
-			repoAccess.postcheckout(testAssets,IResource.DEPTH_INFINITE,null,true);
+		    repoAccess.checkout(testAssets, null, null, (testAssets[0] instanceof Productline));
 		}
 		catch (Exception e)
 		{
 			// TODO: handle exception
 		}
-//		Shell shell = new Shell();
-//		MessageDialog.openInformation(
-//			shell,
-//			"Kobold VCM Plug-in",
-//			"preupdate (precheckout) was executed.");
-////		repoAccess.checkout();
-//		MessageDialog.openInformation(
-//				shell,
-//				"Kobold VCM Plug-in",
-//				"update (checkout) was executed.");
-////		repoAccess.postcheckout();
-//		MessageDialog.openInformation(
-//				shell,
-//				"Kobold VCM Plug-in",
-//				"postupdate (postcheckout) was executed.");
 	}
-
 }

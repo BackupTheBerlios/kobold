@@ -25,19 +25,9 @@
 
 package kobold.client.vcm.popup.action;
 
-import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
-import kobold.client.vcm.controller.StatusUpdater;
-import kobold.client.plam.model.product.Product;
-import kobold.client.plam.model.productline.Component;
-import kobold.client.plam.model.productline.Productline;
-import kobold.client.plam.model.productline.Variant;
 
-import org.eclipse.core.internal.resources.Workspace;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.team.core.TeamException;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
@@ -45,8 +35,6 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public class AddAction extends KoboldAction {
 
-	//The selected Object
-	IResource currentSelection = null;
 	/**
 	 * Constructor for Action1.
 	 */
@@ -63,54 +51,22 @@ public class AddAction extends KoboldAction {
 	/**
 	 * @see IActionDelegate#run(IAction)
 	 */
-		public void run(IAction action) {
-			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
+	public void run(IAction action) {
+		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
+		
+		try
+		{
+			repoAccess.add(testAssets, null);
 
-			
-			try
-			{
-				//gets the stored userData
-				
-		//test
-				Variant var = new Variant ("testVar");
-				
-				
-				//update FD(s)
-//				StatusUpdater statUp = new StatusUpdater ();
-//
-//				String[] command = {"perl", "/home/rendgeor/workspace/kobold.client.vcm/scripts/"+ 
-//						"stats.pl", "/home/rendgeor/workspace/kobold.client.vcm/"};
-//				
-//				statUp.processConnection(command, var);
-
-			    repoAccess.preAdd(testAssets,IResource.DEPTH_INFINITE,null,true);
-				repoAccess.add(testAssets,IResource.DEPTH_INFINITE,null,true);
-				repoAccess.postAdd(testAssets,IResource.DEPTH_INFINITE,null,true);
-
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-//			Shell shell = new Shell();
-			
-//				shell,
-//				"Kobold VCM Plug-in",
-//				"preAdd was executed.");
-////			repoAccess.checkin();
-//			MessageDialog.openInformation(
-//					shell,
-//					"Kobold VCM Plug-in",
-//					"Add was executed.");
-////			repoAccess.postcheckin();
-//			MessageDialog.openInformation(
-//					shell,
-//					"Kobold VCM Plug-in",
-//					"postadd was executed.");
 		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.team.internal.ui.actions.TeamAction#isEnabled()
 	 */
 	protected boolean isEnabled() throws TeamException

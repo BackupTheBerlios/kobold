@@ -20,23 +20,19 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- * 
+ *
+ * $Id: UpdateAction.java,v 1.9 2004/09/22 13:48:17 garbeam Exp $
  */
 
 package kobold.client.vcm.popup.action;
 
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class UpdateAction extends KoboldAction {
-
-	IResource[] currentSelection = null;
 
 	/**
 	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
@@ -51,29 +47,12 @@ public class UpdateAction extends KoboldAction {
 		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 		try
 		{
-		    repoAccess.preUpdate(testAssets,IResource.DEPTH_INFINITE,null,true);
-			repoAccess.update(testAssets,IResource.DEPTH_INFINITE,null);
-		    repoAccess.postUpdate(testAssets,IResource.DEPTH_INFINITE,null,true);
+			repoAccess.update(testAssets, null, null);
 		}
 		catch (Exception e)
 		{
 			// TODO: handle exception
 		}
-//		Shell shell = new Shell();
-//		MessageDialog.openInformation(
-//			shell,
-//			"Kobold VCM Plug-in",
-//			"preupdate (precheckout) was executed.");
-////		repoAccess.checkout();
-//		MessageDialog.openInformation(
-//				shell,
-//				"Kobold VCM Plug-in",
-//				"update (checkout) was executed.");
-////		repoAccess.postcheckout();
-//		MessageDialog.openInformation(
-//				shell,
-//				"Kobold VCM Plug-in",
-//				"postupdate (postcheckout) was executed.");
 	}
 
 }
