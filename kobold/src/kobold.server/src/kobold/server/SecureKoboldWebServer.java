@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.32 2004/06/24 07:34:03 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.33 2004/06/24 07:42:00 neccaino Exp $
  *
  */
 package kobold.server;
@@ -484,9 +484,14 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 *				   accessible that way, "" otherwise 
 	 */
 	public String satCreateNewProductline(String adminPassword, String plname, RepositoryDescriptor rd){
-		ProductManager pm = ProductManager.getInstance();
-		Productline pl;
-		return "";
+		try{
+			ProductManager.getInstance().addProductLine(new Productline(plname, rd));
+		}
+		catch(Exception e){
+			return IKoboldServer.NO_RESULT;
+		}
+		
+		return ""; // return success
 	}
 	
 	/**

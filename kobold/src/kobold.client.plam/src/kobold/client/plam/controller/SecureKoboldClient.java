@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.21 2004/06/24 07:16:57 neccaino Exp $
+ * $Id: SecureKoboldClient.java,v 1.22 2004/06/24 07:37:21 neccaino Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -42,6 +42,7 @@ import kobold.common.data.Role;
 import kobold.common.data.RoleP;
 import kobold.common.data.RolePE;
 import kobold.common.data.UserContext;
+import kobold.common.io.RepositoryDescriptor;	
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -430,9 +431,10 @@ public class SecureKoboldClient implements IKoboldServer {
 	 * on the KoboldServer
 	 * @param adminPassword server administartion password
 	 * @param plname name of the new productline
+	 * @param rd repository description for the new productline
 	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
 	 */
-	public String satCreateNewProductline(String adminPassword, String plname){
+	public String satCreateNewProductline(String adminPassword, String plname, RepositoryDescriptor rd){
 		Vector v = new Vector();
 		v.add(adminPassword);
 		v.add(plname);
