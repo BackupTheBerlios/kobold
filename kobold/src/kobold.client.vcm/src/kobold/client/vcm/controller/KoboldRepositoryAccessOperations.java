@@ -25,22 +25,42 @@
 package kobold.client.vcm.controller;
 
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.logging.ConsoleHandler;
 
 import kobold.client.vcm.communication.CVSSererConnection;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.common.data.UserContext;
 
+import org.eclipse.core.internal.compatibility.PluginActivator;
 import org.eclipse.core.internal.model.PluginMap;
+import org.eclipse.core.internal.plugins.DefaultPlugin;
+import org.eclipse.core.internal.plugins.PluginClassLoader;
 import org.eclipse.core.internal.plugins.PluginDescriptor;
 import org.eclipse.core.internal.plugins.PluginRegistry;
 import org.eclipse.core.internal.resources.Workspace;
+import org.eclipse.core.internal.runtime.PlatformActivator;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Plugin;
+import org.eclipse.core.runtime.PluginVersionIdentifier;
+import org.eclipse.core.runtime.model.PluginRegistryModel;
+import org.eclipse.osgi.framework.internal.core.ConsoleMsg;
 import org.eclipse.team.core.TeamException;
+import org.eclipse.team.internal.core.streams.PollingInputStream;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
+import org.eclipse.ui.internal.Workbench;
+import org.eclipse.ui.internal.WorkbenchPage;
+import org.eclipse.ui.internal.ide.WorkbenchActionBuilder;
+import org.eclipse.update.internal.configurator.PluginEntry;
 
 /**
  * @author schneipk
@@ -81,16 +101,18 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		try {
 			if (performOperation) {
 				progress = KoboldPolicy.monitorFor(progress);
-				progress.beginTask("precheckout.working", 2);
-//				File test = new File("C:\\temp\\test.bat");
-				String[] test = {"schneipk","lalal"};
-				Process pr = Runtime.getRuntime().exec("ssh",test );
-				InputStream is = pr.getInputStream();
-				OutputStream os = pr.getOutputStream();
-				
-				System.out.println("lala");
+				progress.beginTask("precheckout working", 2);
+////				File test = new File("C:\\temp\\test.bat");
+//				String[] test = {"-l","schneipk","cvs.berlios.de"};
+//				Process pr = Runtime.getRuntime().exec("C:\\temp\\test.bat");
+//				InputStream is = pr.getInputStream();
+//				OutputStream os = pr.getOutputStream();
+//				InputStream errSt =  pr.getErrorStream();
+//				os.write(0);
 				CVSSererConnection connection = new CVSSererConnection("cvs.berlios.de.","come2me");
-//				connection.open(monitor);			
+				connection.open(progress);
+				connection.readInpuStreamsToConsole();
+				connection.close();
 			}
 
 		} catch (Exception e) {
@@ -98,6 +120,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			//			 FIXME Implement functionality in Iteration II
 		}
 	}
+	
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postcheckout(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */

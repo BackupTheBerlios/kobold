@@ -40,6 +40,10 @@ import org.eclipse.team.internal.core.streams.PollingInputStream;
 import org.eclipse.team.internal.core.streams.PollingOutputStream;
 import org.eclipse.team.internal.core.streams.TimeoutInputStream;
 import org.eclipse.team.internal.core.streams.TimeoutOutputStream;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * @author schneipk
@@ -50,14 +54,24 @@ public class CVSSererConnection implements IServerConnection
 {
 	// The default port for rsh
 	private static final int DEFAULT_PORT = 9999;
+	
+	// The variable for verifiying the connection is establisched
+	private static boolean connected = false;
 
 	// cvs format for the repository (e.g. :extssh:user@host:/home/cvs/repo)
 	private String location;
 	private String password;
 
+	// The buffer for reading the InputStreams
+	private byte[] readLineBuffer = new byte[512];
+	
+	
 	// incoming from remote host
 	private InputStream inputStream;
 
+	// incoming errorstream from process
+	private InputStream errStream;
+	
 	// outgoing to remote host
 	private OutputStream outputStream;
 	
@@ -77,6 +91,8 @@ public class CVSSererConnection implements IServerConnection
 		this.location = location;
 		this.password = password;
 	}
+	
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.ccvs.core.IServerConnection#open(org.eclipse.core.runtime.IProgressMonitor)
 	 */
@@ -84,8 +100,8 @@ public class CVSSererConnection implements IServerConnection
 			CVSAuthenticationException
 	{
 //		String[] command = ((CVSRepositoryLocation)location).getExtCommand(password);
-		String[] command = {"C:\\Temp\\putty.exe","marvin"};
-		boolean connected = false;
+		String[] command = {"C:\\Temp\\CVS\\cvs.exe", "-d" ,":pserver:memyselfandi:come2me@cvs.berlios.de:/cvsroot/kobold" ,"co","Produktlinie 1"};
+		connected = false;
 		try {
 			process = Util.createProcess(command, monitor);
 
@@ -96,8 +112,11 @@ public class CVSSererConnection implements IServerConnection
 
 			// XXX need to do something more useful with stderr
 			// discard the input to prevent the process from hanging due to a full pipe
-			Thread thread = new DiscardInputThread(process.getErrorStream());
+//			errStream = (process.getErrorStream());
 			connected = true;
+//			Thread thread = new Thread(new DiscardInputThread(errStream));
+//			readInpuStreamsToConsole();
+//			thread.run();
 		} finally {
 			if (! connected) {
 				try {
@@ -115,8 +134,7 @@ public class CVSSererConnection implements IServerConnection
 			CVSAuthenticationException
 	{
 //		String[] command = ((CVSRepositoryLocation)location).getExtCommand(password);
-		String[] command = {"C:\\Temp\\putty.exe","marvin"};
-		boolean connected = false;
+		String[] command = {"C:\\Temp\\test","marvin"};
 		try {
 			process = Util.createProcess(command, monitor);
 
@@ -168,7 +186,7 @@ public class CVSSererConnection implements IServerConnection
 	public InputStream getInputStream()
 	{
 		// TODO Auto-generated method stub
-		return null;
+		return inputStream;
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.ccvs.core.IServerConnection#getOutputStream()
@@ -176,25 +194,100 @@ public class CVSSererConnection implements IServerConnection
 	public OutputStream getOutputStream()
 	{
 		// TODO Auto-generated method stub
-		return null;
+		return outputStream;
+	}
+	public void readInpuStreamsToConsole()
+	{
+//		if (this.connected) 
+		{
+			ConsolePlugin.getDefault();
+			MessageConsole console= new MessageConsole("CVS Console",null);
+			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
+				new IConsole[] {console});
+			MessageConsoleStream stream =console.newMessageStream();
+			InputStream pis = this.inputStream; //(InputStream)process.getInputStream();
+			InputStream err = process.getErrorStream();//this.errStream;
+			OutputStream os1 = this.outputStream;//process.getOutputStream();
+			
+			int index = 0;
+			int r = 0;
+			try
+			{				
+			if (err != null)
+				{
+					while ((err.available() != 0) && (r = err.read()) != -1 ) {
+						readLineBuffer = append(readLineBuffer, index++, (byte) r);
+					}
+				}
+			if(pis != null)
+				{
+					while ((pis.available() != 0) && (r = pis.read()) != -1 ) {
+						readLineBuffer = append(readLineBuffer, index++, (byte) r);
+					}
+					
+				}
+
+				
+				stream.print(new String(readLineBuffer, 0, index));
+			}
+			catch(Exception e)
+			{
+				// problem reading the inputStreams of the process
+				e.printStackTrace();
+			}
+		}		
+	}
+	
+	private static byte[] append(byte[] buffer, int index, byte b) {
+		if (index >= buffer.length) {
+			byte[] newBuffer= new byte[index * 2];
+			System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
+			buffer= newBuffer;
+		}
+		buffer[index]= b;
+		return buffer;
 	}
 	
 	// XXX need to do something more useful with stderr
 	// discard the input to prevent the process from hanging due to a full pipe
 	private static class DiscardInputThread extends Thread {
 		private InputStream in;
+		private byte[] readLineBuffer = new byte[256];
 		public DiscardInputThread(InputStream in) {
 			this.in = in;
 		}
 		public void run() {
+			
 			try {
 				try {
-					while (in.read() != -1);
+					
+					int r,index = 0;
+					while ((in.available() != 0) && (r = in.read()) != -1 ) {
+//						if (r == NEWLINE) break;
+						readLineBuffer = append(readLineBuffer, index++, (byte) r);
+					}
+					String result = new String(readLineBuffer, 0, index);
+					System.out.println(result);
 				} finally {
 					in.close();
 				}
 			} catch (IOException e) {
 			}
 		}
+		private static byte[] append(byte[] buffer, int index, byte b) {
+			if (index >= buffer.length) {
+				byte[] newBuffer= new byte[index * 2];
+				System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
+				buffer= newBuffer;
+			}
+			buffer[index]= b;
+			return buffer;
+		}
+	}
+	/**
+	 * @return Returns the errStream.
+	 */
+	public InputStream getErrStream() {
+		return errStream;
 	}
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WrapperInterface.java,v 1.1 2004/04/16 12:38:45 garbeam Exp $
+ * $Id: WrapperInterface.java,v 1.2 2004/06/23 13:24:43 memyselfandi Exp $
  *
  */
 package kobold.client.vcm.controller;
@@ -29,9 +29,9 @@ package kobold.client.vcm.controller;
 import java.util.List;
 
 import kobold.common.data.UserContext;
-import kobold.common.exception.VCMIOException;
-import kobold.common.exception.VCMNotPermitException;
-import kobold.common.exception.VCMScriptInvocationException;
+import kobold.common.exceptions.VCMIOException;
+import kobold.common.exceptions.VCMNotPermitException;
+import kobold.common.exceptions.VCMScriptInvocationException;
 import kobold.common.io.FileDescriptor;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.io.ScriptDescriptor;

@@ -68,21 +68,21 @@ public class AddAction extends KoboldAction implements IObjectActionDelegate {
 			{
 				// TODO: handle exception
 			}
-			Shell shell = new Shell();
-			MessageDialog.openInformation(
-				shell,
-				"Kobold VCM Plug-in",
-				"preAdd was executed.");
-//			repoAccess.checkin();
-			MessageDialog.openInformation(
-					shell,
-					"Kobold VCM Plug-in",
-					"Add was executed.");
-//			repoAccess.postcheckin();
-			MessageDialog.openInformation(
-					shell,
-					"Kobold VCM Plug-in",
-					"postadd was executed.");
+//			Shell shell = new Shell();
+//			MessageDialog.openInformation(
+//				shell,
+//				"Kobold VCM Plug-in",
+//				"preAdd was executed.");
+////			repoAccess.checkin();
+//			MessageDialog.openInformation(
+//					shell,
+//					"Kobold VCM Plug-in",
+//					"Add was executed.");
+////			repoAccess.postcheckin();
+//			MessageDialog.openInformation(
+//					shell,
+//					"Kobold VCM Plug-in",
+//					"postadd was executed.");
 		}
 
 
