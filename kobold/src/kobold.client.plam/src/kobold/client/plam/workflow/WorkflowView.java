@@ -21,18 +21,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.27 2004/09/23 13:43:20 vanto Exp $
+ * $Id: WorkflowView.java,v 1.28 2004/10/08 15:47:30 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Iterator;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.action.SuggestFileAction;
 import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.listeners.IProjectChangeListener;
+import kobold.client.plam.workflow.KoboldMessageFilter;
 import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.UserContext;
@@ -60,13 +63,19 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
+
 
 /**
  * @author Tammo
@@ -86,6 +95,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private Action deleteAction;
 	
 	private String[] titles = {null, null, "Referring to", "Subject", "Sender", "Date" };
+	private Comparator[] comparators = {};
 	private ColumnLayoutData columnLayouts[] =	{
 			new ColumnPixelData(19, false),
 			new ColumnPixelData(19, false),
@@ -93,16 +103,40 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 			new ColumnWeightData(200),
 			new ColumnWeightData(150),
 			new ColumnWeightData(60)};
-	Table table;
 	
+	private Table table;
+	private KoboldMessageSorter sorter = new KoboldMessageSorter();
+    private KoboldMessageFilter filter;
 	
+	/**
+	 * conigure the sorter and start sorting.
+	 * @param columnNo Number of column, that title is slectet
+	 */
+	private void columnHeaderSelected(int columnNo) {
+          Comparator comperator = sorter.getComparator();
+          switch(columnNo){
+            case 0: sorter.setSortByType(); break;
+            case 3: sorter.setSortBySubject(); break;
+            case 4:	sorter.setSortBySender(); break;
+            case 5:	sorter.setSortByDate(); break;
+            default : return;
+          }
+          if (sorter.getComparator().equals(comperator) && ! sorter.isSortInverse()) {
+              sorter.setSortInverse(true);
+          } else {
+              sorter.setSortInverse(false);
+          }
+          sorter.sort(this.viewer, contentProvider.getElements(null));
+          viewer.refresh();
+    }
+	  
 	public void createPartControl(Composite parent) 
 	{
-		table = new Table (parent, SWT.MULTI | SWT.BORDER | SWT.SINGLE |SWT.FULL_SELECTION);
+		table = new Table (parent, SWT.MULTI | SWT.BORDER |SWT.FULL_SELECTION);
 		table.setLinesVisible (true);
 		table.setHeaderVisible (true);
 		TableLayout layout = new TableLayout();
-		table.setLayout(layout);
+		table.setLayout(layout);		
 
 		for (int i=0; i<titles.length; i++) {
 			TableColumn column = new TableColumn(table, SWT.NULL);
@@ -114,7 +148,8 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 			}
 			
 			layout.addColumnData(columnLayouts[i]);
-		}	
+			column.addSelectionListener(new KoboldSelectionListener(i));
+		}		
 
 		for (int i=0; i<titles.length; i++) {
 			table.getColumn (i).pack ();
@@ -123,10 +158,14 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		contentProvider = new WorkflowContentProvider(this);
 		
 		viewer = new TableViewer(table);
+		filter = new KoboldMessageFilter();
+		viewer.addFilter(filter);
 		viewer.setContentProvider(contentProvider);
 		viewer.setLabelProvider(new ViewLabelProvider());
-		//viewer.setSorter(new NameSorter());
-
+		viewer.setSorter(sorter);
+		sorter.setSortByDate();
+		sorter.setSortInverse(false);
+		
 		if (KoboldPLAMPlugin.getCurrentKoboldProject() != null &&
 		        KoboldPLAMPlugin.getCurrentKoboldProject().getMessageQueue() != null)
 		    viewer.setInput(KoboldPLAMPlugin.getCurrentKoboldProject().getMessageQueue());
@@ -216,20 +255,28 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		
 		filterAction = new Action("Filter Messages", IAction.AS_CHECK_BOX) {
 			public void run() {
-				contentProvider.setFiltered(!contentProvider.isFiltered());
+				//contentProvider.setFiltered(!contentProvider.isFiltered());
+			    FilterDialog fd = new FilterDialog(new Shell(), filter);
+			    fd.open();
+			    viewer.refresh();
 			}
 		};
-		filterAction.setText("Filter sent messages");
-		filterAction.setToolTipText("Hide already sent messages from this list");
+		filterAction.setText("Filter...");
+		filterAction.setToolTipText("Hide messages from this list");
 		filterAction.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/filter_msg.gif"));
 		
 		deleteAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				if (obj instanceof AbstractKoboldMessage) {
-					KoboldPLAMPlugin.getCurrentKoboldProject().getMessageQueue().removeMessage((AbstractKoboldMessage)obj);
-				}
+				
+				for (Iterator ite = ((IStructuredSelection)selection).iterator(); ite.hasNext(); ){
+				    Object obj = ite.next();
+				    if (obj instanceof AbstractKoboldMessage) {
+				       // table.remove(table.(obj));				       
+						KoboldPLAMPlugin.getCurrentKoboldProject().getMessageQueue().removeMessage((AbstractKoboldMessage)obj);
+                        viewer.getContentProvider().inputChanged(viewer, null,KoboldPLAMPlugin.getCurrentKoboldProject().getMessageQueue() );
+					}
+				} 				
 			}
 		};
 		deleteAction.setText("Delete message");
@@ -243,7 +290,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 					//UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
 					UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
 				    msg.setSender(ctx.getUserName());
-					msg.setStep(1);
+					//msg.setStep(1);
 					msg.setReceiver("-");
 					msg.setSubject("-");
 					msg.setMessageText("");
@@ -263,7 +310,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		
 		suggestFileAction = new SuggestFileAction(viewer.getControl().getShell());
 		
-	}
+	}	
 
 	private void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
@@ -297,8 +344,25 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		super.dispose();
 	}
 
-
-
+	class KoboldSelectionListener implements SelectionListener {
+	    
+	    int columnNo;
+	    
+	    public KoboldSelectionListener (int columnNo){
+	        super();
+	        this.columnNo = columnNo;
+	    }
+        public void widgetSelected(SelectionEvent e) {
+           columnHeaderSelected(columnNo);
+        }
+      
+        public void widgetDefaultSelected(SelectionEvent e) {
+            widgetSelected(e);                    
+        }
+	    
+	}
+    
+	
 
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
 		private final Image kImage = KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif").createImage();
