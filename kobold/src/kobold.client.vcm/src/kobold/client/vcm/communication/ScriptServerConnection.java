@@ -422,7 +422,7 @@ public class ScriptServerConnection implements IServerConnection
                     sleep(5);       
                 }
                 lineCount=50000;
-                while ( lineCount == 50000 || i < 1000)
+                while ( lineCount == 50000 || i < 500)
                 {
                     monitor.worked(2);
                     try
@@ -436,7 +436,7 @@ public class ScriptServerConnection implements IServerConnection
                     {
                         while ((r = in.read()) != -1)
                         {
-                            monitor.worked(10);
+                            monitor.worked(5);
                             if (r == NEWLINE)break;
                             readLineBuffer = append(readLineBuffer, index++,
                                     (byte) r);
@@ -448,7 +448,7 @@ public class ScriptServerConnection implements IServerConnection
                     {
                         while ((s = errStream.read()) != -1)
                         {
-                            monitor.worked(10);
+                            monitor.worked(5);
                             if (s == NEWLINE) break;
                             readLineBuffer = append(readLineBuffer, index++,
                                     (byte) s);
@@ -458,22 +458,21 @@ public class ScriptServerConnection implements IServerConnection
                     }
                     if (returnString != null)
                     {
-                        if (returnString.equals("")) {
+                        if (returnString.equals(""))
                             returnString = new String(readLineBuffer, 0, index);
-                        }
-                        else {
+                        else{
+                            if(index != 0)returnString = returnString.concat("\n");
                             returnString = returnString.concat(new String(
                                     readLineBuffer, 0, index));
-                            if(index != 0) {
-                            	returnString = returnString.concat("\n");
-                            }
+                            	
+                            
                         }
                         readLineBuffer = new byte[512];
                         index = 0;
-                        monitor.worked(10);
+                        monitor.worked(5);
                     } else
                     {
-                        monitor.worked(10);
+                        monitor.worked(5);
                         stream.print(new String(readLineBuffer, 0, index));
                         System.out
                                 .print(new String(readLineBuffer, 0, index));
@@ -483,7 +482,7 @@ public class ScriptServerConnection implements IServerConnection
                     }
                     if (in.available() == 0 && errStream.available() == 0 && lineCount != 50000)
                     {
-                        monitor.worked(10);
+                        monitor.worked(2);
                         i++;
                     }
                 }
