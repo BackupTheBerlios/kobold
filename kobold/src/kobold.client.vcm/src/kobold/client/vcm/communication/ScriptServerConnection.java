@@ -83,7 +83,7 @@ public class ScriptServerConnection implements IServerConnection
 	
 	public static ScriptServerConnection getConnection(String repositoryPath) {
 	    ScriptServerConnection result = new ScriptServerConnection(repositoryPath);
-	    return null;
+	    return result;
 	}
 	
 	/** 
@@ -94,12 +94,7 @@ public class ScriptServerConnection implements IServerConnection
 	 */
 	protected ScriptServerConnection(String repositoryPath) {
 
-//		if (!"noUser".equals(repositoryPath))
-//		{
-//			this.repositoryPath = repositoryPath;
-//			this.user = getUserName();
-//			this.password = getUserPassword();
-//		}
+
 	}
 	
 	
@@ -643,24 +638,5 @@ public class ScriptServerConnection implements IServerConnection
 	public InputStream getErrStream() {
 		return errStream;
 	}
-	/**
-	 * @param skriptName The Skript Name to be executed.
-	 */
-	public void setSkriptName(String skriptName) {
-		this.skriptName = skriptName;
-	}
-//	/**
-//	 * @param localPath The localPath to set.
-//	 */
-//	public void setLocalPath(String localPath) {
-//		this.localPath = localPath;
-//	}
-//	
-//	/**
-//	 * @param repositoryDescriptor The repositoryDescriptor to set.
-//	 */
-//	public void setRepositoryDescriptor(
-//			RepositoryDescriptor repositoryDescriptor) {
-//		this.repositoryDescriptor = repositoryDescriptor;
-//	}
+
 }

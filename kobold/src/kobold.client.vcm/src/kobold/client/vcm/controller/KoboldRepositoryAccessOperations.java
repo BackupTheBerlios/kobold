@@ -102,6 +102,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	
 	// Path of the current Skript Directory (installation Dir)
 	private Path skriptPath = null;
+	private String currentSkriptPath = null;
 	
 	// Path of the selected Asset on the local filesystem
 	private String localPath = null;
@@ -386,7 +387,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			progress.beginTask("checkout working", 2);
 			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
 			if (connection != null) {
-    			connection.setSkriptName(skriptPath.toOSString().concat(CHECKOUT).concat(skriptExtension));
+    			currentSkriptPath =skriptPath.toOSString().concat(CHECKOUT).concat(skriptExtension);
     			initConnection(connection,resources);
     			if (productLine != null)
                 {
@@ -427,7 +428,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			progress.beginTask("checkin/commit working", 2);
 			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
 			if (connection != null) {
-    			connection.setSkriptName(skriptPath.toOSString().concat(COMMIT).concat(skriptExtension));
+    			currentSkriptPath =skriptPath.toOSString().concat(COMMIT).concat(skriptExtension);
     			initConnection(connection,resources);
     			String tempString[] = new String[argString.length+1];
     			for (int i = 0; i < argString.length; i++) {
@@ -477,7 +478,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		                                        repositoryRootPath);
 		                                if (connection != null) {
     		                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-    		                                connection.setSkriptName(beforeSkriptPath);
+    		                                currentSkriptPath =beforeSkriptPath;
     		                                connection.open(progress);
     		                                connection.close();
 		                                }
@@ -520,7 +521,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                                         repositoryRootPath);
                                 if (connection != null) {
                                     String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                    connection.setSkriptName(beforeSkriptPath);
+                                    currentSkriptPath =beforeSkriptPath;
                                     connection.open(progress);
                                     connection.close();
                                 }
@@ -554,7 +555,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		     */
 				argString = new String[9];
 			if (localPath != null || repositoryHost != ""|| repositoryModulePath != "" || repositoryRootPath != ""  ) {
-			    argString[0] = "";
+			    argString[0] = currentSkriptPath;
 			    argString[1] = localPath;
 			    argString[2] = currentVCMProvider.getType();
 			    argString[3] = currentVCMProvider.getProtocol();
@@ -562,7 +563,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			    argString[5] = password; 
 				argString[6] = currentVCMProvider.getHost();//repositoryHost;
 				argString[7] = currentVCMProvider.getRoot();//repositoryRootPath;
-				argString[8] = currentVCMProvider.getPath(); // @ FIXME repositoryModulePath;
+				argString[8] = currentVCMProvider.getPath(); // repositoryModulePath;
 				for (int i = 0; i < argString.length; i++) {
 					System.out.print(argString[i]);
 					System.out.print("**");
@@ -614,7 +615,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                                         repositoryRootPath);
                                 if (connection != null) {
                                     String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                    connection.setSkriptName(beforeSkriptPath);
+                                    currentSkriptPath =beforeSkriptPath;
                                     connection.open(progress);
                                     connection.close();
                                 }
@@ -645,7 +646,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
 			if (connection != null) {
     			initConnection(connection,assets);
-    			connection.setSkriptName(skriptPath.toOSString().concat(ADD).concat(skriptExtension));
+    			currentSkriptPath =skriptPath.toOSString().concat(ADD).concat(skriptExtension);
     			initConnection(connection,assets);
     			connection.open(progress, argString);
     			connection.close();	
@@ -677,7 +678,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                                     repositoryRootPath);
                             if (connection != null) {
                                 String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                connection.setSkriptName(beforeSkriptPath);
+                                currentSkriptPath =beforeSkriptPath;
                                 connection.open(progress);
                                 connection.close();
                             }
@@ -713,7 +714,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                                     repositoryRootPath);
                             if (connection != null) {
                                 String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                connection.setSkriptName(beforeSkriptPath);
+                                currentSkriptPath =beforeSkriptPath;
                                 connection.open(progress);
                                 connection.close();
                             }
@@ -738,7 +739,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
 			if (connection != null) {
     			initConnection(connection,resources);
-    			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
+    			currentSkriptPath =skriptPath.toOSString().concat(UPDATE).concat(skriptExtension);
     			initConnection(connection,resources);
     			connection.open(progress, argString);
     			connection.close();	
@@ -771,7 +772,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                                     repositoryRootPath);
                             if (connection != null) {
                                 String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                connection.setSkriptName(beforeSkriptPath);
+                                currentSkriptPath =beforeSkriptPath;
                                 connection.open(progress);
                                 connection.close();
                             }
@@ -808,7 +809,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                                     repositoryRootPath);
                             if (connection != null) {
                                 String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                connection.setSkriptName(beforeSkriptPath);
+                                currentSkriptPath =beforeSkriptPath;
                                 connection.open(progress);
                                 connection.close();
                             }
@@ -904,7 +905,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
 			if (connection != null) {
     			initConnection(connection,assets);
-    			connection.setSkriptName(skriptPath.toOSString().concat(TAG).concat(skriptExtension));
+    			currentSkriptPath =skriptPath.toOSString().concat(TAG).concat(skriptExtension);
     			String tempString[] = new String[argString.length+1];
     			for (int i = 0; i < argString.length; i++) {
     				tempString[i] = argString[i];
@@ -937,7 +938,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
 			if (connection != null) {
     			initConnection(connection,assets);
-    			connection.setSkriptName(skriptPath.toOSString().concat(RM).concat(skriptExtension));
+    			currentSkriptPath =skriptPath.toOSString().concat(RM).concat(skriptExtension);
     			initConnection(connection,assets);
     			connection.open(progress, argString);
     			connection.close();	
@@ -969,7 +970,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                                     repositoryRootPath);
                             if (connection != null) {
                                 String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                connection.setSkriptName(beforeSkriptPath);
+                                currentSkriptPath =beforeSkriptPath;
                                 connection.open(progress);
                                 connection.close();
                             }
@@ -1005,7 +1006,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                                     repositoryRootPath);
                             if (connection != null) {
                                 String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                connection.setSkriptName(beforeSkriptPath);
+                                currentSkriptPath =beforeSkriptPath;
                                 connection.open(progress);
                                 connection.close();
                             }
