@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Kobold Server</name>
+	<name>kobold.server</name>
 	<comment></comment>
 	<projects>
-		<project>Kobold Common</project>
+		<project>kobold.common</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
