@@ -7,6 +7,10 @@
 package kobold.client.plam.useractions;
 
 
+import kobold.client.plam.workflow.ContainerViewItem;
+import kobold.common.data.WorkflowItem;
+import kobold.common.data.WorkflowMessage;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -46,15 +50,17 @@ public UINewUser(Shell parentShell) {
 
 
 
-public Composite createViewControl(Composite parent) {
-
-	Composite control = new Composite(parent, SWT.NONE);
+public Control createDialogArea(Composite parent) {
+	Composite area = (Composite) super.createDialogArea(parent);
+	area.setLayout(new GridLayout());	
+	try{
+	Composite control = new Composite(area, SWT.NONE);
 	GridLayout gridLayout = new GridLayout();
 	gridLayout.numColumns = 2;
 	control.setLayout(gridLayout);
 	
+	// "data" can only use for 1 object.
 	GridData data = new GridData(GridData.FILL_HORIZONTAL);
-	control.setLayoutData(data);
 
 	//control.setBackground(ColorConstants.white);
 	
@@ -62,36 +68,37 @@ public Composite createViewControl(Composite parent) {
 	labelUserName = new Label(control,SWT.NONE);
 	labelUserName.setText("Please insert the username of the new user:");
 	textUserName = new Text(control, SWT.NONE);		
-	data = new GridData(GridData.FILL_HORIZONTAL);
+	//data = new GridData(GridData.FILL_HORIZONTAL);
 	textUserName.setLayoutData(data);
 
 	//RealName
 	labelRealName = new Label(control,SWT.NONE);
 	labelRealName.setText("Please insert the real name of the new user:");
 	textRealName = new Text(control, SWT.NONE);		
-	data = new GridData(GridData.FILL_HORIZONTAL);
-	textRealName.setLayoutData(data);
+	//data = new GridData(GridData.FILL_HORIZONTAL);
+	//textRealName.setLayoutData(data);
 	
 	//password
 	labelPassword = new Label(control,SWT.NONE);
 	labelPassword.setText("Please insert the initial password of the new user:");
 	textPassword = new Text(control, SWT.NONE);		
-	data = new GridData(GridData.FILL_HORIZONTAL);
-	textPassword.setLayoutData(data);
+	//data = new GridData(GridData.FILL_HORIZONTAL);
+	//textPassword.setLayoutData(data);
 
 	//confirmpassword
 	labelConfPass = new Label(control,SWT.NONE);
 	labelConfPass.setText("Please retype the initial password of the new user:");
 	textConfPass = new Text(control, SWT.NONE);		
-	data = new GridData(GridData.FILL_HORIZONTAL);
-	textConfPass.setLayoutData(data);
-
-	return control;
+	//data = new GridData(GridData.FILL_HORIZONTAL);
+	//textConfPass.setLayoutData(data);
+	} catch(Exception e) {
+		e.printStackTrace();
+	}
+	return area;
 }
 
 public void okPressed(){
 	Useractions acts = new Useractions();
-	
 	acts.createUser(textRealName.getText(),textUserName.getText(), textPassword.getText(), textConfPass.getText());
 }
 
