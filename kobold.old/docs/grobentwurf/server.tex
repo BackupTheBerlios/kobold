@@ -1,0 +1,44 @@
+\chapter{Server}
+
+Dieser Abschnitt beschreibt die Komponenten des Grobentwurfs des
+Kobold Servers. In der Iteratrion 1 untergliedert sich der Server
+in 5 Komponenten. Man beachte insbesondere auch das Kapitel 2.3
+der Spezifikation1, das die Anforderungen an die jeweiligen
+Komponenten spezifiziert.
+
+\section{Überblick}
+\includegraphics[width=15cm]{server.jpg}
+
+\section{Komponente Kobold Interface}
+
+Die Komponente Interface bildet die Schnittstelle des Kobold
+Servers nach aussen und ist dessen Einsprungklasse. Sie wird von
+den Kobold Clients über remote procedure calls angesprochen.
+Anfragen werden an die dafür zuständigen Komponenten des Kobold
+Servers delegiert.
+
+\section{Komponente Drools}
+
+Diese Komponente erhält Daten über durchgeführte (VCM-)Actionen
+sowie Workflowobjekte, die auf die vorhandenen Regelmengen
+angewendet werden. Dafür können benötigte Daten von den
+Komponenten Benutzerverwaltung und Produktlinienverwaltung
+abgerufen werden. Als Konsequenz können Workflows oder EMails an
+die MessageQueue-Komponente übergeben werden.
+
+\section{Komponente MessageQueue}
+
+Aufgabe dieser Komponente ist die Verwaltung und Zustellung von
+Worklows und EMails an die addressierten Clients, sobald diese
+getMessages() aufrufen.
+
+\section{Komponente Benutzerverwaltung}
+
+Die Benutzerverwaltung ist zuständig für die Authentifizierung der
+Benutzer beim Login und verwaltet deren Rollendaten. Sämtliche
+Benutzerdaten können von dieser Komponente abgefragt werden.
+
+\section{Komponente Produktlinien-/Produktverwaltung}
+
+Diese Komponente verwaltet sämtliche auf dem Server zu
+persistierende Daten zu Produktlinien und Produkten.
