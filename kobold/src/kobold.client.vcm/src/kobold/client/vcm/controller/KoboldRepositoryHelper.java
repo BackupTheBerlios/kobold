@@ -60,11 +60,8 @@ public class KoboldRepositoryHelper {
 			.getLogger(KoboldRepositoryHelper.class);
 
     public static final String REMOVEVCMDATA = "cleanvcmdata.pl";
-    public static final String IMPORT = "import.";
-	public static final String ADD = "add.";
 	public static final String UPDATE = "update.";
 	public static final String COMMIT = "commit.";
-	public static final String CHECKOUT = "checkout.";
 	public static final String TAG = "tag.";
 	public static final String REMOVE = "rm.";
 	

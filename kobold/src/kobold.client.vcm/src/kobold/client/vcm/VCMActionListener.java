@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.25 2004/11/09 17:05:45 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.26 2004/11/17 11:57:54 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -45,7 +45,6 @@ import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.communication.ScriptServerConnection;
-import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 import kobold.client.vcm.controller.KoboldRepositoryHelper;
 import kobold.client.vcm.controller.ScriptExecuter;
 import kobold.client.vcm.controller.StatusUpdater;
@@ -137,7 +136,7 @@ public class VCMActionListener implements IVCMActionListener
 	     */
 		String userName = KoboldRepositoryHelper.getUserName();
 		String password = KoboldRepositoryHelper.getUserPassword();
-	    String localPath = KoboldRepositoryHelper.localPathForAsset(asset);
+	    String localPath = asset.getRoot().getKoboldProject().getProject().getLocation().toOSString();
 		String command[] = new String[10];
         command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.COMMIT).concat(KoboldRepositoryHelper.getScriptExtension());
 	    command[1] = localPath;
@@ -208,7 +207,7 @@ public class VCMActionListener implements IVCMActionListener
 			    String localPath = KoboldRepositoryHelper.localPathForAsset(pl);
 	    		String command[] = new String[9];
 	//    		Producitline parentProductLine = release.getRoot();
-	            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.CHECKOUT).concat(KoboldRepositoryHelper.getScriptExtension());
+	            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
 			    command[1] = tmpFolder.getLocation().toOSString();
 			    command[2] = pl.getRepositoryDescriptor().getType();
 			    command[3] = pl.getRepositoryDescriptor().getProtocol();
@@ -302,26 +301,7 @@ public class VCMActionListener implements IVCMActionListener
     			connection.open(progress, command);
     			connection.close();	
 			    runHooks(pl, connection, progress, ScriptDescriptor.VCM_COMMIT, false, true);
-    			
-    			if (connection.getReturnValue() != 0) {
-    			    // next we initially import
-                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.IMPORT).concat(KoboldRepositoryHelper.getScriptExtension());
-        			command[9] = "\"initial import\"";
-				    runHooks(pl, connection, progress, ScriptDescriptor.VCM_IMPORT, true, true);
-                    connection.open(progress, command);
-        			connection.close();	
-				    runHooks(pl, connection, progress, ScriptDescriptor.VCM_IMPORT, false, true);
-    			    
-        			if (connection.getReturnValue() == 0) {
-        			// VERY DANGEROUS :)
-//        			    KoboldRepositoryHelper.deleteTree(localPath);
-        			    
-        			    updateAsset(new kobold.common.data.Productline(pl.getName(), pl.getResource(), pl.getRepositoryDescriptor()),
-        			            		  pl.getKoboldProject().getProject());
-        			}
-    			}
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				logger.error("commitProductline(Productline)", e);
 			}
 		}
@@ -348,7 +328,7 @@ public class VCMActionListener implements IVCMActionListener
 				# $8 module
 				# $9 userdef
 		     */
-		    String localPath = p.getLocation().toOSString() + IPath.SEPARATOR + asset.getResource();
+		    String localPath = p.getLocation().toOSString();
     		String command[] = new String[10];
             command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
 		    command[1] = localPath;
@@ -375,7 +355,7 @@ public class VCMActionListener implements IVCMActionListener
     			
     			if (connection.getReturnValue() != 0) {
     			    // update failed, let's try to checkout
-                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.CHECKOUT).concat(KoboldRepositoryHelper.getScriptExtension());
+                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
                     command[1] = p.getLocation().toOSString();
         			connection.open(progress, command);
         			connection.close();	
@@ -405,24 +385,6 @@ public class VCMActionListener implements IVCMActionListener
     			connection.close();	
 			    runHooks(product, connection, progress, ScriptDescriptor.VCM_COMMIT, false, true);
     			
-    			if (connection.getReturnValue() != 0) {
-    			    // next we initially import
-                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.IMPORT).concat(KoboldRepositoryHelper.getScriptExtension());
-        			command[9] = "\"initial import\"";
-				    runHooks(product, connection, progress, ScriptDescriptor.VCM_IMPORT, false, true);
-                    connection.open(progress, command);
-        			connection.close();	
-				    runHooks(product, connection, progress, ScriptDescriptor.VCM_IMPORT, false, true);
-    			    
-        			if (connection.getReturnValue() == 0) {
-        			// VERY DANGEROUS :)
-//        			    KoboldRepositoryHelper.deleteTree(localPath);
-        			    Productline pl = product.getProductline();
-        			    kobold.common.data.Productline cpl = new kobold.common.data.Productline(pl.getName(), pl.getResource(), pl.getRepositoryDescriptor());
-        			    updateAsset(new kobold.common.data.Product(cpl, product.getName(), product.getResource(), product.getRepositoryDescriptor()),
-                                    			            		 product.getKoboldProject().getProject());
-        			}
-    			}
 			}
 			catch (Exception e) {
 				logger
@@ -532,7 +494,7 @@ public class VCMActionListener implements IVCMActionListener
 				# $8 module
 				# $9 userdef
 		     */
-            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.CHECKOUT).concat(KoboldRepositoryHelper.getScriptExtension());
+            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
 		    command[1] = cleanDir;
 		    command[2] = rd.getType();
 		    command[3] = rd.getProtocol();
@@ -565,7 +527,7 @@ public class VCMActionListener implements IVCMActionListener
 			}
 			// Finally import the subdirectory
 			rd = rc.getRemoteRepository();
-            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.IMPORT).concat(KoboldRepositoryHelper.getScriptExtension());
+            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.COMMIT).concat(KoboldRepositoryHelper.getScriptExtension());
 		    command[1] = cleanDir;
 		    command[2] = rd.getType();
 		    command[3] = rd.getProtocol();
@@ -583,81 +545,5 @@ public class VCMActionListener implements IVCMActionListener
 			}
 		}
     }
-    
-    /**
-     * @see kobold.client.plam.listeners.IVCMActionListener#addFileDescriptors(kobold.client.plam.model.AbstractRootAsset, java.util.List)
-     */
-    public void addFileDescriptors(AbstractRootAsset asset, List fds) {
-        
-        String userName = KoboldRepositoryHelper.getUserName();
-		String password = KoboldRepositoryHelper.getUserPassword();
-		RepositoryDescriptor rd = ModelStorage.getRepositoryDescriptorForAsset(asset);
-		ScriptServerConnection connection =
-		    ScriptServerConnection.getConnection(rd.getRoot());
-        IProgressMonitor progress = new SubProgressMonitor(KoboldPolicy.monitorFor(null), fds.size());
-        
-		if (connection != null) {
-		    /**
-		     * 	# $1 working directory
-				# $2 repo type
-				# $3 protocoal type
-				# $4 username
-				# $5 password
-				# $6 host
-				# $7 root
-				# $8 module
-				# $9 userdef
-		     */
-		    String localPath = KoboldRepositoryHelper.localPathForAsset(asset);
-    		String command[] = new String[10];
-            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.ADD).concat(KoboldRepositoryHelper.getScriptExtension());
-		    command[1] = localPath;
-		    command[2] = rd.getType();
-		    command[3] = rd.getProtocol();
-		    command[4] = userName;
-		    command[5] = password; 
-			command[6] = rd.getHost();
-			command[7] = rd.getRoot();
-			command[9] = "";
-		    try {
-                runHooks(asset, connection, progress, ScriptDescriptor.VCM_ADD, true, true);
-            } catch (CVSAuthenticationException e1) {
-				logger.error("addFileDescriptors(AbstractRootAsset, List)", e1);
-            } catch (IOException e1) {
-				logger.error("addFileDescriptors(AbstractRootAsset, List)", e1);
-            }
-			for (Iterator it = fds.iterator(); it.hasNext();) {
-    			    
-			    kobold.client.plam.model.FileDescriptor fd = (FileDescriptor)it.next();
-    			command[8] = fd.getLocalPath().toOSString();
-    			for (int j = 0; j < command.length; j++) {
-					if (logger.isDebugEnabled()) {
-						logger.debug("addFileDescriptors(AbstractRootAsset, List)"
-										+ command[j]);
-					}
-					if (logger.isDebugEnabled()) {
-						logger.debug("addFileDescriptors(AbstractRootAsset, List)");
-					}
-    			}
-    			try {
-    			    // first we try to commit
-        			connection.open(progress, command);
-        			connection.close();	
-        			
-    //    			if (connection.getReturnValue() != 0) {
-    //				}
-    			}
-    			catch (Exception e) {
-					logger.error("addFileDescriptors(AbstractRootAsset, List)", e);
-    			}
-			}
-		    try {
-                runHooks(asset, connection, progress, ScriptDescriptor.VCM_ADD, false, true);
-            } catch (CVSAuthenticationException e) {
-				logger.error("addFileDescriptors(AbstractRootAsset, List)", e);
-            } catch (IOException e) {
-				logger.error("addFileDescriptors(AbstractRootAsset, List)", e);
-            }
-		}
-    }
 }
+    
