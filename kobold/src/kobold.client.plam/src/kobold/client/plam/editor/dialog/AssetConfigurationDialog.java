@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.28 2004/09/18 10:35:34 martinplies Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.29 2004/09/20 05:37:17 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -66,6 +67,8 @@ import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -155,6 +158,15 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		if (asset.getName() != null) {
 		    name.setText(asset.getName());
 		}
+		name.addModifyListener(  new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                if (!asset.isResourceDefined())
+                {
+                	//resource name now generated automaically
+                	resource.setText(generateResourceName(name.getText()));
+                }
+            }
+		  });
 		
 		GridData gd = null;
 		if (!(asset instanceof Release)) {
@@ -551,13 +563,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     protected void okPressed()
     {
         if (!name.getText().equals(asset.getName())) {
-            asset.setName(name.getText());
-            
-            if (!asset.isResourceDefined())
-            {
-            	//resource name now generated automaically
-            	resource.setText(generateResourceName(name.getText()));
-            }         
+            asset.setName(name.getText());                               
         }
 
         if (!description.getText().equals(asset.getDescription())) {
@@ -655,8 +661,6 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     private String generateResourceName (String name)
     {
     	String resName = name;
-
-
     	//convert all to lower case
     	resName = resName.toLowerCase();
     	
@@ -677,11 +681,20 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 	    	}
 	    	
     	}
+
     	//replace all white spaces
     	resName = resName.replaceAll(" ","_");
-
-    	//get all children of the parent
-    	List assets = asset.getParent().getChildren();
+    	File f = new File("!\"§$%&/-\\()=?");
+    	//
+    	resName = avoidEqualRecourceNames(resName);
+    	
+    	//returns the resourceName
+    	return resName; 
+    }
+    
+    String avoidEqualRecourceNames(String resName) {
+         //      get all children of the parent
+    	List assets = this.asset.getParent().getChildren();
     	Iterator it = assets.listIterator();
     	while (it.hasNext())
     	{
@@ -695,13 +708,11 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     				//rename the resourceName
     				resName = resName.concat("m");
     				//do return
-    				return resName;
+    				return avoidEqualRecourceNames(resName);    				
 				}
 			}
     	}
-
-    	
-    	//returns the resourceName
-    	return resName; 
+        
+        return resName;
     }
 }
