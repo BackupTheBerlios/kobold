@@ -37,8 +37,8 @@
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
-            adaptable="true"
             objectClass="org.eclipse.core.resources.IFile"
+            adaptable="true"
             id="kobold.client.vcm.contribution1">
          <action
                label="Commit"
@@ -67,8 +67,8 @@
          </filter>
       </objectContribution>
       <objectContribution
-            adaptable="true"
             objectClass="org.eclipse.core.resources.IProject"
+            adaptable="true"
             id="kobold.client.vcm.ProjectContributions">
          <action
                label="Unmanage Kobold Project"
@@ -77,8 +77,8 @@
                id="kobold.client.vcm.unmanage">
          </action>
          <filter
-               value="org.eclipse.team.core.repository=kobold.client.vcm.controller.WrapperProvider"
-               name="projectPersistentProperty">
+               name="projectPersistentProperty"
+               value="org.eclipse.team.core.repository=kobold.client.vcm.controller.WrapperProvider">
          </filter>
       </objectContribution>
    </extension>
@@ -90,6 +90,22 @@
             class="kobold.client.vcm.controller.VCMConfigurationWizard"
             id="kobold.client.vcm.wizard">
       </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="kobold.client.vcm.ProjectNature1">
+         </run>
+      </runtime>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            natureId="kobold.client.vcm.KoboldVCMProjectNature"
+            id="kobold.client.vcm.NatureImage"
+            icon="icons/full/wizards/fsicon_wiz.gif">
+      </image>
    </extension>
 
 </plugin>

@@ -25,11 +25,4 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>icons</name>
-			<type>2</type>
-			<location>C:/Temp/eclipse/eclipse/plugins/org.eclipse.team.examples.filesystem_3.0.0/icons</location>
-		</link>
-	</linkedResources>
 </projectDescription>
