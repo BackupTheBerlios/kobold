@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.18 2004/08/11 12:17:54 neccaino Exp $
+ * $Id: UserManager.java,v 1.19 2004/08/19 12:02:33 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -63,13 +63,6 @@ public class UserManager {
 		 }
 		 return instance;
 	}
-    
-    /**
-     * The following ints are returned by 'getRemovabilityState().
-     */
-    static public final int NOT_REGISTERED = 0; // username unknown
-    static public final int STILL_ASSIGNED = 1; // user is still assigned to an asset
-	static public final int READY_FOR_REMOVAL = 2; // user not assigned
     
 	/**
 	 * Basic constructor of this singleton.
@@ -147,30 +140,27 @@ public class UserManager {
     
     /**
      * This method checks if the user specified by the passed username is still
-     * assigned to any assets (and could cause data inconsistencies among the
-     * assets if removed now).
+     * assigned to any assets.
      * 
      * @param username name of the user to check for removability
-     * @return NOT_REGISTERED if the username has not been registered, 
-     *         STILL_ASSIGNED if the user specified by 'username is still
-     *         assigned to an asset or READY_FOR_REMOVAL if that user can be
-     *         removed without risking data inconsistencies among the assets.
+     * @return true if the specified user is still assigned to any assets, false
+     *         otherwise or if the specified user doesn't exist 
      */
-    public int getRemovabilityState(String username){
-        // 1.) chack if the passed username is registered
+    public boolean isAssignedToAsset(String username){
+        // 1.) check if the passed username is registered
         if (getUser(username) == null){
-            return NOT_REGISTERED;
+            return false;
         }
         
         // 2.) check if the user is still assigned to any asset
         Iterator it = ProductlineManager.getInstance().getAllRegisteredAssets().iterator();
         while(it.hasNext()){
             if (((Asset)it.next()).isMaintainer(username)){
-                return STILL_ASSIGNED;
+                return true;
             }
         }
         
-        return READY_FOR_REMOVAL;
+        return false;
     }
     
     /**
