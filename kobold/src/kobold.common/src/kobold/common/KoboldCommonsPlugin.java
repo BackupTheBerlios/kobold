@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldCommonsPlugin.java,v 1.1 2004/07/25 23:17:48 vanto Exp $
+ * $Id: KoboldCommonsPlugin.java,v 1.2 2004/07/28 14:31:44 garbeam Exp $
  *
  */
 package kobold.common;
@@ -30,6 +30,7 @@ import kobold.common.data.IdManager;
 
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
+import org.apache.log4j.BasicConfigurator;
 
 
 /**
@@ -47,6 +48,7 @@ public class KoboldCommonsPlugin extends Plugin
 	 */
 	public KoboldCommonsPlugin() {
 		super();
+		BasicConfigurator.configure();
 		plugin = this;
 	}
 	

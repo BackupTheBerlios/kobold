@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.57 2004/07/22 10:21:54 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.58 2004/07/28 14:31:42 garbeam Exp $
  *
  */
 package kobold.server;
@@ -32,12 +32,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.logging.FileHandler;
 
 import kobold.common.controller.IKoboldServer;
 import kobold.common.controller.IKoboldServerAdministration;
 import kobold.common.controller.RPCMessageTransformer;
 import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Component;
+import kobold.common.data.IdManager;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.RPCSpy;
@@ -51,8 +53,11 @@ import kobold.server.controller.UserManager;
 import kobold.common.data.User;
 import kobold.server.workflow.*;
 
+import org.apache.commons.id.uuid.state.InMemoryStateImpl;
+import org.apache.commons.id.uuid.state.ReadWriteFileStateImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.xmlrpc.XmlRpcHandler;
 import org.apache.xmlrpc.secure.SecureWebServer;
 
@@ -94,7 +99,11 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			System.exit(1);
 		}
 		
+		BasicConfigurator.configure();
 		
+        // set UUID node manager class
+        System.setProperty("org.apache.commons.id.uuid.NodeManager", ReadWriteFileStateImpl.class.getName());
+        System.setProperty("commons.uuid.configFileName", "/tmp/bla.conf");
 		try {
 		    Properties props = new Properties(System.getProperties());
 		    props.load(new FileInputStream(System.getProperty("kobold.server.configFile")));

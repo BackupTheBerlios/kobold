@@ -21,12 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SessionManager.java,v 1.5 2004/07/25 23:17:33 vanto Exp $
+ * $Id: SessionManager.java,v 1.6 2004/07/28 14:31:42 garbeam Exp $
  *
  */
 package kobold.server.controller;
 
 import java.util.HashMap;
+
+import org.apache.commons.id.uuid.state.InMemoryStateImpl;
 
 import kobold.common.data.IdManager;
 import kobold.common.data.UserContext;
