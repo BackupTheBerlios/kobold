@@ -21,15 +21,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.2 2004/04/18 14:04:40 garbeam Exp $
+ * $Id: WorkflowEngine.java,v 1.3 2004/05/05 20:32:05 bettina Exp $
  *
  */
 package kobold.server.workflow;
 
 import kobold.common.data.WorkflowMessage;
 
-import org.drools.RuleBase;
-import org.drools.WorkingMemory;
+import org.drools.*;
+import org.drools.io.RuleBaseBuilder;
+import org.drools.rule.*;
+import org.drools.conflict.*;
+
+import java.util.*;
+import java.net.*;
 
 /**
  * This class mediates between Kobold and drools. 
@@ -41,7 +46,7 @@ public class WorkflowEngine {
 	 * Since drools is going to be of the Singleton concept, theInstance 
 	 * will be the only available instance of the class.
 	 */
-	private WorkflowEngine theInstance;
+	private static WorkflowEngine theInstance;
 
 	/**
 	 * The rulebase for the Kobold rules
@@ -54,12 +59,25 @@ public class WorkflowEngine {
 	private WorkingMemory workingMemory;
 
 	/**
+	 * the constructer of the class; declared protected so that no other 
+	 * class can create a workflowengine object
+	 */
+	protected WorkflowEngine() {		
+	}
+	
+	/**
 	 * The interface that allows Kobold to create and work with the 
 	 * drools instance.
 	 * @return the current instance of drools
 	 */
-	public WorkflowEngine getTheInstance() {
-		return theInstance;
+	public static WorkflowEngine getInstance() {
+		if (theInstance == null) {
+			theInstance = new WorkflowEngine();
+			theInstance.loadRuleBase();
+			RuleBase base = theInstance.getRuleBase();
+			theInstance.setWorkingMemory(base.newWorkingMemory());
+		}
+		return theInstance; 
 	}
 
 	/**
@@ -98,6 +116,27 @@ public class WorkflowEngine {
 	 * Loads the Kobold rulebase from an external file.
 	 */
 	private void loadRuleBase() {
+		try {
+			//RuleSetReader reader = new RuleSetReader();
+			//URL ruleSetURL = new URL ("file:///e|/programming/eclipse/workspace/drools/kobold/server/workflow/ruleset.dat");
+			//reader.r
+			//RuleSet ruleSet = reader.read(ruleSetURL);
+			
+			URL url = WorkflowEngine.class.getResource( "ruleset.drl" );
+			
+			RuleBase ruleBase = RuleBaseBuilder.buildFromUrl( url );
+			System.out.println("Huhu.");
+			
+
+			//org.drools.RuleBaseBuilder builder = new org.drools.RuleBaseBuilder();
+			//builder.addRuleSet(ruleSet);
+			//builder.setConflictResolver(SalienceConflictResolver.getInstance());
+			//this.setRuleBase(builder.build());
+			this.setRuleBase(ruleBase);
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	/**
@@ -105,6 +144,13 @@ public class WorkflowEngine {
 	 * @param msg a workflowmessage object
 	 */
 	private void assertObject(WorkflowMessage msg) {
+		WorkingMemory memory = this.getWorkingMemory();
+		try {
+			memory.assertObject(msg);
+		} catch (FactException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -112,6 +158,14 @@ public class WorkflowEngine {
 	 * @param msg a workflowmessage object
 	 */
 	private void retractObject(WorkflowMessage msg) {
+		WorkingMemory memory = this.getWorkingMemory();
+		List list = memory.getObjects();
+		if (list.contains(msg)) {
+			list.remove(msg);
+		}
+		else {
+			
+		}
 	}
 
 	/**
@@ -138,7 +192,20 @@ public class WorkflowEngine {
 	 * recipients.
 	 * @param msg a workflowmessage object
 	 */
-	public void applWorkflow(WorkflowMessage msg) {
+	public static void applWorkflow(WorkflowMessage msg) {
+		WorkflowEngine engine = getInstance();
+		engine.assertObject(msg);
+		WorkingMemory memory = engine.getWorkingMemory();
+		try {
+			memory.fireAllRules();
+		} catch (FactException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!(msg.getReciever().equals(""))) {
+			System.out.println(msg.getMessageText());
+		}
+		engine.retractObject(msg);
 	}
 
 }
