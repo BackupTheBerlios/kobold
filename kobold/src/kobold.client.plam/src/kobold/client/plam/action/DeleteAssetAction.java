@@ -21,12 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetAction.java,v 1.1 2004/08/28 11:31:10 vanto Exp $
+ * $Id: DeleteAssetAction.java,v 1.2 2004/09/18 16:18:53 neco Exp $
  *
  */
 package kobold.client.plam.action;
 
 import kobold.client.plam.editor.command.DeleteAssetCommand;
+import kobold.client.plam.editor.dialog.DeleteDeprecatedDialog;
+import kobold.client.plam.editor.dialog.UserManagerDialog;
 import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.jface.action.IAction;
@@ -35,6 +37,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.actions.ActionDelegate;
 
 /**
@@ -47,18 +50,11 @@ public class DeleteAssetAction extends ActionDelegate {
     private AbstractAsset selection;
     
     public void run(IAction action)
-    {        
-        DeleteAssetCommand deleteCommand = new DeleteAssetCommand();
-        deleteCommand.setAsset(selection);
-        
-        if (MessageDialog.openQuestion(Display.getDefault().getActiveShell(), 
-            	"Deleted or Deprecated", 
-            	"Are you sure to delete this asset? Press \"Yes\" to delete or \"No\" to mark the asset deprecated.")) {
-            deleteCommand.execute(DeleteAssetCommand.DELETE);
-        } else {
-            deleteCommand.execute(DeleteAssetCommand.DEPRECATED);
-        }
-    }    
+    {
+        Shell shell = Display.getDefault().getActiveShell();
+		DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, selection); 
+		dialog.open();
+    }
     
     /**
      * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
