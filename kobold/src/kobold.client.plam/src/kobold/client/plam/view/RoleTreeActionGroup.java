@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.17 2004/09/20 10:59:49 vanto Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.18 2004/09/22 14:27:16 vanto Exp $
  *
  */
 package kobold.client.plam.view;
+
+import java.util.Iterator;
 
 import kobold.client.plam.KoboldConstants;
 import kobold.client.plam.action.ConfigureAssetAction;
@@ -35,7 +37,9 @@ import kobold.client.plam.controller.roletree.RoleTreeContentProvider.Architectu
 import kobold.client.plam.editor.ArchitectureEditorInput;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.FileDescriptor;
- 
+import kobold.client.plam.model.product.ProductComponent;
+
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -43,6 +47,7 @@ import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
@@ -121,12 +126,31 @@ public class RoleTreeActionGroup extends ActionGroup
 			}
 		}		
 
-		manager.add(deleteAction);
+        Iterator it = ((StructuredSelection)getContext().getSelection()).iterator();
+        int i = 0, a = 0, p = 0;
+        while (it.hasNext()) {
+            Object sel = it.next();
+            i++;
+            if (sel instanceof FileDescriptor) {
+                a++;
+            }
+            if (sel instanceof IProject) {
+                p++;
+            }
+        }
+        if (a == i || p == i) {
+            manager.add(deleteAction);    
+        }
+		
 		manager.add(new Separator());
 		manager.add(refreshFDAction);
 		manager.add(new Separator());
 		manager.add(configureAssetAction);
-		manager.add(suggestFileAction);
+
+		IStructuredSelection sel= (IStructuredSelection) selection;
+		if (sel.size() <= 1 && sel.getFirstElement() instanceof ProductComponent) {
+		    manager.add(suggestFileAction);
+		}
 		
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator("Additions"));
@@ -152,9 +176,14 @@ public class RoleTreeActionGroup extends ActionGroup
     {
         refreshFDAction.handleSelectionChanged(event);
         configureAssetAction.handleSelectionChanged(event);
+        manageDeleteAction(event);
         deleteAction.selectionChanged(((IStructuredSelection)event.getSelection()));
         suggestFileAction.handleSelectionChanged(event);
         openFileAction.selectionChanged(event);
+    }
+    
+    private void manageDeleteAction(SelectionChangedEvent event)
+    {
     }
     
     public void handleDoubleClick(DoubleClickEvent event)

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.2 2004/08/25 10:00:27 garbeam Exp $
+ * $Id: UserManager.java,v 1.3 2004/09/22 14:27:16 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -82,6 +82,7 @@ public class UserManager {
 		    //changing the password at the client
 		    KoboldProject tmpProj = KoboldPLAMPlugin.getCurrentKoboldProject();
 		    tmpProj.setPassword(newPassword);
+		    tmpProj.store();
 	}
 	
 	public void updateFullName(String userName, String newName, String password){

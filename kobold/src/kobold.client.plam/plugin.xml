@@ -181,7 +181,12 @@
          <action
                label="Delete Asset"
                class="kobold.client.plam.action.DeleteAssetAction"
-               id="kobold.client.plam.DeleteAssetAction"/>
+               id="kobold.client.plam.DeleteAssetAction">
+         </action>
+         <visibility>
+               <objectClass name="kobold.client.plam.model.AbstractAsset"/>
+         </visibility>
+         
       </objectContribution>
       <objectContribution
             objectClass="kobold.client.plam.model.product.RelatedComponent"
