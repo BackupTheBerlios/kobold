@@ -21,14 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.16 2004/08/04 18:29:39 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.17 2004/08/05 09:13:01 vanto Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -37,6 +36,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
@@ -205,6 +205,7 @@ public class ModelStorage
                     serializeProduct(pl, monitor);
                     serializeCoreassets(pl, monitor);
                     
+                    ServerHelper.updateProductline(pl.getKoboldProject());
                 }
             });
         } catch (InvocationTargetException e) {
@@ -235,7 +236,7 @@ public class ModelStorage
         
         String modulePath = "";
         while (! (asset instanceof AbstractRootAsset)) {
-            modulePath = asset.getName() + File.separator + modulePath;
+            modulePath = asset.getName() + IPath.SEPARATOR + modulePath;
             asset = asset.getParent();
         }
         
@@ -247,7 +248,7 @@ public class ModelStorage
                     				 repositoryDescriptor.getProtocol(),
                     				 repositoryDescriptor.getHost(),
                     				 repositoryDescriptor.getRoot(),
-                    				 repositoryDescriptor.getPath() + File.separator +
+                    				 repositoryDescriptor.getPath() + IPath.SEPARATOR +
                     				 modulePath);
     }
 	
@@ -266,7 +267,7 @@ public class ModelStorage
              
             if (asset.getType() == AbstractAsset.COMPONENT) {
                 if (asset.getParent().getType() != AbstractAsset.VARIANT) {
-                    thePath = COREASSETS_FOLDER_NAME + File.separator +
+                    thePath = COREASSETS_FOLDER_NAME + IPath.SEPARATOR +
                     		  asset.getName() + IPath.SEPARATOR + thePath;
                 }
                 else {

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerHelper.java,v 1.3 2004/08/02 17:23:53 vanto Exp $
+ * $Id: ServerHelper.java,v 1.4 2004/08/05 09:13:01 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -85,5 +85,16 @@ public class ServerHelper
 		}
 
 		return users;
+    }
+    
+    public static void updateProductline(KoboldProject p)
+    {
+		UserContext context = getUserContext(p);
+		if (context != null) {
+		    SecureKoboldClient.getInstance().updateProductline(context, p.getProductline().getServerRepresentation());
+		} else {
+		    logger.warn("Could not update productline due to a login failure");
+		}
+        
     }
 }

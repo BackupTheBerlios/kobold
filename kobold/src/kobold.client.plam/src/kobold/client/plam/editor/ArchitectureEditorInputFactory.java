@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditorInputFactory.java,v 1.1 2004/08/04 23:03:02 vanto Exp $
+ * $Id: ArchitectureEditorInputFactory.java,v 1.2 2004/08/05 09:13:01 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
 
 import kobold.client.plam.KoboldProject;
+import kobold.client.plam.model.productline.Productline;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -75,7 +76,8 @@ public class ArchitectureEditorInputFactory implements IElementFactory
 			KoboldProject kp;
             try {
                 kp = (KoboldProject)p.getNature(KoboldProject.NATURE_ID);
-                return new ArchitectureEditorInput(kp.getProductline());
+                Productline pl = kp.getProductline();
+                return (pl != null) ? new ArchitectureEditorInput(pl) : null;
             } catch (CoreException e) {}
             
             return null;

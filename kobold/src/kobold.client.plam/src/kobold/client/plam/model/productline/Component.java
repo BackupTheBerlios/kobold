@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.11 2004/08/03 22:11:46 vanto Exp $
+ * $Id: Component.java,v 1.12 2004/08/05 09:13:01 vanto Exp $
  *
  */
 
@@ -38,6 +38,8 @@ import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.IVariantContainer;
 import kobold.client.plam.model.ModelStorage;
+import kobold.common.data.Productline;
+import kobold.common.data.User;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.Element;
@@ -179,5 +181,16 @@ public class Component extends AbstractMaintainedAsset
 	    return ModelStorage.getRepositoryDescriptorForAsset(this);
 	}
 	
-	
+	public kobold.common.data.Component getServerRepresentation(Productline spl)
+	{
+	    kobold.common.data.Component sc = new kobold.common.data.Component(spl, getName(), 
+	        getResource(), getRemoteRepository());
+	    sc.setId(getId());
+	    Iterator it = getMaintainers().iterator();
+	    while (it.hasNext()) {
+	        User u = (User)it.next();
+	        spl.addMaintainer(u);
+	    }
+	    return sc;
+	}
 }

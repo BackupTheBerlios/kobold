@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.19 2004/08/03 22:11:46 vanto Exp $
+ * $Id: Productline.java,v 1.20 2004/08/05 09:13:01 vanto Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -38,6 +38,7 @@ import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IGXLExport;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.product.Product;
+import kobold.common.data.User;
 
 import org.dom4j.Element;
 import org.eclipse.core.runtime.IPath;
@@ -308,9 +309,28 @@ public class Productline extends AbstractRootAsset
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
 	 */
-	
 	public IPath getLocalPath() {
 	    return ModelStorage.getPathForAsset(this);		
+	}
+	
+	public kobold.common.data.Productline getServerRepresentation()
+	{
+	    kobold.common.data.Productline spl = new kobold.common.data.Productline(getName(), 
+	        	getResource(), getRepositoryDescriptor());
+	    
+	    spl.setId(getId());
+	    Iterator it = getMaintainers().iterator();
+	    while (it.hasNext()) {
+	        User u = (User)it.next();
+	        spl.addMaintainer(u);
+	    }
+	    
+	    it = getComponents().iterator();
+	    while (it.hasNext()) {
+	        Component c = (Component)it.next();
+	        spl.addCoreAsset(c.getServerRepresentation(spl));
+	    }
+	    return spl;
 	}
 	
 }
