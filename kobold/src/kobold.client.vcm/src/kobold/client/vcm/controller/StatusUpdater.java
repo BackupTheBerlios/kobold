@@ -25,28 +25,79 @@
  */
 package kobold.client.vcm.controller;
 
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+
 import kobold.client.plam.model.IFileDescriptorContainer;
+import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.communication.CVSSererConnection;
 
 /**
  * @author rendgeor
- *
-
+ * 
+ * The class updates the FD(s) included in the delivered FD-container.
+ * It works as listener and acts when something in the model change or a refresh is executed.
+ * 
  */
+
 public class StatusUpdater {
 
-	
+
+	/**
+	 * Listener who acts on the delivered FD-container and updates all included FD(s)
+	 * @param fileDescriptorContainer, the FD-container to update
+	 */
 	public void updateFileDescriptors(IFileDescriptorContainer fileDescriptorContainer)
 	{
 		CVSSererConnection conn = new CVSSererConnection("fake","fake");
-		String[] command = {"Skriptpfad","Dateiname"};
+		//command line command with the stats script to the changed part of the meta-data containing FD(s)
+		String[] command = {"perl", getScriptPath() + "stats.pl", fileDescriptorContainer.getLocalPath().toOSString()};
 		try 
 		{
 			conn.open(command);
-			conn.getInputStream();
+			String iString = conn.getInputStream().toString();
+			//parse the string
+			parseInputString(fileDescriptorContainer, iString);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
+		
+
+	
+	/**
+	 * Gets the path of the script(s)
+	 * @return the script-path of the commandLine scripts
+	 */
+	private String getScriptPath ()
+	{
+		KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
+		String tmpLocation = plugin.getBundle().getLocation();
+		
+		Path skriptPath = new Path(tmpLocation.substring(8,tmpLocation.length()));
+		return ((Path)skriptPath.append("scripts" + IPath.SEPARATOR)).toOSString();
+	}
+	
+	/**
+	 * Parses the inputString
+	 * @param inputString, the inputString to parse
+	 * @param fileDescriptorContainer
+	 */
+	private void parseInputString (IFileDescriptorContainer fileDescriptorContainer, 
+									String inputString)
+	{
+		System.out.println (inputString);
+		
+		//clears all FD(s)
+		if (fileDescriptorContainer.clear ())
+		{
+			//add new FD(s)
+			
+		}
+		else
+		{
+			//logger
+		}
+	}		
 }

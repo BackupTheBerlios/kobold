@@ -61,8 +61,14 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 	/**
 	 * Returns the shared instance.
 	 */
+	//TODO: ensure that a plugin instance exist!!
 	public static KoboldVCMPlugin getDefault() {
-		return plugin;
+		if (plugin != null)
+		{
+			return plugin;
+		}
+		//else
+		return null;
 	}
 
 	/**

@@ -21,23 +21,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMTest.java,v 1.1 2004/07/01 13:32:53 rendgeor Exp $
+ * $Id: VCMTest.java,v 1.2 2004/07/07 17:58:16 rendgeor Exp $
  *
  */
 package kobold.client.vcm.test;
 
 
+import org.eclipse.core.internal.plugins.PluginDescriptor;
 import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import junit.framework.TestCase;
+import kobold.client.plam.model.FileDescriptor;
+import kobold.client.plam.model.IFileDescriptorContainer;
+import kobold.client.plam.model.product.SpecificComponent;
+
+import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.popup.action.*;
-import kobold.client.vcm.*;
+import kobold.client.vcm.controller.StatusUpdater;
 
 /**
- * @author garbeam
+ * @author rendgeor
  *
- * TestCase for ProductLine.
+ * TestCase for VCM actions.
  */
 public class VCMTest extends TestCase {
 
@@ -52,16 +58,31 @@ public class VCMTest extends TestCase {
 	
 	public void testSerialize() {
 		
-		//start the VCMPlugin...KoboldVCMPlugin plugin = new KoboldVCMPlugin ();
+		//start the VCMPlugin...
+		//TODO: no KoboldVCMPlugin exist!? -->return null
+		KoboldVCMPlugin.getDefault();
+		
 		
 		//create KoboldAction object
 		KoboldAction action= new KoboldAction ();
-		System.out.println ("Local Path: " + action.getLocalPath());
 		
-		//String path = "/tmp";
+		//TODO: NullPointerException!
+		//System.out.println ("Local Path: " + action.getLocalPath());
 		
 		
+		//---Test the Status Updater ----//
+		
+		//create an IFileDescriptorContainer object
+		SpecificComponent specComp = new SpecificComponent ("testComp");
+		//TODO:nice case, here the local path is parsed
+		specComp.setLocalPath("/home/rendgeor/workspace");
+		specComp.addFileDescriptor(new FileDescriptor ());
 
+		//update FD(s)
+		StatusUpdater statUp = new StatusUpdater ();
+		statUp.updateFileDescriptors(specComp);
+
+		
 		//assertTrue (productline.getName() == "office");
 	
 

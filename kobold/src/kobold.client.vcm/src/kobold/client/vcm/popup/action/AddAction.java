@@ -66,7 +66,10 @@ public class AddAction extends KoboldAction {
 			KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 			try
 			{
-				getUserName();
+				//gets the stored userData
+				String userName = getUserName();
+				String userPassword = getUserPassword();
+				
 //				((Component)testAssets[0])
 //				repoAccess.precheckout(testAssets,IResource.DEPTH_INFINITE,null,false);
 			}

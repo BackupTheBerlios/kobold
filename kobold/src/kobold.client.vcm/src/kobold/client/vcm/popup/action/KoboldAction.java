@@ -101,12 +101,20 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 		
 	}
 	
+	/**
+	 * Gets the local path of the workspace
+	 * @return the local path
+	 */
 	public String getLocalPath ()
 	{
 		IPath wsPath = KoboldVCMPlugin.getDefault().getWorkspace().getRoot().getFullPath();
 		return wsPath.toOSString();
 	}
 
+	/**
+	 * Initialize the userName and the userPassword
+	 *
+	 */
 	private void initUserData ()
 	{
 		//set the default userName and password (initial)
@@ -114,7 +122,10 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 		KoboldVCMPlugin.getDefault().getPreferenceStore().setDefault("User Password","");
 	}
 
-	
+	/**
+	 * Gets the userName
+	 * @return the username
+	 */
 	public String getUserName ()
 	{
 		//gets the userName
@@ -131,13 +142,20 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 
 	}
 
+	/**
+	 * Sets the userName to the preferences
+	 * @param userName, the userName to store
+	 */
 	protected void setUserName (String userName)
 	{
 		//set the default userName (initial)
 		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("userName", userName);
 	}
 
-	
+	/**
+	 * gets the stored userName
+	 * @return the stored userName
+	 */
 	public String getUserPassword ()
 	{
 		//gets the userPassword
@@ -152,11 +170,20 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 		return uP;
 	}
 
+	/**
+	 * Sets the new userName
+	 * @param userPassword, the userPassword to store
+	 */
 	private void setUserPassword (String userPassword)
 	{
 		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("userPassword",userPassword);
 	}
 
+	/**
+	 * Opens a input Dialog to enter the user-data
+	 * @param type, the variableName to get of the user
+	 * @return the input-value of the dialog
+	 */
 	private String getPreference (String type)
 	{
 		InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
