@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.26 2004/08/23 19:44:55 memyselfandi Exp $
+ * $Id: StatusUpdater.java,v 1.27 2004/08/24 10:21:27 memyselfandi Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -88,7 +88,7 @@ public class StatusUpdater {
 			String iString="";
 			iString = conn.open(command,"");
 			//conn.open(new NullProgressMonitor(), command);
-//			System.out.println(iString);
+			System.out.println(iString);
 			conn.close();
 			parseInputString(fileDescriptorContainer,iString);
 

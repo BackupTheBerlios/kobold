@@ -410,10 +410,12 @@ public void run(){
                 while (in.available() == 0 & errStream.available() == 0)
                 {
                     sleep(5);
+                    
                 }
+                lineCount = in.available();
                 while (i < lineCount)
                 {
-                    while (in.available() != 0 && (r = in.read()) != -1)
+                    while (in.available() != 0 & (r = in.read()) != -1)
                     {
 //                        if (r == NEWLINE)break;
                         readLineBuffer = append(readLineBuffer, index++,
