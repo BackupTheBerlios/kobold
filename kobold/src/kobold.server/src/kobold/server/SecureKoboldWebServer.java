@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.56 2004/07/21 17:07:36 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.57 2004/07/22 10:21:54 neccaino Exp $
  *
  */
 package kobold.server;
@@ -59,8 +59,15 @@ import org.apache.xmlrpc.secure.SecureWebServer;
 /**
  * @author garbeam, contan
  *
- * Implements the server interface and delegates all RPCs to its
- * appropriate methods.
+ * This class is the Kobold server's entry point (main()) and the target of
+ * all remote procedure calls that originate from Kobold clients. Those calls
+ * are recieved by the (XmlRpcHandler-derived) method execute() and from there
+ * delegated to their appropriate methods (which are derived from their 
+ * respective Interfaces).
+ * 
+ * @see kobold.common.controller.IKoboldServer
+ * @see kobold.common.controller.IKoboldServerAdministration
+ * @see org.apache.xmlrpc.XmlRpcHandler 
  */
 public class SecureKoboldWebServer implements IKoboldServer, 
                                               XmlRpcHandler,
@@ -112,6 +119,9 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	{
 		Vector sniffArgs = new Vector();
 		try {
+            /*******************************************************************
+             *                    IKoboldServer delegation
+             ******************************************************************/
 			if (methodName.equals("login")) {
 				sniffArgs.add(new String((String)arguments.elementAt(0)));
 				sniffArgs.add(new String((String)arguments.elementAt(1)));
@@ -275,7 +285,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			
 			}
 			/*******************************************************************
-			 *      IKoboldServerAdministration Interface implementation.
+			 *           IKoboldServerAdministration delegation
 			 ******************************************************************/
             else if (methodName.equals("checkAdministrability")){
                 try{
@@ -360,8 +370,12 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			throw e;	
 		}
 		return IKoboldServer.NO_RESULT;
-	}
+	}// end execute()
 
+/*------------------------------------------------------------------------------
+    The following section contains the IKoboldServer-methods' implementation 
+    which are called by 'execute().
+------------------------------------------------------------------------------*/
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#login(String, String)}
 	 */
@@ -514,12 +528,10 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	}
 	
 	
-/*
---------------------------------------------------------------------------------
- The following section contains the IKoboldServerAdministration-methods'
- implementation. Thay are called by 'execute().
--------------------------------------------------------------------------------- 
-*/
+/*------------------------------------------------------------------------------
+     The following section contains the IKoboldServerAdministration-methods'
+     implementation which are called by 'execute().
+------------------------------------------------------------------------------*/
 	/**
 	 * this method is used to check if the called Kobold server is reachable 
 	 * and can be administrated with the passed password
