@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.6 2004/05/19 16:09:22 garbeam Exp $
+ * $Id: PLAMProject.java,v 1.7 2004/06/24 00:38:23 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -30,6 +30,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+
+import kobold.common.data.Productline;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,6 +61,7 @@ public class PLAMProject
 	private String username;
 	private String password;
 	private String productline;
+	private Productline productLine;
 
 	
 	/**
@@ -197,5 +200,19 @@ public class PLAMProject
 		this.productline = productline;
 	}
 
+
+	/**
+	 * @return
+	 */
+	public Productline getProductLine() {
+		return productLine;
+	}
+
+	/**
+	 * @param productline
+	 */
+	public void setProductLine(Productline productline) {
+		productLine = productline;
+	}
 
 }
