@@ -1,20 +1,21 @@
 \chapter{Client}
-Der Client wir streng nach dem Model-View-Controler-Konzept entwickelt. Dank
-der verwendeten Frameworkkomponenten lassen sich die Module eindeutig in 
-dieses Konzept integrieren.
+Der Client wird nach dem Model-View-Controler Design Pattern als
+Feature-Set für Eclipse entwickelt. Dank der verwendeten Framework-SDKs
+(Eclipse SDK, Draw2D, GEF) lassen sich die Module in das MVC Design
+Pattern leicht integrieren.
 
 \section{Überblick}
 \includegraphics[width=15cm]{client.jpg}
 
 \subsection{MVC-Aufteilung}
-Idee des Model-View-Controler-Konzepts ist die Entkopplung der Komponenten
-in Gruppen die ausschließlich der Darstellung (View) bzw. Datenhaltung 
-(Model) dienen. Die Vermittlung zwischen beiden Gruppen übernimmt der 
-Controler, sodass die Views und Models keine direkten Abhängigkeiten haben.
+Idee des Model-View-Controler Design Patterns ist die Entkopplung der Komponenten
+in Gruppen, die ausschließlich der Darstellung (View) bzw. Datenhaltung 
+(Model) dienen. Die Vermittlung zwischen beiden Gruppen übernehmen Controler,
+so dass die Views und Models keine direkten Abhängigkeiten haben.
 
 Für die Darstellung und Bearbeitung der Architektur ist es notwendig auch 
 view-spezifische Informationen für den Benutzer zu speichern (z.B. Position 
-der Architektur-Elemente), sodass hier ein View-Model zum Einsatz kommt, 
+der Architektur-Elemente), so dass hier ein View-Model zum Einsatz kommt, 
 welches das eigentliche Architektur-Model erweitert.\par
 
 Die Aufteilung in die Gruppen:\par
@@ -49,21 +50,21 @@ Die Aufteilung in die Gruppen:\par
 Die Rollenview zeigt in einem Baum die "Welt" des angemeldeten Benutzers an
 (siehe auch 2.1.1. und 2.2.4., Spezifikation I).\par
 
-Die Rollenview operiert über Eclipse-Plattform (ITreeContentProvider) auf der
+Die Rollenview operiert über der Eclipse-Plattform (ITreeContentProvider) auf der
 Komponente ArchitekturModel.
 
-Die Rollenview kann Aktionen auf der Komponente VCM-Wrapper auslösen sowie
-den Architektur-Editor steueren.
+Die Rollenview kann Aktionen in der Komponente VCM-Wrapper auslösen sowie
+den Architektur-Editor steuern.
 
 \section{Viewkomponente ArchitekturEditor}
-Der Architektur-Editor wird mittels der Komponenten GEF realisiert und zeigt 
-die Produktlinienarchitektur gemäß 2.2.2., Spezifikation I an. Er operiert via
-GEF auf dem ArchitekturViewModel.
-Auch hier können Aktionen auf dem VCM-Wrapper ausgeführt werden.
+Der Architektur-Editor wird mittels der Draw2D und GEF Frameworks realisiert
+und stellt die Produktlinienarchitektur gemäß 2.2.2., Spezifikation I
+dar.  Er operiert via GEF auf dem ArchitekturViewModel.
+Auch die Viewkomponente kann Aktionen des VCM-Wrappers ausführen.
 
 \section{Viewkomponente Minimap}
 Die Minimap (2.2.3., Spezifikation I) ist direkt mit dem Architektur-Editor 
-verknüpft.
+verknüpft und stellt eine verkleinerte Fassung der Architektur dar.
 
 \section{Viewkomponente Task-/WorkflowView}
 Diese Komponente zeigt die Tasks und Workflows an. Sie operiert über die 
@@ -78,7 +79,7 @@ Das Architektur-Model enthält baumartig aufgebaut alle Informationen über die
 Produktlinie(n). Das umfasst Varianten, Komponenten, Assets und Benutzer.
 
 \section{Modelkomponente ArchitekturViewModel}
-Diese Komponente repräsentiert auf Model ebene all das, was im Architektur-
+Diese Komponente repräsentiert auf Modelebene all das, was im Architektur-
 Editor angezeigt wird. Das Viewmodel enthält zusätzlich noch Informationen 
 über die Position der einzelnen Viewelemente auf dem Canvas. Der Aufbau der
 ViewModel-Elemente erfolgt dynamisch auf Basis des Architektur-Models und 
