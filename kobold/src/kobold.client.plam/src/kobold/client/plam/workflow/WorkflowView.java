@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.2 2004/05/16 22:25:55 vanto Exp $
+ * $Id: WorkflowView.java,v 1.3 2004/05/18 11:21:50 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -32,10 +32,11 @@ import java.text.SimpleDateFormat;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.listeners.IProjectChangeListener;
-import kobold.common.data.KoboldMessage;
+import kobold.common.data.AbstractKoboldMessage;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -72,9 +73,13 @@ import org.eclipse.ui.part.ViewPart;
  */
 public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	private TableViewer viewer;
+	private WorkflowContentProvider contentProvider;
 
 	private Action action1;
 	private Action action2;
+	
+	private Action filterAction;
+	
 	private Action doubleClickAction;
 	
 	private String[] titles = {null, null, "Subject", "Sender", "Date" };
@@ -111,8 +116,10 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 			table.getColumn (i).pack ();
 		}	
 
+		contentProvider = new WorkflowContentProvider(this);
+		
 		viewer = new TableViewer(table);
-		viewer.setContentProvider(new WorkflowContentProvider(this));
+		viewer.setContentProvider(contentProvider);
 		viewer.setLabelProvider(new ViewLabelProvider());
 		//viewer.setSorter(new NameSorter());
 
@@ -163,6 +170,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
+		manager.add(filterAction);
 		manager.add(action1);
 		manager.add(action2);
 		// Other plug-ins can contribute there actions here
@@ -202,9 +210,15 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
 				//showMessage("Double-click detected on "+obj.toString());
-				WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), (KoboldMessage)obj);
+				WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), (AbstractKoboldMessage)obj);
 				wfDialog.open();
 				
+			}
+		};
+		
+		filterAction = new Action("Filter", IAction.AS_CHECK_BOX) {
+			public void run() {
+				contentProvider.setFiltered(!contentProvider.isFiltered());
 			}
 		};
 	}
@@ -254,33 +268,33 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 
 		public String getColumnText(Object obj, int index) {
 			switch (index) {
-				case 2: return ((KoboldMessage)obj).getSubject();
-				case 3: return ((KoboldMessage)obj).getSender();
-				case 4: return df.format(((KoboldMessage)obj).getDate());				
+				case 2: return ((AbstractKoboldMessage)obj).getSubject();
+				case 3: return ((AbstractKoboldMessage)obj).getSender();
+				case 4: return df.format(((AbstractKoboldMessage)obj).getDate());				
 			}
 			return "";
 		}
 		public Image getColumnImage(Object obj, int index) 
 		{
-			KoboldMessage msg = (KoboldMessage)obj;
+			AbstractKoboldMessage msg = (AbstractKoboldMessage)obj;
 			if (msg == null) return null;
 			
 			switch (index) {
-				case 0: return (msg.getType() == KoboldMessage.TYPE)?kImage:wImage;
-				case 1: return getPriorityImage((KoboldMessage)obj);
+				case 0: return (msg.getType() == AbstractKoboldMessage.TYPE)?kImage:wImage;
+				case 1: return getPriorityImage((AbstractKoboldMessage)obj);
 			}
 
 			return null;
 		}
 		
-		private Image getPriorityImage(KoboldMessage msg)
+		private Image getPriorityImage(AbstractKoboldMessage msg)
 		{
 			if (msg.getPriority() == null)
 				return null;
 				
-			if (msg.getPriority().equals(KoboldMessage.PRIORITY_HIGH)) {
+			if (msg.getPriority().equals(AbstractKoboldMessage.PRIORITY_HIGH)) {
 				return hiImage;
-			} else if (msg.getPriority().equals(KoboldMessage.PRIORITY_LOW)) {
+			} else if (msg.getPriority().equals(AbstractKoboldMessage.PRIORITY_LOW)) {
 				return loImage;
 			} else {
 				return null;

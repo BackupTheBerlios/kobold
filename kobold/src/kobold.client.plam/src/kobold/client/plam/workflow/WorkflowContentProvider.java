@@ -21,13 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowContentProvider.java,v 1.1 2004/05/16 02:27:55 vanto Exp $
+ * $Id: WorkflowContentProvider.java,v 1.2 2004/05/18 11:21:50 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
 
 import kobold.client.plam.listeners.IMessageQueueListener;
-import kobold.common.data.KoboldMessage;
+import kobold.common.data.AbstractKoboldMessage;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -38,6 +38,7 @@ class WorkflowContentProvider implements IStructuredContentProvider,
 {
 	private final WorkflowView view;
 	private LocalMessageQueue input;
+	private boolean filtered;
 	
 	WorkflowContentProvider(WorkflowView view) 
 	{
@@ -67,13 +68,36 @@ class WorkflowContentProvider implements IStructuredContentProvider,
 	}
 	
 	public Object[] getElements(Object parent) {
+		//TODO filter
+		/*if (filtered && input != null) {
+			List filteredMsgs = new ArrayList();
+			KoboldMessage[] msgs = input.getMessages();
+			for (int i = 0; i < msgs.length; i++) {
+				if (msgs[i] instanceof WorkflowMessage 
+						&& (WorkflowMessage)msgs[i].isSend()) {
+					
+					filteredMsgs.add(msgs[i]);
+				}
+			}
+			return filteredMsgs.toArray();
+		}*/
 		return (input == null)?new Object[0]:input.getMessages();
 	}
 
+	public boolean isFiltered()
+	{
+		return filtered;
+	}
+	
+	public void setFiltered(boolean filtered)
+	{
+		this.filtered = filtered;
+	}
+	
 	/**
 	 * @see kobold.client.plam.listeners.IMessageQueueListener#addMessage(kobold.common.data.KoboldMessage)
 	 */
-	public void addMessage(final KoboldMessage msg) 
+	public void addMessage(final AbstractKoboldMessage msg) 
 	{
 		view.getTableViewer().getControl().getDisplay().syncExec(new Runnable() {		
 				public void run() {					
@@ -85,7 +109,7 @@ class WorkflowContentProvider implements IStructuredContentProvider,
 	/**
 	 * @see kobold.client.plam.listeners.IMessageQueueListener#removeMessage(kobold.common.data.KoboldMessage)
 	 */
-	public void removeMessage(final KoboldMessage msg) {
+	public void removeMessage(final AbstractKoboldMessage msg) {
 		view.getTableViewer().getControl().getDisplay().syncExec(new Runnable() {		
 				public void run() {					
 					view.getTableViewer().remove(msg);
@@ -97,6 +121,10 @@ class WorkflowContentProvider implements IStructuredContentProvider,
 	 * @see kobold.client.plam.listeners.IMessageQueueListener#rebuild()
 	 */
 	public void rebuild() {
-		// TODO
+		view.getTableViewer().getControl().getDisplay().syncExec(new Runnable() {		
+			public void run() {					
+				view.getTableViewer().refresh();
+			}
+		});
 	}
 }

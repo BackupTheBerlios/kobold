@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.8 2004/05/18 01:05:17 martinplies Exp $
+ * $Id: WorkflowDialog.java,v 1.9 2004/05/18 11:21:50 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -31,15 +31,13 @@ package kobold.client.plam.workflow;
  */
 
 import java.util.ArrayList;
-import java.util.*;
+import java.util.List;
 
-import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.common.data.KoboldMessage;
+import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.WorkflowItem;
 import kobold.common.data.WorkflowMessage;
 
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -54,7 +52,7 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class WorkflowDialog extends Dialog {
 	String description;
-	KoboldMessage msg;
+	AbstractKoboldMessage msg;
 	private List viewItems = new ArrayList();
 	private ContainerViewItem containerItem;
 	private boolean send = false;
@@ -62,7 +60,7 @@ public class WorkflowDialog extends Dialog {
 	//List checkButton
 
 	
-	public WorkflowDialog(Shell parentShell, KoboldMessage msg)
+	public WorkflowDialog(Shell parentShell, AbstractKoboldMessage msg)
 	{
 	    super(parentShell);	
 		this.msg = msg;		

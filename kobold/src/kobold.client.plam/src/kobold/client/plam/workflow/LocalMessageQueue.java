@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LocalMessageQueue.java,v 1.6 2004/05/18 00:12:29 vanto Exp $
+ * $Id: LocalMessageQueue.java,v 1.7 2004/05/18 11:21:50 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -37,7 +37,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import kobold.client.plam.listeners.IMessageQueueListener;
-import kobold.common.data.KoboldMessage;
+import kobold.common.data.AbstractKoboldMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -76,7 +76,7 @@ public class LocalMessageQueue  {
 		fireRebuildEvent();
 	}
 	
-	public synchronized void addMessage(KoboldMessage msg)
+	public synchronized void addMessage(AbstractKoboldMessage msg)
 	{
 		messages.put(msg.getId(), msg);
 		store();
@@ -84,7 +84,7 @@ public class LocalMessageQueue  {
 		fireAddEvent(msg);
 	}
 
-	public synchronized void removeMessage(KoboldMessage msg)
+	public synchronized void removeMessage(AbstractKoboldMessage msg)
 	{
 		messages.remove(msg.getId());
 		store();
@@ -92,14 +92,14 @@ public class LocalMessageQueue  {
 		fireRemoveEvent(msg);
 	}
 	
-	public KoboldMessage[] getMessages()
+	public AbstractKoboldMessage[] getMessages()
 	{
-		return (KoboldMessage[])messages.values().toArray(new KoboldMessage[0]);
+		return (AbstractKoboldMessage[])messages.values().toArray(new AbstractKoboldMessage[0]);
 	}
 	
-	public KoboldMessage getMessageById(String id)
+	public AbstractKoboldMessage getMessageById(String id)
 	{
-		KoboldMessage msg = (KoboldMessage)messages.get(id); 
+		AbstractKoboldMessage msg = (AbstractKoboldMessage)messages.get(id); 
 		return msg;
 	}
 	
@@ -128,7 +128,7 @@ public class LocalMessageQueue  {
 			Iterator it = document.getRootElement().elementIterator("message");
 			while (it.hasNext()) {
 				Element msgEl = (Element)it.next();
-				KoboldMessage message = KoboldMessage.createMessage(msgEl);
+				AbstractKoboldMessage message = AbstractKoboldMessage.createMessage(msgEl);
 				//addMessage(message);
 				messages.put(message.getId(), message);
 				logger.info("add msg: "+message);
@@ -152,7 +152,7 @@ public class LocalMessageQueue  {
 			Iterator it = messages.values().iterator();
 			
 			while (it.hasNext()) {
-				KoboldMessage msg = (KoboldMessage)it.next();
+				AbstractKoboldMessage msg = (AbstractKoboldMessage)it.next();
 				root.add(msg.serialize()); 
 			}
 			
@@ -222,14 +222,14 @@ public class LocalMessageQueue  {
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
 		public int compare(Object o1, Object o2) {
-			if (o1 instanceof KoboldMessage && o2 instanceof KoboldMessage) {
-				return ((KoboldMessage)o1).getDate().compareTo(((KoboldMessage)o2).getDate());
+			if (o1 instanceof AbstractKoboldMessage && o2 instanceof AbstractKoboldMessage) {
+				return ((AbstractKoboldMessage)o1).getDate().compareTo(((AbstractKoboldMessage)o2).getDate());
 			} else return 1;
 		}
 
 	}
 
-	protected void fireAddEvent(KoboldMessage msg) 
+	protected void fireAddEvent(AbstractKoboldMessage msg) 
 	{
 		for (Iterator it = listeners.iterator(); it.hasNext();) {
 			IMessageQueueListener listener = (IMessageQueueListener) it.next();
@@ -237,7 +237,7 @@ public class LocalMessageQueue  {
 		}
 	}
 	
-	protected void fireRemoveEvent(KoboldMessage msg) 
+	protected void fireRemoveEvent(AbstractKoboldMessage msg) 
 	{
 		for (Iterator it = listeners.iterator(); it.hasNext();) {
 			IMessageQueueListener listener = (IMessageQueueListener) it.next();
