@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EditMaintainerDialog.java,v 1.1 2004/08/03 18:41:33 garbeam Exp $
+ * $Id: EditMaintainerDialog.java,v 1.2 2004/08/04 08:20:06 vanto Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -67,7 +67,7 @@ public class EditMaintainerDialog extends TitleAreaDialog
     {
         super(parentShell);
         this.asset = asset;
-	    Map userPool = asset.getRoot().getKoboldProject().getUserPool();
+	    userPool = asset.getRoot().getKoboldProject().getUserPool();
     }
 
     protected Control createDialogArea(Composite parent)
@@ -104,10 +104,10 @@ public class EditMaintainerDialog extends TitleAreaDialog
 	    allUser.setLayoutData(gd);
 
 	    if (userPool != null) {
-	        for (Iterator iterator = userPool.keySet().iterator();
+	        for (Iterator iterator = userPool.values().iterator();
 	        	 iterator.hasNext(); )
 	        {
-	            allUser.add((String)iterator.next());
+	            allUser.add(((User)iterator.next()).getUsername());
 	        }
 	    }
 	    
