@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManagerDialog.java,v 1.5 2004/08/24 10:43:19 garbeam Exp $
+ * $Id: UserManagerDialog.java,v 1.6 2004/08/24 19:24:53 neco Exp $
  */
  
 package kobold.client.plam.editor.dialog;
@@ -37,6 +37,7 @@ import kobold.common.data.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -201,15 +202,20 @@ public class UserManagerDialog extends TitleAreaDialog
 		addUser.setText("&Add user");
 		addUser.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-        				
-                UserManager acts = new UserManager();
-                if (textPassword.getText().equals(textConfPass.getText())){
+				String user = textUserName.getText();
+				String real = textRealName.getText();
+				UserManager acts = new UserManager();
+			    if (real.length() == 0 || user.length() == 0) {
+			    	MessageDialog.openError(getShell(), "Kobold Error", "user name and full name should not be empty.");
+			    }
+                
+                else if (textPassword.getText().equals(textConfPass.getText())){
                 	acts.createUser(textRealName.getText(),textUserName.getText(), textPassword.getText(), textConfPass.getText());
                 	textRealName.setText("");
                 	textUserName.setText("");
                 	textPassword.setText("");
                 	textConfPass.setText("");
-    				refreshUserList();
+                	refreshUserList();
                 }
                 else {
                     MessageDialog.openError(getShell(), "Kobold Error", "Can't add user, because the entered passwords don't match.");
@@ -231,4 +237,5 @@ public class UserManagerDialog extends TitleAreaDialog
     {
     	this.close();
     }
+    
 }
