@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.14 2004/07/29 17:18:25 garbeam Exp $
+ * $Id: UserManager.java,v 1.15 2004/08/03 11:40:08 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -45,9 +45,7 @@ import org.dom4j.io.XMLWriter;
 import kobold.server.data.User;
 
 /**
- * This class stores user data on the server and provides authentification
- * services for user interaction with the Server (sessionIDs). It's a
- * singleton class.
+ * This singleton class manages the users registered on the server.
  */
 public class UserManager {
 
@@ -67,6 +65,7 @@ public class UserManager {
 	
 	/**
 	 * Basic constructor of this singleton.
+     * TODO: remove the dummy-call before delivery
 	 */
 	private UserManager() {
 		users = new HashMap();

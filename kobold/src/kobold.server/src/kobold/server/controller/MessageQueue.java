@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageQueue.java,v 1.7 2004/08/02 11:12:45 garbeam Exp $
+ * $Id: MessageQueue.java,v 1.8 2004/08/03 11:39:44 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -43,7 +43,7 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 /**
- * This class implements a queue for KoboldMessage-(and derived) Objects
+ * This class implements a queue for AbstractKoboldMessage-(and derived) objects
  *
  * @author garbeam
  */

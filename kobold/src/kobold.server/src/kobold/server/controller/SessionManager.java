@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SessionManager.java,v 1.8 2004/08/02 13:32:35 garbeam Exp $
+ * $Id: SessionManager.java,v 1.9 2004/08/03 11:39:55 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -32,9 +32,10 @@ import kobold.common.data.IdManager;
 import kobold.common.data.UserContext;
 import kobold.server.data.User;
 /**
- * This class stores user data on the server and provides authentification
- * services for user interaction with the Server (sessionIDs). It's a
- * singleton class.
+ * This singleton class stores user data on the server and provides authentification
+ * services for user interaction with the Server (session info).
+ * 
+ * @see kobold.common.data.UserContext
  *
  * @author garbeam
  */

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageManager.java,v 1.8 2004/07/29 17:18:25 garbeam Exp $
+ * $Id: MessageManager.java,v 1.9 2004/08/03 11:39:27 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -36,9 +36,11 @@ import kobold.common.data.KoboldMessage;
 import kobold.common.data.User;
 
 /**
- * This class stores user data on the server and provides authentification
- * services for user interaction with the Server (sessionIDs). It's a
- * singleton class.
+ * This singelton class serializes and manages all the Kobold messages on the
+ * server. Messages are oranized in message queues which are linked to their
+ * respective users by this class.
+ *
+ * @see kobold.server.controller.MessageQueue
  *
  * @author garbeam
  */
@@ -57,7 +59,7 @@ public class MessageManager {
 	
 	/**
 	 * Basic constructor of this singleton.
-	 * @param path
+	 * TODO: remove the dummy-call before delivery 
 	 */
 	private MessageManager() {
 		queues = new HashMap();
@@ -120,8 +122,6 @@ public class MessageManager {
 	
 	/**
 	 * Serializes all queues and all pending messages.
-	 * 
-	 * @param path the path to store.
 	 */
 	public synchronized void serialize() {
 		
