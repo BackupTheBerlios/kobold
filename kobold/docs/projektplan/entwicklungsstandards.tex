@@ -2,7 +2,7 @@
 %% StuPro A, Produktlinien (Kobold)
 %% Team Werkbold
 %% Projektplan
-%% $Id: entwicklungsstandards.tex,v 1.6 2004/02/02 10:17:35 garbeam Exp $
+%% $Id: entwicklungsstandards.tex,v 1.7 2004/02/02 10:32:10 garbeam Exp $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Entwicklungsstandards}
@@ -59,6 +59,34 @@ anwendbare Checklisten angestrebt, bspw. für die Qualitättsprüfung
 am Ende einer Iteration oder für das Design eines bestimmten
 Dokuments.
 
+\subsection{GUI Guidelines}
+
+Die grafische Benutzungsoberfläche (GUI) des Clients wird nach den \emph{Eclipse
+User Interface Guidelines}\footnote{http://www.eclipse.org/articles/Article-UI-Guidelines/Contents.html}
+entwickelt.
+
+\subsection{Coding-Style-Guides}
+Jeder Java-Quellcode der im Rahmen dieses Projektes geschrieben wird unterliegt
+den \emph{Code Conventions for the Java Programming Language}\footnote{http://java.sun.com/docs/codeconv/index.html}
+Für Eclipse-spezifische Elemente gelten zudem die Regeln des Eclipse 
+Consortiums\footnote{http://dev.eclipse.org/conventions.html}.
+Die Einhaltung dieser Regeln wird mit den Tools PMD\footnote{http://pmd.sf.net} und
+Checkstyle\footnote{http://checkstyle.sf.net/} überprüft.
+
+\subsection{Configuration Management}
+Als Versionskontrolle wird CVS verwendet. Über das Repository werden
+Metriken mit dem Werkzeug statcvs-xml\footnote{http://statcvs-xml.berlios.de} erhoben.
+
+\subsection{Unit-Tests}
+
+Modultests werden unter zuhilfenahme des Testingframeworks JUnit\footnote{http://www.junit.org}
+für alle Nicht-GUI-Komponenten umfangreich durchgeführt.
+
+\subsection{Testüberdeckung}
+Die Testüberdeckung der Unit-Tests wird Werkzeugen wie Clover\footnote{http://www.thecortex.net/clover/}
+oder JCoverage\footnote{http://www.jcoverage.com/} gemessen.
+
+
 \section{Kundenintegration}
 
 Bei der Entwicklung von \product nimmt die Integration des Kunden
@@ -83,6 +111,17 @@ Rahmen der Schulung vermittelten Informationen zu erstellen. \par
 Anmerkung: Der Umfang der Ausarbeitungen sollte nicht ausarten;
 vielmehr sollen sie den Teammitgliedern als Grundlage für die
 eigene Recherche der behandelten Themen dienen.
+
+\section{Project Tracing}
+Über das Projekt werden Metriken über Kopplung und Zusammenhalt erhoben
+um Aussagen über die Qualität des Designs machen zu können.
+Dazu wird JDepend\footnote{http://www.clarkware.com/software/JDepend.html}
+verwendet.\par
+Zum Zusammenstellen eines umfangreichen Berichts inkl. der
+erhobenen Metriken über den aktuellen Projektstatus wird
+Maven\footnote{http://www.maven.org} verwendet.
+Die generierten Berichte werden auf der
+Projekthomepage\footnote{http://kobold.berlios.de} veröffentlicht.
 
 \section{Lizensierung}
 
@@ -116,4 +155,3 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 \end{verbatim}
 }
->>>>>>> 1.3
