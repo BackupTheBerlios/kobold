@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.2 2004/05/13 15:04:37 vanto Exp $
+ * $Id: NewProjectWizard.java,v 1.3 2004/05/13 19:29:25 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -30,11 +30,11 @@ import java.lang.reflect.InvocationTargetException;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProjectNature;
+import kobold.client.plam.PLAMProject;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceStatus;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -44,15 +44,11 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
@@ -65,15 +61,14 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 	private IStructuredSelection selection;
 
 	private WizardNewProjectCreationPage mainPage;
-	private NewProjectWizardServerPage projectWizardServerPage;
+	private NewProjectWizardServerPage serverPage;
 
 	// cache of newly-created project
 	private IProject newProject;
 	private IConfigurationElement config;
-	
+	private ProductLineChooserWizardPage chooserPage;
 	
 	/**
-	 *  
 	 */
 	public NewProjectWizard() 
 	{
@@ -90,7 +85,6 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 		} else {	
 			return true;
 		}
-
 	}
 	
 	/**
@@ -110,28 +104,29 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 		super.addPages();
 		mainPage = new WizardNewProjectCreationPage("basicNewProjectPage"); //$NON-NLS-1$
 		mainPage.setTitle(Messages.getString("NewProjectWizard.CreationPageTitle")); //$NON-NLS-1$
-		mainPage
-				.setDescription(Messages.getString("NewProjectWizard.CreationPageDesc")); //$NON-NLS-1$
-		mainPage.setImageDescriptor(KoboldPLAMPlugin
-				.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
+		mainPage.setDescription(Messages.getString("NewProjectWizard.CreationPageDesc")); //$NON-NLS-1$
+		mainPage.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
 		this.addPage(mainPage);
-		projectWizardServerPage = new NewProjectWizardServerPage("serverpage"); //$NON-NLS-1$
-		projectWizardServerPage
-				.setTitle(Messages.getString("NewProjectWizard.ServerPageTitle")); //$NON-NLS-1$
-		projectWizardServerPage
-				.setDescription(Messages.getString("NewProjectWizard.ServerPageDesc")); //$NON-NLS-1$
-		projectWizardServerPage.setImageDescriptor(KoboldPLAMPlugin
-				.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
-		this.addPage(projectWizardServerPage);
+		
+		serverPage = new NewProjectWizardServerPage("serverpage"); //$NON-NLS-1$
+		serverPage.setTitle(Messages.getString("NewProjectWizard.ServerPageTitle")); //$NON-NLS-1$
+		serverPage.setDescription(Messages.getString("NewProjectWizard.ServerPageDesc")); //$NON-NLS-1$
+		serverPage.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
+		this.addPage(serverPage);
+		
+		chooserPage = new ProductLineChooserWizardPage("chooserpage"); //$NON-NLS-1$
+		chooserPage.setTitle(Messages.getString("NewProjectWizard.ChooseThePLTitle")); //$NON-NLS-1$
+		chooserPage.setDescription(Messages.getString("NewProjectWizard.ChooseThePLDesc")); //$NON-NLS-1$
+		serverPage.setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/kprojectwiz.gif")); //$NON-NLS-1$
+		this.addPage(chooserPage);
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	public void setInitializationData(IConfigurationElement config,
 			String propertyName, Object data) throws CoreException {
 		this.config = config;
-		System.out.println(config);
 	}
 	
 	/**
@@ -170,7 +165,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 				.newProjectDescription(newProjectHandle.getName());
 		
 		description.setLocation(newPath);
-		
+
 		// set project nature
 		description.setNatureIds(new String[] {KoboldProjectNature.NATURE_ID});
 		
@@ -192,24 +187,6 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 		} catch (InterruptedException e) {
 			return null;
 		} catch (InvocationTargetException e) {
-			// ie.- one of the steps resulted in a core exception
-			Throwable t = e.getTargetException();
-			if (t instanceof CoreException) {
-				if (((CoreException) t).getStatus().getCode() == IResourceStatus.CASE_VARIANT_EXISTS) {
-					MessageDialog.openError(getShell(), Messages.getString("NewProjectWizard.Error"), //$NON-NLS-1$
-								Messages.getString("NewProjectWizard.CaseErrorMsg")); //$NON-NLS-1$
-				} else {
-					ErrorDialog.openError(getShell(), Messages.getString("NewProjectWizard.Error"),	null, ((CoreException) t).getStatus());
-				}
-			} else {
-				// CoreExceptions are handled above, but unexpected runtime
-				// exceptions and errors may still occur.
-				Platform.getPlugin(PlatformUI.PLUGIN_ID).getLog().log(
-						new Status(Status.ERROR, PlatformUI.PLUGIN_ID, 0, t
-								.toString(), t));
-				MessageDialog.openError(getShell(),	Messages.getString("NewProjectWizard.Error"),
-							Messages.getString("NewProjectWizard.InteralError")); //$NON-NLS-1$
-			}
 			return null;
 		}
 
@@ -233,7 +210,11 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			e.printStackTrace();
 		}
 		if (kNature != null) {
-			//TODO
+			PLAMProject p = kNature.getPLAMProject();
+			p.setServerUrl(serverPage.getServerURL());
+			p.setUsername(serverPage.getUsername());
+			p.setPassword(serverPage.getPassword());
+			p.store();
 		}
 	}
 	

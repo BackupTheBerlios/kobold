@@ -21,33 +21,47 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.1 2004/05/13 14:39:18 vanto Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.2 2004/05/13 19:29:25 vanto Exp $
  *
  */
 package kobold.client.plam.wizard;
-
-import java.net.URI;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Text;
 
 /**
- * Wizard page to get the kobold server adress 
+ * Wizard page to get the kobold server address 
  * 
  * @author Tammo
  */
 public class NewProjectWizardServerPage extends WizardPage {
 
+	private Text serverUrlField;
+	private Text usernameField;
+	private Text passwordField;
+	
+	private Listener nameModifyListener = new Listener() {
+		public void handleEvent(Event e) {
+			boolean valid = validatePage();
+			setPageComplete(valid);
+		}
+	};
+	
+	
 	/**
 	 * Constructor for NewProjectSetWizardPage.
 	 * @param pageName
 	 */
 	public NewProjectWizardServerPage(String pageName) {
 		super(pageName);
+		setPageComplete(false);
 	}
 
 	/**
@@ -68,23 +82,98 @@ public class NewProjectWizardServerPage extends WizardPage {
 	 * Creates the area for selecting the projects
 	 */		
 	public void createServerChooser(Composite parent) {
-		Label selectLabel = new Label(parent, SWT.LEFT);
-		selectLabel.setText("Enter Kobold Server address");
+		// project server group
+		Composite projectGroup = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		projectGroup.setLayout(layout);
+		projectGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		// new server label
+		Label projectLabel = new Label(projectGroup, SWT.NONE);
+		projectLabel.setText(Messages.getString("NewProjectWizardServerPage.KoboldServerUrl")); //$NON-NLS-1$
+		projectLabel.setFont(parent.getFont());
+
+		// new server entry field
+		serverUrlField = new Text(projectGroup, SWT.BORDER);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = 250;
+		serverUrlField.setLayoutData(data);
+		serverUrlField.setFont(parent.getFont());
+
+		serverUrlField.addListener(SWT.Modify, nameModifyListener);
 		
-		// TODO add widget				
+		// new server label
+		Label usernameLabel = new Label(projectGroup, SWT.NONE);
+		usernameLabel.setText(Messages.getString("NewProjectWizardServerPage.Username")); //$NON-NLS-1$
+		usernameLabel.setFont(parent.getFont());
+
+		// new server entry field
+		usernameField = new Text(projectGroup, SWT.BORDER);
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = 250;
+		usernameField.setLayoutData(data);
+		usernameField.setFont(parent.getFont());
+		
+		usernameField.addListener(SWT.Modify, nameModifyListener);
+
+		// new server label
+		Label passwordLabel = new Label(projectGroup, SWT.NONE);
+		passwordLabel.setText(Messages.getString("NewProjectWizardServerPage.Password")); //$NON-NLS-1$
+		passwordLabel.setFont(parent.getFont());
+
+		// new server entry field
+		passwordField = new Text(projectGroup, SWT.BORDER);
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = 250;
+		passwordField.setLayoutData(data);
+		passwordField.setFont(parent.getFont());
+		
+		passwordField.addListener(SWT.Modify, nameModifyListener);
 	}
 	
-	/**
-	 * Returns the selected projects
-	 */	
-	public URI getKoboldServerURI() {	
-		return null;
+	private boolean validatePage()
+	{
+		if (!serverUrlField.getText().matches("^(http|https)://[a-zA-Z.]+(:\\d+)?(/\\S*)*/*")) { //$NON-NLS-1$
+			setErrorMessage(Messages.getString("NewProjectWizardServerPage.InvalidUrlMsg")); //$NON-NLS-1$
+			return false;
+		}
+
+		if (usernameField.getText().length() == 0) {
+			setErrorMessage(Messages.getString("NewProjectWizardServerPage.NoUsernameMsg")); //$NON-NLS-1$
+			return false;
+		}
+
+		if (passwordField.getText().length() == 0) {
+			setErrorMessage(Messages.getString("NewProjectWizardServerPage.NoPasswordMsg")); //$NON-NLS-1$
+			return false;
+		}
+		
+		setErrorMessage(null);
+		setMessage(null);
+
+		return true;
 	}
 
 	/**
-	 * @see org.eclipse.jface.wizard.IWizardPage#isPageComplete()
-	 */
-	public boolean isPageComplete() {
-		return super.isPageComplete();
+	 * Returns the server url
+	 */	
+	public String getServerURL() {	
+		return serverUrlField.getText();
 	}
+
+	/**
+	 * Returns the server url
+	 */	
+	public String getUsername() {	
+		return usernameField.getText();
+	}
+
+	/**
+	 * Returns the server url
+	 */	
+	public String getPassword() {	
+		return passwordField.getText();
+	}
+
 }

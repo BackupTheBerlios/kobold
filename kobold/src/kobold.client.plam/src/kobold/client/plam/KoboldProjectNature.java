@@ -12,15 +12,16 @@ public class KoboldProjectNature implements IProjectNature {
 
 	public static final String NATURE_ID = "kobold.client.plam.KoboldProjectNature"; //$NON-NLS-1$
 	public static final String WORKFLOW_FILENAME = ".kworkflows"; //$NON-NLS-1$
+	public static final String PLAM_FILENAME = ".kobold"; //$NON-NLS-1$
 
 	private IProject project;
+	private PLAMProject plamProject = null;
 	
 	/**
 	 *
 	 */
 	public KoboldProjectNature() 
 	{
-		System.out.println("inst nature");
 	}
 
 	/**
@@ -59,7 +60,29 @@ public class KoboldProjectNature implements IProjectNature {
 	 */
 	protected IFile getWorkflowFile() 
 	{
-		return project.getFile(WORKFLOW_FILENAME);	
+		return project.getFile(WORKFLOW_FILENAME);
 	}
+	
+	/**
+	 * Returns the local workflow file
+	 */
+	protected IFile getPLAMProjectFile() 
+	{
+		return project.getFile(PLAM_FILENAME);
+	}
+
+	/**
+	 * Returns the PLAM project for this Project
+	 */	
+	public PLAMProject getPLAMProject() {
+		if (plamProject == null) {
+			IFile pFile = getPLAMProjectFile();
+			plamProject = new PLAMProject(pFile);
+		}
+		
+		// update
+		plamProject.update();
+		return plamProject;
+	}			
 
 }
