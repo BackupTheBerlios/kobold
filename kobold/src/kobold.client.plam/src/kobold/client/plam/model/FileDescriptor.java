@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.6 2004/07/22 09:52:05 vanto Exp $
+ * $Id: FileDescriptor.java,v 1.7 2004/07/22 10:28:55 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -201,6 +201,22 @@ public class FileDescriptor implements IFileDescriptorContainer, INode {
     {
         return Collections.unmodifiableList(children);
     }
+    
+    /**
+     * returns the fd with the name
+     */
+    public FileDescriptor getFileDescriptor (String name)
+	{
+		for (Iterator it = children.iterator(); it.hasNext();) {
+			FileDescriptor fd = (FileDescriptor) it.next();
+			if (fd.getFilename().equals(name)) {
+				return fd;
+			}
+		}	
+		System.out.println ("fd "+name + " not found!");
+		return null;
+	}
+
     
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()

@@ -21,12 +21,17 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptorHelper.java,v 1.1 2004/07/11 12:38:34 vanto Exp $
+ * $Id: FileDescriptorHelper.java,v 1.2 2004/07/22 10:28:55 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.util.Date;
+import java.util.Iterator;
+
+import kobold.client.plam.model.product.Product;
+
+import org.eclipse.core.runtime.IPath;
 
 
 /**
@@ -45,30 +50,71 @@ public class FileDescriptorHelper
 	 * @param lastChange
 	 * @param isBinary
 	 */
-    public static FileDescriptor createFile(String filename, 
-            	String revision, Date lastChange, boolean isBinary) 
+    public static void createFile(String filename, 
+            								String revision, 
+											Date lastChange, 
+											boolean isBinary, 
+											IFileDescriptorContainer fileDescriptorContainer) 
     {
-        FileDescriptor fd = new FileDescriptor();
-    	fd.setFilename(filename);
-    	//setDirectory(false);
-    	fd.setRevision(revision);
-    	fd.setLastChange(lastChange);
-    	fd.setBinary(isBinary);
-        return fd;
+    	java.util.StringTokenizer localLine = new java.util.StringTokenizer(filename, IPath.SEPARATOR+"");
+	    while(localLine.hasMoreTokens()) 
+	    { 
+	    	if (localLine.countTokens() == 1)
+	        {
+		        FileDescriptor fd = new FileDescriptor();
+		    	fd.setFilename(filename);
+		    	//setDirectory(false);
+		    	fd.setRevision(revision);
+		    	fd.setLastChange(lastChange);
+		    	fd.setBinary(isBinary);
+	        }
+	    	else
+	        {
+		    	//immer über root element gehen:
+		    	//root.getChild(a)...	        	
+	        	fileDescriptorContainer = 
+	        		fileDescriptorContainer.getFileDescriptor (localLine.nextToken());
+	        }
+	    }
     }
 
     /**
      * Creates an implicit directory
      * @param filename
      */
-    public static FileDescriptor createDirectory(String dirName) 
+    public static void createDirectory(String dirName, 
+    											IFileDescriptorContainer fileDescriptorContainer) 
     {
-        FileDescriptor fd = new FileDescriptor();
-    	fd.setFilename (dirName);
-    	fd.setDirectory(true);
-        return fd;
-    }
 
+	    //for each line (divided Ipath.Seperators)
+    	//divide token by "/"(unix) or "\"(windows)
+    	//first part under windows is "c:", under unix still ""
+    	java.util.StringTokenizer localLine = new java.util.StringTokenizer(dirName, IPath.SEPARATOR+"");
+	    while(localLine.hasMoreTokens()) 
+	    { 
+	        //part to create
+	    	//#(tokens) = (tmp a b) --> first two:"/tmp/a" still created, create only b!
+	    	if (localLine.countTokens() == 1)
+	        {
+		        FileDescriptor fd = new FileDescriptor();
+		    	fd.setFilename (dirName);
+		    	fd.setDirectory(true);
+		    	//add this fd
+		    	fileDescriptorContainer.addFileDescriptor (fd);
+	        }
+	    	//go to the still existing part
+	    	else
+	        {
+		    	//immer über root element gehen:
+		    	//root.getChild(a)...	        	
+	        	fileDescriptorContainer = 
+	        		fileDescriptorContainer.getFileDescriptor (localLine.nextToken());
+	        }
+
+	    }
+    }
+    
+    
     /**
      * Removes recursivly all filedescriptors and its children from the given
      * Container and orphans them.

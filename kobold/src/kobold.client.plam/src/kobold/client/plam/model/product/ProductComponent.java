@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.3 2004/07/22 09:52:05 vanto Exp $
+ * $Id: ProductComponent.java,v 1.4 2004/07/22 10:28:55 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -140,6 +140,22 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
     {
         return Collections.unmodifiableList(filedescs);
     }
+    
+    /**
+     * returns the fd with the name
+     */
+    public FileDescriptor getFileDescriptor (String name)
+	{
+		for (Iterator it = filedescs.iterator(); it.hasNext();) {
+			FileDescriptor fd = (FileDescriptor) it.next();
+			if (fd.getFilename().equals(name)) {
+				return fd;
+			}
+		}	
+		System.out.println ("fd "+name + " not found!");
+		return null;
+	}
+
     
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.7 2004/07/22 09:52:05 vanto Exp $
+ * $Id: Variant.java,v 1.8 2004/07/22 10:28:55 rendgeor Exp $
  *
  */
 
@@ -239,6 +239,22 @@ public class Variant extends AbstractAsset
     {
         return Collections.unmodifiableList(filedescs);
     }
+    
+    /**
+     * returns the fd with the name
+     */
+    public FileDescriptor getFileDescriptor (String name)
+	{
+		for (Iterator it = filedescs.iterator(); it.hasNext();) {
+			FileDescriptor fd = (FileDescriptor) it.next();
+			if (fd.getFilename().equals(name)) {
+				return fd;
+			}
+		}	
+		System.out.println ("fd "+name + " not found!");
+		return null;
+	}
+
 
 /*	public GXLNode getGXLGraph() {
 		GXLNode node = super.getGxlNode();
