@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductManagerTest.java,v 1.2 2004/05/13 15:15:56 garbeam Exp $
+ * $Id: ProductManagerTest.java,v 1.3 2004/05/15 14:45:22 garbeam Exp $
  *
  */
 
@@ -30,9 +30,6 @@ import junit.framework.TestCase;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.server.controller.ProductManager;
-
-
-
 
 /**
  * @author garbeam
@@ -52,11 +49,8 @@ public class ProductManagerTest extends TestCase {
 	
 	public void testSerialize() {
 		
-		Product product = new Product();
-		product.setName("windoof");
-		
-		Productline productline = new Productline();
-		productline.setName("office");
+		Product product = new Product("windows", "office");
+		Productline productline = new Productline("office");
 		
 		ProductManager manager = ProductManager.getInstance();
 		
@@ -68,11 +62,10 @@ public class ProductManagerTest extends TestCase {
 		manager.removeProductLine(productline);
 		manager.deserialize("test.xml");
 		
-		product = manager.getProduct("windoof");
-		assertTrue (product.getName() == "windoof");
+		product = manager.getProduct("windows");
+		assertTrue (product.getName() == "windows");
 		//...
 		productline = manager.getProductLine("office");
 		assertTrue (productline.getName() == "office");
-		
 	}
 }

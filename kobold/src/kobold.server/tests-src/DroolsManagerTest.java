@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DroolsManagerTest.java,v 1.2 2004/05/12 18:09:08 rendgeor Exp $
+ * $Id: DroolsManagerTest.java,v 1.3 2004/05/15 14:45:22 garbeam Exp $
  *
  */
 
@@ -54,35 +54,33 @@ public class DroolsManagerTest extends TestCase {
 
 		WorkflowMessage msg = new WorkflowMessage();
 		WorkflowMessage msg2 = new WorkflowMessage();
-		msg.setType("Core Group Suggestion");
+		// 	FIX: msg.setType("Core Group Suggestion");
 		msg.setSender("Sender");
 		WorkflowEngine.applWorkflow(msg);
 		System.out.println("");
 		
 		System.out.println("Phase 1");
-		System.out.println("Workflow-Typ: " + msg.getType());
+		// 	FIX: System.out.println("Workflow-Typ: " + msg.getType());
 		System.out.println("XML: " + msg.getMessageText());
-		System.out.println("Empfänger: " + msg.getReciever());
+		// 	FIX: System.out.println("Empfänger: " + msg.getReciever());
 		System.out.println("");
 		
 		msg.setSender("Sender2");
 		WorkflowEngine.applWorkflow(msg);
 		
 		System.out.println("Phase 2");
-		System.out.println("Workflow-Typ: " + msg.getType());
+		// 	FIX: System.out.println("Workflow-Typ: " + msg.getType());
 		System.out.println("XML: " + msg.getMessageText());
-		System.out.println("Empfänger: " + msg.getReciever());
+		// 	FIX: System.out.println("Empfänger: " + msg.getReciever());
 		System.out.println("");
 		
 		msg.setSender("Sender3");
 		WorkflowEngine.applWorkflow(msg);
 		
 		System.out.println("Phase 3");
-		System.out.println("Workflow-Typ: " + msg.getType());
+		// 	FIX: System.out.println("Workflow-Typ: " + msg.getType());
 		System.out.println("XML: " + msg.getMessageText());
-		System.out.println("Empfänger: " + msg.getReciever());
+		// 	FIX: System.out.println("Empfänger: " + msg.getReciever());
 		System.out.println("");
-		
-		
 	}
 }

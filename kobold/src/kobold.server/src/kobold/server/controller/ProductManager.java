@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductManager.java,v 1.2 2004/05/13 00:30:47 vanto Exp $
+ * $Id: ProductManager.java,v 1.3 2004/05/15 14:45:22 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -72,6 +72,8 @@ public class ProductManager {
 	private ProductManager() {
 		products = new HashMap();
 		productLines = new HashMap();
+		// DEBUG
+		dummyProds();
 	}
 	
 	/**
@@ -82,7 +84,6 @@ public class ProductManager {
 	public void addProduct(Product product) {
 		products.put(product.getName(), product);
 	}
-
 	
 	/**
 	 * Adds a new productline.
@@ -174,15 +175,33 @@ public class ProductManager {
 		try {
 			document = reader.read(path);
 		} catch (DocumentException e) {
-			Log log = LogFactory.getLog("kobold.server.controller.ProductAdmin");
+			Log log = LogFactory.getLog("kobold.server.controller.ProductManager");
 			log.error(e);
 		}
-		
-		List list = document.selectNodes( "/products/product" );
-		for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+
+		List listPL = document.selectNodes( "/products/productlines" );
+		for (Iterator iter = listPL.iterator(); iter.hasNext(); ) {
 			Element element = (Element) iter.next();
-			Product product = new Product();
+			Productline productLine = new Productline(element);
+			productLines.put(productLine.getName(), productLine);
+		}
+				
+		List listP = document.selectNodes( "/products/product" );
+		for (Iterator iter = listP.iterator(); iter.hasNext(); ) {
+			Element element = (Element) iter.next();
+			Product product = new Product(element);
 			products.put(product.getName(), product);
 		}
+	}
+	
+	// DEBUG
+	public void dummyProds() {
+		addProductLine(new Productline("kobold2"));
+		addProductLine(new Productline("kobold3"));
+		addProductLine(new Productline("kobold4"));
+		
+		addProduct(new Product("kobold server", "kobold2"));
+		addProduct(new Product("kobold client", "kobold3"));
+		addProduct(new Product("kobold vcm", "kobold4"));
 	}
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManagerTest.java,v 1.2 2004/05/06 23:30:23 garbeam Exp $
+ * $Id: UserManagerTest.java,v 1.3 2004/05/15 14:45:22 garbeam Exp $
  *
  */
 
@@ -54,9 +54,9 @@ public class UserManagerTest extends TestCase {
 		user.setUserName("garbeam");
 		user.setRealName("Anselm Garbe");
 		user.setPassword("halloballo");
-		user.addRole(new RoleP());
-		user.addRole(new RolePE());
-		user.addRole(new RolePLE());
+		user.addRole(new RoleP("kobold server"));
+		user.addRole(new RolePE("kobold server"));
+		user.addRole(new RolePLE("kobold2"));
 		
 		UserManager manager = UserManager.getInstance();
 		

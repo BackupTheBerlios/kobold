@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.5 2004/05/13 23:45:24 garbeam Exp $
+ * $Id: UserManager.java,v 1.6 2004/05/15 14:45:22 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -42,6 +42,7 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 import kobold.common.data.Role;
+import kobold.common.data.RoleP;
 import kobold.common.data.RolePE;
 import kobold.common.data.RolePLE;
 import kobold.common.data.User;
@@ -72,6 +73,8 @@ public class UserManager {
 	 */
 	private UserManager() {
 		users = new HashMap();
+		// DEBUG
+		dummyUsers();
 	}
 	
 	/**
@@ -187,5 +190,36 @@ public class UserManager {
 			User user = new User(element);
 			users.put(user.getUserName(), user);
 		}
+	}
+	
+	// DEBUG
+	private void dummyUsers() {
+		User anselm = new User();
+		anselm.setUserName("garbeam");
+		anselm.setRealName("Anselm R. Garbe");
+		anselm.setPassword("garbeam");
+		anselm.addRole(new RolePLE("kobold2"));
+		anselm.addRole(new RolePE("kobold server"));
+		anselm.addRole(new RoleP("kobold server"));
+		
+		User tammo = new User();
+		tammo.setUserName("vanto");
+		tammo.setRealName("Tammo van Lessen");
+		tammo.setPassword("vanto");
+		tammo.addRole(new RolePLE("kobold3"));
+		tammo.addRole(new RolePE("kobold client"));
+		tammo.addRole(new RoleP("kobold client"));
+		
+		User patrick = new User();
+		patrick.setUserName("schneipk");
+		patrick.setRealName("Patrick Schneider");
+		patrick.setPassword("schneipk");
+		patrick.addRole(new RolePLE("kobold4"));
+		patrick.addRole(new RolePE("kobold vcm"));
+		patrick.addRole(new RoleP("kobold vcm"));
+		
+		addUser(anselm);
+		addUser(tammo);
+		addUser(patrick);
 	}
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.3 2004/05/12 15:05:32 neco Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.4 2004/05/15 14:44:59 garbeam Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -84,15 +84,15 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     	}
     	else if(parentElement instanceof RoleP) {
     		RoleP programmer = (RoleP)parentElement;
-    		return programmer.getProducts().toArray();
+    		return new Object[] {programmer.getProductName()};
     	}
     	else if(parentElement instanceof RolePE) {
     		RolePE productEngineer = (RolePE)parentElement;
-    		return productEngineer.getProducts().toArray();
+    		return new Object[] {productEngineer.getProductName()};
     	}
     	else if(parentElement instanceof RolePLE) {
     		RolePLE productLineEngineer = (RolePLE)parentElement;
-    		return productLineEngineer.getProductLines().toArray();
+    		return new Object[] {productLineEngineer.getProductlineName()};
     	}
         return null;
     }

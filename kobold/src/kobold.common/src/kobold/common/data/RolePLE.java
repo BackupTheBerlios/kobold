@@ -21,12 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RolePLE.java,v 1.5 2004/05/14 13:04:31 vanto Exp $
+ * $Id: RolePLE.java,v 1.6 2004/05/15 14:45:08 garbeam Exp $
  *
  */
 package kobold.common.data;
-
-import java.util.List;
 
 import org.dom4j.Element;
 
@@ -38,13 +36,13 @@ import org.dom4j.Element;
  */
 public class RolePLE extends Role {
 
-	private List productLines;
+	private String productLineName;
 
 	/**
 	 * Basic constructor.
 	 */
-	public RolePLE() {
-		
+	public RolePLE(String productLineName) {
+		this.productLineName = productLineName;
 	}
 
 	/**
@@ -58,7 +56,7 @@ public class RolePLE extends Role {
 	 * @param element
 	 */
 	private void deserialize(Element element) {
-		
+		productLineName = element.elementText("productline");
 	}
 
 	/**
@@ -67,13 +65,14 @@ public class RolePLE extends Role {
 	 */
 	public void serialize(Element roles) {
 		Element role = roles.addElement("role").addText("PLE");
+		role.addElement("productline").addText(productLineName);
 	}
 	
 	/**
-	 * @return
+	 * @return name of productline.
 	 */
-	public List getProductLines() {
-		return productLines;
+	public String getProductlineName() {
+		return productLineName;
 	}
 
 }

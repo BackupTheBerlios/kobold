@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.4 2004/05/12 22:26:30 vanto Exp $
+ * $Id: Productline.java,v 1.5 2004/05/15 14:45:08 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -33,11 +33,28 @@ import org.dom4j.Element;
  */
 public class Productline {
 
-	private String name;
 	
+	private String name;
+
+	/**
+	 * Basic constructor.
+	 * @param productLineName
+	 */
+	public Productline(String productLineName) {
+		this.name = productLineName;
+	}
+
+	/**
+	 * DOM constructor.
+	 * @param element
+	 */
+	public Productline(Element element) {
+		deserialize(element);
+	}
+
 	public String getName() {
-        return name;
-    }
+		return name;
+	}
 
 	/**
 	 * @param productLineName
@@ -45,22 +62,20 @@ public class Productline {
 	public void setName(String name) {
 		this.name = name;
 	}
-    
+
 	/**
-	 * Serializes the product.
+	 * Serializes the productline.
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
-	public void serialize(Element productLineName) {
-			Element productLine = productLineName.addElement("product").addText(this.name);
-		}
+	public void serialize(Element root) {
+		Element productLine =
+			root.addElement("productline").addText(this.name);
+	}
 
 	/**
 	 * @param productName
 	 */
-	private void deserialize(Element productLineName) {
-
-		this.name = productLineName.selectSingleNode("//product/productLineName").getText();
-	}    
-
-
+	private void deserialize(Element element) {
+		this.name = element.elementText("productline");
+	}
 }

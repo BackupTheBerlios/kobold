@@ -21,13 +21,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleP.java,v 1.4 2004/05/05 17:49:54 garbeam Exp $
+ * $Id: RoleP.java,v 1.5 2004/05/15 14:45:08 garbeam Exp $
  *
  */
 package kobold.common.data;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.dom4j.Element;
 
@@ -39,20 +36,19 @@ import org.dom4j.Element;
  */
 public class RoleP extends Role {
 
-	private List products;
+	private String productName;
 
 	/**
 	 * Basic constructor.
 	 */
-	public RoleP() {
-		products = new ArrayList();	
+	public RoleP(String productName) {
+		this.productName = productName;	
 	}
 
 	/**
 	 * @param element
 	 */
 	public RoleP(Element element) {
-		products = new ArrayList();
 		deserialize(element);
 	}
 
@@ -60,8 +56,7 @@ public class RoleP extends Role {
 	 * @param element
 	 */
 	private void deserialize(Element element) {
-		// TODO Auto-generated method stub
-
+		productName = element.elementText("product");
 	}
 
 	/**
@@ -70,9 +65,14 @@ public class RoleP extends Role {
 	 */
 	public void serialize(Element roles) {
 		Element role = roles.addElement("role").addText("P");
+		role.addElement("product").addText(productName);
 	}
 
-	public List getProducts() {
-		return products;
+	/**
+	 * @return product of this role. 
+	 */
+	public String getProductName() {
+		return productName;
 	}
+	
 }

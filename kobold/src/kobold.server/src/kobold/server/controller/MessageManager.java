@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageManager.java,v 1.1 2004/05/15 01:24:17 garbeam Exp $
+ * $Id: MessageManager.java,v 1.2 2004/05/15 14:45:22 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -76,6 +76,8 @@ public class MessageManager {
 		this.messageStore = "MessageManager-"
 			+ System.getProperty("kobold.server.messageStore");
 		deserialize();
+		// DEBUG
+		dummyMsg();
 	}
 
 	/**
@@ -235,5 +237,26 @@ public class MessageManager {
 			KoboldMessage koboldMessage = new KoboldMessage(element);
 			pendingMessages.put(koboldMessage.getReceiver(), koboldMessage);
 		}
+	}
+	
+	// DEBUG
+	public void dummyMsg() {
+		KoboldMessage koboldMessage = new KoboldMessage();
+		koboldMessage.setReceiver("vato");
+		koboldMessage.setSender("garbeam");
+		koboldMessage.setMessageText("Kobold rulez");
+		pendingMessages.put(koboldMessage.getReceiver(), koboldMessage);
+		
+		koboldMessage = new KoboldMessage();
+		koboldMessage.setReceiver("schneipk");
+		koboldMessage.setSender("vanto");
+		koboldMessage.setMessageText("Kobold rulez");
+		pendingMessages.put(koboldMessage.getReceiver(), koboldMessage);
+		
+		koboldMessage = new KoboldMessage();
+		koboldMessage.setReceiver("garbeam");
+		koboldMessage.setSender("schneipk");
+		koboldMessage.setMessageText("Kobold rulez");
+		pendingMessages.put(koboldMessage.getReceiver(), koboldMessage);
 	}
 }
