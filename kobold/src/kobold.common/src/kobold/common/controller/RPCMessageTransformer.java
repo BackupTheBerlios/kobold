@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RPCMessageTransformer.java,v 1.1 2004/05/16 20:59:29 vanto Exp $
+ * $Id: RPCMessageTransformer.java,v 1.2 2004/06/16 15:06:32 garbeam Exp $
  *
  */
 package kobold.common.controller;
@@ -59,6 +59,7 @@ public class RPCMessageTransformer {
 	
 	public static Element decode(String data) throws RPCTransformerException
 	{
+		System.out.println("got: " + data);
 		try {
 			return DocumentHelper.parseText(new String(new BASE64Decoder().decodeBuffer(data))).getRootElement();
 		} catch (Exception e) {

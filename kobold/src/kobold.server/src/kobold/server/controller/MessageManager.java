@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageManager.java,v 1.6 2004/05/19 22:50:50 vanto Exp $
+ * $Id: MessageManager.java,v 1.7 2004/06/16 15:08:15 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -61,7 +61,7 @@ public class MessageManager {
 	
 	static private MessageManager instance;
 	 
-	static public MessageManager getInstance() {
+	static public synchronized MessageManager getInstance() {
 		 if (instance == null ) {
 		 	 instance = new MessageManager();
 		 }
@@ -88,7 +88,7 @@ public class MessageManager {
 	 */
 	public synchronized AbstractKoboldMessage fetchMessage(UserContext userContext) {
 		MessageQueue queue =
-			(MessageQueue) queues.get(userContext.getSessionId());
+			(MessageQueue) queues.get(userContext.getUserName());
 		if (queue != null) {
 			AbstractKoboldMessage koboldMessage =
 				(AbstractKoboldMessage) queue.getMessage();
@@ -110,7 +110,7 @@ public class MessageManager {
 												  AbstractKoboldMessage koboldMessage)
 	{
 		MessageQueue queue =
-				(MessageQueue) queues.get(userContext.getSessionId());
+				(MessageQueue) queues.get(userContext.getUserName());
 		if (queue != null) {
 			queue.removeMessage(koboldMessage);
 			koboldMessage.setState(AbstractKoboldMessage.STATE_INVALID);
@@ -126,11 +126,8 @@ public class MessageManager {
 	public synchronized void sendMessage(UserContext userContext,
 											AbstractKoboldMessage koboldMessage)
 	{
-		UserContext recContext = SessionManager.getInstance().
-					getUserContextForUserName(koboldMessage.getReceiver());
-					
 		MessageQueue queue =
-				(MessageQueue) queues.get(recContext.getSessionId());
+				(MessageQueue) queues.get(koboldMessage.getReceiver());
 		if (queue != null) {
 			queue.addMessage(koboldMessage);
 			koboldMessage.setState(AbstractKoboldMessage.STATE_UN_FETCHED);
@@ -139,6 +136,7 @@ public class MessageManager {
 			pendingMessages.put(koboldMessage.getReceiver(),
 											  koboldMessage);
 		}
+		serialize();
 	}
 	
 	
@@ -150,11 +148,10 @@ public class MessageManager {
 	 */
 	public void registerQueue(UserContext userContext) {
 		MessageQueue queue =
-				(MessageQueue) queues.get(userContext.getSessionId());
+				(MessageQueue) queues.get(userContext.getUserName());
 		if (queue == null) {
 			queue = new MessageQueue(userContext);
-			queues.put(userContext.getSessionId(),
-							 queue);
+			queues.put(userContext.getUserName(), queue);
 		}
 		
 		for (Iterator it = pendingMessages.keySet().iterator(); it.hasNext(); )

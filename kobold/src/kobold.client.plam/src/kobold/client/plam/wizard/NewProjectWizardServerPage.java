@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewProjectWizardServerPage.java,v 1.7 2004/06/09 13:55:51 garbeam Exp $
+ * $Id: NewProjectWizardServerPage.java,v 1.8 2004/06/16 15:06:12 garbeam Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -117,6 +117,7 @@ public class NewProjectWizardServerPage extends WizardPage {
 		data.widthHint = 250;
 		serverUrlField.setLayoutData(data);
 		serverUrlField.setFont(parent.getFont());
+		serverUrlField.setText("https://localhost:23232");
 
 		serverUrlField.addListener(SWT.Modify, nameModifyListener);
 		
@@ -131,6 +132,7 @@ public class NewProjectWizardServerPage extends WizardPage {
 		data.widthHint = 250;
 		usernameField.setLayoutData(data);
 		usernameField.setFont(parent.getFont());
+		usernameField.setText("vanto");
 		
 		usernameField.addListener(SWT.Modify, nameModifyListener);
 
@@ -146,6 +148,7 @@ public class NewProjectWizardServerPage extends WizardPage {
 		passwordField.setLayoutData(data);
 		passwordField.setFont(parent.getFont());
 		passwordField.setEchoChar('*');
+		passwordField.setText("vanto");
 		
 		passwordField.addListener(SWT.Modify, nameModifyListener);
 		
