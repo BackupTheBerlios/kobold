@@ -30,10 +30,10 @@ package kobold.client.vcm.popup.action;
 
 
 import kobold.client.vcm.KoboldVCMPlugin;
-import kobold.common.model.AbstractAsset;
-import kobold.common.model.product.Product;
-import kobold.common.model.productline.Productline;
-import kobold.common.model.productline.Variant;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.jface.action.IAction;
