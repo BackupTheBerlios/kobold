@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.9 2004/08/05 20:51:49 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.10 2004/08/05 23:59:39 vanto Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -459,13 +459,14 @@ public class AssetConfigurationDialog extends TitleAreaDialog
             asset.setDescription(description.getText());
         }
 
-        boolean dep = AbstractStatus.isDeprecated(asset); 
-        if (deprecated.getSelection() && !dep) {
-            makeAssetDeprecated(asset);
-        } else if (!deprecated.getSelection() && dep) {
-            asset.removeStatus(AbstractStatus.DEPRECATED_STATUS);
+        if (deprecated != null) {
+	        boolean dep = AbstractStatus.isDeprecated(asset); 
+	        if (deprecated.getSelection() && !dep) {
+	            makeAssetDeprecated(asset);
+	        } else if (!deprecated.getSelection() && dep) {
+	            asset.removeStatus(AbstractStatus.DEPRECATED_STATUS);
+	        }
         }
-        
         super.okPressed();
     }
     
