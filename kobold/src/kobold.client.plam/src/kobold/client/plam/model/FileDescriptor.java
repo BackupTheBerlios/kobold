@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.4 2004/07/11 12:38:34 vanto Exp $
+ * $Id: FileDescriptor.java,v 1.5 2004/07/21 23:08:35 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import kobold.client.plam.model.edges.INode;
 import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
@@ -45,7 +46,7 @@ import org.eclipse.core.runtime.IPath;
  *
  * @author garbeam
  */
-public class FileDescriptor implements IFileDescriptorContainer {
+public class FileDescriptor implements IFileDescriptorContainer, INode {
 
     private List children = new ArrayList();
     private IFileDescriptorContainer parentAsset;

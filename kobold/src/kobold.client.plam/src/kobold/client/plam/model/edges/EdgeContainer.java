@@ -22,7 +22,7 @@
  * DEALINGS IN THE SOFTWARE.
  *
  *
- *//*
+ *
  * Created on 07.07.2004
  *
  * TODO To change the template for this generated file go to
@@ -77,7 +77,7 @@ public class EdgeContainer implements ISerializable {
       addNode(startNode);
       // create Edge
       List edges = ((List) nodes.get(startNode));
-      if (! containsEdge(edges, targetNode)){
+      if (! containsEdge(edges, targetNode, type)){
           edges.add(new Edge(startNode, targetNode, type, number));
       }
   }
@@ -85,7 +85,8 @@ public class EdgeContainer implements ISerializable {
   private boolean containsEdge(List edges, INode targetNode) {
       Iterator ite = edges.iterator();
       while (ite.hasNext()) {
-          if (((Edge)ite.next()).getTargetNode().equals(targetNode) ){
+          Edge edge = (Edge)ite.next();
+          if (edge.getTargetNode().equals(targetNode)){
               return true;
           }
       }
@@ -98,6 +99,24 @@ public class EdgeContainer implements ISerializable {
       }  else { return false; }      
   }
   
+  private boolean containsEdge(List edges, INode targetNode, String type) {
+      Iterator ite = edges.iterator();
+      while (ite.hasNext()) {
+          Edge edge = (Edge)ite.next();
+          if (edge.getTargetNode().equals(targetNode) && edge.getType().equals(type) ){
+              return true;
+          }
+      }
+      return false;      
+  }
+  
+  private boolean containsEdge (INode startNode, INode targetNode, String type){
+      if (this.nodes.containsKey(startNode)){
+          return containsEdge((List) this.nodes.get(startNode), targetNode, type);
+        }  else { return false; }  
+  }
+ 
+  
   public void removeEdges(INode startNode, INode targetNode){
       if (this.nodes.containsKey(startNode)){
           List edges = (List) nodes.get(startNode);
@@ -109,6 +128,7 @@ public class EdgeContainer implements ISerializable {
           }
       }  
   }
+  
   
   public void removeEdge(INode startNode, INode targetNode, String type){
       if (this.nodes.containsKey(startNode)){
