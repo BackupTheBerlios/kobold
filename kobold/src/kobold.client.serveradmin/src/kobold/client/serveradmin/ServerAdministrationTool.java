@@ -593,8 +593,8 @@ public class ServerAdministrationTool {
         {
             byte inp[] = new byte [500]; 
             int read = System.in.read(inp);
-            byte sinp[] = new byte [read-2];
-            for (int ax = 0; ax < (read-2); ax++){
+            byte sinp[] = new byte [read-1];
+            for (int ax = 0; ax < (read-1); ax++){
                 sinp[ax] = inp[ax];
             }
             return new String (sinp);
