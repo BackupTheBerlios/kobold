@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageQueue.java,v 1.2 2004/05/18 18:38:07 vanto Exp $
+ * $Id: MessageQueue.java,v 1.3 2004/05/18 19:13:07 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -84,8 +84,6 @@ public class MessageQueue {
 	 * @param koboldMessage the message to add.
 	 */
 	public void addMessage(AbstractKoboldMessage koboldMessage) {
-		System.out.println(GlobalMessageContainer.getInstance());
-		System.out.println(koboldMessage);
 		GlobalMessageContainer.getInstance().addMessage(koboldMessage);
 		//queue.add(-1, koboldMessage.getId());
 		// TODO anselm: Ans Ende einfügen? dann so!

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractKoboldMessage.java,v 1.2 2004/05/18 18:47:33 vanto Exp $
+ * $Id: AbstractKoboldMessage.java,v 1.3 2004/05/18 19:13:06 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -227,7 +227,6 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 		// fall back on parse error
 		date = new Date();
 		try {
-			System.out.println(data.elementTextTrim("date"));
 			date = dateFormat.parse(data.elementTextTrim("date"));
 		} catch (ParseException e) {
 			logger.debug("Could not parse date.", e);
