@@ -21,12 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.17 2004/08/02 17:23:54 vanto Exp $
+ * $Id: Productline.java,v 1.18 2004/08/03 11:41:23 vanto Exp $
  *
  */
 package kobold.client.plam.model.productline;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -57,7 +56,7 @@ public class Productline extends AbstractRootAsset
 	private List coreAssets = new ArrayList();
 	
 	//the repository-path
-	private String repositoryPath;
+//	private String repositoryPath;
 
     public Productline() 
 	{
@@ -187,50 +186,50 @@ public class Productline extends AbstractRootAsset
 
 		}
 		
-		if (repositoryPath != null) {
-			root.addAttribute("repositoryPath", repositoryPath);
-		}
+//		if (repositoryPath != null) {
+//			root.addAttribute("repositoryPath", repositoryPath);
+//		}
 		
 		return root;
 	}
 	
 
 	
-	private void createProductDirectory (Product product)
-	{
-		//create directory for every product			
-		File newDir = new File (getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
-										+ "PRODUCTS" + File.separator + product.getName());
-
-
-		if (newDir.mkdir()==true)
-		{
-			System.out.println("Project-PL-Products-Dirs Directory was created");
-		}
-		else
-		System.out.println("Project-PL-Products-Dirs Directory already existed");
-	}
+//	private void createProductDirectory (Product product)
+//	{
+//		//create directory for every product			
+//		File newDir = new File (getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
+//										+ "PRODUCTS" + File.separator + product.getName());
+//
+//
+//		if (newDir.mkdir()==true)
+//		{
+//			System.out.println("Project-PL-Products-Dirs Directory was created");
+//		}
+//		else
+//		System.out.println("Project-PL-Products-Dirs Directory already existed");
+//	}
 
 	
-	private void createComponentDirectory (Component component)
-	{
-	
-		//create directory for every component			
-		File newDir = new File (getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
-										+ "CAS" + File.separator + component.getName());
-
-		if (newDir.mkdir()==true)
-		{
-			System.out.println("Project-PL-CAS-Dirs Directory was created");
-		}
-
-		else
-		System.out.println("Project-PL-CAS-Dirs Directory already existed");
-	
-	}	
+//	private void createComponentDirectory (Component component)
+//	{
+//	
+//		//create directory for every component			
+//		File newDir = new File (getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
+//										+ "CAS" + File.separator + component.getName());
+//
+//		if (newDir.mkdir()==true)
+//		{
+//			System.out.println("Project-PL-CAS-Dirs Directory was created");
+//		}
+//
+//		else
+//		System.out.println("Project-PL-CAS-Dirs Directory already existed");
+//	
+//	}	
 	public void deserialize(Element element) {
 	    super.deserialize(element);
-	    repositoryPath = element.attributeValue("repositoryPath");
+	    //repositoryPath = element.attributeValue("repositoryPath");
 	    
 		Iterator it = element.element("products").elementIterator(AbstractAsset.PRODUCT);
 		while (it.hasNext()) {
@@ -257,19 +256,19 @@ public class Productline extends AbstractRootAsset
 		return AbstractAsset.PRODUCT_LINE;
 	}
 	
-	/**
-	 * @return Returns the repositoryPath.
-	 */
-	public String getRepositoryPath() {
-		return repositoryPath;
-	}
-	/**
-	 * @param repositoryPath The repositoryPath to set.
-	 */
-	public void setRepositoryPath(String repositoryPath) {
-		this.repositoryPath = repositoryPath;
-		firePropertyChange(AbstractAsset.ID_DATA, null, repositoryPath);
-	}
+//	/**
+//	 * @return Returns the repositoryPath.
+//	 */
+//	public String getRepositoryPath() {
+//		return repositoryPath;
+//	}
+//	/**
+//	 * @param repositoryPath The repositoryPath to set.
+//	 */
+//	public void setRepositoryPath(String repositoryPath) {
+//		this.repositoryPath = repositoryPath;
+//		firePropertyChange(AbstractAsset.ID_DATA, null, repositoryPath);
+//	}
 
 
 	/* (non-Javadoc)

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.3 2004/08/03 00:05:23 vanto Exp $
+ * $Id: KoboldProject.java,v 1.4 2004/08/03 11:41:23 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -171,14 +171,21 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
                 return null;
             
             kobold.common.data.Productline spl = ServerHelper.fetchProductline(this);
+            if (spl == null) {
+                logger.error("Connection failed: Could not fetch productline descriptor");
+                return null;
+            }
+            
             // FIXME: perform an vcm update.
             productline = ModelStorage.loadModel(project, spl);
 	        
 		    if (productline == null) {
 		        productline = ProductlineFactory.create(spl);
 			    productline.setProject(this);
+			    productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
 		        ModelStorage.storeModel(productline);
 		    } else {
+		        productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
 		        productline.setProject(this);
 		    }
 	    }
