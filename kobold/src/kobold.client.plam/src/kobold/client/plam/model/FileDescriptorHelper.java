@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptorHelper.java,v 1.8 2004/08/24 11:01:49 garbeam Exp $
+ * $Id: FileDescriptorHelper.java,v 1.9 2004/08/24 15:47:25 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -56,16 +56,19 @@ public class FileDescriptorHelper
         IFileDescriptorContainer fd = root;
         StringTokenizer tz = new StringTokenizer(filename, ""+IPath.SEPARATOR);
         int toks = tz.countTokens();
-        toks--; // prevent last token from processing
+        toks--; // prevent last token from processing, cause it's the filename;-)
         for (int i = 0; i < toks; i++) {
              String resource = tz.nextToken();
              FileDescriptor tmp = fd.getFileDescriptor(resource);
+             
+             //create the prefix directories of the file
              if (tmp == null) {
                  tmp = new FileDescriptor();
                  tmp.setFilename(resource);
                  tmp.setDirectory(true);
                  fd.addFileDescriptor(tmp);
              }
+             //set the fd to the new added fd
              fd = tmp;
         }
         FileDescriptor fileDescriptor = new FileDescriptor();
@@ -79,6 +82,7 @@ public class FileDescriptorHelper
     	fileDescriptor.setRevision(revision);
     	fileDescriptor.setLastChange(lastChange);
     	fileDescriptor.setBinary(isBinary);
+    	fileDescriptor.setLastChange(lastChange);
     	fd.addFileDescriptor (fileDescriptor);
     }
 
