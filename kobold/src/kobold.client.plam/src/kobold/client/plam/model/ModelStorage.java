@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.28 2004/08/25 16:33:47 vanto Exp $
+ * $Id: ModelStorage.java,v 1.29 2004/08/27 15:56:54 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -45,6 +45,10 @@ import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 import kobold.common.io.RepositoryDescriptor;
+
+import kobold.client.vcm.*;
+import kobold.client.vcm.communication.ScriptServerConnection;
+import kobold.client.vcm.controller.StatusUpdater;
 
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
@@ -158,6 +162,32 @@ public class ModelStorage
         } finally {
             monitor.done();
         }
+    }
+    
+    /**
+     * deletes the variant directory
+     * @param variant
+     */
+    public static void deleteVariantDirectory (Variant variant)
+    {
+    	ScriptServerConnection sc = new ScriptServerConnection("noUser");
+    	
+    	StatusUpdater su = new StatusUpdater();
+		//command line command with the stats script to the changed part of the meta-data containing FD(s)
+		String[] command = {"perl", su.getScriptPath() + 
+							"cleanvcmdata.pl", variant.getLocalPath().toOSString()};
+    	
+		try 
+		{
+			String iString="";
+			iString = sc.open(command,"");
+			System.out.println(iString);
+			sc.close();			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	System.out.println ("deleted variant "+variant.getName()+" directory!");
     }
     
     

@@ -18,6 +18,7 @@ import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.IVariantContainer;
 import kobold.client.plam.model.MetaNode;
+import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.edges.EdgeContainer;
@@ -90,6 +91,10 @@ public class DeleteAsset {
             cc.removeComponent((Component)asset);
         } else if (parent instanceof IVariantContainer
                 && asset instanceof Variant) {
+        	//delete the variant directory
+        	ModelStorage ms = new ModelStorage();
+        	ms.deleteVariantDirectory((Variant)asset);
+        	
             IVariantContainer vc = (IVariantContainer)parent;
             index = vc.getVariants().indexOf(asset);
             vc.removeVariant((Variant)asset);

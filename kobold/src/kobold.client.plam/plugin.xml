@@ -23,6 +23,7 @@
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.cheatsheets"/>
       <import plugin="kobold.commons"/>
+      <import plugin="kobold.client.vcm"/>
    </requires>
 
 

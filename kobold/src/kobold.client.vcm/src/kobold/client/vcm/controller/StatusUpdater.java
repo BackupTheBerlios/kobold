@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.29 2004/08/24 13:12:57 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.30 2004/08/27 15:56:55 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -103,7 +103,7 @@ public class StatusUpdater {
 	 * Gets the path of the script(s)
 	 * @return the script-path of the commandLine scripts
 	 */
-	private String getScriptPath ()
+	public String getScriptPath ()
 	{
 		KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
 		if (plugin != null)
