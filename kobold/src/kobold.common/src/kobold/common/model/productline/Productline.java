@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.15 2004/06/24 10:21:07 grosseml Exp $
+ * $Id: Productline.java,v 1.16 2004/06/24 11:01:14 martinplies Exp $
  *
  */
 package kobold.common.model.productline;
@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.io.File;
 
 import kobold.common.model.AbstractAsset;
@@ -52,6 +53,7 @@ import org.dom4j.io.XMLWriter;
  */
 public class Productline extends AbstractAsset
 						 implements IComponentContainer {
+	private static final String GXL_TYPE = "http://kobold.berlios.de/types#productline";
 
 	//the products and core-assets
 	private List products = new ArrayList();
@@ -175,13 +177,13 @@ public class Productline extends AbstractAsset
 			System.out.println("Directory already existed");
 			
 			// Store only a file reference to the product here. 
-			Element productElement = productsEl.addElement("product");
-			productElement.addAttribute("name", product.getName());
+			productsEl.addElement(product.getName());
 
 		}
 		
 		Element coreAssetsEl = root.addElement("coreassets");		
 		for (Iterator it = coreAssets.iterator(); it.hasNext();) {
+			
 			Component component = (Component) it.next();
 			
 			//create directory for every product			
@@ -247,8 +249,7 @@ public class Productline extends AbstractAsset
 		
 	}
 
-	
-	public void deserialize(Element element, String path) {
+		public void deserialize(Element element, String path) {
 		System.out.println ("start deserializing!");
 	    super.deserialize(element);
 	    repositoryPath = element.attributeValue("repositoryPath");
@@ -259,6 +260,7 @@ public class Productline extends AbstractAsset
 		    /* load and create the product by finding its local path and 
 		     		  deserializing it from there.
 		    */
+		   
 			addProduct(new Product (pEl, this,  path));
 		    System.out.println ("Product "+ pEl.attributeValue("name") + " created!");
 		    
@@ -321,5 +323,30 @@ public class Productline extends AbstractAsset
 	public void setRepositoryPath(String repositoryPath) {
 		this.repositoryPath = repositoryPath;
 		firePropertyChange(AbstractAsset.ID_DATA, null, repositoryPath);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getAttributes()
+	 */
+	public Map getAttributes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getChildren()
+	 */
+	public List getChildren() {
+		return coreAssets;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getGXLType()
+	 */
+	public String getGXLType() {
+		return GXL_TYPE;
 	}
 }
