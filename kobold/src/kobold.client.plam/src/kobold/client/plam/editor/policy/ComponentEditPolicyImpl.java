@@ -21,26 +21,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeTests.java,v 1.2 2004/07/23 20:31:54 vanto Exp $
+ * $Id: ComponentEditPolicyImpl.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
  *
  */
-package kobold.client.plam.model.edges;
+package kobold.client.plam.editor.policy;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import kobold.client.plam.editor.command.DeleteCommand;
+import kobold.client.plam.model.AbstractAsset;
+
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.requests.GroupRequest;
 
 
 /**
- * @author pliesmn
+ * @author Tammo
  */
-public class EdgeTests {
+public class ComponentEditPolicyImpl extends
+        org.eclipse.gef.editpolicies.ComponentEditPolicy
+{
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(
-                "Test for kobold.client.plam.model.edges");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(EdgeContainerTest.class);
-        //$JUnit-END$
-        return suite;
+    protected Command createDeleteCommand(GroupRequest deleteRequest)
+    {
+    	DeleteCommand deleteCmd = new DeleteCommand();
+    	deleteCmd.setAsset((AbstractAsset)getHost().getModel());
+    	return deleteCmd;
     }
 }

@@ -21,10 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalNodeEditPolicy.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * $Id: GraphicalNodeEditPolicyImpl.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
+
+import kobold.client.plam.editor.command.ConnectionCommand;
+import kobold.client.plam.model.edges.Edge;
+import kobold.client.plam.model.edges.INode;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;
@@ -34,27 +38,33 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * GraphicalNodeEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: GraphicalNodeEditPolicy.java,v 1.1 2004/05/06 16:58:21 vanto Exp $
+ * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
  */
-public class GraphicalNodeEditPolicy
+public class GraphicalNodeEditPolicyImpl
     extends org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy {
 
     /**
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.CreateConnectionRequest)
      */
     protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
-        // TODO
-        return null;
+        ConnectionCommand command = (ConnectionCommand)request.getStartCommand();
+        command.setTargetNode((INode)getHost().getModel());
+        command.setType(Edge.INCLUDE);
+        return command;
     }
 
     /**
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
      */
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-        // TODO
-        return null;
+    	ConnectionCommand command = new ConnectionCommand();
+    	command.setSourceNode((INode)getHost().getModel());
+    	request.setStartCommand(command);
+    	System.out.println((INode)getHost().getModel());
+    	return command;
     }
 
+    
     /**
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
      */

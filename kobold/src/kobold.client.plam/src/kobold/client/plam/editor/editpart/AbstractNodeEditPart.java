@@ -21,25 +21,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeEditPart.java,v 1.10 2004/07/22 16:42:23 vanto Exp $
+ * $Id: AbstractNodeEditPart.java,v 1.11 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
+import kobold.client.plam.editor.figure.ComposableFigure;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
-import kobold.client.plam.editor.policy.ComponentEditPolicy;
+import kobold.client.plam.editor.policy.ComponentEditPolicyImpl;
 import kobold.client.plam.editor.policy.ComposeEditPolicy;
-import kobold.client.plam.editor.policy.GraphicalNodeEditPolicy;
-import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
+import kobold.client.plam.editor.policy.GraphicalNodeEditPolicyImpl;
+import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.edges.EdgeContainer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -62,16 +66,17 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 	implements PropertyChangeListener, NodeEditPart {
 
     private static final Log logger = LogFactory.getLog(AbstractNodeEditPart.class);
+    private ChopboxAnchor anchor;
     
 	/**
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-			new GraphicalNodeEditPolicy());
+			new GraphicalNodeEditPolicyImpl());
 		//installEditPolicy(EditPolicy.CONTAINER_ROLE, new ContainerEditPolicy());
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicy());
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicyImpl());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicyImpl());
 		installEditPolicy("composer", new ComposeEditPolicy());
 	}
 
@@ -83,12 +88,11 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 
 		if (AbstractAsset.ID_CHILDREN.equals(prop)) {
 			refreshChildren();
-		}
-		//else if (AbstractAsset.ID_INPUTS.equals(prop))
-		//	refreshTargetConnections();
-		//else if (AbstractAsset.ID_OUTPUTS.equals(prop))
-		//	refreshSourceConnections();
-		else if (prop.equals(ViewModel.ID_SIZE) || prop.equals(ViewModel.ID_LOCATION) 
+		} else if (EdgeContainer.ID_SOURCE_CHANGED.equals(prop)) {
+			refreshSourceConnections();
+		} else if (EdgeContainer.ID_TARGET_CHANGED.equals(prop)) {
+			refreshTargetConnections();
+		} else if (prop.equals(ViewModel.ID_SIZE) || prop.equals(ViewModel.ID_LOCATION) 
 		    	|| prop.equals(AbstractAsset.ID_DATA)) {
 			refreshVisuals();
 		}
@@ -98,28 +102,28 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
 	 */
 	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-		return null;
+		return anchor;
 	}
 
 	/**
 	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
 	 */
 	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-		return null;
+		return anchor;
 	}
 
 	/**
 	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
 	 */
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		return null;
+		return anchor;
 	}
 
 	/**
 	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
 	 */
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		return null;
+		return anchor;
 	}
 
 	protected AbstractAsset getAsset()
@@ -145,10 +149,15 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 
 		((GraphicalEditPart) getParent()).setLayoutConstraint(
 			this, getFigure(), r);
+		
+		String comp = (String)getViewer().getProperty("composing");
+		if (comp != null && comp.equals("true")) {
+		    ((ComposableFigure)getFigure()).startComposing();
+		} else {
+		    ((ComposableFigure)getFigure()).stopComposing();
+		}
 	}
-	
 
-	
 	/**
      * @see org.eclipse.gef.EditPart#activate()
      */
@@ -157,6 +166,7 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
         if (isActive() == false) {
             super.activate();
             getAsset().addPropertyChangeListener(this);
+            getAsset().getRoot().getEdgeConatainer().addPropertyChangeListener(this);
             getViewModel().addPropertyChangeListener(this);
         }
     }
@@ -169,15 +179,19 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
         if (isActive()) {
             super.deactivate();
             getAsset().removePropertyChangeListener(this);
+            getAsset().getRoot().getEdgeConatainer().removePropertyChangeListener(this);
             getViewModel().removePropertyChangeListener(this);
         }
     }
 
-    protected IFigure createFigure()
+    protected final IFigure createFigure()
     {
-        // TODO Auto-generated method stub
-        return null;
+    	IFigure fig = createNodeFigure();
+        anchor = new ChopboxAnchor(fig);
+        return fig;
     }
+    
+    protected abstract IFigure createNodeFigure();
     
     public void performRequest(Request req)
     {
@@ -194,5 +208,22 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
         } else {
             super.performRequest(req);
         }
+    }
+    
+    /**
+     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
+     */
+    protected List getModelSourceConnections()
+    {
+        AbstractAsset asset = getAsset();
+        return asset.getRoot().getEdgeConatainer().getEdgesFrom(asset);
+    }
+    /**
+     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
+     */
+    protected List getModelTargetConnections()
+    {
+        AbstractAsset asset = getAsset();
+        return asset.getRoot().getEdgeConatainer().getEdgesTo(asset);
     }
 }

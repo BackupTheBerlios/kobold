@@ -21,26 +21,44 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeTests.java,v 1.2 2004/07/23 20:31:54 vanto Exp $
+ * $Id: EdgeEditPart.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
  *
  */
-package kobold.client.plam.model.edges;
+package kobold.client.plam.editor.editpart;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import kobold.client.plam.editor.policy.BendpointEditPolicyImpl;
+import kobold.client.plam.editor.policy.ConnectionEditPolicyImpl;
+
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 
 
 /**
- * @author pliesmn
+ * @author Tammo
  */
-public class EdgeTests {
+public class EdgeEditPart extends AbstractConnectionEditPart 
+{
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(
-                "Test for kobold.client.plam.model.edges");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(EdgeContainerTest.class);
-        //$JUnit-END$
-        return suite;
+    protected IFigure createFigure()
+	{
+		PolylineConnection fig = new PolylineConnection();
+		PolygonDecoration dec = new PolygonDecoration();
+		fig.setTargetDecoration(dec);
+		return fig;
+	}
+	
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies()
+    {
+        installEditPolicy(EditPolicy.CONNECTION_ROLE, new ConnectionEditPolicyImpl());
+		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
+		installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, new BendpointEditPolicyImpl());
+
     }
 }

@@ -21,95 +21,101 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Edge.java,v 1.4 2004/07/23 20:31:54 vanto Exp $
+ * $Id: ConnectionCommand.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
  *
  */
-package kobold.client.plam.model.edges;
+package kobold.client.plam.editor.command;
+
+import kobold.client.plam.model.edges.Edge;
+import kobold.client.plam.model.edges.EdgeContainer;
+import kobold.client.plam.model.edges.INode;
+
+import org.eclipse.gef.commands.Command;
 
 
 /**
- * @author pliesmn
- *
- * This Class represent an Edge in the graph. Instances of this class are Elemnts of the EdgeConatainer.
- * The Attriubutes startNode and taregetNode must not change here.  
+ * @author Tammo
  */
-public class Edge {
-    public static final String KOBOLD_EDGE = "Kobold Edge";
-    
-    private INode startNode;
+public class ConnectionCommand extends Command
+{
+    private INode sourceNode;
     private INode targetNode;
     private String type;
-    private int edgeCount; // Number of edges, that this this edge represent
     
-    // kobold edge types
-    public static final String INCLUDE = "include";
-    public static final String EXCLUDE = "exclude";
-    public static final String BAUHAUS = "bauhaus";
+    private Edge edge;
     
     /**
-     * @param startNode2
-     * @param targetNode2
+     * @see org.eclipse.gef.commands.Command#execute()
      */
-    public Edge(INode startNode, INode targetNode) {
-        this.startNode = startNode;
-        this.targetNode = targetNode;
-        this.type = KOBOLD_EDGE;
-    }
-    
-    public Edge(INode startNode, INode targetNode, String type, int number) {
-        this.startNode = startNode;
-        this.targetNode = targetNode;
-        this.type = type;
-        this.edgeCount = number;
-    }
-    
-    
-    /**
-     * @return Returns the edgeCount.
-     */
-    public int getEdgeCount() {
-        return edgeCount;
+    public void execute()
+    {
+        EdgeContainer ec = sourceNode.getRoot().getEdgeConatainer();
+        edge = ec.addEdge(sourceNode, targetNode, type);
     }
     
     /**
-     * @param edgeCount The edgeCount to set.
+     * @see org.eclipse.gef.commands.Command#redo()
      */
-    public void setEdgeCount(int edgeCount) {
-        this.edgeCount = edgeCount;
+    public void redo()
+    {
+        EdgeContainer ec = sourceNode.getRoot().getEdgeConatainer();
+        ec.addEdge(edge.getStartNode(), edge.getTargetNode(), edge.getType());
     }
     
     /**
-     * @return Returns the startNode.
+     * @see org.eclipse.gef.commands.Command#undo()
      */
-    public INode getStartNode() {
-        return startNode;
+    public void undo()
+    {
+        EdgeContainer ec = sourceNode.getRoot().getEdgeConatainer();
+        ec.removeEdge(edge.getStartNode(), edge.getTargetNode(), edge.getType());
     }
     
+    /**
+     * @return Returns the sourceNode.
+     */
+    public INode getSourceNode()
+    {
+        return sourceNode;
+    }
+    
+    /**
+     * @param sourceNode The sourceNode to set.
+     */
+    public void setSourceNode(INode sourceNode)
+    {
+        this.sourceNode = sourceNode;
+    }
     
     /**
      * @return Returns the targetNode.
      */
-    public INode getTargetNode() {
+    public INode getTargetNode()
+    {
         return targetNode;
     }
     
+    /**
+     * @param targetNode The targetNode to set.
+     */
+    public void setTargetNode(INode targetNode)
+    {
+        this.targetNode = targetNode;
+    }
     
     /**
      * @return Returns the type.
      */
-    public String getType() {
+    public String getType()
+    {
         return type;
     }
     
     /**
      * @param type The type to set.
      */
-    public void setType(String type) {
+    public void setType(String type)
+    {
         this.type = type;
-    }
-    
-    public String toString() {
-        return getClass().getName() + " [start:"+startNode+", target:" + targetNode 
-        	+ ", type:" + type + ", amount:" + edgeCount + "]";
     }
 }

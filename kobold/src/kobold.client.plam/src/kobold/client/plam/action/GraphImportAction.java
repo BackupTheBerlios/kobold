@@ -21,6 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
+ * $Id: GraphImportAction.java,v 1.2 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.action;
@@ -42,7 +43,7 @@ import org.eclipse.ui.actions.ActionDelegate;
  *
  * 
  */
-public class GraphImportAction  extends ActionDelegate {
+public class GraphImportAction extends ActionDelegate {
 
     Product selectedProduct;
     

@@ -21,29 +21,38 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentEditPolicy.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
+ * $Id: ComposableFigure.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
  *
  */
-package kobold.client.plam.editor.policy;
+package kobold.client.plam.editor.figure;
 
-import kobold.client.plam.editor.command.DeleteCommand;
-import kobold.client.plam.model.AbstractAsset;
-
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Shape;
+import org.eclipse.swt.graphics.Color;
 
 
 /**
  * @author Tammo
  */
-public class ComponentEditPolicy extends
-        org.eclipse.gef.editpolicies.ComponentEditPolicy
+public abstract class ComposableFigure extends Shape
 {
+	private Color tmpColor;
+	private boolean composing;
 
-    protected Command createDeleteCommand(GroupRequest deleteRequest)
-    {
-    	DeleteCommand deleteCmd = new DeleteCommand();
-    	deleteCmd.setAsset((AbstractAsset)getHost().getModel());
-    	return deleteCmd;
-    }
+	public void startComposing()
+	{
+	    if (!composing) {
+	        tmpColor = getBackgroundColor();
+	        setBackgroundColor(ColorConstants.lightGray);
+	        composing = true;
+	    }
+	}
+	
+	public void stopComposing()
+	{
+	    if (composing) {
+	        setBackgroundColor(tmpColor);
+	        composing = false;
+	    }
+	}
 }

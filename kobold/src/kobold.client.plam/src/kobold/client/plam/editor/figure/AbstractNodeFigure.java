@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeFigure.java,v 1.6 2004/07/07 01:50:36 vanto Exp $
+ * $Id: AbstractNodeFigure.java,v 1.7 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -36,7 +36,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.ScrollPane;
-import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -49,7 +48,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * @author Tammo
  */
-public abstract class AbstractNodeFigure extends Shape {
+public abstract class AbstractNodeFigure extends ComposableFigure {
 
     
 	public static Color classColor = new Color(null, 255, 255, 206);
@@ -99,13 +98,20 @@ public abstract class AbstractNodeFigure extends Shape {
 	public IFigure getContentPane() {
 		return pane;
 	}
-	
+
 	public static class TitleBarFigure extends Figure
 	{
 		private Label titleLabel;
 		private IFigure iconWidget;
 		
 		private Label scriptLabel;
+		
+		private static Font font;
+		static {
+			FontData[] fd = JFaceResources.getDefaultFont().getFontData(); //new Font(null, SWT."Arial, sans-serif", 12, SWT.BOLD);
+			fd[0].setStyle(SWT.BOLD);
+			font = new Font(null, fd[0]);
+		}
 		
 		public TitleBarFigure()
 		{
@@ -117,10 +123,8 @@ public abstract class AbstractNodeFigure extends Shape {
 			
 			titleLabel = new Label();
 			titleLabel.setLabelAlignment(Label.LEFT);
-			FontData[] fd = JFaceResources.getDefaultFont().getFontData(); //new Font(null, SWT."Arial, sans-serif", 12, SWT.BOLD);
-			fd[0].setStyle(SWT.BOLD);
 			
-			titleLabel.setFont(new Font(null, fd[0]));
+			titleLabel.setFont(font);
 			titleLabel.setForegroundColor(ColorConstants.black);
 
 			add(titleLabel);

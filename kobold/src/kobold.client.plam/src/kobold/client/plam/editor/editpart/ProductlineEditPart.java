@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineEditPart.java,v 1.7 2004/07/07 10:34:29 vanto Exp $
+ * $Id: ProductlineEditPart.java,v 1.8 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -33,7 +33,7 @@ import java.util.List;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.editor.policy.ProductlineContainerEditPolicy;
-import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
+import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IComponentContainer;
@@ -66,7 +66,7 @@ import org.eclipse.swt.graphics.Font;
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductlineEditPart.java,v 1.7 2004/07/07 10:34:29 vanto Exp $
+ * @version $Id: ProductlineEditPart.java,v 1.8 2004/07/23 20:31:54 vanto Exp $
  */
 public class ProductlineEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
@@ -109,7 +109,7 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicy());
+        installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicyImpl());
         installEditPolicy(EditPolicy.CONTAINER_ROLE, new ProductlineContainerEditPolicy());
     }
 

@@ -21,13 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.3 2004/07/11 12:38:34 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.4 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +37,7 @@ import java.util.Map;
 
 import kobold.client.plam.PLAMProject;
 import kobold.client.plam.listeners.IVCMActionListener;
+import kobold.client.plam.model.edges.EdgeContainer;
 
 
 /**
@@ -49,6 +52,8 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     protected Map releasePool = new HashMap();
     protected transient PropertyChangeSupport changeListeners = new PropertyChangeSupport(this); 
     protected transient List vcmListeners = new LinkedList();
+    private List metaNodes = new ArrayList();
+    private EdgeContainer edgeConatainer = new EdgeContainer(this);
     
     /**
      * Default constructor. 
@@ -115,5 +120,33 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 	{
 		vcmListeners.remove(l);
 	}
+
+
+    /**
+     * @return Returns the edgeConatainer.
+     */
+    public EdgeContainer getEdgeConatainer()
+    {
+        return edgeConatainer;
+    }
+
+    public void addMetaNode(MetaNode mn)
+    {
+        metaNodes.add(mn);
+        mn.setParent(this);
+        fireStructureChange(ID_META, mn);
+    }
+    
+    public void removeMetaNode(MetaNode mn)
+    {
+        mn.setParent(null);
+        metaNodes.remove(mn);
+        fireStructureChange(ID_META, mn);
+    }
+    
+    public List getMetaNodes()
+    {
+        return Collections.unmodifiableList(metaNodes);
+    }
 
 }

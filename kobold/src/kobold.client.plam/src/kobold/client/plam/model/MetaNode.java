@@ -21,13 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaNode.java,v 1.4 2004/07/22 16:13:45 martinplies Exp $
+ * $Id: MetaNode.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
  *
  */ 
-package kobold.client.plam.model.edges;
+package kobold.client.plam.model;
 
-import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.AbstractRootAsset;
 
 /**
  * @author pliesmn
@@ -35,21 +33,21 @@ import kobold.client.plam.model.AbstractRootAsset;
  * 
  */
 public class MetaNode  extends AbstractAsset {
-   public static final String OR = "OR"; // a logic xor
-   public static final String AND = "AND";
-   
-   private String type;
-   private String id;
-   
-   public MetaNode(String type ){
-       this.type = type;
-   }
-
-
-/**
- * returns node type. 
- */
-public String getType() {
-    return type;
-}
+    public static final String OR = "OR"; // a logic xor
+    public static final String AND = "AND";
+    
+    private String type;
+    private String id;
+    
+    public MetaNode(String type ){
+        this.type = type;
+    }
+    
+    
+    /**
+     * returns node type. 
+     */
+    public String getType() {
+        return type;
+    }
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.3 2004/07/22 22:01:56 martinplies Exp $
+ * $Id: Productline.java,v 1.4 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -36,7 +36,6 @@ import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IComponentContainer;
 import kobold.client.plam.model.IGXLExport;
-import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.product.Product;
 
 import org.dom4j.Element;
@@ -57,8 +56,6 @@ public class Productline extends AbstractRootAsset
 	//the repository-path
 	private String repositoryPath;
 	private String localPath;
-	
-	private EdgeContainer edgeConatainer = new EdgeContainer(this); 
 	
 	public Productline() 
 	{
@@ -267,12 +264,4 @@ public class Productline extends AbstractRootAsset
 		}	
 		return null;
 	}
-
-	
-    /**
-     * @return Returns the edgeConatainer.
-     */
-    public EdgeContainer getEdgeConatainer() {
-        return edgeConatainer;
-    }
 }

@@ -21,19 +21,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.23 2004/07/15 13:56:44 martinplies Exp $
+ * $Id: ArchitectureEditor.java,v 1.24 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.PLAMProject;
 import kobold.client.plam.editor.action.ConfigureAssetAction;
-import kobold.client.plam.action.GXLExportAction; 
+import kobold.client.plam.editor.action.GXLExportAction;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModelContainer;
 import kobold.client.plam.model.AbstractRootAsset;
@@ -50,6 +51,7 @@ import org.eclipse.draw2d.parts.ScrollableThumbnail;
 import org.eclipse.draw2d.parts.Thumbnail;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
@@ -120,6 +122,8 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	private OutlinePage outlinePage;
 	
 	private AbstractRootAsset model = new Productline();
+	
+	private boolean isComposing = false; 
 	
 	/**
 	 * Creates a architecture editor
@@ -196,7 +200,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 				.setParent(getCommonKeyHandler()));
 	}
 
-    protected void createActions() {
+	protected void createActions() {
     	super.createActions();
     	ActionRegistry registry = getActionRegistry();
     	IAction action;
@@ -508,5 +512,28 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     			getGraphicalViewer().setContents(model);
     		}
     	}  
+    }
+    
+    /**
+     * @return Returns the isComposing.
+     */
+    public boolean isComposing()
+    {
+        return isComposing;
+    }
+    
+    /**
+     * @param isComposing The isComposing to set.
+     */
+    public void setComposing(boolean isComposing)
+    {
+        this.isComposing = isComposing;
+        getGraphicalViewer().setProperty("composing", (isComposing)?"true":"false");
+        Iterator it = getGraphicalViewer().getEditPartRegistry().values().iterator();
+        while (it.hasNext()) {
+            ((EditPart)it.next()).refresh();
+        }
+        //getGraphicalViewer().getRootEditPart().refresh();
+
     }
 }

@@ -21,16 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalPartFactory.java,v 1.6 2004/07/07 01:50:36 vanto Exp $
+ * $Id: GraphicalPartFactory.java,v 1.7 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
 
 import kobold.client.plam.editor.editpart.ComponentEditPart;
+import kobold.client.plam.editor.editpart.EdgeEditPart;
 import kobold.client.plam.editor.editpart.ProductlineEditPart;
 import kobold.client.plam.editor.editpart.ReleaseEditPart;
 import kobold.client.plam.editor.editpart.VariantEditPart;
 import kobold.client.plam.model.Release;
+import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
@@ -59,6 +61,8 @@ public class GraphicalPartFactory implements EditPartFactory {
 			editPart = new VariantEditPart();
 		} else if (model instanceof Release) {
 			editPart = new ReleaseEditPart();
+		} else if (model instanceof Edge) {
+		    editPart = new EdgeEditPart();
 		}
 
 		if (editPart != null) {

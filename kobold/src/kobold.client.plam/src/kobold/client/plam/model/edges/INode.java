@@ -21,6 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
+ * $Id: INode.java,v 1.4 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.model.edges;

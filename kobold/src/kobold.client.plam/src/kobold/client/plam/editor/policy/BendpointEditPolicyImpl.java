@@ -21,26 +21,47 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeTests.java,v 1.2 2004/07/23 20:31:54 vanto Exp $
+ * $Id: BendpointEditPolicyImpl.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
  *
  */
-package kobold.client.plam.model.edges;
+package kobold.client.plam.editor.policy;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.editpolicies.BendpointEditPolicy;
+import org.eclipse.gef.requests.BendpointRequest;
 
 
 /**
- * @author pliesmn
+ * @author Tammo
  */
-public class EdgeTests {
+public class BendpointEditPolicyImpl extends BendpointEditPolicy
+{
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(
-                "Test for kobold.client.plam.model.edges");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(EdgeContainerTest.class);
-        //$JUnit-END$
-        return suite;
+    /**
+     * @see org.eclipse.gef.editpolicies.BendpointEditPolicy#getCreateBendpointCommand(org.eclipse.gef.requests.BendpointRequest)
+     */
+    protected Command getCreateBendpointCommand(BendpointRequest request)
+    {
+        // TODO
+        return null;
     }
+
+    /**
+     * @see org.eclipse.gef.editpolicies.BendpointEditPolicy#getDeleteBendpointCommand(org.eclipse.gef.requests.BendpointRequest)
+     */
+    protected Command getDeleteBendpointCommand(BendpointRequest request)
+    {
+        // TODO
+        return null;
+    }
+
+    /**
+     * @see org.eclipse.gef.editpolicies.BendpointEditPolicy#getMoveBendpointCommand(org.eclipse.gef.requests.BendpointRequest)
+     */
+    protected Command getMoveBendpointCommand(BendpointRequest request)
+    {
+        // TODO
+        return null;
+    }
+
 }

@@ -21,26 +21,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeTests.java,v 1.2 2004/07/23 20:31:54 vanto Exp $
+ * $Id: ConnectionEditPolicyImpl.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
  *
  */
-package kobold.client.plam.model.edges;
+package kobold.client.plam.editor.policy;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
+import org.eclipse.gef.requests.GroupRequest;
 
 
 /**
- * @author pliesmn
+ * @author Tammo
  */
-public class EdgeTests {
+public class ConnectionEditPolicyImpl extends ConnectionEditPolicy
+{
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(
-                "Test for kobold.client.plam.model.edges");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(EdgeContainerTest.class);
-        //$JUnit-END$
-        return suite;
+    /**
+     * @see org.eclipse.gef.editpolicies.ConnectionEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
+     */
+    protected Command getDeleteCommand(GroupRequest request)
+    {
+        // TODO
+        return null;
     }
+
 }

@@ -21,25 +21,51 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
+ * $Id: EdgeContainerTest.java,v 1.2 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.model.edges;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import kobold.client.plam.model.MetaNode;
+import kobold.client.plam.model.productline.Component;
+import kobold.client.plam.model.productline.Productline;
 
 
 /**
  * @author pliesmn
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class EdgeContainerTest extends TestCase {
 
     public void testAddNode() {
-        String var = "ta" + "est";
+        String var = "t" + "est";
         Assert.assertEquals("test", var);
     }
 
+    public void testStuff() {
+        Productline root = new Productline();
+        EdgeContainer ec = new EdgeContainer(root);
+        Component c1 = new Component();
+        root.addComponent(c1);
+        Component c2 = new Component();
+        root.addComponent(c2);
+        Component c3 = new Component();
+        root.addComponent(c3);
+        Component c4 = new Component();
+        root.addComponent(c4);
+        c1.setName("c1");
+        MetaNode mn1 = new MetaNode(MetaNode.OR);
+        root.addMetaNode(mn1);
+        ec.addEdge(c1, mn1, Edge.INCLUDE);
+        
+        assertTrue(ec.containsEdge(c1, mn1));
+        assertTrue(! ec.containsEdge(c1, c2));
+        ec.addEdge(mn1, c2, Edge.EXCLUDE);
+        ec.addEdge(mn1, c3, Edge.BAUHAUS);
+        assertNull(ec.getEdge(c1, c2, Edge.BAUHAUS));
+        assertNull(ec.getEdge(mn1, c3, Edge.EXCLUDE));
+        assertNotNull(ec.getEdge(mn1, c3, Edge.BAUHAUS));
+    }
+    
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ReleaseEditPart.java,v 1.2 2004/07/07 10:34:29 vanto Exp $
+ * $Id: ReleaseEditPart.java,v 1.3 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -45,7 +45,7 @@ public class ReleaseEditPart extends AbstractNodeEditPart
     /**
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
-    protected IFigure createFigure()
+    protected IFigure createNodeFigure()
     {
         figure = new ReleaseFigure();
         figure.setTitle(((AbstractAsset)getModel()).getName());

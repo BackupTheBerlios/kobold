@@ -21,22 +21,23 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ReleaseFigure.java,v 1.1 2004/07/07 01:50:36 vanto Exp $
+ * $Id: ReleaseFigure.java,v 1.2 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
-import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.ToolbarLayout;
+import org.eclipse.draw2d.geometry.Rectangle;
 
 
 /**
  * @author Tammo
  */
-public class ReleaseFigure extends RectangleFigure
+public class ReleaseFigure extends ComposableFigure
 {
     private Label titleLabel;
     
@@ -60,4 +61,25 @@ public class ReleaseFigure extends RectangleFigure
     {
         titleLabel.setText(title);
     }
+
+    /**
+     * @see org.eclipse.draw2d.Shape#fillShape(org.eclipse.draw2d.Graphics)
+     */
+    protected void fillShape(Graphics graphics)
+    {
+        graphics.fillRectangle(getBounds());
+    }
+
+    /**
+     * @see org.eclipse.draw2d.Shape#outlineShape(org.eclipse.draw2d.Graphics)
+     */
+    protected void outlineShape(Graphics graphics)
+    {
+		Rectangle r = getBounds();
+		int x = r.x + lineWidth / 2;
+		int y = r.y + lineWidth / 2;
+		int w = r.width - lineWidth;
+		int h = r.height - lineWidth;
+		graphics.drawRectangle(x, y, w, h);
+	}
 }

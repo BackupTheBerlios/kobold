@@ -129,11 +129,11 @@
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             adaptable="true"
-            objectClass="kobold.common.model.AbstractAsset"
+            objectClass="kobold.client.plam.model.AbstractAsset"
             id="kobold.client.plam.roletreecontribution">
          <action
                enablesFor="1"
-               label="%action.ImportGraph"
+               label="%action.GXLImport"
                class="kobold.client.plam.action.ImportGXLGraphAction"
                id="kobold.client.plam.action3"/>
          <action

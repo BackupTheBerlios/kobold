@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PaletteHelper.java,v 1.4 2004/07/22 16:42:23 vanto Exp $
+ * $Id: PaletteHelper.java,v 1.5 2004/07/23 20:31:54 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -34,6 +34,7 @@ import kobold.client.plam.editor.model.KoboldAssetFactory;
 import kobold.client.plam.editor.tool.ProductComposerToolEntry;
 import kobold.client.plam.model.AbstractAsset;
 
+import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
@@ -77,14 +78,14 @@ public class PaletteHelper
     	sep.setUserModificationPermission(PaletteEntry.PERMISSION_NO_MODIFICATION);
     	entries.add(sep); //$NON-NLS-1$
 
-    	/*tool = new ConnectionCreationToolEntry(
-    		LogicMessages.LogicPlugin_Tool_ConnectionCreationTool_ConnectionCreationTool_Label,
-    		LogicMessages.LogicPlugin_Tool_ConnectionCreationTool_ConnectionCreationTool_Description,
+    	tool = new ConnectionCreationToolEntry(
+    		"Include Edge",
+    		"Include Edge",
     		null,
-    		ImageDescriptor.createFromFile(Circuit.class, "icons/connection16.gif"),//$NON-NLS-1$
-    		ImageDescriptor.createFromFile(Circuit.class, "icons/connection24.gif")//$NON-NLS-1$
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
     	);
-    	entries.add(tool);*/
+    	entries.add(tool);
     	controlGroup.addAll(entries);
     	return controlGroup;
     }

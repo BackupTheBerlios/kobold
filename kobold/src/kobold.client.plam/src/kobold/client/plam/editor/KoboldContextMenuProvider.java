@@ -21,14 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldContextMenuProvider.java,v 1.5 2004/07/15 13:56:44 martinplies Exp $
+ * $Id: KoboldContextMenuProvider.java,v 1.6 2004/07/23 20:31:54 vanto Exp $
  *
  */
 
 package kobold.client.plam.editor;
 
 import kobold.client.plam.editor.action.ConfigureAssetAction;
-import kobold.client.plam.action.GXLExportAction;
+import kobold.client.plam.editor.action.GXLExportAction;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
