@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.1 2004/05/17 09:17:11 garbeam Exp $
+ * $Id: IKoboldServer.java,v 1.2 2004/05/18 11:19:27 vanto Exp $
  *
  */
 
@@ -29,7 +29,7 @@ package kobold.common.controller;
 
 import java.util.List;
 
-import kobold.common.data.KoboldMessage;
+import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.Role;
@@ -146,7 +146,7 @@ public interface IKoboldServer {
 	 * @param koboldMessage the message.
 	 */
 	public void sendMessage(UserContext userContext,
-												KoboldMessage koboldMessage);
+												AbstractKoboldMessage koboldMessage);
 	
 	
 	/**
@@ -156,7 +156,7 @@ public interface IKoboldServer {
 	 * 
 	 * @param userContext the user context.
 	 */
-	public KoboldMessage fetchMessage(UserContext userContext);
+	public AbstractKoboldMessage fetchMessage(UserContext userContext);
 	
 
 	/**
@@ -167,5 +167,5 @@ public interface IKoboldServer {
 	 * @param koboldMessage the message.
 	 */
 	public void invalidateMessage(UserContext userContext,
-												  KoboldMessage koboldMessage);
+												  AbstractKoboldMessage koboldMessage);
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.18 2004/05/17 12:14:39 grosseml Exp $
+ * $Id: WorkflowMessage.java,v 1.19 2004/05/18 11:19:27 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -33,7 +33,7 @@ import org.dom4j.Element;
  * @author garbeam
  * @author vanto
  */
-public class WorkflowMessage extends KoboldMessage {
+public class WorkflowMessage extends AbstractKoboldMessage {
 	
 	public static final String TYPE = "workflow";
 	private String workflowId;
@@ -44,14 +44,22 @@ public class WorkflowMessage extends KoboldMessage {
 	private int step;
 
 
+	/**
+	 * Creates a Workflow Message in the 'wmesg' id namespace
+	 */
 	public WorkflowMessage()
 	{
 		super("wmesg");
 	}
 	
+	/**
+	 * Creates a Workflow Message and deserializes its data from xml
+	 * 
+	 * @param data a &lt;message&gt; element
+	 */
 	public WorkflowMessage(Element data)
 	{
-		super(data);
+		this();
 		deserialize(data);
 	}
 	
@@ -123,14 +131,14 @@ public class WorkflowMessage extends KoboldMessage {
 	}
 
 	/**
-	 * @see kobold.common.data.KoboldMessage#deserialize(org.dom4j.Element)
+	 * @see kobold.common.data.AbstractKoboldMessage#deserialize(org.dom4j.Element)
 	 */
 	public void deserialize(Element data) 
 	{
 		super.deserialize(data);
 		// TODO check why those slutty variables dont get initialized.
-		parents = new HashSet();
-		controlItems = new LinkedList();
+		//parents = new HashSet();
+		//controlItems = new LinkedList();
 		
 		workflowId = data.elementTextTrim("workflow-id");
 		comment = data.elementTextTrim("comment");
@@ -159,7 +167,7 @@ public class WorkflowMessage extends KoboldMessage {
 	}
 
 	/**
-	 * @see kobold.common.data.KoboldMessage#serialize()
+	 * @see kobold.common.data.AbstractKoboldMessage#serialize()
 	 */
 	public Element serialize() 
 	{
@@ -195,12 +203,14 @@ public class WorkflowMessage extends KoboldMessage {
 
 		return super.toString() + sb.toString(); 
 	}
+	
 	/**
 	 * @return Returns the step.
 	 */
 	public int getStep() {
 		return step;
 	}
+	
 	/**
 	 * @param step The step to set.
 	 */

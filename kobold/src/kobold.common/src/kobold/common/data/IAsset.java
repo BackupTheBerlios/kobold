@@ -21,52 +21,30 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.2 2004/05/16 21:27:35 garbeam Exp $
+ * $Id: IAsset.java,v 1.1 2004/05/18 11:19:27 vanto Exp $
  *
  */
 package kobold.common.data;
 
-import org.dom4j.Element;
 
 /**
  * @author Tammo
  *
  */
-public abstract class AbstractAsset implements ISerializable {
+public interface IAsset extends ISerializable {
 
 	public static final String PRODUCT = "product";
 	public static final String PRODUCT_LINE = "productline";
 	
-	protected String name;
 
-	/**
-	 * Basic constructor.
-	 * @param productLineName
-	 */
-	public AbstractAsset(String assetName) {
-		this.name = assetName;
-	}
-
-	/**
-	 * DOM constructor.
-	 * @param element
-	 */
-	public AbstractAsset(Element element) {
-		deserialize(element);
-	}
-
-	public String getName() {
-		return name;
-	}
-
+	String getName();
+	
 	/**
 	 * Returns the type of this Asset.
 	 * Possible values are AbstractAsset.PRODUCT and AbstractAsset.PRODUCT_LINE
 	 * 
 	 * @return the type of this asset
 	 */
-	public abstract String getType();
+	public String getType();
 
-	public abstract Element serialize();
-	public abstract void deserialize(Element element);
 }

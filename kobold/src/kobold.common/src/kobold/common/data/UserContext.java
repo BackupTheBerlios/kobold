@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: UserContext.java,v 1.8 2004/05/17 09:26:43 garbeam Exp $
+ * $Id: UserContext.java,v 1.9 2004/05/18 11:19:27 vanto Exp $
  */
 
 package kobold.common.data;
@@ -104,7 +104,7 @@ public class UserContext implements ISerializable {
 	 * @param element the DOM element representing this object.
 	 */
 	public void deserialize(Element element) {
-		this.userName = element.elementText("usernam");
+		this.userName = element.elementText("username");
 		this.sessionId = element.elementText("session-id");
 	}
 }

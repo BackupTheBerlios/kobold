@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.7 2004/05/16 21:27:35 garbeam Exp $
+ * $Id: Product.java,v 1.8 2004/05/18 11:19:27 vanto Exp $
  *
  */
 
@@ -33,9 +33,10 @@ import org.dom4j.Element;
 /**
  * @author garbeam
  */
-public class Product extends AbstractAsset {
+public class Product implements IAsset {
 
 	private String productLineName;
+	private String productName;
 
 	/**
 	 * Basic constructor.
@@ -43,7 +44,8 @@ public class Product extends AbstractAsset {
 	 * @param productLineName
 	 */
 	public Product (String productName, String productLineName) {
-		super(productName);
+		super();
+		this.productName = productName;
 		this.productLineName = productLineName;
 	}
 	
@@ -52,7 +54,7 @@ public class Product extends AbstractAsset {
 	 * @param productName
 	 */
 	public Product (Element element) {
-		super(element);
+		deserialize(element);
 	}
 	
 	/**
@@ -61,7 +63,7 @@ public class Product extends AbstractAsset {
 	 */
 	public Element serialize() {
 		Element product = DocumentHelper.createElement("product");
-		product.addText(this.name);
+		product.addText(this.productName);
 		product.addElement("productline").addText(this.productLineName);
 		return product;
 	}
@@ -72,7 +74,7 @@ public class Product extends AbstractAsset {
 	 */
 	public void deserialize(Element element) {
 		Element product = element.element("product");
-		this.name = element.getText();
+		this.productName = element.getText();
 		this.productLineName = element.elementText("productline");
 	}
 
@@ -87,7 +89,15 @@ public class Product extends AbstractAsset {
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
 	public String getType() {
-		return AbstractAsset.PRODUCT;
+		return IAsset.PRODUCT;
 	}
+
+    /**
+     * @see kobold.common.data.IAsset#getName()
+     */
+    public String getName()
+    {
+        return productName;
+    }
 
 }
