@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.29 2004/09/20 05:37:17 martinplies Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.30 2004/09/20 16:33:18 rendgeor Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -169,6 +169,14 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		  });
 		
 		GridData gd = null;
+
+		//FIX for products --> doen't work??
+		//release/product
+		if (asset instanceof Release) {
+			asset.setName("product");
+		}
+
+		
 		if (!(asset instanceof Release)) {
     		label = new Label(panel, SWT.NONE);
     		label.setText("Resource:");
@@ -182,15 +190,18 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     			| GridData.FILL_HORIZONTAL);
     		resource.setLayoutData(gd);
 
-    		if (asset.getResource() != null) {
-    		    resource.setText(asset.getResource());
-    		} else {
-    			//create a new resource name for the asset
-    			//1) erase all blanks and special chars
-    			//		2) test if resource name still exist
-    		    resource.setText(generateResourceName(asset.getName()));
-    		}
 		}
+		
+		//set the resource name
+		if (asset.getResource() != null) {
+		    resource.setText(asset.getResource());
+		} else {
+			//create a new resource name for the asset
+			//1) erase all blanks and special chars
+			//		2) test if resource name still exist
+		    resource.setText(generateResourceName(asset.getName()));
+		}
+
 		
 		label = new Label(panel, SWT.NONE);
 		label.setText(IDEWorkbenchMessages
@@ -709,10 +720,11 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     				resName = resName.concat("m");
     				//do return
     				return avoidEqualRecourceNames(resName);    				
+
 				}
 			}
     	}
-        
-        return resName;
+    	//returns the resourceName
+    	return resName;
     }
 }
