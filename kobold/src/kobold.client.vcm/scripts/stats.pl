@@ -29,7 +29,6 @@ my %data;
 #the path to start to parse
 my $currDir = $ARGV[0];
 
-
 sub read_entries {
 
     my $root = shift; # shifted at next argument in @_
@@ -130,11 +129,10 @@ sub read_entries {
 sub read_phys {
         ########ALL physical files and directories
         sub show{
-            #print ("XXXX $File::Find::name \n");
+            #debug: print ("XXXX $File::Find::name/\n");
             
             #to avoid that the currDir is printed too!
-            if (("$File::Find::name" ne "$currDir"."\tD*\n") &&
-                ("$File::Find::name" ne "."))
+            if ("$File::Find::name/" ne "$currDir")
             {
 
                 my $newFile = "$File::Find::name";
