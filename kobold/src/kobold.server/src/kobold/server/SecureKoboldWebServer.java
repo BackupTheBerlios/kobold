@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.28 2004/06/23 13:28:31 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.29 2004/06/23 13:39:40 neccaino Exp $
  *
  */
 package kobold.server;
@@ -462,6 +462,22 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * @return true, if the passed password is valid, false otherwise
 	 */
 	public String validateSATAccessibility(String adminPassword){
+		return this.NO_RESULT; // until fully implemented
+	}
+	
+	/**
+	 * this method is used by SAT-Clients to create a new productline
+	 * on the KoboldServer
+	 * 
+	 * NOTE: this member has not yet been fully implemented!
+	 * (stub has been inserted to avoid comp. errors)
+	 * 
+	 * @param adminPassword server administartion password
+	 * @param plname name of the new productline
+	 * @return IKoboldServer::NO_RESULT if the server is not
+	 *				   accessible that way, "" otherwise 
+	 */
+	public String satCreateNewProductline(String adminPassword, String plname){
 		return this.NO_RESULT; // until fully implemented
 	}
 }
