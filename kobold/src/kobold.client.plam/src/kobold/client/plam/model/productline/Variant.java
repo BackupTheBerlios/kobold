@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.13 2004/07/28 16:57:12 memyselfandi Exp $
+ * $Id: Variant.java,v 1.14 2004/07/28 17:28:41 memyselfandi Exp $
  *
  */
 
@@ -290,15 +290,18 @@ public class Variant extends AbstractAsset
 		AbstractRootAsset root = getRoot();
 		AbstractAsset asset = this;
 		String path = "";
-		while (asset != root) {
+		
+		while (((asset.getType() != AbstractAsset.PRODUCT) 
+				&& (asset.getType() != AbstractAsset.PRODUCT_LINE)))
+		{
 			path = asset.getName() + File.separator + path;
 			asset = asset.getParent();
 	    }
-		if (root.getType() == AbstractAsset.COMPONENT) {
+		if (asset.getType() == AbstractAsset.PRODUCT_LINE) {
 			path = asset.getParent().getName() + File.separator + "CAS" + File.separator + path;
 		}
-		else if (root.getType() == AbstractAsset.PRODUCT) {
-			path = asset.getParent().getName() + File.separator + "PRODUCTS" + File.separator + path;
+		else if (asset.getType() == AbstractAsset.PRODUCT) {
+			path = asset.getParent().getName() + File.separator + "PRODUCTS" + asset.getName() + File.separator + path;
 		}
 		System.out.println("***********MyPath: "+ path);
 		return path;
