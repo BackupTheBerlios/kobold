@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageManager.java,v 1.10 2004/11/05 10:50:56 grosseml Exp $
+ * $Id: MessageManager.java,v 1.11 2004/11/21 12:25:55 garbeam Exp $
  *
  */
 package kobold.server.controller;
