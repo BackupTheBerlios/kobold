@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptDescriptor.java,v 1.10 2004/11/08 12:18:28 garbeam Exp $
+ * $Id: ScriptDescriptor.java,v 1.11 2004/11/17 11:55:27 garbeam Exp $
  *
  */
 package kobold.common.io;
@@ -54,7 +54,7 @@ public class ScriptDescriptor  implements ISerializable
 
 	public static final String BASE_URI = "http://kobold.berlios.de/scripts#";
 	
-	public final static String VCM_IMPORT = "import";
+	public final static String VCM_UPDATE = "update";
 	public final static String VCM_COMMIT = "commit";
 	public final static String VCM_ADD = "add";
 	public final static String VCM_REMOVE = "remove";
