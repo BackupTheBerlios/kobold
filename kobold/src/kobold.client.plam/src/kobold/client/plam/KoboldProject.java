@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.1 2004/08/02 17:23:53 vanto Exp $
+ * $Id: KoboldProject.java,v 1.2 2004/08/02 23:15:59 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -88,8 +88,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 
 	private Map userPool = new HashMap();
 
-
-    /**
+	/**
      * @see org.eclipse.core.resources.IProjectNature#configure()
      */
     public void configure() throws CoreException
@@ -117,6 +116,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
     public void setProject(IProject project)
     {
 		this.project = project;
+		load();
     }
 
     /**
@@ -163,16 +163,20 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
     {
 	    // lazy
         if (productline == null) {
+            if (!isConfigured())
+                return null;
+            
             kobold.common.data.Productline spl = ServerHelper.fetchProductline(this);
             // FIXME: perform an vcm update.
             productline = ModelStorage.loadModel(project, spl);
 	        
 		    if (productline == null) {
 		        productline = ProductlineFactory.create(spl);
+			    productline.setProject(this);
 		        ModelStorage.storeModel(productline);
+		    } else {
+		        productline.setProject(this);
 		    }
-		    
-		    productline.setProject(this);
 	    }
 
 	    return productline;
@@ -281,7 +285,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	    root.addElement("server-url").setText(serverURL.toString());
 	    root.addElement("username").setText(userName);
 	    root.addElement("password").setText(password);
-	    root.addElement("productline").setText(productlineId);
+	    root.addElement("pl-id").setText(productlineId);
 	    
 	    IProgressService progressService = PlatformUI.getWorkbench().getProgressService();
 	    
@@ -350,7 +354,12 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
         return vmc;
     }
 
-	/**
+	public boolean isConfigured() 
+	{
+	    return (serverURL != null) && (userName != null) && (password != null);
+	}
+	
+    /**
 	 * Returns true if the given project is accessible and it has
 	 * a kobold nature, otherwise false.
 	 * @param project IProject

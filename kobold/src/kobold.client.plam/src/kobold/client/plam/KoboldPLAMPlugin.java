@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.18 2004/08/02 17:23:53 vanto Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.19 2004/08/02 23:15:59 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -35,9 +35,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 import kobold.client.plam.controller.SSLHelper;
-import kobold.client.plam.controller.SecureKoboldClient;
 import kobold.client.plam.listeners.IProjectChangeListener;
-import kobold.client.plam.workflow.LocalMessageQueue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -266,8 +264,8 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 		    props.setProperty(SSLHelper.JAVA_DEBUG, getPluginPreferences().getString(SSLHelper.JAVA_DEBUG));
 		    props.setProperty(SSLHelper.KEY_STORE, getPluginPreferences().getString(SSLHelper.KEY_STORE));
 		    props.setProperty(SSLHelper.KEY_STORE_PASSWORD, getPluginPreferences().getString(SSLHelper.KEY_STORE_PASSWORD));
-//		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE, getPluginPreferences().getString(KoboldPlamPreferencePage.TRUST_STORE));
-	//	    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE_PASSWORD, getPluginPreferences().getString(KoboldPlamPreferencePage.KEY_STORE_PASSWORD));
+		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE, getPluginPreferences().getString(KoboldPlamPreferencePage.TRUST_STORE));
+		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE_PASSWORD, getPluginPreferences().getString(KoboldPlamPreferencePage.TRUST_STORE_PASSWORD));
 		    System.setProperties(props);
         } catch (Exception e) {
 			logger.error("Could not find client configuration",e);
