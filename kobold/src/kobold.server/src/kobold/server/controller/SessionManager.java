@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SessionManager.java,v 1.7 2004/07/29 17:18:25 garbeam Exp $
+ * $Id: SessionManager.java,v 1.8 2004/08/02 13:32:35 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -71,8 +71,13 @@ public class SessionManager {
 
 		User user = userManager.getUser(userName);
 		if ((user != null) && (password.equals(user.getPassword()))) {
+		    UserContext userContext = getUserContextForUserName(userName);
+		    if (userContext != null) {
+		        // reuses valid session
+		        return userContext;
+		    }
 			String sessionId = IdManager.nextId(userName);
-			UserContext userContext = user.getInitialUserContext(sessionId);
+			userContext = user.getInitialUserContext(sessionId);
 			sessions.put(userName, userContext);
 			return userContext;
 		}
