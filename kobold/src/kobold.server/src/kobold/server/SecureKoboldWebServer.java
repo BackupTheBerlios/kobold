@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.60 2004/07/29 08:56:36 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.61 2004/07/29 09:15:31 neccaino Exp $
  *
  */
 package kobold.server;
@@ -297,7 +297,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			 ******************************************************************/
             else if (methodName.equals("checkAdministrability")){
                 try{
-                   logger.info("Recieved admincall \"" + methodName + "\"\n");
+                   logger.info("Recieved a client's request to administrate me.\n");
                    // admin method so leave without noticing the WorkflowEngine
                    return checkAdministrability((String)arguments.elementAt(0));
                 }
@@ -309,10 +309,19 @@ public class SecureKoboldWebServer implements IKoboldServer,
             else if (methodName.equals("newProductline")){
                 try{
                     logger.info("Recieved admincall \"" + methodName + "\"\n");
-                    // admin method so leave without noticing the WorkflowEngine
+                    
+                    //1.) unpack the repository desscriptor
+                    RepositoryDescriptor rd = new RepositoryDescriptor();
+                    rd.setHost((String)arguments.elementAt(2));
+                    rd.setPath((String)arguments.elementAt(3));
+                    rd.setProtocol((String)arguments.elementAt(4));
+                    rd.setRoot((String)arguments.elementAt(5));
+                    rd.setType((String)arguments.elementAt(6));
+                    
+                    //2.) call newProductline and leave without noticing the WorkflowEngine
                     return newProductline((String)arguments.elementAt(0),
                                           (String)arguments.elementAt(1),
-                                          (RepositoryDescriptor)arguments.elementAt(2));
+                                          rd);
                 }
                 catch(Exception e){
                     logger.info("Exception during execute()", e);
