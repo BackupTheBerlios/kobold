@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.5 2004/08/05 22:49:35 martinplies Exp $
+ * $Id: RelatedComponent.java,v 1.6 2004/08/05 23:01:24 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -85,7 +85,8 @@ public class RelatedComponent extends ProductComponent
 	 */
 	public void deserialize(Element element) {
 		super.deserialize(element);
-		// FIXME: deserialize ref! via instance pool
+		String variantId = element.element("ref").attributeValue("ref-id");
+	    this.relatedVariant = (Variant) this.getRoot().getProductline().getAsset(variantId);
 		pCompRelease = new Release(element.element("local").element(AbstractAsset.RELEASE));
 	}
 
