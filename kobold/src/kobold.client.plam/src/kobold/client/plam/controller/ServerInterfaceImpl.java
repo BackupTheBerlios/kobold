@@ -9,8 +9,8 @@ package kobold.client.plam.controller;
 import java.util.List;
 
 import kobold.common.data.KoboldMessage;
-import kobold.common.data.PInfo;
-import kobold.common.data.PLInfo;
+import kobold.common.data.Product;
+import kobold.common.data.Productline;
 import kobold.common.data.Role;
 import kobold.common.data.UserContext;
 import kobold.server.controller.ServerInterface;
@@ -66,7 +66,7 @@ public class ServerInterfaceImpl implements ServerInterface {
 	/* (non-Javadoc)
 	 * @see kobold.server.controller.ServerInterface#getProductlineInfo(java.lang.String, java.lang.String)
 	 */
-	public PLInfo getProductlineInfo(String sessionID, String pl) {
+	public Productline getProductlineInfo(String sessionID, String pl) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -74,7 +74,7 @@ public class ServerInterfaceImpl implements ServerInterface {
 	/* (non-Javadoc)
 	 * @see kobold.server.controller.ServerInterface#getProductInfo(java.lang.String, java.lang.String)
 	 */
-	public PInfo getProductInfo(String sessionID, String product) {
+	public Product getProductInfo(String sessionID, String product) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -106,7 +106,7 @@ public class ServerInterfaceImpl implements ServerInterface {
 	/* (non-Javadoc)
 	 * @see kobold.server.controller.ServerInterface#applyPLInfo(java.lang.String, kobold.common.data.PLInfo)
 	 */
-	public void applyPLInfo(String sessionID, PLInfo pi) {
+	public void applyPLInfo(String sessionID, Productline pi) {
 		// TODO Auto-generated method stub
 
 	}
@@ -114,7 +114,7 @@ public class ServerInterfaceImpl implements ServerInterface {
 	/* (non-Javadoc)
 	 * @see kobold.server.controller.ServerInterface#applyProductInfo(java.lang.String, kobold.common.data.PInfo)
 	 */
-	public void applyProductInfo(String sessionID, PInfo pi) {
+	public void applyProductInfo(String sessionID, Product pi) {
 		// TODO Auto-generated method stub
 
 	}
@@ -181,6 +181,22 @@ public class ServerInterfaceImpl implements ServerInterface {
 	public List getRoles(UserContext userContext) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.server.controller.ServerInterface#login(java.lang.String, java.lang.String)
+	 */
+	public UserContext login(String userName, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.server.controller.ServerInterface#logout(kobold.common.data.UserContext)
+	 */
+	public void logout(UserContext userContext) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
