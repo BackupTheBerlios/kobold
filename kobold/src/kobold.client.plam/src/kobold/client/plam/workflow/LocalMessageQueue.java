@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LocalMessageQueue.java,v 1.2 2004/05/15 02:10:23 vanto Exp $
+ * $Id: LocalMessageQueue.java,v 1.3 2004/05/15 21:56:04 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -48,6 +48,8 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 
 /**
@@ -55,14 +57,16 @@ import org.eclipse.core.runtime.CoreException;
  * 
  * @author Tammo
  */
-public class LocalMessageQueue {
+public class LocalMessageQueue  {
 
 	private static final Log logger = LogFactory.getLog(LocalMessageQueue.class);
+	private static final String MARKER_ID = "kobold.client.plam.messagemarker";
 	
 	private IFile queueFile;
 	
 	//TODO: Sorted!
 	private Map messages = new HashMap();//TreeMap(new DateComparator());
+	private Map markerIdByMessage = new HashMap();
 	
 	
 	public LocalMessageQueue(IFile queueFile)
@@ -70,7 +74,7 @@ public class LocalMessageQueue {
 		this.queueFile = queueFile;
 		update();
 		
-		//TODO: Remove test stuff
+		/*//TODO: Remove test stuff
 		WorkflowMessage msg = new WorkflowMessage();
 		msg.setWorkflowId("testwf");
 		msg.setSender("vanto");
@@ -79,8 +83,8 @@ public class LocalMessageQueue {
 		msg.setMessageText("Das ist die Erklärung");
 		msg.addWorkflowControl(new WorkflowItem("false", "Kobold ist doof", WorkflowItem.CHECK));
 		msg.addWorkflowControl(new WorkflowItem("true", "Kobold ist toll", WorkflowItem.CHECK));
-
-		messages.put("test", msg);
+		addMarker(msg);
+		messages.put("test", msg);*/
 	}
 	
 	public synchronized void addMessage(KoboldMessage msg)
@@ -126,11 +130,15 @@ public class LocalMessageQueue {
 				return; 
 			}
 			
+			messages.clear();
+			clearMarkers();
+			
 			Iterator it = document.getRootElement().elementIterator("message");
 			while (it.hasNext()) {
 				Element msgEl = (Element)it.next();
 				KoboldMessage message = KoboldMessage.createMessage(msgEl);
 				messages.put(message.getId(), message);
+				logger.info("add msg: "+message);
 				addMarker(message);
 			}
 
@@ -171,13 +179,49 @@ public class LocalMessageQueue {
 	private void addMarker(KoboldMessage msg)
 	{
 		logger.info("add marker: " + msg);
+		IMarker marker;
+		try {
+			marker = queueFile.createMarker(MARKER_ID);
+			marker.setAttribute("msgid", msg.getId());
+			marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_NORMAL);
+			marker.setAttribute(IMarker.MESSAGE, msg.getSubject());
+			marker.setAttribute(IMarker.USER_EDITABLE, false);
+			markerIdByMessage.put(msg, new Long(marker.getId()));
+
+		} catch (CoreException e) {
+			logger.warn("Error during marker operation", e);
+		}
+		
+
 	}
 
 	private void removeMarker(KoboldMessage msg)
 	{
 		logger.info("remove marker: " + msg);
+		Long id = (Long)messages.get(msg);
+		if (id != null) {
+			try {
+				IMarker marker = queueFile.findMarker(id.longValue());
+				marker.delete();
+			} catch (CoreException e) {
+				logger.warn("Error during marker operation", e);
+			}	
+		}
 	}
 
+	private void clearMarkers()
+	{
+		try {
+			IMarker[] markers = queueFile.findMarkers(MARKER_ID, true, IResource.DEPTH_ZERO);
+			for (int i = 0; i < markers.length; i++) {
+				markers[i].delete();
+			}
+			markerIdByMessage.clear();
+		} catch (CoreException e) {
+			logger.warn("Error during marker operation", e);
+		}	
+	}
+	
 	/**
 	 * Sorts Kobold Messages by Date
 	 */
@@ -194,4 +238,15 @@ public class LocalMessageQueue {
 
 	}
 
+	/**
+	 */
+	public void activate() {
+		update();
+	}
+
+	/**
+	 */
+	public void deactivate() {
+		clearMarkers();		
+	}
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProjectNature.java,v 1.7 2004/05/15 16:18:16 vanto Exp $
+ * $Id: KoboldProjectNature.java,v 1.8 2004/05/15 21:56:04 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -34,12 +34,14 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectNature;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.CoreException;
 
 /**
  * @see IProjectNature
  */
-public class KoboldProjectNature implements IProjectNature {
+public class KoboldProjectNature implements IProjectNature, IResourceChangeListener {
 
 	public static final Log logger = LogFactory.getLog(KoboldProjectNature.class);
 	public static final String NATURE_ID = "kobold.client.plam.KoboldProjectNature"; //$NON-NLS-1$
@@ -88,6 +90,7 @@ public class KoboldProjectNature implements IProjectNature {
 	public void setProject(IProject project)  
 	{
 		this.project = project;
+		project.getWorkspace().addResourceChangeListener(this);
 	}
 	
 	/**
@@ -140,6 +143,13 @@ public class KoboldProjectNature implements IProjectNature {
 			}
 		}
 		return client;
+	}
+
+	/**
+	 * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
+	 */
+	public void resourceChanged(IResourceChangeEvent event) {
+		//logger.info(event);		
 	}
 
 }

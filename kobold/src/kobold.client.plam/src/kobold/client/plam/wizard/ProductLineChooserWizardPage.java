@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ProductLineChooserWizardPage.java,v 1.3 2004/05/15 16:37:06 garbeam Exp $
+ * $Id: ProductLineChooserWizardPage.java,v 1.4 2004/05/15 21:56:04 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -87,6 +87,7 @@ public class ProductLineChooserWizardPage extends WizardPage {
 			//client = new SecureKoboldClient(serverInfoPage.getServerURL());
 			client = new SecureKoboldClient(new URL("https://localhost:23232/RPC2"));
 			UserContext uc = client.login("garbeam", "garbeam");
+			System.out.println(uc);
 			//client.login(serverInfoPage.getUsername(),
 			//											serverInfoPage.getPassword());
 			Productline productline = client.getProductline(uc, "kobold2");

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.4 2004/05/15 15:03:29 vanto Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.5 2004/05/15 21:56:04 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -40,6 +40,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 
 /**
@@ -56,7 +58,7 @@ public class RoleTreeLabelProvider extends LabelProvider
 
 	public String getText(Object element) {
 		if (element instanceof User) {
-			return ((User)element).getUserName();
+			return ((User)element).getRealName();
 		} else if (element instanceof RolePLE) {
 			return "PLE";
 		} else if (element instanceof RolePE) {
@@ -87,6 +89,8 @@ public class RoleTreeLabelProvider extends LabelProvider
 		if (element instanceof IProject) {
 			IWorkbenchAdapter wa = (IWorkbenchAdapter)((IProject)element).getAdapter(IWorkbenchAdapter.class);
 			id = wa.getImageDescriptor(element);
+		} else if (element instanceof User) {
+			id = PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_UP);
 		}
 		
 		if (id == null) {

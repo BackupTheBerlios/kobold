@@ -108,13 +108,27 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            default="true"
             name="%Workflow"
+            default="true"
             icon="icons/kobold_persp.gif"
             filenames=".messages"
             class="kobold.client.plam.workflow.WorkflowEditor"
             id="kobold.client.plam.workfloweditor">
       </editor>
+   </extension>
+   <extension
+         id="messagemarker"
+         name="%Message Marker"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.taskmarker">
+      </super>
+      <persistent
+            value="false">
+      </persistent>
+      <attribute
+            name="msgid">
+      </attribute>
    </extension>
 
 </plugin>

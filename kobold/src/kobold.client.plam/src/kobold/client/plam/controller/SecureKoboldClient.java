@@ -21,11 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.6 2004/05/15 16:18:16 vanto Exp $
+ * $Id: SecureKoboldClient.java,v 1.7 2004/05/15 21:56:04 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.Vector;
@@ -39,7 +42,11 @@ import kobold.common.data.UserContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.xmlrpc.XmlRpcClientException;
+import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.secure.SecureXmlRpcClient;
+
+import sun.misc.BASE64Decoder;
 
 /**
  * @author garbeam
@@ -56,7 +63,7 @@ public class SecureKoboldClient implements ServerInterface {
 	 *  Constructor
 	 */
 	public SecureKoboldClient(URL url) {
-		client = new SecureXmlRpcClient(url);
+		client = new AdaptedSecureXmlRpcClient(url);
 	}
 
 	/**
@@ -326,4 +333,30 @@ public class SecureKoboldClient implements ServerInterface {
 			log.error(exception);
 		}
 	}
+
+
+		private class AdaptedSecureXmlRpcClient extends SecureXmlRpcClient {
+
+		/**
+		 */
+		public AdaptedSecureXmlRpcClient(URL url) {
+			super(url);
+		}
+		
+		/**
+		 * @see org.apache.xmlrpc.XmlRpcHandler#execute(java.lang.String, java.util.Vector)
+		 */
+		public Object execute(String arg0, Vector arg1)
+			throws XmlRpcException, IOException {
+				String response = (String)super.execute(arg0, arg1);
+				ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(new BASE64Decoder().decodeBuffer(response)));
+				try {
+					return ois.readObject();
+				} catch (ClassNotFoundException e) {
+					log.error("Could not read data stream", e);
+					throw new XmlRpcClientException("Unkown class", e);
+				}
+		}
+	}
 }
+

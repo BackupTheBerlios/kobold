@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.5 2004/05/15 15:03:29 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.6 2004/05/15 21:56:04 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -111,7 +111,13 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
      */
     public Object[] getChildren(Object parentElement) {
-    	if(parentElement instanceof User) {
+    	if (parentElement instanceof IProject) {
+    		User testUser = new User();
+    		testUser.setUserName("vanto");
+    		testUser.setRealName("Tammo van Lessen");
+    		testUser.addRole(new RolePLE("test"));
+    		return new User[] {testUser};
+    	} else if(parentElement instanceof User) {
     		User aUser = (User)parentElement;
     		return aUser.getRoles().toArray();
     	}
@@ -147,7 +153,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
      */
     public boolean hasChildren(Object element) {
     	
-    	return false;//getChildren(element).length > 0;
+    	return getChildren(element).length > 0;
 
     }
 
