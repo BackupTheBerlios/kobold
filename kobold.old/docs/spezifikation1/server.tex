@@ -1,4 +1,4 @@
-\chapter{Der Kobold Server}
+\section{Der Kobold Server}
 
 Der Kobold Server koordiniert die Arbeit der Benutzer von Kobold. Ein Benutzer ist dabei jede Person
 mit einem Benutzernamen und dem dazu passenden Passwort. Dieser ist dadurch bei seiner Arbeit nicht an einen
@@ -13,7 +13,7 @@ implementiert und ist SSL-basiert.
 Alle Informationen, die der Server bereitstellt sind persistent.
 
 
-\section{Berechtigungskonzept}
+\subsection{Berechtigungskonzept}
 
 Zur Realisierung des produktlinien\-übergreifenden Berechtigungskonzepts
 verwaltet der Server alle benutzer-, rollen-, produktlinien- und
@@ -25,7 +25,7 @@ sich der Benutzer über einen Dialog beim Server mit Benutzername und Passwort an
 so werden in seinen Client die Daten der ihm unterstehenden Produktlinien und Produkte geladen. Der Benutzer
 kann dabei nur die Daten verändern, für die er auch eine Berechtigung besitzt.
 
-\section{Persistierung}
+\subsection{Persistierung}
 
 Die Persistierung aller für das Berechtigungskonzept notwendigen Daten wird
 durch eine abstrakte, XML-basierte Persistenzschicht realisiert, die es ermöglicht, die
@@ -74,7 +74,7 @@ Für ein Repository werden dabei folgende Daten gespeichert:
 
 
 
-\section{Nachrichten-Queue}
+\subsection{Nachrichten-Queue}
 
 Der Kobold Server bildet für jeden Kobold-Benutzer eine Nachrichten-Queue. Werden Nachrichten oder 
 Workflow-Objekte an einen Benutzer geschickt, so werden diese in der Nachrichten-Queue 
@@ -94,7 +94,7 @@ Für Nachrichten auf der Nachrichten-Queue werden folgende Daten benötigt:
 \item Priorität
 \end{itemize}
 
-\section{Regelbasierte Workflowerzeugung}
+\subsection{Regelbasierte Workflowerzeugung}
 Führt ein Client eine Aktion aus, so wird diese dem Kobold Server gemeldet. Dieser wendet die Aktion als Fakt
 auf die Regelbasis an, die sich auf dem Server befindet. Es werden dabei alle Regeln durchlaufen. Stimmt das 
 Ereignis mit der Bedingung einer Regel überein, so 
