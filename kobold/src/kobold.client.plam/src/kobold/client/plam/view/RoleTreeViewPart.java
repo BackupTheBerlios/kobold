@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.6 2004/06/24 03:06:01 vanto Exp $
+ * $Id: RoleTreeViewPart.java,v 1.7 2004/06/24 10:47:56 memyselfandi Exp $
  *
  */
 package kobold.client.plam.view;
@@ -32,6 +32,7 @@ import kobold.client.plam.controller.roletree.RoleTreeContentProvider;
 import kobold.client.plam.controller.roletree.RoleTreeLabelProvider;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
 import kobold.client.plam.editor.ArchitectureEditorInput;
+import kobold.client.plam.useractions.UINewUser;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,12 +56,14 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
 
@@ -76,6 +79,7 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 {
 	private static final Log logger = LogFactory.getLog(RoleTreeViewPart.class);
 	private TreeViewer viewer;
+	private Shell shell = new Shell();
 	private DrillDownAdapter drillDownAdapter;
 	private Action action1;
 	private Action action2;
@@ -145,17 +149,21 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 		manager.add(action1);
 		manager.add(action2);
 		manager.add(new Separator());
+		
 		drillDownAdapter.addNavigationActions(manager);
 	}
 
 	private void makeActions() {
 		action1 = new Action() {
 			public void run() {
-				showMessage("Action 1 executed");
+				UINewUser nU = new UINewUser(shell);
+				nU.createViewControl(shell);
+//				nU.create();
+				nU.open();
 			}
 		};
-		action1.setText("Action 1");
-		action1.setToolTipText("Action 1 tooltip");
+		action1.setText("Create New User");
+		action1.setToolTipText("Creates a New User for the PL");
 		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 			getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 		
