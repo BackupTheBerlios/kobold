@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.11 2004/08/04 12:55:29 martinplies Exp $
+ * $Id: GXLExportDialog.java,v 1.12 2004/08/05 22:44:00 martinplies Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -91,7 +91,7 @@ public class GXLExportDialog extends TitleAreaDialog {
 
     protected Control createDialogArea(Composite parent) {
         this.setTitle("GXL EXPORT");
-        this.setMessage("mess", 1);
+        this.setMessage("", 1);
         Composite exportGroup = new Composite(parent, SWT.NONE);
             GridLayout layout = new GridLayout();
             layout.numColumns = 1;
