@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractMaintainedAsset.java,v 1.5 2004/08/03 17:35:47 vanto Exp $
+ * $Id: AbstractMaintainedAsset.java,v 1.6 2004/08/03 18:41:33 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -75,6 +75,10 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
 	public void removeMaintainer(User user)
 	{
 	    maintainers.remove(user);
+	}
+	
+	public void clearMaintainer() {
+	    maintainers.clear();
 	}
 	
 	/**

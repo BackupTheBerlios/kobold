@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.20 2004/08/03 13:00:39 garbeam Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.21 2004/08/03 18:41:33 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -113,6 +113,7 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 	public static void log(int severity, String message, Throwable e) {
 		log(new Status(severity, ID, 0, message, e));
 	}
+	
 	/**
 	 * Returns the shared instance.
 	 */

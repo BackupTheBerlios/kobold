@@ -21,21 +21,30 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.1 2004/07/07 10:34:29 vanto Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.2 2004/08/03 18:41:33 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
+import java.util.Iterator;
+
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.AbstractMaintainedAsset;
+import kobold.client.plam.wizard.NewCertificateDialog;
+import kobold.common.data.User;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
@@ -52,6 +61,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     private AbstractAsset asset;
     private Text name;
     private Text description;
+    private List list;
     
     /**
      * @param parentShell
@@ -71,9 +81,10 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         return composite;
     }
     
-    private void createAssetProps(Composite parent) {
+    private void createAssetProps(final Composite parent) {
 		Composite panel = new Composite(parent, SWT.NONE);
-
+		boolean withMaintainer = (asset instanceof AbstractMaintainedAsset);
+		
 		GridLayout layout = new GridLayout(2, false);
 		layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
 		layout.marginWidth = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
@@ -99,17 +110,46 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		label.setText(IDEWorkbenchMessages
 				.getString("Description:")); //$NON-NLS-1$
 
-		description = new Text(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP |SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
+		description = new Text(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP
+		                              | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
 		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
 			| GridData.FILL_HORIZONTAL);
-		gd.verticalSpan = 3;
 		gd.heightHint = 100;
 		description.setLayoutData(gd);
-
+		
 		if (asset.getDescription() != null) {
 		    description.setText(asset.getDescription());
 		}
 
+		if (withMaintainer) {
+		    final AbstractMaintainedAsset maintainedAsset = (AbstractMaintainedAsset) asset;
+		    label = new Label(panel, SWT.NONE);
+		    label.setText("Maintainer:");
+		
+		    list = new List(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP 
+		                           | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
+			gd = new GridData(GridData.GRAB_HORIZONTAL
+					| GridData.FILL_HORIZONTAL);
+			gd.heightHint = 50;
+			list.setLayoutData(gd);
+			
+			for (Iterator iterator = maintainedAsset.getMaintainers().iterator();
+			     iterator.hasNext(); )
+			{
+			    User user = (User) iterator.next();
+			    list.add(user.getFullname());
+			}
+			
+			Button edit = new Button(panel, SWT.NONE);
+			edit.setText("&Edit...");
+			edit.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent event) {
+				    EditMaintainerDialog dlg =
+				        new EditMaintainerDialog(parent.getShell(), maintainedAsset);
+				    dlg.open();
+				}
+			});
+		}
     }
 
     protected void okPressed()
