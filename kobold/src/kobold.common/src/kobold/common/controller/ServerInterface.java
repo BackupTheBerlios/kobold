@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerInterface.java,v 1.2 2004/05/13 15:15:44 garbeam Exp $
+ * $Id: ServerInterface.java,v 1.3 2004/05/13 23:45:07 garbeam Exp $
  *
  */
 
@@ -101,25 +101,25 @@ public interface ServerInterface {
     /**
      * Adds a new role.
      * @param userContext the user context.
-     * @param user the specified user.
+     * @param userName the specified user.
      * @param role the new role.
      */
-    public void addRole(UserContext userContext, User user, Role role);
+    public void addRole(UserContext userContext, String userName, Role role);
 
 	/**
 	 * Removes the role from the user.
 	 * @param userContext the user context.
-	 * @param user the specified user.
+	 * @param userName the specified user.
 	 * @param role the new role.
 	 */
-	public void removeRole(UserContext userContext, User user, Role role);
+	public void removeRole(UserContext userContext, String userName, Role role);
 
 	/**
 	 * Applies modifications to the given Productline.
 	 * @param userContext the user context.
 	 * @param productline the productline. 
 	 */
-	public void applyProductlineModfiications(UserContext userContext,
+	public void applyProductlineModifications(UserContext userContext,
 																 Productline productline);
     
 	/**
@@ -127,7 +127,7 @@ public interface ServerInterface {
 	 * @param userContext the user context.
 	 * @param product the product. 
 	 */
-	public void applyProductModfiications(UserContext userContext,
+	public void applyProductModifications(UserContext userContext,
 															 Product product);
     
     /**
@@ -135,8 +135,7 @@ public interface ServerInterface {
      * @param userContext the user context.
      * @param user the user to remove.
      */
-    public void removeUser(UserContext userContext,
-    									 User user);
+    public void removeUser(UserContext userContext, String userName);
 
 	/**
 	 * Sends a KoboldMessage or WorkflowMessage.
@@ -165,6 +164,6 @@ public interface ServerInterface {
 	 * @param userContext the user context.
 	 * @param koboldMessage the message.
 	 */
-	public KoboldMessage invalidateMessage(UserContext userContext,
-																  KoboldMessage koboldMessage);
+	public void invalidateMessage(UserContext userContext,
+												  KoboldMessage koboldMessage);
 }

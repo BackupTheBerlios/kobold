@@ -21,10 +21,11 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: UserContext.java,v 1.4 2004/05/12 18:03:44 rendgeor Exp $
+ * $Id: UserContext.java,v 1.5 2004/05/13 23:45:07 garbeam Exp $
  */
 
 package kobold.common.data;
+
 /**
  * Base class for user context information (session info).
  * This class provides information about the current user context
@@ -35,8 +36,9 @@ package kobold.common.data;
 public class UserContext{
 	
     // members
-	 private User user;
-	 private String sessionId;
+	private String userName;
+	private String sessionId;
+	 
     /**
      * Default constructor, which provides basic info
      * about the user context.
@@ -47,18 +49,17 @@ public class UserContext{
      * @param username username of the users (like a Unix username).
      * @param sessionId the current session Id of the user context.
      */
-    public UserContext(User user,
-                       String sessionId)
+    public UserContext(String userName, String sessionId)
     {
-        this.user = user;
+        this.userName = userName;
         this.sessionId = sessionId;
     }
 
     /**
      * @returns the username of this user context.  
      */
-    public User getUser() {
-        return this.user;
+    public String getUserName() {
+        return this.userName;
     }
 
     /**
@@ -67,5 +68,12 @@ public class UserContext{
     public String getSessionId() {
         return this.sessionId;
     }
+
+	/**
+	 * Sets sessionId.
+	 */
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
     
 }

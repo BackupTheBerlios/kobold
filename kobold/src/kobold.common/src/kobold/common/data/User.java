@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.3 2004/05/12 18:03:44 rendgeor Exp $
+ * $Id: User.java,v 1.4 2004/05/13 23:45:07 garbeam Exp $
  *
  */
 
@@ -130,7 +130,7 @@ public class User {
 	 * user context.
 	 */
 	public UserContext getInitialUserContext(String sessionId) {
-		return new UserContext(this, sessionId);
+		return new UserContext(this.userName, sessionId);
 	}
 
 	/**

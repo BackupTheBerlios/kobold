@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.3 2004/05/13 15:15:34 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.4 2004/05/13 23:44:54 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -120,97 +120,205 @@ public class SecureKoboldClient implements ServerInterface {
 	 * 		      more permissions than the user defined by userContext.
 	 */
 	public void addUser(UserContext userContext, User newUser) {
-		
-
+		Vector v = new Vector();
+		v.add(userContext);
+		v.add(newUser);
+		try {
+			Object result = client.execute("addUser", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#getProductline(kobold.common.data.UserContext, java.lang.String)
+	/**
+	 * Fetches a productline by its name.
+	 * @param userContext the user context.
+	 * @param plName the name of the productline.
+	 * @return the product line.
 	 */
 	public Productline getProductline(UserContext userContext, String plName) {
-		// TODO Auto-generated method stub
+		Vector v = new Vector();
+		v.add(userContext);
+		v.add(plName);
+		try {
+			Object result = client.execute("getProductline", v);
+			return (Productline)result;
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#getProduct(kobold.common.data.UserContext, java.lang.String)
+	/**
+	 * Fetches a product by its name.
+	 * @param userContext the user context.
+	 * @param productName the name of the productline.
+	 * @return the product line.
 	 */
 	public Product getProduct(UserContext userContext, String productName) {
-		// TODO Auto-generated method stub
+		Vector v = new Vector();
+		v.add(userContext);
+		v.add(productName);
+		try {
+			Object result = client.execute("getProduct", v);
+			return (Product)result;
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#addProduct(kobold.common.data.UserContext, kobold.common.data.Product)
+	/**
+	 * Adds a new product.
+	 * @param userContext the user context.
+	 * @param product the product.
 	 */
 	public void addProduct(UserContext userContext, Product product) {
-		// TODO Auto-generated method stub
-		
+		Vector v = new Vector();
+		v.add(userContext);
+		v.add(product);
+		try {
+			Object result = client.execute("addProduct", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#addRole(kobold.common.data.UserContext, kobold.common.data.User, kobold.common.data.Role)
+	/**
+	 * Adds a new role.
+	 * @param userContext the user context.
+	 * @param userName the specified user.
+	 * @param role the new role.
 	 */
-	public void addRole(UserContext userContext, User user, Role role) {
-		// TODO Auto-generated method stub
-		
+	public void addRole(UserContext userContext, String userName, Role role) {
+		Vector v = new Vector();
+		v.add(userContext);
+		v.add(userName);
+		v.add(role);
+		try {
+			Object result = client.execute("addRole", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#removeRole(kobold.common.data.UserContext, kobold.common.data.User, kobold.common.data.Role)
+	/**
+	 * Removes the role from the user.
+	 * @param userContext the user context.
+	 * @param userName the specified user.
+	 * @param role the new role.
 	 */
-	public void removeRole(UserContext userContext, User user, Role role) {
-		// TODO Auto-generated method stub
-		
+	public void removeRole(UserContext userContext, String userName, Role role) {
+		Vector v = new Vector();
+		v.add(userContext);
+		v.add(userName);
+		v.add(role);
+		try {
+			Object result = client.execute("removeRole", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#applyProductlineModfiications(kobold.common.data.UserContext, kobold.common.data.Productline)
+	/**
+	 * Applies modifications to the given Productline.
+	 * @param userContext the user context.
+	 * @param productline the productline. 
 	 */
-	public void applyProductlineModfiications(UserContext userContext, Productline productline) {
-		// TODO Auto-generated method stub
-		
+	public void applyProductlineModifications(UserContext userContext, Productline productline) {
+		Vector v = new Vector();
+		v.add(userContext);
+		v.add(productline);
+		try {
+			Object result = client.execute("applyProductlineModifications", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#applyProductModfiications(kobold.common.data.UserContext, kobold.common.data.Product)
+	/**
+	 * Applies modifications to the given Product.
+	 * @param userContext the user context.
+	 * @param product the product. 
 	 */
-	public void applyProductModfiications(UserContext userContext, Product product) {
-		// TODO Auto-generated method stub
-		
+	public void applyProductModifications(UserContext userContext, Product product) {
+		Vector v = new Vector();
+		v.add(userContext);
+		v.add(product);
+		try {
+			Object result = client.execute("applyProductModifications", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#removeUser(kobold.common.data.UserContext, kobold.common.data.User)
+	/**
+	 * Removes the specified user.
+	 * @param userContext the user context.
+	 * @param userName the user to remove.
 	 */
-	public void removeUser(UserContext userContext, User user) {
-		// TODO Auto-generated method stub
-		
+	public void removeUser(UserContext userContext, String userName) {
+		Vector v = new Vector();
+		v.add(userContext);
+		v.add(userName);
+		try {
+			Object result = client.execute("removeUser", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#sendMessage(kobold.common.data.UserContext, kobold.common.data.KoboldMessage)
+	/**
+	 * Sends a KoboldMessage or WorkflowMessage.
+	 * 
+	 * @param userContext the user context.
+	 * @param koboldMessage the message.
 	 */
 	public void sendMessage(UserContext userContext, KoboldMessage koboldMessage) {
-		// TODO Auto-generated method stub
-		
+		Vector v = new Vector();
+		v.add(userContext);
+		v.add(koboldMessage);
+		try {
+			Object result = client.execute("sendMessage", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#fetchMessage(kobold.common.data.UserContext)
+	/**
+	 * Fetches a single KoboldMessage. Should be put to a queue.
+	 * Note: to remove the message from Servers message queue,
+	 * it has to be invalidated using invalidateMessage!
+	 * 
+	 * @param userContext the user context.
 	 */
 	public KoboldMessage fetchMessage(UserContext userContext) {
-		// TODO Auto-generated method stub
+		Vector v = new Vector();
+		v.add(userContext);
+		try {
+			Object result = client.execute("fetchMessage", v);
+			return (KoboldMessage)result;
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#invalidateMessage(kobold.common.data.UserContext, kobold.common.data.KoboldMessage)
+	/**
+	 * Invalidates the specified message. This method will remove the message
+	 * from Servers message queue.
+	 * 
+	 * @param userContext the user context.
+	 * @param koboldMessage the message.
 	 */
-	public KoboldMessage invalidateMessage(UserContext userContext, KoboldMessage koboldMessage) {
-		// TODO Auto-generated method stub
-		return null;
+	public void invalidateMessage(UserContext userContext, KoboldMessage koboldMessage) {
+		Vector v = new Vector();
+		v.add(userContext);
+		v.add(koboldMessage);
+		try {
+			Object result = client.execute("invalidateMessage", v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
 	}
-
-
 }

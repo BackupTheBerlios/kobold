@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IdManager.java,v 1.1 2004/04/28 15:41:22 vanto Exp $
+ * $Id: IdManager.java,v 1.2 2004/05/13 23:45:07 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -38,6 +38,7 @@ public class IdManager
 	private static final IdManager instance = new IdManager();
 	private Map idByModelName = new HashMap();
 	private Map idByScriptName = new HashMap();
+	private Map idByUserName = new HashMap();
 	
 	private IdManager() {}
 	
@@ -54,6 +55,10 @@ public class IdManager
 	public String getScriptId(String name) 
 	{
 		return createId(idByScriptName, name);
+	}
+	
+	public String getSessionId(String name)	{
+		return createId(idByUserName, name);
 	}
 
 	private String createId(Map idPool, String name)

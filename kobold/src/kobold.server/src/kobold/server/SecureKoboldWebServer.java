@@ -21,21 +21,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.6 2004/05/13 15:16:05 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.7 2004/05/13 23:45:24 garbeam Exp $
  *
  */
 package kobold.server;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
 import kobold.common.controller.ServerInterface;
+import kobold.common.data.IdManager;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.Role;
+import kobold.common.data.RoleP;
+import kobold.common.data.RolePE;
 import kobold.common.data.User;
 import kobold.common.data.UserContext;
+import kobold.server.controller.ProductManager;
+import kobold.server.controller.UserManager;
 
 import org.apache.xmlrpc.XmlRpcHandler;
 import org.apache.xmlrpc.secure.SecureWebServer;
@@ -48,7 +54,9 @@ import org.apache.xmlrpc.secure.SecureWebServer;
  */
 public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 	// the xml-rpc webserver
-	static SecureWebServer server;
+	private static SecureWebServer server;
+	
+	private List sessionIds = new ArrayList();
 
 	/**
 	 * main method
@@ -86,133 +94,280 @@ public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
 		else if (methodName == "logout") {
 			logout((UserContext)arguments.elementAt(0));
 		}
-	
-	
+		else if (methodName == "getRoles") {
+			return getRoles((UserContext)arguments.elementAt(0));
+		}
+		else if (methodName == "addUser") {
+			addUser((UserContext)arguments.elementAt(0),
+						  (User)arguments.elementAt(1));
+		}
+		else if (methodName == "getProductline") {
+			return getProductline((UserContext)arguments.elementAt(0),
+											  (String)arguments.elementAt(1));
+		}
+		else if (methodName == "getProduct") {
+			return getProduct((UserContext)arguments.elementAt(0),
+										 (String)arguments.elementAt(1));
+		}
+		else if (methodName == "addProduct") {
+			addProduct((UserContext)arguments.elementAt(0),
+							  (Product)arguments.elementAt(1));
+		}
+		else if (methodName == "addRole") {
+			addRole((UserContext)arguments.elementAt(0),
+						 (String)arguments.elementAt(1), 
+						 (Role)arguments.elementAt(2));
+		}
+		else if (methodName == "removeRole") {
+			removeRole((UserContext)arguments.elementAt(0),
+							   (String)arguments.elementAt(1),
+								(Role)arguments.elementAt(2));
+		}
+		else if (methodName == "applyProductlineModifications") {
+			applyProductlineModifications((UserContext)arguments.elementAt(0),
+														(Productline)arguments.elementAt(1));
+		}
+		else if (methodName == "applyProductModifications") {
+			applyProductModifications((UserContext)arguments.elementAt(0),
+													(Product)arguments.elementAt(1));
+		}
+		else if (methodName == "removeUser") {
+			removeUser((UserContext)arguments.elementAt(0),
+								(String)arguments.elementAt(1));
+		}
+		else if (methodName == "sendMessage") {
+			sendMessage((UserContext)arguments.elementAt(0),
+								 (KoboldMessage)arguments.elementAt(1));
+		}
+		else if (methodName == "fetchMessage") {
+			return fetchMessage((UserContext)arguments.elementAt(0));
+		}
+		else if (methodName == "invalidateMessage") {
+			invalidateMessage((UserContext)arguments.elementAt(0),
+										(KoboldMessage)arguments.elementAt(1));
+		}	
 		return null;
 	}
 
 	/**
-	 * Logins the specified user and returns UserContext if everything
-	 * works well.
-	 * 
-	 * @see kobold.server.controller.ServerInterface#login(java.lang.String, java.lang.String)
+	 * Login handler.
+	 * @param userName the username.
+	 * @param password the plain text password.
+	 * @return UserContext, if the userName and password
+	 * 			  is valid. 
 	 */
 	public UserContext login(String userName, String password) {
-		// TODO Auto-generated method stub
+		IdManager idManager = IdManager.getInstance();
+		UserManager userManager = UserManager.getInstance();
+		
+		User user = userManager.getUser(userName);
+		if (user != null) {
+			String sessionId = idManager.getSessionId(userName);
+			sessionIds.add(sessionId);
+			return user.getInitialUserContext(sessionId);
+		}
 		return null;
 	}
 
 
-	/* (non-Javadoc)
-	 * @see kobold.server.controller.ServerInterface#logout(kobold.common.data.UserContext)
+	/**
+	 * Logout handler.
+	 * Invalidates the given user context.
+	 * @param userContext the user context.
 	 */
 	public void logout(UserContext userContext) {
-		// TODO Auto-generated method stub
-		
+		String sessionId = userContext.getSessionId();
+		if (sessionIds.contains(sessionId)) {
+			sessionIds.remove(sessionId);
+		}
+		userContext.setSessionId(null);
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#getRoles(kobold.common.data.UserContext)
+	/**
+	 * Fetches all roles for the given user context from the server.
+	 * @param userContext the user context.
+	 * @return List of Roles.
 	 */
 	public List getRoles(UserContext userContext) {
-		// TODO Auto-generated method stub
-		return null;
+		UserManager manager = UserManager.getInstance();
+		return manager.getUser(userContext.getUserName()).getRoles(); 
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#addUser(kobold.common.data.UserContext, kobold.common.data.User)
+	/**
+	 * Adds an new user to the server.
+	 * @param userContext the user context of the valid creator of the
+	 * 			  new user (if the new user is a P, than the userContext
+	 * 			  must be at least a PE).
+	 * @param user the new user, it is not allowed to create a user with
+	 * 		      more permissions than the user defined by userContext.
 	 */
 	public void addUser(UserContext userContext, User newUser) {
-		// TODO Auto-generated method stub
-		
+		UserManager manager = UserManager.getInstance();
+		manager.addUser(newUser);
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#getProductline(kobold.common.data.UserContext, java.lang.String)
+	/**
+	 * Fetches a productline by its name.
+	 * @param userContext the user context.
+	 * @param plName the name of the productline.
+	 * @return the product line.
 	 */
 	public Productline getProductline(UserContext userContext, String plName) {
-		// TODO Auto-generated method stub
-		return null;
+		ProductManager productManager = ProductManager.getInstance();
+		return productManager.getProductLine(plName);
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#getProduct(kobold.common.data.UserContext, java.lang.String)
+	/**
+	 * Fetches a product by its name.
+	 * @param userContext the user context.
+	 * @param productName the name of the productline.
+	 * @return the product line.
 	 */
 	public Product getProduct(UserContext userContext, String productName) {
-		// TODO Auto-generated method stub
-		return null;
+		ProductManager productManager = ProductManager.getInstance(); 
+		return productManager.getProduct(productName);
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#addProduct(kobold.common.data.UserContext, kobold.common.data.Product)
+	/**
+	 * Adds a new product.
+	 * @param userContext the user context.
+	 * @param product the product.
 	 */
 	public void addProduct(UserContext userContext, Product product) {
-		// TODO Auto-generated method stub
-		
+		ProductManager productManager = ProductManager.getInstance();
+		UserManager userManager = UserManager.getInstance();
+		if (userManager.isPLE(userContext.getUserName())) {
+			productManager.addProduct(product);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#addRole(kobold.common.data.UserContext, kobold.common.data.User, kobold.common.data.Role)
+	/**
+	* Adds a new role.
+	* @ param userContext the user context.
+	* @ param userName the specified user.
+	* @ param role the new role.
+	*/
+	public void addRole(UserContext userContext, String userName, Role role) {
+		ProductManager productManager = ProductManager.getInstance();
+		UserManager userManager = UserManager.getInstance();
+		String name = userContext.getUserName();
+
+		if (((role instanceof RolePE) && userManager.isPLE(name))
+			|| ((role instanceof RoleP) && userManager.isPE(name))) {
+			User user = userManager.getUser(userName);
+			if (user != null) {
+				user.addRole(role);
+			}
+		}
+
+	}
+
+	/**
+	 * Removes the role from the user.
+	 * @param userContext the user context.
+	 * @param userName the specified user.
+	 * @param role the new role.
 	 */
-	public void addRole(UserContext userContext, User user, Role role) {
-		// TODO Auto-generated method stub
-		
+	public void removeRole(UserContext userContext, String userName, Role role) {
+		ProductManager productManager = ProductManager.getInstance();
+		UserManager userManager = UserManager.getInstance();
+		String name = userContext.getUserName();
+
+		if (((role instanceof RolePE) && userManager.isPLE(name))
+			|| ((role instanceof RoleP) && userManager.isPE(name))) {
+			User user = userManager.getUser(userName);
+			if (user != null) {
+				user.removeRole(role);
+			}
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#removeRole(kobold.common.data.UserContext, kobold.common.data.User, kobold.common.data.Role)
+	/**
+	 * Applies modifications to the given Productline.
+	 * @param userContext the user context.
+	 * @param productline the productline. 
 	 */
-	public void removeRole(UserContext userContext, User user, Role role) {
-		// TODO Auto-generated method stub
-		
+	public void applyProductlineModifications(UserContext userContext, Productline productline) {
+		UserManager userManager = UserManager.getInstance();
+		if (userManager.isPLE(userContext.getUserName())) {
+		 		ProductManager productManager = ProductManager.getInstance();
+		  		Productline pline = productManager.getProductLine(productline.getName());
+		  		productManager.removeProductLine(pline);
+		  		productManager.addProductLine(productline);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#applyProductlineModfiications(kobold.common.data.UserContext, kobold.common.data.Productline)
+	/**
+	 * Applies modifications to the given Product.
+	 * @param userContext the user context.
+	 * @param product the product. 
 	 */
-	public void applyProductlineModfiications(UserContext userContext, Productline productline) {
-		// TODO Auto-generated method stub
-		
+	public void applyProductModifications(UserContext userContext, Product product) {
+		UserManager userManager = UserManager.getInstance();
+		if (userManager.isPLE(userContext.getUserName()) ||
+		    userManager.isPE(userContext.getUserName()))
+		{
+				ProductManager productManager = ProductManager.getInstance();
+				Product p = productManager.getProduct(product.getName());
+				productManager.removeProduct(p);
+				productManager.addProduct(product);
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#applyProductModfiications(kobold.common.data.UserContext, kobold.common.data.Product)
+	/**
+	 * Removes the specified user.
+	 * @param userContext the user context.
+	 * @param userName the user to remove.
 	 */
-	public void applyProductModfiications(UserContext userContext, Product product) {
-		// TODO Auto-generated method stub
+	public void removeUser(UserContext userContext, String userName) {
 		
+		if (userContext.getUserName() != userName) {
+			UserManager manager = UserManager.getInstance();
+			if (manager.isPLE(userName)) {
+				return;
+			}
+			else if ((manager.isPE(userName) && manager.isPLE(userContext.getUserName())) ||
+						(!manager.isPE(userName) && manager.isPE(userContext.getUserName())))
+			{
+				User user = manager.getUser(userName);
+				manager.removeUser(user);
+			}
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#removeUser(kobold.common.data.UserContext, kobold.common.data.User)
-	 */
-	public void removeUser(UserContext userContext, User user) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#sendMessage(kobold.common.data.UserContext, kobold.common.data.KoboldMessage)
+	/**
+	 * Sends a KoboldMessage or WorkflowMessage.
+	 * 
+	 * @param userContext the user context.
+	 * @param koboldMessage the message.
 	 */
 	public void sendMessage(UserContext userContext, KoboldMessage koboldMessage) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#fetchMessage(kobold.common.data.UserContext)
+	/**
+	 * Fetches a single KoboldMessage. Should be put to a queue.
+	 * Note: to remove the message from Servers message queue,
+	 * it has to be invalidated using invalidateMessage!
+	 * 
+	 * @param userContext the user context.
 	 */
 	public KoboldMessage fetchMessage(UserContext userContext) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.ServerInterface#invalidateMessage(kobold.common.data.UserContext, kobold.common.data.KoboldMessage)
+	/**
+	 * Invalidates the specified message. This method will remove the message
+	 * from Servers message queue.
+	 * 
+	 * @param userContext the user context.
+	 * @param koboldMessage the message.
 	 */
-	public KoboldMessage invalidateMessage(UserContext userContext, KoboldMessage koboldMessage) {
+	public void invalidateMessage(UserContext userContext, KoboldMessage koboldMessage) {
 		// TODO Auto-generated method stub
-		return null;
+
 	}
 
 

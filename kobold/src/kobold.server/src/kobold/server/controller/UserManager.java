@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.4 2004/05/06 23:30:23 garbeam Exp $
+ * $Id: UserManager.java,v 1.5 2004/05/13 23:45:24 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -41,6 +41,9 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
+import kobold.common.data.Role;
+import kobold.common.data.RolePE;
+import kobold.common.data.RolePLE;
 import kobold.common.data.User;
 
 /**
@@ -78,6 +81,43 @@ public class UserManager {
 	 */
 	public void addUser(User user) {
 		users.put(user.getUserName(), user);
+	}
+
+
+	/**
+	 * @return <code>true</code> if the userContext is PLE.
+	 * @param userName the user name.
+	 */
+	public boolean isPLE(String userName) {
+		 User user = getUser(userName);
+		 if (user != null) {
+		 	List roles = user.getRoles();
+			for (Iterator it = roles.iterator(); it.hasNext(); ) {
+				Role role = (Role) it.next();
+				if (role instanceof RolePLE) {
+					return true;
+				}
+			}
+		 }
+		return false;
+	}
+
+	/**
+		 * @return <code>true</code> if the userContext is PE.
+		 * @param userName the user name.
+		 */
+	public boolean isPE(String userName) {
+		User user = getUser(userName);
+		if (user != null) {
+			List roles = user.getRoles();
+			for (Iterator it = roles.iterator(); it.hasNext();) {
+				Role role = (Role) it.next();
+				if (role instanceof RolePE) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
