@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ConnectionCommand.java,v 1.2 2004/07/26 18:39:16 vanto Exp $
+ * $Id: ConnectionCommand.java,v 1.3 2004/08/03 15:16:40 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
 
+import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.edges.INode;
@@ -40,6 +41,10 @@ public class ConnectionCommand extends Command
 {
     private INode sourceNode;
     private INode targetNode;
+    
+    private String targetType;
+    private String sourceType;
+    
     private String type;
     
     private Edge edge;
@@ -51,6 +56,14 @@ public class ConnectionCommand extends Command
     {
         EdgeContainer ec = sourceNode.getRoot().getEdgeContainer();
         edge = ec.addEdge(sourceNode, targetNode, type);
+        if (sourceNode instanceof MetaNode) {
+            sourceType = ((MetaNode)sourceNode).getEdgeType();
+            ((MetaNode)sourceNode).setEdgeType(type);
+        }
+        if (targetNode instanceof MetaNode) {
+            targetType = ((MetaNode)targetNode).getEdgeType();
+            ((MetaNode)targetNode).setEdgeType(type);
+        }
     }
     
     /**
@@ -60,6 +73,14 @@ public class ConnectionCommand extends Command
     {
         EdgeContainer ec = sourceNode.getRoot().getEdgeContainer();
         ec.addEdge(edge.getStartNode(), edge.getTargetNode(), edge.getType());
+        if (sourceNode instanceof MetaNode) {
+            sourceType = ((MetaNode)sourceNode).getEdgeType();
+            ((MetaNode)sourceNode).setEdgeType(type);
+        }
+        if (targetNode instanceof MetaNode) {
+            targetType = ((MetaNode)targetNode).getEdgeType();
+            ((MetaNode)targetNode).setEdgeType(type);
+        }
     }
     
     /**
@@ -69,6 +90,13 @@ public class ConnectionCommand extends Command
     {
         EdgeContainer ec = sourceNode.getRoot().getEdgeContainer();
         ec.removeEdge(edge.getStartNode(), edge.getTargetNode(), edge.getType());
+        if (sourceNode instanceof MetaNode) {
+            ((MetaNode)sourceNode).setEdgeType(sourceType);
+        }
+        if (targetNode instanceof MetaNode) {
+            ((MetaNode)targetNode).setEdgeType(targetType);
+        }
+
     }
     
     /**

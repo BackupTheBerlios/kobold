@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaNode.java,v 1.2 2004/07/23 22:27:11 vanto Exp $
+ * $Id: MetaNode.java,v 1.3 2004/08/03 15:16:40 vanto Exp $
  *
  */ 
 package kobold.client.plam.model;
@@ -37,7 +37,7 @@ public class MetaNode  extends AbstractAsset {
     public static final String AND = META_NODE + ".AND";
     
     private String type;
-    private String id;
+    private String edgeType;
     
     public MetaNode(String type){
         this.type = type;
@@ -50,4 +50,15 @@ public class MetaNode  extends AbstractAsset {
     public String getType() {
         return type;
     }
+    
+    public String getEdgeType() 
+    {
+        return edgeType;
+    }
+    
+    public void setEdgeType(String edgeType) 
+    {
+        this.edgeType = edgeType;
+    }
+
 }

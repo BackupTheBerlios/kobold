@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaEditPart.java,v 1.1 2004/07/23 22:27:11 vanto Exp $
+ * $Id: MetaEditPart.java,v 1.2 2004/08/03 15:16:40 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -56,5 +56,4 @@ public class MetaEditPart extends AbstractAssetEditPart
         rect.add(label);
         return rect;
     }
-
 }

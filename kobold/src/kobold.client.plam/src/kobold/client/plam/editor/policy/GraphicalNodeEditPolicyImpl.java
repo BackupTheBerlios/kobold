@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalNodeEditPolicyImpl.java,v 1.5 2004/08/03 14:53:05 vanto Exp $
+ * $Id: GraphicalNodeEditPolicyImpl.java,v 1.6 2004/08/03 15:16:40 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
@@ -29,6 +29,7 @@ package kobold.client.plam.editor.policy;
 import kobold.client.plam.editor.command.ConnectionCommand;
 import kobold.client.plam.editor.editpart.MetaEditPart;
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.edges.INode;
 
@@ -40,7 +41,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * GraphicalNodeEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.5 2004/08/03 14:53:05 vanto Exp $
+ * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.6 2004/08/03 15:16:40 vanto Exp $
  */
 public class GraphicalNodeEditPolicyImpl
     extends org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy {
@@ -67,6 +68,15 @@ public class GraphicalNodeEditPolicyImpl
             }
         }
 
+        // check meta node policy
+        Object m = getHost().getModel();
+        if (m instanceof MetaNode) {
+            String edgeType = ((MetaNode)m).getEdgeType();
+            if (edgeType != null && !edgeType.equals(command.getType())) {
+                return null;
+            }
+        }
+        
         // dont allow connection if target node is an ancestor of source
         parent = (AbstractAsset)command.getSourceNode();
         while (parent != null) {
@@ -85,6 +95,17 @@ public class GraphicalNodeEditPolicyImpl
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
      */
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
+
+        // check meta node policy
+        Object m = getHost().getModel();
+        if (m instanceof MetaNode) {
+            String edgeType = ((MetaNode)m).getEdgeType();
+            if (edgeType != null && !edgeType.equals(request.getNewObjectType())) {
+                return null;
+            }
+        }
+
+        
         ConnectionCommand command = new ConnectionCommand();
     	command.setSourceNode((INode)getHost().getModel());
         command.setType((String)request.getNewObjectType());
