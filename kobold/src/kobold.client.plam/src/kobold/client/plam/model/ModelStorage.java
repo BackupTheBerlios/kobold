@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.54 2004/11/09 16:17:32 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.55 2004/11/09 17:05:45 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -345,6 +345,7 @@ public class ModelStorage
     private static void createAddCandidates(List addCandidates, IFileDescriptorContainer fdc) {
         for (Iterator it = fdc.getFileDescriptors().iterator(); it.hasNext();) {
             FileDescriptor fd = (FileDescriptor) it.next();
+            System.out.println("XXXX: " + fd.getFilename());
             createAddCandidates(addCandidates, fd);
             if (fd.getRevision() == null) {
                 addCandidates.add(fd);

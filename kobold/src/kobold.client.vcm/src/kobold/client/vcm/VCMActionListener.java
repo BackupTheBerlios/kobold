@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.24 2004/11/09 16:24:23 memyselfandi Exp $
+ * $Id: VCMActionListener.java,v 1.25 2004/11/09 17:05:45 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -270,8 +270,6 @@ public class VCMActionListener implements IVCMActionListener
                         tmpPath2.append(tmpResource.getName()).toFile().delete();
                         tmpResource.move(tmpPath2,true,new NullProgressMonitor());
                     }
-                    
-//                    tmpResource.
                 }
                 IFolder addedProductFolder = project.getFolder(productFolder.addTrailingSeparator().append(release.getName()));
                 if (addedProductFolder.exists())
@@ -285,8 +283,6 @@ public class VCMActionListener implements IVCMActionListener
             {
                 e.printStackTrace();
             }
-            
-		    
 		}
     }
 
