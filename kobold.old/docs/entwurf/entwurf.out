@@ -16,13 +16,18 @@
 \BOOKMARK [1][-]{section.2.12}{Controlerkomponente GEF}{chapter.2}
 \BOOKMARK [1][-]{section.2.13}{Controlerkomponente Eclipse-Plattform}{chapter.2}
 \BOOKMARK [1][-]{section.2.14}{Controlerkomponente Team-Plugin}{chapter.2}
-\BOOKMARK [1][-]{section.2.15}{Controlerkomponente VCM-Wrapper}{chapter.2}
-\BOOKMARK [2][-]{subsection.2.15.1}{Zusammenfassung}{section.2.15}
-\BOOKMARK [2][-]{subsection.2.15.2}{Manueller Import der Einstellungen}{section.2.15}
-\BOOKMARK [2][-]{subsection.2.15.3}{Automatischer Import der Einstellungen}{section.2.15}
-\BOOKMARK [2][-]{subsection.2.15.4}{Automatischer Login bei wiederholtem Zugriff}{section.2.15}
-\BOOKMARK [2][-]{subsection.2.15.5}{Ablaufschritte beim Zugriff auf das Repository}{section.2.15}
-\BOOKMARK [1][-]{section.2.16}{Viewkomponente RollenView}{chapter.2}
+\BOOKMARK [1][-]{section.2.15}{Delegater-Schicht}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.15.1}{Ablauf}{section.2.15}
+\BOOKMARK [2][-]{subsection.2.15.2}{Automatischer Login bei wiederholtem Zugriff}{section.2.15}
+\BOOKMARK [2][-]{subsection.2.15.3}{R\374ckgabewerte des Servers}{section.2.15}
+\BOOKMARK [1][-]{section.2.16}{Controlerkomponente VCM-Wrapper}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.16.1}{Zusammenfassung}{section.2.16}
+\BOOKMARK [2][-]{subsection.2.16.2}{Manueller Import der Einstellungen}{section.2.16}
+\BOOKMARK [2][-]{subsection.2.16.3}{Automatischer Import der Einstellungen}{section.2.16}
+\BOOKMARK [2][-]{subsection.2.16.4}{Ablaufschritte beim Zugriff auf das Repository}{section.2.16}
+\BOOKMARK [2][-]{subsection.2.16.5}{M\366gliche Wrapper-Aktionen}{section.2.16}
+\BOOKMARK [2][-]{subsection.2.16.6}{Skriptausf\374hrung}{section.2.16}
+\BOOKMARK [2][-]{subsection.2.16.7}{Konsistenzcheck bei der Produktzusammenstellung}{section.2.16}
 \BOOKMARK [0][-]{chapter.3}{Server}{}
 \BOOKMARK [1][-]{section.3.1}{\334berblick}{chapter.3}
 \BOOKMARK [1][-]{section.3.2}{Komponente Kobold Interface}{chapter.3}
