@@ -174,4 +174,12 @@ public class ServerInterfaceImpl implements ServerInterface {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see kobold.server.controller.ServerInterface#getRoles(kobold.common.data.UserContext)
+	 */
+	public List getRoles(UserContext userContext) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
