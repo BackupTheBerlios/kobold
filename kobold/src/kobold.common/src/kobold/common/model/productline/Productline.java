@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.8 2004/06/24 00:12:51 rendgeor Exp $
+ * $Id: Productline.java,v 1.9 2004/06/24 00:44:11 rendgeor Exp $
  *
  */
 package kobold.common.model.productline;
@@ -245,6 +245,7 @@ public class Productline extends AbstractAsset
 
 	
 	public void deserialize(Element element) {
+		System.out.print ("start deserializing!");
 	    super.deserialize(element);
 	    repositoryPath = element.attributeValue("repositoryPath");
 	    
@@ -255,6 +256,8 @@ public class Productline extends AbstractAsset
 		     		  deserializing it from there.
 		    */
 		    // FIXME: addProduct(AbstractAsset.createProduct(localPath));
+		    addProduct(new Product (pEl.getTextTrim()));
+		    System.out.print ("Product "+ pEl.getTextTrim() + " created!");
 		}
 		
 		// FIXME: Same here with coreassets.

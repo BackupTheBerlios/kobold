@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.6 2004/06/24 00:12:51 rendgeor Exp $
+ * $Id: AbstractAsset.java,v 1.7 2004/06/24 00:44:11 rendgeor Exp $
  *
  */
 package kobold.common.model;
@@ -222,11 +222,13 @@ public abstract class AbstractAsset implements ISerializable
         name = element.elementTextTrim("name");
         description = element.elementTextTrim("description");
         
-        
-    	Iterator it = element.element("states").elementIterator("status");
-		while (it.hasNext()) {
-		    Element stEl = (Element)it.next();
-		    addStatus(AbstractStatus.createStatus(stEl));
+		if (element.element("states") != null)
+        {
+	    	Iterator it = element.element("states").elementIterator("status");
+			while (it.hasNext()) {
+			    Element stEl = (Element)it.next();
+			    addStatus(AbstractStatus.createStatus(stEl));
+			}
 		}
     }
     
