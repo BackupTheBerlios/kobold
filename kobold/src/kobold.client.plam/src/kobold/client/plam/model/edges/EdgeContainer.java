@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.18 2004/08/22 10:47:58 martinplies Exp $
+ * $Id: EdgeContainer.java,v 1.19 2004/08/23 01:42:10 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -298,6 +298,26 @@ public class EdgeContainer implements ISerializable {
             }
         }
         return Collections.unmodifiableList(list);
+    }
+    
+    /**
+     * @param node
+     * @return Returns list with edges to and from this node.
+     */
+    public List getEdges(INode node){
+        List list = new ArrayList();
+        if (startNodesList.containsKey(node)){
+            list.addAll((List)startNodesList.get(node));                        
+        }
+        if (targetNodesList.containsKey(node)){
+            list.addAll((List)targetNodesList.get(node));            
+            
+        }
+        if (list.size() > 0){
+          return Collections.unmodifiableList(list);
+        }else {
+            return Collections.EMPTY_LIST;
+        }
     }
     
     /**
