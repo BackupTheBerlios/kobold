@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.31 2004/09/21 20:13:24 vanto Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.32 2004/09/21 20:56:58 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -158,7 +158,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		}
 		name.addModifyListener(  new ModifyListener() {
             public void modifyText(ModifyEvent e) {
-                if (!asset.isResourceDefined())
+                if (!(asset instanceof Release) && !asset.isResourceDefined())
                 {
                 	//resource name now generated automaically
                 	resource.setText(generateResourceName(name.getText()));
@@ -178,26 +178,27 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		if (!(asset instanceof Release)) {
     		label = new Label(panel, SWT.NONE);
     		label.setText("Resource:");
-    
+    		
     		resource = new Text(panel, SWT.BORDER | SWT.LEAD);
     		//disabled by default to set the resource automatically
     		//resource.setEnabled(!asset.isResourceDefined());
     		resource.setEnabled(false);
-    				
-            gd = new GridData(GridData.GRAB_HORIZONTAL
-    			| GridData.FILL_HORIZONTAL);
+    		
+    		gd = new GridData(GridData.GRAB_HORIZONTAL
+    		        | GridData.FILL_HORIZONTAL);
     		resource.setLayoutData(gd);
-
-		}
-		
-		//set the resource name
-		if (asset.getResource() != null) {
-		    resource.setText(asset.getResource());
-		} else {
-			//create a new resource name for the asset
-			//1) erase all blanks and special chars
-			//		2) test if resource name still exist
-		    resource.setText(generateResourceName(asset.getName()));
+    		
+    		
+    		
+    		//set the resource name
+    		if (asset.getResource() != null) {
+    		    resource.setText(asset.getResource());
+    		} else {
+    		    //create a new resource name for the asset
+    		    //1) erase all blanks and special chars
+    		    //		2) test if resource name still exist
+    		    resource.setText(generateResourceName(asset.getName()));
+    		}
 		}
 
 		
@@ -648,12 +649,13 @@ public class AssetConfigurationDialog extends TitleAreaDialog
             setMessage("Name should not be empty.",  IMessageProvider.WARNING);
             return false;
         }
-        
-        //check the resource
-        str = resource.getText();
-        if (str.length() == 0) {
-            setErrorMessage("Resource must not be empty - please choose an unique resource name.");
-            return false;
+        if (! (asset instanceof Release)){
+            //check the resource
+            str = resource.getText();
+            if (str.length() == 0) {
+                setErrorMessage("Resource must not be empty - please choose an unique resource name.");
+                return false;
+            }
         }
 
         
@@ -693,8 +695,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 
     	//replace all white spaces
     	resName = resName.replaceAll(" ","_");
-    	File f = new File("!\"§$%&/-\\()=?");
-    	//
+
     	resName = avoidEqualRecourceNames(resName);
     	
     	//returns the resourceName
