@@ -1,5 +1,5 @@
 #Fat Jar Configuration File
-#Thu Sep 16 16:06:11 CEST 2004
+#Fri Oct 08 11:16:31 CEST 2004
 jarname=kobold.client.serveradmin_fat.jar
 manifest.mergeall=true
 includes=
