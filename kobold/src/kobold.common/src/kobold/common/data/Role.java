@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Role.java,v 1.4 2004/05/04 22:29:46 garbeam Exp $
+ * $Id: Role.java,v 1.5 2004/05/04 22:31:12 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -37,7 +37,6 @@ import org.dom4j.Element;
  */
 public abstract class Role {
 
-	
 	/**
 	 * Creates the specific role and returns it.
 	 * 
@@ -45,7 +44,7 @@ public abstract class Role {
 	 * @return
 	 */
 	public static Role createRole(Element element) {
-		
+
 		String roleType = element.selectSingleNode("//roles/role").getText();
 		if (roleType == "PLE") {
 			return new RolePLE(element);
@@ -55,12 +54,12 @@ public abstract class Role {
 			return new RoleP(element);
 		}
 	}
-	
+
 	/**
-		 * Serializes this object.
-		 * 
-		 * @param roles DOM parent element to attach this role.
-		 */
+	 * Serializes this object.
+	 * 
+	 * @param roles DOM parent element to attach this role.
+	 */
 	public abstract void serialize(Element roles);
 
 }
