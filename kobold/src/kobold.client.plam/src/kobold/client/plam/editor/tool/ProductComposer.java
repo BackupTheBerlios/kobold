@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- *
+ * $Id: ProductComposer.java,v 1.14 2004/08/26 16:57:56 martinplies Exp $
  */
 package kobold.client.plam.editor.tool;
 
