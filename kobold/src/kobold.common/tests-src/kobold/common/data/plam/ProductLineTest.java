@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.2 2004/06/09 11:47:47 rendgeor Exp $
+ * $Id: ProductLineTest.java,v 1.3 2004/06/09 14:45:16 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -62,26 +62,29 @@ public class ProductLineTest extends TestCase {
 		pl.addProduct(productB);
 		
 		//--
-		Component componentA = new Component ("compA", false);
-		Component componentB = new Component ("compB", false);
+		ComponentRelated componentA = new ComponentRelated ("compA");
+		ComponentRelated componentB = new ComponentRelated ("compB");
+		
+		ComponentSpecific componentC = new ComponentSpecific ("compC");
 		
 		productA.addComponent(componentA);
 		productA.addComponent(componentB);
 		
 		//--
-		/*Variant variantA = new Variant ("varA");
+		Variant variantA = new Variant ("varA");
 		Variant variantB = new Variant ("varB");
 		
 		componentA.addVariant(variantA);
 		componentA.addVariant(variantB);
-		*/
+		
 		//--
 		Version versionA = new Version ("versA");
 		Version versionB = new Version ("versB");
 
-		componentA.addVersion(versionA);
-		componentA.addVersion(versionB);
-		
+		componentC.addVersion(versionA);
+		componentC.addVersion(versionB);
+
+	
 		//--
 		FileDescriptor fd1 = new FileDescriptor ("fd1");
 		versionA.addFileDescriptor(fd1);

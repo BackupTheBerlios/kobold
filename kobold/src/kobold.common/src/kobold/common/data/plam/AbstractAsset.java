@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.1 2004/06/09 14:33:13 rendgeor Exp $
+ * $Id: AbstractAsset.java,v 1.2 2004/06/09 14:45:16 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -53,6 +53,8 @@ public abstract class AbstractAsset implements ISerializable {
 	public AbstractAsset(String name) {
 		this.name = name;
 		this.id = IdManager.getInstance().getModelId(getType());
+		//sets the parent
+		setParent ();
 	}
 	
 	public String getName() {
@@ -86,7 +88,21 @@ public abstract class AbstractAsset implements ISerializable {
 	/**
 	 * @param parent The parent to set.
 	 */
-	public void setParent(int parent) {
-		this.parent = parent;
+	public void setParent() {
+		/*
+		 * TODO: setze this pointer
+		 this.parent = this;
+		 */
+	}
+	
+	public /*int*/void getRoot(){
+		while (getParent() != 0)
+		{
+			//TODO: pointer in java??
+			/*
+			int root = root.getParent();
+		}
+		return root*/;
+		}
 	}
 }

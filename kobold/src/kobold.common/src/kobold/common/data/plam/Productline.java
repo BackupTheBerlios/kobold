@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.5 2004/06/09 14:33:13 rendgeor Exp $
+ * $Id: Productline.java,v 1.6 2004/06/09 14:45:16 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -72,10 +72,7 @@ public class Productline extends AbstractAsset{
 		
 		products = new HashMap ();
 		coreAssets = new HashMap ();
-		
-		//set the parent
-		setParent(0);
-		
+	
 	}
 
 
