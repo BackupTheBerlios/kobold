@@ -21,18 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.3 2004/05/18 11:21:50 vanto Exp $
+ * $Id: WorkflowView.java,v 1.4 2004/05/18 19:03:29 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
 
-import java.awt.Dialog;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.listeners.IProjectChangeListener;
 import kobold.common.data.AbstractKoboldMessage;
+import kobold.common.data.KoboldMessage;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.Action;
@@ -280,7 +280,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 			if (msg == null) return null;
 			
 			switch (index) {
-				case 0: return (msg.getType() == AbstractKoboldMessage.TYPE)?kImage:wImage;
+				case 0: return (msg.getType() == KoboldMessage.TYPE)?kImage:wImage;
 				case 1: return getPriorityImage((AbstractKoboldMessage)obj);
 			}
 
