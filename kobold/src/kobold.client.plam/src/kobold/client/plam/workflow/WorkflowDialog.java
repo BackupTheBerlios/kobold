@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.5 2004/05/16 22:25:55 vanto Exp $
+ * $Id: WorkflowDialog.java,v 1.6 2004/05/17 00:56:40 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -30,11 +30,13 @@ package kobold.client.plam.workflow;
  * @author pliesmn
  */
 
-import java.util.ListIterator;
+import java.util.ArrayList;
+import java.util.*;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.WorkflowItem;
+import kobold.common.data.WorkflowMessage;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -50,16 +52,16 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class WorkflowDialog extends Dialog {
 	String description;
-	String subject;
-	Composite parent1;
+	KoboldMessage msg;
+	private List viewItems = new ArrayList();
+	private ContainerViewItem containerItem;
 	//List checkButton
 
 	
 	public WorkflowDialog(Shell parentShell, KoboldMessage msg)
 	{
-		super(parentShell);
-		this.parent1 = parentShell;
-		this.subject = msg.getSubject();	
+	    super(parentShell);	
+		this.msg = msg;		
 	}
 	
 	/*public WorkflowDialog(Shell parentShell, WorkflowItemGroup  workflowItemGroup, String subject, String description) {		
@@ -76,13 +78,40 @@ public class WorkflowDialog extends Dialog {
 		area.setLayout(new GridLayout());
 		Label lbl = new Label(area,SWT.NONE);
 		lbl.setText(subject);
-		Button b = new Button(parent1,SWT.PUSH);
-		b.setText("dsgtdfgtfh");
-		//addItem(area,workflowItemGroup);
+
+		Composite header = new Composite(area, SWT.NONE);
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 2;
+		header.setLayout(gridLayout);
 		
-		// DESIGNER: Add controls before this line.
+		new Label(header, SWT.NONE).setText("Sender:");
+		new Label(header, SWT.NONE).setText(msg.getSender());
+		new Label(header, SWT.NONE).setText("Receiver:");
+		new Label(header, SWT.NONE).setText(msg.getReceiver());
+		new Label(header, SWT.NONE).setText("Subject:");
+		new Label(header, SWT.NONE).setText(msg.getSubject());
+		
+		if (msg instanceof WorkflowMessage) {
+			WorkflowItem[] items = ((WorkflowMessage)msg).getWorkflowControls();
+			WorkflowItem wi = new WorkflowItem("","",WorkflowItem.CONTAINER);
+			wi.addChildren(items);
+		    containerItem = new ContainerViewItem(wi);
+		}
+		
+		
+		
+		
+		Composite buttons = new Composite(parent, SWT.NONE);		
+		gridLayout = new GridLayout();
+		gridLayout.numColumns = 2;
+		buttons.setLayout(gridLayout);
+		
+		Button ok = new Button(buttons, SWT.NONE);
+		ok.setText("Send");
+
+		Button close = new Button(buttons, SWT.NONE);
+		close.setText("Close");	
 		return area;
-		
 	}
 	
 	/**
@@ -101,22 +130,26 @@ public class WorkflowDialog extends Dialog {
 			}					
 		}
 	}*/
-	
+/*	
 	private void addItem(Composite area, WorkflowItem workflowItem) {
 	   int style;
 		if (workflowItem.getType() == (WorkflowItem.RADIO))
 		  style = SWT.RADIO;
 		else style = SWT.CHECK;			
-		Button b = new Button(area, style);
-			
-					
+		Button b = new Button(area, style);							
 	}
 	
-
-	protected void createButtonsForButtonBar(Composite parent) {
+*/
+	protected void createButtonsForButtonBar(Composite parent) {		
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+		
 	}
+	
+	public void okPressed() {
+		
+	}
+	
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText("Workflow Dialog");
@@ -125,10 +158,7 @@ public class WorkflowDialog extends Dialog {
 	
 	
 	
-/*	public boolean getCBValue(){
-		cb.g		
-	}
- */
+
 }
 
 

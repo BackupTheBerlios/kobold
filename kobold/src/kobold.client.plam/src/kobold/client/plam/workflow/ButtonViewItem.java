@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CheckboxViewItem.java,v 1.1 2004/05/15 02:10:23 vanto Exp $
+ * $Id: ButtonViewItem.java,v 1.1 2004/05/17 01:00:07 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -39,13 +39,15 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * @author Tammo
  */
-public class CheckboxViewItem extends AbstractViewItem {
+public class ButtonViewItem extends AbstractViewItem {
 
-	private Button checkbox;
+	private Button button;
+	private int type; 
 	/**
 	 */
-	public CheckboxViewItem(WorkflowItem item) {
+	public ButtonViewItem(WorkflowItem item,int swtType) {
 		super(item);
+		type = swtType;
 	}
 
 	/**
@@ -60,14 +62,14 @@ public class CheckboxViewItem extends AbstractViewItem {
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		control.setLayoutData(data);
 
-		control.setBackground(ColorConstants.white);
+		//control.setBackground(ColorConstants.white);
 
-		checkbox = new Button(control, SWT.CHECK);
-		checkbox.setSelection(item.getValue().equals("true"));
-		checkbox.setText(item.getDescription());
+		button = new Button(control, type);
+		//button.setSelection(item.getValue().equals("true"));
+		button.setText(item.getDescription());
 		
 		data = new GridData(GridData.FILL_HORIZONTAL);
-		checkbox.setLayoutData(data);
+		button.setLayoutData(data);
 
 		return control;
 	}
@@ -76,8 +78,8 @@ public class CheckboxViewItem extends AbstractViewItem {
 	 * @see kobold.client.plam.workflow.AbstractViewItem#applyValues()
 	 */
 	public void applyValues() {
-		if (checkbox != null) {
-			item.setValue(checkbox.getSelection()?"true":"false");
+		if (button != null) {
+			item.setValue(button.getSelection()?"true":"false");
 		}
 	}
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowItem.java,v 1.4 2004/05/15 02:11:01 vanto Exp $
+ * $Id: WorkflowItem.java,v 1.5 2004/05/17 01:04:36 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -83,6 +83,15 @@ public class WorkflowItem {
 		if (!type.equals(WorkflowItem.CONTAINER))
 			throw new IllegalArgumentException("illegal add");
 		children.add(control);	
+	}
+	
+	
+	public void addChildren(WorkflowItem[] control)
+	{
+		if (!type.equals(WorkflowItem.CONTAINER))
+			throw new IllegalArgumentException("illegal add");
+		for (int itemNr =0; itemNr <  control.length; itemNr++)
+		  children.add(control[itemNr]);	
 	}
 	
 	public WorkflowItem[] getChildren()
