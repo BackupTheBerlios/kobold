@@ -8,23 +8,27 @@ Die Spezifikation bietet außerdem eine wichtige Grundlage für spätere Wartungsar
 Das Dokument richtet sich an die Mitglieder des Teams sowie an den Auftraggeber und dessen technische Berater.\par
 Es wird vom Auftraggeber abgenommen und ist von da an Vertragsbestandteil für die weitere Entwicklung von Kobold und somit auch Grundlage für die Abnahme nach der ersten Iteration.
 
-\section{Über Kobold}
+\section{Das Kobold-System}
 
 Das wesentliche Einsatzziel des Produktlininen Management Systems Kobold ist die werkzeugunterstützte 
 Entwicklung und Pflege von Softwareproduktlinien und die Etablierung eines rollenbasierten 
 Entwicklungsprozesses.\newline
 
-Kobold unterstützt drei unterschiedliche Rollen: Der Produktlinieningenieur, der Produktingenieur und der Programmierer. \par
+\subsection{Grundlegende Architekturentscheindungen}
+Um Inkonsistenzen im Produkt bzw. der Produktlinie zu vermeiden, ist es nötig eine Zentrale Benutzerverwaltung anzusprechen, 
+die Rechte, Rollen und Verpflichtungen der Benutzer bereitstellt. Einem Benutzer können mehrere Rollen zugeordnet werden.
+Kobold unterstützt drei unterschiedliche Rollen: Den Produktlinieningenieur, den Produktingenieur und den Programmierer. \par
 Dem Produktlinieningenieur untersteht eine Produktlinie. 
 Er verwaltet außerdem die Rechte seiner Produktingenieure. Diese verwalten ein einzelnes Produkt einer Produktlinie. Die dritte und letzte Rolle ist die des  
 Programmierers, der dem Produktingenieur untersteht und dessen Produkte implementiert.\newline
 
-Die Architektur von Kobold besteht aus zwei Teilen: Der Client und der Server. \newline
+\subsection{Client-Server Architektur}
+Die Architektur von Kobold besteht aus zwei Teilen: Dem Kobold Client und dem Kobold Server-Dienst. \newline
 Der Client bietet dem Benutzer eine graphische Benutzeroberfläche, über die er seine Produktlinien und seine 
 Produkte verwalten kann. Er kann damit seine Architekturen ansehen und verändern, neue Rollen verteilen, 
-Nachrichten verschicken, etc. (Genaueres wird in Kapitel 2 betrachtet).\newline
+Nachrichten verschicken, etc. (Genaueres wird in Kapitel 2 betrachtet). Die Architektur wird in einer Graphenform dargestellt.\newline
 
 Der Server verwaltet die Daten der einzelnen Benutzer und deren Zugriffsrechte. Er bietet den 
 Clients außerdem einen eigenen Nachrichtendienst. Führt der Client eine bestimmte Aktion durch, meldet er diese dem Server, 
 der sie dann auf mögliche Inkonsistenzen, die dabei auftreten können, untersucht. Der Server verwaltet auch die Pfade der Repositories, in 
-denen die Daten der Produkte und Produktlinien gespeichert und versioniert werden. 
+denen die Daten der Produkte und Produktlinien gespeichert und versioniert werden.
