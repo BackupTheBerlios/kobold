@@ -93,6 +93,8 @@ public class ScriptServerConnection implements IServerConnection
 	// The absolute path and name of the skript to be excecuted
 	private String skriptName = null;
 	
+	// The two Threads created for error and input reading
+	private Thread errorThread, inputThread;
 	
 	
 	
@@ -142,8 +144,8 @@ public class ScriptServerConnection implements IServerConnection
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
 				new IConsole[] {console});
 			stream = console.newMessageStream();
-			Thread inputThread = new InputThreadToConsole(inputStream,stream);//process.getInputStream(), stream);
-			Thread errorThread = new InputThreadToConsole(errStream,stream);//process.getErrorStream(), stream);
+			inputThread = new InputThreadToConsole(inputStream,stream);//process.getInputStream(), stream);
+			errorThread = new InputThreadToConsole(errStream,stream);//process.getErrorStream(), stream);
 //			readInpuStreamsToConsole();
 			inputThread.run();
 			errorThread.run();
@@ -152,6 +154,8 @@ public class ScriptServerConnection implements IServerConnection
 				try {
 					close();
 				} finally {
+					errorThread.destroy();
+					inputThread.destroy();
 					// Ignore any exceptions during close
 				}
 			}
@@ -164,7 +168,7 @@ public class ScriptServerConnection implements IServerConnection
 	 * @throws IOException
 	 * @throws CVSAuthenticationException
 	 */
-	public void open(String[] command, String returnStr) throws IOException,
+	public String open(String[] command, String returnStr) throws IOException,
 	CVSAuthenticationException
 {
 		IProgressMonitor progress = KoboldPolicy.monitorFor(null);
@@ -185,14 +189,10 @@ public class ScriptServerConnection implements IServerConnection
 			// full pipe
 			errStream = (process.getErrorStream());
 			connected = true;
-			Thread errorThread = new InputThreadToConsole(process.getErrorStream(), null);
-//			errorThread.
-			Thread inputThread = new InputThreadToConsole(process.getInputStream(), null);
-			((InputThreadToConsole)inputThread).setTest(returnStr);
-//			readInpuStreamsToConsole();
-//			errorThread.run();
-			System.out.println(",ajdckansldnlknasl");
+			inputThread = new InputThreadToConsole(process.getInputStream(), null);
+			((InputThreadToConsole)inputThread).setReturnString(returnStr);
 			inputThread.run();
+			return ((InputThreadToConsole)inputThread).getReturnString();
 		} finally {
 			if (!connected) {
 				try {
@@ -245,13 +245,13 @@ public class ScriptServerConnection implements IServerConnection
 			stream1 = console.newMessageStream();
 			stream2 = console.newMessageStream();
 			connected = true;
-			Thread errorThread = new InputThreadToConsole(process.getErrorStream(), stream2);
+			errorThread = new InputThreadToConsole(process.getErrorStream(), stream2);
 //			errorThread.
 			Thread inputThread = new InputThreadToConsole(process.getInputStream(), stream1);
 			
 //			readInpuStreamsToConsole();
 			errorThread.run();
-			System.out.println(",ajdckansldnlknasl");
+			
 			inputThread.run();
 
 //			readInpuStreamsToConsole();
@@ -285,6 +285,8 @@ public class ScriptServerConnection implements IServerConnection
 			{
 				outputStream = null;
 				if (process != null) process.destroy();
+				if (errorThread != null) errorThread.destroy();
+				if (inputThread != null) inputThread.destroy();
 			}
 		} 
 	}
@@ -361,7 +363,7 @@ public class ScriptServerConnection implements IServerConnection
 		private InputStream in;
 		private byte[] readLineBuffer = new byte[512];
 		private MessageConsoleStream stream = null;
-		String test = null;
+		String returnString = null;
 		public InputThreadToConsole(InputStream in,MessageConsoleStream stream ) {
 			this.in = in;
 			this.stream = stream;
@@ -384,8 +386,8 @@ public class ScriptServerConnection implements IServerConnection
 //					}
 					}
 //					stream.getConsole().
-					if(test != null)
-						test = new String(readLineBuffer, 0, index);
+					if(returnString != null)
+						returnString = new String(readLineBuffer, 0, index);
 					else{
 						stream.print(new String(readLineBuffer, 0, index));
 					}
@@ -406,11 +408,18 @@ public class ScriptServerConnection implements IServerConnection
 			buffer[index]= b;
 			return buffer;
 		}
+		
 		/**
-		 * @param test The test to set.
+		 * @return Returns the returnString.
 		 */
-		public void setTest(String test) {
-			this.test = test;
+		public String getReturnString() {
+			return returnString;
+		}
+		/**
+		 * @param returnString The returnString to set.
+		 */
+		public void setReturnString(String returnString) {
+			this.returnString = returnString;
 		}
 	}
 	/**
