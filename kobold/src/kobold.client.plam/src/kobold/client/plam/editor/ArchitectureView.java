@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureView.java,v 1.2 2004/05/17 00:25:02 vanto Exp $
+ * $Id: ArchitectureView.java,v 1.3 2004/05/17 02:12:23 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -46,6 +46,7 @@ import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
@@ -94,7 +95,8 @@ public class ArchitectureView extends ViewPart {
 		zoomLevels.add(ZoomManager.FIT_WIDTH);
 		zoomLevels.add(ZoomManager.FIT_HEIGHT);
 		root.getZoomManager().setZoomLevelContributions(zoomLevels);
-
+		
+		
 		IAction zoomIn = new ZoomInAction(root.getZoomManager());
 		IAction zoomOut = new ZoomOutAction(root.getZoomManager());
 		actionRegistry.registerAction(zoomIn);
@@ -102,6 +104,11 @@ public class ArchitectureView extends ViewPart {
 		getSite().getKeyBindingService().registerAction(zoomIn);
 		getSite().getKeyBindingService().registerAction(zoomOut);
 
+		IActionBars bars = getViewSite().getActionBars();
+		bars.getToolBarManager().add(zoomIn);
+		bars.getToolBarManager().add(zoomOut);
+		bars.getToolBarManager().add(new ZoomComboContributionItem(getSite().getPage()));
+		
 		viewer.setRootEditPart(root);
 
 		viewer.setEditPartFactory(new GraphicalPartFactory());
