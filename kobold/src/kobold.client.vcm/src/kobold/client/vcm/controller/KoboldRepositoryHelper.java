@@ -58,6 +58,7 @@ public class KoboldRepositoryHelper {
 	private static final Logger logger = Logger
 			.getLogger(KoboldRepositoryHelper.class);
 
+    public static final String REMOVEVCMDATA = "cleanvcmdata.pl";
     public static final String IMPORT = "import.";
 	public static final String ADD = "add.";
 	public static final String UPDATE = "update.";

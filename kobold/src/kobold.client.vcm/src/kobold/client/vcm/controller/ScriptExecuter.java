@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ScriptExecuter.java,v 1.4 2004/11/05 10:50:58 grosseml Exp $
+ * $Id: ScriptExecuter.java,v 1.5 2004/11/08 15:55:29 memyselfandi Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -63,7 +63,7 @@ public class ScriptExecuter
 	// Process spawn to run the command
 	Process process;
 
-	protected ScriptExecuter(String[] command) 
+	public ScriptExecuter(String[] command) 
 	{
 	    this.command = command;
 	}
@@ -122,6 +122,7 @@ public class ScriptExecuter
 			ethread.start();
 			process.waitFor();
 			String res = ((StringInputThread)othread).getResult();
+			System.out.println(res);
 			othread = null;
 			ethread = null;
 			return res;

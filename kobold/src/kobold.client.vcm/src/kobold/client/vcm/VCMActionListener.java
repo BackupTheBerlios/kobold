@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.18 2004/11/08 12:17:32 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.19 2004/11/08 15:55:29 memyselfandi Exp $
  *
  */
 package kobold.client.vcm;
@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
@@ -45,14 +47,21 @@ import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 import kobold.client.vcm.controller.KoboldRepositoryHelper;
+import kobold.client.vcm.controller.ScriptExecuter;
 import kobold.client.vcm.controller.StatusUpdater;
 import kobold.common.data.Asset;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.io.ScriptDescriptor;
 
+import org.eclipse.core.internal.resources.ResourceInfo;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException;
 
@@ -147,6 +156,116 @@ public class VCMActionListener implements IVCMActionListener
 			}
 		}
 		return command;
+    }
+
+    
+    /**
+     * @see kobold.client.plam.listeners.IVCMActionListener#addTotProduct(kobold.client.plam.model.product.Product)
+     */
+    public void addTotProduct(kobold.client.plam.model.product.Product product, Release release) {
+        
+        // First we create a temporary folder into which we want to check out the product 
+        ResourceInfo test = null;
+        IFolder tmpFolder = null;
+        Productline pl = product.getProductline();
+        try
+        {
+            IWorkspace workspace = ResourcesPlugin.getWorkspace();
+            KoboldProject koboldProject = KoboldPLAMPlugin.getCurrentKoboldProject();
+            IProject project = koboldProject.getProject();
+            tmpFolder = project.getFolder("VCMtmp");
+            if (!tmpFolder.exists())
+            {
+                tmpFolder.create(false, true, null);
+            }
+            else
+            {
+//                tmpFolder.delete(false, null);
+                tmpFolder.create(false, true, null);
+            }
+            
+//            tmpFolder.delete(false,null);
+        } catch (Exception e)
+        {
+            e.printStackTrace();// TODO: handle exception
+        }
+//        product.getR
+        {
+	        IProgressMonitor progress = KoboldPolicy.monitorFor(null);
+			String userName = KoboldRepositoryHelper.getUserName();
+			String password = KoboldRepositoryHelper.getUserPassword();
+			ScriptServerConnection connection =
+			    ScriptServerConnection.getConnection(pl.getRepositoryDescriptor().getRoot());
+			if (connection != null) {
+			    /**
+	             * # $1 working directory # $2 repo type # $3 protocoal type # $4
+	             * username # $5 password # $6 host # $7 root # $8 module # $9
+	             * userdef
+	             */
+			    String localPath = KoboldRepositoryHelper.localPathForAsset(pl);
+	    		String command[] = new String[9];
+	//    		Producitline parentProductLine = release.getRoot();
+	            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.CHECKOUT).concat(KoboldRepositoryHelper.getScriptExtension());
+			    command[1] = tmpFolder.getLocation().toOSString();
+			    command[2] = pl.getRepositoryDescriptor().getType();
+			    command[3] = pl.getRepositoryDescriptor().getProtocol();
+			    command[4] = userName;
+			    command[5] = password; 
+				command[6] = pl.getRepositoryDescriptor().getHost();
+				command[7] = pl.getRepositoryDescriptor().getRoot();
+				command[8] = release.getName();
+//				command[9] = "\"product checkout\"";
+				for (int j = 0; j < command.length; j++) {
+					System.out.print(command[j]);
+					System.out.print(" ");
+				}
+				try
+                {
+//				    connection.open(KoboldPolicy.monitorFor(null),command);
+//				    connection.close();
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+			}
+        }
+        String[] commandLine = {"perl", KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.REMOVEVCMDATA),tmpFolder.getLocation().toOSString(),pl.getRepositoryDescriptor().getType()};
+        ScriptExecuter connection2 = new ScriptExecuter(commandLine); //.getConnection(pl.getRepositoryDescriptor().getRoot());
+		if (connection2 != null) {
+		    
+		    try
+            {
+		        connection2.open(new NullProgressMonitor());
+		        connection2.close();
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            
+            // Now copy contents of tmpDir to product Dir
+            try
+            {
+                IPath productFolder = product.getLocalPath();
+                //= new Path(product.getLocalPath().toOSString()).setDevice(null).removeFirstSegments(1);
+                IPath tmpPath = tmpFolder.getLocation().makeAbsolute();
+//                productFolder  = productFolder.makeUNC(true);
+                int removeableSegments = productFolder.matchingFirstSegments(tmpPath);
+                productFolder = productFolder.removeFirstSegments(removeableSegments);
+                IResource[] tmpResources = tmpFolder.members();
+                for (int i = 0; i < tmpResources.length; i++)
+                {
+                    IResource tmpResource = tmpResources[i];
+//                    tmpResource.
+                }
+                tmpFolder.move(productFolder.addTrailingSeparator().append(release.getName()),true, new NullProgressMonitor());
+                
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            
+		    
+		}
     }
 
     /**

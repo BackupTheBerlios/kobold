@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ScriptServerConnection.java,v 1.54 2004/11/05 10:50:58 grosseml Exp $
+ * $Id: ScriptServerConnection.java,v 1.55 2004/11/08 15:55:29 memyselfandi Exp $
  */
 package kobold.client.vcm.communication;
 
@@ -318,8 +318,18 @@ public class ScriptServerConnection implements IServerConnection
 		return outputStream;
 	}
 	
-	// 
-	// discard the input to prevent the process from hanging due to a full pipe
+/*	private static byte[] append(byte[] buffer, int index, byte b) {
+		if (index >= buffer.length) {
+			byte[] newBuffer= new byte[index * 2];
+			System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
+			buffer= newBuffer;
+		}
+		buffer[index]= b;
+		return buffer;
+	}
+*/
+	
+	
 
 	private static class InputThreadToConsole extends Thread implements IRunnableWithProgress{
 		/**
@@ -363,13 +373,7 @@ public class ScriptServerConnection implements IServerConnection
                 while ( lineCount == 50 || i < 50)
                 {
                     monitor.worked(1);
-                    try
-                    {
-                        lineCount =  proc.exitValue();
-                    } catch (Exception e)
-                    {
-                        // Don't care
-                    }
+
                     if (in.available() != 0)
                     {
                         while ((r = in.read()) != -1)
@@ -387,6 +391,7 @@ public class ScriptServerConnection implements IServerConnection
                     {
                         stream.println(new String(readLineBuffer, 0, index));
                     }
+                    
 					if (logger.isDebugEnabled()) {
 						logger.debug("run()"
 								+ new String(readLineBuffer, 0, index));
@@ -398,6 +403,13 @@ public class ScriptServerConnection implements IServerConnection
                     {
                         monitor.worked(3);
                         i++;
+                    }
+                    try
+                    {
+                        lineCount =  proc.exitValue();
+                    } catch (Exception e)
+                    {
+                        // Don't care
                     }
                 }
                 monitor.done();

@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.Release;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.common.io.RepositoryDescriptor;
@@ -233,7 +232,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
         try {
 			progress = KoboldPolicy.monitorFor(progress);
 			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.REMOVE).concat(scriptExtension),
-			                 null, ScriptDescriptor.VCM_REMOVE);
+			                 null, KoboldRepositoryHelper.REMOVEVCMDATA);
 		} catch (Exception e) {
 			logger.error("remove(AbstractAsset[], IProgressMonitor)", e);
 		}
