@@ -21,32 +21,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: BogusProductlineException.java,v 1.1 2004/06/16 15:54:22 rendgeor Exp $
+ * $Id: VCMScriptInvocationException.java,v 1.4 2004/06/22 13:04:44 vanto Exp $
  *
  */
-package kobold.common.exceptions;
+package kobold.common.exception;
 
 import java.lang.Exception;
 import java.lang.String;
 import java.lang.Throwable;
 
 /**
- * Exception which should be thrown if a VCM action throws
- * an IOException or fails for some other reason.
+ * Exception which should be thrown if a script could not
+ * be invoced before or after an VCM action.
  *
  * @author garbeam
  */
-public class BogusProductlineException extends Exception {
-	
-	public BogusProductlineException() {
+public class VCMScriptInvocationException extends Exception {
+
+    public VCMScriptInvocationException() {
         super();
     }
 
-    public BogusProductlineException(String message) {
+    public VCMScriptInvocationException(String message) {
         super(message);
     }
 
-    public BogusProductlineException(String message, Throwable cause) {
+    public VCMScriptInvocationException(String message, Throwable cause) {
         super(message, cause);
     }
 }

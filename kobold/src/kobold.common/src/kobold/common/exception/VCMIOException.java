@@ -21,32 +21,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMNotPermitException.java,v 1.1 2004/06/16 15:54:22 rendgeor Exp $
+ * $Id: VCMIOException.java,v 1.4 2004/06/22 13:04:44 vanto Exp $
  *
  */
-package kobold.common.exceptions;
+package kobold.common.exception;
 
 import java.lang.Exception;
 import java.lang.String;
 import java.lang.Throwable;
 
 /**
- * Exception which should be thrown if a VCM action is not
- * permited in the specific context.
+ * Exception which should be thrown if a VCM action throws
+ * an IOException or fails for some other reason.
  *
  * @author garbeam
  */
-public class VCMNotPermitException extends Exception {
+public class VCMIOException extends Exception {
 
-    public VCMNotPermitException() {
+    public VCMIOException() {
         super();
     }
 
-    public VCMNotPermitException(String message) {
+    public VCMIOException(String message) {
         super(message);
     }
 
-    public VCMNotPermitException(String message, Throwable cause) {
+    public VCMIOException(String message, Throwable cause) {
         super(message, cause);
     }
 }
