@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.19 2004/11/08 15:55:29 memyselfandi Exp $
+ * $Id: VCMActionListener.java,v 1.20 2004/11/08 16:06:13 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -614,13 +614,11 @@ public class VCMActionListener implements IVCMActionListener
     			command[8] = fd.getLocalPath().toOSString();
     			for (int j = 0; j < command.length; j++) {
 					if (logger.isDebugEnabled()) {
-						logger
-								.debug("addFileDescriptors(AbstractRootAsset, List)"
+						logger.debug("addFileDescriptors(AbstractRootAsset, List)"
 										+ command[j]);
 					}
 					if (logger.isDebugEnabled()) {
-						logger
-								.debug("addFileDescriptors(AbstractRootAsset, List)");
+						logger.debug("addFileDescriptors(AbstractRootAsset, List)");
 					}
     			}
     			try {
@@ -632,8 +630,7 @@ public class VCMActionListener implements IVCMActionListener
     //				}
     			}
     			catch (Exception e) {
-					logger.error("addFileDescriptors(AbstractRootAsset, List)",
-							e);
+					logger.error("addFileDescriptors(AbstractRootAsset, List)", e);
     			}
 			}
 		    try {

@@ -22,6 +22,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  *
  */
+
 package kobold.client.vcm.controller;
 
 import org.apache.log4j.Logger;
