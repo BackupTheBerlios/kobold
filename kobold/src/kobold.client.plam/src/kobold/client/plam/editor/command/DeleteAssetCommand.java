@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.7 2004/09/20 06:40:39 martinplies Exp $
+ * $Id: DeleteAssetCommand.java,v 1.8 2004/09/20 11:36:11 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -91,11 +91,11 @@ public class DeleteAssetCommand extends Command
     /**
      * Delete recursivly all edges of an asset
      */
-    public void deleteEdgesOfAsset(INode asset, EdgeContainer ec){
+    public void deleteEdgesOfAsset(AbstractAsset asset, EdgeContainer ec){
         edges.addAll(ec.getEdgesTo(asset));
         edges.addAll(ec.getEdgesFrom(asset));
         for (Iterator ite = asset.getChildren().iterator(); ite.hasNext();) {
-            deleteEdgesOfAsset((INode) ite.next(), ec);
+            deleteEdgesOfAsset((AbstractAsset) ite.next(), ec);
         }
     }
     

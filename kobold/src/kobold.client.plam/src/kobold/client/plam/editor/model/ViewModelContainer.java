@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ViewModelContainer.java,v 1.7 2004/09/20 06:43:41 martinplies Exp $
+ * $Id: ViewModelContainer.java,v 1.8 2004/09/20 11:36:18 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -51,7 +51,7 @@ public class ViewModelContainer implements ISerializable
         deserialize(element);
     }
     
-    public ViewModel getViewModel(INode node) {
+    public ViewModel getViewModel(AbstractAsset node) {
         ViewModel prop = (ViewModel)propertyByModelId.get(node.getId());
         if (prop == null) {
             prop = new ViewModel();
