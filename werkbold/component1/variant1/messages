@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<kobold-messages>
+  <message type="kobold" id="7faaced0-76bc-11d9-84cf-d36bc22220dc" priority="normal" state="UN_FETCHED" productline="" role="">
+    <sender>Kobold Message Agent</sender>
+    <receiver>vanto</receiver>
+    <date>1107528795197</date>
+    <subject>Welcome</subject><![CDATA[Please enjoy your ride with the Kobold Productline Manager!
+
+You will be served orange juice and prosecco. If the stuart does not arrive, please call your system administrator.]]>
+  </message>
+  <message type="workflow" id="7faf62b0-76bc-11d9-84cf-d36bc22220dc" priority="normal" state="UN_FETCHED" productline="" role="">
+    <sender>vanto</sender>
+    <receiver>vanto</receiver>
+    <date>1107528795227</date>
+    <subject>Test workflow</subject><![CDATA[Das ist die Erklärung]]>
+    <workflow-id>testworkflow</workflow-id>
+    <comment><![CDATA[]]></comment>
+    <step>0</step>
+    <history/>
+    <controls>
+      <control>
+        <type>check</type>
+        <description>Kobold ist doof</description>
+        <value>false</value>
+      </control>
+      <control>
+        <type>check</type>
+        <description>Kobold ist toll</description>
+        <value>true</value>
+      </control>
+    </controls>
+    <results/>
+  </message>
+  <message type="workflow" id="7fb18590-76bc-11d9-84cf-d36bc22220dc" priority="normal" state="UN_FETCHED" productline="" role="">
+    <sender>pliesmn</sender>
+    <receiver>server</receiver>
+    <date>1107528795241</date>
+    <subject>Test workflow</subject><![CDATA[Das ist die Erklärung]]>
+    <workflow-id>testwf1</workflow-id>
+    <comment><![CDATA[]]></comment>
+    <step>0</step>
+    <history/>
+    <controls>
+      <control>
+        <type>check</type>
+        <description>Kobold ist doof</description>
+        <value>koboldDoof</value>
+      </control>
+      <control>
+        <type>check</type>
+        <description>Kobold ist toll</description>
+        <value>koboldToll</value>
+      </control>
+      <control>
+        <type>check</type>
+        <description>Kobold ist doof</description>
+        <value>koboldDoof</value>
+      </control>
+      <control>
+        <type>check</type>
+        <description>Kobold ist toll</description>
+        <value>koboldToll</value>
+      </control>
+      <control>
+        <type>container</type>
+        <description></description>
+        <value>cont1</value>
+        <children>
+          <control>
+            <type>radio</type>
+            <description>radio r1</description>
+            <value>radio1</value>
+          </control>
+          <control>
+            <type>radio</type>
+            <description>radio r1</description>
+            <value>radio2</value>
+          </control>
+          <control>
+            <type>check</type>
+            <description>check ch1</description>
+            <value>check1</value>
+          </control>
+          <control>
+            <type>container</type>
+            <description>description c2</description>
+            <value>chek2</value>
+            <children>
+              <control>
+                <type>radio</type>
+                <description>radio r3</description>
+                <value>raido3</value>
+              </control>
+              <control>
+                <type>radio</type>
+                <description>radio r4</description>
+                <value>radio4</value>
+              </control>
+            </children>
+          </control>
+          <control>
+            <type>text</type>
+            <description>text t1</description>
+            <value>text1</value>
+          </control>
+          <control>
+            <type>text</type>
+            <description>anderer Text</description>
+            <value>text2</value>
+          </control>
+        </children>
+      </control>
+    </controls>
+    <results/>
+  </message>
+</kobold-messages>
