@@ -21,13 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractMaintainedAsset.java,v 1.3 2004/08/02 17:23:54 vanto Exp $
+ * $Id: AbstractMaintainedAsset.java,v 1.4 2004/08/03 14:49:20 vanto Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -65,13 +64,12 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
 	public void addMaintainer(User user)
 	{
 	    AbstractRootAsset root = getRoot();
-	    User listedUser = (User)root.getUserPool().get(user.getUsername());
+	    User listedUser = (User)root.getKoboldProject().getUserPool().get(user.getUsername());
 	    if (listedUser == null) {
-	        root.getUserPool().put(user.getUsername(), user);
-	        listedUser = user;
+	        logger.warn("User not in UserPool -> User has not been added.");
+	    } else {
+	        maintainers.add(listedUser);
 	    }
-	    
-	    maintainers.add(listedUser);
 	}
 	
 	/**
@@ -87,7 +85,7 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
 	 */
 	public List getMaintainers()
 	{
-	    return Collections.unmodifiableList(maintainers);
+	    return maintainers;
 	}
 
     public void deserialize(Element element)

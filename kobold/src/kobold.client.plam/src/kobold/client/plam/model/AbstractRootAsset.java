@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.9 2004/08/02 17:23:54 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.10 2004/08/03 14:49:21 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -49,7 +49,6 @@ import kobold.common.io.RepositoryDescriptor;
 public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 {
     private KoboldProject project;
-    private Map userPool = new HashMap();
     protected Map releasePool = new HashMap();
     protected transient PropertyChangeSupport changeListeners = new PropertyChangeSupport(this); 
     protected transient List vcmListeners = new LinkedList();
@@ -93,14 +92,6 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
         return project;
     }
     
-    /**
-     * @return Returns the userPool.
-     */
-    public Map getUserPool()
-    {
-        return userPool;
-    }
-
     public void addModelChangeListener(PropertyChangeListener l)
 	{
 		changeListeners.addPropertyChangeListener(l);

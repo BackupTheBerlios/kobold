@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.17 2004/08/02 17:23:54 vanto Exp $
+ * $Id: WorkflowView.java,v 1.18 2004/08/03 14:49:21 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -125,7 +125,8 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		viewer.setLabelProvider(new ViewLabelProvider());
 		//viewer.setSorter(new NameSorter());
 
-		viewer.setInput(KoboldPLAMPlugin.getCurrentKoboldProject().getMessageQueue());
+		if (KoboldPLAMPlugin.getCurrentKoboldProject().getMessageQueue() != null)
+		    viewer.setInput(KoboldPLAMPlugin.getCurrentKoboldProject().getMessageQueue());
 		
 		makeActions();
 		hookContextMenu();

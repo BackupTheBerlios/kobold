@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.23 2004/08/03 00:05:23 vanto Exp $
+ * $Id: NewProjectWizard.java,v 1.24 2004/08/03 14:49:20 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -199,7 +199,8 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 		}
 
 		newProject = newProjectHandle;
-		createProjectResources(newProject);		
+		createProjectResources(newProject);
+		
 		try {
 			newProject.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {

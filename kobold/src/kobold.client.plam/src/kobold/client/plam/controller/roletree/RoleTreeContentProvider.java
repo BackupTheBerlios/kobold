@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.23 2004/08/03 00:05:23 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.24 2004/08/03 14:49:20 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -29,6 +29,7 @@ package kobold.client.plam.controller.roletree;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -164,10 +165,20 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     	    
     	} else if(parentElement instanceof Productline) {
     	    Productline pl = (Productline)parentElement;
-    	    return new Object[] {new ArchitectureItem(pl),
-    	            			 new TreeContainer("users", pl), 
-    	            			 new TreeContainer("assets", pl),
-    	            			 new TreeContainer("products", pl)};
+    	    pl.getMaintainers();
+    	    Collection users = pl.getKoboldProject().getUserPool().values();
+    	    Object[] children = new Object[users.size() + 3];
+    	    int i = 0;
+    	    children[i++] = new ArchitectureItem(pl);
+    	    children[i++] = new TreeContainer("assets", pl);
+    	    children[i++] = new TreeContainer("products", pl);
+    	    
+    	    System.arraycopy(users.toArray(), 0, children, 3, users.size());
+    	    return children;
+//    	    return new Object[] {new ArchitectureItem(pl),
+//    	            			 new TreeContainer("users", pl), 
+//    	            			 new TreeContainer("assets", pl),
+//    	            			 new TreeContainer("products", pl)};
     	 	
     	} else if ((parentElement instanceof TreeContainer) 
     	        && ((TreeContainer)parentElement).id.equals("assets")) {

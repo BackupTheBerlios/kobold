@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.4 2004/08/03 11:41:23 vanto Exp $
+ * $Id: KoboldProject.java,v 1.5 2004/08/03 14:49:21 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -188,6 +188,19 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 		        productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
 		        productline.setProject(this);
 		    }
+
+            List sMaints = spl.getMaintainers();
+	        productline.getMaintainers().clear();
+	        Iterator it = sMaints.iterator();
+	        while (it.hasNext()) {
+	            User user = (User)it.next();
+	            productline.addMaintainer(user);
+	            logger.debug("Maintainer added: " + user);
+	        }
+	        
+	        //spl.getCoreAssets();
+
+
 	    }
 
 	    return productline;
@@ -323,6 +336,8 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
 	                    }
 	                } catch (CoreException e1) {
 	                    logger.warn("could not store kobold nature prefs.");
+	                } finally {
+	                    monitor.done();
 	                }
 	            }});
 	    } catch (InvocationTargetException e) {

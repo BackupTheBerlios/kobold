@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.11 2004/08/03 11:08:35 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.12 2004/08/03 14:49:21 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -36,6 +36,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 
+import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Productline;
 import kobold.common.io.RepositoryDescriptor;
@@ -53,6 +54,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressService;
@@ -95,9 +97,9 @@ public class ModelStorage
                 }
             }
         } else {
-            System.out.println("plmeta nonexistent");
-
+            logger.debug("no model loaded.");
         }
+
         return pl;        
     }
     
@@ -108,42 +110,32 @@ public class ModelStorage
      */
 	public static void createPlDirectory (Productline pl, IProgressMonitor monitor) {
 		//create directory for the PL
-		
+		monitor.beginTask("Creating directory structure", 150);
 		//the PL directory
         IProject project = pl.getKoboldProject().getProject();
         
-        //getFolder: runtime-workbench-workspace/assasasasa/
-       	//create dir: runtime-workbench-workspace/assasasasa/New\ product\ line/
-    	IFolder plFolder = project.getFolder(pl.getName());
-    	createDirectory (plFolder, monitor);
-
-        
-    	//CAS
-        IFolder  plFolder2 = plFolder.getFolder(COREASSETS_FOLDER_NAME);
-        createDirectory (plFolder, monitor);
-
-
-        //PRODUCTS
-	plFolder2 = plFolder.getFolder(PRODUCTS_FOLDER_NAME);
-        createDirectory (plFolder, monitor);
-        
+        try {
+	        IFolder plFolder = project.getFolder(pl.getName());
+	        if (!plFolder.exists()) {
+	            plFolder.create(true, true, monitor);
+	        }
+	
+	        plFolder = project.getFolder(COREASSETS_FOLDER_NAME);
+	        if (!plFolder.exists()) {
+	            plFolder.create(true, true, monitor);
+	        }
+	        
+	        plFolder = project.getFolder(PRODUCTS_FOLDER_NAME);
+	        if (!plFolder.exists()) {
+	            plFolder.create(true, true, monitor);
+	        }
+        } catch (CoreException e) {
+            KoboldPLAMPlugin.log(e);
+        } finally {
+            monitor.done();
+        }
 	}	
 
-    /**
-     * Default action for ceating directories
-     * @param plFolder, the dir to create
-     * @param monitor
-     */
-	private static void createDirectory (IFolder plFolder, IProgressMonitor monitor)
-	{
-        if (!plFolder.exists()) {
-            try {
-                plFolder.create(true, true, monitor);
-            } catch (CoreException e1) {
-                e1.printStackTrace();
-            }    
-        }
-	}
     private static void createFile (IFile modelFile, IProgressMonitor monitor, ByteArrayOutputStream out)
 	{
 		try{
@@ -157,6 +149,8 @@ public class ModelStorage
 	    } catch (CoreException e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
+	    } finally {
+	        monitor.done();
 	    }
 	}
     
@@ -170,16 +164,15 @@ public class ModelStorage
         logger.debug("Storing model...");
         IProgressService progressService = PlatformUI.getWorkbench().getProgressService();
         try {
-            progressService.busyCursorWhile(new IRunnableWithProgress(){
+            progressService.run(false, true, new IRunnableWithProgress(){
                 public void run(IProgressMonitor monitor) {
-                	
-                	
+                	monitor.beginTask("Storing PLAM Model", 1000);
             		//get the PL directory
                     IProject project = pl.getKoboldProject().getProject();
                  	IFolder plmeta = project.getFolder(pl.getName());
                 	
                 	//create the PL,PRODUCTS,CAS directories
-                	createPlDirectory(pl, monitor);
+                	createPlDirectory(pl, new SubProgressMonitor(monitor, 500));
                 	
                 	//create the metafiles
                     IFile modelFile = plmeta.getFile(PRODUCTLINE_META_FILE);
@@ -192,7 +185,7 @@ public class ModelStorage
                         writer.close();
                         
                         //write the metafile
-                        createFile(modelFile, monitor, out);
+                        createFile(modelFile, new SubProgressMonitor(monitor, 500), out);
                         
                         out.close();   
                         
@@ -203,6 +196,8 @@ public class ModelStorage
                         // TODO Auto-generated catch block
                         e.printStackTrace();
    
+                    } finally {
+                        monitor.done();
                     }
                     
                     //write the products metafile
@@ -311,7 +306,7 @@ public class ModelStorage
 		       
 	        //create the dir
 	        IFolder specialProductFolder = productsFolder.getFolder(product.getName());
-	        createDirectory (specialProductFolder, monitor);
+	        //XXX:createDirectory (specialProductFolder, monitor);
 	    	
 	    	//create the metafiles
 	        IFile modelFile = specialProductFolder.getFile(PRODUCT_META_FILE);

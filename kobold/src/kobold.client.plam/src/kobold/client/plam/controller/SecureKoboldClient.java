@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.34 2004/08/03 00:05:23 vanto Exp $
+ * $Id: SecureKoboldClient.java,v 1.35 2004/08/03 14:49:21 vanto Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -162,8 +162,6 @@ public class SecureKoboldClient implements IKoboldServer {
 		try {
 			Object result = getClientByUrl(userContext.getServerUrl()).execute("getProductline", v);
 			if (!((String)result).equals(IKoboldServer.NO_RESULT)) {
-				System.err.println(result);
-				System.err.println(RPCMessageTransformer.decode((String)result));
 				return new Productline(RPCMessageTransformer.decode((String)result));
 			}
 		} catch (Exception exception) {

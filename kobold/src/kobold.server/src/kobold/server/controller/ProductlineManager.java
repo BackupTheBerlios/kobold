@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.9 2004/08/03 13:00:51 garbeam Exp $
+ * $Id: ProductlineManager.java,v 1.10 2004/08/03 14:49:16 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -238,7 +238,7 @@ public class ProductlineManager {
 		product.addMaintainer(new User(garbeam.getUserName(), garbeam.getFullName()));
 		
 		pl.addProduct(product);
-
+		addProductline(pl);
 		Component comp = new Component(pl, "lala", "lala",  new RepositoryDescriptor(
 	               RepositoryDescriptor.CVS_REPOSITORY, "ssh",
 			       "cvs.berlios.de", "/cvsroot/kobold/", "kobold2/hallo"));
