@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.26 2004/06/23 11:55:34 grosseml Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.27 2004/06/23 11:59:27 neccaino Exp $
  *
  */
 package kobold.server;
@@ -443,6 +443,16 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 																					koboldMessage);
 	}
 	
+	/**
+	 * This method is used by SAT-Clients to validate the accessibility of
+	 * the Kobold server with the passed password.
+	 * 
+	 * NOTE: this member has not yet been fully implemented!
+	 * (stub has been inserted to avoid comp. errors)
+	 *  
+	 * @param adminPassword server administration password
+	 * @return true, if the passed password is valid, false otherwise
+	 */
 	public String validateSATAccessibility(String adminPassword){
 		return this.NO_RESULT; // until fully implemented
 	}
