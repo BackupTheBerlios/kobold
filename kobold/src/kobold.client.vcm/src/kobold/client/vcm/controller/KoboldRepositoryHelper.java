@@ -132,7 +132,10 @@ public class KoboldRepositoryHelper {
     	else {
     	    result = new Path(scriptPath);
     	}
-    	
+	    if (!result.hasTrailingSeparator())
+        {
+	        result = (Path)result.addTrailingSeparator();
+        }
     	return result;
     }
     

@@ -31,26 +31,13 @@ import java.util.Iterator;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.Release;
-import kobold.client.plam.model.product.Product;
-import kobold.client.plam.model.productline.Component;
-import kobold.client.plam.model.productline.Productline;
-import kobold.client.plam.model.productline.Variant;
-import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.client.vcm.communication.KoboldPolicy;
-import kobold.client.vcm.dialog.PasswordDialog;
-import kobold.client.vcm.preferences.VCMPreferencePage;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.io.ScriptDescriptor;
 
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Preferences;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.core.TeamException;
 import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException;
 

@@ -7,9 +7,9 @@ Bundle-Activator: kobold.client.vcm.KoboldVCMPlugin
 Bundle-Vendor: Werkbold
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.resources,
- org.eclipse.ui,
+ org.eclipse.ui;reprovide=true,
  org.eclipse.team.core,
- org.eclipse.ui.workbench,
+ org.eclipse.ui.workbench;reprovide=true,
  org.eclipse.team.cvs.core,
  kobold.commons,
  org.eclipse.team.ui,

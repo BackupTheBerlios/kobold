@@ -34,9 +34,6 @@
       </repository>
    </extension>
    <extension
-         point="org.eclipse.core.resources.teamHook">
-   </extension>
-   <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
             adaptable="true"
@@ -57,18 +54,21 @@
                id="kobold.client.vcm.updateaction">
          </action>
          <action
+               enablesFor="1"
                label="Add"
                class="kobold.client.vcm.popup.action.AddAction"
                menubarPath="kobold.client.vcm.menu1/group1"
                id="kobold.client.vcm.addaction">
          </action>
          <action
+               enablesFor="1"
                label="Remove"
                class="kobold.client.vcm.popup.action.RemoveAction"
                menubarPath="kobold.client.vcm.menu1/group1"
                id="kobold.client.vcm.removeaction">
          </action>
          <action
+               enablesFor="1"
                label="Import..."
                class="kobold.client.vcm.popup.action.ImportAction"
                menubarPath="kobold.client.vcm.menu1/group1"
@@ -78,6 +78,7 @@
                label="Version Control"
                id="kobold.client.vcm.menu1"/>
          <action
+               enablesFor="1"
                label="Checkout"
                class="kobold.client.vcm.popup.action.CheckoutAction"
                menubarPath="kobold.client.vcm.menu1/group1"
