@@ -19,13 +19,13 @@ cd "$1"
 
 if [ $3 = "local" ] ; then
 
-echo    cvs -z3 -d $7 co -d . $8
-    cvs -z3 -d $7 co -d . $8
+echo    cvs -z3 -d $7 co $8
+    cvs -z3 -d $7 co $8
 
 else
 
-echo    cvs -z3 -d :$3:$4:$5@$6:$7 co -d . $8
+echo    cvs -z3 -d :$3:$4:$5@$6:$7 co $8
 
-    cvs -z3 -d :$3:$4:$5@$6:$7 co -d . $8
+    cvs -z3 -d :$3:$4:$5@$6:$7 co $8
 
 fi

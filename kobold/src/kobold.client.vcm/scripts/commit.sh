@@ -15,16 +15,16 @@ if [ $2 != "CVS" ] ; then
     exit;
 fi
 
+echo cd "$1"
 cd "$1"
 
 if [ $3 = "local" ] ; then
 
-echo    cvs -z3 -d $7 ci -m $9 $8
-    cvs -z3 -d $7 ci -m $9 $8
+echo    cvs -z3 -d $7 ci -m "$9"
+    cvs -z3 -d $7 ci -m "$9"
 
 else
 
-echo    cvs -z3 -d :$3:$4:$5@$6:$7 ci -m $9 $8
-    cvs -z3 -d :$3:$4:$5@$6:$7 ci -m $9 $8
-
+echo    cvs -z3 -d :$3:$4:$5@$6:$7 ci -m "$9"
+    cvs -z3 -d :$3:$4:$5@$6:$7 ci -m "$9"
 fi
