@@ -30,8 +30,11 @@ Details zu der Serverseitigen Lösung finden sie auf Seite %todo Link zur Servers
 . 
 \section{Authentifizierung}
 Die Authentifizierung am Server erfolgt durch einen RPC. Der Benutzer kann bei der Erstbenutzung des 
-Clients wählen ob er sich bei jedem Programmstart authentifiziern soll, oder ob das Passwort
-und der Benutzername gespeichert werden sollen.
+Clients wählen ob er sich bei jedem Programmstart authentifiziern will, oder ob das Passwort
+und der Benutzername gespeichert werden sollen. Prinzipiell ist ein ändern von Daten im nichtauthentifizierten
+Zustand nicht möglich. Mit der Authentifizierung werden die Rollen die dem Benutzer zugeteilt sind,
+an den Client übergeben, der Client reagiert seinerseits mit dem Bereitstellen der relevanten Sichten/
+Views für den Benutzer.
 \section{Der Produktlinienarchitektur View/Editor}
 In diesem View wird die je nach aktiver Rolle relevante Sicht auf die Architektur der Produktlinie
 angezeigt. Die grafische "Notation" hält sich dabei an die in dem Paper ... festgelegte Struktur.
@@ -40,21 +43,25 @@ Produktlinien bzw. Produktarchitektur.
 Die Ansicht bietet die Möglichkeit verschidene Zoomstufen einzustellen. Dies reultiert darin,
 dass im aktuellen Ausschnitt möglicherweise nicht die ganze Architektur zu sehen ist.
 Um trotzdem den Überblick zu gewährleisten wird eine Minimap zur Verfügung gestellt.
+
 %todo Grafiken einfügen%
-\begin{figure}[h]
-\includegraphics[width=15cm]{compiler-p}
-   \caption{Sicht des Programmierers}
-\end{figure}
-\newline
-\begin{figure}[h]
-\includegraphics[width=15cm]{compiler-pe}%@garbeam
-   \caption{Sicht des Produktingenieurs}
-\end{figure}
-\newline
-\begin{figure}[h]
+\subsection{Ansicht der Rolle ProduktlinienIngenieur}
+
+\begin{figure}[ht]
 \includegraphics[width=15cm]{compiler-spl}
    \caption{Sicht des Produktlinieningenieurs}
 \end{figure}
+\subsection{Ansicht der Rolle eines Produktingenieurs}
+\begin{figure}[ht]
+\includegraphics[width=15cm]{compiler-pe}
+   \caption{Sicht des Produktingenieurs}
+\end{figure}
+\subsection{Ansicht der Rolle eines Programmierers}
+\begin{figure}[ht]
+\includegraphics[width=15cm]{compiler-p}
+   \caption{Sicht des Programmierers}
+\end{figure}
+
 \section{Der Rollen View}
 Auf der linken Seite der Ausgangsperspektive wird ein hierarchischer Baum angezeigt, der
 die momentan aktive Rolle und die mit Ihr verbundenen möglichen Sichten darstellt.
