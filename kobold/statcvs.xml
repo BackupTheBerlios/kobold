@@ -1,4 +1,5 @@
-﻿<statcvs>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<statcvs>
   <settings>
     <webRepository>
       http://cvs.berlios.de/cgi-bin/viewcvs.cgi/kobold/kobold/
@@ -6,7 +7,7 @@
     <authors type="map">
         <setting key="neco">Necati Aydin</setting>
         <setting key="neccaino">Armin Cont</setting>
-        <setting key="bettina">Bettina Druckenmüller</setting>
+        <setting key="bettina">Bettina Druckenmueller</setting>
         <setting key="garbeam">Anselm Garbe</setting>
         <setting key="grosseml">Michael Grosse</setting>
         <setting key="vanto">Tammo van Lessen</setting>
