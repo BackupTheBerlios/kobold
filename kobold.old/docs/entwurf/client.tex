@@ -103,11 +103,17 @@ RoleTree erweitert
 \begin{verbatim}
 org.eclipse.ui.part.ViewPart
 \end{verbatim}
-und erzeugt einen Tree. Der Contentprovider für den Tree befindet sich
-in \verb+kobold.client.controler.roletree.RoleTreeContentProvider+. Dieser
-bezieht die Architekturdaten von der Kommunikationskomponente sowie
-von dem ArchitekturModel. Zur Darstellung wird der
-\verb+kobold.client.controler.roletree.RoleTreeLabelProvider+ verwendet.
+und erzeugt einen Tree. Contentprovider für den Tree ist
+\begin{verbatim}
+kobold.client.controler.roletree.RoleTreeContentProvider
+\end{verbatim}
+
+Dieser bezieht die Architekturdaten von der Kommunikationskomponente sowie
+von dem ArchitekturModel.\par
+\begin{verbatim}
+kobold.client.controler.roletree.RoleTreeLabelProvider
+\end{verbatim}
+wird zur Darstellung der Baumknoten verwendet.
 
 
 \section{Viewkomponente ArchitekturEditor}
