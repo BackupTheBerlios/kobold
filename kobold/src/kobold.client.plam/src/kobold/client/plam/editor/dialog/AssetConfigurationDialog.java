@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.23 2004/08/30 13:18:13 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.24 2004/08/31 04:03:52 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -226,6 +226,17 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 			}
 		});
         
+		Button repDesc = new Button(panel, SWT.NONE);
+		repDesc.setText("&Repository...");
+		repDesc.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+			    EditRepositoryDescriptorDialog erdd =
+			        new EditRepositoryDescriptorDialog(panel.getShell(), asset);
+			    erdd.open();
+			}
+		});
+
+    
     }
     
 	/**
