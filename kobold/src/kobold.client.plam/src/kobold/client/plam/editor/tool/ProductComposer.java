@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposer.java,v 1.14 2004/08/26 16:57:56 martinplies Exp $
+ * $Id: ProductComposer.java,v 1.15 2004/09/18 16:05:21 martinplies Exp $
  */
 package kobold.client.plam.editor.tool;
 
@@ -1007,7 +1007,7 @@ public class ProductComposer {
     	for (Iterator ite = productline.getComponents().iterator(); ite.hasNext();){
     	    Component node = (Component) ite.next();
     	    if (get(node).isUsed()){
-    	        product.addComponent(generateProductComponent(node, assets));
+    	        product.addProductComponent(generateProductComponent(node, assets));
     	    }    	   
     	}    	
     	

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetainfoTest.java,v 1.5 2004/08/05 19:21:04 neco Exp $
+ * $Id: MetainfoTest.java,v 1.6 2004/09/18 16:07:19 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -90,7 +90,7 @@ public class MetainfoTest extends TestCase {
 
 		//--add component (specific)
 		SpecificComponent componentC = new SpecificComponent ("compC");
-		productA.addComponent(componentC);
+		productA.addProductComponent(componentC);
 		
 		//RelatedComponent relComp = new RelatedComponent();
 		//relComp.setName("related_A");

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineTest.java,v 1.8 2004/08/05 18:04:21 martinplies Exp $
+ * $Id: ProductlineTest.java,v 1.9 2004/09/18 16:07:30 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -88,7 +88,7 @@ public class ProductlineTest extends TestCase {
 
 		//--add component (specific)
 		SpecificComponent componentC = new SpecificComponent ("compC");
-		productA.addComponent(componentC);
+		productA.addProductComponent(componentC);
 		
 		//--add Release
 		Release releaseA = new Release ();

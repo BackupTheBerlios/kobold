@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AddToProductDialog.java,v 1.1 2004/08/30 16:01:38 memyselfandi Exp $
+ * $Id: AddToProductDialog.java,v 1.2 2004/09/18 16:05:02 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -161,7 +161,7 @@ public class AddToProductDialog extends TitleAreaDialog
             RelatedComponent tmpRelatedComponent = new RelatedComponent(currentVariant,null);
             
 //            ModelStorage.serializeProduct(tmpRelatedComponent.getRoot().getProductline(),null);
-            ((Product)checkedElems[i]).addComponent(tmpRelatedComponent);
+            ((Product)checkedElems[i]).addProductComponent(tmpRelatedComponent);
             ModelStorage.serializeProduct(tmpRelatedComponent.getRoot().getProductline(),new NullProgressMonitor());
 //            asset.addMaintainer((User)checkedElems[i]);
         }
