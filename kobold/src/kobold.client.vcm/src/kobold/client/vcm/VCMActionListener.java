@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.27 2004/11/22 17:10:49 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.28 2004/11/22 19:12:29 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -30,14 +30,12 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
-import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.Release;
@@ -52,9 +50,7 @@ import kobold.common.data.Asset;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.io.ScriptDescriptor;
 
-import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.internal.resources.ResourceInfo;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -63,7 +59,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException;
 
@@ -148,13 +143,10 @@ public class VCMActionListener implements IVCMActionListener
 		command[7] = asset.getRepositoryDescriptor().getRoot();
 		command[8] = asset.getRepositoryDescriptor().getPath();
 		command[9] = "\"default commit\"";
-		for (int j = 0; j < command.length; j++) {
-			if (logger.isDebugEnabled()) {
+		if (logger.isDebugEnabled()) {
+			for (int j = 0; j < command.length; j++) {
 				logger.debug("createCommitCommand(AbstractRootAsset)"
 						+ command[j]);
-			}
-			if (logger.isDebugEnabled()) {
-				logger.debug("createCommitCommand(AbstractRootAsset)");
 			}
 		}
 		return command;
@@ -197,7 +189,7 @@ public class VCMActionListener implements IVCMActionListener
 			String userName = KoboldRepositoryHelper.getUserName();
 			String password = KoboldRepositoryHelper.getUserPassword();
 			ScriptServerConnection connection =
-			    ScriptServerConnection.getConnection(pl.getRepositoryDescriptor().getRoot());
+			    ScriptServerConnection.getConnection();
 			if (connection != null) {
 			    /**
 	             * # $1 working directory # $2 repo type # $3 protocoal type # $4
@@ -292,7 +284,7 @@ public class VCMActionListener implements IVCMActionListener
         
         IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 		ScriptServerConnection connection =
-		    ScriptServerConnection.getConnection(pl.getRepositoryDescriptor().getRoot());
+		    ScriptServerConnection.getConnection();
 		if (connection != null) {
 		    String command[] = createCommitCommand(pl);
 			try {
@@ -300,7 +292,6 @@ public class VCMActionListener implements IVCMActionListener
 			    runHooks(pl, connection, progress, ScriptDescriptor.VCM_COMMIT, true, true);
     			connection.open(progress, command);
     			connection.close();	
-			    updateRootAsset(pl, pl.getKoboldProject().getProject());
 			    runHooks(pl, connection, progress, ScriptDescriptor.VCM_COMMIT, false, true);
 			} catch (Exception e) {
 				logger.error("commitProductline(Productline)", e);
@@ -316,7 +307,7 @@ public class VCMActionListener implements IVCMActionListener
 		String userName = KoboldRepositoryHelper.getUserName();
 		String password = KoboldRepositoryHelper.getUserPassword();
 		ScriptServerConnection connection =
-		    ScriptServerConnection.getConnection(asset.getRepositoryDescriptor().getRoot());
+		    ScriptServerConnection.getConnection();
 		if (connection != null) {
 		    /**
 		     * 	# $1 working directory
@@ -341,93 +332,24 @@ public class VCMActionListener implements IVCMActionListener
 			command[7] = asset.getRepositoryDescriptor().getRoot();
 			command[8] = asset.getRepositoryDescriptor().getPath();
 			command[9] = "";
-			for (int j = 0; j < command.length; j++) {
-				if (logger.isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
+				for (int j = 0; j < command.length; j++) {
 					logger.debug("updateAsset(Asset, IProject)" + command[j]);
-				}
-				if (logger.isDebugEnabled()) {
-					logger.debug("updateAsset(Asset, IProject)");
 				}
 			}
 			try {
-			    // first we try update
     			connection.open(progress, command);
     			connection.close();	
-    			
-    			if (connection.getReturnValue() != 0) {
-    			    // update failed, let's try to checkout
-                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
-                    command[1] = p.getLocation().toOSString();
-        			connection.open(progress, command);
-        			connection.close();	
-    
-        			// if that fails, don't care
-    			}
 			}
 			catch (Exception e) {
 				logger.error("updateAsset(Asset, IProject)", e);
 			}
+		}
+		else {
+			logger.error("updateAsset(Asset, IProject) cannot establish ScriptServerConnection");
 		}
     }
 
-    private void updateRootAsset(AbstractRootAsset asset, IProject p) {
-        IProgressMonitor progress = KoboldPolicy.monitorFor(null);
-		String userName = KoboldRepositoryHelper.getUserName();
-		String password = KoboldRepositoryHelper.getUserPassword();
-		ScriptServerConnection connection =
-		    ScriptServerConnection.getConnection(asset.getRepositoryDescriptor().getRoot());
-		if (connection != null) {
-		    /**
-		     * 	# $1 working directory
-				# $2 repo type
-				# $3 protocoal type
-				# $4 username
-				# $5 password
-				# $6 host
-				# $7 root
-				# $8 module
-				# $9 userdef
-		     */
-		    String localPath = p.getLocation().toOSString();
-    		String command[] = new String[10];
-            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
-		    command[1] = localPath;
-		    command[2] = asset.getRepositoryDescriptor().getType();
-		    command[3] = asset.getRepositoryDescriptor().getProtocol();
-		    command[4] = userName;
-		    command[5] = password; 
-			command[6] = asset.getRepositoryDescriptor().getHost();
-			command[7] = asset.getRepositoryDescriptor().getRoot();
-			command[8] = asset.getRepositoryDescriptor().getPath();
-			command[9] = "";
-			for (int j = 0; j < command.length; j++) {
-				if (logger.isDebugEnabled()) {
-					logger.debug("updateAsset(Asset, IProject)" + command[j]);
-				}
-				if (logger.isDebugEnabled()) {
-					logger.debug("updateAsset(Asset, IProject)");
-				}
-			}
-			try {
-			    // first we try update
-    			connection.open(progress, command);
-    			connection.close();	
-    			
-    			if (connection.getReturnValue() != 0) {
-    			    // update failed, let's try to checkout
-                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
-                    command[1] = p.getLocation().toOSString();
-        			connection.open(progress, command);
-        			connection.close();	
-        			
-        			// if that fails, don't care
-    			}
-			}
-			catch (Exception e) {
-				logger.error("updateAsset(Asset, IProject)", e);
-			}
-		}
-    }
     
     /**
      * @see kobold.client.plam.listeners.IVCMActionListener#commitProduct(kobold.client.plam.model.product.Product)
@@ -435,7 +357,7 @@ public class VCMActionListener implements IVCMActionListener
     public void commitProduct(kobold.client.plam.model.product.Product product) {
         IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 		ScriptServerConnection connection =
-		    ScriptServerConnection.getConnection(product.getRepositoryDescriptor().getRoot());
+		    ScriptServerConnection.getConnection();
 		if (connection != null) {
 		    String command[] = createCommitCommand(product);
 			try {
@@ -443,7 +365,6 @@ public class VCMActionListener implements IVCMActionListener
 			    runHooks(product, connection, progress, ScriptDescriptor.VCM_COMMIT, true, true);
     			connection.open(progress, command);
     			connection.close();	
-			    updateRootAsset(product, product.getProductline().getKoboldProject().getProject());
 			    runHooks(product, connection, progress, ScriptDescriptor.VCM_COMMIT, false, true);
 			}
 			catch (Exception e) {
@@ -461,7 +382,7 @@ public class VCMActionListener implements IVCMActionListener
 		String password = KoboldRepositoryHelper.getUserPassword();
 		RepositoryDescriptor rd = ModelStorage.getRepositoryDescriptorForAsset(release.getParent());
 		ScriptServerConnection connection =
-		    ScriptServerConnection.getConnection(rd.getRoot());
+		    ScriptServerConnection.getConnection();
         IProgressMonitor progress = new SubProgressMonitor(KoboldPolicy.monitorFor(null), release.getFileRevisions().size());
         
 		if (connection != null) {
@@ -500,12 +421,8 @@ public class VCMActionListener implements IVCMActionListener
 					}
     			}
     			try {
-    			    // first we try to commit
         			connection.open(progress, command);
         			connection.close();	
-        			
-    //    			if (connection.getReturnValue() != 0) {
-    //				}
     			}
     			catch (Exception e) {
 					logger.error("tagRelease(Release)", e);
@@ -524,7 +441,7 @@ public class VCMActionListener implements IVCMActionListener
 		String password = KoboldRepositoryHelper.getUserPassword();
 		RepositoryDescriptor rd = ModelStorage.getRepositoryDescriptorForAsset(newRelease.getParent());
 		ScriptServerConnection connection =
-		    ScriptServerConnection.getConnection(rd.getRoot());
+		    ScriptServerConnection.getConnection();
         IProgressMonitor progress = new SubProgressMonitor(KoboldPolicy.monitorFor(null), newRelease.getFileRevisions().size());
         
 		if (connection != null) {

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ScriptServerConnection.java,v 1.56 2004/11/09 11:55:25 memyselfandi Exp $
+ * $Id: ScriptServerConnection.java,v 1.57 2004/11/22 19:12:29 garbeam Exp $
  */
 package kobold.client.vcm.communication;
 
@@ -89,16 +89,15 @@ public class ScriptServerConnection implements IServerConnection
 	public static final char NEWLINE= 0xA;
 	
 	
-	public static ScriptServerConnection getConnection(String repositoryPath) {
-	    ScriptServerConnection result = new ScriptServerConnection(repositoryPath);
+	public static ScriptServerConnection getConnection() {
+	    ScriptServerConnection result = new ScriptServerConnection();
 	    return result;
 	}
 	
 	/** 
 	 * The protected default constructor for this class
-	 * @param repositoryPath the location of the cvs repository @see ICVSRepositoryLocation
 	 */
-	protected ScriptServerConnection(String repositoryPath) {
+	protected ScriptServerConnection() {
 
 
 	}

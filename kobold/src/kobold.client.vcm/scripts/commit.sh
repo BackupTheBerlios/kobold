@@ -17,15 +17,20 @@ if [ "$2" != "CVS" ] ; then
 fi
 
 echo cd "$1"
-cd "$1" 
+cd "$1" || exit 1
+cd "$8" || exit 1
 
 if [ "$3" == "local" ] ; then
 
 echo    cvs -z3 -d $7 import -m "$9" $8 $4 KOBOLD
 	cvs -z3 -d $7 import -m "$9" $8 $4 KOBOLD
+	cd "$1"
+    cvs -z3 -d $7 checkout -f $8
 
 else
 
 echo    cvs -z3 -d :$3:$4:$5@$6:$7 import -m "$9" $8 $4 KOBOLD
     cvs -z3 -d :$3:$4:$5@$6:$7 import -m "$9" $8 $4 KOBOLD
+	cd "$1"
+    cvs -z3 -d :$3:$4:$5@$6:$7 checkout -f $8
 fi
