@@ -191,7 +191,8 @@ zu Produktlinien. Des weiteren können zahlreiche Informationen zu den auf dem je
 befindlichen Daten abgefragt werden.
 
 % sollten wir das noch ausführlicher machen? sind halt viele Informationen in den anderen Kapiteln aufgeführt
-% die wir ja nicht doppelt nennen sollten/müssen
+% die wir ja nicht doppelt nennen sollten/müssen - ich finde, es reicht so; mal sehen, was die anderen beim
+% Review sagen
  
 \section{Dokumente}
 
@@ -262,12 +263,6 @@ Dazu gehörten ferner die im Rahmen der Qualitätssicherungsmaßnahmen
 erstellten Dokumente, konkret schriftliche Inspektionsfeedbacks, Einträge
 im von der Berlios-Plattform bereitgestellten Bugtrackingsystem, sowie sämtliche
 Walkthrough-, Review- und Beschlußfassungsprotokolle.
-
-%\section{Weitere Ergebnisse}
-
-%TODO! - bausteine? - howtos? - weiß nicht genau, wenn dir nichts einfällt,
-% einfach weg damit - dito.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Projektorganisation}
@@ -366,11 +361,20 @@ den behandelten Themenbereichen zugeordnet werden konnten.\par
 
 In den durchgeführten Schulungen wurde ein breites Spektrum unterschiedlicher Themenbereiche
 abgedeckt, vom Umgang mit einzelnen Werkzeugen, über Entwurfstechniken, bis hin zu den
-eingesetzten Entwicklungs- und Dokumentationssprachen.
+eingesetzten Entwicklungs- und Dokumentationssprachen:
 
-% bitte hilf mir, habe nicht alle Schulungen besucht...
+\begin{itemize}
+	\item 02.02.04  Eclipse SDK (Patrick Schneider) 
+	\item 02.02.04  Basics: ssh, cvs (mit Eclipse), Vorstellung der Berlios.de-Services 
+	(cvs, ftp, xdocs) und Duckforge-Time-Managment (Oliver Rendgen)
+	\item 04.02.04  Tracing (Open-Source) Projects with Maven (Tammo van Lessen) 
+	\item 23.02.04  Design Patterns (Armin Cont, Michael Grosse)  
+	\item 23.02.04  Eclipse SWT/GEF (Tammo van Lessen) 
+	\item 25.03.04  XML-RPC Kommunikation über HTTPS (Anselm Garbe)  
+	\item 25.03.04  Drools Regelengine (Bettina Druckenmüller)  
+\end{itemize}
 
-%TODO! Bettina
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -427,9 +431,59 @@ die Entwicklung Einfluß zu nehmen und dieser davon auch mit offensichtlicher
 Begeisterung Gebrauch machte, wurde der ursprüngliche Projektplan zu Beginn jeder neuen
 Iteration an die vom Kunden neu geschaffenen Realitäten angepasst.
 
+\subsection{Analyse und Angebot}
+Während der Anforderungsanalyse wurde in mehreren Treffen die
+Anforderungen des Kunden ermittelt. Die Ergebnisse wurden in einem
+Angebot dokumentiert, das dem Kunden zur Abnahme vorgelegt wurde. Das
+Angebot beinhaltete eine Beschreibung des geplanten Projekts.
+
+\subsection{Spezifikation und Entwurf}
+%TODO!
+\subsection{Erste Iteration}
+%TODO!
+\subsection{Zweite Iteration}
+%TODO!
+\subsection{Dritte Iteration}
+%TODO!
+
+\subsection{Handbuch}
+Das Handbuch wurde von einem einzelnen Entwickler parallel zu den Iterationen 
+erstellt und befand sich somit immer auf dem neuesten Stand. Es enthält eine 
+Beschreibung der graphischen Benutzungsoberfläche und der Funktionalität 
+von Kobold und ein Tutorial. Das Handbuch wurde in einem Review geprüft und
+zusammen mit Kobold ausgeliefert.
+
+
+\subsection{Auslieferung}
+Die während der Präsentation ausgelieferten Ergebnisse sind in den
+beiden vorhergehenden Abschnitten beschrieben. Die Auslieferung
+markierte mit der Erfüllung der Projektanforderungen das vorläufige
+Ende des Projekts.
+
+\subsection{Nachbesserung}
+%TODO: Wie lange war die Phase eigentlich?
+
+\subsection{Abschlussbericht und Präsentation}
+Der Abschlussbericht ist das vorliegende Dokument. Die
+Abschlusspräsentation ist für den 26.11.2004 geplant. Zusammen
+mit einem ausgedruckten Exemplar des Abschlussberichts wird eine CD, die
+sämtliche Projektergebnisse beinhaltet, ausgeliefert werden.
+
+
 \section{Arbeitszeitverteilung}
 
-%TODO! siehe Duck
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=12.5cm]{praesentation/zeit_pro_entwickler}
+  \caption{Zeitliche Aufwandsverteiung auf die Entwickler}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=12.5cm]{praesentation/aufwand_pro_phase}
+  \caption{Zeitliche Aufwandsverteilung auf die Aktivitäten}
+\end{figure}
+
 
 \section{Werkzeuge}
 
@@ -518,7 +572,49 @@ begonnen wurde und größere Fehler im Programm oft einen Test vorzeitig beendeten
 \section{Entwicklerkooperation}
 \label{developer by file}
 
-%TODO! Bettina
+\begin{figure}[h!]
+  \centering
+  \begin {tabular}[l]{ll}
+    \hline
+    Dateiname & Entwickleranzahl \\
+    \hline
+    src/kobold.server/src/kobold/server/SecureKoboldWebServer.java  & 7 \\
+    src/kobold.common/src/kobold/common/data/Product.java  & 7 \\
+    src/kobold.client.plam/src/kobold/client/plam/editor/dialog/AssetConfigurationDialog.java & 7 \\
+    src/kobold.client.plam/plugin.xml & 7 \\
+    src/kobold.common/src/kobold/common/data/WorkflowMessage.java & 6 \\
+    src/kobold.common/src/kobold/common/data/Productline.java & 6 \\
+    src/kobold.client.vcm/src/kobold/client/vcm/preferences/VCMPreferencePage.java  & 6 \\
+    src/kobold.client.vcm/src/kobold/client/vcm/communication/ScriptServerConnection.java & 6 \\
+    src/kobold.client.plam/src/kobold/client/plam/model/productline/Variant.java & 6 \\
+    src/kobold.client.plam/src/kobold/client/plam/model/productline/Productline.java & 6 \\
+    \hline
+  \end {tabular}
+  \caption{Anzahl Entwickler pro Datei (Top 10)}
+\end{figure}
+
+Diese Tabelle zeigt zu einer Liste von Quellcode-Dateien die Anzahl
+von Entwicklern, die jeweils gemeinsam an einer Datei gearbeitet haben.
+Es sind nur die Top zehn Dateien angegeben, aber auch in einer Liste
+aller Dateien würden sich nie weniger als zwei Bearbeiter pro Datei
+finden lassen. 
+
+Es gab innerhalb des Teams für die Implementierung eines Moduls
+jeweils einen bekannten zuständigen Entwickler, der im besonderen mit
+dem Quellcode vertraut war. Mit diesem wurde vor grösseren Änderungen
+innerhalb seines Zuständigkeitsbereichs durch andere Entwickler
+Rücksprache gehalten, so daß Konflikte im vorraus vermieden werden
+konnten. Kleinere Änderungen oder Fehlerkorrekturen konnten im
+Zweifelsfall auch nachträglich oder über das Quellcode Repository
+kommuniziert werden.
+
+Diese Form des ``Collective Code Ownership'' ist sehr positiv zu
+bewerten. Es hat Reibungsverluste bei Änderungen und die Entstehung
+von Quellcode, der nur von einem einzelnen Entwickler verstanden und
+gewartet werden kann, vermieden. Alleine durch die Kenntniss, daß
+Quellcode von anderen gelesen wird, konnte die Lesbarkeit und Qualität
+erhöht werden.
+
 
 
 \section{Arbeitzeit}
@@ -554,41 +650,41 @@ eindeutig die Mehrheit im Team stellen.
 Das Studienprojekt A - Kobold war für mich das erste Softwareprojekt in
 dieser Größenordnung. Da einige in unserem Projektteam das Studienprojekt B
 vorgezogen hatten, hatte ich vor allem am Anfang noch recht wenig Erfahrung
-im Umgang mit vielen Projektteilnehmern.
+im Umgang mit vielen Projektteilnehmern.\par
 Meinte Tätigkeiten lassen sich am besten in die Tätigkeiten des Vorprojekts
 und des Hauptprojektes untergliedern. Während des Vorprojektes nahm ich, wie
 alle anderen, an allen Analysegeprächen mit den Kunden teil und erstellte
 mit meinen anderen Teammitgliedern zusammen hieraus einen groben Entwurf
-sowie das daraus resultierende Angebot.
+sowie das daraus resultierende Angebot.\par
 Im Hauptprojekt war ich zunächst an der Erstellung des Grobentwurfs
 beteiligt. Für das interne Seminar bereitete ich das Thema Design Patterns
-zusammen mit Armin Cont vor.
+zusammen mit Armin Cont vor.\par
 Nachdem die wichtigsten internen Schulungen gehalten waren, stand die
 Einarbeitung in Java und hier speziell in die recht komplexe Struktur von
 Eclipse an. Aufgrund meiner früheren Programmiererfahrung stellte Java an
 sich kaum ein Problem dar. Die von uns gewählte Eclipse Plattform jedoch ein
 umso größeres. Meine erste Aufgabe innerhalb der Programmierung war die
-Entwicklung einer Übersicht für unsere Workflowmeldungen.
+Entwicklung einer Übersicht für unsere Workflowmeldungen.\par
 Hierfür musste zuerst einmal herausgefunden werden, welche der vielen von
 Eclipse zur Verfügung gestellten Darstellungsmöglichkeiten für das Projekt
 am sinnvollsten verwendet werden könnte. Aufgrund der, wie sich
 herausstellte, großen Komplexität dieser Aufgabe, bearbeitete ich diese
-Aufgabe zusammen mit Martin Plies.
+Aufgabe zusammen mit Martin Plies.\par
 Nachdem diese Aufgabe erfolgreich zuende gebracht war, wurde mir
 aufgetragen, zusammen mit Bettina Druckenmüller die Erstellung der Workflows
 zu entwickeln. Bei dieser Aufgabe war ich allerdings nur in den
-Anfangsphasen dabei.
+Anfangsphasen dabei.\par
 Danach wurde mir aufgetragen, alle Benutzersteuerungsdialoge, wie Benutzer
 anlegen, Benutzernamen ändern und Benutzer löschen zu erstellen. Diese
 Aufgabe fiel mir recht leicht, da ich mich an der Struktur schon bestehender
-ähnlicher Dialoge recht gut orientieren konnte.
+ähnlicher Dialoge recht gut orientieren konnte.\par
 Mit zunehmendem Projektverlauf bekam die Qualitätssicherung einen größeren
 Stellenwert, so dass ich bei Reviews und den einsetzenden Tests zunehmend
 eingesetzt wurde. Außerdem betreute ich die Testdurchführung unseres
-Partnerteams.
+Partnerteams.\par
 Bei den Abschlusstests lag meine Aufgabe darin, diese Tests zu organisieren
 und durchzuführen, sowie danach die entstandenen Fehlermeldungen in unseren
-Bugtracker einzutragen. 
+Bugtracker einzutragen. \par
 Zum Abschluss des Projektes wirkte ich noch an der Erstellung der
 Abschlusspräsentation mit.
 
@@ -596,23 +692,25 @@ Abschlusspräsentation mit.
 Alles in allem gesehen würde ich sagen, dass Kobold ein perfektes Projekt
 zum Lernen war. Aufgrund der sehr komplexen eingesetzten Technik, welche
 ursprünglich völlig unterschätzt worden war kamen unsere Zeitpläne
-regelmässig durcheinander.
+regelmässig durcheinander.\par
 Das von uns gewählte evolutionäre Entwicklungsmodell zeigte in diesem
 Projekt seine Risiken, was mir persönlich zeigte, wie wichtig die
-Qualitätssicherung innerhalb eines Projektes ist.
+Qualitätssicherung innerhalb eines Projektes ist.\par
 Für mich persönlich ergab sich ein recht tiefer Einblick in die Dynamiken
 einer größeren Gruppe. Auch lernte ich, wie wichtig eine frühzeitige und vor
 allem durchgängige Qualitätssicherung für das Wohl und Wehe eines Projektes
-ist. 
+ist. \par
 Was mich positiv überrascht hatte war zum einen der Große Zusammenhalt
 innerhalb der Gruppe, wie auch die gute Zusammenarbeit mit unserem
-"Konkurrenzteam".
+"Konkurrenzteam".\par
 Der Lernerfolg dieses Projektes lässt sich in folgende Stichwörter fassen:
 Das evolutionäre Entwicklungsmodell, Eclipse als Plattform und der
 Stellenwert der Qualitätssicherung.
 
 
 \section{Armin Cont}
+
+%TODO: Bild einfügen
 
 \subsection{Tätigkeiten}
 
