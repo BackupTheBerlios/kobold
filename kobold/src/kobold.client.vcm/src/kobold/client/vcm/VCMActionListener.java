@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.2 2004/09/21 16:24:50 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.3 2004/09/22 13:38:03 memyselfandi Exp $
  *
  */
 package kobold.client.vcm;
@@ -60,7 +60,7 @@ public class VCMActionListener implements IVCMActionListener
 		try
 		{
 			AbstractAsset tmpAsset[] = {rootAsset};
-			repoAccess.checkout(tmpAsset,IResource.DEPTH_INFINITE,null);
+			repoAccess.checkout(tmpAsset, null, null ,true);
 		}
 		catch (Exception e)
 		{
