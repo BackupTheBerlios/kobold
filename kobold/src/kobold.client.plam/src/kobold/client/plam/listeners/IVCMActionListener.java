@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVCMActionListener.java,v 1.6 2004/10/13 14:09:27 garbeam Exp $
+ * $Id: IVCMActionListener.java,v 1.7 2004/10/13 14:48:05 martinplies Exp $
  *
  */
 package kobold.client.plam.listeners;
@@ -29,6 +29,7 @@ package kobold.client.plam.listeners;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.productline.Productline;
 
 import org.eclipse.core.resources.IProject;
@@ -43,6 +44,15 @@ import org.eclipse.core.resources.IProject;
  */
 public interface IVCMActionListener
 {
+    
+    /**
+     * updates a Release of a RealatedComponent
+     * @param rc   Release that should be updates
+     * @param newRelase Release of the productline 
+     */
+    void updateRelease(RelatedComponent rc, Release newRelase);
+    
+    
     /**
      * Refreshes all filedescriptors in this container.
      * 
