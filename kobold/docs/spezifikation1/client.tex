@@ -14,10 +14,10 @@ Plattformen und Betriebssysteme unterstützt:
 \end{itemize}
 Er wird als Feature-Set implementiert und mit eigenem Product Branding versehen.
 Das Product Branding umfasst die Änderung der Fensternamen und der Produkticons, sowie
-einer Willkommensseite die einen kurzen Überblik über Funktionalität und Zweck des Kobold Tools geben soll.
+einer Willkommensseite, die einen kurzen Überblick über Funktionalität und Zweck des Kobold Tools geben soll.
 
-Das Feature-Set wird als Set von inernationalisierbaren Eclipse Plugins implementiert.
-Die Ausgangsperspektive wird aus 4 Teilen bestehen:
+Das Feature-Set wird als Set von internationalisierbaren Eclipse Plugins implementiert.
+Die Ausgangsperspektive besteht aus 4 Teilen:
 \begin{itemize}
 	\item Der Produktlinienarchitektur View/Editor
 	\item Der Rollen View
@@ -25,41 +25,42 @@ Die Ausgangsperspektive wird aus 4 Teilen bestehen:
 	\item Die Minimap
 \end{itemize}
 Diese werden in den jeweiligen Unterkapiteln näher beschrieben.
-Um das Rollenprinzip konsistent durchzusetzen ist eine zentrale Anmeldung an einem Server nötig.
-Details zu der Serverseitigen Lösung finden sie auf Seite %todo Link zur Serverseite% 
-. 
+Um das Rollenprinzip konsistent durchzusetzen, ist eine zentrale Anmeldung an einem Server nötig.
+Details zu der Serverseitigen Lösung finden Sie in Kapitel 5.
+ 
 \section{Authentifizierung}
 Die Authentifizierung am Server erfolgt durch einen RPC. Der Benutzer kann bei der Erstbenutzung des 
-Clients wählen ob er sich bei jedem Programmstart authentifiziern will, oder ob das Passwort
-und der Benutzername gespeichert werden sollen. Prinzipiell ist ein ändern von Daten im nichtauthentifizierten
-Zustand nicht möglich. Mit der Authentifizierung werden die Rollen die dem Benutzer zugeteilt sind,
-an den Client übergeben, der Client reagiert seinerseits mit dem Bereitstellen der relevanten Sichten/
+Clients wählen, ob er sich bei jedem Programmstart authentifiziern will oder ob das Passwort
+und der Benutzername gespeichert werden sollen. Prinzipiell ist ein Ändern von Daten im nichtauthentifizierten
+Zustand nicht möglich. Mit der Authentifizierung werden die Rollen, die dem Benutzer zugeteilt sind,
+an den Client übergeben; der Client reagiert seinerseits mit dem Bereitstellen der relevanten Sichten/
 Views für den Benutzer.
+
 \section{Der Produktlinienarchitektur View/Editor}
 In diesem View wird die je nach aktiver Rolle relevante Sicht auf die Architektur der Produktlinie
-angezeigt. Die grafische "Notation" orientiert sich dabei an die in dem Paper ... festgelegte Struktur.
-Um dies nocheinmal grafisch darzustellen hier noch einmal die 3 verschiedenen Sichten auf die
-Produktlinien bzw. Produktarchitektur.
-Die Ansicht bietet die Möglichkeit verschidene Zoomstufen einzustellen. Dies reultiert darin,
+angezeigt. Die grafische "Notation" orientiert sich dabei an der in dem Paper "A Product Line Asset Management Tool" festgelegten Struktur.
+Um dies grafisch darzustellen, hier noch einmal die 3 verschiedenen Sichten auf die
+Produktlinien- bzw. Produktarchitektur.
+Die Ansicht bietet die Möglichkeit, verschiedene Zoomstufen einzustellen. Eine mögliche Folge daraus ist,
 dass im aktuellen Ausschnitt möglicherweise nicht die ganze Architektur zu sehen ist.
-Um trotzdem den Überblick zu gewährleisten wird eine Minimap zur Verfügung gestellt.
+Um trotzdem den Überblick zu gewährleisten, wird eine Minimap zur Verfügung gestellt.
 
 %todo Grafiken einfügen%
 \subsection{Ansicht der Rolle ProduktlinienIngenieur}
-Der Produktlinieningeniur hat die Möglichkeit zwischen zwei Ansichten zu wechseln.
+Der Produktlinieningenieur hat die Möglichkeit, zwischen zwei Ansichten zu wechseln.
 Diese sind einerseits die Ansicht auf die Architektur der gesamten Produktlinie, die
 sich grafisch sehr stark an der von %todo verweis auf Paper%
-A Product Line Asset Management Tool vorgeschlagene Sicht anlehnt. Es wird die Möglichkeit
-bestimmte Beziehungen farblich hervorzuheben, bzw. in spätern Iterationen auch automatisch
-hervorheben zu lassen. Grundsätzlich kann die Farbe von Archtikturelementen gewählt werden,
-einige Farben werden aber Konflikten und ähnlichen Beziehungen vorbehalten.
+"A Product Line Asset Management Tool" vorgeschlagenen Sicht anlehnt. Es gibt die Möglichkeit, 
+bestimmte Beziehungen farblich hervorzuheben, bzw. in späteren Iterationen auch automatisch
+hervorheben zu lassen. Grundsätzlich kann die Farbe von Archtikturelementen gewählt werden. 
+Einige Farben werden aber Konflikten und ähnlichen Beziehungen vorbehalten.
 \begin{figure}[ht]
 \includegraphics[width=15cm]{compiler-spl}
    \caption{Sicht des Produktlinieningenieurs}
 \end{figure}
 \subsection{Ansicht der Rolle eines Produktingenieurs}
 Der Produktingenieur kann in dem Architektur-View immer nur ein Produkt auf einmal einsehen.
-Er kann im Rollen View durch die verschiedenen ihm zugeordneten Produktarchitekturen der
+Er kann im Rollen View die verschiedenen ihm zugeordneten Produktarchitekturen der
 verschiedenen Produkte zur Darstellung auswählen. Grafisch wird sich Kobold hier wiederum
 an der im Paper [%REF einfg.%
 ] orientieren.
@@ -69,8 +70,8 @@ an der im Paper [%REF einfg.%
 \end{figure}
 \subsection{Ansicht der Rolle eines Programmierers}
 Der Programmierer hat eine sehr flache Sicht auf ein einziges ihm zugeordnetes Produkt.
-Er kann die für ihn änderbaren Produktteile des Produktes von den nichtäderbaren unterscheiden.
-Es besteht die Möglichkeit den aktuellen Stand des Produktes in seinen aktuellen "Workspace"
+Er kann die für ihn änderbaren Produktteile des Produktes von den nicht änderbaren unterscheiden.
+Es besteht die Möglichkeit, den aktuellen Stand des Produktes in seinen aktuellen "Workspace"
 auszuchecken.
 \begin{figure}[ht]
 \includegraphics[width=15cm]{compiler-p}
