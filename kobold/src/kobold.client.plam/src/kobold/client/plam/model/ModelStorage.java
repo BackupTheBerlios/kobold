@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.32 2004/08/27 17:47:21 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.33 2004/08/30 12:44:30 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -438,7 +438,7 @@ public class ModelStorage
         //get all cas
         List cas = pl.getComponents();
         
-        //for each product
+        //for each component
         for (Iterator it = cas.iterator(); it.hasNext();) {
             Component component = (Component) it.next();
             
