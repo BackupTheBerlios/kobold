@@ -3,66 +3,17 @@
 \section{Getting started}
 
 \subsection{Kobold Server}
-There are two ways to start and use the Kobold Server - {\it stand-alone} or from
-{Eclipse}. In both cases make sure, that you edit the server.properties
-file from {\it kobold.server/server.properties} to suite your local
-requirements. Under UNIX this file might look similiar to the following
-bits:
-
-\begin{verbatim}
-# Note storePath is the prefix path for all kobold stores!
-kobold.server.storePath=/tmp/
-kobold.server.globalMessageStore=global.xml
-kobold.server.messageStore=messages.xml
-kobold.server.productStore=product.xml
-kobold.server.userStore=user.xml
-#
-java.protocol.handler.pkgs=com.sun.net.ssl.internal.www.protocol
-javax.net.debug=all
-javax.net.ssl.keyStore=../kobold.common/scripts/keystore
-javax.net.ssl.keyStorePassword=kobold1
-javax.net.ssl.trustStore=../kobold.common/scripts/truststore
-javax.net.ssl.trustStorePassword=kobold1
-\end{verbatim}
-
-Under Windows-based systems you've to change the paths into a
-DOS-alike format.
-
-In the following table all properties are described in detail:
-
-\begin{tabular}{|l|l|l|}\hline
-\textbf{Property} &  \textbf{Description}\\ \hline
-kobold.server.storePath  & destination path for files stored by the server \\ \hline
-kobold.server.globalMessageStore & file name to store global messages \\
-    \hline
-kobold.server.messageStore & file name to store pending messages \\
-    \hline
-kobold.server.productStore & file name to store products and
-productlines \\ \hline
-kobold.server.userStore & file name to store user data \\ \hline
-java.protocol.handler.pkgs & default protocol to commincate \\ \hline
-javax.net.debug & debug level of net communication \\ \hline
-javax.net.ssl.keyStore & path to your SSL keystore \\ \hline
-javax.net.ssl.keyStorePassword & password to access your SSL keystore \\
-    \hline
-javax.net.ssl.trustStore & path to your SSL truststore \\ \hline
-javax.net.ssl.trustStorePassword & password to access your SSL
-truststore \\ \hline
-\end{tabular}
 
 To start the Kobold server within Eclipse just select 'Run...' in the
 'Run' menu from
 Eclipse and select the class
-{\it kobold.server.SecureKoboldWebServer} with a numerical argument for
-the port it should listen for connections. The working directory must be
-the directory where your {\it server.properties} are located.
-
-To start the Kobold server from the console just enter following
-command within the directory where your {\it server.properties} file is
-located:
+{\it kobold.server.SecureKoboldWebServer} with a numerical programm argument for
+the port it should listen for connections. 
+You've to enter only one VM argument which is needed to locate the {\it
+server.properties} file and to suite your local requirements: \par
 
 \begin{verbatim}
-java kobold.server.SecureKoboldWebServer 23232
+-Dkobold.server.configFile=/home/garbeam/eclipse/kobold.server/server.properties
 \end{verbatim}
 
 Make sure that your {\it \$CLASSPATH} environment contains all JARs
@@ -71,25 +22,6 @@ provided by\\
 JSSE classes (included by Sun JDK 1.4).
 
 \subsection{Kobold Client Feature Set}
-Similiar to the Kobold server, the kobold client feature set contains
-a file {\it client.properties} located in {\it
-kobold.client.plam/client.properties} which has to be edited to
-suite your local requirements.
-
-\begin{verbatim}
-# Used for SSL based communication
-java.protocol.handler.pkgs=com.sun.net.ssl.internal.www.protocol
-javax.net.debug=all
-javax.net.ssl.keyStore=/home/garbeam/eclipse/kobold.common/scripts/keystore
-javax.net.ssl.keyStorePassword=kobold1
-javax.net.ssl.trustStore=/home/garbeam/eclipse/kobold.common/scripts/truststore
-javax.net.ssl.trustStorePassword=kobold1
-\end{verbatim}
-
-As you can see, it contains the same properties as the {\it
-server.properties} file for SSL communication, but since the Kobold
-client is independent from the server it has it's own properties.
-
 To start the Kobold client feature set from within Eclipse (which is
 currently the only way) just select 'Run...' in the 'Run' menu and
 double-click 'Run-time Workbench'. A new configuration is created which you 
@@ -103,17 +35,36 @@ can name as you wish (see \ref{run}).
 \end{center}
 \end{figure}\par
 
-You've to enter only one VM argument which is needed to locate the {\it
-client.properties} file and to suite your local requirements: \par
-
-\begin{verbatim}
--Dkobold.client.configFile=/home/garbeam/eclipse/kobold.client.plam/client.properties
-\end{verbatim}
-
 Confirm with 'Run'.
 
 A new Eclipse instance will open with the Kobold feature set enabled.
 
+
+\subsection{Kobold Server Administration Tool}
+To start the Kobold Server Administration Tool within Eclipse just select 'Run...' in the
+'Run' menu from
+Eclipse and select the class
+{\it kobold.client.serveradmin.ServerAdministrationTool}.
+
+You've to enter only one VM argument which is needed to locate the {\it
+sat.properties} file and to suite your local requirements: \par
+
+\begin{verbatim}
+-Dkobold.sat.configFile=/home/garbeam/eclipse/kobold.client.serveradmin/sat.properties
+\end{verbatim}
+
+\section{Setting the Kobold preferences}
+In the Kobold Client menu, select 'Window' and then 'Preferences'. The preferences
+dialog opens (see \ref{pref}). Select 'Kobold' and enter the properties for the Kobold Client.
+They resemble your SAT properties (see chapter 'Installation').
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{pref.png}
+   \caption{Kobold wizard}
+\label{pref}
+\end{center}
+\end{figure}\par
 
 \section{Product-related}
 
@@ -156,24 +107,25 @@ A new project has been created. You can open the different views through the Win
 and 'show view'. 
 
 \subsection{Creating a product}
-Right-click anywhere and choose "new product" in the context menu. A wizard opens where
-you can choose the productline the new product should belong to.
 
-%TODO: Screenshot einfügen
+In the palette press 'compose product'. The components, etc. in the architecture view turn
+grey. You can now select the components, variants and releases you want to include into
+you new product. The chosen objects turn green (see \ref{compose}).
 
-Press "proceed" 
-and choose the CoreAssets for your product. 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{composeproduct.png}
+   \caption{Kobold wizard}
+\label{compose}
+\end{center}
+\end{figure}\par
 
-%TODO: Screenshot einfügen
+%TODO: wie geht's weiter!
 
-After you press "proceed", you are able
-to choose modules of other products from this product line. Press "Finish" and the
-new product is created.
+%\subsection{Renaming a product}
 
-\subsection{Renaming a product}
-
-Right-click on the product and choose "rename product" in the context menu. You can
-now enter a new name which will be used in the repository and the product line tree.
+%Right-click on the product and choose "rename product" in the context menu. You can
+%now enter a new name which will be used in the repository and the product line tree.
 
 %TODO: Screenshot einfügen
 
@@ -188,24 +140,24 @@ now enter a new name which will be used in the repository and the product line t
 %to choose modules of other products from this product line. Press "Finish" and the changes
 %are saved.
 
-\subsection{Setting a product on deprecated}
+%\subsection{Setting a product on deprecated}
 
-Right-click on the product and choose "set on deprecated". Confirm your choice in
-the upcoming dialog and the product is deprecated. Its modules can no longer be
-used in a product.
+%Right-click on the product and choose "set on deprecated". Confirm your choice in
+%the upcoming dialog and the product is deprecated. Its modules can no longer be
+%used in a product.
 
 %TODO: Screenshot einfügen
 
 
 \section{Node-related}
 
-\subsection{Creating a Core Asset}
+%\subsection{Creating a Core Asset}
 
-In the pallete select the "core asset" tool. Click into the Architecture Editor and
-a core asset is inserted. A dialog opens where you can enter the meta data of
-the core asset. Per drag+drop you can simply change the size of the core
-asset. \par
-Note: Core assets can only be inserted on the top-level plane of the Architecture Editor.
+%In the pallete select the "core asset" tool. Click into the Architecture Editor and
+%a core asset is inserted. A dialog opens where you can enter the meta data of
+%the core asset. Per drag+drop you can simply change the size of the core
+%asset. \par
+%Note: Core assets can only be inserted on the top-level plane of the Architecture Editor.
 
 %TODO: Screenshot einfügen
 
@@ -214,7 +166,7 @@ Note: Core assets can only be inserted on the top-level plane of the Architectur
 In the pallete select the "variant" tool. Click into a core asset or component in 
 the Architecture Editor. A variant is inserted (see \ref{variant}). If you double-click on the variant, a dialog opens where you can enter the meta data of
 the variant. Per drag+drop you can simply change the size of the variant. \par
-Note: Variants can only be inserted into core assets or components.
+Note: Variants can only be inserted into components.
 
 \begin{figure}[h!]
 \begin{center}
@@ -229,7 +181,7 @@ Note: Variants can only be inserted into core assets or components.
 In the pallete select the "component" tool. Click into a variant in 
 the Architecture Editor. A component is inserted (see \ref{component}). If you double-click on the component, a dialog opens where you can enter the meta data of
 the component. Per drag+drop you can simply change the size of the component. \par
-Note: Components can only be inserted into variants.
+Note: Components can only be inserted top-level or into variants.
 
 \begin{figure}[h!]
 \begin{center}
@@ -259,7 +211,7 @@ Note: Releases can only be inserted into variants.
 
 In the pallete select the "metanode" tool. Click into the Architecture Editor. 
 A meta node is inserted (see \ref{meta}). If you double-click on the meta node, a dialog opens where you can select the type of the node.
-Possible types are AND, OR, XOR. 
+Possible types are AND and OR. 
 
 \begin{figure}[h!]
 \begin{center}
@@ -269,25 +221,23 @@ Possible types are AND, OR, XOR.
 \end{center}
 \end{figure}\par
 
-\subsection{Deleting a core asset, component, variant or version}
+\subsection{Deleting a component, variant or release}
 
 Right-click on the item you want to delete and choose "delete" in the context
 menu. Alternatively you
 can select the item and press "Del" on your keyboard. Is the item used in other projects
 you will be notified and be able to cancel the deletion process.
 
-%TODO: Screenshot einfügen
+%\subsection{Deleting a meta node}
 
-\subsection{Deleting a meta node}
+%Right-click on the meta node you want to delete and choose "delete" in the context
+%menu. Alternatively you
+%can select the node and press "Del" on your keyboard.
 
-Right-click on the meta node you want to delete and choose "delete" in the context
-menu. Alternatively you
-can select the node and press "Del" on your keyboard.
-
-\subsection{Marking a component as "deprecated"}
-Right-click on the component and choose "mark as deprecated". Alternatively you 
-can select the component and press "D" on your keyboard. Deprecated components are
-indicated by a small flagg.
+%\subsection{Marking a component as "deprecated"}
+%Right-click on the component and choose "mark as deprecated". Alternatively you 
+%can select the component and press "D" on your keyboard. Deprecated components are
+%indicated by a small flagg.
 
 %TODO: Screenshot einfügen
 
@@ -297,26 +247,26 @@ You can move any item per drag+drop.
 \subsection{Changing the size of an item}
 You can change the size of an item per drag+drop.
 
-\subsection{Creating a custom component}
+%\subsection{Creating a custom component}
 
-In the pallete select the "custom component" tool. Click into the Architecture 
-Editor. A component is inserted. A dialog opens where you can enter the meta data of
-the component. Per drag+drop you can simply change the size of the component. \par
+%In the pallete select the "custom component" tool. Click into the Architecture 
+%Editor. A component is inserted. A dialog opens where you can enter the meta data of
+%the component. Per drag+drop you can simply change the size of the component. \par
 
 %TODO: Screenshot einfügen
 
-\subsection{Deleting a custom component}
+%\subsection{Deleting a custom component}
 
-Right-click on the component you want to delete and choose "delete" in the context
-menu. Alternatively you
-can select the component and press "Del" on your keyboard. 
+%Right-click on the component you want to delete and choose "delete" in the context
+%menu. Alternatively you
+%can select the component and press "Del" on your keyboard. 
 
 
-\subsection{Setting a module on deprecated}
+%\subsection{Setting a module on deprecated}
 
-Right-click on the module and choose "set on deprecated". Confirm your choice in
-the upcoming dialog and the module is deprecated. It can no longer be
-used in a product.
+%Right-click on the module and choose "set on deprecated". Confirm your choice in
+%the upcoming dialog and the module is deprecated. It can no longer be
+%used in a product.
 
 %TODO: Screenshot einfügen
 
@@ -523,9 +473,6 @@ These are in detail (using their actual method names):
 	\item updateProductline
 	\item updateProduct
 	\item updateComponent
-	\item sendMessage
-	\item fetchMessage
-	\item invalidateMessage
 	\item checkAdministrability
 	\item newProductline
 	\item invalidateProductline
@@ -604,3 +551,32 @@ and your changes are saved.
 %\subsection{Changing ones password}
 
 %(still undefined)
+
+
+\section{SAT-related}
+
+\subsection{Creating a product line}
+Enter the command "createpl". You are asked to enter the name of the new product
+line. Once you confirmed your entry, the product line is created.
+
+\subsection{Deleting a product line}
+Enter the command "removepl". You are then asked to enter the name of the product
+line you want to remove. Once you confirmed your entry, the product line is deleted.
+
+\subsection{Upgrading an existing user to PLE status}
+Enter the command "addple". You are asked to enter the name of the person you want
+to upgrade as PLE. Finally, enter the name of the product line you want to assign
+the new PLE to. Once you confirmed your entry, the user has PLE rights.
+
+\subsection{Removing PLE rights}
+Enter the command "removeple". You are asked to enter the name of the user who shall 
+no longer have PLE rights. Also, enter the name of the product line you want to
+remove the PLE from. Once you confirmed your entry, the user is no longer PLE of
+the entered product line.
+
+\subsection{Getting a list of all existing commands}
+Enter the command "help" and you get a list of all the commands of this tool and
+their meanings.
+
+\subsection{Exiting the tool}
+Enter the command "exit".

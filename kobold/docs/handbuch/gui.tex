@@ -44,22 +44,23 @@ any relationship between nodes.\par
 
 The Architecture Editor offers you the following options:
 \begin{itemize}
-	\item Creating a Core Asset
+%	\item Creating a Core Asset
 	\item Creating a variant
 	\item Creating a component
 	\item Creating a release
 	\item Creating a meta node
-	\item Deleting a core asset, component, variant or release
-	\item Deleting a meta node
+	\item Deleting a component, variant or release
+%	\item Deleting a meta node
 	\item Creating a dependency edge
 	\item Creating an exclusion edge
 	\item Deleting an edge
-	\item Marking a component as "deprecated"
+%	\item Marking a component as "deprecated"
 	\item Moving an item
 	\item Changing the size of an item
-	\item Filtering the Architecture View
-	\item Creating a custom component
-	\item Deleting a custom component
+%	\item Filtering the Architecture View
+%	\item Creating a custom component
+%	\item Deleting a custom component
+	\item Composing a product
 \end{itemize}
 
 Most of them can be reached through the palette (see \ref{palette}), that opens up when you click on it.
@@ -95,13 +96,12 @@ When you right-click on a project, a context menu will open where you can choose
 between different actions (see \ref{rolekontext}). Among those are:
 
 \begin{itemize}
-	\item Creating a product
-	\item Renaming a product
+%	\item Renaming a product
 %	\item Changing a product
-	\item Setting a product on deprecated
-	\item Setting a module on deprecated
+%	\item Setting a product on deprecated
+%	\item Setting a module on deprecated
 	\item Creating a user
-	\item Changing a user role
+%	\item Changing a user role
 \end{itemize}
 Look up the explanations in the "Tutorial" section.
 
@@ -185,9 +185,6 @@ spot.
 \section{Server Administration Tool}
 
 The Server Administration Tool provides you with an interface to your server. \par
-To start the Server Administration Tool within Eclipse just select 'Run...' in the
-'Run' menu from Eclipse and select the class
-{\it ServerAdministrationTool}.
 During the starting process you have to enter the URL and password of the server 
 you want to administrate. Once the tool is started, you have the following 
 possibilities:
@@ -201,28 +198,3 @@ possibilities:
 	\item exit the tool
 \end{itemize}
 
-\subsection{Creating a product line}
-Enter the command "createpl". You are asked to enter the name of the new product
-line. Once you confirmed your entry, the product line is created.
-
-\subsection{Deleting a product line}
-Enter the command "removepl". You are then asked to enter the name of the product
-line you want to remove. Once you confirmed your entry, the product line is deleted.
-
-\subsection{Upgrading an existing user to PLE status}
-Enter the command "addple". You are asked to enter the name of the person you want
-to upgrade as PLE. Finally, enter the name of the product line you want to assign
-the new PLE to. Once you confirmed your entry, the user has PLE rights.
-
-\subsection{Removing PLE rights}
-Enter the command "removeple". You are asked to enter the name of the user who shall 
-no longer have PLE rights. Also, enter the name of the product line you want to
-remove the PLE from. Once you confirmed your entry, the user is no longer PLE of
-the entered product line.
-
-\subsection{Getting a list of all existing commands}
-Enter the command "help" and you get a list of all the commands of this tool and
-their meanings.
-
-\subsection{Exiting the tool}
-Enter the command "exit".
