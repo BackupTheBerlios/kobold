@@ -34,31 +34,39 @@ import kobold.common.io.RepositoryDescriptor;
  * @author contan
  */
 public class NewProductlineInquisitor extends BasicInquisitor {
+    private static final String PL_NAME = "productline name\t\t";
+    private static final String PL_RES = "productline resource\t";
+    private static final String REP_TYPE = "repository type\t\t";
+    private static final String REP_PROTOCOL = "repository protocol\t";
+    private static final String REP_HOST = "repository host\t\t";
+    private static final String REP_ROOT = "repository root\t\t";
+    private static final String REP_MPATH = "repository module path\t";
+    
 	public NewProductlineInquisitor() {
         containingAction = "new productline";
-        addQuestion("1", "productline name\t\t", "unknown", false);
-        addQuestion("2", "productline resource\t", "unknown", false);
-        addQuestion("3", "repository type\t\t", "cvs", false);
-        addQuestion("4", "repository protocol\t", "pserver", false);
-        addQuestion("5", "repository host\t\t", "cvs.werkbold.org", false);
-        addQuestion("6", "repository root\t\t", "/cvsroot/unknown/", false);
-        addQuestion("7", "repository module path\t", "unknown", false);
+        addQuestion("1", PL_NAME, "unknown", false);
+        addQuestion("2", PL_RES, "unknown", false);
+        addQuestion("3", REP_TYPE, "cvs", false);
+        addQuestion("4", REP_PROTOCOL, "pserver", false);
+        addQuestion("5", REP_HOST, "cvs.werkbold.org", false);
+        addQuestion("6", REP_ROOT, "/cvsroot/unknown/", false);
+        addQuestion("7", REP_MPATH, "unknown", false);
     }
     
     public RepositoryDescriptor getRepositoryDescriptor() {
-        String type = getAnswer("repository type\t\t");;
-        String protocol = getAnswer("repository protocol\t");
-        String host = getAnswer("repository host\t\t");
-        String root = getAnswer("repository root\t\t");
-        String path = getAnswer("repository module path\t");
+        String type = getAnswer(REP_TYPE);
+        String protocol = getAnswer(REP_PROTOCOL);
+        String host = getAnswer(REP_HOST);
+        String root = getAnswer(REP_ROOT);
+        String path = getAnswer(REP_MPATH);
         return new RepositoryDescriptor(type, protocol, host, root, path);                               
     }
     
     public String getName() {
-        return getAnswer("productline name\t\t");
+        return getAnswer(PL_NAME);
     }
     
     public String getResource() {
-        return getAnswer("productline resource\t");
+        return getAnswer(PL_RES);
     }
 }
