@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.7 2004/06/24 06:49:38 neccaino Exp $
+ * $Id: IKoboldServer.java,v 1.8 2004/06/24 07:31:36 neccaino Exp $
  *
  */
 
@@ -34,6 +34,7 @@ import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.Role;
 import kobold.common.data.UserContext;
+import kobold.common.io.RepositoryDescriptor;
 
 /**
  * This class acts as an interface between kobold clients and a
@@ -189,7 +190,7 @@ public interface IKoboldServer {
 	 * @return IKoboldServer::NO_RESULT if the server is not
 	 *				   accessible that way, "" otherwise 
 	 */
-	public String satCreateNewProductline(String adminPassword, String plname);
+	public String satCreateNewProductline(String adminPassword, String plname, RepositoryDescriptor rd);
 	
 	/**
 	 * this method is used by SAT-Clients to remove a productline

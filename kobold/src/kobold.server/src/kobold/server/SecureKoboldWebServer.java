@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.31 2004/06/24 06:46:29 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.32 2004/06/24 07:34:03 neccaino Exp $
  *
  */
 package kobold.server;
@@ -43,6 +43,7 @@ import kobold.common.data.RolePE;
 import kobold.common.data.User;
 import kobold.common.data.UserContext;
 import kobold.common.data.WorkflowMessage;
+import kobold.common.io.RepositoryDescriptor;
 import kobold.server.controller.MessageManager;
 import kobold.server.controller.ProductManager;
 import kobold.server.controller.SessionManager;
@@ -197,7 +198,8 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			}
 			else if (methodName.equals("satCreateNewProductline")){
 				return satCreateNewProductline((String)arguments.elementAt(0),
-														               (String)arguments.elementAt(1));
+														               (String)arguments.elementAt(1),
+						                                               (RepositoryDescriptor)arguments.elementAt(2));
 			}
 		} catch (Exception e) {
 			logger.info("Exception during execute()", e);
@@ -459,14 +461,14 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * This method is used by SAT-Clients to validate the accessibility of
 	 * the Kobold server with the passed password.
 	 * 
-	 * NOTE: this member has not yet been fully implemented!
-	 * (stub has been inserted to avoid comp. errors)
+	 * NOTE: since there is no real administrator password functionality
+	 * on the Kobold server after it2, every password is accepted!
 	 *  
 	 * @param adminPassword server administration password
 	 * @return true, if the passed password is valid, false otherwise
 	 */
 	public String validateSATAccessibility(String adminPassword){
-		return IKoboldServer.NO_RESULT; // until fully implemented
+		return ""; // no password's needed, so check is successful
 	}
 	
 	/**
@@ -481,8 +483,10 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * @return IKoboldServer::NO_RESULT if the server is not
 	 *				   accessible that way, "" otherwise 
 	 */
-	public String satCreateNewProductline(String adminPassword, String plname){
-		return IKoboldServer.NO_RESULT; // until fully implemented
+	public String satCreateNewProductline(String adminPassword, String plname, RepositoryDescriptor rd){
+		ProductManager pm = ProductManager.getInstance();
+		Productline pl;
+		return "";
 	}
 	
 	/**
