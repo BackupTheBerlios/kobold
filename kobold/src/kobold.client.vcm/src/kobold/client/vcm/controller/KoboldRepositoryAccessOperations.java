@@ -168,14 +168,8 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
     public void checkout(AbstractAsset[] assets, IProgressMonitor progress, String tag, boolean isPl) throws TeamException {
         try {
 			progress = KoboldPolicy.monitorFor(progress);
-			if (isPl) {
-    			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.CHECKOUTPL).concat(scriptExtension),
-    			                 tag, ScriptDescriptor.VCM_CHECKOUT);
-			}
-			else {
 	  			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.CHECKOUT).concat(scriptExtension),
     			                 tag, ScriptDescriptor.VCM_CHECKOUT);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -188,14 +182,8 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
             			  String msg, boolean isPl) throws TeamException {
         try {
 			progress = KoboldPolicy.monitorFor(progress);
-			if (isPl) {
-    			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.IMPORTPL).concat(scriptExtension),
-    			                 msg, ScriptDescriptor.VCM_IMPORT);
-			}
-			else {
 	  			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.IMPORT).concat(scriptExtension),
     			                 msg, ScriptDescriptor.VCM_IMPORT);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -52,12 +52,10 @@ import org.eclipse.swt.widgets.Shell;
 public class KoboldRepositoryHelper {
 
     public static final String IMPORT = "import.";
-    public static final String IMPORTPL = "importpl.";
 	public static final String ADD = "add.";
 	public static final String UPDATE = "update.";
 	public static final String COMMIT = "commit.";
 	public static final String CHECKOUT = "checkout.";
-	public static final String CHECKOUTPL = "checkoutpl.";
 	public static final String TAG = "tag.";
 	public static final String REMOVE = "rm.";
 	

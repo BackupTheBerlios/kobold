@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
  * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
  * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.11 2004/10/15 02:58:26 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.12 2004/10/18 00:12:59 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -128,7 +128,7 @@ public class VCMActionListener implements IVCMActionListener
     			
     			if (connection.getReturnValue() != 0) {
     			    // update failed, let's try to checkout
-                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.CHECKOUTPL).concat(KoboldRepositoryHelper.getScriptExtension());
+                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.CHECKOUT).concat(KoboldRepositoryHelper.getScriptExtension());
         			connection.open(progress, command);
         			connection.close();	
         			
@@ -186,7 +186,7 @@ public class VCMActionListener implements IVCMActionListener
     			
     			if (connection.getReturnValue() != 0) {
     			    // next we initially import
-                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.IMPORTPL).concat(KoboldRepositoryHelper.getScriptExtension());
+                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.IMPORT).concat(KoboldRepositoryHelper.getScriptExtension());
         			command[9] = "\"initial pl import\"";
                     connection.open(progress, command);
         			connection.close();	

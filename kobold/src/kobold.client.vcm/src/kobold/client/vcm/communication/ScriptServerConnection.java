@@ -21,9 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * Created on 17.05.2004
- * by schneipk CVSSererConnection.java
- * @author schneipk
+ * $Id: ScriptServerConnection.java,v 1.50 2004/10/18 00:12:59 garbeam Exp $
  */
 package kobold.client.vcm.communication;
 

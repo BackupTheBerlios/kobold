@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.43 2004/10/15 03:53:57 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.44 2004/10/18 00:12:54 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -349,6 +349,21 @@ public class ModelStorage
         }
         
         return root.getKoboldProject().getProject().getFolder(thePath);
+    }
+    
+    
+    /**
+     * Magic method which adds all files under the given asset to version
+     * control which aren't already under version control.
+     * @param asset
+     */
+    public static void prepareCommit(AbstractAsset asset) {
+        IPath path = getPathForAsset(asset);
+        FileDescriptor fd = new FileDescriptor();
+        fd.setParent(null);
+        fd.setParentAsset(null);
+        
+        
     }
     
     public static void serializeProduct (Productline pl, IProgressMonitor monitor)
