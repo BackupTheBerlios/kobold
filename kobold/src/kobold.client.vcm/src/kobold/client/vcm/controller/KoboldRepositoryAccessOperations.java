@@ -317,9 +317,10 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			}
 			InputDialog messageInput = new InputDialog(new Shell(),"Please enter a message for the repository","VCM Message :",null, null);
 			messageInput.open();
-			String message = "'";//String.valueOf(QUOTATION);
+			String message = String.valueOf(QUOTATION);
+//			String message = "";
 			message = message.concat(messageInput.getValue());
-			message = message.concat("'");// message.concat(String.valueOf(QUOTATION));
+			message =  message.concat(String.valueOf(QUOTATION));
 			System.out.println(message);
 			tempString[tempString.length-1] = message; 
 			argString = tempString;

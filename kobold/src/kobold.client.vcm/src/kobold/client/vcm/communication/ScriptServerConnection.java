@@ -147,13 +147,12 @@ public class ScriptServerConnection implements IServerConnection
 			}
 			process = Util.createProcess(command, monitor);
 
-			MessageConsoleStream stream1,stream2 = null;
+			MessageConsoleStream stream2 = null;
 			MessageConsole console= new MessageConsole("Kobold Script Console",null);
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
 				new IConsole[] {console});
 			stream2 = console.newMessageStream();
 			connected = true;
-			
 			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
 			try
             {
@@ -250,13 +249,6 @@ public class ScriptServerConnection implements IServerConnection
 		try {
 			process = Util.createProcess(actualCommand, monitor);
 
-//			inputStream = new PollingInputStream(new TimeoutInputStream(process.getInputStream(),
-//					32768 /*16384 bufferSize*/, -1 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
-//			outputStream = new PollingOutputStream(new TimeoutOutputStream(process.getOutputStream(),
-//					16384 /*8192buffersize*/, 4000 /*writeTimeout*/, 4000 /*closeTimeout*/), 60, monitor);
-			// 
-			// discard the input to prevent the process from hanging due to a full pipe
-	
 			MessageConsoleStream stream1,stream2 = null;
 			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
@@ -265,14 +257,19 @@ public class ScriptServerConnection implements IServerConnection
 			connected = true;
 			
 			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
+			errorThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
+			((InputThreadToConsole)errorThread).setErrProccessing(true);
+			
 			try
             {
+			    errorThread.start();
 			    Workbench.getInstance().getProgressService().run(true,false,(InputThreadToConsole)inputThread) ;
+				process.waitFor();			    
             } catch (Exception e)
             {
                 // TODO: handle exception
             }
-			
+
 
 			//
 		} finally {
@@ -403,7 +400,88 @@ public class ScriptServerConnection implements IServerConnection
 			this.errStream = new BufferedInputStream(proc.getErrorStream());
 			this.proc = proc;
 		}
+		public void setErrProccessing(boolean apply)
+		{
+		    if (apply)
+            {
+                this.in = this.errStream;
+            }
+		}
 		public void run(){
+		    int index = 0, r = 0, s = 0, i = 0, lineCount = 250;
+            try
+            {
+                if(monitor != null)monitor.beginTask("VCM Action....",1000000);
+                	else{
+                	    monitor = KoboldPolicy.monitorFor(null);
+                	}
+                while (in.available() == 0 && s < 250)
+                {
+                    sleep(5);   
+                    s++;
+                }
+                while ( lineCount == 250 || i < 250)
+                {
+                    monitor.worked(1);
+                    try
+                    {
+                        lineCount =  proc.exitValue();
+                    } catch (Exception e)
+                    {
+                        // Don't care
+                    }
+                    if (in.available() != 0)
+                    {
+                        while ((r = in.read()) != -1)
+                        {
+                            monitor.worked(1);
+                            if (r == NEWLINE)break;
+                            readLineBuffer = append(readLineBuffer, index++,
+                                    (byte) r);
+                            
+                            if(in.available() == 0) break;
+                        }
+                    }
+                    
+                    if (returnString != null)
+                    {
+                        if (returnString.equals(""))
+                            returnString = new String(readLineBuffer, 0, index);
+                        else{
+                            if(index != 0)returnString = returnString.concat("\n");
+                            returnString = returnString.concat(new String(
+                                    readLineBuffer, 0, index));
+                            	
+                            
+                        }
+                        readLineBuffer = new byte[512];
+                        index = 0;
+                        monitor.worked(1);
+                    } else
+                    {
+                        monitor.worked(1);
+                        stream.print(new String(readLineBuffer, 0, index));
+                        System.out
+                                .print(new String(readLineBuffer, 0, index));
+
+                        this.readLineBuffer = new byte[512];
+                        index = 0;
+                    }
+                    if (in.available() == 0  && lineCount != 250)
+                    {
+                        monitor.worked(1);
+                        i++;
+                    }
+                }
+                monitor.done();
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+                monitor.done();
+            }
+
+		}
+		public void run3(){
 		    int index = 0, r = 0, s = 0, i = 0, lineCount = 250;
             try
             {
