@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.77 2004/08/19 12:01:46 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.78 2004/08/24 09:58:55 neccaino Exp $
  *
  */
 package kobold.server;
@@ -574,7 +574,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	public String checkAdministrability(String adminPassword){
 	    return (adminPassword.equals(SecureKoboldWebServer.adminPassword)) ?
 		       IKoboldServerAdministration.RETURN_OK :
-		       IKoboldServerAdministration.RETURN_FAIL;
+		       IKoboldServerAdministration.RETURN_WRONG_PASSWORD;
 	}
 	
 	/**
@@ -598,14 +598,14 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			RepositoryDescriptor repositoryDescriptor){
 		// 1.) check the password
 		if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-			return IKoboldServerAdministration.RETURN_FAIL;
+			return IKoboldServerAdministration.RETURN_WRONG_PASSWORD;
 		}
 		
 		// 2.) create the new pl
 		ProductlineManager plm = ProductlineManager.getInstance();
 		Productline pl = new Productline(nameOfProductline, resource,
 				    					 repositoryDescriptor);
-		return plm.addProductline(pl) ? RETURN_OK : RETURN_FAIL;
+		return plm.addProductline(pl) ? RETURN_OK : RETURN_NAME_ALREADY_REGISTERED;
 	}
 	
 	/**
@@ -621,11 +621,11 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			String nameOfProductline){
 		// 1.) check the password
 		if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-			return IKoboldServerAdministration.RETURN_FAIL;
+			return IKoboldServerAdministration.RETURN_WRONG_PASSWORD;
 		}
         
 		// 2.) remove the productline
-      	return ProductlineManager.getInstance().removeProductlineByName(nameOfProductline) ? RETURN_OK : RETURN_FAIL;
+      	return ProductlineManager.getInstance().removeProductlineByName(nameOfProductline) ? RETURN_OK : RETURN_PRODUCTLINE_MISSING;
 	} 
 	
 	/**
@@ -646,7 +646,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			String nameOfUser){
 		// 1.) check the password
 		if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-			return IKoboldServerAdministration.RETURN_FAIL;
+			return IKoboldServerAdministration.RETURN_WRONG_PASSWORD;
 		}
 		
 		// 2.) get the user's server representation by its name 
@@ -656,7 +656,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
         
         // 3.) stop if the user doesn't exist
         if (suser == null){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_USER_MISSING;
         }
 		
 		// 4.) convert the user-object to its client-representation
@@ -666,16 +666,17 @@ public class SecureKoboldWebServer implements IKoboldServer,
         Productline pl = plm.getProductlineByName(nameOfProductline);
         
         if (pl == null){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_PRODUCTLINE_MISSING;
         }
 
         // 6.) stop if the user has already been assigned
         if (pl.isMaintainer(nameOfUser)){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_OK;
         }
         
 		// 7.) assign the user
 		pl.addMaintainer(cuser);
+        ProductlineManager.getInstance().serialize();
 		
 		return IKoboldServerAdministration.RETURN_OK;
 	}
@@ -696,7 +697,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
                               String nameOfUser){
 		// 1.) check the password
 		if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-			return IKoboldServerAdministration.RETURN_FAIL;
+			return IKoboldServerAdministration.RETURN_WRONG_PASSWORD;
 		}
 		
         // 2.) get the user's server representation by its name 
@@ -706,7 +707,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
         
         // 3.) stop if the user doesn't exist
         if (suser == null){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_USER_MISSING;
         }
         
         // 4.) convert the user-object to its client-representation
@@ -716,16 +717,17 @@ public class SecureKoboldWebServer implements IKoboldServer,
         Productline pl = plm.getProductlineByName(nameOfProductline);
         
         if (pl == null){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_PRODUCTLINE_MISSING;
         }
 
         // 6.) stop if the user has not yet been assigned to the productline
         if (!pl.isMaintainer(nameOfUser)){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_OK;
         }
         
         // 7.) unassign the user
         pl.removeMaintainer(cuser);
+        ProductlineManager.getInstance().serialize();
         
 		return IKoboldServerAdministration.RETURN_OK;
 	}
@@ -743,7 +745,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
     public String getPles(String adminPassword, String nameOfProductline){
         // 1.) check the password
         if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_WRONG_PASSWORD;
         }
         
         // 2.) check if productline exists
@@ -751,7 +753,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
         Productline pl = plm.getProductlineByName(nameOfProductline);
         
         if (pl == null){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_PRODUCTLINE_MISSING;
         }
         
         // 3.) get maintainer list and convert it to string
@@ -781,7 +783,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
     public String getProductlines(String adminPassword){
         // 1.) check the password
         if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_WRONG_PASSWORD;
         }
         
         // 2.) get productline vector, remove id strings and convert it to string
@@ -810,7 +812,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
     public String getRegisteredUsers(String adminPassword){
         // 1.) check the password
         if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_WRONG_PASSWORD;
         }
         
         // 2.) get userlist and convert it to string
@@ -833,7 +835,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
      * This method creates a new kobold user and adds it to the server.
      * 
      * @param adminPassword the Kobold server's administration password
-     * @param username the new userÄs username
+     * @param username the new userï¿½s username
      * @param fullname the new user's full name
      * @param password the password for the new user
      * @return RETURN_OK if the new user could be created successfully, 
@@ -848,7 +850,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
                                 String password){
         // 1.) check the password
         if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_WRONG_PASSWORD;
         }
         
         // 2.) create and add user
@@ -860,7 +862,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
             return RETURN_OK;
         }
         else{
-            return RETURN_FAIL;
+            return RETURN_NAME_ALREADY_REGISTERED;
         }
     }
     
@@ -881,13 +883,13 @@ public class SecureKoboldWebServer implements IKoboldServer,
     public String removeKoboldUser(String adminPassword, String username){
         // 1.) check the password
         if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_WRONG_PASSWORD;
         }
         
         // 2.) remove the user
         if (UserManager.getInstance().removeUserByName(username) == null){
             // the passed username has not been registered
-            return RETURN_FAIL;
+            return RETURN_USER_MISSING;
         }
         else{
             return RETURN_OK;
@@ -905,7 +907,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
     public String checkUserAssignements(String adminPassword, String username){
         // 1.) check the password
         if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-            return IKoboldServerAdministration.RETURN_FAIL;
+            return IKoboldServerAdministration.RETURN_WRONG_PASSWORD;
         }
 
         // 2.) check for assignements
