@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.32 2004/09/21 20:56:58 martinplies Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.33 2004/09/22 15:35:26 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -159,9 +159,10 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		name.addModifyListener(  new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 if (!(asset instanceof Release) && !asset.isResourceDefined())
-                {
+                {                    
+                        resource.setText(generateResourceName(name.getText()));;
                 	//resource name now generated automaically
-                	resource.setText(generateResourceName(name.getText()));
+                	
                 }
             }
 		  });
@@ -704,7 +705,12 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     
     String avoidEqualRecourceNames(String resName) {
          //      get all children of the parent
-    	List assets = this.asset.getParent().getChildren();
+        List assets;
+        if (asset instanceof Product){
+    	    assets =  ((Product)asset).getProductline().getProducts();
+        } else{
+            assets = asset.getParent().getChildren();
+        }
     	Iterator it = assets.listIterator();
     	while (it.hasNext())
     	{
@@ -719,7 +725,6 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     				resName = resName.concat("_1");
     				//do return
     				return avoidEqualRecourceNames(resName);    				
-
 				}
 			}
     	}
