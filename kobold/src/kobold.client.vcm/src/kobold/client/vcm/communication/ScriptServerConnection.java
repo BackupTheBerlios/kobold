@@ -667,6 +667,8 @@ public class ScriptServerConnection implements IServerConnection
 	/**
 	 * gets the stored userName
 	 * @return the stored userName
+	 * 
+	 * if the user pressed cancel, the password will be ""
 	 */
 	private String getUserPassword ()
 	{
@@ -704,10 +706,10 @@ public class ScriptServerConnection implements IServerConnection
         {
 	        preferenceName = type;
             type = "VCM User Password"; 
-            PasswordDialog pd = new PasswordDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
+            PasswordDialog pd = new PasswordDialog (new Shell());
             //open the dialog
             pd.open();
-            return pd.getValue();
+            return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
         } 
 	    else if (type.equals(VCMPreferencePage.KOBOLD_VCM_USER_STR))
 	    {
@@ -716,7 +718,7 @@ public class ScriptServerConnection implements IServerConnection
 			InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
 			//open the dialog
 			in.open();
-			return in.getValue ();
+			return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR);
 	    }
 	    else 
 	    {
