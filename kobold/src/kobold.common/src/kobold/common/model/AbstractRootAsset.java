@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.1 2004/06/27 23:52:28 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.2 2004/06/28 22:35:23 vanto Exp $
  *
  */
 package kobold.common.model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +42,7 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     private Object project;
     private Map userPool = new HashMap();
     protected Map releasePool = new HashMap();
+    protected transient PropertyChangeSupport changeListeners = new PropertyChangeSupport(this); 
     
     /**
      * Default constructor. 
@@ -81,5 +84,19 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     {
         return userPool;
     }
-    
+
+    public void addModelChangeListener(PropertyChangeListener l)
+	{
+		changeListeners.addPropertyChangeListener(l);
+	}
+
+	public void removeModelChangeListener(PropertyChangeListener l)
+	{
+		changeListeners.removePropertyChangeListener(l);
+	}
+	
+	public void fireModelChange() 
+	{
+	    changeListeners.firePropertyChange("refresh", false, true);
+	}
 }

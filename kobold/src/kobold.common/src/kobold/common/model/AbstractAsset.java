@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.17 2004/06/28 14:50:03 martinplies Exp $
+ * $Id: AbstractAsset.java,v 1.18 2004/06/28 22:35:23 vanto Exp $
  *
  */
 package kobold.common.model;
@@ -109,8 +109,8 @@ public abstract class AbstractAsset implements ISerializable
     	
     	if (this instanceof IGXLExport) {
     		IGXLExport thisGXL = (IGXLExport) this;
-      	    GXLNode node = new GXLNode(id);
-      	    node.setType(URI.create(thisGXL.getGXLType()));
+      	    GXLNode node = new GXLNode(IdManager.getInstance().getMessageId(id));
+			//node.setAttr("id", new GXLString(id));
     		if (name != null) {
 			  node.setAttr("name",new GXLString(name));
     		}
@@ -140,7 +140,8 @@ public abstract class AbstractAsset implements ISerializable
 			  node.add(graph);
 			}
 
-    	    return node;
+			node.setType(URI.create(thisGXL.getGXLType()));
+    	return node;
     	} else {
     		throw new GXLException(this.getClass()+" implements not IGXLExport");
     	}
@@ -234,7 +235,11 @@ public abstract class AbstractAsset implements ISerializable
     public AbstractRootAsset getRoot()
     {
         AbstractAsset parent = getParent();
-       
+ 
+        if (this instanceof AbstractRootAsset && parent == null) {
+            return (AbstractRootAsset)this;
+        }
+        
         while ((parent != null) 
                 && !(parent instanceof AbstractRootAsset)) {
             
@@ -317,10 +322,21 @@ public abstract class AbstractAsset implements ISerializable
 
 	protected final void firePropertyChange(String prop, Object old, Object newValue){
 		listeners.firePropertyChange(prop, old, newValue);
+
+		AbstractRootAsset root = getRoot();
+		if (root != null) {
+		    root.fireModelChange();
+		}
 	}
 
 	protected final void fireStructureChange(String prop, Object child){
 		listeners.firePropertyChange(prop, null, child);
+
+		AbstractRootAsset root = getRoot();
+		if (root != null) {
+		    root.fireModelChange();
+		}
+
 	}
 
 }

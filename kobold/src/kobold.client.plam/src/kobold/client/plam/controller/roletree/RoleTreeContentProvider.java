@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.16 2004/06/28 01:17:42 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.17 2004/06/28 22:35:25 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -30,6 +30,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -63,7 +65,7 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	private static Object[] EMPTY_ARRAY = new Object[0];
 	private IWorkspace input;
 	protected TreeViewer viewer;
-	
+	private List listenRootAssets = new LinkedList();
 	
 	
     private IProject[] getKoboldProjects() 
@@ -76,13 +78,23 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 			boolean isKoboldProject = false;
 			try {
 				isKoboldProject = p.hasNature(KoboldProjectNature.NATURE_ID);
+				KoboldProjectNature kpn = (KoboldProjectNature)p.getNature(KoboldProjectNature.NATURE_ID);
+
+				if (isKoboldProject) {
+					kobolds.add(p);
+					
+					// listen to model changes.
+					Productline pl = kpn.getPLAMProject().getProductline();
+					if (pl != null && !listenRootAssets.contains(pl)) {
+					    listenRootAssets.add(pl);
+					    pl.addModelChangeListener(this);
+					}
+				}
+
 			} catch (CoreException e) {
 				// p ist not open or doesnt exist
 			} 
 			
-			if (isKoboldProject) {
-				kobolds.add(p);
-			}
 		}
 		
 		IProject[] result = new IProject[kobolds.size()];
@@ -106,6 +118,12 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 		if (input != null) {
 			input.removeResourceChangeListener(this);
 			input = null;
+		}
+		
+		// remove model change listener from productlines.
+		Iterator it = listenRootAssets.iterator();
+		while (it.hasNext()) {
+		    ((Productline)it.next()).removeModelChangeListener(this);
 		}
 }
 
@@ -240,9 +258,11 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
-		viewer.getControl().getDisplay().syncExec(new Runnable() {		
+	    viewer.getControl().getDisplay().syncExec(new Runnable() {		
 			public void run() {		
 				viewer.refresh();
+				// FIXME: restore expanded nodes.
+				//viewer.expandAll();
 			}
 		});
 	}
