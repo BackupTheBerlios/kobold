@@ -6,7 +6,10 @@
    provider-name="Werkbold">
 
    <runtime>
-      <library name="kobold-commons.jar"/>
+      <library name="kobold.common.jar">
+         <export name="*"/>
+         <packages prefixes="kobold.common"/>
+      </library>
       <library name="contrib/gxl.jar">
          <export name="*"/>
       </library>
@@ -28,18 +31,12 @@
       <library name="contrib/jakarta-commons/commons-httpclient.jar">
          <export name="*"/>
       </library>
-      <library name="/home/garbeam/jsse1.0.3_03/lib/jcert.jar">
-         <export name="*"/>
-      </library>
-      <library name="/home/garbeam/jsse1.0.3_03/lib/jnet.jar">
-         <export name="*"/>
-      </library>
-      <library name="/home/garbeam/jsse1.0.3_03/lib/jsse.jar">
-         <export name="*"/>
-      </library>
-      <library name="contrib/dom4j/jaxen-1.1-beta-2/jaxen-1.1-beta-2.jar">
-         <export name="*"/>
-      </library>
    </runtime>
+   <requires>
+      <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.eclipse.osgi.services"/>
+      <import plugin="org.eclipse.osgi.util"/>
+   </requires>
+
 
 </plugin>
