@@ -49,7 +49,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author pliesmn
  * 
- * 
+ * UNDER CONSTRUCTION
  *  
  */
 public class ProductAlgorithm {
@@ -271,23 +271,85 @@ public class ProductAlgorithm {
     /*
      * try to find one way that can be used 
      */
-    private boolean useMeta(MetaNode meta) {        
-        if ( get(meta).isUse()){
-            return true;
+    private void useMeta(INode node) {        
+        if (! get(node).isOpen()){
+                return;            
         }
+        if(! (node instanceof MetaNode)){
+            // // found Variant, Component or release;
+            // use right method.
+            use((IProductlineNode)node);
+            return;
+        }
+        MetaNode meta = (MetaNode) node;        
         
         NodeAttr nodeAttr = get(meta);
-        nodeAttr.delWarning();
-        boolean allChilerenUsed = true;
+        if (meta.getType().equals(MetaNode.AND)){
+            // handel AND nodes
+        boolean allChildrenUsed = true;        
         for(Iterator ite = container.getEdgesFrom(meta).iterator(); ite.hasNext();){
             Edge edge = (Edge) ite.next();
-            if (edge.getType()!= Edge.INCLUDE ){
-                nodeAttr.addWarning("You must not mix edgetypes at one metaode");
-            }
-           
+            INode child = edge.getTargetNode();
+            NodeAttr childAttr = get(meta);
+            if (edge.getType()== Edge.INCLUDE ){
+               if(child instanceof MetaNode){
+                  useMeta((MetaNode)child);
+               }else { 
+                  if(childAttr.isOpen()){
+                      use((IProductlineNode) child);
+                  }
+               }               
+                if (! childAttr.isUse()){
+                    nodeAttr.setToWorkOn(true);
+                    allChildrenUsed = false;                    
+                }                              
+            }else {
+                nodeAttr.addWarning("You must not mix edgetypes at one metaode"); 
+            }           
         }
-        //TODO
-        return true;
+        if(allChildrenUsed){
+            nodeAttr.setUse();            
+        }else {
+            nodeAttr.setMustNotUse();            
+        }
+        } else {
+//          at first gain information
+            List useList = new LinkedList();
+            List mustNotList = new LinkedList();
+            List openList = new LinkedList();                    
+            // handel OR nodes
+            // at first gain Information
+            for(Iterator ite = container.getEdgesFrom(meta).iterator(); ite.hasNext();){
+                Edge edge = (Edge) ite.next();            
+                if (edge.getType()== Edge.INCLUDE ){                
+                    INode child = edge.getTargetNode();
+                    NodeAttr childAttr = get(meta);                 
+                    if (childAttr.isUse()){                        
+                        useList.add(child);                    
+                    }else if(childAttr.isOpen()){
+                        openList.add(child);
+                    }                    
+                }else {
+                    nodeAttr.addWarning("You must not mix edgetypes at one metaode"); 
+                }                
+            }
+            if(useList.size() == 1 && openList.size() >0){                
+                  for (Iterator ite = openList.iterator(); ite.hasNext();){
+                      mustNotUseMeta((INode) ite.next());
+                  }
+                  nodeAttr.setUse();
+            }else if (useList.size() == 0  && openList.size() == 1){
+                useMeta((INode) openList);
+                nodeAttr.setUse();
+            } else {
+                nodeAttr.setOpen();                 
+            }             
+        }
+    }
+    
+    
+    private void mustNotUseMeta(INode node){
+        
     }
 
     /**
