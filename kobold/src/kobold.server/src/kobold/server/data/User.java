@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.4 2004/07/14 16:01:50 garbeam Exp $
+ * $Id: User.java,v 1.5 2004/07/22 11:54:26 neccaino Exp $
  *
  */
 
@@ -42,7 +42,7 @@ import sun.misc.BASE64Encoder;
 
 /**
  * This class contains all information about a user that has to be stored
- * on the Kobold Server (password, roles...).
+ * on the Kobold server (password, roles...).
  *
  * @author Armin Cont
  */
@@ -68,15 +68,18 @@ public class User implements ISerializable {
 	/**
 	 * Basic DOM constructor.
 	 *
-	 * @param element DOM element which represents
-	 * this user.
+	 * @param element DOM element which represents this user.
 	 */
 	public User(Element element) {
 		deserialize(element);
 	}
 
 	/**
-	 * @param element
+     * deserializes the data which is contained in the passed DOM element and
+     * updates 'this accordingly
+     * 
+	 * @param element DOM element containing the data to be deserialized and
+     *                applied 
 	 */
 	public void deserialize(Element element) {
 
@@ -96,7 +99,7 @@ public class User implements ISerializable {
 
 	/**
 	 * Serializes this User and returns the resulting DOM tree.
-	 * @return
+	 * @return DOM Element containing the serialized data of this User 
 	 */
 
 	public Element serialize() {
@@ -182,4 +185,15 @@ public class User implements ISerializable {
 	public boolean isValid() {
 	    return this.isValid;
 	}
+
+    /**
+     * Creates and returns a kobold.common.data.User object that represents this
+     * User in a secure fashion (-> without the User's password or server 
+     * specific data).
+     * 
+     * @return kobold.common.data.User representation of this User
+     */
+    public kobold.common.data.User getSecureRepresentation(){
+        return new kobold.common.data.User(getUserName(), getFullName());
+    }
 }
