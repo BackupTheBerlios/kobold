@@ -21,14 +21,17 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptorHelper.java,v 1.4 2004/08/05 18:17:07 garbeam Exp $
+ * $Id: FileDescriptorHelper.java,v 1.5 2004/08/06 07:46:35 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.util.Date;
+import java.util.StringTokenizer;
 
 import org.eclipse.core.runtime.IPath;
+
+import com.sun.rsasign.d;
 
 
 /**
@@ -38,42 +41,66 @@ import org.eclipse.core.runtime.IPath;
  */
 public class FileDescriptorHelper
 {
+    // TODO: OLI: Kommentieren!!!!
 	/**
-	 * Creates an implicit file.
+	 * Creates a file FileDescriptor.
 	 *  
-	 * @param filename
-	 * @param directory
-	 * @param revision
-	 * @param lastChange
-	 * @param isBinary
 	 */
-    public static void createFile(String filename, 
-            								String revision, 
-											Date lastChange, 
-											boolean isBinary, 
-											IFileDescriptorContainer fileDescriptorContainer) 
+    public static void createFile(String filename,  String revision, 
+								  Date lastChange,  boolean isBinary, 
+								  IFileDescriptorContainer root) 
     {
+        IFileDescriptorContainer fd = root;
+        StringTokenizer tz = new StringTokenizer(filename, ""+IPath.SEPARATOR);
+        int toks = tz.countTokens();
+        toks--; // prevent last token from processing
+        for (int i = 0; i < toks; i++) {
+             String resource = tz.nextToken();
+             FileDescriptor tmp = fd.getFileDescriptor(resource);
+             if (tmp == null) {
+                 tmp = new FileDescriptor();
+                 tmp.setFilename(resource);
+                 tmp.setDirectory(true);
+                 fd.addFileDescriptor(tmp);
+             }
+             fd = tmp;
+        }
         String resource = filename.substring(filename.lastIndexOf(IPath.SEPARATOR));
-        FileDescriptor fd = new FileDescriptor();
-    	fd.setFilename (filename);
-    	fd.setRevision(revision);
-    	fd.setLastChange(lastChange);
-    	fd.setBinary(isBinary);
-    	fileDescriptorContainer.addFileDescriptor (fd);
+        FileDescriptor fileDescriptor = new FileDescriptor();
+        if (tz.hasMoreTokens()) {
+        	fileDescriptor.setFilename(tz.nextToken());
+        }
+        else {
+            // special case, appears only if filename argument contained no delimeters
+            fileDescriptor.setFilename(filename);
+        }
+    	fileDescriptor.setRevision(revision);
+    	fileDescriptor.setLastChange(lastChange);
+    	fileDescriptor.setBinary(isBinary);
+    	fd.addFileDescriptor (fileDescriptor);
     }
 
+    // TODO: OLI: Kommentieren!!!!
     /**
      * Creates an implicit directory
-     * @param filename
      */
-    public static void createDirectory(String dirName, 
-    											IFileDescriptorContainer fileDescriptorContainer) 
+    public static void createDirectory(String dirName,  IFileDescriptorContainer root) 
     {
-        String resource = dirName.substring(dirName.lastIndexOf(IPath.SEPARATOR));
-        FileDescriptor fd = new FileDescriptor();
-    	fd.setFilename (dirName);
-    	fd.setDirectory(true);
-    	fileDescriptorContainer.addFileDescriptor (fd);
+    // garbeam: fixed a bug which created all resources at childs of root
+    //
+        IFileDescriptorContainer fd = root;
+        StringTokenizer tz = new StringTokenizer(dirName, ""+IPath.SEPARATOR);
+        while (tz.hasMoreTokens()) {
+             String resource = tz.nextToken();
+             FileDescriptor tmp = fd.getFileDescriptor(resource);
+             if (tmp == null) {
+                 tmp = new FileDescriptor();
+                 tmp.setFilename(resource);
+                 tmp.setDirectory(true);
+                 fd.addFileDescriptor(tmp);
+             }
+             fd = tmp;
+        }
     }
     
     
