@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.21 2004/08/06 09:36:46 vanto Exp $
+ * $Id: ModelStorage.java,v 1.22 2004/08/06 09:46:00 grosseml Exp $
  *
  */
 package kobold.client.plam.model;
@@ -38,6 +38,8 @@ import java.util.List;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.controller.ServerHelper;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.product.RelatedComponent;
+import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
@@ -89,7 +91,7 @@ public class ModelStorage
                     in = modelFile.getContents();
                     SAXReader reader = new SAXReader();
                     Document document = reader.read(in);
-                    pl = new Productline(document.getRootElement());
+                    pl = new Productline(document.getRootElement());                    
                 } catch (CoreException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -376,9 +378,43 @@ public class ModelStorage
 	        } catch (IOException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
-
-
-
+	        }
+	        //Part of generating all subfolders
+	        //List of all related components
+	        List relCompList = product.getRelatedComponents();
+	        Iterator it2 = relCompList.iterator();
+	        int count = 0;
+	        while(it2.hasNext()){
+	        	count=count+1;
+	        	RelatedComponent tmpRelComp = (RelatedComponent)it2.next();
+	        	
+	        	IFolder relCompFolder = specialProductFolder.getFolder(tmpRelComp.getName());
+	        	
+				//createDirectory
+		        try {
+			        if (!relCompFolder.exists()) {
+			            relCompFolder.create(true, true, monitor);
+			        }
+		        } catch (CoreException e) {
+		            KoboldPLAMPlugin.log(e);
+		        }
+	        }
+	        
+	        List specCompList = product.getSpecificComponents();
+	        it2 = specCompList.iterator();
+	        while(it2.hasNext()){
+	        	SpecificComponent tmpRelComp = (SpecificComponent)it2.next();
+	        	
+	        	IFolder relCompFolder = specialProductFolder.getFolder(tmpRelComp.getName());
+	        	
+				//createDirectory
+		        try {
+			        if (!relCompFolder.exists()) {
+			            relCompFolder.create(true, true, monitor);
+			        }
+		        } catch (CoreException e) {
+		            KoboldPLAMPlugin.log(e);
+		        }
 	        }
 		}
 
