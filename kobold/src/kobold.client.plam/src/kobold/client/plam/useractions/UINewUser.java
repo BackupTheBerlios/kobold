@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UINewUser.java,v 1.3 2004/07/23 20:52:56 vanto Exp $
+ * $Id: UINewUser.java,v 1.4 2004/08/02 12:06:51 martinplies Exp $
  *
  */
 package kobold.client.plam.useractions;
@@ -82,28 +82,28 @@ public class UINewUser extends Dialog	{
             //User Name
             labelUserName = new Label(control,SWT.NONE);
             labelUserName.setText("Please insert the username of the new user:");
-            textUserName = new Text(control, SWT.NONE);		
+            textUserName = new Text(control, SWT.BORDER);		
             //data = new GridData(GridData.FILL_HORIZONTAL);
             textUserName.setLayoutData(data);
             
             //RealName
             labelRealName = new Label(control,SWT.NONE);
             labelRealName.setText("Please insert the real name of the new user:");
-            textRealName = new Text(control, SWT.NONE);		
+            textRealName = new Text(control, SWT.BORDER);		
             //data = new GridData(GridData.FILL_HORIZONTAL);
             //textRealName.setLayoutData(data);
             
             //password
             labelPassword = new Label(control,SWT.NONE);
             labelPassword.setText("Please insert the initial password of the new user:");
-            textPassword = new Text(control, SWT.NONE);		
+            textPassword = new Text(control, SWT.BORDER);		
             //data = new GridData(GridData.FILL_HORIZONTAL);
             //textPassword.setLayoutData(data);
             
             //confirmpassword
             labelConfPass = new Label(control,SWT.NONE);
             labelConfPass.setText("Please retype the initial password of the new user:");
-            textConfPass = new Text(control, SWT.NONE);		
+            textConfPass = new Text(control, SWT.BORDER);		
             //data = new GridData(GridData.FILL_HORIZONTAL);
             //textConfPass.setLayoutData(data);
         } catch(Exception e) {

@@ -52,18 +52,18 @@ public class UIUpdateUserFullName extends Dialog{
 		//User Name
 		labelUserName = new Label(control,SWT.NONE);
 		labelUserName.setText("Please insert the username of the user:");
-		textUserName = new Text(control, SWT.NONE);		
+		textUserName = new Text(control, SWT.BORDER);		
 		textUserName.setLayoutData(data);
 
 		//RealName
 		labelRealName = new Label(control,SWT.NONE);
 		labelRealName.setText("Please insert the new real name of the user:");
-		textRealName = new Text(control, SWT.NONE);		
+		textRealName = new Text(control, SWT.BORDER);		
 		
 		//password
 		labelPassword = new Label(control,SWT.NONE);
 		labelPassword.setText("Please insert the password of the user:");
-		textPassword = new Text(control, SWT.NONE);
+		textPassword = new Text(control, SWT.BORDER);
 		
 		
 		} catch(Exception e) {

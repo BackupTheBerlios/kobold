@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: GraphImportDialog.java,v 1.2 2004/07/29 20:51:03 martinplies Exp $
+ * $Id: GraphImportDialog.java,v 1.3 2004/08/02 12:06:51 martinplies Exp $
  *
  *
  */
@@ -85,7 +85,7 @@ public class GraphImportDialog  extends TitleAreaDialog {
           layout.numColumns = 2;
           comp.setLayout(layout);
           comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-          textFile = new Text(comp, SWT.SINGLE);
+          textFile = new Text(comp, SWT.SINGLE | SWT.BORDER);
           textFile.addModifyListener( new ModifyListener(){
             public void modifyText(ModifyEvent e) {
                 handelFileEvent();                  

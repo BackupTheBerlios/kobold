@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NodeAssignmentDialog.java,v 1.2 2004/07/29 20:51:03 martinplies Exp $
+ * $Id: NodeAssignmentDialog.java,v 1.3 2004/08/02 12:06:51 martinplies Exp $
  *
  */
 package kobold.client.plam.graphimport;
@@ -64,6 +64,7 @@ public class NodeAssignmentDialog extends TitleAreaDialog {
     private String nodeName;
     private String nodeBauhausPath;
     private org.eclipse.swt.widgets.List list;
+    private FileDescriptor selectedFD;
     /**
      * @param parentShell
      */
@@ -82,7 +83,8 @@ public class NodeAssignmentDialog extends TitleAreaDialog {
         composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         
         
-        this.setMessage("Assign the Node to a File");
+        this.setMessage("If you, select no entry imported node is ignored");
+        this.setTitle("Assign imported node to a Kobold node");
         new Label(composite, SWT.NONE);
         Label labelName = new Label(composite, SWT.NONE);
         labelName.setText("Bauhaus/Kobold filename: " + this.nodeName);
@@ -99,11 +101,11 @@ public class NodeAssignmentDialog extends TitleAreaDialog {
         list.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         list.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event event) {
-                ListSelected(); 
+                listSelected(); 
             }
         });
         for (int i = 0; i < fileDescriptors.size(); i++){
-            AbstractAsset pc = (AbstractAsset) ((FileDescriptor)fileDescriptors.get(i)).getParentAsset();            
+            AbstractAsset pc = (AbstractAsset) ((FileDescriptor)fileDescriptors.get(i)).getLocalPath();            
             list.add(pc.getName(), i);
         }
        /* Table table = new Table(composite, SWT.SINGLE);
@@ -122,19 +124,24 @@ public class NodeAssignmentDialog extends TitleAreaDialog {
         
         
 */ 
-        //fd.
         return composite;
     }
 
     /**
      * 
      */
-    protected void ListSelected() {
+    protected void listSelected() {
         if (list.getSelectionIndex() == -1){
-            ;;
+            this.setMessage("If you, select no entry imported node is ignored");
+            selectedFD = null;
+        } else {
+            selectedFD = (FileDescriptor)this.fileDescriptors.get(list.getSelectionIndex());
+            this.setMessage("");
         }
     }
     
-    
+    protected FileDescriptor getSelectedFileDesciptor(){
+        return this.selectedFD;
+    }
 
 }

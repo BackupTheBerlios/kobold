@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UIChangePassword.java,v 1.3 2004/07/23 20:52:56 vanto Exp $
+ * $Id: UIChangePassword.java,v 1.4 2004/08/02 12:06:51 martinplies Exp $
  *
  */
 package kobold.client.plam.useractions;
@@ -78,21 +78,21 @@ public class UIChangePassword extends Dialog	{
         //the old password
         labelOldPassword = new Label(control,SWT.NONE);
         labelOldPassword.setText("Please insert your current password:");
-        textOldPassword = new Text(control, SWT.NONE);		
+        textOldPassword = new Text(control, SWT.BORDER);		
         data = new GridData(GridData.FILL_HORIZONTAL);
         textOldPassword.setLayoutData(data);
         
         //password
         labelPassword = new Label(control,SWT.NONE);
         labelPassword.setText("Please insert your new password:");
-        textPassword = new Text(control, SWT.NONE);		
+        textPassword = new Text(control, SWT.BORDER);		
         data = new GridData(GridData.FILL_HORIZONTAL);
         textPassword.setLayoutData(data);
         
         //confirmpassword
         labelConfPass = new Label(control,SWT.NONE);
         labelConfPass.setText("Please confirm your password:");
-        textConfPass = new Text(control, SWT.NONE);		
+        textConfPass = new Text(control, SWT.BORDER);		
         data = new GridData(GridData.FILL_HORIZONTAL);
         textConfPass.setLayoutData(data);
         

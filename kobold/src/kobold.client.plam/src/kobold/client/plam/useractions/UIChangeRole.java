@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UIChangeRole.java,v 1.2 2004/07/23 20:52:56 vanto Exp $
+ * $Id: UIChangeRole.java,v 1.3 2004/08/02 12:06:51 martinplies Exp $
  *
  */
 package kobold.client.plam.useractions;
@@ -76,14 +76,14 @@ public class UIChangeRole extends Dialog	{
         //User Name
         labelUserName = new Label(control,SWT.NONE);
         labelUserName.setText("Please insert the username of the user you wish to change:");
-        textUserName = new Text(control, SWT.NONE);		
+        textUserName = new Text(control, SWT.BORDER);		
         data = new GridData(GridData.FILL_HORIZONTAL);
         textUserName.setLayoutData(data);
         
         //RealName
         labelNewRole = new Label(control,SWT.NONE);
         labelNewRole.setText("Please insert the new role (P / PE) name of the user:");
-        textNewRole = new Text(control, SWT.NONE);		
+        textNewRole = new Text(control, SWT.BORDER);		
         data = new GridData(GridData.FILL_HORIZONTAL);
         textNewRole.setLayoutData(data);
         
