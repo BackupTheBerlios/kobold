@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
+import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.product.SpecificComponent;
@@ -78,9 +79,11 @@ public class MetaInformation {
 	    pl.setName("PL");
         //document.add(new Paragraph("Productline:"));	
         //document.add(new Phrase(pl.getName()));
+	    //document.add(new Phrase(pl.getId()));
         //document.add(new Phrase(pl.getDescription()));
         //document.add(new Phrase("Maintainers"));
         //document.add(new Paragraph("Products:"));	
+	    	
                  		
         for (Iterator ite = pl.getProducts().iterator(); 
 		ite.hasNext();)
@@ -105,14 +108,15 @@ public class MetaInformation {
 	
     }
     
-    //MetaInformation for Products
+    // MetaInformation for Products
     public void createMetaInfoForProduct(Document document, Product p1) 
     {
     	Product product = new Product("Product1");
         product.getName();
+        product.getId();
     	product.getDescription();
     	//product.getMaintainers();
-    	product.getId();
+    	
     	
     	for (Iterator ite = product.getRelatedComponents().iterator(); 
 		ite.hasNext();)
@@ -130,12 +134,14 @@ public class MetaInformation {
 	
     }
     
-    //MetaInformation for SpecificComponents	
+    // MetaInformation for SpecificComponents	
 	private void createMetaInfoForSpecificComponents(Document document, SpecificComponent spComp) 
 	{
 		spComp.getName();
+		spComp.getId();
 		spComp.getDescription();
 		//spComp.getMaintainer();
+		//spComp.getFileDescriptors();
 		
 		for (Iterator ite = spComp.getMaintainers().iterator(); 
 		ite.hasNext();)
@@ -143,12 +149,20 @@ public class MetaInformation {
 			User user = (User) ite.next();
         	createMetaInfoForMaintainer (document, user);
         }
+		
+		for (Iterator ite = spComp.getFileDescriptors().iterator(); 
+		ite.hasNext();)
+		{
+			FileDescriptor fileDes = (FileDescriptor) ite.next();
+        	createMetaInfoForFileDescriptors (document, fileDes);
+        }
 	}
 			
-	//MetaInformation for RelatedComponents
+	// MetaInformation for RelatedComponents
 	private void createMetaInfoForRelatedComponent(Document document, RelatedComponent relComp) 
 	{
 		relComp.getName();
+		relComp.getId();
 		relComp.getDescription();
 		//relComp.getMaintainers();
 		
@@ -158,20 +172,35 @@ public class MetaInformation {
 			User user = (User) ite.next();
         	createMetaInfoForMaintainer (document, user);
         }
+		
+		for (Iterator ite = relComp.getFileDescriptors().iterator(); 
+		ite.hasNext();)
+		{
+			FileDescriptor fileDes = (FileDescriptor) ite.next();
+        	createMetaInfoForFileDescriptors (document, fileDes);
+        }
 	}
 	
-	//MetaInformation for Maintainer
+	// MetaInformation for Maintainer
 	private void createMetaInfoForMaintainer(Document document, User user) 
 	{
 		user.getUsername();	
 	}
 	
-	//MetaInformation for Components
+	// MetaInformation for Components
 	private void createMetaInfoForComponent(Document document, Component comp)
 	{
 		comp.getName();
+		comp.getId();
 		comp.getDescription();
-		comp.getMaintainers();	
+		//comp.getMaintainers();
+		
+		for (Iterator ite = comp.getMaintainers().iterator(); 
+		ite.hasNext();)
+		{
+			User user = (User) ite.next();
+        	createMetaInfoForMaintainer (document, user);
+        }
 		
     	for (Iterator ite = comp.getVariants().iterator(); 
 		ite.hasNext();)
@@ -181,19 +210,33 @@ public class MetaInformation {
 		}
 	}
 	
-	//MetaInformation for Variants
+	// MetaInformation for Variants
 	private void createMetaInfoForVariants(Document document, Variant var) 
 	{
 		var.getName();
-		var.getDescription();
 		var.getId();
-		
-		
+		var.getDescription();		
+				
 		for (Iterator ite = var.getComponents().iterator();
 		ite.hasNext();)
 		{
 			Component comp = (Component) ite.next();
 			createMetaInfoForComponent(document, comp);
 		}
+		
+		for (Iterator ite = var.getFileDescriptors().iterator(); 
+		ite.hasNext();)
+		{
+			FileDescriptor fileDes = (FileDescriptor) ite.next();
+        	createMetaInfoForFileDescriptors (document, fileDes);
+        }
+	}
+	
+	// MetaInformation for FileDescriptors
+	private void createMetaInfoForFileDescriptors(Document document, FileDescriptor fileDes)
+	{
+		fileDes.getLocalPath();
+		fileDes.getLastChange();
+		fileDes.getRevision();
 	}
 }
