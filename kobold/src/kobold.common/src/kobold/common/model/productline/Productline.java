@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
+ * $Id: Productline.java,v 1.2 2004/06/22 00:57:41 vanto Exp $
  *
  */
 package kobold.common.model.productline;
@@ -32,9 +32,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import kobold.common.model.*;
-import kobold.common.model.product.*;
-import kobold.common.model.productline.*;
+import kobold.common.model.AbstractAsset;
+import kobold.common.model.product.Product;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -111,11 +110,10 @@ public class Productline extends AbstractAsset{
 	 *
 	 * @param coreAsset String containing the new coreAssetname
 	 */
-	public void addCoreAsset(CoreAsset coreAsset) {
+	public void addCoreAsset(Component coreAsset) {
 		coreAssets.put(coreAsset.getName(), coreAsset);
 		//set parent
 		coreAsset.setParent(this);
-
 	}
 
 	/**
@@ -123,7 +121,7 @@ public class Productline extends AbstractAsset{
 	 * 
 	 * @param product The coreAsset to remove.
 	 */
-	public void removeProduct (CoreAsset coreAsset){
+	public void removeProduct (Component coreAsset){
 		coreAssets.remove(coreAsset);
 	}
 	
@@ -159,7 +157,7 @@ public class Productline extends AbstractAsset{
 			Element coreAssetElement = root.addElement("coreAssets");		
 			
 			for (Iterator it = this.coreAssets.values().iterator(); it.hasNext();) {
-				CoreAsset product = (CoreAsset) it.next();
+				Component product = (Component) it.next();
 				coreAssetElement.add(product.serialize());
 			}
 		}
@@ -224,7 +222,7 @@ public class Productline extends AbstractAsset{
 		List listCA = document.selectNodes( "/coreAssets/coreAsset" );
 		for (Iterator iter = listP.iterator(); iter.hasNext(); ) {
 			Element element = (Element) iter.next();
-			CoreAsset product = new CoreAsset(element);
+			Component product = new Component(element);
 			coreAssets.put(product.getName(), product);
 		}
 

@@ -21,27 +21,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
+ * $Id: Component.java,v 1.2 2004/06/22 00:57:41 vanto Exp $
  *
  */
 
 package kobold.common.model.productline;
 
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
-import kobold.common.model.*;
-import kobold.common.model.product.*;
+import kobold.common.model.AbstractAsset;
+
+import org.dom4j.Element;
 /**
  * @author garbeam
  */
 public class Component extends AbstractAsset {
 
-	//the components
-	private HashMap components;
+	//the variants
+	private List variants = new ArrayList();
 	
 	//the repository-path
 	String repositoryPath;
@@ -51,49 +51,35 @@ public class Component extends AbstractAsset {
 	 * @param productName
 	 * @param productLineName
 	 */
-	public Component (String productName) {
+	public Component(String productName) {
 		super(productName);
-		components = new HashMap ();
 	}
 	
 	/**
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Component (Element element) {
-		components = new HashMap ();
+	public Component(Element element) {
 		deserialize(element);
 	}
 	
 	/**
-	 * Serializes the coreAsset.
+	 * Serializes the component.
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element coreAssetElement = DocumentHelper.createElement("coreAsset");
-		coreAssetElement.addText(getName());
+		Element element = super.serialize();
+				
+		//now all variants
+		Element variantsEl = element.addElement("variants");
+		for (Iterator it = variants.iterator(); it.hasNext();)	{
+				Variant variant = (Variant)it.next();
+				variantsEl.add(variant.serialize ());
+		}
 
+		element.addAttribute("repositoryPath", repositoryPath);
 		
-		//now all components
-		if (this.components.values().iterator().hasNext())
-		{
-			Element componentElement = coreAssetElement.addElement ("components");
-		
-			//serialize each component
-		
-			for (Iterator it = this.components.values().iterator(); it.hasNext();)
-			{
-				ComponentRelated component = (ComponentRelated) it.next ();
-				componentElement.add (component.serialize ());
-			}
-		}
-		if (getRepositoryPath() != null)
-		{
-			Element repositoryPathElement = coreAssetElement.addElement ("repositoryPath");
-			repositoryPathElement.addText (getRepositoryPath());
-		}
-		
-		return coreAssetElement;
+		return element;
 	}
 
 	/**
@@ -101,9 +87,15 @@ public class Component extends AbstractAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		Element product = element.element("coreAsset");
-		setName (element.getText ());
-		//this.productLineName = element.elementText("productline");
+		super.deserialize(element);
+		
+		Iterator it = element.element("variants").elementIterator("asset");
+		while (it.hasNext()) {
+		    Element varEl = (Element)it.next();
+		    addVariant(new Variant(varEl));
+		}
+		
+		repositoryPath = element.attributeValue("repositoryPath");
 	}
 
 	/**
@@ -119,7 +111,7 @@ public class Component extends AbstractAsset {
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
 	public String getType() {
-		return AbstractAsset.CORE_ASSET;
+		return AbstractAsset.COMPONENT;
 	}
 
 
@@ -128,19 +120,30 @@ public class Component extends AbstractAsset {
 	 *
 	 * @param component contains the new component
 	 */
-	public void addComponent(ComponentRelated component) {
-		components.put(component.getName(), component);
-		//set parent
-		component.setParent(this);
-
+	public void addVariant(Variant variant) 
+	{
+		variants.add(variant);
+		variant.setParent(this);
 	}
     
+	public void removeVariant(Variant variant) 
+	{
+	    variants.remove(variant);
+	    variant.setParent(null);
+	}
+	
+	public List getVariants()
+	{
+	    return Collections.unmodifiableList(variants);
+	}
+	
 	/**
 	 * @return Returns the repositoryPath.
 	 */
 	public String getRepositoryPath() {
 		return repositoryPath;
 	}
+	
 	/**
 	 * @param repositoryPath The repositoryPath to set.
 	 */

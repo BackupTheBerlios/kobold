@@ -21,27 +21,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
+ * $Id: Variant.java,v 1.2 2004/06/22 00:57:41 vanto Exp $
  *
  */
 
 package kobold.common.model.productline;
 
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-import kobold.common.model.*;
-import kobold.common.model.product.*;
+import kobold.common.model.AbstractAsset;
+import kobold.common.model.Release;
+
+import org.dom4j.Element;
 /**
  * @author garbeam
  */
 public class Variant extends AbstractAsset {
 
-	private HashMap components;
-	private HashMap versions;
+	private List components = new ArrayList();
+	private List releases = new ArrayList();;
 	
 	/**
 	 * Basic constructor.
@@ -50,64 +50,63 @@ public class Variant extends AbstractAsset {
 	 */
 	public Variant (String productName) {
 		super(productName);
-		
-		components = new HashMap ();
-		versions  = new HashMap ();
 	}
 	
 	/**
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Variant (Element element) {
-		deserialize(element);
+	public Variant(Element element) {
+	    deserialize(element);
 	}
 	
+
 	/**
-	 * Serializes the variant.
+	 * Serializes the component.
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element variantElement = DocumentHelper.createElement("variant");
-		variantElement.addText(getName());
-
-		//now all versions
-		if (this.versions.values().iterator().hasNext())
-		{
-			Element versionElement = variantElement.addElement ("versions");
-			
-			//serialize each version
-			for (Iterator it = this.versions.values().iterator(); it.hasNext();)
-			{
-				Version version = (Version) it.next ();
-				versionElement.add (version.serialize ());
-			}
-		}
-			
-		//now all components
-		if (this.components.values().iterator().hasNext())
-		{
-			Element componentElement = variantElement.addElement ("components");
+		Element element = super.serialize();
 				
-			//serialize each component
-			for (Iterator it = this.components.values().iterator(); it.hasNext();)
-			{
-				ComponentRelated component = (ComponentRelated) it.next ();
-				componentElement.add (component.serialize ());
-			}
+		//now all components
+		Element componentsEl = element.addElement("components");
+		for (Iterator it = components.iterator(); it.hasNext();)	{
+				Component component = (Component)it.next();
+				componentsEl.add(component.serialize());
 		}
-		
-		return variantElement;
+
+		//now all releases
+		Element releasesEl = element.addElement("releases");
+		for (Iterator it = releases.iterator(); it.hasNext();)	{
+				Release release = (Release)it.next();
+				releasesEl.add(release.serialize());
+		}
+
+		return element;
 	}
+	
+
 
 	/**
 	 * Deserializes this product.
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		Element product = element.element("product");
-		setName (element.getText());
-		//this.productLineName = element.elementText("productline");
+		super.deserialize(element);
+		
+		Iterator it = element.element("components").elementIterator("asset");
+		while (it.hasNext()) {
+		    Element varEl = (Element)it.next();
+		    addComponent(new Component(varEl));
+		}
+		
+		it = element.element("variants").elementIterator("asset");
+		while (it.hasNext()) {
+		    Element varEl = (Element)it.next();
+		    addRelease(new Release(varEl));
+		}
+
+		
 	}
 
 	/**
@@ -131,11 +130,9 @@ public class Variant extends AbstractAsset {
 	 *
 	 * @param component contains the new component
 	 */
-	public void addComponent(ComponentRelated component) {
-		components.put(component.getName(), component);
-		//set parent
+	public void addComponent(Component component) {
+		components.add(component);
 		component.setParent(this);
-
 	}
 
 	
@@ -144,11 +141,9 @@ public class Variant extends AbstractAsset {
 	 *
 	 * @param version contains the new version
 	 */
-	public void addVersion(Version version) {
-		versions.put(version.getName(), version);
-		//set parent
-		version.setParent(this);
-
+	public void addRelease(Release release) {
+		releases.add(release);
+		release.setParent(this);
 	}
 
     
