@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.49 2004/11/05 10:32:32 grosseml Exp $
+ * $Id: ModelStorage.java,v 1.50 2004/11/08 15:55:13 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model;
@@ -345,7 +345,7 @@ public class ModelStorage
             
             asset = asset.getParent();
         }
-        
+        // @ FIXME when root = null --> nullpointerexception
         return root.getKoboldProject().getProject().getFolder(thePath);
     }
     

@@ -27,6 +27,7 @@
 import org.apache.log4j.Logger;
 
 import kobold.client.plam.editor.dialog.AddToProductDialog;
+import kobold.client.plam.model.Release;
 import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.jface.action.IAction;
@@ -41,6 +42,7 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class AddToProduct implements IObjectActionDelegate
 {
+    private Release currentRelease = null;
 	/**
 	 * Logger for this class
 	 */
@@ -69,7 +71,7 @@ public class AddToProduct implements IObjectActionDelegate
      */
     public void run(IAction action)
     {
-        AddToProductDialog addToProductDialog = new AddToProductDialog(new Shell(),currentVarriant);
+        AddToProductDialog addToProductDialog = new AddToProductDialog(new Shell(),currentRelease);
         addToProductDialog.open();
 
     }
@@ -80,7 +82,7 @@ public class AddToProduct implements IObjectActionDelegate
     public void selectionChanged(IAction action, ISelection selection)
     {
         IStructuredSelection structSelection =((IStructuredSelection)selection);
-        currentVarriant = (Variant)(structSelection.getFirstElement());
+        currentRelease = (Release)(structSelection.getFirstElement());
         
         
 
