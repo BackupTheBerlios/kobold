@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphicalNodeEditPolicyImpl.java,v 1.3 2004/07/26 18:39:16 vanto Exp $
+ * $Id: GraphicalNodeEditPolicyImpl.java,v 1.4 2004/07/27 16:23:11 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
 
 import kobold.client.plam.editor.command.ConnectionCommand;
+import kobold.client.plam.editor.editpart.MetaEditPart;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.edges.INode;
@@ -39,7 +40,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * GraphicalNodeEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.3 2004/07/26 18:39:16 vanto Exp $
+ * @version $Id: GraphicalNodeEditPolicyImpl.java,v 1.4 2004/07/27 16:23:11 vanto Exp $
  */
 public class GraphicalNodeEditPolicyImpl
     extends org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy {
@@ -84,7 +85,13 @@ public class GraphicalNodeEditPolicyImpl
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
      */
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-    	ConnectionCommand command = new ConnectionCommand();
+    	
+        if (getHost() instanceof MetaEditPart) {
+            // dont allow edges from a meta node
+    	    return null;
+    	}
+        
+        ConnectionCommand command = new ConnectionCommand();
     	command.setSourceNode((INode)getHost().getModel());
         command.setType((String)request.getNewObjectType());
     	request.setStartCommand(command);
