@@ -6,11 +6,11 @@
  */
 package kobold.client.plam.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStreamReader;
 import java.util.Vector;
 
-import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.secure.SecureXmlRpcClient;
 
 /**
@@ -19,23 +19,51 @@ import org.apache.xmlrpc.secure.SecureXmlRpcClient;
  * To change the template for this generated type comment go to
  * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
-public class SecureKoboldClient extends SecureXmlRpcClient {
+public class SecureKoboldClient {
 
-	/**
-	 * @param arg0
-	 */
-	public SecureKoboldClient(URL arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
+	// the xml-rpc client
+	  SecureXmlRpcClient client;
 
-	/* (non-Javadoc)
-	 * @see org.apache.xmlrpc.XmlRpcHandler#execute(java.lang.String, java.util.Vector)
-	 */
-	public Object execute(String arg0, Vector arg1)
-		throws XmlRpcException, IOException {
-		// TODO Auto-generated method stub
-		return super.execute(arg0, arg1);
-	}
 
+	  /**
+	   * main method
+	   */
+	  public static void main (String args[]) throws Exception {
+	  if (args.length < 1) {
+		  System.err.println ("Usage: java Client URL");
+	  } else {
+		  SecureKoboldClient client = new SecureKoboldClient(args[0]);
+		  client.run ();
+	  }
+	  }
+
+	  /**
+	   *  Constructor
+	   */
+	  public SecureKoboldClient (String url) throws Exception {
+	  client = new SecureXmlRpcClient (url);
+	  }
+
+	  /**
+	   * Read from standard input and make an asynchronous XML-RPC call.
+	   */
+	  public void run () throws IOException {
+	  String token = null;
+	  BufferedReader d = new BufferedReader(
+		  new InputStreamReader(System.in));
+	  System.err.println ("Enter some text and hit <return>");
+		  System.err.println ("Input will be sent to "+client.getURL ());
+	  while ((token = d.readLine()) != null) {
+			  System.err.println ("sending: "+token);
+		  Vector v = new Vector ();
+		  v.add (token);
+		  try {
+				  Object result = client.execute ("echo", v);
+			  System.err.println ("received: "+result);
+		  } catch (Exception exception) {
+			  System.err.println ("Error: "+exception);
+		  }
+	  }
+	  }
+	
 }
