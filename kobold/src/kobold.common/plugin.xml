@@ -4,7 +4,8 @@
    id="kobold.commons"
    name="Kobold Commons Plug-in"
    version="1.0.0"
-   provider-name="Werkbold">
+   provider-name="Werkbold"
+   class="kobold.common.KoboldCommonsPlugin">
 
    <runtime>
       <library name="kobold.common.jar">
@@ -38,9 +39,16 @@
       <library name="contrib/jakarta-commons/commons-httpclient.jar">
          <export name="*"/>
       </library>
+      <library name="contrib/commons-id/commons-id-20040725.173013.jar">
+         <export name="*"/>
+      </library>
+      <library name="contrib/commons-discovery/commons-discovery-0.2.jar">
+         <export name="*"/>
+      </library>
    </runtime>
    <requires>
       <import plugin="org.junit"/>
+      <import plugin="org.eclipse.core.runtime"/>
    </requires>
 
 

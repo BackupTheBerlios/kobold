@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractKoboldMessage.java,v 1.3 2004/05/18 19:13:06 vanto Exp $
+ * $Id: AbstractKoboldMessage.java,v 1.4 2004/07/25 23:17:48 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -70,7 +70,7 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 	 */
 	protected AbstractKoboldMessage(String idtype)
 	{
-		id = IdManager.getInstance().getMessageId(idtype);
+		id = IdManager.nextId(idtype);
 	}
 
 	/**

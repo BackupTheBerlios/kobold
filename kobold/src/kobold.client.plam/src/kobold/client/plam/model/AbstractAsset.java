@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.6 2004/07/24 01:11:08 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.7 2004/07/25 23:17:51 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -87,7 +87,7 @@ public abstract class AbstractAsset implements ISerializable, INode
 
     public AbstractAsset()
     {
-        this.id = IdManager.getInstance().getModelId(getType());
+        this.id = IdManager.nextId(getType());
     }
 
     public AbstractAsset(String name)
@@ -113,7 +113,7 @@ public abstract class AbstractAsset implements ISerializable, INode
     	
     	if (this instanceof IGXLExport) {
     		IGXLExport thisGXL = (IGXLExport) this;
-      	    GXLNode node = new GXLNode(IdManager.getInstance().getMessageId(id));
+      	    GXLNode node = new GXLNode(IdManager.nextId(id));
 			//node.setAttr("id", new GXLString(id));
     		if (name != null) {
 			  node.setAttr("name",new GXLString(name));
@@ -136,7 +136,7 @@ public abstract class AbstractAsset implements ISerializable, INode
 			}
 			List children = thisGXL.getGXLChildren();
 			if (children != null){
-			  GXLGraph graph = new GXLGraph(IdManager.getInstance().getGXLGraphId("graph"));
+			  GXLGraph graph = new GXLGraph(IdManager.nextId("graph"));
 			  for (Iterator ite = children.iterator(); ite.hasNext();){
 				AbstractAsset asset = (AbstractAsset) ite.next();
 				graph.add(asset.getGXLGraph());
@@ -292,8 +292,7 @@ public abstract class AbstractAsset implements ISerializable, INode
     public void deserialize(Element element) 
     {
     	id = element.attributeValue("id");
-    	System.out.println ("set id to " + id);
-    	//FIXME: Notify IdManager about the usage of this id
+
     	name = element.elementTextTrim("name");
     	description = element.elementTextTrim("description");
 

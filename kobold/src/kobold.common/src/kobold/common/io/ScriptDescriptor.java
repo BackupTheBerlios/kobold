@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptDescriptor.java,v 1.4 2004/05/14 00:33:29 vanto Exp $
+ * $Id: ScriptDescriptor.java,v 1.5 2004/07/25 23:17:48 vanto Exp $
  *
  */
 package kobold.common.io;
@@ -46,7 +46,7 @@ public class ScriptDescriptor
     
     public ScriptDescriptor(String name) 
     {
-		id = IdManager.getInstance().getScriptId(name);
+		id = IdManager.nextId(name);
     }
     
     private ScriptDescriptor()

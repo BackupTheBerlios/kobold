@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SessionManager.java,v 1.4 2004/06/27 16:48:02 vanto Exp $
+ * $Id: SessionManager.java,v 1.5 2004/07/25 23:17:33 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -67,12 +67,11 @@ public class SessionManager {
 	 */
 	public synchronized UserContext login(String userName, String password) {
 
-		IdManager idManager = IdManager.getInstance();
 		UserManager userManager = UserManager.getInstance();
 
 		User user = userManager.getUser(userName);
 		if ((user != null) && (password.equals(user.getPassword()))) {
-			String sessionId = idManager.getSessionId(userName);
+			String sessionId = IdManager.nextId(userName);
 			UserContext userContext = user.getInitialUserContext(sessionId);
 			sessions.put(userName, userContext);
 			MessageManager.getInstance().registerQueue(userContext);

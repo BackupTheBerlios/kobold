@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Asset.java,v 1.1 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: Asset.java,v 1.2 2004/07/25 23:17:48 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -77,7 +77,7 @@ public class Asset implements ISerializable {
 		this.name = name;
 		this.repositoryDescriptor = repositoryDescriptor;
 	
-		this.id = IdManager.getInstance().getAssetId(name);
+		this.id = IdManager.nextId(name);
 	}
 
 	/**
