@@ -69,7 +69,7 @@ public class VCMPreferencePage
  */
 	private void initializeDefaults() {
 		IPreferenceStore store = getPreferenceStore();
-		store.setDefault(KOBOLD_VCM_ASK_PWD, true);
+		store.setDefault(KOBOLD_VCM_ASK_PWD, false);
 		store.setDefault(KOBOLD_VCM_PWD_STR, "");
 		store.setDefault(KOBOLD_VCM_USER_STR, "");
 		store.setDefault(KOBOLD_VCM_SCRIPT_LOCATION, "");

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.24 2004/08/06 11:07:19 garbeam Exp $
+ * $Id: StatusUpdater.java,v 1.25 2004/08/17 14:11:51 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -125,7 +125,7 @@ public class StatusUpdater {
 	public void parseInputString (IFileDescriptorContainer fileDescriptorContainer, 
 									String inputString)
 	{
-		System.out.println (inputString);
+		System.out.println ("STRING TO PARSE\n:"+  inputString);
 		
 		//clears all FD(s)
         fileDescriptorContainer.clear();
@@ -173,16 +173,16 @@ public class StatusUpdater {
 		            	Date date = null;
 		            	if(localLine.hasMoreTokens())
 		            	{   		            
-		            		try {
+		            		//try {
 		            		    
  	            		java.util.StringTokenizer localDate = new java.util.StringTokenizer(localLine.nextToken(), ",");
 		            		date = new Date(Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
 		            						Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
 		            						Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()));
-		            		}
-		            		catch (NumberFormatException ex) {
-		            		    date = null;
-		            		}
+		            		//}
+		            		//catch (NumberFormatException ex) {
+		            		//    date = null;
+		            		//}
     		            	/*3*/
     		            	//date = df.parse(localLine.nextToken());
 		            	}
