@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.2 2004/07/11 12:38:34 vanto Exp $
+ * $Id: ProductComponent.java,v 1.3 2004/07/22 09:52:05 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -38,7 +38,7 @@ import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.IGXLExport;
 
 import org.dom4j.Element;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.resources.IFolder;
 
 /**
  * @author rendgeor
@@ -144,7 +144,7 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
 	 */
-	public IPath getLocalPath() {
+	public IFolder getLocalPath() {
 		//FIXME: calc localpath
 		return null;
 	}

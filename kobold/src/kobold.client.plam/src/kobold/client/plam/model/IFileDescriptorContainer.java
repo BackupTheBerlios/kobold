@@ -21,14 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IFileDescriptorContainer.java,v 1.4 2004/07/11 12:38:34 vanto Exp $
+ * $Id: IFileDescriptorContainer.java,v 1.5 2004/07/22 09:52:05 vanto Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.resources.IFolder;
 
 
 
@@ -62,6 +62,6 @@ public interface IFileDescriptorContainer
      * Returns the local path of this.
      * @return
      */
-    IPath getLocalPath();
+    IFolder getLocalPath();
 
 }

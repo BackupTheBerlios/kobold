@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.6 2004/07/11 12:38:34 vanto Exp $
+ * $Id: Variant.java,v 1.7 2004/07/22 09:52:05 vanto Exp $
  *
  */
 
@@ -42,7 +42,7 @@ import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.Release;
 
 import org.dom4j.Element;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.resources.IFolder;
 
 /**
  * @author garbeam
@@ -280,9 +280,10 @@ public class Variant extends AbstractAsset
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
 	 */
-	public IPath getLocalPath() {
+	public IFolder getLocalPath() {
 		//FIXME: calc localpath
-		return null;
+		//IFolder root = getRoot().getProject().getPath();
+	    return null;
 	}
   
 }

@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.5 2004/07/21 23:08:35 martinplies Exp $
+ * $Id: FileDescriptor.java,v 1.6 2004/07/22 09:52:05 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -37,7 +37,7 @@ import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.resources.IFolder;
 
 /**
  * Base class for locating working copies.
@@ -205,9 +205,10 @@ public class FileDescriptor implements IFileDescriptorContainer, INode {
 	/**
 	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
 	 */
-	public IPath getLocalPath() {
+	public IFolder getLocalPath() {
 		//FIXME: calc localpath
-		return null;
+		//IFolder root = getRoot().getProject().getPath();
+	    return null;
 	}
 
 	/**

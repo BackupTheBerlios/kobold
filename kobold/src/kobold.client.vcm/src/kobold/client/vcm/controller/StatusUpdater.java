@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.7 2004/07/21 16:09:16 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.8 2004/07/22 09:52:09 vanto Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -64,7 +64,7 @@ public class StatusUpdater {
 		CVSSererConnection conn = new CVSSererConnection("faceLoc", "fakeUser","fakePswd");
 		//command line command with the stats script to the changed part of the meta-data containing FD(s)
 		String[] command = {"perl", getScriptPath() + 
-							"stats.pl", fileDescriptorContainer.getLocalPath().toOSString()};
+							"stats.pl", fileDescriptorContainer.getLocalPath().getLocation().toOSString()};
 		try 
 		{
 			conn.open(command);

@@ -176,7 +176,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				if (assets[i] instanceof Variant) {
 					variant = (Variant) assets[i];
 //					variant.get
-					localPath = variant.getLocalPath().toOSString();
+					localPath = variant.getLocalPath().getLocation().toOSString();
 				}
 				if (assets[i] instanceof Release) {
 					release = (Release) assets[i];

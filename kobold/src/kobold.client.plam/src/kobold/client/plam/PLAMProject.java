@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.16 2004/07/07 01:50:36 vanto Exp $
+ * $Id: PLAMProject.java,v 1.17 2004/07/22 09:52:05 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -48,6 +48,7 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -261,5 +262,15 @@ public class PLAMProject
 	    Document document = reader.read(is);
 	    ViewModelContainer vmc = new ViewModelContainer(document.getRootElement());        
         return vmc;
+    }
+    
+    /**
+     * Returns the location of the project as an absolute IPath
+     * 
+     * @return path
+     */
+    public IFolder getPath() 
+    {
+        return project.getFolder("/");
     }
 }
