@@ -30,8 +30,8 @@ import java.awt.TextField;
 import javax.swing.text.Element;
 import javax.swing.text.PasswordView;
 
+import kobold.client.plam.editor.dialog.PasswordFieldEditor;
 import kobold.client.vcm.KoboldVCMPlugin;
-import kobold.client.vcm.dialog.PasswordFieldEditor;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.BooleanFieldEditor;
