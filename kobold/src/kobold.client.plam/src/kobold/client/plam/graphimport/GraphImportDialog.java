@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: GraphImportDialog.java,v 1.4 2004/08/02 17:23:54 vanto Exp $
+ * $Id: GraphImportDialog.java,v 1.5 2004/08/23 09:06:38 martinplies Exp $
  *
  *
  */
@@ -73,8 +73,9 @@ public class GraphImportDialog  extends TitleAreaDialog {
     
     
     protected Control createDialogArea(Composite parent) {
-          this.setMessage("select GXL File", SWT.NONE);  
-          this.setTitle("GXL Import"); 
+          this.setMessage("select a GXL File", SWT.NONE);            
+          this.getShell().setText("GXL Import");
+          
           Composite  comp = new Composite(parent, SWT.NONE);
           GridLayout layout = new GridLayout();
           layout.numColumns = 2;
@@ -87,8 +88,9 @@ public class GraphImportDialog  extends TitleAreaDialog {
             }            
           });
           GridData gd1 = new GridData();
-          gd1.widthHint = 300;
-          comp.setLayoutData(gd1);
+          gd1.widthHint = 350;
+          textFile.setLayoutData(gd1);
+          
      
           Button searchGXLFileButton = new Button(comp, SWT.PUSH);
           searchGXLFileButton.setText(Messages
@@ -96,7 +98,7 @@ public class GraphImportDialog  extends TitleAreaDialog {
           searchGXLFileButton.addListener(SWT.Selection, new Listener() {
               public void handleEvent(Event event) {
                   FileDialog fd = new FileDialog(GraphImportDialog.this
-                          .getShell(), SWT.SAVE);
+                          .getShell(), SWT.OPEN);
                   String fileStr = fd.open();                 
                   // causes a new changeevent in textFile
                   GraphImportDialog.this.textFile.setText(fileStr);
@@ -124,12 +126,7 @@ public class GraphImportDialog  extends TitleAreaDialog {
        
     }
     
-    /*public Control createButtonBar(Composite parent){
-        Composite comp = new Composite(parent, SWT.NONE); 
-        
-        return comp;
-    }
-*/
+
     
     protected void buttonPressed(int buttonid){
        switch (buttonid) {
