@@ -18,16 +18,6 @@ close (FILE);
 print "\n";
 print "\\end{verbatim}\n";
 
-print "\\section{IKoboldServerAdministration}\n";
-print "\\small \\begin{verbatim}\n";
-open(FILE, "../../src/kobold.common/src/kobold/common/controller/IKoboldServerAdministration.java" );
-while(<FILE>) {
-    print $_;
-}
-close (FILE);
-print "\n";
-print "\\end{verbatim}\n";
-
 print "\\section{AbstractKoboldMessage}\n";
 print "\\small \\begin{verbatim}\n";
 open(FILE, "../../src/kobold.common/src/kobold/common/data/AbstractKoboldMessage.java" );
