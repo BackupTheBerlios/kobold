@@ -131,7 +131,7 @@ public class GXLExportDialog extends Dialog{
 			try {
 				//URI directory = new URI(uri.getText());
 				File gxlFile = new File(GXLFileUri.getText());
-				exportGraph(createGraph(),gxlFile);
+				exportGraph(exportAsset,gxlFile);
 			} catch (Exception e) {
 				e.printStackTrace();
 			   MessageBox mb = new MessageBox(this.getShell(), SWT.ICON_ERROR| SWT.OK);
