@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.16 2004/06/23 11:52:41 neccaino Exp $
+ * $Id: SecureKoboldClient.java,v 1.17 2004/06/23 11:59:59 grosseml Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -171,6 +171,18 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(realName);
 		try {
 			Object result = client.execute("changeUser",v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
+	}
+	
+	public void changeUserPassword(UserContext userContext, String password){
+		Vector v = new Vector();
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(password);
+		
+		try {
+			Object result = client.execute("changeUserPassword",v);
 		} catch (Exception exception) {
 			log.error(exception);
 		}
