@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.3 2004/07/11 22:14:35 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import kobold.client.plam.model.edges.INode;
 import kobold.common.data.ISerializable;
 import kobold.common.data.IdManager;
 import kobold.common.exception.GXLException;
@@ -53,7 +54,7 @@ import org.dom4j.Element;
  * @author Tammo
  *  
  */
-public abstract class AbstractAsset implements ISerializable
+public abstract class AbstractAsset implements ISerializable, INode
 {
 
     public static final String PRODUCT_LINE = "productline";
