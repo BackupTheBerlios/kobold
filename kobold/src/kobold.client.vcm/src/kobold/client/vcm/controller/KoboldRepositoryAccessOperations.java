@@ -226,12 +226,4 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			e.printStackTrace();
 		}
     }
-    
-    /**
-     * @see kobold.client.vcm.controller.KoboldRepositoryOperations#tag(kobold.client.plam.model.Release, org.eclipse.core.runtime.IProgressMonitor, java.lang.String)
-     */
-    public void tag(Release release, IProgressMonitor progress, String tag) throws TeamException {
-        // TODO Auto-generated method stub
-        
-    }
 }

@@ -21,25 +21,33 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.9 2004/09/23 13:43:28 vanto Exp $
+ * $Id: VCMActionListener.java,v 1.10 2004/10/13 14:09:28 garbeam Exp $
  *
  */
 package kobold.client.vcm;
+
+import java.util.Iterator;
 
 import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
+import kobold.client.plam.model.ModelStorage;
+import kobold.client.plam.model.Release;
 import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 import kobold.client.vcm.controller.KoboldRepositoryHelper;
 import kobold.client.vcm.controller.StatusUpdater;
+import kobold.common.data.Product;
+import kobold.common.io.RepositoryDescriptor;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 
 /**
  * @author Tammo
@@ -184,7 +192,7 @@ public class VCMActionListener implements IVCMActionListener
     			    
         			if (connection.getReturnValue() == 0) {
         			// VERY DANGEROUS :)
-        			    KoboldRepositoryHelper.deleteTree(localPath);
+//        			    KoboldRepositoryHelper.deleteTree(localPath);
         			    
         			    updateProductline(new kobold.common.data.Productline(pl.getName(), pl.getResource(), pl.getRepositoryDescriptor()),
         			            		  pl.getKoboldProject().getProject());
@@ -198,4 +206,77 @@ public class VCMActionListener implements IVCMActionListener
         
     }
 
+    /**
+     * @see kobold.client.plam.listeners.IVCMActionListener#updateProduct(kobold.common.data.Product, org.eclipse.core.resources.IProject)
+     */
+    public void updateProduct(Product prod, IProject p) {
+        // TODO Auto-generated method stub
+      
+    }
+
+    /**
+     * @see kobold.client.plam.listeners.IVCMActionListener#commitProduct(kobold.client.plam.model.product.Product)
+     */
+    public void commitProduct(kobold.client.plam.model.product.Product product) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * @see kobold.client.plam.listeners.IVCMActionListener#tagRelease(kobold.client.plam.model.Release)
+     */
+    public void tagRelease(Release release) {
+        
+		String userName = KoboldRepositoryHelper.getUserName();
+		String password = KoboldRepositoryHelper.getUserPassword();
+		RepositoryDescriptor rd = ModelStorage.getRepositoryDescriptorForAsset(release.getParent());
+		ScriptServerConnection connection =
+		    ScriptServerConnection.getConnection(rd.getRoot());
+        IProgressMonitor progress = new SubProgressMonitor(KoboldPolicy.monitorFor(null), release.getFileRevisions().size());
+        
+		if (connection != null) {
+		    /**
+		     * 	# $1 working directory
+				# $2 repo type
+				# $3 protocoal type
+				# $4 username
+				# $5 password
+				# $6 host
+				# $7 root
+				# $8 module
+				# $9 userdef
+		     */
+		    String localPath = KoboldRepositoryHelper.localPathForAsset(release.getParent());
+    		String command[] = new String[10];
+            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.TAG).concat(KoboldRepositoryHelper.getScriptExtension());
+		    command[1] = localPath;
+		    command[2] = rd.getType();
+		    command[3] = rd.getProtocol();
+		    command[4] = userName;
+		    command[5] = password; 
+			command[6] = rd.getHost();
+			command[7] = rd.getRoot();
+			command[9] = "\"" + release.getName() + "\"";
+			for (Iterator it = release.getFileRevisions().iterator(); it.hasNext();) {
+    			    
+			    Release.FileRevision fr = (Release.FileRevision) it.next();
+    			command[8] = localPath + IPath.SEPARATOR + fr.getPath();
+    			for (int j = 0; j < command.length; j++) {
+    				System.out.print(command[j]);
+    				System.out.print(" ");
+    			}
+    			try {
+    			    // first we try to commit
+        			connection.open(progress, command);
+        			connection.close();	
+        			
+    //    			if (connection.getReturnValue() != 0) {
+    //				}
+    			}
+    			catch (Exception e) {
+    			    e.printStackTrace();
+    			}
+			}
+		}
+    }
 }

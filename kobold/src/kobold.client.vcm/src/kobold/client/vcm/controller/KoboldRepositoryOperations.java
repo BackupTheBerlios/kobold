@@ -98,14 +98,5 @@ public interface KoboldRepositoryOperations {
 	public void remove(AbstractAsset[] assets, IProgressMonitor progress)
 		throws TeamException;
 	
-	/**
-	 * Tags all file revisions with tag of the release.
-	 * @param asset
-	 * @param progress
-	 * @param tag
-	 * @throws TeamException
-	 */
-	public void tag(Release release, IProgressMonitor progress,
-	        		String tag) throws TeamException;
 	
 }

@@ -59,9 +59,6 @@ public class ScriptServerConnection implements IServerConnection
 
 	// The variable for verifiying the connection is establisched
 	private static boolean connected = false;
-
-
-	
 	
 	// incoming from remote host
 	private InputStream inputStream;

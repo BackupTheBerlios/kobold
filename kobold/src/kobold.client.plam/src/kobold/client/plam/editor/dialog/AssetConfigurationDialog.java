@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.35 2004/10/06 15:08:23 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.36 2004/10/13 14:09:27 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -625,6 +625,8 @@ public class AssetConfigurationDialog extends TitleAreaDialog
                 }
                 if ((released != null) && released.getSelection()) {
                     release.setReleased(true);
+                    Productline pl = release.getParent().getRoot().getProductline();
+                    pl.getKoboldProject().tagRelease(release);
                 }
             }
         }
