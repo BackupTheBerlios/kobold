@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Edge.java,v 1.7 2004/07/29 20:53:33 martinplies Exp $
+ * $Id: Edge.java,v 1.8 2004/08/05 15:05:21 vanto Exp $
  *
  */
 package kobold.client.plam.model.edges;
@@ -137,7 +137,7 @@ public class Edge {
     
 
     public Element serialize() throws ClassCastException {
-        Element element = DocumentHelper.createElement("Edge");
+        Element element = DocumentHelper.createElement("edge");
         AbstractAsset startAsset = (AbstractAsset) this.startNode;
         AbstractAsset targetAsset = (AbstractAsset) this.targetNode;
         element.addAttribute("from", startAsset.getId());

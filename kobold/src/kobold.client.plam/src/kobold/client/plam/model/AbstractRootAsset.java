@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.13 2004/08/04 15:29:00 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.14 2004/08/05 15:05:21 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -56,7 +56,6 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     private List metaNodes = new ArrayList();
     private EdgeContainer edgeContainer = new EdgeContainer(this);
     
-    // TODO: set the repository descriptor on instantiation!
 	private RepositoryDescriptor repositoryDescriptor = null;
     
     /**
@@ -155,6 +154,9 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 		    Element mEl = (Element)it.next();
 		    addMetaNode(new MetaNode(mEl));
 		}
+		
+		Element edges = element.element("edges");
+		edgeContainer.deserialize(edges);
     }
     
     public Element serialize()
@@ -165,6 +167,9 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 			MetaNode node = (MetaNode) it.next();
 			metaEl.add(node.serialize());
 		}
+		
+		root.add(edgeContainer.serialize());
+		
 		return root;
     }
 }

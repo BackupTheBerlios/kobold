@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.14 2004/08/02 17:23:54 vanto Exp $
+ * $Id: EdgeContainer.java,v 1.15 2004/08/05 15:05:21 vanto Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -69,14 +69,14 @@ public class EdgeContainer implements ISerializable {
     private Map startNodesList = new HashMap();
     private Map targetNodesList = new HashMap();
     private AbstractRootAsset root;
-
-    private String type = "EdgeContainer"; 
-
+    
+    public static final String TYPE = "EdgeContainer"; 
+    
     
     public EdgeContainer(AbstractRootAsset root) {
         this.root = root;
     }
-
+    
     /**
      * Creates and adds a node to this edgecontainer. 
      * The nummer tells, for how many edges this edge represent.
@@ -97,7 +97,7 @@ public class EdgeContainer implements ISerializable {
         if (startNode.getRoot()!= root || targetNode.getRoot() != root){          
             return null;
         }
-
+        
         // create Edge
         List sourceEdges = getSourceEdges(startNode);
         if (! containsEdge(sourceEdges, targetNode, type)) {
@@ -325,8 +325,6 @@ public class EdgeContainer implements ISerializable {
         }
     }
     
-    
-        
     /**
      * Retruns the edge, or null, if the edge not exists.
      * @param edges
@@ -351,90 +349,69 @@ public class EdgeContainer implements ISerializable {
     }
     
     public Element serialize() {
-        Element element = DocumentHelper.createElement(getType());
-        element.addAttribute("root", root.getId());
-        Element edges = element.addElement("edges");
-        for (Iterator edgesListIte = this.startNodesList.entrySet().iterator(); edgesListIte.hasNext();){
-           for(Iterator edgeIte =((List)edgesListIte).iterator(); edgeIte.hasNext();){
-               Edge edge = (Edge) edgeIte;                
-               if(edge.getType().equals(Edge.INCLUDE) || edge.getType().equals(Edge.EXCLUDE)){                   
-                 try {
-                    edges.add(edge.serialize());
-                } catch (ClassCastException e) {
-                	logger.debug("There are extern edges");
-                }
-               } // else it is an Bauhaus edge theese are not serialised.
-           }            
-        }    
+        Element element = DocumentHelper.createElement("edges");
+        Iterator nodesIt = startNodesList.values().iterator();
+        while (nodesIt.hasNext()) {
+            List edges = (List)nodesIt.next();
+            Iterator edIt = edges.iterator();
+            while (edIt.hasNext()) {
+                element.add(((Edge)edIt.next()).serialize());
+            }
+        }
         
         return element;
     }
     
-    
-    /* (non-Javadoc)
-     * @see kobold.common.data.ISerializable#deserialize(org.dom4j.Element)
-     */
     public void deserialize(Element element) {
+        
         // FIXME root aus dem idpool holen
-        for (Iterator ite = element.elementIterator("Edges"); ite.hasNext(); ){
-            this.addEdge(new Edge((Element) ite.next()));
+        // FIXME clear all edges 
+        for (Iterator ite = element.elementIterator("edge"); ite.hasNext(); ){
+
+            //this.addEdge(new Edge((Element) ite.next()));
         }
+    }
+    
+    public void addPropertyChangeListener(PropertyChangeListener l)
+    {
+        listeners.addPropertyChangeListener(l);
+    }
+    
+    public void removePropertyChangeListener(PropertyChangeListener l)
+    {
+        listeners.removePropertyChangeListener(l);
     }
     
     /**
+     * Returns all edges, that have an edge with this type to targetNode.
+     * @param targetNode
+     * @param type
      * @return
      */
-    public String getType() {
-        return type;
+    public List getEdgesTo(INode targetNode, String type ){
+        LinkedList arrL = new LinkedList();
+        for (Iterator ite = getEdgesTo(targetNode).iterator(); ite.hasNext(); ){
+            Edge edge = (Edge) ite.next();
+            if (edge.getType().equals(type)){
+                arrL.add(edge);
+            }
+        }            
+        return arrL;
     }
-
-
     
-    public void addPropertyChangeListener(PropertyChangeListener l)
-	{
-		listeners.addPropertyChangeListener(l);
-	}
-
- public void removePropertyChangeListener(PropertyChangeListener l)
-	{
-		listeners.removePropertyChangeListener(l);
-	}
- 
-
-
- /**
-  * Returns all edges, that have an edge with this type to targetNode.
- * @param targetNode
- * @param type
- * @return
- */
-public List getEdgesTo(INode targetNode, String type ){
-     LinkedList arrL = new LinkedList();
-     for (Iterator ite = getEdgesTo(targetNode).iterator(); ite.hasNext(); ){
-        Edge edge = (Edge) ite.next();
-        if (edge.getType().equals(type)){
-          arrL.add(edge);
-        }
-     }            
-     return arrL;
- }
-
-/**
- * @param node
- * @param exclude
- * @return
- */
-public List getEdgesFrom(AbstractAsset groundNode, String type) {
-    LinkedList arrL = new LinkedList();
-    for (Iterator ite = getEdgesFrom(groundNode).iterator(); ite.hasNext(); ){
-        Edge edge = (Edge) ite.next();
-        if (edge.getType().equals(type)){
-          arrL.add(edge.getStartNode());
-        }
-     }            
-     return arrL;
-}
-  
-
-    
+    /**
+     * @param node
+     * @param exclude
+     * @return
+     */
+    public List getEdgesFrom(AbstractAsset groundNode, String type) {
+        LinkedList arrL = new LinkedList();
+        for (Iterator ite = getEdgesFrom(groundNode).iterator(); ite.hasNext(); ){
+            Edge edge = (Edge) ite.next();
+            if (edge.getType().equals(type)){
+                arrL.add(edge.getStartNode());
+            }
+        }            
+        return arrL;
+    }
 }
