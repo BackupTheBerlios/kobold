@@ -23,7 +23,6 @@
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.cheatsheets"/>
       <import plugin="kobold.commons"/>
-      <import plugin="kobold.client.vcm"/>
    </requires>
 
 
@@ -158,23 +157,17 @@
             objectClass="org.eclipse.core.internal.resources.Project"
             id="kobold.client.plam.roletreecontribution3">
          <action
-               label="Update &amp;fullname"
+               label="Update fullname"
                tooltip="Change your fullname here"
                icon="icons/user.gif"
                class="kobold.client.plam.action.UpdateFullNameAction"
                id="kobold.client.plam.action1"/>
          <action
-               label="Update &amp;password"
+               label="Update password"
                tooltip="Change your current password here"
                icon="icons/user.gif"
                class="kobold.client.plam.action.ChangePasswordAction"
                id="kobold.client.plam.action2"/>
-         <action
-               label="Create new &amp;users"
-               tooltip="Add new users"
-               icon="icons/user.gif"
-               class="kobold.client.plam.action.NewUserAction"
-               id="kobold.client.plam.action3"/>
       </objectContribution>
    </extension>
    <extension
