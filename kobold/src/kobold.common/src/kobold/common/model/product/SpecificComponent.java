@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.4 2004/06/24 11:03:16 martinplies Exp $
+ * $Id: SpecificComponent.java,v 1.5 2004/06/24 11:25:10 rendgeor Exp $
  *
  */
 
@@ -98,7 +98,6 @@ public class SpecificComponent extends AbstractAsset {
 	 */
 	public void deserialize(Element element) {
 		setName(element.attributeValue("name"));
-		
 	}
 
 	/**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.11 2004/06/24 11:02:54 martinplies Exp $
+ * $Id: Product.java,v 1.12 2004/06/24 11:25:10 rendgeor Exp $
  *
  */
 
@@ -95,8 +95,10 @@ public class Product extends AbstractAsset {
 
 		Element prodRelElement = productElement.addElement("releases");
 		for (Iterator it = productReleases.iterator(); it.hasNext(); ) {
+			System.out.println ("release serialized");	
 			ProductRelease prodRelease = (ProductRelease) it.next();
 			prodRelElement.add(prodRelease.serialize());
+
 		}
 
 		Element specCompElement = productElement.addElement("specific-components");
@@ -226,6 +228,7 @@ public class Product extends AbstractAsset {
 
 	public void addProductRelease (ProductRelease productRelease)
 	{
+		if (productRelease != null)
 		productReleases.add (productRelease);
 	}
 	

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.15 2004/06/24 11:03:29 martinplies Exp $
+ * $Id: ProductLineTest.java,v 1.16 2004/06/24 11:25:10 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -34,6 +34,7 @@ import kobold.common.io.RepositoryDescriptor;
 import kobold.common.model.FileDescriptor;
 import kobold.common.model.Release;
 import kobold.common.model.product.Product;
+import kobold.common.model.product.ProductRelease;
 import kobold.common.model.product.SpecificComponent;
 import kobold.common.model.productline.Component;
 import kobold.common.model.productline.Productline;
@@ -59,6 +60,12 @@ public class ProductLineTest extends TestCase {
 	
 	public void testSerialize() {
 		
+		String path = "/tmp";
+		
+		//windows
+		//String path = "c:\temp";
+		
+		//---------------------------------------------
 
 		Productline pl = new Productline("windows");
 		/**/
@@ -70,6 +77,8 @@ public class ProductLineTest extends TestCase {
 		
 		RepositoryDescriptor descriptor = new RepositoryDescriptor ();
 		productA.setRepositoryDescriptor(descriptor);
+		
+		productA.addProductRelease(new ProductRelease(new Date(11,2,2003)));
 		
 		Product productB = new Product ("xp");
 		
@@ -153,9 +162,7 @@ public class ProductLineTest extends TestCase {
 
 		//pl.serializeProductline("/tmp", 0);
 
-		//do all
-		pl.serializeAll("c:\\Temp");
-		
+
  		//serialize the products
 		//productA.serializeProduct("/tmp");
 		//productB.serializeProduct("/tmp");
@@ -165,6 +172,10 @@ public class ProductLineTest extends TestCase {
 		//coreAssetB.serializeComponent("/tmp");
 		/**/
 
+		//do all
+		pl.serializeAll(path);
+
+		
 		/*Element ser = pl.serialize();
 		try {
 			XMLWriter w = new XMLWriter(System.out, OutputFormat.createPrettyPrint());
@@ -185,8 +196,8 @@ public class ProductLineTest extends TestCase {
 
 	//----------------------------DESRERAILIZING------------------------------------------------		
 	
-		
-		pl.deserialize("c:\\Temp");
+		//pl.deserialize(path);
+
 		
 		//product = manager.getProduct("windows");
 		//assertTrue (product.getName() == "windows");

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductRelease.java,v 1.3 2004/06/24 10:21:07 grosseml Exp $
+ * $Id: ProductRelease.java,v 1.4 2004/06/24 11:25:10 rendgeor Exp $
  *
  */
 
@@ -79,6 +79,7 @@ public class ProductRelease implements ISerializable {
 		}
 		
 		Element releasesElement = productRelease.addElement("releases");
+		if (releases != null)
 		for (Iterator it = releases.iterator(); it.hasNext(); ) {
 			Release release = (Release) it.next();
 			releasesElement.add(release.serialize());
@@ -97,6 +98,7 @@ public class ProductRelease implements ISerializable {
 				creationDate = dateFormat.parse(element.attributeValue("created"));
 			} catch (ParseException e) {}
 		}
+
 	}
 
 	/**
