@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageQueue.java,v 1.5 2004/05/19 22:50:50 vanto Exp $
+ * $Id: MessageQueue.java,v 1.6 2004/07/29 17:18:25 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -30,12 +30,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 import kobold.common.data.AbstractKoboldMessage;
-import kobold.common.data.UserContext;
 
+import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -50,34 +48,19 @@ import org.dom4j.io.XMLWriter;
  * @author garbeam
  */
 public class MessageQueue {
-
-	private LinkedList queue = null;
-	private UserContext userContext = null;
+    
+    private static Log log = LogFactory.getLog(MessageQueue.class);
+    private LinkedList queue = null;
 	private String messageStore = null;
 
 	/**
 	 * Basic constructor.
 	 */
-	public MessageQueue(UserContext userContext) {
+	public MessageQueue(String username) {
 		queue = new LinkedList();
-		this.userContext = userContext;
 		this.messageStore = System.getProperty("kobold.server.storePath") +
-								userContext.getUserName() + ".xml";
+							username + ".xml";
 		deserialize();
-	}
-	
-	/**
-	 * @return real list of this queue.
-	 */
-	public List getQueue() {
-		return queue;
-	}
-	
-	/**
-	 * @return UserContext of this MessageQueue.
-	 */
-	public UserContext getUserContext() {
-		return userContext;
 	}
 	
 	/**
@@ -85,22 +68,14 @@ public class MessageQueue {
 	 * @param koboldMessage the message to add.
 	 */
 	public void addMessage(AbstractKoboldMessage koboldMessage) {
-		System.out.println(GlobalMessageContainer.getInstance());
-		System.out.println(koboldMessage);
-		GlobalMessageContainer.getInstance().addMessage(koboldMessage);
-		queue.add(0, koboldMessage.getId());
+		queue.add(0, koboldMessage);
 	}
 
 	/**
 	 * @return the oldest message in the queue, does not remove it! 
 	 */
 	public AbstractKoboldMessage getMessage() {
-	    try {
-	        return (AbstractKoboldMessage) GlobalMessageContainer.getInstance().
-				        getMessage((String)queue.getLast());
-	    } catch (NoSuchElementException e) {
-	    	return null;
-	    }
+	    return (AbstractKoboldMessage) queue.getLast();
 	}
 
 	/**
@@ -108,7 +83,7 @@ public class MessageQueue {
 	 * @param koboldMessage the message.
 	 */
 	public void removeMessage(AbstractKoboldMessage koboldMessage) {
-		queue.remove(koboldMessage.getId());
+		queue.remove(koboldMessage);
 	}
 	
 	/**
@@ -116,14 +91,12 @@ public class MessageQueue {
 	 */
 	public void serialize() {
 		Document document = DocumentHelper.createDocument();
-		Element root = document.addElement("kobold-server");
+		Element root = document.addElement("message-queue");
 
-		Element queue = root.addElement("queue");
 
 		for (Iterator it = this.queue.iterator(); it.hasNext();) {
-			String id = (String) it.next();
-			Element entry = queue.addElement("entry");
-			entry.addText(id);
+		    AbstractKoboldMessage koboldMessage = (AbstractKoboldMessage) it.next();
+			root.add(koboldMessage.serialize());
 		}
 
 		XMLWriter writer;
@@ -144,18 +117,18 @@ public class MessageQueue {
 		Document document = null;
 		
 		try {
-			document = reader.read(messageStore);
-			
-			LinkedList newQueue = new LinkedList();
-			List list = document.selectNodes( "/kobold-server/queue" );
-			for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-				Element element = (Element) iter.next();
-				newQueue.add(element.getText());
-			}
-			// don't care about old queues
-			queue = newQueue;
+			queue.clear();
+		    document = reader.read(messageStore);
+		    Element root = document.elementByID("message-queue");
+		    if (root != null) {
+		        Iterator iter = root.elementIterator("message");
+		        for (; iter.hasNext(); ) {
+		            Element element = (Element) iter.next();
+		            queue.add(AbstractKoboldMessage.createMessage(element));
+		        }
+		    }
 		} catch (DocumentException e) {
-				LogFactory.getLog("kobold.server.controller.MessageQueue").error(e);
+			log.error(e);
 		}
 	}
 }

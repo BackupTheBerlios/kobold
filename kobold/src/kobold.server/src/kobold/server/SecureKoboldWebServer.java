@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.62 2004/07/29 10:28:42 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.63 2004/07/29 17:18:25 garbeam Exp $
  *
  */
 package kobold.server;
@@ -32,14 +32,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
-import java.util.logging.FileHandler;
 
 import kobold.common.controller.IKoboldServer;
 import kobold.common.controller.IKoboldServerAdministration;
 import kobold.common.controller.RPCMessageTransformer;
 import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Component;
-import kobold.common.data.IdManager;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.RPCSpy;
@@ -54,7 +52,6 @@ import kobold.common.data.User;
 import kobold.server.workflow.*;
 
 import org.apache.commons.id.uuid.state.InMemoryStateImpl;
-import org.apache.commons.id.uuid.state.ReadWriteFileStateImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.BasicConfigurator;
@@ -537,7 +534,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			WorkflowEngine.applWorkflow((WorkflowMessage)koboldMessage);
 		}
 		else {
-			MessageManager.getInstance().sendMessage(userContext, koboldMessage);
+			MessageManager.getInstance().sendMessage(koboldMessage);
 		}
 	}
 
@@ -545,14 +542,14 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	 * {@see kobold.common.controller.IKoboldServer#fetchMessage(UserContext)}
 	 */
 	public AbstractKoboldMessage fetchMessage(UserContext userContext) {
-		return MessageManager.getInstance().fetchMessage(userContext);
+		return MessageManager.getInstance().fetchMessage(userContext.getUserName());
 	}
 
 	/**
 	 * {@see kobold.common.controller.IKoboldServer#invalidateMessage(UserContext, AbstractKoboldMessage)}
 	 */
 	public void invalidateMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
-		MessageManager.getInstance().invalidateMessage(userContext, koboldMessage);
+		MessageManager.getInstance().invalidateMessage(userContext.getUserName(), koboldMessage);
 	}
 	
 	

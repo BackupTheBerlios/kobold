@@ -21,13 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageManager.java,v 1.7 2004/06/16 15:08:15 garbeam Exp $
+ * $Id: MessageManager.java,v 1.8 2004/07/29 17:18:25 garbeam Exp $
  *
  */
 package kobold.server.controller;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -35,16 +33,7 @@ import java.util.Map;
 
 import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.KoboldMessage;
-import kobold.common.data.UserContext;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
+import kobold.common.data.User;
 
 /**
  * This class stores user data on the server and provides authentification
@@ -56,8 +45,6 @@ import org.dom4j.io.XMLWriter;
 public class MessageManager {
 
 	private Map queues = null;
-	private Map pendingMessages = null;
-	private String messageStore = "messages.xml";
 	
 	static private MessageManager instance;
 	 
@@ -74,21 +61,18 @@ public class MessageManager {
 	 */
 	private MessageManager() {
 		queues = new HashMap();
-		pendingMessages = new HashMap();
-		this.messageStore = System.getProperty("kobold.server.storePath") +
-			System.getProperty("kobold.server.messageStore");
 		deserialize();
 		// DEBUG
 		dummyMsg();
 	}
 
 	/**
-	 * @return next message for the given userContext.
-	 * @param userContext the user context.
+	 * @return next message for the given username.
+	 * @param username
 	 */
-	public synchronized AbstractKoboldMessage fetchMessage(UserContext userContext) {
+	public synchronized AbstractKoboldMessage fetchMessage(String username) {
 		MessageQueue queue =
-			(MessageQueue) queues.get(userContext.getUserName());
+			(MessageQueue) queues.get(username);
 		if (queue != null) {
 			AbstractKoboldMessage koboldMessage =
 				(AbstractKoboldMessage) queue.getMessage();
@@ -101,30 +85,29 @@ public class MessageManager {
 	}
 
 	/**
-	 * Invalidates the given KoboldMessage for the given UserContext.
+	 * Invalidates the given KoboldMessage for the given username.
 	 * 
-	 * @param userContext the user context.
+	 * @param username the username.
 	 * @param koboldMessage the message to invalidate. 
 	 */	
-	public synchronized void invalidateMessage(UserContext userContext, 
-												  AbstractKoboldMessage koboldMessage)
+	public synchronized void invalidateMessage(String username, 
+											   AbstractKoboldMessage koboldMessage)
 	{
-		MessageQueue queue =
-				(MessageQueue) queues.get(userContext.getUserName());
-		if (queue != null) {
-			queue.removeMessage(koboldMessage);
-			koboldMessage.setState(AbstractKoboldMessage.STATE_INVALID);
+	    if (username.equals(koboldMessage.getReceiver())) {
+	        MessageQueue queue = (MessageQueue) queues.get(username);
+		    if (queue != null) {
+		        queue.removeMessage(koboldMessage);
+		        koboldMessage.setState(AbstractKoboldMessage.STATE_INVALID);
+		    }
 		}
 	}
 	
 	/**
 	 * Sends a message to the specified receipient.
 	 * 
-	 * @param userContext
 	 * @param koboldMessage
 	 */
-	public synchronized void sendMessage(UserContext userContext,
-											AbstractKoboldMessage koboldMessage)
+	public synchronized void sendMessage(AbstractKoboldMessage koboldMessage)
 	{
 		MessageQueue queue =
 				(MessageQueue) queues.get(koboldMessage.getReceiver());
@@ -132,63 +115,7 @@ public class MessageManager {
 			queue.addMessage(koboldMessage);
 			koboldMessage.setState(AbstractKoboldMessage.STATE_UN_FETCHED);
 		}
-		else {
-			pendingMessages.put(koboldMessage.getReceiver(),
-											  koboldMessage);
-		}
 		serialize();
-	}
-	
-	
-	/**
-	 * Registers new queue for the given userContext.
-	 * It's assumed that the given userContext has been logged in
-	 * freshly. 
-	 * @param userContext the user context.
-	 */
-	public void registerQueue(UserContext userContext) {
-		MessageQueue queue =
-				(MessageQueue) queues.get(userContext.getUserName());
-		if (queue == null) {
-			queue = new MessageQueue(userContext);
-			queues.put(userContext.getUserName(), queue);
-		}
-		
-		for (Iterator it = pendingMessages.keySet().iterator(); it.hasNext(); )
-		{
-			String userName = (String) it.next();
-			if (userName.equals(userContext.getUserName())) {
-				queue.addMessage((AbstractKoboldMessage)pendingMessages.get(userName));
-				//RTFM ;) causes ConcurrentModificationEx: pendingMessages.remove(userName);
-				it.remove();
-			}
-		}
-	}
-	
-	/**
-	 * Unregisters queue of the given userContext.
-	 * @param userContext
-	 */
-	public synchronized void unregisterQueue(UserContext userContext) {
-		MessageQueue queue =
-				(MessageQueue) queues.get(userContext.getSessionId());
-		if (queue != null) {
-			GlobalMessageContainer cont = GlobalMessageContainer.getInstance();
-			
-			// copy pending messages back to nologin receipients
-			for (Iterator it = queue.getQueue().iterator(); it.hasNext(); ) {
-				String id = (String) it.next();
-				pendingMessages.put(userContext.getUserName(),
-												  cont.getMessage(id));
-			}
-		}	
-	}
-	
-	/**
-	 * Serializes all queues and all pending messages.
-	 */
-	public synchronized void serialize() {
-		serialize(this.messageStore);
 	}
 	
 	/**
@@ -196,70 +123,28 @@ public class MessageManager {
 	 * 
 	 * @param path the path to store.
 	 */
-	public synchronized void serialize(String path) {
+	public synchronized void serialize() {
 		
 		// first of all serialize all queues
 		for (Iterator it = queues.values().iterator(); it.hasNext(); ) {
 			MessageQueue queue = (MessageQueue) it.next();
 			queue.serialize();
 		}
-		
-		// next serialize pending messages
-		Document document = DocumentHelper.createDocument();
-		Element root = document.addElement("kobold-server");
-
-		Element pending = root.addElement("pending");
-
-		for (Iterator it = this.pendingMessages.values().iterator(); it.hasNext();) {
-			AbstractKoboldMessage koboldMessage = (AbstractKoboldMessage) it.next();
-			pending.add(koboldMessage.serialize());
-		}
-
-		XMLWriter writer;
-		try {
-			writer = new XMLWriter(new FileWriter(path));
-			writer.write(document);
-			writer.close();
-		} catch (IOException e) {
-			Log log = LogFactory.getLog("kobold.server.controller.MessageManager");
-			log.error(e);
-		}
-
 	}
 
 	/**
 	 * Deserializes all pending messages.
 	 */
 	public synchronized void deserialize() {
-		deserialize(this.messageStore);
-	}
-	
-	/**
-	 * Deserializes all pending messages.
-	 * 
-	 * @param path the store to read from.
-	 */
-	public synchronized void deserialize(String path) {
-		
-		SAXReader reader = new SAXReader();
-		Document document = null;
-		try {
-			document = reader.read(path);
-		} catch (DocumentException e) {
-			Log log = LogFactory.getLog("kobold.server.controller.MessageManager");
-			log.error(e);
-		}
-		
-		if (document == null) {
-			return;
-		}
-		
-		List list = document.selectNodes( "/kobold-server/pending" );
-		for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-			Element element = (Element) iter.next();
-			AbstractKoboldMessage koboldMessage = AbstractKoboldMessage.createMessage(element);
-			pendingMessages.put(koboldMessage.getReceiver(), koboldMessage);
-		}
+	    
+	    UserManager manager = UserManager.getInstance();
+	    List users = manager.getAllUsers();
+	    
+	    queues.clear();
+	    for (Iterator iterator = users.iterator(); iterator.hasNext(); ) {
+	        User user = (User) iterator.next();
+	        queues.put(user.getUsername(), new MessageQueue(user.getUsername()));
+	    }
 	}
 	
 	// DEBUG
@@ -269,21 +154,21 @@ public class MessageManager {
 		koboldMessage.setSender("garbeam");
 		koboldMessage.setSubject("About Kobold");
 		koboldMessage.setMessageText("Kobold rulez");
-		pendingMessages.put(koboldMessage.getReceiver(), koboldMessage);
+		sendMessage(koboldMessage);
 		
 		koboldMessage = new KoboldMessage();
 		koboldMessage.setReceiver("schneipk");
 		koboldMessage.setSender("vanto");
 		koboldMessage.setSubject("About Kobold");
 		koboldMessage.setMessageText("Kobold rulez");
-		pendingMessages.put(koboldMessage.getReceiver(), koboldMessage);
+		sendMessage(koboldMessage);
 		
 		koboldMessage = new KoboldMessage();
 		koboldMessage.setReceiver("garbeam");
 		koboldMessage.setSender("schneipk");
 		koboldMessage.setSubject("About Kobold");
 		koboldMessage.setMessageText("Kobold rulez");
-		pendingMessages.put(koboldMessage.getReceiver(), koboldMessage);
+		sendMessage(koboldMessage);
 	}
 	
 }

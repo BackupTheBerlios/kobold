@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.13 2004/07/22 11:55:05 neccaino Exp $
+ * $Id: UserManager.java,v 1.14 2004/07/29 17:18:25 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -73,6 +73,7 @@ public class UserManager {
 		this.userStore =
 			System.getProperty("kobold.server.storePath") +
 			System.getProperty("kobold.server.userStore");
+		deserialize();
 		// DEBUG
 		dummyUsers();
 	}

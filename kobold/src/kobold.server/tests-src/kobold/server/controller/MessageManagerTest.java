@@ -21,55 +21,67 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManagerTest.java,v 1.2 2004/07/29 17:18:25 garbeam Exp $
+ * $Id: MessageManagerTest.java,v 1.1 2004/07/29 17:18:25 garbeam Exp $
  *
  */
 
 package kobold.server.controller;
 
+import java.util.Date;
+
+import org.apache.commons.id.uuid.state.InMemoryStateImpl;
+
 import junit.framework.TestCase;
+import kobold.common.data.KoboldMessage;
 import kobold.server.controller.UserManager;
 import kobold.server.data.User;
 
 /**
  * @author garbeam
  *
- * TestCase for UserManager.
+ * TestCase for MessageManager.
  */
-public class UserManagerTest extends TestCase {
+public class MessageManagerTest extends TestCase {
 
 	/**
 	 * Constructor for UserManagerTest.
 	 * @param arg0
 	 */
-	public UserManagerTest(String arg0) {
-		
-		super(arg0);
+	public MessageManagerTest(String arg0) {
+        super(arg0);
+        System.setProperty("org.apache.commons.id.uuid.state.State", InMemoryStateImpl.class.getName());
 	}
 	
-	public void testSerialize() {
-	
-		System.setProperty("kobold.server.storePath", "");
-		System.setProperty("kobold.server.userStore", "test-users.xml");
-		
-	    UserManager manager = UserManager.getInstance();
-		
-	    User martin = new User("pliesmn", "Martin", "pliesmn");
-		manager.addUser(martin);
-		User armin = new User("contan", "Armin", "contan");
-		manager.addUser(armin);
-		
-		manager.removeUser(martin);
-		manager.removeUser(armin);
-	}
+	public void testMesages() {
 
-	public void testDeserialize() {
 		System.setProperty("kobold.server.storePath", "");
 		System.setProperty("kobold.server.userStore", "test-users.xml");
 
 	    UserManager manager = UserManager.getInstance();
-	    
-	    assertTrue(manager.getUser("pliesmn").getPassword().equals("pliesmn"));
-	    assertTrue(manager.getUser("contan").getPassword().equals("contan"));
+		
+		manager.addUser(new User("pliesmn", "Martin", "pliesmn"));
+		manager.addUser(new User("contan", "Armin", "contan"));
+		manager.addUser(new User("schneipk", "Patrick", "schneipk"));
+		manager.addUser(new User("vanto", "Tammo", "vanto"));
+		manager.addUser(new User("garbeam", "Anselm", "garbeam"));
+		
+		MessageManager man = MessageManager.getInstance();
+		
+		KoboldMessage koboldMessage = new KoboldMessage();
+		koboldMessage.setDate(new Date());
+		koboldMessage.setSender("pliesmn");
+		koboldMessage.setReceiver("contan");
+		koboldMessage.setMessageText("Hallo");
+		man.sendMessage(koboldMessage);
+		System.getProperty("kobold.server.storePath");
+		
+		man.serialize();
+		man.deserialize();
+		
+		KoboldMessage msg = (KoboldMessage) man.fetchMessage("conatn");
+		if (msg != null) {
+		    assertTrue(msg.getMessageText().equals("Hallo"));
+		}
 	}
+	
 }

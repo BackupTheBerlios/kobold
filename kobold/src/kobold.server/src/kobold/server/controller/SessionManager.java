@@ -21,14 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SessionManager.java,v 1.6 2004/07/28 14:31:42 garbeam Exp $
+ * $Id: SessionManager.java,v 1.7 2004/07/29 17:18:25 garbeam Exp $
  *
  */
 package kobold.server.controller;
 
 import java.util.HashMap;
-
-import org.apache.commons.id.uuid.state.InMemoryStateImpl;
 
 import kobold.common.data.IdManager;
 import kobold.common.data.UserContext;
@@ -76,7 +74,6 @@ public class SessionManager {
 			String sessionId = IdManager.nextId(userName);
 			UserContext userContext = user.getInitialUserContext(sessionId);
 			sessions.put(userName, userContext);
-			MessageManager.getInstance().registerQueue(userContext);
 			return userContext;
 		}
 		return null;
@@ -88,7 +85,6 @@ public class SessionManager {
 	 * @param userContext the user context.
 	 */
 	public void logout(UserContext userContext) {
-		MessageManager.getInstance().unregisterQueue(userContext);
 		sessions.remove(userContext.getUserName());
 		userContext.setSessionId(null);
 	}
