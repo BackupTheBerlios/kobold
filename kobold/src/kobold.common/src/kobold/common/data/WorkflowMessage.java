@@ -15,8 +15,46 @@ import java.util.*;
 public class WorkflowMessage extends KoboldMessage {
    private HashMap result;
    private String  xmlMessage;
-   //private History history;
+   private List historyList  = new ArrayList();
+
+
+/**
+ *  
+ * @param history Next Entry in History List
+ */
+ void addHistory(History history) {
+ 	 historyList.add(history);
+ }
  
-   private
+ 
+
    
+/**
+ * @return
+ */
+public List getHistoryList() {
+	return historyList;
+}
+
+/**
+ * @return
+ */
+public HashMap getResult() {
+	return result;
+}
+
+/**
+ * @return
+ */
+public String getXmlMessage() {
+	return xmlMessage;
+}
+
+/**
+ * @param string
+ */
+public void setXmlMessage(String string) {
+	xmlMessage = string;
+}
+
 }
