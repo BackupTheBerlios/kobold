@@ -2,7 +2,7 @@
 %% StuPro A, Produktlinien (Kobold)
 %% Team Werkbold
 %% Angebot
-%% $Id: begriffslexikon.tex,v 1.2 2004/02/16 14:42:45 neco Exp $
+%% $Id: begriffslexikon.tex,v 1.3 2004/02/17 12:55:53 neco Exp $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\begriff}[2]
 {\item \bfseries{#1} \textnormal{#2}}
@@ -15,42 +15,48 @@
 \begriff{Architektur}{Struktur von Software, die aus Komponenten und
 Konnektoren besteht}
 
-\begriff{Assets}{Wiederverwendbare Komponentennn, z.B. Source-Pakete, Klassen,
+\begriff{Assets}{Wiederverwendbare Komponenten, z.B. Source-Pakete, Klassen,
 usw.}
 
-\begriff{Auschecken}{CVS-Funktion zum Anfordern einer Arbeitskopie aus dem Repository}
+\begriff{Auschecken}{VCM-Funktion zum Anfordern einer Arbeitskopie aus dem 
+VCM-Repository}
 
-\begriff{Core-Assets}{Abstrakte Architekturkomponenten}
+\begriff{Core-Assets}{Architekturkomponenten, die bestimmte Funktionalitäten 
+erfüllen und oft wiederverwendet werden. Sie bilden mit den produktspezifischen 
+Komponenten das Produkt}
 
 \begriff{Core-Asset-Entwickler}{Softwareentwickler, der Core-Assets entwickelt}
 
 \begriff{Core-Asset-Repository}{Entwicklungs-Repository (Arbeitskopie) der
 Core-Assets}
 
-\begriff{CVS}{Concurrent Versions System, ein Versionsverwaltungssystem}
+\begriff{VCM}{Version Control Management, ein Versionsverwaltungssystem wie z.B.
+das Versionsverwaltungstool CVS (Concurrent Versions System)}
 
 \begriff{Deprecated}{Veraltet, missbilligend}
 
-\begriff{Einchecken}{CVS-Funktion zum Rückschreiben der Arbeitskopie-Änderungen
-ins CVS-Repository}
+\begriff{Einchecken}{VCM-Funktion zum Rückschreiben der Arbeitskopie-Änderungen
+ins VCM-Repository}
 
-\begriff{Erstentwicklung}{Entwicklung eines neuen Produkts bzw. eines neuen Core-Assets}
+\begriff{Erstentwicklung}{Entwicklung eines neuen Produkts bzw. eines neuen 
+Core-Assets}
 
 \begriff{Evolutionäres Vorgehensmodell}{Inkrementelles Vorgehensmodell in der
 Softwareentwicklung, ähnlich dem Spiralmodell nach B.W. Boehm}
 
 \begriff{Iteration}{Phase im evolutionären Vorgehensmodell}
 
-\begriff{Kernkomponenten}{Siehe Core-Assets}
+\begriff{Kernkomponenten}{siehe Core-Assets}
 
 \begriff{Komponenten}{Bestandteile der Produktlinien- bzw. Produktarchitektur}
 
 \begriff{Metainformation}{Zusatz-Informationen über Informationen}
 
-\begriff{Module}{Komponenten auf Repository-Ebene}
+\begriff{Module}{siehe Komponenten}
 
-\begriff{Produkt-Ingenieur}{PE, ein Software-Ingenieur mit Leitungs- und Entscheidungskompetenz 
-bzgl. der technischen Realisierung des Produkts. Der PE hat den Produktlinien-Ingenieur als Vorgesetzten.}
+\begriff{Produkt-Ingenieur}{PE, ein Software-Ingenieur mit Leitungs- und 
+Entscheidungskompetenz bzgl. der technischen Realisierung des Produkts. 
+Der PE hat den Produktlinien-Ingenieur als Vorgesetzten.}
 
 \begriff{Produktlinien-Ingenieur}{PLE, Software-Ingenieur mit projektübergreifender 
 Leitungs- und Entscheidungskompetenz bzgl. der technischen Realisierung 
@@ -73,7 +79,7 @@ checken Arbeitskopien von Produkt­Komponenten aus}
 
 \begriff{Softwarearchitektur}{siehe Architektur}
 
-\begriff{Update}{CVS-Funktion, die die Arbeitskopie mit dem CVS-Repository
+\begriff{Update}{VCM-Funktion, die die Arbeitskopie mit dem VCM-Repository
 synchronisiert}
 
 \begriff{Varianten}{Modifikationen von Core-Assets}
@@ -85,14 +91,23 @@ Softwareentwicklung, das in Phasen aufgeteilt ist, die aufeinander folgen}
 
 \begriff{Workflow}{Arbeits- bzw. Geschäftsprozess}
 
-\begriff{View}{Eine rollenabhängige Sicht}
+\begriff{Ansicht}{Eine rollenabhängige Sicht}
 
-\begriff{Editor}{}
+\begriff{View}{Subfenster von Kobold-Client}
 
-\begriff{Feature-Set}{Ein Plug-in-Satz zur Erweiterung von Eclipse, so dass 
-Eclipse nach der Erweiterung  ein eigenes Erscheinungsbild hat}
-\begriff{}
-\begriff{}
+\begriff{RPC}{Remote Procedure Call erlaubt die Ausführung von Funktionen, 
+die auf einem anderen Rechner implementiert sind}
+ 
+\begriff{Feature-Set}{Ein Plugin-Satz zur Erweiterung von Eclipse, so dass 
+Eclipse nach der Erweiterung ein eigenes Erscheinungsbild hat}
+
+\begriff{Plugin}{Softwarekomponente, die die Funktionalität des Systems erweitert}
+
+\begriff{Fakt}{eine Mitteilung an den Kobold-Server}
+
+\begriff{Message-Queue}{Nachrichten, die auf Anfrage an den Benutzer geleitet werden}
+
+\begriff{VCM Wrapper}{}
 \end{itemize}
 
 %%% Local Variables: 

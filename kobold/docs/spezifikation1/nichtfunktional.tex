@@ -1,42 +1,50 @@
 \chapter{Nichtfunktionale Anforderungen}
 \section{Leistungsanforderungen}
-Das System wird zunächst so ausgelegt, dass mind. 50 Benutzer gleichzeitig mit dem Produkt arbeiten können.
-Die Skalierbarkeit hängt ausschliesslich vom Server ab, dessen Leistungsfähigkeit von der Hardware und
-der verwendeten Persistenzschicht-Implementierung beeinflusst wird. Garantiert wird die Bereitstellung von 
-10 Produktlinien zu je 50 Produkten. Pro Produktlinie können 100 Benutzer verwaltet werden.
+Das System wird zunächst so ausgelegt, dass mind. 50 Benutzer gleichzeitig mit 
+dem Produkt arbeiten können. Die Skalierbarkeit hängt ausschliesslich vom Server 
+ab, dessen Leistungsfähigkeit von der Hardware und der verwendeten 
+Persistenzschicht-Implementierung beeinflusst wird. Garantiert wird die 
+Bereitstellung von 10 Produktlinien zu je 50 Produkten. Pro Produktlinie können 
+100 Benutzer verwaltet werden.
 
 \section{Minimale Hardwareanforderungen}
-Das Softwaresystem wird auf einem Pentium II basierten PC mit 400 Mhz CPU-Takt, 256 MB Hauptspeicher
-und mind. 200 MB freien Festplattenspeicher (oder unter einer vergleichbaren Unix-Workstation)
-unter den Betriebssystemen Windows, Solaris und Linux lauffähig sein.
+Das Softwaresystem wird auf einem Pentium II basierten PC mit 400 Mhz CPU-Takt, 
+256 MB Hauptspeicher und mind. 200 MB freien Festplattenspeicher (oder unter 
+einer vergleichbaren Unix-Workstation) unter den Betriebssystemen Windows, Solaris 
+und Linux lauffähig sein.
 
 \section{Entwurfseinschränkungen}
 Das Produkt wird in Java 2 Version 1.4 implementiert. Als Workbench-Framework wird die 
 Eclipse Plattform\footnote{http://www.eclipse.org/, http://www.eclipse.org/platform/}
-verwendet, sowie deren Widgettoolkit SWT\footnote{Standard Widget Toolkit, http://www.eclipse.org/swt/}
+verwendet, sowie deren Widgettoolkit SWT\footnote{Standard Widget Toolkit, 
+http://www.eclipse.org/swt/} 
 und GEF\footnote{Graphical Editing Framework, http://www.eclipse.org/gef/}.
 Zudem werden Bibliotheken von der Apache Software
 Foundation\footnote{http://www.apache.org/} benutzt. Die
 Generierung der Dokumenation setzt auf iText\footnote{http://www.lowagie.com/iText/} auf.
 
 \section{Verfügbarkeit}
-Für den Client gibt es keine besonderen Anforderungen bzgl. der Verfügbarkeit. Der Kobold-Serverdienst soll mit mind. 99\% hoch verfügbar sein. 
-Die Server-Verfügbarkeit hängt trotzdem von der Konfiguration des Rechners, der den Serverdienst zur Verfügung stellt, ab.
+Für den Client gibt es keine besonderen Anforderungen bzgl. der Verfügbarkeit. 
+Der Kobold-Serverdienst soll mit mind. 99\% hoch verfügbar sein. 
+Die Server-Verfügbarkeit hängt trotzdem von der Konfiguration des Rechners, 
+der den Serverdienst zur Verfügung stellt, ab.
 
 \section{Sicherheit}
-Die Daten, die der Server bereitstellt, werden bei jeder Änderung sofort auf dem Datenträger gespeichert.
-Somit wird die Gefahr eines Datenverlusts beim Eintritt von unvorhersehbaren Ereignissen minimiert.
-Alle Client-spezifischen Daten werden in den Produktlinien- bzw.
+Die Daten, die der Server bereitstellt, werden bei jeder Änderung sofort auf dem 
+Datenträger gespeichert. Somit wird die Gefahr eines Datenverlusts beim Eintritt 
+von unvorhersehbaren Ereignissen minimiert.
+Alle client-spezifischen Daten werden in den Produktlinien- bzw.
 Produkt-Repositories gespeichert und unterliegen  den Sicherheitsregeln des verwendeten
 Versionskontrollsystems.
 
 \section{Robustheit}
 Fehleingaben und Fehler im System werden erkannt und dem Benutzer mit einer aussagekräftigen 
-Fehlermeldung mitgeteilt. Sie führen nicht zum Programmabsturz. Genaueres folgt in einer späteren Iteration.
+Fehlermeldung mitgeteilt. Sie führen nicht zum Programmabsturz. Genaueres folgt 
+in einer späteren Iteration.
 
 \section{Wartbarkeit}
-Durch die ständige Überprüfung des Programmquellcodes mit Metriken auf Kopplung, Zusammenhalt und
-Styleguide-Konformität wird die hohe Wartbarkeit des 
+Durch die ständige Überprüfung des Programmquellcodes mit Metriken auf Kopplung, 
+Zusammenhalt und Styleguide-Konformität wird die hohe Wartbarkeit des 
 Produkts gewährleistet.
 
 \section{Performance}
@@ -68,8 +76,8 @@ Inc.\footnote{unter http://java.sun.com/j2se/1.4.2/system-configurations.html} u
 Solaris-SPARC, Solaris-Intel, Windows NT/2000/XP und Linux lauffähig.
 
 Der Client basiert grundlegend auf der Eclipse Plattform und deren Widgettoolkit und ist
-dadurch von dessen nativer Schnittstelle abhängig. Laut dem Eclipse Consortium werden die folgenden 
-Plattformen und Betriebssysteme unterstützt:
+dadurch von dessen nativer Schnittstelle abhängig. Laut dem Eclipse Consortium werden die 
+folgenden Plattformen und Betriebssysteme unterstützt:
 \begin{itemize}
     \item Windows NT/2000/XP
     \item Linux (Motif)

@@ -1,8 +1,9 @@
 \subsubsection{Metainformationskomponente}
 
-Um zusätzliche Informationen zu den unten aufgeführten Elementen in Kobold zu speichern, bietet Kobold eine 
-Metainformationskomponente, das heißt einen Abschnitt in Kobold, der die Metainformationen verwaltet. Diese 
-ermöglicht außerdem eine gezielte Suche nach Elementen mit bestimmten Eigenschaften. Metainformationen 
+Um zusätzliche Informationen zu den unten aufgeführten Elementen in Kobold zu 
+speichern, bietet Kobold eine Metainformationskomponente, das heißt einen Abschnitt 
+in Kobold, der die Metainformationen verwaltet. Diese ermöglicht außerdem eine 
+gezielte Suche nach Elementen mit bestimmten Eigenschaften. Metainformationen 
 werden auch für eine genaue Zuordnung und Identifikation eines Elementes benötigt.
 Dieses Kapitel liefert eine genaue Auflistung der geplanten Metainformationen.\newline
 
@@ -28,8 +29,8 @@ Für eine Version werden folgende Metainformationen gespeichert:
 \end{itemize}
 
 \paragraph{Objekt:}
-Ein Objekt ist ein von Menschen geschaffenes Software Objekt wie zum Beispiel Quelltext und Dokumentation. 
-Als Metainformationen über ein Objekt wird gespeichert:
+Ein Objekt ist ein von Menschen geschaffenes Software Objekt wie zum Beispiel 
+Quelltext und Dokumentation. Als Metainformationen über ein Objekt wird gespeichert:
 \begin{itemize}
 \item Liste der Versionen
 \item Liste der releasefähigen Versionen
@@ -41,8 +42,9 @@ Als Metainformationen über ein Objekt wird gespeichert:
 \end{itemize}
 
 \paragraph{Skript:}
-Ein Skript wird bei der angegebenen Aktion ausgeführt. Dies kann auch mit Parameterübergabe geschehen. 
-Diese Funktionalität wird allerdings erst in einer Folgeiteration entwickelt.
+Ein Skript wird bei der angegebenen Aktion ausgeführt. Dies kann auch mit 
+Parameterübergabe geschehen. Diese Funktionalität wird allerdings erst in 
+einer Folgeiteration entwickelt.
 \begin{itemize}
 \item Aktion
 \item Parameter
@@ -108,13 +110,16 @@ Für eine Architektur werden folgenden Metainformationen benötigt:
 
 \subsubsection{VCM Wrapper}
 
-Um die Zugriffsrechte konsistent durchzusetzen, und die automatisierte Aktionsbasierte Kommunikation mit dem Kobold Serverdienst zu 
-ermöglichen, wird ein VCM Wrapper erstellt. 
-Dieser authentifiziert VCM-Aktionen zwischen dem Benutzer und dem VCM des Kobold Serverdienstes und löst gegebenenfalls einen Workflow aus.\par
+Um die Zugriffsrechte konsistent durchzusetzen, und die automatisierte 
+Aktionsbasierte Kommunikation mit dem Kobold Serverdienst zu ermöglichen, 
+wird ein VCM Wrapper erstellt. Dieser authentifiziert VCM-Aktionen zwischen dem 
+Benutzer und dem VCM des Kobold Serverdienstes und löst gegebenenfalls einen 
+Workflow aus.\par
 
-Der VCM Wrapper behandelt Anfragen vom Kobold Client an den Kobold Server, indem er diese 
-entweder an das eigentliche VCM weiterleitet oder mit einer passenden Meldung ablehnt.\par
-Ist im Client noch nicht der Pfad eines Repositories gespeichert, so holt sich der VCM Wrapper 
-die nötigen Informationen vom Kobold Server und speichert diese im Client. 
-Er importiert dabei automatisch rollen- und produktabhängige 
+Der VCM Wrapper behandelt Anfragen vom Kobold Client an den Kobold Server, indem
+er diese entweder an das eigentliche VCM weiterleitet oder mit einer passenden 
+Meldung ablehnt.\par
+Ist im Client noch nicht der Pfad eines Repositories gespeichert, so holt sich 
+der VCM Wrapper die nötigen Informationen vom Kobold Server und speichert diese 
+im Client. Er importiert dabei automatisch rollen- und produktabhängige 
 Repository-Zugriffskonfigurationen.
