@@ -18,6 +18,9 @@
 use strict;
 use Cwd;
 
+#for date parsing
+use Date::Parse;
+
 #for listing all files
 use File::Find;
 
@@ -49,7 +52,17 @@ sub read_entries {
         
         #print "KOMPLETT: $type, $path, $rev ,$date, $tag\n";
      
+        #convert date from: Thu Jul  1 09:36:12 2004
+        #             to: year,month,date,hour,minutes,seconds
 
+        #returns a unix time value
+        my $time = str2time($date);
+        $date = $time;
+
+        #or instead:
+        #my ($ss,$mm,$hh,$day,$month,$year,$zone) = strptime($date);
+        #$year = $year + 1900;
+        #print "HALLO: $ss,$mm,$hh,$day,$month,$year\n";
 
         #if the actual line ($_) represent a file
         if ($type ne "D") {

@@ -106,9 +106,13 @@ public class ScriptServerConnection implements IServerConnection
 	 * @param location the location of the cvs repository @see ICVSRepositoryLocation
 	 */
 	public ScriptServerConnection(String repositoryPath) {
-		this.repositoryPath = repositoryPath;
-		this.password = getUserPassword();
-		this.user = getUserName();
+
+		if (repositoryPath != "noUser")
+		{
+			this.repositoryPath = repositoryPath;
+			this.password = getUserPassword();
+			this.user = getUserName();
+		}
 
 	
 	}
@@ -454,7 +458,7 @@ public class ScriptServerConnection implements IServerConnection
 		{
 			uN = getPreference ("User Name");
 			//@ FIXME Dangerouse ;)
-//			setUserName(uN);
+			setUserName(uN);
 			return uN;
 		}
 		return uN;

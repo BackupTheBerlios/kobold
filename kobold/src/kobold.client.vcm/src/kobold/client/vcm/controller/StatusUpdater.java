@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.19 2004/08/05 19:09:50 garbeam Exp $
+ * $Id: StatusUpdater.java,v 1.20 2004/08/05 19:31:35 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -58,7 +58,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
 
 public class StatusUpdater {
 
-    private DateFormat df = new SimpleDateFormat();
+    //private DateFormat df = new SimpleDateFormat();
     private static final Log logger = LogFactory.getLog(StatusUpdater.class);
     
 	/**
@@ -79,7 +79,7 @@ public class StatusUpdater {
 	public void processConnection (String[] command,
 									IFileDescriptorContainer fileDescriptorContainer)
 	{
-		ScriptServerConnection conn = new ScriptServerConnection("faceLoc");
+		ScriptServerConnection conn = new ScriptServerConnection("noUser");
 
 
 		try 
@@ -144,12 +144,13 @@ public class StatusUpdater {
 							createDirectory(localLine.nextToken(), fileDescriptorContainer);
           
 		        }
-		        //it's a file
+
 		        else
 		        {
 		        	/*1*/String filename = localLine.nextToken();
 		        	/*2*/String revision = localLine.nextToken();
 		        	
+		        	//not checked in directory or file
 		            if (revision.endsWith("*")) {
 		                // not managed yet by version control system
 		                if (revision.equals("*")) {
@@ -165,15 +166,12 @@ public class StatusUpdater {
 		                }
 		                
 		            }
+			        //it's a file
 		            else {
     	            
-    		            Date date = null;
-    		            //try {
-    		               // df.setNumberFormat(new NumberFormat())
-    		            	/*3*/date = null; //df.parse(localLine.nextToken());
-                        //} catch (ParseException e) {
-                        	//logger.debug("could not parse date - using null instead", e);
-                        //}
+    		            Date date = new Date((localLine.nextToken()));
+    		            	/*3*/
+    		            	//date = df.parse(localLine.nextToken());
     
                         /*4*/boolean isBinary = localLine.nextToken().equals("binary");                    
                         
