@@ -26,9 +26,8 @@ import org.eclipse.swt.widgets.Button;
 /**
  * @author bettina
  *
- * This dialog helps to determine the recipient of the core group suggestion.
- * This can either be a PE or a PLE. If the user decides to send his suggestion
- * to a PE, the PE can forward the suggestion to his PLE if he supports the suggestion.
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CoreGroupDialog extends Dialog{
 
