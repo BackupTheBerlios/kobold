@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.18 2004/06/24 11:37:22 rendgeor Exp $
+ * $Id: Productline.java,v 1.19 2004/06/24 11:58:18 rendgeor Exp $
  *
  */
 package kobold.common.model.productline;
@@ -181,7 +181,8 @@ public class Productline extends AbstractAsset
 
 			
 			// Store only a file reference to the product here. 
-			productsEl.addElement(product.getName());
+			Element pEl = productsEl.addElement("product");
+			pEl.addAttribute("name", product.getName());
 
 		}
 		

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.16 2004/06/24 11:25:10 rendgeor Exp $
+ * $Id: ProductLineTest.java,v 1.17 2004/06/24 11:58:18 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -195,9 +195,11 @@ public class ProductLineTest extends TestCase {
 
 
 	//----------------------------DESRERAILIZING------------------------------------------------		
-	
-		//pl.deserialize(path);
 
+		System.out.println ("-----------NOW DESERIALIZING---------");
+		Productline p2 = new Productline("windows");
+		p2.deserialize(path);
+		
 		
 		//product = manager.getProduct("windows");
 		//assertTrue (product.getName() == "windows");

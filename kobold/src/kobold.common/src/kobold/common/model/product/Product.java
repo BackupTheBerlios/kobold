@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.12 2004/06/24 11:25:10 rendgeor Exp $
+ * $Id: Product.java,v 1.13 2004/06/24 11:58:18 rendgeor Exp $
  *
  */
 
@@ -149,8 +149,8 @@ public class Product extends AbstractAsset {
 	 */
 	public void deserialize(Element element) {
 		super.deserialize(element);
-		//setName(element.attributeValue("name"));
-		// TODO
+		setName(element.attributeValue("name"));
+
 		
 		System.out.println ("start deserializing!");
 	    
