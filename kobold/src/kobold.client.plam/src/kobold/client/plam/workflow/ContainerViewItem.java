@@ -89,15 +89,16 @@ public class ContainerViewItem extends AbstractViewItem {
 	 * @see kobold.client.plam.workflow.AbstractViewItem#applyValues()
 	 */
 	public void applyValues(WorkflowDialog wd) {
+		System.out.println("cont");
+		
 		// aplly Values of the RadioButtons
 		if (item.getValue().length() > 0) {
 			// only from named contaiter, the value of the slected radiobutton can be stored
-			ButtonViewItem[] radioButtons = (ButtonViewItem[]) radioItems
-					.toArray();
 			String value = "";
-			for (int i = 0; i < radioButtons.length; i++) {
-				if (radioButtons[i].isSelected()) {
-					value = radioButtons[i].getValue();
+			for (int i = 0; i < radioItems.size(); i++) {
+				ButtonViewItem wi = (ButtonViewItem) radioItems.get(i);
+				if ( wi.isSelected()) {
+					value = wi.getValue();
 				}
 			}
 			wd.setAnswer(this.item.getValue(), value);
