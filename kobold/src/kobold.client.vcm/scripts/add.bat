@@ -1,9 +1,12 @@
 @echo off
-cd %1
+cd /d %1
 
-if %4 = "local"					goto LOCAL	endif
+if %3 == local					goto LOCAL	endif
+if %2 == CVS goto CVS endif
+goto ERROR
 
-cvs.exe -z3 -d :pserver:%2:%3@%4:%5 add %6
+:CVS
+echo cvs.exe -z3 -d :pserver:%4:%5@%6:%7 add %8
 goto END
 
 :LOCAL
