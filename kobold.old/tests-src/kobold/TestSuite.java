@@ -10,9 +10,8 @@ package kobold;
  * TestSuite
  * 
  * @author Tammo van Lessen
- * @version $Id: TestSuite.java,v 1.2 2004/05/10 16:31:15 memyselfandi Exp $
+ * @version $Id: TestSuite.java,v 1.3 2004/05/10 16:33:47 memyselfandi Exp $
  */
 public class TestSuite {
-	this is a test
-
+	///Not any more 
 }
