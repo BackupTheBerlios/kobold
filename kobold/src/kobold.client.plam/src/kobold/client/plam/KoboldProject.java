@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.20 2004/08/28 11:31:10 vanto Exp $
+ * $Id: KoboldProject.java,v 1.21 2004/08/30 12:06:58 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -309,17 +309,21 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
         
 				    getBeforeScripts().clear();
 				    Element befScripts = root.element("before-scripts");
-				    for (Iterator iterator = befScripts.elementIterator("script-descriptor");
-				         iterator.hasNext(); )
-				    {
-				        addBeforeScript(new ScriptDescriptor((Element)iterator.next()));
+				    if (befScripts != null) {
+    				    for (Iterator iterator = befScripts.elementIterator("script-descriptor");
+    				         iterator.hasNext(); )
+    				    {
+    				        addBeforeScript(new ScriptDescriptor((Element)iterator.next()));
+    				    }
 				    }
 				    getAfterScripts().clear();
 				    Element aftScripts = root.element("after-scripts");
-				    for (Iterator iterator = aftScripts.elementIterator("script-descriptor");
-				         iterator.hasNext(); )
-				    {
-				        addAfterScript(new ScriptDescriptor((Element)iterator.next()));
+				    if (aftScripts != null) {
+    				    for (Iterator iterator = aftScripts.elementIterator("script-descriptor");
+    				         iterator.hasNext(); )
+    				    {
+    				        addAfterScript(new ScriptDescriptor((Element)iterator.next()));
+    				    }
 				    }
             	    
 				} catch (CoreException e) {

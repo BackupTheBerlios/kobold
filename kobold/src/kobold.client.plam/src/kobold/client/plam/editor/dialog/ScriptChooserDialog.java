@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptChooserDialog.java,v 1.1 2004/08/27 16:28:03 garbeam Exp $
+ * $Id: ScriptChooserDialog.java,v 1.2 2004/08/30 12:06:58 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -32,6 +32,7 @@ import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.common.data.User;
+import kobold.common.io.ScriptDescriptor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -88,14 +89,106 @@ public class ScriptChooserDialog extends TitleAreaDialog
         getShell().setText("Script Assignment");
         setTitle("Script Assignment");
         setMessage("Assign scripts which are invoked before and after VCM actions to this asset.");
-        Composite composite = (Composite) super.createDialogArea(parent);
+        Composite panel = (Composite) super.createDialogArea(parent);
         
-// TODO
-        return composite;
+    	GridLayout layout = new GridLayout(2, true);
+		layout.marginHeight =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+		layout.marginWidth =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+		layout.verticalSpacing =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
+		layout.horizontalSpacing =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+		panel.setLayout(layout);
+		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
+		panel.setFont(parent.getFont());
+
+		Label label = new Label(panel, SWT.NONE);
+		label.setText("Invoke before VCM action");
+		
+		label = new Label(panel, SWT.NONE);
+		label.setText("Invoke after VCM action");
+		
+		/// Before Scripts table
+		beforeScriptsTable = new Table(panel, SWT.CHECK | SWT.BORDER | SWT.LEAD | SWT.WRAP 
+		        				   | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
+		beforeScriptsTable.setLinesVisible(false);
+		TableColumn colScriptNames = new TableColumn(beforeScriptsTable, SWT.NONE);
+		colScriptNames.setText("Script");
+		TableLayout tableLayout = new TableLayout();
+		beforeScriptsTable.setLayout(tableLayout);
+		tableLayout.addColumnData(new ColumnWeightData(100));
+		
+	    colScriptNames.pack();
+		
+		beforeScriptsViewer = new CheckboxTableViewer(beforeScriptsTable);
+		beforeScriptsViewer.setLabelProvider(new LabelProvider() {
+		    private Image image;
+		    public String getText(Object element) {
+		        ScriptDescriptor sd = (ScriptDescriptor)element;
+                return sd.getName();
+            }
+            
+            public Image getImage(Object element) {
+                if (image == null) {
+        			image = KoboldPLAMPlugin.getImageDescriptor("icons/package.gif").createImage();
+        		}
+        		return image;
+            }
+        });
+		GridData gd = new GridData(GridData.GRAB_HORIZONTAL
+		        				   | GridData.FILL_HORIZONTAL);
+		gd.heightHint = 200;
+		beforeScriptsTable.setLayoutData(gd);
+	    
+		if (beforeScripts != null) {
+		    beforeScriptsViewer.add(beforeScripts.values().toArray());
+	    }
+	    // TODO: beforeScriptsViewer.setCheckedElements(asset.getBeforeScripts().toArray());
+        
+		/// After Scripts table
+		afterScriptsTable = new Table(panel, SWT.CHECK | SWT.BORDER | SWT.LEAD | SWT.WRAP 
+		        				   | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
+		afterScriptsTable.setLinesVisible(false);
+		colScriptNames = new TableColumn(afterScriptsTable, SWT.NONE);
+		colScriptNames.setText("Script");
+		tableLayout = new TableLayout();
+		afterScriptsTable.setLayout(tableLayout);
+		tableLayout.addColumnData(new ColumnWeightData(100));
+		
+	    colScriptNames.pack();
+		
+		afterScriptsViewer = new CheckboxTableViewer(afterScriptsTable);
+		afterScriptsViewer.setLabelProvider(new LabelProvider() {
+		    private Image image;
+		    public String getText(Object element) {
+		        ScriptDescriptor sd = (ScriptDescriptor)element;
+                return sd.getName();
+            }
+            
+            public Image getImage(Object element) {
+                if (image == null) {
+        			image = KoboldPLAMPlugin.getImageDescriptor("icons/package.gif").createImage();
+        		}
+        		return image;
+            }
+        });
+		gd = new GridData(GridData.GRAB_HORIZONTAL
+		        				   | GridData.FILL_HORIZONTAL);
+		gd.heightHint = 200;
+		afterScriptsTable.setLayoutData(gd);
+	    
+		if (afterScripts != null) {
+		    afterScriptsViewer.add(afterScripts.values().toArray());
+	    }
+	    // TODO: afterScriptsViewer.setCheckedElements(asset.getafterScripts().toArray());
+        return panel;
     }
     
     protected void okPressed()
     {
+    // TODO: write selection to model
         super.okPressed();
     }
     
