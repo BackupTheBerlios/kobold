@@ -7,29 +7,21 @@ werden auch für eine genaue Zuordnung und Identifikation eines Elementes benötig
 Dieses Kapitel liefert eine genaue Auflistung der geplanten Metainformationen.\newline
 
 \paragraph{Produkt:}
-Das Produkt wird vom Produktingenieur bearbeitet. Dieser lässt sich vom Produktlinieningenieur die Varianten 
-und Abhängigkeiten zuordnen, die er für sein Produkt benötigt. Diese Funktionalität wird allerdings erst 
-in einer Folgeiteration entwickelt. Die geplanten Metainformationen für diese Iteration sind:
+Die geplanten Metainformationen für diese Iteration sind:
 \begin{itemize}
 \item Name
 \item Liste aller Releases
 \end{itemize}
 
 \paragraph{Release:}
-Ein Release besteht aus einer Gruppe von Objekten. Diese werden in einem 
-Release zusammengefasst, wenn sie zusammen ein vollständiges Produkt nach den Anforderungen 
-des Produktingenieurs bilden. Ein Release wird manuell vom Produktlinieningenieur oder vom Produktingenieur 
-gesetzt. Diese Funktionalität wird allerdings erst in einer Folgeiteration entwickelt. Ein Release besitzt 
-folgende Metainformationen:
+Ein Release besitzt folgende Metainformationen:
 \begin{itemize}
-\item Liste der Objekte (mit Versionsangabe)
+\item Liste der Objekte
 \item Erstellungsdatum
 \end{itemize}
 
 \paragraph{Version:}
-Objekte sind in unterschiedlichen Versionen verfügbar. Die Versionskontrolle übernimmt dabei eine Standard 
-Versionsverwaltungssystem wie zum Beispiel CVS, RCS, etc. Für eine Version werden folgende Metainformationen 
-gespeichert:
+Für eine Version werden folgende Metainformationen gespeichert:
 \begin{itemize}
 \item interne Versionsnummer
 \item Status
@@ -55,11 +47,11 @@ Diese Funktionalität wird allerdings erst in einer Folgeiteration entwickelt.
 \item Aktion
 \item Parameter
 \item Ausführen vor Aktion (ja/nein)
+\item Reihenfolge
 \end{itemize}
 
 \paragraph{Variante:}
-Eine Variante besteht entweder aus weiteren Komponenten oder aus Objekten. Sie besitzt dabei immer 
-folgende Metainformationen:
+Eine Variante besitzt folgende Metainformationen:
 \begin{itemize}
 \item Liste aller Objekte
 \item Versionsnummer
@@ -72,8 +64,7 @@ folgende Metainformationen:
 \end{itemize}
 
 \paragraph{Komponente:}
-Eine Komponente besteht aus einer oder mehreren Varianten. Zusätzlich werden für jede Komponente noch 
-folgende Metainformationen gespeichert:
+Für jede Komponente werden folgende Metainformationen gespeichert:
 \begin{itemize}
 \item Liste aller Varianten
 \item Name
@@ -85,25 +76,23 @@ folgende Metainformationen gespeichert:
 \end{itemize}
 
 \paragraph{Abhängigkeit:}
-Eine Abhängigkeit besteht zwischen zwei Knoten der Architektur. Für Abhängigkeiten zwischen mehr als zwei 
-Knoten werden Metaknoten verwendet. Für eine Abhängigkeit werden folgende Metainformationen gespeichert:
+Für eine Abhängigkeit werden folgende Metainformationen gespeichert:
 \begin{itemize}
 \item Typ
 \item Richtung
-\item Knoten1
-\item Knoten2
+\item Startknoten
+\item Zielknoten
 \end{itemize}
 
 \paragraph{Metaknoten:}
-Metaknoten werden für Mehrfachbeziehungen verwendet. Für sie werden nur folgende Metainformationen benötigt:
+Für Metaknoten werden nur folgende Metainformationen benötigt:
 \begin{itemize}
 \item Typ
 \item ID
 \end{itemize}
 
 \paragraph{Architektur:}
-Eine Architektur stellt sowohl ein Produkt als auch eine Produktlinie graphisch dar. Zum verlustfreien 
-Speichern eine Architektur werden folgenden Metainformationen benötigt:
+Für eine Architektur werden folgenden Metainformationen benötigt:
 \begin{itemize}
 \item Liste der Metaknoten
 \item Liste der Abhängigkeiten
@@ -119,7 +108,7 @@ Speichern eine Architektur werden folgenden Metainformationen benötigt:
 
 \subsubsection{VCM Wrapper}
 
-Um die Zugriffsrechte konsistent durchzusetzen, und die automatisierte Aktionsbasierte Kommunikation mit dem Kobold Server zu 
+Um die Zugriffsrechte konsistent durchzusetzen, und die automatisierte Aktionsbasierte Kommunikation mit dem Kobold Serverdienst zu 
 ermöglichen, wird ein VCM Wrapper erstellt. 
 Dieser authentifiziert VCM-Aktionen zwischen dem Benutzer und dem VCM des Kobold Serverdienstes und löst gegebenenfalls einen Workflow aus.\par
 
