@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.10 2004/07/29 11:49:01 martinplies Exp $
+ * $Id: EdgeContainer.java,v 1.11 2004/07/29 20:52:55 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.workflow.LocalMessageQueue;
 import kobold.common.data.ISerializable;
@@ -372,6 +373,17 @@ public class EdgeContainer implements ISerializable {
         return element;
     }
     
+    
+    /* (non-Javadoc)
+     * @see kobold.common.data.ISerializable#deserialize(org.dom4j.Element)
+     */
+    public void deserialize(Element element) {
+        // FIXME root aus dem idpool holen
+        for (Iterator ite = element.elementIterator("Edges"); ite.hasNext(); ){
+            this.addEdge(new Edge((Element) ite.next()));
+        }
+    }
+    
     /**
      * @return
      */
@@ -379,12 +391,7 @@ public class EdgeContainer implements ISerializable {
         return type;
     }
 
-    /* (non-Javadoc)
-     * @see kobold.common.data.ISerializable#deserialize(org.dom4j.Element)
-     */
-    public void deserialize(Element element) {
-        // TODO Auto-generated method stub    
-    }
+
     
     public void addPropertyChangeListener(PropertyChangeListener l)
 	{
@@ -414,6 +421,22 @@ public List getEdgesTo(INode targetNode, String type ){
      }            
      return arrL;
  }
+
+/**
+ * @param node
+ * @param exclude
+ * @return
+ */
+public List getEdgesFrom(AbstractAsset groundNode, String type) {
+    LinkedList arrL = new LinkedList();
+    for (Iterator ite = ((List) startNodesList.get(groundNode)).iterator(); ite.hasNext(); ){
+        Edge edge = (Edge) ite.next();
+        if (edge.getType().equals(type)){
+          arrL.add(edge.getStartNode());
+        }
+     }            
+     return arrL;
+}
   
 
     
