@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractKoboldMessage.java,v 1.1 2004/05/18 11:19:27 vanto Exp $
+ * $Id: AbstractKoboldMessage.java,v 1.2 2004/05/18 18:47:33 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -45,7 +45,7 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 	private DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSZ");
 	
 	/** this field must be changed if you subclass this class */
-	public static final String TYPE = "kobold";
+	
 	public static final String STATE_UN_FETCHED = "UN_FETCHED"; 
 	public static final String STATE_FETCHED = "FETCHED";
 	public static final String STATE_INVALID = "INVALID";
@@ -95,10 +95,7 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 		return id;
 	}
 
-	public String getType() 
-	{
-		return AbstractKoboldMessage.TYPE;
-	}
+	public abstract String getType(); 
 	
 	/**
 	 * @return
@@ -288,7 +285,7 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 		if (type == null)
 			return null;
 		
-		if (type.equals(AbstractKoboldMessage.TYPE)) {
+		if (type.equals(KoboldMessage.TYPE)) {
 			return new KoboldMessage(el);
 		}
 		else if (type.equals(WorkflowMessage.TYPE)) {

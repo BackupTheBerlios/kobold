@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessageTest.java,v 1.1 2004/05/17 02:15:09 vanto Exp $
+ * $Id: WorkflowMessageTest.java,v 1.2 2004/05/18 18:47:33 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -44,7 +44,7 @@ public class WorkflowMessageTest extends TestCase {
 	 * Test for void WorkflowMessage()
 	 */
 	final public void testWorkflowMessage() {
-		WorkflowMessage msg = new WorkflowMessage();
+		WorkflowMessage msg = new WorkflowMessage("test");
 		msg.setDate(new Date());
 		msg.setMessageText("Das ist ein Test");
 		msg.setPriority("high");
@@ -52,7 +52,7 @@ public class WorkflowMessageTest extends TestCase {
 		msg.setSender("tammo");
 		msg.setSubject("Test");
 		
-		msg.setWorkflowId("wf1");
+		msg.setWorkflowType("wf1");
 		
 		msg.addParentId("p1");
 		msg.addParentId("p2");
@@ -84,7 +84,7 @@ public class WorkflowMessageTest extends TestCase {
 		Assert.assertEquals(msg.getSubject(), msg2.getSubject());
 		Assert.assertEquals(msg.getId(), msg2.getId());
 		
-		Assert.assertEquals(msg.getWorkflowId(), msg2.getWorkflowId());
+		Assert.assertEquals(msg.getWorkflowType(), msg2.getWorkflowType());
 		Assert.assertEquals(msg.getWorkflowControls().length, msg2.getWorkflowControls().length);
 		Assert.assertEquals(msg.getParentIds().length, msg2.getParentIds().length);
 	}

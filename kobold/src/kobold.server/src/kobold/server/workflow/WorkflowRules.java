@@ -80,7 +80,7 @@ public class WorkflowRules {
 		no2.addCondition(new ExprCondition("(msg.getWorkflowId().equals(\"Core Group Suggestion\")) && (msg.getStep == 2)", new Declaration[] {dec2}));
 		no2.addParameterDeclaration(dec1);
 		//no2.setConsequence(new BlockConsequence(
-		WorkflowMessage answer = new WorkflowMessage(msg.getWorkflowId());
+		WorkflowMessage answer = new WorkflowMessage(msg.getWorkflowType());
 		answer.setSender(msg.getSender());
 		answer.addParentId(msg.getId());
 		

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.21 2004/05/18 14:11:22 martinplies Exp $
+ * $Id: WorkflowMessage.java,v 1.22 2004/05/18 18:47:33 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -47,11 +47,12 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 
 
 	/**
-	 * Creates a Workflow Message in the 'wmesg' id namespace
+	 * Creates a Workflow Message in the 'workflow' id namespace
 	 */
-	public WorkflowMessage()
+	public WorkflowMessage(String workflowType)
 	{
-		super("wmesg");
+		super(TYPE);
+		this.workflowType = workflowType;
 	}
 	
 	/**
@@ -61,8 +62,8 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 	 */
 	public WorkflowMessage(Element data)
 	{
-		this();
-		deserialize(data);
+		super(TYPE);
+	    deserialize(data);
 	}
 	
 	public void addParentId(String id)
@@ -121,7 +122,7 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 	/**
 	 * @return
 	 */
-	public HashMap getWorkflowData() {
+	public Map getWorkflowData() {
 		return workflowData;
 	}	
 	

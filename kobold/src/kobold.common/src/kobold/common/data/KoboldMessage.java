@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldMessage.java,v 1.11 2004/05/18 11:19:27 vanto Exp $
+ * $Id: KoboldMessage.java,v 1.12 2004/05/18 18:47:33 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -33,7 +33,8 @@ import org.dom4j.Element;
  */
 public class KoboldMessage extends AbstractKoboldMessage 
 {
-	
+    public static final String TYPE = "kobold";
+    
 	/**
 	 * Creates a new Kobold Message with a new unique id. (type = kmesg).
 	 */
@@ -51,5 +52,13 @@ public class KoboldMessage extends AbstractKoboldMessage
 		this();
 		super.deserialize(data);
 	}
+
+    /**
+     * @see kobold.common.data.AbstractKoboldMessage#getType()
+     */
+    public String getType()
+    {
+   		return KoboldMessage.TYPE;
+    }
 
 }
