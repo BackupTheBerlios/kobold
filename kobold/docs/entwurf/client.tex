@@ -99,19 +99,6 @@ Diese Komponente übernimmt die Kommunikation mit dem Kobold Server. Die
 Kommunikation findet mittels HTTPS (SSL) und XML-RPC statt. Das Querschnitts-
 Interface ist unter Kapitel \ref{cha_interface} näher erläutert.
 
-\section{Controlerkomponente VCM-Wrapper}
-Der VCM-Wrapper spiegelt der Eclipse-Plattform ein vollfunktionsfähiges Team-
-Plugin vor, über das alle Repositoryoperationen durchgeführt werden. Intern
-gibt die Komponente die Aktionen jedoch an andere Team-Plugins weiter. Vor und
-nach jeder dieser Aktion wird die Kommunikations-Komponente konsultiert, um 
-den Server bzw. andere Clients über Veränderungen am Repository zu 
-informieren. Die VCM-Wrapper-Komponente kennt sowohl die Datei-Ebene und deren
-Repositories als auch die Abstraktion auf Produktlinien/Komponenten/Varianten.
-Für beide Ebenen lassen sich atomare (z.B. checkin) und komplexe VCM-
-Aktionen () ausführen. Die nötigen Informationen über 
-Repository-Positionen und Struktur bezieht der VCM-Wrapper über die Server-
-Kommunikations-Komponente sowie das Architekturmodel.
-
 \section{Controlerkomponente GEF}
 Das Graphical Editing Framework ist ein MVC-basiertes Editing-Framework von 
 Eclipse. Der Architektur-Editor setzt darauf auf und kommuniziert über darüber

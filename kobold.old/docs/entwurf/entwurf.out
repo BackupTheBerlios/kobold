@@ -13,10 +13,16 @@
 \BOOKMARK [1][-]{section.2.9}{Modelkomponente GXL}{chapter.2}
 \BOOKMARK [1][-]{section.2.10}{Modelkomponente MessageQueue}{chapter.2}
 \BOOKMARK [1][-]{section.2.11}{Controlerkomponente Server-Kommunikation}{chapter.2}
-\BOOKMARK [1][-]{section.2.12}{Controlerkomponente VCM-Wrapper}{chapter.2}
-\BOOKMARK [1][-]{section.2.13}{Controlerkomponente GEF}{chapter.2}
-\BOOKMARK [1][-]{section.2.14}{Controlerkomponente Eclipse-Plattform}{chapter.2}
-\BOOKMARK [1][-]{section.2.15}{Controlerkomponente Team-Plugin}{chapter.2}
+\BOOKMARK [1][-]{section.2.12}{Controlerkomponente GEF}{chapter.2}
+\BOOKMARK [1][-]{section.2.13}{Controlerkomponente Eclipse-Plattform}{chapter.2}
+\BOOKMARK [1][-]{section.2.14}{Controlerkomponente Team-Plugin}{chapter.2}
+\BOOKMARK [1][-]{section.2.15}{Controlerkomponente VCM-Wrapper}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.15.1}{Zusammenfassung}{section.2.15}
+\BOOKMARK [2][-]{subsection.2.15.2}{Manueller Import der Einstellungen}{section.2.15}
+\BOOKMARK [2][-]{subsection.2.15.3}{Automatischer Import der Einstellungen}{section.2.15}
+\BOOKMARK [2][-]{subsection.2.15.4}{Automatischer Login bei wiederholtem Zugriff}{section.2.15}
+\BOOKMARK [2][-]{subsection.2.15.5}{Ablaufschritte beim Zugriff auf das Repository}{section.2.15}
+\BOOKMARK [1][-]{section.2.16}{Viewkomponente RollenView}{chapter.2}
 \BOOKMARK [0][-]{chapter.3}{Server}{}
 \BOOKMARK [1][-]{section.3.1}{\334berblick}{chapter.3}
 \BOOKMARK [1][-]{section.3.2}{Komponente Kobold Interface}{chapter.3}
@@ -31,3 +37,4 @@
 \BOOKMARK [2][-]{subsection.4.1.3}{Produktlinienverwaltung}{section.4.1}
 \BOOKMARK [2][-]{subsection.4.1.4}{Produktverwaltung}{section.4.1}
 \BOOKMARK [1][-]{section.4.2}{Asynchrone Kommunikation}{chapter.4}
+\BOOKMARK [0][-]{appendix.A}{Begriffslexikon}{}
