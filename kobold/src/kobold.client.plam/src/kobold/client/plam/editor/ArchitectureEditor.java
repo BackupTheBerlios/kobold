@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.21 2004/07/07 01:50:36 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.22 2004/07/07 10:34:29 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -32,6 +32,7 @@ import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.PLAMProject;
+import kobold.client.plam.editor.action.ConfigureAssetAction;
 import kobold.client.plam.editor.action.GXLExportAction;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModelContainer;
@@ -188,7 +189,9 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 		viewer.setContextMenu(provider);
 		getSite().registerContextMenu(GXLExportAction.ID, //$NON-NLS-1$
 				provider, viewer);
-
+		getSite().registerContextMenu(ConfigureAssetAction.ID, //$NON-NLS-1$
+				provider, viewer);
+		
 		viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer)
 				.setParent(getCommonKeyHandler()));
 	}
@@ -205,6 +208,10 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     	registry.registerAction(action);
     	getSelectionActions().add(action.getId());
     	
+    	action = new ConfigureAssetAction(this);
+    	registry.registerAction(action);
+    	getSelectionActions().add(action.getId());
+
     	action = new MatchWidthAction(this);
     	registry.registerAction(action);
     	getSelectionActions().add(action.getId());

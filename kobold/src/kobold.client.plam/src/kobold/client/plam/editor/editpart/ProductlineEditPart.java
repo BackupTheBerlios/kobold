@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineEditPart.java,v 1.6 2004/07/01 15:52:17 vanto Exp $
+ * $Id: ProductlineEditPart.java,v 1.7 2004/07/07 10:34:29 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -66,7 +66,7 @@ import org.eclipse.swt.graphics.Font;
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductlineEditPart.java,v 1.6 2004/07/01 15:52:17 vanto Exp $
+ * @version $Id: ProductlineEditPart.java,v 1.7 2004/07/07 10:34:29 vanto Exp $
  */
 public class ProductlineEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
@@ -226,6 +226,4 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
             getAsset().removePropertyChangeListener(this);
         }
     }
-
-
 }

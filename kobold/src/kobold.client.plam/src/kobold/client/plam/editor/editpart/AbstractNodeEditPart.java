@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeEditPart.java,v 1.8 2004/07/01 11:27:25 vanto Exp $
+ * $Id: AbstractNodeEditPart.java,v 1.9 2004/07/07 10:34:29 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -29,6 +29,7 @@ package kobold.client.plam.editor.editpart;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.editor.policy.ComponentEditPolicy;
@@ -36,7 +37,10 @@ import kobold.client.plam.editor.policy.GraphicalNodeEditPolicy;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
 import kobold.client.plam.model.AbstractAsset;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -46,7 +50,9 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Tammo
@@ -54,7 +60,8 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 	implements PropertyChangeListener, NodeEditPart {
 
-
+    private static final Log logger = LogFactory.getLog(AbstractNodeEditPart.class);
+    
 	/**
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
@@ -72,14 +79,17 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 	public void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 
-		if (AbstractAsset.ID_CHILDREN.equals(prop))
+		if (AbstractAsset.ID_CHILDREN.equals(prop)) {
 			refreshChildren();
+		}
 		//else if (AbstractAsset.ID_INPUTS.equals(prop))
 		//	refreshTargetConnections();
 		//else if (AbstractAsset.ID_OUTPUTS.equals(prop))
 		//	refreshSourceConnections();
-		else if (prop.equals(ViewModel.ID_SIZE) || prop.equals(ViewModel.ID_LOCATION))
+		else if (prop.equals(ViewModel.ID_SIZE) || prop.equals(ViewModel.ID_LOCATION) 
+		    	|| prop.equals(AbstractAsset.ID_DATA)) {
 			refreshVisuals();
+		}
 	}
 
 	/**
@@ -124,8 +134,8 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 	/**
 	 * Updates the visuals. 
 	 */
-	protected void refreshVisuals() {
-
+	protected void refreshVisuals() 
+	{
 	    ViewModel vm = getViewModel();
 		Point loc = vm.getLocation();
 		Dimension size= vm.getSize();
@@ -161,4 +171,26 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
         }
     }
 
+    protected IFigure createFigure()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    public void performRequest(Request req)
+    {
+        if (req.getType() == RequestConstants.REQ_OPEN) {
+            final AbstractAsset asset = getAsset();
+            getViewer().getControl().getDisplay().asyncExec(new Runnable() {
+                public void run()
+                {
+                    Shell shell = getViewer().getControl().getShell();
+                    AssetConfigurationDialog dialog = new AssetConfigurationDialog(shell, asset);
+                    dialog.open();
+                }
+            });
+        } else {
+            super.performRequest(req);
+        }
+    }
 }
