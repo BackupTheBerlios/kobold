@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Edge.java,v 1.9 2004/08/06 03:43:27 martinplies Exp $
+ * $Id: Edge.java,v 1.10 2004/08/22 10:47:58 martinplies Exp $
  *
  */
 package kobold.client.plam.model.edges;
@@ -32,8 +32,10 @@ import java.util.Set;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.productline.Productline;
 
+import org.apache.log4j.Logger;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+
 
 
 /**
@@ -44,6 +46,7 @@ import org.dom4j.Element;
  */
 
 public class Edge {
+    private static final Logger logger = Logger.getLogger(Edge.class);
     public static final String KOBOLD_EDGE = "Kobold Edge";
     
     private INode startNode;
@@ -157,9 +160,18 @@ public class Edge {
     
     
     public void deserialize (Element element, Productline prodline){
-        type = element.attributeValue("type");
+        type = element.attributeValue("type");        
         String fromAssetId = element.attributeValue("from");
-        String  toAssetId = element.attributeValue("to");        
+        String  toAssetId = element.attributeValue("to"); 
+        if (fromAssetId == null){
+            logger.error("Doesn't get \"from\" attribute form:" + element);
+        }
+        if (toAssetId == null){
+            logger.error("Doesn't get \"to\" attribute form:" + element);
+         }
+        if (type == null){
+            logger.error("Doesn't get \"type\" attribute form:" + element);
+         }
         startNode =  prodline.getAsset(fromAssetId);
         targetNode = prodline.getAsset(toAssetId);   
         ;int a =0;
