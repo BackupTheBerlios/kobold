@@ -149,7 +149,6 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				try {
 					progress = KoboldPolicy.monitorFor(progress);
 					progress.beginTask("postcheckin working", 2);
-					// @ FIXME read password and user out of whatever
 					ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
 					connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 					initConnection(connection,resources);
@@ -166,7 +165,6 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	 */
 	private void initConnection(ScriptServerConnection connection, AbstractAsset[] assets)
 	{
-		// @ FIXME Fehlerbehandlung & Auswahl der richtigen Resource
 		if(assets != null)
 		{
 			for (int i = 0; i < assets.length; i++) {
@@ -181,8 +179,6 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 //					connection.setLocalPath(localPath);
 //					connection.setRepositoryDescriptor(productLine.getRepositoryDescriptor());
 //					repoDesc.
-					
-					// @ FIXME init the local Path by getting the WorkspacePAth etc
 //					localPath = productLine
 				}
 				if (assets[i] instanceof Product) {
@@ -247,14 +243,10 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			try {
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("postcheckout working", 2);
-				// @ FIXME read password and user out of whatever
 				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-				// @  FIXME this needs to be changes to the given skript not the usual!
 				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 				initConnection(connection,resources);
 				connection.open(progress);
-				// wait(5000);
-				// connection.readInpuStreamsToConsole();
 				connection.close();	
 				progress.done();
 			} catch (Exception e) {
@@ -271,7 +263,6 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("import working", 2);
 			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-			// @  FIXME this needs to be changes to the given skript not the usual!
 			connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 			initConnection(connection,resources);
 			String tempString[] = new String[argString.length+1];
@@ -341,9 +332,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			try {
 				progress = KoboldPolicy.monitorFor(progress);
 				progress.beginTask("postImport working", 2);
-				// @ FIXME read password and user out of whatever
 				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-				// @  FIXME this needs to be changes to the given skript not the usual!
 				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
 				initConnection(connection,resources);
 				connection.open(progress);
@@ -399,8 +388,6 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postcheckout(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
 	 */
 	public void postcheckout(IResource[] resources, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
-		// TODO Auto-generated method stub
-		
 	}
 	/**
 	 * @param repositoryPath The repositoryPath to be set.
@@ -431,14 +418,12 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#preAdd(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
 	 */
 	public void preAdd(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
-		// TODO Auto-generated method stub
 		
 	}
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postAdd(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
 	 */
 	public void postAdd(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -465,35 +450,31 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#preUpdate(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void preUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress) throws TeamException {
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postUpdate(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void postUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress) throws TeamException {
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#Import(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void get(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException {
-//		 TODO Not needed with type IResource using AbstractAsset instead
+		//	Not needed with type IResource using AbstractAsset instead
 		
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#checkout(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void checkout(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException {
-//		 TODO Not needed with type IResource using AbstractAsset instead
+		//  Not needed with type IResource using AbstractAsset instead
 		
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#checkin(org.eclipse.core.resources.IResource[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void checkin(IResource[] resources, int depth, IProgressMonitor progress) throws TeamException {
-		// TODO Not needed with type IResource using AbstractAsset instead
+		// Not needed with type IResource using AbstractAsset instead
 		
 	}
 
@@ -502,41 +483,41 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	 */
 	public void uncheckout(IResource[] resources, int depth,
 			IProgressMonitor progress) throws TeamException {
-		// TODO No requirement not needed
+		// No requirement not needed
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#delete(org.eclipse.core.resources.IResource[], org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void delete(IResource[] resources, IProgressMonitor progress)
 			throws TeamException {
-		// TODO NOT IN USE / NO REQUIREMENT
+		// NOT IN USE / NO REQUIREMENT
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#moved(org.eclipse.core.runtime.IPath, org.eclipse.core.resources.IResource, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void moved(IPath source, IResource target, IProgressMonitor progress)
 			throws TeamException {
-		// TODO NOT IN USE
+		// NOT IN USE
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#isCheckedOut(org.eclipse.core.resources.IResource)
 	 */
 	public boolean isCheckedOut(IResource resource) {
-		// TODO NOT IN USE
+		// NOT IN USE
 		return false;
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#hasRemote(org.eclipse.core.resources.IResource)
 	 */
 	public boolean hasRemote(IResource resource) {
-		// TODO NOT IN USE
+		// NOT IN USE
 		return false;
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.team.internal.core.simpleAccess.SimpleAccessOperations#isDirty(org.eclipse.core.resources.IResource)
 	 */
 	public boolean isDirty(IResource resource) {
-		// TODO NOT IN USE / IN ITERATION I
+		// NOT IN USE / IN ITERATION I
 		return false;
 	}
 

@@ -53,7 +53,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
 /**
  * @author schneipk
  *
- * TODO comment
+ * 
  */
 public class ScriptServerConnection implements IServerConnection
 {
@@ -140,7 +140,7 @@ public class ScriptServerConnection implements IServerConnection
 			outputStream = new PollingOutputStream(new TimeoutOutputStream(process.getOutputStream(),
 				8192 /*buffersize*/, 1000 /*writeTimeout*/, 1000 /*closeTimeout*/), 60, monitor);
 
-			// XXX need to do something more useful with stderr
+			// 
 			// discard the input to prevent the process from hanging due to a full pipe
 			errStream = (process.getErrorStream());
 			connected = true;
@@ -182,15 +182,15 @@ public class ScriptServerConnection implements IServerConnection
 		try {
 			process = Util.createProcess(command,progress);
 
-			inputStream = new PollingInputStream(new TimeoutInputStream(process
-					.getInputStream(), 8192 /* bufferSize */,
-					2900 /* readTimeout */, -1 /* closeTimeout */), 60, null);
-			outputStream = new PollingOutputStream(new TimeoutOutputStream(
-					process.getOutputStream(), 8192 /* buffersize */,
-					1000 /* writeTimeout */, 1000 /* closeTimeout */), 60,
-					null);
+//			inputStream = new PollingInputStream(new TimeoutInputStream(process
+//					.getInputStream(), 8192 /* bufferSize */,
+//					2900 /* readTimeout */, -1 /* closeTimeout */), 60, null);
+//			outputStream = new PollingOutputStream(new TimeoutOutputStream(
+//					process.getOutputStream(), 8192 /* buffersize */,
+//					1000 /* writeTimeout */, 1000 /* closeTimeout */), 60,
+//					null);
 
-			// XXX need to do something more useful with stderr
+			
 			// discard the input to prevent the process from hanging due to a
 			// full pipe
 			errStream = (process.getErrorStream());
@@ -244,7 +244,7 @@ public class ScriptServerConnection implements IServerConnection
 //					32768 /*16384 bufferSize*/, -1 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
 //			outputStream = new PollingOutputStream(new TimeoutOutputStream(process.getOutputStream(),
 //					16384 /*8192buffersize*/, 4000 /*writeTimeout*/, 4000 /*closeTimeout*/), 60, monitor);
-			// XXX need to do something more useful with stderr
+			// 
 			// discard the input to prevent the process from hanging due to a full pipe
 	
 			MessageConsoleStream stream1,stream2 = null;
@@ -380,7 +380,7 @@ public class ScriptServerConnection implements IServerConnection
 	}
 */
 	
-	// XXX need to do something more useful with stderr
+	// 
 	// discard the input to prevent the process from hanging due to a full pipe
 	private static class InputThreadToConsole extends Thread {
 		private InputStream in;
