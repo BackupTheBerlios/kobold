@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: Product.java,v 1.2 2004/07/15 02:56:39 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -39,6 +39,7 @@ import java.util.Map;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.plam.model.IGXLExport;
+import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.common.io.RepositoryDescriptor;
 
 import org.apache.commons.logging.Log;
@@ -62,6 +63,7 @@ public class Product extends AbstractMaintainedAsset
 	private List relatedComponents = new ArrayList();
 	private RepositoryDescriptor repositoryDescriptor = null;
 	private String localPath;
+	private EdgeContainer externEdges = new EdgeContainer();
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#Product";
 		
 	/**
