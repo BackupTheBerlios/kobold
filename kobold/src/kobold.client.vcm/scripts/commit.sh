@@ -5,13 +5,15 @@
 cd $1
 
 #-d CVS_root_directory
-#$1 username: rendgeor
-#$2 cvs repository server: cvs.berlios.de
-#$3 cvs repository path: /cvsroot/kobold
-#$4 file/s: "bla.c bla.h" (blank->commit all)
-#$5 cvs message: "bloop"
+#$2 username: rendgeor
+#$3 userpassword: *******
+
+#$4 cvs repository server: cvs.berlios.de
+#$5 cvs repository path: /cvsroot/kobold
+#$6 file/s: "bla.c bla.h" (blank->commit all)
+#$7 cvs message: "bloop"
 
 #LOGIN wird vorrausgestzt-->erzeugt .cvspass
 #cvs -d :pserver:anonymous@cvs.berlios.de:/cvsroot/kobold login 
-cvs -z3 -d :pserver:$2@$3:$4 commit $5 #-m $5
+cvs -z3 -d :pserver:$2:$3@$4:$5 commit $6 -m $7
 
