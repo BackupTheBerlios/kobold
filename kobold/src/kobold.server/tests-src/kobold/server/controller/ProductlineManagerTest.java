@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManagerTest.java,v 1.2 2004/07/14 16:01:50 garbeam Exp $
+ * $Id: ProductlineManagerTest.java,v 1.3 2004/08/02 10:59:46 garbeam Exp $
  *
  */
 
@@ -50,7 +50,7 @@ public class ProductlineManagerTest extends TestCase {
 	
 	public void testSerialize() {
 		
-		Productline productline = new Productline("zucker",
+		Productline productline = new Productline("zucker", "zucker",
 				new RepositoryDescriptor(
 						RepositoryDescriptor.CVS_REPOSITORY,
 						"pserver", "zucker.org", "/root/zucker", "zucker"));

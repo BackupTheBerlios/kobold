@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.29 2004/08/02 09:23:04 vanto Exp $
+ * $Id: SecureKoboldClient.java,v 1.30 2004/08/02 10:59:48 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -265,39 +265,6 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(RPCMessageTransformer.encode(productline.serialize()));
 		try {
 			Object result = (Object) client.execute("updateProductline", v);
-		} catch (Exception exception) {
-			log.error(exception);
-		}
-	}
-
-	/**
-	 * @see kobold.common.controller.IKoboldServer#updateProduct(kobold.common.data.UserContext, java.lang.String, kobold.common.data.Product)
-	 */
-	public void updateProduct(UserContext userContext, String productlineName, Product product) {
-		Vector v = new Vector();
-		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		v.add(productlineName);
-		v.add(RPCMessageTransformer.encode(product.serialize()));
-		try {
-			Object result = (Object) client.execute("updateProduct", v);
-		} catch (Exception exception) {
-			log.error(exception);
-		}
-	}
-
-	/**
-	 * @see kobold.common.controller.IKoboldServer#updateComponent(kobold.common.data.UserContext, java.lang.String, java.lang.String, kobold.common.data.Component)
-	 */
-	public void updateComponent(UserContext userContext, String productlineName,
-	        					String productName, Component component)
-	{
-		Vector v = new Vector();
-		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		v.add(productlineName);
-		v.add(productName);
-		v.add(RPCMessageTransformer.encode(component.serialize()));
-		try {
-			Object result = (Object) client.execute("updateComponent", v);
 		} catch (Exception exception) {
 			log.error(exception);
 		}

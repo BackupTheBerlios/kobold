@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.64 2004/08/01 11:53:11 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.65 2004/08/02 10:59:46 garbeam Exp $
  *
  */
 package kobold.server;
@@ -37,8 +37,6 @@ import kobold.common.controller.IKoboldServer;
 import kobold.common.controller.IKoboldServerAdministration;
 import kobold.common.controller.RPCMessageTransformer;
 import kobold.common.data.AbstractKoboldMessage;
-import kobold.common.data.Component;
-import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.RPCSpy;
 import kobold.common.data.UserContext;
@@ -235,35 +233,6 @@ public class SecureKoboldWebServer implements IKoboldServer,
 				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
 				updateProductline(uc, productline);
 			}
-			else if (methodName.equals("updateProduct")) {
-				UserContext uc = new UserContext(
-						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
-				String productlineName = (String)arguments.elementAt(1);
-				Productline productline = ProductlineManager.getInstance().getProductline(productlineName);
-				Product product = new Product(productline,
-						RPCMessageTransformer.decode((String)arguments.elementAt(2)));
-				sniffArgs.add(uc);
-				sniffArgs.add(productlineName);
-				sniffArgs.add(product);
-				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
-				updateProduct(uc, productlineName, product);
-			}
-			else if (methodName.equals("updateComponent")) {
-				UserContext uc = new UserContext(
-						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
-				String productlineName = (String)arguments.elementAt(1);
-				String productName = (String)arguments.elementAt(2);
-				Productline productline = ProductlineManager.getInstance().getProductline(productlineName);
-				Product product = productline.getProduct(productName);
-				Component component = new Component(product,
-						RPCMessageTransformer.decode((String)arguments.elementAt(3)));
-				sniffArgs.add(uc);
-				sniffArgs.add(productlineName);
-				sniffArgs.add(productName);
-				sniffArgs.add(component);
-				WorkflowEngine.applRPCSpy(new RPCSpy(new String(methodName), sniffArgs));
-				updateComponent(uc, productlineName, productName, component);
-			}
 			else if (methodName.equals("sendMessage")) {
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
@@ -323,7 +292,8 @@ public class SecureKoboldWebServer implements IKoboldServer,
                     
                     //2.) call newProductline and leave without noticing the WorkflowEngine
                     return newProductline((String)arguments.elementAt(0),
-                                          (String)arguments.elementAt(1),
+                            			  (String)arguments.elementAt(1),
+                                          (String)arguments.elementAt(2),
                                           rd);
                 }
                 catch(Exception e){
@@ -507,28 +477,6 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	}
 
 	/**
-	 * {@see kobold.common.controller.IKoboldServer#updateProduct(UserContext, String, Product)}
-	 */
-	public void updateProduct(UserContext userContext, String productlineName, Product product) {
-	    ProductlineManager productlineManager = ProductlineManager.getInstance();
-	    Productline productline = (Productline) product.getParent();
-	    productline.removeProduct(product); // removes old product, only the product name is used
-	    productline.addProduct(product);
-	    updateProductline(userContext, productline);
-	}
-
-	/**
-	 * {@see kobold.common.controller.IKoboldServer#updateProduct(UserContext, String, Product)}
-	 */
-	public void updateComponent(UserContext userContext, String productlineName, String productName, Component component) {
-	    ProductlineManager productlineManager = ProductlineManager.getInstance();
-	    Product product = (Product) component.getParent();
-	    product.removeComponent(component); // removes old component, only the component name is used
-	    product.addComponent(component);
-	    updateProduct(userContext, productlineName, product);
-	}
-
-	/**
 	 * {@see kobold.common.controller.IKoboldServer#sendMessage(UserContext, AbstractKoboldMessage)}
 	 */
 	public void sendMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
@@ -576,7 +524,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	 */
 	public String checkAdministrability(String adminPassword){
 		// 1.) Since no checking has to occur, signal success.
-	    return (adminPassword.equals(this.adminPassword)) ?
+	    return (adminPassword.equals(SecureKoboldWebServer.adminPassword)) ?
 		       IKoboldServerAdministration.RETURN_OK :
 		       IKoboldServerAdministration.RETURN_FAIL;
 	}
@@ -588,6 +536,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	 * 
 	 * @param adminPassword the Kobold server's administration password
 	 * @param nameOfProductline the new productline's desired name
+	 * @param resource name of file or directory.
 	 * @param repositoryDescriptor description of the repository for the new
 	 *                             productline
 	 * 
@@ -597,6 +546,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	 */
 	public String newProductline(String adminPassword, 
 			String nameOfProductline, 
+			String resource,
 			RepositoryDescriptor repositoryDescriptor){
 		// 1.) check the password
 		if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
@@ -605,8 +555,8 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		
 		// 2.) create the new pl
 		ProductlineManager plm = ProductlineManager.getInstance();
-		Productline pl = new Productline(nameOfProductline, 
-				repositoryDescriptor);
+		Productline pl = new Productline(nameOfProductline, resource,
+				    					 repositoryDescriptor);
 		return plm.addProductline(pl) ? RETURN_OK : RETURN_FAIL;
 	}
 	

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.14 2004/07/21 17:07:36 garbeam Exp $
+ * $Id: IKoboldServer.java,v 1.15 2004/08/02 10:59:47 garbeam Exp $
  *
  */
 
@@ -30,8 +30,6 @@ package kobold.common.controller;
 import java.util.Vector;
 
 import kobold.common.data.AbstractKoboldMessage;
-import kobold.common.data.Component;
-import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.User;
 import kobold.common.data.UserContext;
@@ -110,10 +108,10 @@ public interface IKoboldServer {
     /**
      * Fetches a productline by its name.
      * @param userContext the user context.
-     * @param plName the name of the productline.
+     * @param id the id of the productline.
      * @return the product line.
      */
-    public Productline getProductline(UserContext userContext, String plName);
+    public Productline getProductline(UserContext userContext, String id);
 
     /**
      * Fetches all product line names.
@@ -130,30 +128,8 @@ public interface IKoboldServer {
 	 * @param productline the productline. 
 	 */
 	public void updateProductline(UserContext userContext,
-								  Productline productline);
+								  Productline id);
     
-	/**
-	 * Applies modifications to the given Product.
-	 * If you make changes to a specific component, use the
-	 * applComponentModification() method instead.
-	 * @param userContext the user context.
-	 * @param productlineName th
-	 * @param product the product. 
-	 */
-	public void updateProduct(UserContext userContext,
-							  String productlineName,
-							  Product product);
-    
-	/**
-	 * Applies modifications to the given Component.
-	 * @param userContext the user context.
-	 * @param product the product. 
-	 */
-	public void updateComponent(UserContext userContext,
-	        					String productlineName,
-								String productName,
-								Component component);
-	
 	/**
 	 * Sends a KoboldMessage or WorkflowMessage.
 	 * 

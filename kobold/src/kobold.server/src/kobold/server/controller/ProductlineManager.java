@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.7 2004/07/22 11:21:34 neccaino Exp $
+ * $Id: ProductlineManager.java,v 1.8 2004/08/02 10:59:46 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -90,12 +90,12 @@ public class ProductlineManager {
      *         existes a productline with the same name as the new one).
 	 */
 	public boolean addProductline(Productline productLine) {
-        Object o = productlines.put(productLine.getName(), productLine);
+        Object o = productlines.put(productLine.getId(), productLine);
         
         if (o != null){
             // Obviously a productline with the name specified in 'productLine
             // already existed, so undo the change and signal error
-            productlines.put(productLine.getName(), o);
+            productlines.put(productLine.getId(), o);
             return false;
         }
         else{
@@ -106,22 +106,22 @@ public class ProductlineManager {
 	/**
 	 * Gets a productline by its name.
 	 *
-	 * @param productlineName the name of the productLine.
+	 * @param id the id of the productLine.
      * @return Productline with the passed name, null if it doesn't exist
 	 */
-	public Productline getProductline(String productlineName) {
-		return (Productline) productlines.get(productlineName);
+	public Productline getProductline(String id) {
+		return (Productline) productlines.get(id);
 	}
 
 	/**
 	 * Removes the specified productline.
 	 * 
-	 * @param productline String containing the name the productline to remove.
+	 * @param id the id of the productline.
      * @return the productline that has been removed or null if there dosen't
      *         exist a productline with the passed name
 	 */
-	public Productline removeProductline(String productlineName) {
-		return (Productline) productlines.remove(productlineName);
+	public Productline removeProductline(String id) {
+		return (Productline) productlines.remove(id);
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class ProductlineManager {
 		    {
 			    Element element = (Element) iterator.next();
 				Productline productline = new Productline(element);
-				productlines.put(productline.getName(), productline);
+				productlines.put(productline.getId(), productline);
 			}
 		} catch (DocumentException e) {
 			Log log = LogFactory.getLog("kobold.server.controller.ProductManager");
@@ -208,7 +208,7 @@ public class ProductlineManager {
 	    for (Iterator iterator = productlines.values().iterator(); iterator.hasNext(); )
 	    {
 	        Productline productline = (Productline) iterator.next();
-	        result.add(productline.getName());
+	        result.add(productline.getId());
 	    }
 	    
 	    return result;
@@ -217,19 +217,19 @@ public class ProductlineManager {
 	// DEBUG, TODO: delete before delivery
 	public void dummyProds() {
 		
-	    addProductline(new Productline("kobold2",
+	    addProductline(new Productline("kobold2", "kobold2",
 					   new RepositoryDescriptor(
 						RepositoryDescriptor.CVS_REPOSITORY, "ssh",
 						"cvs.berlios.de", "/cvsroot/kobold/", "kobold2")));
-		addProductline(new Productline("kobold3",
+		addProductline(new Productline("kobold3", "kobold3",
 				       new RepositoryDescriptor(
-				       		RepositoryDescriptor.CVS_REPOSITORY,
-		 			   "pserver", "cvs.berlios.de",
-		 			   "/cvsroot/kobold/", "kobold3")));
-		addProductline(new Productline("kobold4",
+		                RepositoryDescriptor.CVS_REPOSITORY,
+		 			    "pserver", "cvs.berlios.de",
+		 			    "/cvsroot/kobold/", "kobold3")));
+		addProductline(new Productline("kobold4", "kobold4",
 					   new RepositoryDescriptor(
-					   		RepositoryDescriptor.CVS_REPOSITORY,
-							"ssh", "cvs.berlios.de",
-					   		"/cvsroot/kobold/", "kobold4")));
+					   	RepositoryDescriptor.CVS_REPOSITORY,
+						"ssh", "cvs.berlios.de",
+					   	"/cvsroot/kobold/", "kobold4")));
 	}
 }
