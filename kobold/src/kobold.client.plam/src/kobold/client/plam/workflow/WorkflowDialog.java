@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.6 2004/05/17 00:56:40 martinplies Exp $
+ * $Id: WorkflowDialog.java,v 1.7 2004/05/17 22:27:39 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -41,6 +41,8 @@ import kobold.common.data.WorkflowMessage;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -55,6 +57,7 @@ public class WorkflowDialog extends Dialog {
 	KoboldMessage msg;
 	private List viewItems = new ArrayList();
 	private ContainerViewItem containerItem;
+	private boolean send = false;
 	//List checkButton
 
 	
@@ -64,20 +67,11 @@ public class WorkflowDialog extends Dialog {
 		this.msg = msg;		
 	}
 	
-	/*public WorkflowDialog(Shell parentShell, WorkflowItemGroup  workflowItemGroup, String subject, String description) {		
-		super(parentShell);
-		this.parent1 = parentShell;
-		this.workflowItemGroup = workflowItemGroup;
-		this.subject = subject;
-		this.description = description;	
-			
-	}*/
 	
 	protected Control createDialogArea(Composite parent) {
 		Composite area = (Composite) super.createDialogArea(parent);
 		area.setLayout(new GridLayout());
-		Label lbl = new Label(area,SWT.NONE);
-		lbl.setText(subject);
+		
 
 		Composite header = new Composite(area, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
@@ -96,6 +90,7 @@ public class WorkflowDialog extends Dialog {
 			WorkflowItem wi = new WorkflowItem("","",WorkflowItem.CONTAINER);
 			wi.addChildren(items);
 		    containerItem = new ContainerViewItem(wi);
+		    containerItem.createViewControl(area);
 		}
 		
 		
@@ -106,48 +101,35 @@ public class WorkflowDialog extends Dialog {
 		gridLayout.numColumns = 2;
 		buttons.setLayout(gridLayout);
 		
-		Button ok = new Button(buttons, SWT.NONE);
-		ok.setText("Send");
-
-		Button close = new Button(buttons, SWT.NONE);
-		close.setText("Close");	
+     	Button button = new Button(buttons,SWT.PUSH);
+		button.setText("send");	
+		final WorkflowDialog thisWorkflowDialog = this;
+      	button.addSelectionListener(new SelectionAdapter() {
+		   public void widgetSelected(SelectionEvent e) {
+		 	  thisWorkflowDialog.buttonPressed("send");
+		    }
+	     });
+      	
+      	Button buttonClose = new Button(buttons,SWT.PUSH);
+      	buttonClose.setText("Close");	
+      	buttonClose.addSelectionListener(new SelectionAdapter() {
+		   public void widgetSelected(SelectionEvent e) {
+		 	  thisWorkflowDialog.buttonPressed("Close");
+		    }
+	     });
+            	
 		return area;
 	}
 	
-	/**
-	 * @param area
-	 * @param workflowItemGroup2
-	 */
-	/*private void addItem(Composite area, WorkflowItemGroup workflowItemGroup) {		
-		Composite comp = new Composite(area,SWT.NONE);
-		for (ListIterator ite = workflowItemGroup.getWorkflowItems().listIterator();
-		     ite.hasNext();){
-			Object object = ite.next();
-			if (object instanceof WorkflowItemGroup){
-			    addItem(comp,(WorkflowItemGroup) object);
-			} else if(object instanceof WorkflowItem){
-			   addItem(comp,(WorkflowItem) object);
-			}					
-		}
-	}*/
-/*	
-	private void addItem(Composite area, WorkflowItem workflowItem) {
-	   int style;
-		if (workflowItem.getType() == (WorkflowItem.RADIO))
-		  style = SWT.RADIO;
-		else style = SWT.CHECK;			
-		Button b = new Button(area, style);							
-	}
 	
-*/
-	protected void createButtonsForButtonBar(Composite parent) {		
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
-		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
-		
-	}
-	
-	public void okPressed() {
-		
+	 private void buttonPressed(String button){
+	 	if (button == "send") {
+	 		this.containerItem.applyValues();
+	 	}
+	 }
+	 
+	protected void setAnswer(String key, String value) {
+		//this.msg.
 	}
 	
 	protected void configureShell(Shell newShell) {
@@ -159,6 +141,13 @@ public class WorkflowDialog extends Dialog {
 	
 	
 
+	/**
+	 * @return Returns the send.
+	 */
+	public boolean isSend() {
+		
+		return send;
+	}
 }
 
 
