@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.11 2004/07/07 15:40:52 garbeam Exp $
+ * $Id: UserManager.java,v 1.12 2004/07/22 11:22:44 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -67,7 +67,6 @@ public class UserManager {
 	
 	/**
 	 * Basic constructor of this singleton.
-	 * @param path
 	 */
 	private UserManager() {
 		users = new HashMap();
@@ -79,33 +78,53 @@ public class UserManager {
 	}
 	
 	/**
-	 * Adds a new user.
+	 * Adds a new user. Please note that adding will be refused if there has
+     * already been registered a user with the same username as the one to add.
 	 *
-	 * @param username String containing the new user's username
+	 * @param user the User object that is to be added
+     * @return true, if the new User could successfully be added, false 
+     *         otherwise (if the new User's username was already registered)
 	 */
-	public void addUser(User user) {
-		users.put(user.getUserName(), user);
+	public boolean addUser(User user) {
+		Object o = users.put(user.getUserName(), user);
+        
+        if (o != null){
+            // obviously a user with the same name as the one to add has already
+            // been registered => undo the change and signal error
+            users.put(user.getUserName(), o);
+            return false;
+        }
+        else{
+        	return true;
+        }
 	}
 
 	/**
-	 * Changes the stored information for the user specified in info.
+	 * Returns a User by its username.
 	 *
-	 * @param username the name of the User.
+	 * @param username the name of the User to be returned
+     * @return the User object associated with the passed username or null, if
+     *         the passed username has not been registered
 	 */
 	public User getUser(String username) {
 		return (User) users.get(username);
 	}
 
 	/**
-	 * Removes the specified user.
+	 * Removes the passed user.
+     * 
+     * @param user User object containing the username of the User object that 
+     *        is to be removed
+     * @return the removed User object or null, if the passed User object's 
+     *         username hasn't been registered
 	 */
-	public void removeUser(User user) {
-		users.remove(user);
+	public User removeUser(User user) {
+		return (User) users.remove(user.getUserName());
 	}
 
 	/**
 	 * Serializes all users with its roles to the file specified
-	 * by path.
+	 * by 'userStore.
 	 */
 	public void serialize() {
 		serialize(this.userStore);
@@ -141,7 +160,7 @@ public class UserManager {
 	}
 
 	/**
-	 * Deserializes all users from the specified file.
+	 * Deserializes all users from the file specified by 'userStore.
 	 */
 	public void deserialize() {
 		deserialize(this.userStore);
@@ -149,6 +168,8 @@ public class UserManager {
 	
 	/**
 	 * Deserializes all users from the specified file.
+     * 
+     * @param path path to the file form which to deserialize
 	 */
 	public void deserialize(String path) {
 		
@@ -169,13 +190,20 @@ public class UserManager {
 	}
 	
 	/**
-	 * Returns list of {@see kobold.common.data.User} users.
+	 * Returns a list of {@see kobold.common.data.User} users.
+     * 
+     * @return List of {@see kobold.common.data.User} users representing all the
+     *         Users currently registered on the server
 	 */
 	public List getAllUsers() {
 	    List result = new ArrayList();
 	    
 	    for (Iterator iterator = users.values().iterator(); iterator.hasNext(); ) {
-	        result.add((User) iterator.next());
+            // covert the kobold.server.data.User to kobold.common.data.User and 
+            // add it
+            User user = (User) iterator.next();
+            kobold.common.data.User secureUser = new kobold.common.data.User(user.getUserName(), user.getFullName()); 
+	        result.add(secureUser);
 	    }
 	    
 	    return result;
