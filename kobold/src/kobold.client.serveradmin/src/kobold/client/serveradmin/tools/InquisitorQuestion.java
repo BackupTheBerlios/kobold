@@ -56,7 +56,8 @@ public class InquisitorQuestion {
         System.out.print("new " + prompt.replaceAll("\t", "") + ": ");
         
         if (maskAnswer) {
-            MaskingThread maskingThread = new MaskingThread("new " + prompt + ": ");
+            RandomEchoMaskingThread maskingThread = new RandomEchoMaskingThread("new " + prompt + ": ");
+            
             Thread t = new Thread(maskingThread);
             t.start();
             String oldanswer = answer;
