@@ -1,0 +1,25 @@
+\section{GXL Export}
+
+Use Case Name      : GXL Export\\
+Akteur             : Benutzer\\
+Vorbedingung       : Der Kobold Client ist gestartet, eine Produktlinie oder eine Produkt ist als Graph zu sehen\\
+Regulärer Ablauf   : \\
+\begin {itemize}
+\item Der Benutzer klickt mit der rechten Maustaste auf in der Graphenview auf die Produktlinie, das Produkt, Komponente oder Variante.
+\item Der Benutzer wählt im Menü "Gxl Export" aus.
+\item Der Wizard GXL Export öffenet sich.
+\item Der Benutzer wählt aus, ob auch eine Jar-Datei mit dem Source erstellt werden soll.
+\item Der Benutzer gibt den Pfad und Namen der GXL-Datei und des JAR-Archives an oder gibt die Daten im "Speichern unter"-Dialog an.
+\item Der Benutzer klickt auf "Fertig"/"Finish"-Button.
+\item Der Stand des Export wird im Wizard angezeigt.
+\item Nach Fertigstellung des Exports, wird der Wizard beendet.
+\end{itemize}
+Nachbedingung      : Der Wizard ist geschlossen. Der Anfangszustand des Kobold clients ist wieder im Anfangszustand.\\
+Alternativer Ablauf:\\
+\begin{itemize}
+\item Klickt der Benutzer auf "Abbruch"/"Cancel"-Button, wird der Wizard vorzeitig geschlossen.\\
+\item Tritt während des Exports ein Fehler auf wird ein Dialog mit einer Fehlermeldung angezeigt und der Export abgebrochen.\\
+\item Existieren die GXL/Jar-Datei mit dem angegegeben Namen schon wird der Benutzer ein Dilog gefragt, ob die Datei(en) überschrieben werden soll. Klickt der Benutzer auf den "Ok"-Button, wird der Export erstellt.
+\item Klickt der Benutzer auf den "Abbruch"/"Cancel"-Button wird der GXL Export abgebrochen und der Wizard geschlossen.\\
+\end{itemize} \par
+
