@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.52 2004/07/19 11:47:26 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.53 2004/07/19 12:19:36 neccaino Exp $
  *
  */
 package kobold.server;
@@ -631,13 +631,20 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		// 4.) convert the user-object to its client-representation
 		User cuser = new User(suser.getUserName(), suser.getFullName());
 
-        // 5.) stop if the user has already been assigned
-        if (plm.getProductline(nameOfProductline).getMaintainers().contains(cuser)){
+        // 5.= stop if the productline does not exist
+        Productline pl = plm.getProductline(nameOfProductline);
+        
+        if (pl == null){
             return IKoboldServerAdministration.RETURN_FAIL;
         }
         
-		// 6.) assign the user
-		plm.getProductline(nameOfProductline).addMaintainer(cuser);
+        // 6.) stop if the user has already been assigned
+        if (pl.getMaintainers().contains(cuser)){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
+        
+		// 7.) assign the user
+		pl.addMaintainer(cuser);
 		
 		return IKoboldServerAdministration.RETURN_OK;
 	}
@@ -678,13 +685,20 @@ public class SecureKoboldWebServer implements IKoboldServer,
         // 4.) convert the user-object to its client-representation
         User cuser = new User(suser.getUserName(), suser.getFullName());
         
-        // 5.) stop if the user has not yet been assigned to the productline
-        if (!plm.getProductline(nameOfProductline).getMaintainers().contains(cuser)){
+        // 5.) stop if the productline doesn't exist
+        Productline pl = plm.getProductline(nameOfProductline);
+        
+        if (pl == null){
             return IKoboldServerAdministration.RETURN_FAIL;
         }
         
-        // 6.) unassign the user
-        plm.getProductline(nameOfProductline).removeMaintainer(cuser);
+        // 6.) stop if the user has not yet been assigned to the productline
+        if (!pl.getMaintainers().contains(cuser)){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
+        
+        // 7.) unassign the user
+        pl.removeMaintainer(cuser);
         
 		return IKoboldServerAdministration.RETURN_OK;
 	}
@@ -702,6 +716,15 @@ public class SecureKoboldWebServer implements IKoboldServer,
      * TODO: implement
      */
     public String getPles(String adminPassword, String nameOfProductline){
+        // 1.) check the password
+        if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
+        
+        // 2.) check if productline exists
+        
+        // 3.) get maintainer list and convert it to string
+        
         return RETURN_FAIL; // until implemented
     }
     
@@ -717,6 +740,13 @@ public class SecureKoboldWebServer implements IKoboldServer,
      * TODO: implement
      */
     public String getProductlines(String adminPassword){
+        // 1.) check the password
+        if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
+        
+        // 2.) get productline list and convert it to string
+
         return RETURN_FAIL; //until impl.
     }
 }
