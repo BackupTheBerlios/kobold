@@ -1,15 +1,15 @@
-<rule-set name="cheese rules"
+<rule-set name="drools test"
 		  xmlns="http://drools.org/rules"
           xmlns:java="http://drools.org/semantics/java">
 
 
-    <rule name="Bob Likes Cheese">
-        <parameter identifier="bob">
+    <rule name="test rule">
+        <parameter identifier="msg">
             <java:class>kobold.common.data.WorkflowMessage</java:class>
         </parameter>
         <java:condition>1 == 1</java:condition>
         <java:consequence>
-            System.out.println( "Bob likes cheese." );
+            System.out.println( "This works." );
         </java:consequence>
     </rule>
 
