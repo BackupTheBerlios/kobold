@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.35 2004/06/24 07:48:29 grosseml Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.36 2004/06/24 07:54:51 neccaino Exp $
  *
  */
 package kobold.server;
@@ -547,14 +547,21 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * on the KoboldServer
 	 * 
 	 * NOTE: this member has not yet been fully implemented!
-	 * (stub has been inserted to avoid comp. errors)
+	 * (adminPassword is not checked -> it3)
 	 *
      * @param adminPassword server administartion password
 	 * @param plname name of the new productline
 	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
 	 */
 	public String satRemoveProductline(String adminPassword, String plname){
-		return IKoboldServer.NO_RESULT;// until fully implemented
+		try{
+			ProductManager.getInstance().removeProductLine(new Productline(plname, null));
+		}
+		catch(Exception e){
+			return IKoboldServer.NO_RESULT;
+		}
+		
+		return ""; // return success
 	}
 	
 	/**
@@ -569,7 +576,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 *                 new PLE
 	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
 	 */
-	public String satAddPLE(String adminPassword, String plname, String username){
+	public String satAddPLE(String adminPassword, String plname, String username){		
 		return IKoboldServer.NO_RESULT;// until fully implemented
 	}
 	
