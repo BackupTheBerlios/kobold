@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptor.java,v 1.2 2004/06/22 11:29:15 vanto Exp $
+ * $Id: FileDescriptor.java,v 1.3 2004/06/24 10:42:14 martinplies Exp $
  *
  */
 
@@ -33,8 +33,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import net.sourceforge.gxl.GXLElement;
+import net.sourceforge.gxl.GXLNode;
+import net.sourceforge.gxl.GXLString;
 
 import org.dom4j.Element;
 
@@ -42,7 +48,8 @@ import org.dom4j.Element;
  * @author garbeam
  */
 public class FileDescriptor extends AbstractAsset {
-    private DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSZ");
+	private static final String GXL_TYPE = "http://kobold.berlios.de/types#file";
+	private DateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmssSZ");
     
 	private String path;
 	private String revision;
@@ -209,6 +216,53 @@ public class FileDescriptor extends AbstractAsset {
 	 */
 	public void setRevision(String revision) {
 		this.revision = revision;
+	}
+
+	/**
+	 * @return
+	 */
+	/*public GXLNode getGXLNode() {
+		GXLNode node = new GXLNode("file");
+		if (path !=  null)
+		  node.setAttr("path", new GXLString(path));
+		if (revision != null)
+		  node.setAttr("revison", new GXLString(revision));
+		if (lastChanged != null)
+		  node.setAttr("lastChanged", new GXLString(dateFormat.format(lastChanged)));
+		if (lastAuthor != null)
+		  node.setAttr("lastAuthor", new GXLString(lastAuthor));
+		return node;		
+	}
+*/
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getAttributes()
+	 */
+	public Map getAttributes() {
+        HashMap attributes = new HashMap();
+		if (path !=  null)
+			attributes.put("path",path);
+		if (revision != null)
+			attributes.put("revison",revision);
+		if (lastChanged != null)
+			attributes.put("lastChanged",dateFormat.format(lastChanged));
+		if (lastAuthor != null)
+			attributes.put("lastAuthor",lastAuthor);
+		return attributes;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getChildren()
+	 */
+	public List getChildren() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getGXLType()
+	 */
+	public String getGXLType() {
+		return GXL_TYPE;
 	}
 	
 

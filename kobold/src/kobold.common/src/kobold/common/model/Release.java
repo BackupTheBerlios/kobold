@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Release.java,v 1.2 2004/06/22 11:29:15 vanto Exp $
+ * $Id: Release.java,v 1.3 2004/06/24 10:42:14 martinplies Exp $
  *
  */
 
@@ -32,6 +32,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import kobold.common.data.IdManager;
 
 import org.dom4j.Element;
 
@@ -130,5 +133,44 @@ public class Release extends AbstractAsset {
 	{
 	    return Collections.unmodifiableList(fileDescriptors);
 	}
-    
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getAttributes()
+	 */
+	public Map getAttributes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getChildren()
+	 */
+	public List getChildren() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.model.AbstractAsset#getGXLType()
+	 */
+	public String getGXLType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @return
+	 */
+	/*public GXLNode getGXLNode() {
+		GXLNode node = super.getGxlNode();
+		if (fileDescriptors.size() > 0) {
+		  GXLGraph graph = new GXLGraph(IdManager.getInstance().getModelId("release"));
+		  for(Iterator ite = fileDescriptors.iterator(); ite.hasNext();){
+		  	FileDescriptor file = (FileDescriptor) ite.next();
+		    graph.add(file.getGXLNode());
+		  }
+		}
+		return node;
+	}
+   */ 
 }

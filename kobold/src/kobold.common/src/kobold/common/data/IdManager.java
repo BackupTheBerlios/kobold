@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IdManager.java,v 1.3 2004/05/14 13:04:31 vanto Exp $
+ * $Id: IdManager.java,v 1.4 2004/06/24 10:42:14 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -40,12 +40,17 @@ public class IdManager
 	private Map idByScriptName = new HashMap();
 	private Map idByUserName = new HashMap();
 	private Map idByMessageType = new HashMap();
+	private Map idByGXLGraphName = new HashMap();
 	
 	private IdManager() {}
 	
 	public static IdManager getInstance() 
 	{
 		return instance;
+	}
+	
+	public String getGXLGraphId(String name){
+		return createId(idByGXLGraphName, name);
 	}
 
 	public String getModelId(String name) 
@@ -78,4 +83,5 @@ public class IdManager
 
 		return id;
 	}
+
 }
