@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.18 2004/08/02 10:12:13 garbeam Exp $
+ * $Id: Productline.java,v 1.19 2004/08/02 10:31:50 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -58,11 +58,12 @@ public class Productline extends Asset {
 	/**
 	 * Base constructor for productlines.
 	 * @param name the name of this productline.
+	 * @param resource the file or directory name.
 	 * @param repositoryDescriptor containing the necessary information about
 	 *        this productlines repository
 	 */
-	public Productline(String name, RepositoryDescriptor repositoryDescriptor) {
-		super(null, Asset.PRODUCT_LINE, name, repositoryDescriptor);
+	public Productline(String name, String resource, RepositoryDescriptor repositoryDescriptor) {
+		super(null, Asset.PRODUCT_LINE, name, resource, repositoryDescriptor);
 	}
 
 	/**

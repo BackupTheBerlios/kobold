@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.11 2004/08/02 09:20:05 vanto Exp $
+ * $Id: Product.java,v 1.12 2004/08/02 10:31:50 garbeam Exp $
  *
  */
 
@@ -47,10 +47,12 @@ public class Product extends Asset {
 	 * Basic constructor.
 	 * @param productline the parent productline.
 	 * @param name the name of this product.
+	 * @param resource the file or directory name
 	 * @param repositoryDescriptor the repository descriptor of this product.
 	 */
-	public Product (Productline productline, String name, RepositoryDescriptor repositoryDescriptor) {
-		super(productline, Asset.PRODUCT, name, repositoryDescriptor);
+	public Product (Productline productline, String name, String resource,
+	               RepositoryDescriptor repositoryDescriptor) {
+		super(productline, Asset.PRODUCT, name, resource, repositoryDescriptor);
 	}
 	
 	/**

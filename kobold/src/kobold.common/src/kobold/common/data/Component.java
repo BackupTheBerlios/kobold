@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.3 2004/08/02 09:20:05 vanto Exp $
+ * $Id: Component.java,v 1.4 2004/08/02 10:31:50 garbeam Exp $
  *
  */
 
@@ -41,11 +41,14 @@ public class Component extends Asset {
 	 * Basic constructor.
 	 * @param parent the parent asset, e.g. a product or productline.
 	 * @param name the name of this component.
+	 * @param resource the resource
 	 * @param repositoryDescriptor the repository descriptor of this
 	 * 		  component.
 	 */
-	public Component(Asset parent, String name, RepositoryDescriptor repositoryDescriptor) {
-		super(parent, Asset.COMPONENT, name, repositoryDescriptor);
+	public Component(Asset parent, String name, String resource,
+	                 RepositoryDescriptor repositoryDescriptor)
+	{
+		super(parent, Asset.COMPONENT, name, resource, repositoryDescriptor);
 	}
 	
 	/**

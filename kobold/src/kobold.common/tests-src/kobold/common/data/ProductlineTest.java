@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineTest.java,v 1.3 2004/08/01 12:43:33 garbeam Exp $
+ * $Id: ProductlineTest.java,v 1.4 2004/08/02 10:31:50 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -48,23 +48,23 @@ public class ProductlineTest extends TestCase {
 	public void testSerialize() 
 	{
 		Productline productline =
-			new Productline("koboldline",
+			new Productline("koboldline", "koboldline",
 				new RepositoryDescriptor("cvs", "pserver", "cvs.berlios.de",
 						                 "/cvsroot/kobold", "kobold"));
 
 		productline.addMaintainer(new User("garbeam", "Anselm"));
 		
-		Component component = new Component(productline, "common",
+		Component component = new Component(productline, "common", "common",
 				new RepositoryDescriptor("cvs", "pserver", "cvs.berlios.de",
 										 "/cvsroot/kobold", "kobold/common"));
 
 		productline.addCoreAsset(component);
 		
-		Product product = new Product(productline, "wmi",
+		Product product = new Product(productline, "wmi", "wmi",
 				new RepositoryDescriptor("cvs", "pserver", "cvs.berlios.de",
 						 				 "/cvsroot/wmi", "wmi"));
 						 				 
-		Component pComp = new Component(product, "tools", 
+		Component pComp = new Component(product, "tools", "tools", 
 				new RepositoryDescriptor("cvs", "pserver", "cvs.berlios.de",
 										 "/cvsroot/wmi", "wmi/tools"));
 		

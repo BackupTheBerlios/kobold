@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Asset.java,v 1.3 2004/08/02 09:20:05 vanto Exp $
+ * $Id: Asset.java,v 1.4 2004/08/02 10:31:50 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -45,7 +45,9 @@ public class Asset implements ISerializable {
 	public static final String COMPONENT = "component";
 	public static final String PRODUCT = "product";
 	public static final String PRODUCT_LINE = "productline";
-	
+
+	// resource (file or directory name) of this asset
+	private String resource = null;
 	// name of this asset
 	private String name = null;
 	// id of this asset
@@ -66,15 +68,17 @@ public class Asset implements ISerializable {
 	 * @param type the type of this asset, must be a value of the
 	 * 		  static final members of this class.
 	 * @param id a unique id of this asset.
-	 * @param name
+	 * @param name the name
+	 * @param resource the file or directory name (no PATH!)
 	 * @param repositoryDescriptor
 	 */
-	public Asset(Asset parent, String type, String name,
+	public Asset(Asset parent, String type, String name, String resource,
 			     RepositoryDescriptor repositoryDescriptor)
 	{
 		this.parent = parent;
 		this.type = type;
 		this.name = name;
+		this.resource = resource;
 		this.repositoryDescriptor = repositoryDescriptor;
 	
 		this.id = IdManager.nextId(name);
@@ -101,6 +105,7 @@ public class Asset implements ISerializable {
 		Element element = DocumentHelper.createElement(type);
 		element.addAttribute("id", this.id);
 		element.addAttribute("name", this.name);
+		element.addAttribute("resource", this.resource);
 		if (parent != null) {
 			element.addAttribute("parent-id", parent.getId());
 		}
@@ -120,6 +125,7 @@ public class Asset implements ISerializable {
 		this.type = element.getName();
 		this.id = element.attributeValue("id");
 		this.name = element.attributeValue("name");
+		this.resource = element.attributeValue("resource");
 		this.repositoryDescriptor =
 			new RepositoryDescriptor(element.element("repository-descriptor"));
 		Element maintainerElements = element.element("maintainers");
@@ -196,4 +202,12 @@ public class Asset implements ISerializable {
 	public String getType() {
 		return type;
 	}
+	
+    public String getResource() {
+        return resource;
+    }
+    
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
 }
