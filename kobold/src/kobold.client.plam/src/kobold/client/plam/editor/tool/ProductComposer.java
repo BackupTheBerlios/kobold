@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposer.java,v 1.16 2004/09/20 14:31:06 garbeam Exp $
+ * $Id: ProductComposer.java,v 1.17 2004/09/20 22:29:25 martinplies Exp $
  */
 package kobold.client.plam.editor.tool;
 
@@ -1003,6 +1003,7 @@ public class ProductComposer {
     	//FIXME !!!!
     	product.setRepositoryDescriptor(new RepositoryDescriptor("", "", "", "", ""));
     	HashMap assets = new HashMap();
+    	
         // create ProductComponments for used CoreAssets.    	
     	for (Iterator ite = productline.getComponents().iterator(); ite.hasNext();){
     	    Component node = (Component) ite.next();
@@ -1014,28 +1015,27 @@ public class ProductComposer {
     	
         // add edges to product
     	// assets conatins all used productline assets as key an the productcomponent as value
-    	EdgeContainer productCont = product.getEdgeContainer();
-    	Set  visited = new HashSet(); // remember visited node to run not in loops
-    	for (Iterator ite = assets.keySet().iterator(); ite.hasNext();){
+    	EdgeContainer productCont = product.getEdgeContainer();  
+    	Set keySet = assets.keySet();
+    	for (Iterator ite = keySet.iterator(); ite.hasNext();){
+    	    Set  visited = new HashSet(); // remember visited metanode to run not in loops
     	    INode source = (INode) ite.next();      	    
     	    LinkedList list = new LinkedList();  
     	    list.addAll(container.getEdgesFrom(source));
     	    while (! list.isEmpty()){
     	        Edge edge = (Edge) list.removeFirst();
-    	        INode node = edge.getTargetNode();
-    	        if (! visited.contains(node)){
+    	        INode node = edge.getTargetNode();    	            
+    	        if (node instanceof MetaNode && !visited.contains(node)){
     	            visited.add(node);
-    	            if (node instanceof MetaNode){
-    	                list.addAll(container.getEdgesFrom(node));
-    	            } else if(assets.keySet().contains(node) 
-    	                    && assets.get(source) != assets.get(node) ) {
-    	                // node and grounde are nodes and are in the product.
-    	                // And ground has and edge to "node"(maybe there are Metanodes between)
-    	                // =>There must also an edge in product.
-    	                productCont.addEdge((INode)assets.get(source),(INode) assets.get(node), edge.getType());
-    	            }
+    	            list.addAll(container.getEdgesFrom(node));    	                
+    	        } else if(keySet.contains(node) 
+    	                && assets.get(source) != assets.get(node) ) {
+    	            // node and source are nodes and are in the product.
+    	            // And ground has and edge to "node"(maybe there are Metanodes between)
+    	            // =>There must also an edge in product.
+    	            productCont.addEdge((INode)assets.get(source),(INode) assets.get(node), edge.getType());
     	        }
-    	    }
+    	    }    	    
     	}
     	
     	product.setProject(productline.getKoboldProject());
