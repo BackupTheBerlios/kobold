@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.76 2004/08/11 10:13:18 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.77 2004/08/19 12:01:46 neccaino Exp $
  *
  */
 package kobold.server;
@@ -395,6 +395,18 @@ public class SecureKoboldWebServer implements IKoboldServer,
                     // admin method so leave without noticing the WorkflowEngine
                     return removeKoboldUser((String)arguments.elementAt(0),
                                             (String)arguments.elementAt(1));
+                }
+                catch(Exception e){
+                    logger.info("Exception during execute()", e);
+                    return IKoboldServerAdministration.RETURN_FAIL;
+                }               
+            }
+            else if (methodName.equals("checkUserAssignements")){
+                try{
+                    logger.info("Recieved admincall \"" + methodName + "\"\n");
+                    // admin method so leave without noticing the WorkflowEngine
+                    return checkUserAssignements((String)arguments.elementAt(0),
+                                                 (String)arguments.elementAt(1));
                 }
                 catch(Exception e){
                     logger.info("Exception during execute()", e);
@@ -882,4 +894,22 @@ public class SecureKoboldWebServer implements IKoboldServer,
         }
     }
     
+    /**
+     * @param adminPassword the Kobold server's administration password
+     * @param username name of the user that should be checked for assignements
+     * @return RETURN_USER_ASSIGNED if the specified user is still assigned to
+     *         at least one asset, RETURN_USER_NOT_ASSIGNED if the specified
+     *         user is not assigned to any asset, RETURN_FAIL if the passed
+     *         adminPassword has not been accepted
+     */
+    public String checkUserAssignements(String adminPassword, String username){
+        // 1.) check the password
+        if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
+
+        // 2.) check for assignements
+        return UserManager.getInstance().isAssignedToAsset(username) ?
+                RETURN_USER_ASSIGNED : RETURN_USER_NOT_ASSIGNED;
+    }    
 }
