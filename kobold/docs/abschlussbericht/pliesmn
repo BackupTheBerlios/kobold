@@ -1,0 +1,37 @@
+section{Martin  Plies}
+
+Dieses Projekt war mein erstes Softwareprojekt dieser Größe. Projekterfahrungen mit mehreren Leuten hatte ich zuvor nur aus dem Sopra. Auch das Enwicklen von Plugins für Eclipse war für mich neu, da ich Eclipse zuvor nur als Editor für kleinere Javaprogramme verwendet hatte. Was wie i
+\subsection{Tätigkeiten}
+
+Im Vorprojekt, dass ich zusammen mit Armin, Bettina, und Michael gemacht habe, arbeiteten wir im wesentlichen im Konsens. Das heißt es wurde im wesentlichen zusammen gearbeitet. 
+Ich nahm an allen Analysegesprächen teil und versuchte zusammen mit  Teammitgliedern die Anforderungen möglichst genau und vollständig zu erfassen.\par
+Ein Teil den ich alleine gemacht hatte, war die Erstellung eines kleinen vertikalen und horizontalen Prototyps. Was zu einem bedeutete, dass ich mich zuerst ein wenig einarbeiten musste um Bauhaus ausführen zu können, da ich im zuvor mit Linux wenig gearbeitet hatte.\par
+In der Spezifikationsphase hielt ich eher zurück um mich intensiver auf meine noch ausstehende Prüfung vorzubereiten. Später erstellte ich ein Anforderungsdokument, in dem ich die Einzellanforderungen aus den Angeboten der Teams und dem herausgegebenen Paper zusammenfasste.\par
+Im Zusammenhang mit den durchgeführten Schulungen schaute ich mir GXL an und stellte es in einem Vortrag vor.\par
+In der ersten Implementierungsphase erstellte ich zusammen mit Bettina und Michael mich um die einen genaueren Entwurf der Workflows. Wir definierten einen Beispielworkflow und konkretisierten den Entwurf um möglichst abstrakte Workflows über die Client-Serverschnittstelle schicken zu können. 
+Im folgenden kümmerte ich mich um die Anzeige der Workflows auf dem Client. Die Art der Darstellung musste erst gesucht werden. 
+Die hohe  Komplexität von Eclipse und die fehlenden Kenntnisse machten immer wieder Probleme. Auch die zur Darstellung verwendete swt-Komponenten bereiteten anfangs Probleme da die verfügbare Dokumentation nur mäßig war.\par
+Da am Entwurf des Datenmodells mehrfach Änderungen nötig wurden, schaltete ich mich in die Diskussion ein und überlegte hauptsächlich zusammen mit Tammo, wie das Datenmodell am besten aussehen sollte.\par 
+In der 2. Phase arbeitete ich nicht weiter an den Workflows. Ich kümmerte mich um den GXL-Export des Koboldgraphs und den GXL-Import von Bauhausgraphen. Da ich mich jetzt besser auskannte ging dies deutlich zügiger.\par
+Danach erstellte ich den Edgecontainer. Dieser benutzt zwei Adjazenslisten um die Kanten effizient zu verwalten und stellt die nötigen Methoden zur Verfügung, die eingehende oder abgehende Kanten der benötigten Kantentypen zurückgeben. \par
+Da ich zu Ende der Phase noch Zeit hatte übernahm ich die Erstellung des Productcomposer zur Produktgestaltung. Dieser ist dafür zuständig den Anwender bei der Erstellung eines Produktes zu unterstützen und  nach der Auswahl eines Assets die anderen Assets dahingehend zu markieren, ob sie auch zum Produkt gehören oder nicht.\par
+In der Gesamtheit ist der Productcomposer  ein recht komplexer Algorithmus. Entwurf und Implementierung gingen aber sehr zügig von der  Hand.\par
+Ich verwendete die Tiefensuche um durch den Graphen zu traversieren.\par
+Dadurch, dass wir Metaknoten in unserem Graph verwendeten, wurde der Productcomposer deutlich komplizierter. Durch die Und- und Oderknoten kann es komplizierte Abhängigkeiten geben, die vom Productcomposer unterstützt werden müssen.\par
+Nach Fertigstellung erweiterte ich den Productcomposer so, dass der Productcomposer das Produktmodell, nachdem der Benutzer die Asset für das neue Produkt ausgewählt hat, erstellt.\par
+Als nächstes erweiterte ich das Löschen von Assets. Das Löschen der Assets im Produkt fehlte noch und das wiederherstellen der Kanten, wenn der Löschvorgang zurückgenommen wird, funktionierte ich noch nicht.\par
+
+Gegen Ende des Projekts erweiterte ich die Darstellung der Nachrichtenliste um Filtermöglichkeiten und gab dem Benutzer die Möglichkeiten die Nachrichten zu sortieren.
+Schließlich entfernte ich noch Fehler in der Dokumentation, um die eine Erstellung der Javadoc-Kommentare zu erstellen. 
+
+\subsection{Beurteilung}
+
+Kobold hat mir einen großen Erfahrungsgewinn gebracht.\par
+Ich lernte es kennen, mit mehren Leute zusammen an ein Softwareprojekt in der Größenordung durchzuführen. Hier muss ich hinzufügen, dass es in unserer Gruppe sehr harmonisch zuging.\par
+Ich habe erlebt, wie wichtig es ist, gerade bei einem iterativen Vorgehensmodell eine ständige und genaue Fortschrittskontrolle zu machen und wie wichtig es ist, dass in den frühen Phasen Kernkomponenten möglichst früh in guter Qualität erledigt werden.\par
+Eclipse hat gezeigt, wie wichtig es doch ist die Umgebung zu kennen, in der oder mit der entwickelt wird. Der Aufwand, den uns Eclipse bereitet hat wurde leider stark unterschätzt.\par
+Da ich Eclipse inzwischen kenne, ich es jetzt aber in spätern Projekten gut einsetzen.\par
+
+ 
+ 
+
