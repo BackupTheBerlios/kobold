@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.19 2004/05/18 11:19:27 vanto Exp $
+ * $Id: WorkflowMessage.java,v 1.20 2004/05/18 13:43:59 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -36,11 +36,13 @@ import org.dom4j.Element;
 public class WorkflowMessage extends AbstractKoboldMessage {
 	
 	public static final String TYPE = "workflow";
-	private String workflowId;
+	public static final String DATA_VALUE_TRUE = "TRUE";
+	public static final String DATA_VALUE_FALSE= "FALSE";
+	private String workflowType;
 	private String comment = "";
 	private Set parents = new HashSet();
 	private List controlItems = new LinkedList();
-	private HashMap answer;
+	private HashMap workflowData = new HashMap();
 	private int step;
 
 
@@ -97,8 +99,8 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 
 	 * @return workflow id
 	 */
-	public String getWorkflowId() {
-		return workflowId;
+	public String getWorkflowType() {
+		return workflowType;
 	}
 
 	/**
@@ -112,26 +114,27 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 	 * Sets the Workflow ID. 
 	 * This ID describes, which Workflow should be applied by Drools
 	 */
-	public void setWorkflowId(String id) {
-		workflowId = id;
+	public void setWorkflowType(String type) {
+		workflowType = type;
 	}
 
 	/**
 	 * @return
 	 */
-	public HashMap getAnswer() {
-		return answer;
+	public HashMap getWorkflowData() {
+		return workflowData;
+	}	
+	
+	public void putWorkflowData(String key, String value) {
+		this.workflowData.put(key, value);
+	}	
+	
+	public String getWorkflowDate(String key) {
+		return (String) this.workflowData.get(key);
 	}
 
 	/**
-	 * @param map
-	 */
-	public void setAnswer(HashMap map) {
-		answer = map;
-	}
-
-	/**
-	 * @see kobold.common.data.AbstractKoboldMessage#deserialize(org.dom4j.Element)
+	 * @see kobold.common.data.KoboldMessage#deserialize(org.dom4j.Element)
 	 */
 	public void deserialize(Element data) 
 	{
@@ -167,12 +170,12 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 	}
 
 	/**
-	 * @see kobold.common.data.AbstractKoboldMessage#serialize()
+	 * @see kobold.common.data.KoboldMessage#serialize()
 	 */
 	public Element serialize() 
 	{
 		Element el = super.serialize();
-		el.addElement("workflow-id").setText(workflowId);
+		el.addElement("workflow-id").setText(workflowType);
 		el.addElement("comment").addCDATA(comment);
 		
 		Element hist = el.addElement("history");
@@ -197,20 +200,18 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("\t[wf-id:    " + getWorkflowId() + "]\n");
+		sb.append("\t[wf-id:    " + getWorkflowType() + "]\n");
 		sb.append("\t[parents:  " + getParentIds().length + "]\n");
 		sb.append("\t[controls: " + getWorkflowControls().length + "]\n");
 
 		return super.toString() + sb.toString(); 
 	}
-	
 	/**
 	 * @return Returns the step.
 	 */
 	public int getStep() {
 		return step;
 	}
-	
 	/**
 	 * @param step The step to set.
 	 */
