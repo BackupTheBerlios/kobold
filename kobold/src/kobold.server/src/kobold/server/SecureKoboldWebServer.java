@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.67 2004/08/03 00:05:18 vanto Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.68 2004/08/03 11:08:58 neccaino Exp $
  *
  */
 package kobold.server;
@@ -514,20 +514,14 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	/**
 	 * this method is used to check if the called Kobold server is reachable 
 	 * and can be administrated with the passed password
-	 * 
-	 * NOTE: this method has not yet been fully implemented - every password is
-	 *       accepted
-	 * 
-	 * TODO: implement real password checking
 	 *  
 	 * @param adminPassword the Kobold server's administration password
 	 * 
 	 * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-	 *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-	 *         occured while executing the method on the server. 
+	 *         successful, IKoboldServerAdministration.RETURN_FAIL if the passed
+     *         adminPassword is wrong
 	 */
 	public String checkAdministrability(String adminPassword){
-		// 1.) Since no checking has to occur, signal success.
 	    return (adminPassword.equals(SecureKoboldWebServer.adminPassword)) ?
 		       IKoboldServerAdministration.RETURN_OK :
 		       IKoboldServerAdministration.RETURN_FAIL;
@@ -565,18 +559,13 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	}
 	
 	/**
-	 * to assure data consistency of products that are realted to a certain
-	 * productline, productlines cannot be entirely deleted. nonetheless this 
-	 * method provides you with the possibility to mark an existing productline
-	 * as invalid. 
-	 *  
+	 * This method removes the productline with the passed name from the server.
+     *   
 	 * @param adminPassword the Kobold server's administration password
-	 * @param nameOfProductline name of the productline that is to be 
-	 *                          invalidated
+	 * @param nameOfProductline name of the productline to remove
 	 * 
-	 * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-	 *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-	 *         occured while executing the method on the server. 
+	 * @return IKoboldServerAdministration.RETURN_OK, if the productline could 
+	 *         be removed, IKoboldServerAdministration.RETURN_FAIL if not
 	 */
 	public String invalidateProductline(String adminPassword, 
 			String nameOfProductline){
@@ -592,8 +581,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	
 	/**
 	 * This method assigns a user to a productline (users that are assigned
-	 * directly to productlines act as the productline's ple). Possible already
-	 * assigned user will be automatically unassigned.
+	 * directly to productlines act as the productline's ple). 
 	 * 
 	 * @param adminPassword the Kobold server's administration password
 	 * @param nameOfProductline name of the productline that should be assigned
@@ -601,9 +589,8 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	 * @param nameOfUser name of the user that should be assigned to the 
 	 *                   specified productline
 	 * 
-	 * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-	 *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-	 *         occured while executing the method on the server. 
+	 * @return IKoboldServerAdministration.RETURN_OK, if the passed user could
+     *         be assigned, IKoboldServerAdministration.RETURN_FAIL otherwise
 	 */
 	public String assignPle(String adminPassword,
 			String nameOfProductline,
@@ -645,19 +632,15 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	}
 	
 	/**
-	 * This methods unassigns a user (ple) from a productline. Since there can
-	 * only be one assigned ple per productline at the same time, the specified
-	 * productline will have no more assigned ple after a successful call of
-	 * this method.
+	 * This methods unassigns a user (ple) from a productline. 
 	 * 
 	 * @param adminPassword the Kobold server's administration password
 	 * @param nameOfProductline name of the productline that should "loose"
 	 *                          the specified user
 	 * @param nameOfUser username specifiing which user should be unassigned 
 	 * 
-	 * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-	 *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-	 *         occured while executing the method on the server. 
+	 * @return IKoboldServerAdministration.RETURN_OK, if the user could be 
+     *         unassigned, IKoboldServerAdministration.RETURN_FAIL otherwise
 	 */
 	public String unassignPle(String adminPassword, 
                               String nameOfProductline,
