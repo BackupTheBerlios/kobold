@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.3 2004/05/15 15:03:29 vanto Exp $
+ * $Id: RoleTreeViewPart.java,v 1.4 2004/05/16 13:35:25 vanto Exp $
  *
  */
 package kobold.client.plam.view;
@@ -44,7 +44,6 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.IOpenListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -83,15 +82,9 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
 		
-//		viewer.setContentProvider(new ViewContentProvider());
-		//viewer.setLabelProvider(new ViewLabelProvider());
-		
-		//viewer.setContentProvider(new WorkbenchContentProvider());
-		//viewer.setLabelProvider(new WorkbenchLabelProvider());
 		viewer.setContentProvider(new RoleTreeContentProvider());
 		viewer.setLabelProvider(new RoleTreeLabelProvider());
 		viewer.addSelectionChangedListener(this);
-
 
 		//viewer.setSorter(new NameSorter());
 		viewer.setInput(ResourcesPlugin.getWorkspace());
@@ -206,5 +199,4 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 		} catch (CoreException e) {}
 		}		  
 	}
-
 }

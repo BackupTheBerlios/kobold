@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.6 2004/05/15 21:56:04 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.7 2004/05/16 13:35:25 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -36,6 +36,9 @@ import kobold.common.data.RolePLE;
 import kobold.common.data.User;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -50,10 +53,12 @@ import org.eclipse.jface.viewers.Viewer;
  * @author Tammo van Lessen
  */
 public class RoleTreeContentProvider implements IStructuredContentProvider, 
-					ITreeContentProvider 
+					ITreeContentProvider, IResourceChangeListener 
 {
 	private static Object[] EMPTY_ARRAY = new Object[0];
+	private IWorkspace input;
 	protected TreeViewer viewer;
+	
 	
 	
     private IProject[] getKoboldProjects() 
@@ -92,20 +97,30 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 		return getChildren(parent);
     }
 
-    public void dispose() {}
+    public void dispose() {
+		if (input != null) {
+			input.removeResourceChangeListener(this);
+			input = null;
+		}
+}
 
     /**
      * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
      */
     public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-/*    	this.viewer = (TreeViewer)viewer;
-        if(oldInput != null) {
-            removeListenerFrom((TreeObject)oldInput);
-        }
-        if(newInput != null) {
-           addListenerTo((TreeObject)newInput);
-        }
-*/    }
+		if (this.input != null) {
+			this.input.removeResourceChangeListener(this);
+		}
+
+		this.input = (IWorkspace) newInput;
+
+		if (this.input != null) {
+			this.input.addResourceChangeListener(this, 
+					IResourceChangeEvent.POST_CHANGE);
+		}
+
+		this.viewer = (TreeViewer) viewer;
+    }
 
     /**
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
@@ -156,6 +171,16 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     	return getChildren(element).length > 0;
 
     }
+
+	public void resourceChanged(IResourceChangeEvent event) {
+		viewer.getControl().getDisplay().syncExec(new Runnable() {		
+			public void run() {		
+				System.out.println("x");
+				viewer.refresh();
+			}
+		});
+	}
+
 
 	/*public class ItemContainer {
 		private Object treeParent;
