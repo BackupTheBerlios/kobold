@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.10 2004/07/18 14:54:43 bettina Exp $
+ * $Id: WorkflowEngine.java,v 1.11 2004/08/31 13:25:38 garbeam Exp $
  *
  */
 package kobold.server.workflow;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 
@@ -121,8 +122,8 @@ public class WorkflowEngine {
 	 */
 	private void loadRuleBase() {
 		try {
-			URL url = WorkflowEngine.class.getResource( "ruleset.drl" );
-			RuleBase ruleBase = org.drools.io.RuleBaseBuilder.buildFromUrl( url );
+			URL url = new File(System.getProperty("kobold.server.ruleset")).toURL();
+			RuleBase ruleBase =  org.drools.io.RuleBaseBuilder.buildFromUrl( url );
 			this.setRuleBase(ruleBase);
 		}
 		catch (Exception e) {
@@ -165,6 +166,9 @@ public class WorkflowEngine {
 	 * @param rpcSpy the sniffed RPC call object.
 	 */
 	public static void applRPCSpy(RPCSpy rpcSpy) {
+	    if (rpcSpy == null) {
+	        return;
+	    }
 		WorkflowEngine engine = getInstance();
 		engine.assertObject(rpcSpy);
 		WorkingMemory memory = engine.getWorkingMemory();
