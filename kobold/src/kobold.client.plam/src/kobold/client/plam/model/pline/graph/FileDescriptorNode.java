@@ -21,13 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorNode.java,v 1.3 2004/04/21 15:05:08 rendgeor Exp $
+ * $Id: FileDescriptorNode.java,v 1.4 2004/04/27 15:49:00 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
 import java.net.URI;
-
+import java.util.*;
 /**
  * FileDescriptorNode
  * 
@@ -35,13 +35,14 @@ import java.net.URI;
  */
 public class FileDescriptorNode extends AbstractNode 
 {
-//List of versions??
-//List of releaseable versions
-  String name;
-//	  person who's responsible
-	String officer;
-	String description;
-	Boolean binary;
+	//List of versions
+	private Vector versions;	
+	//List of releaseable versions
+  	private String name;
+	//person who's responsible
+	private String officer;
+	private String description;
+	private Boolean binary;
 	/**
 	 */
 	public FileDescriptorNode(String id) 
@@ -59,6 +60,82 @@ public class FileDescriptorNode extends AbstractNode
 		
 				setType(type);		
 		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @return
+	 */
+	public Boolean getBinary() {
+		return binary;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getOfficer() {
+		return officer;
+	}
+
+	/**
+	 * @param boolean1
+	 */
+	public void setBinary(Boolean boolean1) {
+		binary = boolean1;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setDescription(String string) {
+		description = string;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setName(String string) {
+		name = string;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setOfficer(String string) {
+		officer = string;
+	}
+
+
+	/**
+	 * @return
+	 */
+	public Vector getVersions() {
+		return versions;
+	}
+
+	/**
+	 * @param
+	 */
+	public void addVersion() {
+	}
+
+	/**
+	 * @param
+	 */
+	public void removeVersion() {
 	}
 
 }

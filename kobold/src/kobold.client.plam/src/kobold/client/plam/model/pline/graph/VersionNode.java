@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VersionNode.java,v 1.2 2004/04/16 12:20:00 garbeam Exp $
+ * $Id: VersionNode.java,v 1.3 2004/04/27 15:49:00 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
+import java.net.URI;
 /**
  * VersionNode
  * 
@@ -34,12 +35,57 @@ package kobold.client.plam.model.pline.graph;
 public class VersionNode extends AbstractNode 
 {
 
+	private String versionNumber;
+	private String status;
 	/**
 	 */
-	public VersionNode(String arg0) 
+	public VersionNode(String id) 
 	{
-		super(arg0);
+		super(id);
+		URI type = null;
+				try
+				{
+					type = new URI("VersionNode");
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+		
+				setType(type);		
 		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @return 
+	 * Returns the status of the version
+	 */
+	public String getStatus() {
+		return status;
+	}
+
+	/**
+	 * @return 
+	 * Returns the version of this version
+	 */
+	public String getVersionNumber() {
+		return versionNumber;
+	}
+
+	/**
+	 * @param string
+	 * Sets the status to the new status
+	 */
+	public void setStatus(String newStatus) {
+		status = newStatus;
+	}
+
+	/**
+	 * @param string
+	 * Sets the versionNumber to the new version
+	 */
+	public void setVersionNumber(String version) {
+		versionNumber = version;
 	}
 
 }

@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentNode.java,v 1.3 2004/04/21 15:05:08 rendgeor Exp $
+ * $Id: ComponentNode.java,v 1.4 2004/04/27 15:49:00 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
 import java.net.URI;
+import java.util.*;
 
 /**
  * ComponentNode
@@ -35,12 +36,14 @@ import java.net.URI;
  */
 public class ComponentNode extends AbstractNode 
 {
-//List of variants??
-String name;
+//List of variant
+private Vector variants;
+private String name;
 //person who's responsible
-String officer;
-String description;
-//List of scripts??
+private String responsibleEmployee;
+private String description;
+//List of scripts
+private Vector scripts;
 int status;
 	/**
 	 */
@@ -61,5 +64,99 @@ int status;
 		// TODO Auto-generated constructor stub
 	}
 
+
+/**
+ * @return
+ */
+public String getDescription() {
+	return description;
+}
+
+/**
+ * @return
+ */
+public String getName() {
+	return name;
+}
+
+/**
+ * @return
+ */
+public String getResponsibleEmployee() {
+	return responsibleEmployee;
+}
+
+/**
+ * @return
+ */
+public Vector getScripts() {
+	return scripts;
+}
+
+/**
+ * @param
+ */
+public void addScript() {
+}
+
+/**
+ * @param
+ */
+public void removeScript() {
+}
+
+/**
+ * @return
+ */
+public int getStatus() {
+	return status;
+}
+
+/**
+ * @return
+ */
+public Vector getVariants() {
+	return variants;
+}
+
+/**
+ * @param
+ */
+public void addVariant() {
+}
+
+/**
+ * @param
+ */
+public void removeVariant() {
+}
+
+/**
+ * @param string
+ */
+public void setDescription(String string) {
+	description = string;
+}
+
+/**
+ * @param string
+ */
+public void setName(String string) {
+	name = string;
+}
+
+/**
+ * @param string
+ */
+public void setResponsibleEmployee(String string) {
+	responsibleEmployee = string;
+}
+
+/**
+ * @param i
+ */
+public void setStatus(int i) {
+	status = i;
+}
 
 }

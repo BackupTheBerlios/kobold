@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantNode.java,v 1.5 2004/04/27 09:29:12 memyselfandi Exp $
+ * $Id: VariantNode.java,v 1.6 2004/04/27 15:49:00 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
@@ -37,13 +37,14 @@ import java.util.*;
 public class VariantNode extends AbstractNode 
 {
 	private Vector components;
-	String version;
+	private String version;
 	//person who's responsible
-	String officer;
-	String name;
-	String description;
-	//List of scripts??
-	int status;
+	private String responsibleEmployee;
+	private String name;
+	private String description;
+	//List of scripts
+	private Vector scripts;
+	private int status;
 	/**
 	 */
 	public VariantNode(String id) 
@@ -61,6 +62,119 @@ public class VariantNode extends AbstractNode
 		
 				setType(type);		
 	}
-	
+
+	/**
+	 * @return
+	 */
+	public Vector getComponents() {
+		return components;
+	}
+
+	/**
+	 * @param
+	 */
+	public void addComponent() {
+		
+	}
+
+	/**
+	 * @param
+	 */
+	public void removeComponent() {
+		
+	}
+
+
+	/**
+	 * @return
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getResponsibleEmployee() {
+		return responsibleEmployee;
+	}
+
+	/**
+	 * @return
+	 */
+	public Vector getScripts() {
+		return scripts;
+	}
+
+	/**
+	 * @param
+	 */
+	public void addScript() {
+		
+	}
+
+	/**
+	 * @param
+	 */
+	public void removeScript() {
+		
+	}
+
+
+	/**
+	 * @return
+	 */
+	public int getStatus() {
+		return status;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setDescription(String string) {
+		description = string;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setName(String string) {
+		name = string;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setResponsibleEmployee(String string) {
+		responsibleEmployee = string;
+	}
+
+	/**
+	 * @param i
+	 */
+	public void setStatus(int i) {
+		status = i;
+	}
+
+	/**
+	 * @param string
+	 */
+	public void setVersion(String string) {
+		version = string;
+	}
 
 }

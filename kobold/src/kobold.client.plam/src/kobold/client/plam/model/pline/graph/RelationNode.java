@@ -21,14 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelationNode.java,v 1.4 2004/04/21 15:57:09 memyselfandi Exp $
+ * $Id: RelationNode.java,v 1.5 2004/04/27 15:49:00 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.pline.graph;
 
 import net.sourceforge.gxl.GXLNode;
 import java.net.URI;
-
+import java.util.*;
 /**
  * RelationNode
  * 
@@ -39,8 +39,8 @@ import java.net.URI;
  */
 public abstract class RelationNode extends GXLNode 
 {
-	String startNode = null;
-	String endNode = null;
+	private Vector childrenNodes;
+
 	/**
 	 */
 	public RelationNode(String id) 
@@ -58,6 +58,26 @@ public abstract class RelationNode extends GXLNode
 		}
 		
 		setType(type);
+	}
+
+
+	/**
+	 * @return
+	 */
+	public Vector getChildrenNodes() {
+		return childrenNodes;
+	}
+
+	/**
+	 * @param node
+	 */
+	public void addChildrenNode(GXLNode node) {
+	}
+
+	/**
+	 * @param node
+	 */
+	public void removeChildrenNode(GXLNode node) {
 	}
 
 }
