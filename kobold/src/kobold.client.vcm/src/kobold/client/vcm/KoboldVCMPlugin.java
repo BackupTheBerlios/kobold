@@ -32,11 +32,16 @@ import java.util.ResourceBundle;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.listeners.IVCMActionListener;
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
+import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 import kobold.client.vcm.controller.StatusUpdater;
+import kobold.client.vcm.popup.action.AddAction;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectNature;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Plugin;
@@ -87,6 +92,21 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 							StatusUpdater st = new StatusUpdater();
 							st.updateFileDescriptors(container);
 							System.out.println("TEST STATUS");
+						}
+
+						public void checkoutProductline(AbstractRootAsset rootAsset) {
+							KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
+							try
+							{
+								AbstractAsset tmpAsset[] = {rootAsset};
+								repoAccess.checkout(tmpAsset,IResource.DEPTH_INFINITE,null);
+							}
+							catch (Exception e)
+							{
+								// TODO: handle exception
+							}
+							
+							
 						}
 					});
 				}
