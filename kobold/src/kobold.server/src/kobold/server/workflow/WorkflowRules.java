@@ -104,7 +104,7 @@ public class WorkflowRules {
 			"}"+
 		"}"+
 		
-		"answer.setStep(msg.getStep());"+
+		"answer.setStep(msg.getStep()+1);"+
 		
 		"if (decision.equals(\"An zuständigen PE weiterleiten\")){"+
 			"answer.setReceiver(\"garbeam\");"+
@@ -176,10 +176,50 @@ public class WorkflowRules {
 		
 		Declaration dec3 = new Declaration(new ClassObjectType(WorkflowMessage.class), "msg");
 		
-		no3.addCondition(new ExprCondition("(msg.getType().equals(\"Core Group Suggestion\")) && (msg.getHistoryList().get(msg.getHistoryList().size() - 1).getStep() == 3)", new Declaration[] {dec3}));
+		no3.addCondition(new ExprCondition("(msg.getWorkflowId().equals(\"Core Group Suggestion\")) && (msg.getStep == 2)", new Declaration[] {dec3}));
 		no3.addParameterDeclaration(dec1);
 		no3.setConsequence(new BlockConsequence(
-			"msg.addHistory(msg.newHistory());" +
+				"WorkflowMessage answer = new WorkflowMessage(msg.getWorkflowType());"+
+				"answer.setSender(msg.getSender());"+
+				"answer.addParentId(msg.getId());"+
+				
+				//analyzing the answer
+				"String decision = \"\";"+
+				"String comment = \"\";"+
+				"WorkflowItem controls[] = msg.getWorkflowControls();"+
+				"for(int i = 0; i < controls.length;i++){"+
+					"if (controls[i].getType().equals(\"TEXT\")){"+
+						"comment = controls[i].getValue();"+
+					"}"+
+					"if (controls[i].getType().equals(\"CONTAINER\")){"+
+						"WorkflowItem container[] = controls[i].getChildren();"+
+						"for (int j = 0; j < container.length;j++){"+
+							"if (container[j].getValue().equals(\"true\")){"+
+								"decision = container[j].getDescription();"+
+							"}"+
+						"}"+
+					"}"+
+				"}"+
+			"if (decision.equals(\"Vorschlag zustimmen\")){"+
+				"GlobalMessageContainer gmc = GlobalMessageContainer.getInstance();"+
+				"WorkflowMessage wfm = (WorkflowMessage)gmc.getMessage(msg.getParentIds()[0]);"+
+				"answer.setReceiver(wfm.getSender());"+
+				"answer.setSubject(\"Ihr Vorschlag wurde akzeptiert.\");"+
+				"answer.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" akzeptiert. Weitere Anweisungen lauten: '\" +"+
+						 "comment +\"'\");"+
+			"}"+
+			"else if (decision.equals(\"Vorschlag ablehnen\")){"+
+				"GlobalMessageContainer gmc = GlobalMessageContainer.getInstance();"+
+				"WorkflowMessage wfm = (WorkflowMessage)gmc.getMessage(msg.getParentIds()[0]);"+
+				"answer.setReceiver(wfm.getSender());"+
+				"answer.setSubject(\"Ihre Anfrage wurde abgelehnt.\");"+
+				"answer.setMessageText(\"Ihre Anfrage wurde von \"+msg.getSender() +\" mit der Begründung '\" +"+
+					 "comment +\"' abgelehnt\");"+
+			"}"));
+
+
+				
+/*			"msg.addHistory(msg.newHistory());" +
 			"if (msg.getHistoryList().size() > 1) {" +
 				"msg.getHistoryList().get(msg.getHistoryList().size() - 1).setStep(msg.getHistoryList().get(msg.getHistoryList().size() - 2).getStep() + 1);" +
 			"}" +
@@ -217,7 +257,7 @@ public class WorkflowRules {
 			"	msg.setRecipient(\"Recipient5+4\");" +
 			"	msg.setMessageText(\"Der Button-Wert ist null.\");" +
 			"}"));
-				
+*/				
 		
 		set.addRule(no1);
 		set.addRule(no2);
