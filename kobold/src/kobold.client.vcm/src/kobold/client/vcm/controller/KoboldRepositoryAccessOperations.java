@@ -232,6 +232,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 					currentVCMProvider = productLine.getRepositoryDescriptor();
 					localPath = productLine.getLocalPath().toOSString();
 					initArgumenString(productLine.getRepositoryDescriptor());
+					connection.initArgumenString(productLine.getRepositoryDescriptor());
 
 				}
 				if (assets[i] instanceof Product) {
@@ -239,16 +240,19 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 					localPath = product.getLocalPath().toOSString();
 					currentVCMProvider = product.getRepositoryDescriptor();
 					initArgumenString(product.getRepositoryDescriptor());
+					connection.initArgumenString(product.getRepositoryDescriptor());
 				}
 				if (assets[i] instanceof Variant) {
 					variant = (Variant) assets[i];
 					localPath = variant.getLocalPath().toOSString();
 					initArgumenString(variant.getRemoteRepository()); 					
+					connection.initArgumenString(variant.getRemoteRepository());
 				}
 				if (assets[i] instanceof Component) {
 					component = (Component) assets[i];
 					localPath = component.getLocalPath().toOSString();
 					initArgumenString(component.getRemoteRepository());
+					connection.initArgumenString(component.getRemoteRepository());
 				}			
 				
 				if (currentVCMProvider != null) {
