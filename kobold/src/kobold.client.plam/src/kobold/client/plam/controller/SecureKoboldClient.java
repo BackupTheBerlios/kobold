@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.7 2004/05/15 21:56:04 vanto Exp $
+ * $Id: SecureKoboldClient.java,v 1.8 2004/05/17 09:16:32 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -33,7 +33,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Vector;
 
-import kobold.common.controller.ServerInterface;
+import kobold.common.controller.IKoboldServer;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
@@ -51,7 +51,7 @@ import sun.misc.BASE64Decoder;
 /**
  * @author garbeam
  */
-public class SecureKoboldClient implements ServerInterface {
+public class SecureKoboldClient implements IKoboldServer {
 
 	private static final Log log =
 		LogFactory.getLog("kobold.client.controller.SecureKoboldClient");
