@@ -3,6 +3,7 @@
 	<name>kobold.client.plam</name>
 	<comment></comment>
 	<projects>
+		<project>kobold.client.vcm</project>
 		<project>kobold.common</project>
 		<project>kobold.server</project>
 	</projects>

@@ -12,7 +12,21 @@
    <requires>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.eclipse.swt"/>
    </requires>
 
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Architecture Editor"
+            icon="icons/sample.gif"
+            extensions="kae"
+            class="kobold.client.plam.editor.ArchitectureEditor"
+            id="KoboldPLAM.editors.ArchitectureEditor">
+      </editor>
+   </extension>
 
 </plugin>
