@@ -1,8 +1,28 @@
 /*
- * Created on 14.07.2004
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: MetaInformation.java,v 1.15 2004/08/06 09:21:43 garbeam Exp $
+ *
  */
 package kobold.client.plam;
 
@@ -11,6 +31,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.IPath;
 
 import kobold.client.plam.model.AbstractAsset;
@@ -45,13 +67,14 @@ import com.lowagie.text.pdf.PdfWriter;
 public class MetaInformation {
 
 	private IPath filePath;
+	public static final Log logger = LogFactory.getLog(MetaInformation.class);	
 	
 	public MetaInformation(IPath filePath) {
 		this.filePath = filePath;
 	}
 
 	public void getMetaData(AbstractAsset asset) {
-		System.out.println("Metadaten");
+		logger.debug("Metadaten");
         
         // creation of a document-object
         Document document = new Document();
@@ -71,10 +94,11 @@ public class MetaInformation {
                 	FontFactory.getFont(FontFactory.HELVETICA, 40, Font.ITALIC)));
             document.add(new Paragraph(new Date().toString()));
             document.add(new Phrase("\n\n\n\n\n\n"));
-            Image logo = Image.getInstance("icons/Kobold_logo.png");
-            logo.scaleAbsolute(500, 300);
-            logo.setAlignment(Image.MIDDLE);
-            document.add(logo);
+//            Image logo = Image.getInstance(
+//                    KoboldPLAMPlugin.getImageDescriptor("icons/Kobold_logo.gif").getImageData());
+//            logo.scaleAbsolute(500, 300);
+//            logo.setAlignment(Image.MIDDLE);
+//            document.add(logo);
            /* try 
             {
                 Watermark watermark = new Watermark(Image.getInstance("icons/kobold_persp.gif"), 200, 420);
@@ -108,6 +132,9 @@ public class MetaInformation {
             else if (asset instanceof Variant){
             	createMetaInfoForVariants(document, (Variant)asset);
             }
+            else {
+                logger.debug("unknown asset Type");
+            }
             
            /* // DEBUG stuff
             Productline pl = new Productline();
@@ -116,9 +143,10 @@ public class MetaInformation {
            */                  	
         }
         catch(DocumentException de) {
-            System.err.println(de.getMessage());
+    		logger.error("Metadaten", de);
         }
         catch(IOException ioe) {
+    		logger.error("Metadaten", ioe);
             System.err.println(ioe.getMessage());
         }
         

@@ -76,7 +76,7 @@ public class NewUserDialog extends TitleAreaDialog{
     protected Control createDialogArea(Composite parent)
     {
         setTitle("New User");
-        setMessage("Creates new users");
+        setMessage("Enter the values of the new user you want to create.");
         Composite composite = (Composite) super.createDialogArea(parent);
         
         createContent(composite);
@@ -86,7 +86,7 @@ public class NewUserDialog extends TitleAreaDialog{
     private void createContent(Composite parent){
 		Composite panel = new Composite(parent, SWT.NONE);
 
-		GridLayout layout = new GridLayout(1, false);
+		GridLayout layout = new GridLayout(2, false);
 		layout.marginHeight =
 		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
 		layout.marginWidth =
@@ -99,51 +99,33 @@ public class NewUserDialog extends TitleAreaDialog{
 		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
 		panel.setFont(parent.getFont());
 		
-        try{
-            Composite control = new Composite(parent, SWT.NONE);
-            GridLayout gridLayout = new GridLayout();
-            gridLayout.numColumns = 2;
-            control.setLayout(gridLayout);
+        labelUserName = new Label(panel,SWT.NONE);
+        labelUserName.setText("User name:");
+        textUserName = new Text(panel, SWT.BORDER);		
+        textUserName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL |
+                					 GridData.GRAB_HORIZONTAL));
             
-            // "data" can only use for 1 object.
-            GridData data = new GridData(GridData.FILL_HORIZONTAL);
+        labelRealName = new Label(panel,SWT.NONE);
+        labelRealName.setText("Full name:");
+        textRealName = new Text(panel, SWT.BORDER);		
+        textUserName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL |
+                					 GridData.GRAB_HORIZONTAL));
             
-            //control.setBackground(ColorConstants.white);
+        labelPassword = new Label(panel,SWT.NONE);
+        labelPassword.setText("Password:");
+        textPassword = new Text(panel, SWT.BORDER);
+        textPassword.setEchoChar('*');
+        textUserName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL |
+                					 GridData.GRAB_HORIZONTAL));
             
-            //User Name
-            labelUserName = new Label(control,SWT.NONE);
-            labelUserName.setText("Please insert the username of the new user:");
-            textUserName = new Text(control, SWT.BORDER);		
-            //data = new GridData(GridData.FILL_HORIZONTAL);
-            textUserName.setLayoutData(data);
-            
-            //RealName
-            labelRealName = new Label(control,SWT.NONE);
-            labelRealName.setText("Please insert the real name of the new user:");
-            textRealName = new Text(control, SWT.BORDER);		
-            //data = new GridData(GridData.FILL_HORIZONTAL);
-            //textRealName.setLayoutData(data);
-            
-            //password
-            labelPassword = new Label(control,SWT.NONE);
-            labelPassword.setText("Please insert the initial password of the new user:");
-            textPassword = new Text(control, SWT.BORDER);
-            textPassword.setEchoChar('*');
-            //data = new GridData(GridData.FILL_HORIZONTAL);
-            //textPassword.setLayoutData(data);
-            
-            //confirmpassword
-            labelConfPass = new Label(control,SWT.NONE);
-            labelConfPass.setText("Please retype the initial password of the new user:");
-            textConfPass = new Text(control, SWT.BORDER);
-            textConfPass.setEchoChar('*');
-            //data = new GridData(GridData.FILL_HORIZONTAL);
-            //textConfPass.setLayoutData(data);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-    }
+        //confirmpassword
+        labelConfPass = new Label(panel,SWT.NONE);
+        labelConfPass.setText("Confirm password:");
+        textConfPass = new Text(panel, SWT.BORDER);
+        textConfPass.setEchoChar('*');
+        textUserName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL |
+                					 GridData.GRAB_HORIZONTAL));
+}
     
     protected void okPressed()
     {

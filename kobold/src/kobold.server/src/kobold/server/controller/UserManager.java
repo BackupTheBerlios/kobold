@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.15 2004/08/03 11:40:08 neccaino Exp $
+ * $Id: UserManager.java,v 1.16 2004/08/06 09:21:42 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -92,6 +92,7 @@ public class UserManager {
             // obviously a user with the same name as the one to add has already
             // been registered => undo the change and signal error
             users.put(user.getUserName(), o);
+            serialize();
             return false;
         }
         else{

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.72 2004/08/06 06:02:02 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.73 2004/08/06 09:21:42 garbeam Exp $
  *
  */
 package kobold.server;
@@ -480,7 +480,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	 */
 	public void updateProductline(UserContext userContext, Productline productline) {
 	    ProductlineManager productlineManager = ProductlineManager.getInstance();
-	    productlineManager.removeProductline(productline.getName());
+	    productlineManager.removeProductline(productline.getId());
 	    productlineManager.addProductline(productline);
 	}
 

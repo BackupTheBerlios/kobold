@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptorHelper.java,v 1.5 2004/08/06 07:46:35 garbeam Exp $
+ * $Id: FileDescriptorHelper.java,v 1.6 2004/08/06 09:21:43 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -102,6 +102,5 @@ public class FileDescriptorHelper
              fd = tmp;
         }
     }
-    
     
 }

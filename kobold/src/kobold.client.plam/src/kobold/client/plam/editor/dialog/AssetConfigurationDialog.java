@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.10 2004/08/05 23:59:39 vanto Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.11 2004/08/06 09:21:43 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -202,8 +202,8 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         }
         
   	    Label label = new Label(composite, SWT.NONE);
-	    label.setText("Select resources:");
-        Table table = new Table(composite, SWT.CHECK | SWT.BORDER | SWT.MULTI
+	    label.setText("Files:");
+        Table table = new Table(composite, SWT.BORDER | SWT.MULTI
                 				| SWT.FULL_SELECTION | SWT.LEAD | SWT.WRAP
                 				| SWT.V_SCROLL | SWT.VERTICAL);
         table.setHeaderVisible(true);
@@ -223,7 +223,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 	    layout.addColumnData(new ColumnWeightData(33));
 	    layout.addColumnData(new ColumnWeightData(33));
 	    table.setLayout(layout);
-        final CheckboxTableViewer viewer = new CheckboxTableViewer(table);
+        final TableViewer viewer = new TableViewer(table);
         viewer.setContentProvider(new IStructuredContentProvider() {
             public Object[] getElements(Object input) {
                 if (input instanceof File) {
@@ -281,18 +281,6 @@ public class AssetConfigurationDialog extends TitleAreaDialog
                 
             }
         });
-        viewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            public void selectionChanged(SelectionChangedEvent event) {
-                IStructuredSelection sel =
-                    (IStructuredSelection) event.getSelection();
-                System.out.println(
-                    sel.size()
-                    + " items selected, "
-                    + viewer.getCheckedElements().length
-                    + " items checked");
-            }
-        });
-        
         viewer.setInput(new File(variant.getLocalPath().toOSString()));    
     }
     

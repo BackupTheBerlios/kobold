@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaInfoAction.java,v 1.3 2004/08/05 21:53:01 garbeam Exp $
+ * $Id: MetaInfoAction.java,v 1.4 2004/08/06 09:21:43 garbeam Exp $
  *
  */
 package kobold.client.plam.action;
@@ -29,12 +29,16 @@ package kobold.client.plam.action;
 import kobold.client.plam.MetaInformation;
 import kobold.client.plam.model.AbstractAsset;
 
+import org.eclipse.core.internal.resources.SavedState;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.actions.ActionDelegate;
 import org.eclipse.ui.dialogs.SaveAsDialog;
@@ -51,11 +55,12 @@ public class MetaInfoAction extends ActionDelegate
     {
         if (selectedAsset != null) {
             Shell shell = Display.getDefault().getActiveShell(); 
-            SaveAsDialog saveAsDialog = new SaveAsDialog(shell);
-    		saveAsDialog.setOriginalName("metainfo.pdf");
-    		if (saveAsDialog.open() == SaveAsDialog.OK) {
-    			IPath filePath = saveAsDialog.getResult();
-    			MetaInformation metaInformation = new MetaInformation(filePath);
+            
+            FileDialog saveDialog = new FileDialog(shell, SWT.SAVE);
+    		saveDialog.setFileName("metainfo.pdf");
+    		String filePath = saveDialog.open();
+    		if (filePath != null) {
+    			MetaInformation metaInformation = new MetaInformation(new Path(filePath));
     			metaInformation.getMetaData(selectedAsset);
     		}
     	}

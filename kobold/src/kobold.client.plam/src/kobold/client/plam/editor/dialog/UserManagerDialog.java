@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManagerDialog.java,v 1.3 2004/08/05 15:13:48 grosseml Exp $
+ * $Id: UserManagerDialog.java,v 1.4 2004/08/06 09:21:43 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -85,8 +85,8 @@ public class UserManagerDialog extends TitleAreaDialog
 
     public Control createDialogArea(Composite parent)
     {
-        this.setTitle("Edit UserManager");
-        this.setMessage("Manages user purposes like creation and deletion of users.");
+        this.setTitle("User management");
+        this.setMessage("Manages users.");
         Composite composite = (Composite) super.createDialogArea(parent);
         
         createUserLists(composite);
@@ -97,7 +97,7 @@ public class UserManagerDialog extends TitleAreaDialog
         
 		final Composite panel = new Composite(parent, SWT.NONE);
 
-		GridLayout layout = new GridLayout(3, false);
+		GridLayout layout = new GridLayout(1, false);
 		layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
 		layout.marginWidth = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
 		layout.verticalSpacing = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
@@ -117,7 +117,6 @@ public class UserManagerDialog extends TitleAreaDialog
         colUserNames.pack();
 
         viewer = new TableViewer(user);
-        //allUserViewer.getTable().getLayoutData().
         viewer.setLabelProvider(new LabelProvider() {
             private Image image;
             public String getText(Object element) {
