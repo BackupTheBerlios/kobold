@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IProductComponentContainer.java,v 1.1 2004/09/18 16:05:59 martinplies Exp $
+ * $Id: IProductComponentContainer.java,v 1.2 2004/10/13 22:43:44 martinplies Exp $
  *
  */
 
@@ -37,7 +37,7 @@ import kobold.client.plam.model.product.SpecificComponent;
 /**
  * @author pliesmn
  */
-public interface IProductComponentContainer {
+public interface IProductComponentContainer  {
    
     
     /**
@@ -87,9 +87,15 @@ public interface IProductComponentContainer {
     
     /**
      * 
-     * @return Returns all ProductComponme
+     * @return Returns all ProductComponents
      */
     public List getProductComponents();
+    
+    
+    public String getName();
+    
+    
+    public AbstractRootAsset getRoot();
 
 
 }
