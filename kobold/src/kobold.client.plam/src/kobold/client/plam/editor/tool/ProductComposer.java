@@ -42,6 +42,9 @@ import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.edges.INode;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.product.ProductComponent;
+import kobold.client.plam.model.product.RelatedComponent;
+import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
@@ -849,6 +852,7 @@ public class ProductComposer {
     }
 
     public void setOpen(AbstractAsset node) {
+        
         if (node instanceof MetaNode) { return; // User cannot change type of
                                                 // Metanodes
         }
@@ -884,7 +888,7 @@ public class ProductComposer {
     }
 
     public boolean hasWarning(AbstractAsset node) {
-        return get(node).hasWarning;
+        return get(node).hasWarning();
     }
 
     public String getWarning(AbstractAsset node) {
@@ -899,28 +903,65 @@ public class ProductComposer {
         listeners.removePropertyChangeListener(l);
     }
     
-    public Product generateProduct(){
-    	Product p = new Product(productline);
-    	Iterator it = nodes.keySet().iterator();
-    	while (it.hasNext()){
-    		
-    		if(it.next() instanceof Component){
-    			Component tmpComp = (Component)it.next();
-    			p.addComponent(tmpComp);
-    		}
-    		else if (it.next() instanceof Variant){
-    			Variant tmpVar = (Variant)it.next();
-    			
-    		}
-    		else if (it.next() instanceof Release){
-    			Release tmpRel = (Release)it.next();
-    		}
-    		else if (it.next() instanceof MetaNode){
-    			MetaNode tmpMeta = (MetaNode)it.next();
-    		}
+    public Product generateProduct() {      
+    	
+    	Product product = new Product(productline);
+        // create ProductComponments for used CoreAssets.    	
+    	for (Iterator ite = productline.getComponents().iterator(); ite.hasNext();){
+    	    Component node = (Component) ite.next();
+    	    if (get(node).isUsed()){
+    	        product.addComponent(generateProductComponent(node));
+    	    }    	   
     	}
-    	return p;
+    	//TODO add edges
+
+    	return product;
     }
+    
+
+    /*
+     * Create a Productcomponent for a Component.
+     * if comp has a used Variant and a used Relase a Related Component is created
+     * else a SpecificComponent is created.
+     * Create also ProductComponents for all used Componets for the used variant.
+     *  
+     * @param comp  Component. Create ProductComponent for this Component.
+     * @return ProductComponet for comp and its used subnodes
+     */
+    private ProductComponent generateProductComponent(Component comp){
+        ProductComponent productComponent;
+        Variant variant = null;
+        Iterator varIte = comp.getVariants().iterator();
+	    while ( varIte.hasNext() &&
+	            ! get(variant = (Variant) varIte.next()).isUsed()){}
+    	if (variant != null && get(variant).isUsed()){
+    	    // find Release
+    	    Release release = null;
+    	    Iterator  relIte = variant.getReleases().iterator();
+    	    while ( relIte.hasNext() &&
+    	            ! get( release = (Release) relIte.next() ).isUsed()  
+    	           ){}
+    	    if (release != null && get(release).isUsed()){
+    	        // => a related Component can be construct
+    	        productComponent = new RelatedComponent(variant, release);
+    	    } else{
+    	        productComponent = new SpecificComponent(comp.getName());    	        
+    	    }
+    	    // add sub components
+    	    for (Iterator subIte = variant.getComponents().iterator(); subIte.hasNext();){
+    	        Component subComp = (Component) subIte.next(); 
+    	        if (get(subComp).isUsed()){
+    	            productComponent.addProductComponent(generateProductComponent(subComp));
+    	        }
+    	    }
+    	} else {
+    	    productComponent = new SpecificComponent(comp.getName()); 
+    	    // no sub variant is used => there must not exitst subnodes of variant, that are usesd.
+    	}
+    	
+    	 return productComponent;   
+	}
+    
 
     /*
      * 
@@ -942,16 +983,12 @@ public class ProductComposer {
 
         private boolean changed = false;
 
-        int nonUSEChildren = -1;
-
-        public NodeAttr() {
+        NodeAttr() {
 
         }
 
-        /**
-         *  
-         */
-        public void removeChangeState() {
+ 
+        void removeChangeState() {
             changed = false;
         }
 
@@ -959,7 +996,7 @@ public class ProductComposer {
         /**
          * @return Returns the changed.
          */
-        public boolean isChanged() {
+        boolean isChanged() {
             return changed;
         }
 
