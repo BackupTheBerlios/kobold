@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.13 2004/05/18 18:57:30 vanto Exp $
+ * $Id: NewProjectWizard.java,v 1.14 2004/05/19 14:01:57 martinplies Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -240,7 +240,7 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			msg.setSender("vanto");
 			msg.setReceiver("vanto");
 			msg.setSubject("Test workflow");
-			msg.setMessageText("Das ist die Erklärung");
+			msg.setMessageText("Das ist die Erklï¿½rung");
 			msg.addWorkflowControl(new WorkflowItem("false", "Kobold ist doof", WorkflowItem.CHECK));
 			msg.addWorkflowControl(new WorkflowItem("true", "Kobold ist toll", WorkflowItem.CHECK));
 			mq.addMessage(msg);
@@ -251,24 +251,23 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			msg1.setSender("pliesmn");
 			msg1.setReceiver("server");
 			msg1.setSubject("Test workflow");
-			msg1.setMessageText("Das ist die Erklärung");
-			msg1.addWorkflowControl(new WorkflowItem("false", "Kobold ist doof", WorkflowItem.CHECK));
-			msg1.addWorkflowControl(new WorkflowItem("true", "Kobold ist toll", WorkflowItem.CHECK));			
-			WorkflowItem c1 = new WorkflowItem("c1","",WorkflowItem.CONTAINER);
+			msg1.setMessageText("Das ist die Erklï¿½rung");
+			msg1.addWorkflowControl(new WorkflowItem("koboldDoof", "Kobold ist doof", WorkflowItem.CHECK));
+			msg1.addWorkflowControl(new WorkflowItem("koboldToll", "Kobold ist toll", WorkflowItem.CHECK));	
+			msg1.addWorkflowControl(new WorkflowItem("koboldDoof", "Kobold ist doof", WorkflowItem.CHECK));
+			msg1.addWorkflowControl(new WorkflowItem("koboldToll", "Kobold ist toll", WorkflowItem.CHECK));
+			WorkflowItem c1 = new WorkflowItem("cont1","",WorkflowItem.CONTAINER);
 			  msg1.addWorkflowControl(c1);
-			  c1.addChild( new WorkflowItem("r1","radio r1",WorkflowItem.RADIO));
-			  c1.addChild( new WorkflowItem("r2","radio r1",WorkflowItem.RADIO));
-			  c1.addChild( new WorkflowItem("ch1","check ch1",WorkflowItem.CHECK));
-			  WorkflowItem c2 = new WorkflowItem("c2","description c2",WorkflowItem.CONTAINER);
+			  c1.addChild( new WorkflowItem("radio1","radio r1",WorkflowItem.RADIO));
+			  c1.addChild( new WorkflowItem("radio2","radio r1",WorkflowItem.RADIO));
+			  c1.addChild( new WorkflowItem("check1","check ch1",WorkflowItem.CHECK));
+			  WorkflowItem c2 = new WorkflowItem("chek2","description c2",WorkflowItem.CONTAINER);
 			    c1.addChild(c2);
-			    c2.addChild( new WorkflowItem("r3","radio r3",WorkflowItem.RADIO));
-			    c2.addChild( new WorkflowItem("r4","radio r4",WorkflowItem.RADIO));
-			    c2.addChild( new WorkflowItem("t1","text t1",WorkflowItem.TEXT));
-			  c1.addChild( new WorkflowItem("ch1","check ch1",WorkflowItem.CHECK));			  			 
-			msg1.addWorkflowControl(new WorkflowItem("false", "Kobold ist doof", WorkflowItem.CHECK));
-			msg1.addWorkflowControl(new WorkflowItem("true", "Kobold ist toll", WorkflowItem.CHECK));
-			mq.addMessage(msg1);
-
+			    c2.addChild( new WorkflowItem("raido3","radio r3",WorkflowItem.RADIO));
+			    c2.addChild( new WorkflowItem("radio4","radio r4",WorkflowItem.RADIO));
+			  c1.addChild( new WorkflowItem("text1","text t1",WorkflowItem.TEXT));	
+			  c1.addChild( new WorkflowItem("text2","anderer Text",WorkflowItem.TEXT));	
+			mq.addMessage(msg1);		
 		}
 	}
 	
