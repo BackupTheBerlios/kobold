@@ -36,6 +36,7 @@ import java.util.*;
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.IFileDescriptorContainer;
+import kobold.client.plam.model.productline.Productline;
 
 /**
  * The main plugin class to be used in the desktop.
@@ -63,7 +64,9 @@ public class KoboldVCMPlugin extends AbstractUIPlugin {
 			 */
 			public void refreshFiledescriptors(
 					IFileDescriptorContainer container) {
+				
 				System.out.println("lalal");
+				
 				System.out.println("*********Refresch File Descriptors:" + container.getLocalPath()/*.getFullPath()*/.toString());
 				
 
