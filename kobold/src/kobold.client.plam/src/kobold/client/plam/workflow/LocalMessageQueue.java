@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LocalMessageQueue.java,v 1.1 2004/05/14 18:45:20 vanto Exp $
+ * $Id: LocalMessageQueue.java,v 1.2 2004/05/15 02:10:23 vanto Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -30,11 +30,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
 
 import kobold.common.data.KoboldMessage;
+import kobold.common.data.WorkflowItem;
+import kobold.common.data.WorkflowMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,13 +60,27 @@ public class LocalMessageQueue {
 	private static final Log logger = LogFactory.getLog(LocalMessageQueue.class);
 	
 	private IFile queueFile;
-	private Map messages = new TreeMap(new DateComparator());
+	
+	//TODO: Sorted!
+	private Map messages = new HashMap();//TreeMap(new DateComparator());
 	
 	
 	public LocalMessageQueue(IFile queueFile)
 	{
 		this.queueFile = queueFile;
 		update();
+		
+		//TODO: Remove test stuff
+		WorkflowMessage msg = new WorkflowMessage();
+		msg.setWorkflowId("testwf");
+		msg.setSender("vanto");
+		msg.setReceiver("vanto");
+		msg.setSubject("Test workflow");
+		msg.setMessageText("Das ist die Erklärung");
+		msg.addWorkflowControl(new WorkflowItem("false", "Kobold ist doof", WorkflowItem.CHECK));
+		msg.addWorkflowControl(new WorkflowItem("true", "Kobold ist toll", WorkflowItem.CHECK));
+
+		messages.put("test", msg);
 	}
 	
 	public synchronized void addMessage(KoboldMessage msg)
@@ -88,7 +104,8 @@ public class LocalMessageQueue {
 	
 	public KoboldMessage getMessageById(String id)
 	{
-		return (KoboldMessage)messages.get(id);	
+		KoboldMessage msg = (KoboldMessage)messages.get(id); 
+		return msg;
 	}
 	
 	public void update()
@@ -117,7 +134,6 @@ public class LocalMessageQueue {
 				addMarker(message);
 			}
 
-			logger.debug("");
 			in.close();
 		} catch (CoreException e) {
 			logger.debug("Error while reading PLAM config.", e);

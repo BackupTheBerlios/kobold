@@ -32,8 +32,8 @@
          point="org.eclipse.ui.editors">
       <editor
             name="%editor.Architecture"
-            extensions="kae"
             icon="icons/kobold_persp.png"
+            extensions="kae"
             class="kobold.client.plam.editor.ArchitectureEditor"
             id="ArchitectureEditor">
       </editor>
@@ -63,8 +63,8 @@
                ratio="0.5"
                relative="org.eclipse.ui.views.TaskList"
                visible="true"
-               id="kobold.client.plam.view.RoleTreeViewPart"
-               relationship="left">
+               relationship="left"
+               id="kobold.client.plam.view.RoleTreeViewPart">
          </view>
       </perspectiveExtension>
    </extension>
@@ -104,6 +104,17 @@
             %newwizard.KoboldProjectDescription
          </description>
       </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            default="true"
+            name="%Workflow"
+            icon="icons/kobold_persp.gif"
+            filenames=".messages"
+            class="kobold.client.plam.workflow.WorkflowEditor"
+            id="kobold.client.plam.workfloweditor">
+      </editor>
    </extension>
 
 </plugin>

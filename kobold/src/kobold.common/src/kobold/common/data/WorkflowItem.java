@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowItem.java,v 1.3 2004/05/14 18:46:27 vanto Exp $
+ * $Id: WorkflowItem.java,v 1.4 2004/05/15 02:11:01 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -137,6 +137,11 @@ public class WorkflowItem {
 				children.add(new WorkflowItem(control));	
 			}
 		}
+	}
+
+	public void setValue(String value) 
+	{
+		this.value = value;
 	}
 	
 }
