@@ -52,7 +52,8 @@ public class MetaInformation {
             // add a paragraph to the document
             document.add(new Paragraph("Meta-Informations"));
             document.add(new Paragraph("Productline:"));	
-            Productline pl = new Productline("PL");
+            Productline pl = new Productline();
+            pl.setName("PL");
             document.add(new Phrase(pl.getName()));
             document.add(new Phrase(pl.getDescription()));
             document.add(new Phrase("Maintainers"));
@@ -72,7 +73,8 @@ public class MetaInformation {
  	//MetaInformation for Productlines
     public void createMetaInfoForPL (Document document, Productline pLine) 
     {
-	    Productline pl = new Productline("PL");
+	    Productline pl = new Productline();
+	    pl.setName("PL");
         //document.add(new Paragraph("Productline:"));	
         //document.add(new Phrase(pl.getName()));
         //document.add(new Phrase(pl.getDescription()));
@@ -106,6 +108,7 @@ public class MetaInformation {
     public void createMetaInfoForProduct(Document document, Product p1) 
     {
     	Product product = new Product("Product1");
+    	product.setName("test");
         product.getName();
     	product.getDescription();
     	product.getMaintainers();
