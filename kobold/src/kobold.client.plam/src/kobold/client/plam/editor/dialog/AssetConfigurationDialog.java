@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.37 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.38 2004/11/05 01:51:07 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -340,14 +340,6 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         
         final Variant variant = (Variant) asset;
         
-        /*
-        for (Iterator iterator = variant.getFileDescriptors().iterator();
-        	 iterator.hasNext(); )
-        {
-            FileDescriptor fd = (FileDescriptor)iterator.next();
-            prettyPrintFD(fd, "");
-        }
-        */
         
     }
     

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldMessage.java,v 1.12 2004/05/18 18:47:33 vanto Exp $
+ * $Id: KoboldMessage.java,v 1.13 2004/11/05 01:50:54 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -35,9 +35,6 @@ public class KoboldMessage extends AbstractKoboldMessage
 {
     public static final String TYPE = "kobold";
     
-	/**
-	 * Creates a new Kobold Message with a new unique id. (type = kmesg).
-	 */
 	public KoboldMessage()
 	{
 		super("kmesg");

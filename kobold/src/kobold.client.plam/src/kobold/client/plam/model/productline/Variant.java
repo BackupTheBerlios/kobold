@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.29 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: Variant.java,v 1.30 2004/11/05 01:51:07 martinplies Exp $
  *
  */
 
@@ -271,10 +271,6 @@ public class Variant extends AbstractAsset
 	public List getGXLChildren() {
 		List children = new ArrayList();
 		children.addAll(components);
-		/*if (releases.size() > 0) {
-		  List files = (List) releases.get(releases.size()-1);
-		 
-		}*/
 		children.addAll(releases);
 		return children;
 	}

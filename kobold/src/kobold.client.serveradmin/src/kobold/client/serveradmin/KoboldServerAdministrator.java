@@ -569,14 +569,6 @@ public class KoboldServerAdministrator implements IKoboldServerAdministration {
         }
     }// end debOut()
     
-    /**
-     * the following helper function prints the passed error message and
-     * (error-) logs it along with the passed exception's trace (if e != null). 
-     * A '\n' is inserted between the error message and the exception's trace.
-     * 
-     * @param message - the custom error message
-     * @param e - Exception whose trace is to be printed, or null 
-     */
     private static void errOut(String message){
         if (!forceNoLogging){
             System.err.print(message);

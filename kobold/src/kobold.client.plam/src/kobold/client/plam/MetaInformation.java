@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaInformation.java,v 1.20 2004/09/01 04:18:22 neco Exp $
+ * $Id: MetaInformation.java,v 1.21 2004/11/05 01:51:07 martinplies Exp $
  *
  */
 package kobold.client.plam;
@@ -130,11 +130,6 @@ public class MetaInformation {
                 logger.debug("unknown asset Type");
             }
             
-           /* // DEBUG stuff
-            Productline pl = new Productline();
-            pl.setName("PL");
-            createMetaInfoForPL(document, pl);
-           */                  	
         }
         catch(DocumentException de) {
     		logger.error("Metadaten", de);

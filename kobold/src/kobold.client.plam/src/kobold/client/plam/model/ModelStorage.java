@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.47 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: ModelStorage.java,v 1.48 2004/11/05 01:51:06 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -331,21 +331,6 @@ public class ModelStorage
         String thePath = "";
         while (asset != null) {
             
-/*            if (asset.getType() == AbstractAsset.COMPONENT) {
-                if (asset.getParent().getType() != AbstractAsset.VARIANT) {
-                    thePath = COREASSETS_FOLDER_NAME + IPath.SEPARATOR +
-                    asset.getResource() + IPath.SEPARATOR + thePath;
-                }
-                else {
-                    thePath = asset.getResource() + IPath.SEPARATOR + thePath;
-                }
-            }
-            else if (asset.getType() == AbstractAsset.PRODUCT) {
-                thePath = PRODUCTS_FOLDER_NAME + IPath.SEPARATOR + asset.getResource()
-                		  + IPath.SEPARATOR + thePath;
-            }
-            else {
-            */
                 thePath = asset.getResource() + IPath.SEPARATOR + thePath;
             //}
             

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorEditPart.java,v 1.7 2004/09/23 13:43:19 vanto Exp $
+ * $Id: FileDescriptorEditPart.java,v 1.8 2004/11/05 01:51:06 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -125,8 +125,6 @@ public class FileDescriptorEditPart extends AbstractGraphicalEditPart
 			refreshSourceConnections();
 		} else if (EdgeContainer.ID_TARGET_CHANGED.equals(prop)) {
 			refreshTargetConnections();
-		} else /*if (prop.equals(ViewModel.ID_SIZE) || prop.equals(ViewModel.ID_LOCATION) 
-		        || prop.equals(AbstractAsset.ID_DATA))*/ {
 			refreshVisuals();
 		}
 	}

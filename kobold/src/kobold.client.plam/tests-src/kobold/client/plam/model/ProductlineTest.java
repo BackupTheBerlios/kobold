@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineTest.java,v 1.9 2004/09/18 16:07:30 martinplies Exp $
+ * $Id: ProductlineTest.java,v 1.10 2004/11/05 01:51:06 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -184,22 +184,6 @@ public class ProductlineTest extends TestCase {
 		//pl.serialize("/tmp", true);
 
 		
-		/*Element ser = pl.serialize();
-		try {
-			XMLWriter w = new XMLWriter(System.out, OutputFormat.createPrettyPrint());
-			w.write(ser);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-
-		ser = coreAssetA.serialize();
-		try {
-			XMLWriter w = new XMLWriter(System.out, OutputFormat.createPrettyPrint());
-			w.write(ser);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
 
 
 	//----------------------------DESRERAILIZING------------------------------------------------		

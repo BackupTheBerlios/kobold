@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowItem.java,v 1.8 2004/10/21 21:34:11 martinplies Exp $
+ * $Id: WorkflowItem.java,v 1.9 2004/11/05 01:50:54 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -57,22 +57,6 @@ public class WorkflowItem {
 		deserialize(data);
 	}
 
-	/**
-	 * Creates a new WorkflowItem object.
-	 * 
-	 * There are 4 different kinds of workflow items:
-	 *  <ul>
-	 * 		<li>type = TEXT: value = text in inputarea, description, no children<li> 
-	 * 		<li>type = CHECK: value = "true"|"false", description, no children<li>
-	 * 		<li>type = RADIO: value = "true"|"false", description, must be added to a 
-	 * 			CONTAINER item, no children<li>
-	 * 		<li>type = CONTAINER: value = undefined|null, description, RADIO items as children<li>
-	 * 	</ul>
-	 *    
-	 * @param value
-	 * @param description
-	 * @param type
-	 */
 	public WorkflowItem(String value, String description, String type) {
 		this.value = value;
 		this.description = description;

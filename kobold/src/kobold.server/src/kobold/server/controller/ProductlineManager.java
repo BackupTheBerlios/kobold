@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.22 2004/10/21 21:34:56 martinplies Exp $
+ * $Id: ProductlineManager.java,v 1.23 2004/11/05 01:50:53 martinplies Exp $
  *
  */
 package kobold.server.controller;
@@ -323,38 +323,5 @@ public class ProductlineManager {
 		pl.addMaintainer(new User(vanto.getUserName(), vanto.getFullName()));
 	    
 		addProductline(pl);
-	    /*Productline pl = new Productline("kobold2", "kobold2",
-		         			   new RepositoryDescriptor(
-				               RepositoryDescriptor.CVS_REPOSITORY, "ssh",
-						       "cvs.berlios.de", "/cvsroot/kobold/", "kobold2"));
-	    
-	    kobold.server.data.User vanto = UserManager.getInstance().getUser("vanto");
-		pl.addMaintainer(new User(vanto.getUserName(), vanto.getFullName()));
-		
-		Product product = new Product(pl, "hallo", "hallo", new RepositoryDescriptor(
-				               RepositoryDescriptor.CVS_REPOSITORY, "ssh",
-						       "cvs.berlios.de", "/cvsroot/kobold/", "kobold2/hallo"));
-		
-		kobold.server.data.User garbeam = UserManager.getInstance().getUser("garbeam");
-		product.addMaintainer(new User(garbeam.getUserName(), garbeam.getFullName()));
-		
-		pl.addProduct(product);
-		
-		addProductline(pl);
-
-		Component comp = new Component(pl, "lala", "lala",  new RepositoryDescriptor(
-	               RepositoryDescriptor.CVS_REPOSITORY, "ssh",
-			       "cvs.berlios.de", "/cvsroot/kobold/", "kobold2/hallo"));
-		
-		addProductline(new Productline("kobold3", "kobold3",
-				       new RepositoryDescriptor(
-		                RepositoryDescriptor.CVS_REPOSITORY,
-		 			    "pserver", "cvs.berlios.de",
-		 			    "/cvsroot/kobold/", "kobold3")));
-		addProductline(new Productline("kobold4", "kobold4",
-					   new RepositoryDescriptor(
-					   	RepositoryDescriptor.CVS_REPOSITORY,
-						"ssh", "cvs.berlios.de",
-					   	"/cvsroot/kobold/", "kobold4")));*/
 	}
 }

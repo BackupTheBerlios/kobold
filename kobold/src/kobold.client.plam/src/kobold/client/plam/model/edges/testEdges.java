@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: testEdges.java,v 1.3 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: testEdges.java,v 1.4 2004/11/05 01:51:07 martinplies Exp $
  */
 
 package kobold.client.plam.model.edges;
@@ -42,22 +42,7 @@ public class testEdges {
         t.test1();
     }
     
-    void test1() {
-/*      EdgeContainer ec = new EdgeContainer();
-        Component c1 = new Component();
-        Component c2 = new Component();
-        Component c3 = new Component();
-        Component c4 = new Component();
-        c1.setName("c1");
-        MetaNode mn1 = new MetaNode(MetaNode.OR);
-        ec.addEdge(c1, mn1);
-        
-        o( ec.containsEdge(c1, mn1), "cont 1");
-        o( ! ec.containsEdge(c1, c2), "cont 2");
-        ec.addEdge(mn1, c2);
-        ec.addEdge(mn1, c3);
-        o( ec.getEdge(c1, c2) == null, "getE 2");
- */   }
+    void test1() {}
     
     static void o(boolean b, String s){
       if (b) {System.out.println("OK Test: "+s);}

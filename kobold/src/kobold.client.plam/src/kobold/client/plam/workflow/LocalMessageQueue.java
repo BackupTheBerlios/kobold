@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LocalMessageQueue.java,v 1.10 2004/08/02 17:23:54 vanto Exp $
+ * $Id: LocalMessageQueue.java,v 1.11 2004/11/05 01:51:07 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -189,51 +189,6 @@ public class LocalMessageQueue  {
 		}
 	}
 
-	/*private void addMarker(KoboldMessage msg)
-	{
-		logger.info("add marker: " + msg);
-		IMarker marker;
-		try {
-			marker = queueFile.createMarker(MARKER_ID);
-			marker.setAttribute("msgid", msg.getId());
-			marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_NORMAL);
-			marker.setAttribute(IMarker.MESSAGE, msg.getSubject());
-			marker.setAttribute(IMarker.USER_EDITABLE, false);
-			markerIdByMessage.put(msg, new Long(marker.getId()));
-
-		} catch (CoreException e) {
-			logger.warn("Error during marker operation", e);
-		}
-		
-
-	}
-
-	private void removeMarker(KoboldMessage msg)
-	{
-		logger.info("remove marker: " + msg);
-		Long id = (Long)messages.get(msg);
-		if (id != null) {
-			try {
-				IMarker marker = queueFile.findMarker(id.longValue());
-				marker.delete();
-			} catch (CoreException e) {
-				logger.warn("Error during marker operation", e);
-			}	
-		}
-	}
-
-	private void clearMarkers()
-	{
-		try {
-			IMarker[] markers = queueFile.findMarkers(MARKER_ID, true, IResource.DEPTH_ZERO);
-			for (int i = 0; i < markers.length; i++) {
-				markers[i].delete();
-			}
-			markerIdByMessage.clear();
-		} catch (CoreException e) {
-			logger.warn("Error during marker operation", e);
-		}	
-	}*/
 	
 	/**
 	 * Sorts Kobold Messages by Date

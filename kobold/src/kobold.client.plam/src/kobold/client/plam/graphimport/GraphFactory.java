@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GraphFactory.java,v 1.6 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: GraphFactory.java,v 1.7 2004/11/05 01:51:07 martinplies Exp $
  *
  */
 package kobold.client.plam.graphimport;
@@ -49,53 +49,6 @@ import org.dom4j.io.SAXReader;
 import org.eclipse.swt.widgets.Shell;
 
 
-/**
- * @author pliesmn
- *
- * Imports a Bauhausgraph or accordant GXL graphs that can be mapped to 
- * the product. 
- * It create only additional edges between existing Filedescriptors.
- * Nodes that can not mapped on the file descriptors are ignored.
- * Edges form or to ignored nodes are also ignored.
- * Structure of a node:
- * 
- *  <node id="[NODE ID]">
- *     <type  xlink:href=["Directory"|"Module"]/>
- *     <attr name="Object_Name">
- *       <string>[NODE NAME]</string>
- *     </attr>
- *     <attr name="Path_Name">
- *       <string>[PATH OF THE NODE]</string>
- *     </attr>
- *   </node>
- *  
- * or:
- * 
- * <node id="[NODE ID]">
- *     <type  xlink:href="Module"/>
- *     <attr name="File_Name">
- *       <string>[NODE NAME]</string>
- *     </attr>
- *     <attr name="Path_Name">
- *       <string>[PATH OF THE NODE]</string>
- *     </attr>
- *   </node>
- * 
- * Structure of an edge:
- * <edge from="[NODE ID]" to="[NODE ID]">
- *     <type  xlink:href="Call"/>
- *     <attr name="Edge_Cover_Counter">
- *       <int> 19</int>
- *     </attr>
- *   </edge>
- *
- * 
- *  Additional atttributes, subnodes(attribute nodes) or subgraphs are ignored.
- *  [Node Name] must be equal to filename of a FileDescriptor otherwise the node is ignored.
- *  Nodes, their href is not equal to "Directoy" or "Module" are ignored.
- *  The attribute nodes "Path_Name" and "Edge_Cover_Counter" are not need necessarily.
- *  
- */
 public class GraphFactory {
  private Map m = new HashMap();
  

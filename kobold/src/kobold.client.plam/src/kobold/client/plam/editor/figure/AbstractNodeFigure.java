@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeFigure.java,v 1.10 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: AbstractNodeFigure.java,v 1.11 2004/11/05 01:51:07 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.figure;
@@ -169,19 +169,6 @@ public abstract class AbstractNodeFigure extends ComposableFigure {
 //			iconWidget.add(scriptLabel);	
 		}
 		
-		/* Eats too much cpu
-		protected void fillShape(Graphics graphics) 
-		{
-			super.fillShape(graphics);
-			Color bC = getBackgroundColor();
-			Color fC = getForegroundColor();
-			
-			setForegroundColor(new Color(null, new RGB(0xE9,0xEE,0xF3)));
-			setBackgroundColor(new Color(null, new RGB(0xA2,0xB3,0xD1)));
-			graphics.fillGradient(getBounds(), true);
-			//setBackgroundColor(bC);
-			//setForegroundColor(fC);
-		}*/
 
 		public void setTitle(String title) {
 		    this.title = title;
