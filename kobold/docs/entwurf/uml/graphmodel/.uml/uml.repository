@@ -1,0 +1,346 @@
+<?xml version="1.0" standalone="yes"?>
+
+<XMI xmi.version="1.1" xmlns:UML="omg.org/UML/1.4">
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>ru.novosoft.uml.impl.UMLRepositoryImplXMIWriter</XMI.exporter>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <UML:Primitive xmi.id="boolean" isRoot="false" isLeaf="true" isAbstract="false" name="boolean" isSpecification="false"></UML:Primitive>
+    <UML:Primitive xmi.id="byte" isRoot="false" isLeaf="true" isAbstract="false" name="byte" isSpecification="false"></UML:Primitive>
+    <UML:Primitive xmi.id="char" isRoot="false" isLeaf="true" isAbstract="false" name="char" isSpecification="false"></UML:Primitive>
+    <UML:Primitive xmi.id="double" isRoot="false" isLeaf="true" isAbstract="false" name="double" isSpecification="false"></UML:Primitive>
+    <UML:Primitive xmi.id="float" isRoot="false" isLeaf="true" isAbstract="false" name="float" isSpecification="false"></UML:Primitive>
+    <UML:Package xmi.id="gspc47informatikunistuttgartdevantographmodel0" isRoot="false" isLeaf="false" isAbstract="false" name="/src" isSpecification="false"></UML:Package>
+    <UML:Package xmi.id="gspc47informatikunistuttgartdevantographmodel1" isRoot="false" isLeaf="false" isAbstract="false" name="kobold" isSpecification="false"></UML:Package>
+    <UML:Multiplicity xmi.id="gspc47informatikunistuttgartdevantographmodel102">
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id="gspc47informatikunistuttgartdevantographmodel103" lower="0" upper="1"></UML:MultiplicityRange>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Package xmi.id="gspc47informatikunistuttgartdevantographmodel107" isRoot="false" isLeaf="false" isAbstract="false" name="java.util" isSpecification="false">
+      <UML:Namespace.ownedElement>
+        <UML:Interface xmi.id="gspc47informatikunistuttgartdevantographmodel108" isRoot="false" isLeaf="false" isAbstract="true" name="List" visibility="public" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel109"></UML:Interface>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel205" isRoot="false" isLeaf="false" isAbstract="true" name="AbstractList" visibility="public" isSpecification="false" isActive="false"></UML:Class>
+        <UML:Interface xmi.id="gspc47informatikunistuttgartdevantographmodel206" isRoot="false" isLeaf="false" isAbstract="true" name="RandomAccess" visibility="public" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel207"></UML:Interface>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel213" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel214 gspc47informatikunistuttgartdevantographmodel215 gspc47informatikunistuttgartdevantographmodel216 gspc47informatikunistuttgartdevantographmodel217 gspc47informatikunistuttgartdevantographmodel218" name="ArrayList" visibility="public" isSpecification="false" isActive="false"></UML:Class>
+      </UML:Namespace.ownedElement>
+    </UML:Package>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel109" isRoot="false" isLeaf="false" isAbstract="false" name="interface" isSpecification="false"></UML:Stereotype>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel12" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel11" parent="gspc47informatikunistuttgartdevantographmodel10"></UML:Generalization>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel127" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel128" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Multiplicity xmi.id="gspc47informatikunistuttgartdevantographmodel129">
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id="gspc47informatikunistuttgartdevantographmodel130" lower="0" upper="-1"></UML:MultiplicityRange>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Multiplicity xmi.id="gspc47informatikunistuttgartdevantographmodel131">
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id="gspc47informatikunistuttgartdevantographmodel132" lower="0" upper="1"></UML:MultiplicityRange>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel136" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel137" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel138" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel139" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Package xmi.id="gspc47informatikunistuttgartdevantographmodel15" isRoot="false" isLeaf="false" isAbstract="false" name="java.lang" isSpecification="false">
+      <UML:Namespace.ownedElement>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel16" isRoot="false" isLeaf="true" isAbstract="false" name="String" visibility="public" isSpecification="false" isActive="false"></UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel39" isRoot="false" isLeaf="false" isAbstract="false" name="Throwable" visibility="public" isSpecification="false" isActive="false"></UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel40" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel41" name="Error" visibility="public" isSpecification="false" isActive="false"></UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel96" isRoot="false" isLeaf="false" isAbstract="false" name="Object" visibility="public" isSpecification="false" isActive="false"></UML:Class>
+        <UML:Interface xmi.id="gspc47informatikunistuttgartdevantographmodel208" isRoot="false" isLeaf="false" isAbstract="true" name="Cloneable" visibility="public" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel209"></UML:Interface>
+      </UML:Namespace.ownedElement>
+    </UML:Package>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel155" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel156" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel162" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel163" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel19" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel20" client="gspc47informatikunistuttgartdevantographmodel11" supplier="gspc47informatikunistuttgartdevantographmodel16"></UML:Dependency>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel190" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel191" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel192" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel193" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel20" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel207" isRoot="false" isLeaf="false" isAbstract="false" name="interface" isSpecification="false"></UML:Stereotype>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel209" isRoot="false" isLeaf="false" isAbstract="false" name="interface" isSpecification="false"></UML:Stereotype>
+    <UML:Package xmi.id="gspc47informatikunistuttgartdevantographmodel210" isRoot="false" isLeaf="false" isAbstract="false" name="java.io" isSpecification="false">
+      <UML:Namespace.ownedElement>
+        <UML:Interface xmi.id="gspc47informatikunistuttgartdevantographmodel211" isRoot="false" isLeaf="false" isAbstract="true" name="Serializable" visibility="public" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel212"></UML:Interface>
+      </UML:Namespace.ownedElement>
+    </UML:Package>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel212" isRoot="false" isLeaf="false" isAbstract="false" name="interface" isSpecification="false"></UML:Stereotype>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel214" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel213" parent="gspc47informatikunistuttgartdevantographmodel205"></UML:Generalization>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel215" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel213" parent="gspc47informatikunistuttgartdevantographmodel108"></UML:Generalization>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel216" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel213" parent="gspc47informatikunistuttgartdevantographmodel206"></UML:Generalization>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel217" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel213" parent="gspc47informatikunistuttgartdevantographmodel208"></UML:Generalization>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel218" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel213" parent="gspc47informatikunistuttgartdevantographmodel211"></UML:Generalization>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel227" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel228" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel25" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel24" parent="gspc47informatikunistuttgartdevantographmodel11"></UML:Generalization>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel261" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel262" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel273" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel274" client="gspc47informatikunistuttgartdevantographmodel30" supplier="gspc47informatikunistuttgartdevantographmodel108"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel274" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel275" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel276" client="gspc47informatikunistuttgartdevantographmodel4" supplier="gspc47informatikunistuttgartdevantographmodel107"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel276" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel278" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel279" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel28" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel27" parent="gspc47informatikunistuttgartdevantographmodel11"></UML:Generalization>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel282" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel281" parent="gspc47informatikunistuttgartdevantographmodel280"></UML:Generalization>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel285" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel284" parent="gspc47informatikunistuttgartdevantographmodel280"></UML:Generalization>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel296" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel297" client="gspc47informatikunistuttgartdevantographmodel284" supplier="gspc47informatikunistuttgartdevantographmodel287"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel297" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel298" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel299" client="gspc47informatikunistuttgartdevantographmodel284" supplier="gspc47informatikunistuttgartdevantographmodel16"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel299" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Package xmi.id="gspc47informatikunistuttgartdevantographmodel3" isRoot="false" isLeaf="false" isAbstract="false" name="model.pline" isSpecification="false"></UML:Package>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel302" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel303" client="gspc47informatikunistuttgartdevantographmodel4" supplier="gspc47informatikunistuttgartdevantographmodel5"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel303" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel305" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel304" parent="gspc47informatikunistuttgartdevantographmodel280"></UML:Generalization>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel31" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel30" parent="gspc47informatikunistuttgartdevantographmodel11"></UML:Generalization>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel315" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel316" client="gspc47informatikunistuttgartdevantographmodel304" supplier="gspc47informatikunistuttgartdevantographmodel287"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel316" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel317" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel318" client="gspc47informatikunistuttgartdevantographmodel304" supplier="gspc47informatikunistuttgartdevantographmodel16"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel318" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel327" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel328" client="gspc47informatikunistuttgartdevantographmodel281" supplier="gspc47informatikunistuttgartdevantographmodel16"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel328" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel34" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel33" parent="gspc47informatikunistuttgartdevantographmodel11"></UML:Generalization>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel347" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel348" client="gspc47informatikunistuttgartdevantographmodel4" supplier="gspc47informatikunistuttgartdevantographmodel5"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel348" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel38" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel36" parent="gspc47informatikunistuttgartdevantographmodel10"></UML:Generalization>
+    <UML:Package xmi.id="gspc47informatikunistuttgartdevantographmodel4" isRoot="false" isLeaf="false" isAbstract="false" name="kobold.model.pline.graph" isSpecification="false" clientDependency="gspc47informatikunistuttgartdevantographmodel275 gspc47informatikunistuttgartdevantographmodel302 gspc47informatikunistuttgartdevantographmodel347">
+      <UML:Namespace.ownedElement>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel7" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel8" name="PLineDocument" visibility="public" isSpecification="false" isActive="false">
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id="gspc47informatikunistuttgartdevantographmodel9" name="isDefined" isSpecification="false">
+              <UML:TaggedValue.dataValue>true</UML:TaggedValue.dataValue>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel11" isRoot="false" isLeaf="false" isAbstract="true" generalization="gspc47informatikunistuttgartdevantographmodel12" name="AbstractNode" visibility="public" isSpecification="false" clientDependency="gspc47informatikunistuttgartdevantographmodel19" isActive="false">
+          <UML:Namespace.ownedElement>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel14" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="AbstractNode" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel17" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel18" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+          </UML:Namespace.ownedElement>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id="gspc47informatikunistuttgartdevantographmodel13" name="isDefined" isSpecification="false">
+              <UML:TaggedValue.dataValue>true</UML:TaggedValue.dataValue>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel24" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel25" name="ComponentNode" visibility="public" isSpecification="false" clientDependency="gspc47informatikunistuttgartdevantographmodel77" isActive="false">
+          <UML:Namespace.ownedElement>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel74" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="ComponentNode" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel75" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel256" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+          </UML:Namespace.ownedElement>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id="gspc47informatikunistuttgartdevantographmodel26" name="isDefined" isSpecification="false">
+              <UML:TaggedValue.dataValue>true</UML:TaggedValue.dataValue>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel27" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel28" name="FileDescriptorNode" visibility="public" isSpecification="false" clientDependency="gspc47informatikunistuttgartdevantographmodel84" isActive="false">
+          <UML:Namespace.ownedElement>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel79" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="FileDescriptorNode" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel80" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel86" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+          </UML:Namespace.ownedElement>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id="gspc47informatikunistuttgartdevantographmodel29" name="isDefined" isSpecification="false">
+              <UML:TaggedValue.dataValue>true</UML:TaggedValue.dataValue>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel30" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel31" name="VariantNode" visibility="public" isSpecification="false" clientDependency="gspc47informatikunistuttgartdevantographmodel90 gspc47informatikunistuttgartdevantographmodel273" isActive="false">
+          <UML:Namespace.ownedElement>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel87" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="VariantNode" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel88" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel277" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+            <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel271" ownerScope="instance" name="componentNode" visibility="private" isSpecification="false" changeability="changeable" ordering="unordered" type="gspc47informatikunistuttgartdevantographmodel108"></UML:Attribute>
+          </UML:Namespace.ownedElement>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id="gspc47informatikunistuttgartdevantographmodel32" name="isDefined" isSpecification="false">
+              <UML:TaggedValue.dataValue>true</UML:TaggedValue.dataValue>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel33" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel34" name="VersionNode" visibility="public" isSpecification="false" clientDependency="gspc47informatikunistuttgartdevantographmodel61" isActive="false">
+          <UML:Namespace.ownedElement>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel56" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="VersionNode" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel57" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel63" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+          </UML:Namespace.ownedElement>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id="gspc47informatikunistuttgartdevantographmodel35" name="isDefined" isSpecification="false">
+              <UML:TaggedValue.dataValue>true</UML:TaggedValue.dataValue>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel36" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel38" name="RelationNode" visibility="public" isSpecification="false" clientDependency="gspc47informatikunistuttgartdevantographmodel47" isActive="false">
+          <UML:Namespace.ownedElement>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel44" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="RelationNode" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel45" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel49" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+          </UML:Namespace.ownedElement>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id="gspc47informatikunistuttgartdevantographmodel37" name="isDefined" isSpecification="false">
+              <UML:TaggedValue.dataValue>true</UML:TaggedValue.dataValue>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel50" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel51" name="AndNode" visibility="public" isSpecification="false" clientDependency="gspc47informatikunistuttgartdevantographmodel67" isActive="false">
+          <UML:Namespace.ownedElement>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel64" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="AndNode" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel65" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel66" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+          </UML:Namespace.ownedElement>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id="gspc47informatikunistuttgartdevantographmodel52" name="isDefined" isSpecification="false">
+              <UML:TaggedValue.dataValue>true</UML:TaggedValue.dataValue>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel53" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel54" name="OrNode" visibility="public" isSpecification="false" clientDependency="gspc47informatikunistuttgartdevantographmodel72" isActive="false">
+          <UML:Namespace.ownedElement>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel69" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="OrNode" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel70" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel71" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+          </UML:Namespace.ownedElement>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id="gspc47informatikunistuttgartdevantographmodel55" name="isDefined" isSpecification="false">
+              <UML:TaggedValue.dataValue>true</UML:TaggedValue.dataValue>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel281" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel282" name="ExclusionEdge" visibility="public" isSpecification="false" clientDependency="gspc47informatikunistuttgartdevantographmodel327" isActive="false">
+          <UML:Namespace.ownedElement>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel323" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="ExclusionEdge" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel324" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel325" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg1" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel326" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+          </UML:Namespace.ownedElement>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id="gspc47informatikunistuttgartdevantographmodel283" name="isDefined" isSpecification="false">
+              <UML:TaggedValue.dataValue>true</UML:TaggedValue.dataValue>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel284" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel285" name="DependencyEdge" visibility="public" isSpecification="false" clientDependency="gspc47informatikunistuttgartdevantographmodel296 gspc47informatikunistuttgartdevantographmodel298" isActive="false">
+          <UML:Namespace.ownedElement>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel286" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="DependencyEdge" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel288" kind="in" type="gspc47informatikunistuttgartdevantographmodel287" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel289" kind="in" type="gspc47informatikunistuttgartdevantographmodel287" name="arg1" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel290" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel291" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="DependencyEdge" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel292" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel293" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg1" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel294" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+          </UML:Namespace.ownedElement>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id="gspc47informatikunistuttgartdevantographmodel295" name="isDefined" isSpecification="false">
+              <UML:TaggedValue.dataValue>true</UML:TaggedValue.dataValue>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel304" isRoot="false" isLeaf="false" isAbstract="false" generalization="gspc47informatikunistuttgartdevantographmodel305" name="CustomEdge" visibility="public" isSpecification="false" clientDependency="gspc47informatikunistuttgartdevantographmodel315 gspc47informatikunistuttgartdevantographmodel317" isActive="false">
+          <UML:Namespace.ownedElement>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel306" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="CustomEdge" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel307" kind="in" type="gspc47informatikunistuttgartdevantographmodel287" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel308" kind="in" type="gspc47informatikunistuttgartdevantographmodel287" name="arg1" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel309" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+            <UML:Operation xmi.id="gspc47informatikunistuttgartdevantographmodel310" ownerScope="instance" concurrency="concurrent" isRoot="false" isLeaf="false" isAbstract="false" isQuery="false" name="CustomEdge" visibility="public" isSpecification="false">
+              <UML:BehavioralFeature.parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel311" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg0" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel312" kind="in" type="gspc47informatikunistuttgartdevantographmodel16" name="arg1" isSpecification="false"></UML:Parameter>
+                <UML:Parameter xmi.id="gspc47informatikunistuttgartdevantographmodel313" kind="return" type="void" isSpecification="false"></UML:Parameter>
+              </UML:BehavioralFeature.parameter>
+            </UML:Operation>
+          </UML:Namespace.ownedElement>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id="gspc47informatikunistuttgartdevantographmodel314" name="isDefined" isSpecification="false">
+              <UML:TaggedValue.dataValue>true</UML:TaggedValue.dataValue>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+        </UML:Class>
+      </UML:Namespace.ownedElement>
+    </UML:Package>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel41" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel40" parent="gspc47informatikunistuttgartdevantographmodel39"></UML:Generalization>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel47" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel48" client="gspc47informatikunistuttgartdevantographmodel36" supplier="gspc47informatikunistuttgartdevantographmodel16"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel48" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Package xmi.id="gspc47informatikunistuttgartdevantographmodel5" isRoot="false" isLeaf="false" isAbstract="false" name="net.sourceforge.gxl" isSpecification="false">
+      <UML:Namespace.ownedElement>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel6" isRoot="false" isLeaf="false" isAbstract="false" name="GXLDocument" visibility="public" isSpecification="false" isActive="false"></UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel10" isRoot="false" isLeaf="false" isAbstract="false" name="GXLNode" visibility="public" isSpecification="false" isActive="false"></UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel280" isRoot="false" isLeaf="false" isAbstract="false" name="GXLEdge" visibility="public" isSpecification="false" isActive="false"></UML:Class>
+        <UML:Class xmi.id="gspc47informatikunistuttgartdevantographmodel287" isRoot="false" isLeaf="false" isAbstract="true" name="GXLGraphElement" visibility="public" isSpecification="false" isActive="false"></UML:Class>
+      </UML:Namespace.ownedElement>
+    </UML:Package>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel51" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel50" parent="gspc47informatikunistuttgartdevantographmodel36"></UML:Generalization>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel54" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel53" parent="gspc47informatikunistuttgartdevantographmodel36"></UML:Generalization>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel61" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel62" client="gspc47informatikunistuttgartdevantographmodel33" supplier="gspc47informatikunistuttgartdevantographmodel16"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel62" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel67" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel68" client="gspc47informatikunistuttgartdevantographmodel50" supplier="gspc47informatikunistuttgartdevantographmodel16"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel68" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel72" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel73" client="gspc47informatikunistuttgartdevantographmodel53" supplier="gspc47informatikunistuttgartdevantographmodel16"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel73" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel77" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel78" client="gspc47informatikunistuttgartdevantographmodel24" supplier="gspc47informatikunistuttgartdevantographmodel16"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel78" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Generalization xmi.id="gspc47informatikunistuttgartdevantographmodel8" isSpecification="false" child="gspc47informatikunistuttgartdevantographmodel7" parent="gspc47informatikunistuttgartdevantographmodel6"></UML:Generalization>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel84" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel85" client="gspc47informatikunistuttgartdevantographmodel27" supplier="gspc47informatikunistuttgartdevantographmodel16"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel85" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Dependency xmi.id="gspc47informatikunistuttgartdevantographmodel90" isSpecification="false" stereotype="gspc47informatikunistuttgartdevantographmodel91" client="gspc47informatikunistuttgartdevantographmodel30" supplier="gspc47informatikunistuttgartdevantographmodel16"></UML:Dependency>
+    <UML:Stereotype xmi.id="gspc47informatikunistuttgartdevantographmodel91" isRoot="false" isLeaf="false" isAbstract="false" name="access" isSpecification="false"></UML:Stereotype>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel95" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Attribute xmi.id="gspc47informatikunistuttgartdevantographmodel97" name="key" isSpecification="false" type="gspc47informatikunistuttgartdevantographmodel96"></UML:Attribute>
+    <UML:Multiplicity xmi.id="gspc47informatikunistuttgartdevantographmodel98">
+      <UML:Multiplicity.range>
+        <UML:MultiplicityRange xmi.id="gspc47informatikunistuttgartdevantographmodel99" lower="0" upper="-1"></UML:MultiplicityRange>
+      </UML:Multiplicity.range>
+    </UML:Multiplicity>
+    <UML:Primitive xmi.id="int" isRoot="false" isLeaf="true" isAbstract="false" name="int" isSpecification="false"></UML:Primitive>
+    <UML:Primitive xmi.id="long" isRoot="false" isLeaf="true" isAbstract="false" name="long" isSpecification="false"></UML:Primitive>
+    <UML:Primitive xmi.id="short" isRoot="false" isLeaf="true" isAbstract="false" name="short" isSpecification="false"></UML:Primitive>
+    <UML:Primitive xmi.id="void" isRoot="false" isLeaf="true" isAbstract="false" name="void" isSpecification="false"></UML:Primitive>
+  </XMI.content>
+</XMI>
+
