@@ -682,6 +682,68 @@ By doing this you can easily navigate through your architecture.
 
 \section{Server}
 
+\subsection{Creating a Workflow}
+
+Workflows are triggered by specific rules which you can find in the ruleset.drl file.
+Here you can find some existing rules as an example. \par
+
+A rule consists of the following parts:
+\begin{itemize}
+	\item name
+	\item parameters
+	\item conditions
+	\item one consequence
+\end{itemize}
+Rules are a mixture of XML and Java.\par
+
+This is what a sample rule looks like: \\
+
+$<$rule name = "Name of the rule"$>$\\
+\begin{quote}
+$<$parameter identifier = "spy"$>$\\
+\begin{quote}
+$<$java:class$>$ kobold.common.data.RPCSpy $<$/java:class$>$\\
+\end{quote}
+$<$/parameter$>$\par
+$<$java:condition$>$ spy.getMethodName().equals("login") $<$/java:condition$>$\par
+$<$java:consequence$>$ System.out.println("Rule fired."); $<$/java:consequence$>$\\
+\end{quote}
+$<$/rule$>$\par
+
+
+The rule will only be fired when its conditions are true. If there are several conditions,
+all of them have to be true. Conditions and consequence are written in Java.\par
+
+For your own rules, the rule's parameter will always be an RPCSpy object of the package
+kobold.common.data. Such an object is created whenever an action is being executed by the server.
+These are in detail (using their actual method names):
+\begin{itemize}
+	\item addUser
+	\item getAllUsers
+	\item removeUser
+	\item updateUserPassword
+	\item updateUserFullName
+	\item getProductlineNames
+	\item getProductline
+	\item updateProductline
+	\item updateProduct
+	\item updateComponent
+\end{itemize}
+The parameter RPCSpy will contain the methodName which you can get with the "getMethodName()" method. 
+This returns one of the above Strings. An RPCSpy object also contains a vector of
+arguments that were transmitted to the server for the execution. You have access to this vector through
+the "getArguments()" method. \par
+The ruleset.drl file contains a sample rule for adding a user. Whenever a new user is added, every other user
+is notified. \par
+In the last chapter you find the source code of the classes you need to work with for writing your own rules.
+In order to have an up-to-date appendix, check out the complete Kobold module. 
+Then enter the following command in the console within the directory of the user manual:
+
+\begin{verbatim}
+perl appendix.pl >appendix.tex
+\end{verbatim}
+
+After that, rebuild the usermanual.pdf.
 
 
 
