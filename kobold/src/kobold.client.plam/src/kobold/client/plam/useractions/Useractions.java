@@ -53,6 +53,9 @@ public class Useractions {
 		
         UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
         SecureKoboldClient.getInstance().removeUser(ctx, getOneUser(userName));
+		
+		KoboldProject kp = KoboldPLAMPlugin.getCurrentKoboldProject();
+		kp.updateUserPool();
 	}
 	
 	public void changePassword(String oldPassword, String newPassword){

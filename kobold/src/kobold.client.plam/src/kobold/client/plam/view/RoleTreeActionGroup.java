@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.3 2004/08/05 15:13:48 grosseml Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.4 2004/08/05 16:44:09 grosseml Exp $
  *
  */
 package kobold.client.plam.view;
@@ -31,6 +31,7 @@ import kobold.client.plam.action.ChangePasswordAction;
 import kobold.client.plam.action.ConfigureAssetAction;
 import kobold.client.plam.action.NewUserAction;
 import kobold.client.plam.action.RefreshFileDescriptorsAction;
+import kobold.client.plam.action.RemoveUserAction;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
 import kobold.client.plam.editor.ArchitectureEditorInput;
 import kobold.client.plam.model.AbstractAsset;
@@ -72,6 +73,7 @@ public class RoleTreeActionGroup extends ActionGroup
     private ConfigureAssetAction configureAssetAction;
     private DeleteResourceAction deleteAction;
     private ChangePasswordAction changePasswordAction;
+    private RemoveUserAction removeUserAction;
     
     public RoleTreeActionGroup(RoleTreeViewPart part) 
     {
@@ -79,6 +81,8 @@ public class RoleTreeActionGroup extends ActionGroup
         this.window = part.getSite().getWorkbenchWindow();
 		newUserAction = new NewUserAction(part.getSite().getShell());
 		changePasswordAction = new ChangePasswordAction(part.getSite().getShell());
+		removeUserAction = new RemoveUserAction(part.getSite().getShell());
+		
 		refreshFDAction = new RefreshFileDescriptorsAction(part.getSite().getShell());
 		configureAssetAction = new ConfigureAssetAction(part.getSite().getShell());
 		
@@ -104,7 +108,7 @@ public class RoleTreeActionGroup extends ActionGroup
     {
 		manager.add(new Separator(GROUP_NEW));
         super.fillContextMenu(manager);
-		//manager.add(new Separator());
+		manager.add(new Separator());
 		
 		ISelection selection= getContext().getSelection();
 		if (selection instanceof IStructuredSelection) {
@@ -120,6 +124,7 @@ public class RoleTreeActionGroup extends ActionGroup
 		manager.add(new Separator());
 		manager.add(newUserAction);
 		manager.add(changePasswordAction);
+		manager.add(removeUserAction);
 		manager.add(refreshFDAction);
 		manager.add(new Separator());
 		manager.add(configureAssetAction);
