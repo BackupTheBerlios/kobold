@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.23 2004/08/24 17:13:49 vanto Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.24 2004/08/30 13:18:13 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -277,7 +277,7 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 		// set properties
 		try {
 		    Properties props = new Properties(System.getProperties());
-		    props.setProperty(SSLHelper.PROTOKOL_HANDLER, getPluginPreferences().getString(SSLHelper.PROTOKOL_HANDLER));
+		    props.setProperty(SSLHelper.PROTOCOL_HANDLER, getPluginPreferences().getString(SSLHelper.PROTOCOL_HANDLER));
 		    props.setProperty(SSLHelper.JAVA_DEBUG, getPluginPreferences().getString(SSLHelper.JAVA_DEBUG));
 		    props.setProperty(SSLHelper.KEY_STORE, getPluginPreferences().getString(SSLHelper.KEY_STORE));
 		    props.setProperty(SSLHelper.KEY_STORE_PASSWORD, getPluginPreferences().getString(SSLHelper.KEY_STORE_PASSWORD));

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SSLHelper.java,v 1.4 2004/08/03 19:39:20 vanto Exp $
+ * $Id: SSLHelper.java,v 1.5 2004/08/30 13:18:13 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -51,7 +51,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 public class SSLHelper
 {
     public static final Log logger = LogFactory.getLog(SSLHelper.class);
-    public static final String PROTOKOL_HANDLER = "java.protocol.handler.pkgs";
+    public static final String PROTOCOL_HANDLER = "java.protocol.handler.pkgs";
     public static final String JAVA_DEBUG = "javax.net.debug";
     public static final String KEY_STORE = "javax.net.ssl.keyStore";
     public static final String KEY_STORE_PASSWORD = "javax.net.ssl.keyStorePassword";

@@ -21,35 +21,41 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptChooserDialog.java,v 1.2 2004/08/30 12:06:58 garbeam Exp $
+ * $Id: ScriptChooserDialog.java,v 1.3 2004/08/30 13:18:13 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
-import java.util.Map;
+import java.io.File;
+import java.util.Iterator;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.AbstractMaintainedAsset;
-import kobold.common.data.User;
 import kobold.common.io.ScriptDescriptor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 
 import org.eclipse.jface.viewers.LabelProvider;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -68,8 +74,6 @@ public class ScriptChooserDialog extends TitleAreaDialog
     private AbstractAsset asset;
     private CheckboxTableViewer beforeScriptsViewer; 
     private CheckboxTableViewer afterScriptsViewer; 
-    private Map beforeScripts;
-    private Map afterScripts;
     private Table beforeScriptsTable;
     private Table afterScriptsTable;
     
@@ -80,8 +84,6 @@ public class ScriptChooserDialog extends TitleAreaDialog
     {
         super(parentShell);
         this.asset = asset;
-        beforeScripts = asset.getRoot().getKoboldProject().getBeforeScripts();
-        afterScripts = asset.getRoot().getKoboldProject().getAfterScripts();
     }
 
     protected Control createDialogArea(Composite parent)
@@ -89,7 +91,8 @@ public class ScriptChooserDialog extends TitleAreaDialog
         getShell().setText("Script Assignment");
         setTitle("Script Assignment");
         setMessage("Assign scripts which are invoked before and after VCM actions to this asset.");
-        Composite panel = (Composite) super.createDialogArea(parent);
+        Composite root = (Composite) super.createDialogArea(parent);
+        Composite panel = new Composite(root, SWT.NONE);
         
     	GridLayout layout = new GridLayout(2, true);
 		layout.marginHeight =
@@ -141,11 +144,6 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		        				   | GridData.FILL_HORIZONTAL);
 		gd.heightHint = 200;
 		beforeScriptsTable.setLayoutData(gd);
-	    
-		if (beforeScripts != null) {
-		    beforeScriptsViewer.add(beforeScripts.values().toArray());
-	    }
-	    // TODO: beforeScriptsViewer.setCheckedElements(asset.getBeforeScripts().toArray());
         
 		/// After Scripts table
 		afterScriptsTable = new Table(panel, SWT.CHECK | SWT.BORDER | SWT.LEAD | SWT.WRAP 
@@ -179,11 +177,58 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		gd.heightHint = 200;
 		afterScriptsTable.setLayoutData(gd);
 	    
-		if (afterScripts != null) {
-		    afterScriptsViewer.add(afterScripts.values().toArray());
-	    }
-	    // TODO: afterScriptsViewer.setCheckedElements(asset.getafterScripts().toArray());
-        return panel;
+		Composite leftButtons = new Composite(panel, SWT.NONE);
+		Button add = new Button(leftButtons, SWT.NONE);
+		add.setText("&Add...");
+		add.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+			    FileDialog fd = new FileDialog(getShell());
+			    fd.setText("Choose your script to add");
+			    String result = fd.open();
+			    if (result != null) {
+			        ScriptDescriptor sd = new ScriptDescriptor(result);
+			        sd.setPath(result);
+			        beforeScriptsViewer.add(sd);
+			    }
+			}
+		});
+		Button remove = new Button(leftButtons, SWT.NONE);
+		add.setText("Remove");
+		add.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+			    IStructuredSelection selection = (IStructuredSelection)beforeScriptsViewer.getSelection();
+			    if (selection != null && selection.size() > 0) {
+			        beforeScriptsViewer.remove(selection.toArray());
+			    }
+			}
+		});
+		
+        Composite rightButtons = new Composite(panel, SWT.NONE);
+		add = new Button(rightButtons, SWT.NONE);
+		add.setText("&Add...");
+		add.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+			    FileDialog fd = new FileDialog(getShell());
+			    fd.setText("Choose your script to add");
+			    String result = fd.open();
+			    if (result != null) {
+			        ScriptDescriptor sd = new ScriptDescriptor(result);
+			        sd.setPath(result);
+			        afterScriptsViewer.add(sd);
+			    }
+			}
+		});
+		remove = new Button(rightButtons, SWT.NONE);
+		add.setText("Remove");
+		add.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+			    IStructuredSelection selection = (IStructuredSelection)afterScriptsViewer.getSelection();
+			    if (selection != null && selection.size() > 0) {
+			        afterScriptsViewer.remove(selection.toArray());
+			    }
+			}
+		});
+		        return panel;
     }
     
     protected void okPressed()

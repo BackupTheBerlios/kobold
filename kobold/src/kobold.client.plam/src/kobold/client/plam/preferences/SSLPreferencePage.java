@@ -56,7 +56,7 @@ public class SSLPreferencePage extends FieldEditorPreferencePage
      */
     private void initializeDefaults() {
         IPreferenceStore store = getPreferenceStore();
-        store.setDefault(SSLHelper.PROTOKOL_HANDLER,
+        store.setDefault(SSLHelper.PROTOCOL_HANDLER,
                 "com.sun.net.ssl.internal.www.protocol");
         store.setDefault(SSLHelper.JAVA_DEBUG, "all");
         store.setDefault(SSLHelper.KEY_STORE, "[your keystore path]");
@@ -72,8 +72,8 @@ public class SSLPreferencePage extends FieldEditorPreferencePage
      */
 
     public void createFieldEditors() {
-        addField(new StringFieldEditor(SSLHelper.PROTOKOL_HANDLER,
-                "Java protokol handler:", getFieldEditorParent()));
+        addField(new StringFieldEditor(SSLHelper.PROTOCOL_HANDLER,
+                "Java protocol handler:", getFieldEditorParent()));
         addField(new StringFieldEditor(SSLHelper.JAVA_DEBUG, "Debug:",
                 getFieldEditorParent()));
         addField(new FileFieldEditor(SSLHelper.KEY_STORE, "Keystore path:",

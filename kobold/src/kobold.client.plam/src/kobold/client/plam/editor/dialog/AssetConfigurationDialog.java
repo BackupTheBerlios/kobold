@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.22 2004/08/27 16:28:03 garbeam Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.23 2004/08/30 13:18:13 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -129,7 +129,7 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     }
     
     private void createAssetProps(final Composite parent) {
-		Composite panel = new Composite(parent, SWT.NONE);
+		final Composite panel = new Composite(parent, SWT.NONE);
 		
 		GridLayout layout = new GridLayout(2, false);
 		layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
@@ -215,6 +215,17 @@ public class AssetConfigurationDialog extends TitleAreaDialog
 		else if (asset instanceof Variant) {
     		createVariantArea(panel);
 		}
+		
+		Button scripts = new Button(panel, SWT.NONE);
+		scripts.setText("&Scripts...");
+		scripts.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+			    ScriptChooserDialog dlg =
+			        new ScriptChooserDialog(panel.getShell(), asset);
+			    dlg.open();
+			}
+		});
+        
     }
     
 	/**
@@ -241,12 +252,15 @@ public class AssetConfigurationDialog extends TitleAreaDialog
         
         final Variant variant = (Variant) asset;
         
+        /*
         for (Iterator iterator = variant.getFileDescriptors().iterator();
         	 iterator.hasNext(); )
         {
             FileDescriptor fd = (FileDescriptor)iterator.next();
             prettyPrintFD(fd, "");
         }
+        */
+        
     }
     
     private void createReleaseArea(Composite composite) {
