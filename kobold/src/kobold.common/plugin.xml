@@ -45,6 +45,9 @@
       <library name="contrib/commons-discovery/commons-discovery-0.2.jar">
          <export name="*"/>
       </library>
+      <library name="contrib/iText/itext-1.02b.jar">
+         <export name="*"/>
+      </library>
    </runtime>
    <requires>
       <import plugin="org.junit"/>
