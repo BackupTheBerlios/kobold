@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.24 2004/06/24 09:58:58 grosseml Exp $
+ * $Id: SecureKoboldClient.java,v 1.25 2004/07/05 15:58:53 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -30,17 +30,18 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import kobold.common.controller.IKoboldServer;
 import kobold.common.controller.RPCMessageTransformer;
 import kobold.common.data.AbstractKoboldMessage;
+import kobold.common.data.Component;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
-import kobold.common.data.Role;
-import kobold.common.data.RoleP;
-import kobold.common.data.RolePE;
+import kobold.common.data.User;
 import kobold.common.data.UserContext;
 import kobold.common.io.RepositoryDescriptor;	
 
@@ -54,6 +55,7 @@ import org.dom4j.Element;
 import sun.misc.BASE64Decoder;
 
 /**
+ * TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * @author garbeam
  */
 public class SecureKoboldClient implements IKoboldServer {
@@ -107,48 +109,6 @@ public class SecureKoboldClient implements IKoboldServer {
 		} catch (Exception exception) {
 			log.error(exception);
 		}
-	}
-
-	/**
-	 * Fetches all roles for the given user context from the server.
-	 * @param userContext the user context.
-	 * @return List of Roles.
-	 */
-	public Vector getRoles(UserContext userContext) {
-		Vector v = new Vector();
-		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		try {
-			Object object = client.execute("getRoles", v);
-			
-			if (object instanceof Vector) {//&& !((String)object).equals(IKoboldServer.NO_RESULT)) {
-			    Vector vector = (Vector)object;
-				Vector result = new Vector();
-				for (Iterator it = vector.iterator(); it.hasNext(); ) {
-					Element element = RPCMessageTransformer.decode((String) it.next());
-					result.add(Role.createRole(element));
-				}
-				return result;
-			}
-		} catch (Exception exception) {
-			log.error("error during getRoles()", exception);
-		}
-		return null;
-	}
-	
-	public Role getProductRole(UserContext userContext, String userName, String productName){
-		Vector v = new Vector();
-		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		v.add(userName);
-		v.add(productName);
-	try {
-			Object object = client.execute("getProductRole",v);
-			if (object instanceof RoleP) return (RoleP) object;
-			else if (object instanceof RolePE) return (RolePE) object;
-			
-		} catch (Exception exception){
-			log.error("error during getRoles()", exception);
-		}
-		return null;
 	}
 
 	/**
@@ -244,7 +204,7 @@ public class SecureKoboldClient implements IKoboldServer {
 		try {
 			Object result = client.execute("getProduct", v);
 			if (!((String)result).equals(IKoboldServer.NO_RESULT)) {
-				return new Product(RPCMessageTransformer.decode((String)result));
+//				return new Product(RPCMessageTransformer.decode((String)result));
 			}
 		} catch (Exception exception) {
 			log.error(exception);
@@ -263,42 +223,6 @@ public class SecureKoboldClient implements IKoboldServer {
 		v.add(RPCMessageTransformer.encode(product.serialize()));
 		try {
 			Object result = client.execute("addProduct", v);
-		} catch (Exception exception) {
-			log.error(exception);
-		}
-	}
-
-	/**
-	 * Adds a new role.
-	 * @param userContext the user context.
-	 * @param userName the specified user.
-	 * @param role the new role.
-	 */
-	public void addRole(UserContext userContext, String userName, Role role) {
-		Vector v = new Vector();
-		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		v.add(userName);
-		v.add(RPCMessageTransformer.encode(role.serialize()));
-		try {
-			Object result = client.execute("addRole", v);
-		} catch (Exception exception) {
-			log.error(exception);
-		}
-	}
-
-	/**
-	 * Removes the role from the user.
-	 * @param userContext the user context.
-	 * @param userName the specified user.
-	 * @param role the new role.
-	 */
-	public void removeRole(UserContext userContext, String userName, Role role) {
-		Vector v = new Vector();
-		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		v.add(userName);
-		v.add(RPCMessageTransformer.encode(role.serialize()));
-		try {
-			Object result = client.execute("removeRole", v);
 		} catch (Exception exception) {
 			log.error(exception);
 		}
@@ -505,8 +429,8 @@ public class SecureKoboldClient implements IKoboldServer {
 		}
 	}
 	
-		private class AdaptedSecureXmlRpcClient extends SecureXmlRpcClient {
-
+	private class AdaptedSecureXmlRpcClient extends SecureXmlRpcClient {
+		
 		/**
 		 */
 		public AdaptedSecureXmlRpcClient(URL url) {
@@ -517,17 +441,81 @@ public class SecureKoboldClient implements IKoboldServer {
 		 * @see org.apache.xmlrpc.XmlRpcHandler#execute(java.lang.String, java.util.Vector)
 		 */
 		public Object execute(String arg0, Vector arg1)
-			throws XmlRpcException, IOException {
-				String response = (String)super.execute(arg0, arg1);
-				ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(new BASE64Decoder().decodeBuffer(response)));
-				try {
-					return ois.readObject();
-				} catch (ClassNotFoundException e) {
-					log.error("Could not read data stream", e);
-					throw new XmlRpcClientException("Unkown class", e);
-				}
+		throws XmlRpcException, IOException {
+			String response = (String)super.execute(arg0, arg1);
+			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(new BASE64Decoder().decodeBuffer(response)));
+			try {
+				return ois.readObject();
+			} catch (ClassNotFoundException e) {
+				log.error("Could not read data stream", e);
+				throw new XmlRpcClientException("Unkown class", e);
+			}
 		}
 	}
 
+	/**
+	 * @see kobold.common.controller.IKoboldServer#getProductlineNames(kobold.common.data.UserContext)
+	 */
+	public List getProductlineNames(UserContext userContext) {
+		List result = new ArrayList();
+		return result;
+	}
+	
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.IKoboldServer#getAllUsers(kobold.common.data.UserContext)
+	 */
+	public List getAllUsers(UserContext userContext) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.IKoboldServer#getRoles(kobold.common.data.UserContext)
+	 */
+	public Vector getRoles(UserContext userContext) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.IKoboldServer#updateUser(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String)
+	 */
+	public void updateUser(UserContext userContext, User user, String password) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.IKoboldServer#removeUser(kobold.common.data.UserContext, kobold.common.data.User)
+	 */
+	public void removeUser(UserContext userContext, User user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.IKoboldServer#updateProductline(kobold.common.data.UserContext, kobold.common.data.Productline)
+	 */
+	public void updateProductline(UserContext userContext, Productline productline) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.IKoboldServer#updateProduct(kobold.common.data.UserContext, java.lang.String, kobold.common.data.Product)
+	 */
+	public void updateProduct(UserContext userContext, String productlineName, Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see kobold.common.controller.IKoboldServer#updateComponent(kobold.common.data.UserContext, java.lang.String, kobold.common.data.Component)
+	 */
+	public void updateComponent(UserContext userContext, String productName, Component component) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.9 2004/07/01 11:27:25 vanto Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.10 2004/07/05 15:58:53 garbeam Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -38,9 +38,6 @@ import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
-import kobold.common.data.RoleP;
-import kobold.common.data.RolePE;
-import kobold.common.data.RolePLE;
 import kobold.common.data.User;
 
 import org.eclipse.core.resources.IProject;
@@ -66,12 +63,6 @@ public class RoleTreeLabelProvider extends LabelProvider
 	public String getText(Object element) {
 		if (element instanceof User) {
 			return ((User)element).getFullname();
-		} else if (element instanceof RolePLE) {
-			return "PLE";
-		} else if (element instanceof RolePE) {
-			return "PE";
-		} else if (element instanceof RoleP) {
-			return "P";
 		}  if (element instanceof Productline) {
 			return ((Productline)element).getName();
 		} else if (element instanceof Product) {
