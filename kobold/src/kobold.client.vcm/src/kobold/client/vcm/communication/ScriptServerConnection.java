@@ -226,8 +226,12 @@ public class ScriptServerConnection implements IServerConnection
                     stream2 = console.newMessageStream();
                 }
             }
-
-			
+			if (stream2 == null)
+            {
+                conMgr.addConsoles(
+        				new IConsole[] {console});
+                stream2 = console.newMessageStream();
+            }
 			connected = true;
 			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
 			errorThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
@@ -238,8 +242,11 @@ public class ScriptServerConnection implements IServerConnection
 			    Workbench.getInstance().getProgressService().run(true,false,(InputThreadToConsole)inputThread) ;
 				process.waitFor();
 				returnValue =  process.exitValue();
-				MessageDialog.openError(new Shell(),"Error excecuting VCM Script","an Error occured while excecuting a VCM Script, \n +" +
-						"please check the Message Console for further Details!");
+				if (returnValue != 0)
+                {
+					MessageDialog.openError(new Shell(),"Error excecuting VCM Script","an Error occured while excecuting a VCM Script, \n +" +
+					"please check the Message Console for further Details!");
+                }
 				System.out.println(returnValue);
             } catch (Exception e)
             {
@@ -419,7 +426,10 @@ public class ScriptServerConnection implements IServerConnection
                         }
                     }
                     monitor.worked(1);
-                    stream.println(new String(readLineBuffer, 0, index));
+                    if (index != 0)
+                    {
+                        stream.println(new String(readLineBuffer, 0, index));
+                    }
                     System.out.println(new String(readLineBuffer, 0, index));
                     this.readLineBuffer = new byte[512];
                     index = 0;
