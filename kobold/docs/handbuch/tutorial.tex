@@ -1,134 +1,172 @@
-\chapter{Tutorial}
+\chapter{12-step Tutorial}
 
 \section{Preconditions}
-
-
+In order to perform this tutorial, install Kobold and start the Client, Server and
+Server Administration Tool. Make sure that you have set the correct properties for your
+Client. 
 
 
 \section{Creating a productline}
-Enter the command 'newpl'. A listing is shown with the properties of the lately created
-productline. You can change the properties as described above. By enetering 'p' the SAT
-tries to create a new productline with the current settings. \par
+In your SAT Tool, enter the command 'newpl'. A listing is shown with the properties of the lately created
+productline. Enter the command '1' and then 'testproductline' as name for your
+new productline. Enter the command 'p' to create the productline.
 
-Please not that every productline of a Kobold server must have an unique name. Creation
-of a productline with an already assigned name will be refused by the server.
-
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{tutorial1.png}
+   \caption{Creating a productline}
+\end{center}
+\end{figure}\par
 
 
 \section{Creating a new user}
-Enter the command 'newuser'. A listing is shown with the properties of the lately created
-user, his/her username, fullname and initial password. After enetering 'p' a new user with
-the shown properties is created on the server.\par
+In your SAT Tool, enter the command 'newuser'. A listing is shown with the properties of the lately created
+user, his/her username, fullname and initial password. 
+Enter the command '1' and then 'testuser' as username for your new user.
+Enter the command 'p' to create the user.
 
-Note that every registered user needs to have its own unique username. Creation of a new user 
-with a username that's already been registered will be refused by the server.
-
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{tutorial2.png}
+   \caption{Creating a new user}
+\end{center}
+\end{figure}\par
 
 
 \section{Assigning an existing user to a productline as PLE}
-Enter the command 'assignple'. You are asked to enter the name of the person you want
-to become PLE. Finally, enter the name of the productline you want to assign the new 
-PLE to. Once you confirmed your entry, the user has PLE rights.
+In your SAT Tool, enter the command 'assignple'. 
+As PLE enter the username 'testuser'. As productline enter your productline 'testproductline'.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{tutorial3.png}
+   \caption{Assigning your ple to your productline}
+\end{center}
+\end{figure}\par
+
 
 
 \section{Starting a new project}
 
+Start the Client.
 In the File menu select 'New' and then 'Kobold PLAM Project'. The Kobold wizard opens.
-Enter the url of your Kobold server, your username and password. Then press
-"test connection". If the test succeeds, the "next" button is enabled (see \ref{wizard1}).
+Enter the url of your Kobold server, your username (testuser) and a blank for your password. Then press
+"test connection". If the test succeeds, the "next" button is enabled.
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{wizard1.png}
+\includegraphics[width=10cm]{tutorial4.png}
    \caption{Kobold wizard}
-\label{wizard1}
 \end{center}
 \end{figure}\par
 
-After that you choose the productline you want to check out (see \ref{wizard2}).
+After that you choose 'testproductline' as the productline you want to check out.
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{wizard2.png}
+\includegraphics[width=10cm]{tutorial5.png}
    \caption{Kobold wizard}
-\label{wizard2}
 \end{center}
 \end{figure}\par
 
-In the last step you have to enter the name of the project you want to create (see \ref{wizard3}).
+In the last step you have to enter 'testproject' as the name of the project you want to create.
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{wizard3.png}
+\includegraphics[width=10cm]{tutorial6.png}
    \caption{Kobold wizard}
-\label{wizard3}
 \end{center}
 \end{figure}\par
 
-A new project has been created. You can open the different views through the Window menu
-and 'show view'. 
+Press finish and your new project is created.
+
 
 \section{Creating a Core Assets}
 
-In the pallete select the "component" item. Click within a variant or top-level in 
-the Architecture Editor. A component is inserted (see \ref{component}) and a dialog opens where you can enter the meta data of
-the component. Per drag+drop you can simply change the size of the component. \par
-Note: Core Assets/Components can only be inserted top-level or into variants.
+In the Architecture Tree (on the left) open up the tree of your new project. Double-click on 'architecture' in order to 
+open the Architecture Editor. \par
+
+Open the pallete on the right of the Architecture Editor and select the 'component' item. Click in 
+the Architecture Editor. A core asset is inserted and a dialog opens where you enter 'componentA' as name of
+the core asset. 
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=8cm]{component.png}
-   \caption{Component}
-\label{component}
+\includegraphics[width=8cm]{tutorial7.png}
+   \caption{Asset Configuration Core Asset}
+\end{center}
+\end{figure}\par
+
+Repeat these steps another two times and create the core assets 'componentB' and
+'componentC'. After this your architecture should look like the following:
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{tutorial8.png}
+   \caption{Your Core Assets}
 \end{center}
 \end{figure}\par
 
 
 \section{Creating variants}
 
-In the pallete select the "variant" item. Click within a component in 
-the Architecture Editor. A variant is inserted (see \ref{variant}) and a dialog opens where you can enter the meta data of
-the variant. Per drag+drop you can simply change the size of the variant. \par
-Note: Variants can only be inserted into components.
+In the pallete select the "variant" item. Click within componentA in 
+the Architecture Editor. A variant is inserted and a dialog opens where you can enter 'variantA1' as name of
+the variant. 
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{variant.png}
-   \caption{Variant}
-\label{variant}
+\includegraphics[width=10cm]{tutorial9.png}
+   \caption{Asset Configuration Variant}
+\end{center}
+\end{figure}\par
+
+Repeat these steps another two times in order to create the variants 'variantA2' and 'variantB'.
+After this your architecture should look like the following:
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{tutorial10.png}
+   \caption{Your Variants}
 \end{center}
 \end{figure}\par
 
 
 \section{Creating releases}
 
-In the pallete select the "release" item. Click within a variant in 
-the Architecture Editor. A release is inserted (see \ref{release}) and a dialog opens where you can enter the meta data of
-the release. For each file of the variant you can select the revision number you want to add to the release. 
-Per drag+drop you can simply change the size of the release. \par
-Note: Releases can only be inserted into variants.
+In the pallete select the "release" item. Click within variantA1 in 
+the Architecture Editor. A release is inserted and a dialog opens where you can enter 'releaseA' as name of
+the release. 
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{release.png}
-   \caption{Release}
-\label{release}
+\includegraphics[width=10cm]{tutorial11.png}
+   \caption{Asset Configuration Release}
+\end{center}
+\end{figure}\par
+
+Repeat these steps another two times in order to create the releases 'releaseB1' and 
+'releaseB2'. After this your architecture should look like the following:
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{tutorial12.png}
+   \caption{Your Releases}
 \end{center}
 \end{figure}\par
 
 
 
+\section{Creating dependency edges}
 
-\section{Creating a dependency edge}
-
-In the pallete select the "include edge" item. Select an item in the Architecture Editor
-as the starting point. The next item you select will be the aiming point (see \ref{include}).
+In the pallete select the "include edge" item. Select the assets 'variantA1', 'releaseB1', 
+'componentA' and 'componentC' in this order. Two dependency edges appear between the
+assets. After this your architecture should look like the following:
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{include.png}
-   \caption{Dependency edge}
-\label{include}
+\includegraphics[width=10cm]{tutorial13.png}
+   \caption{Dependency edges}
 \end{center}
 \end{figure}\par
 
@@ -136,18 +174,26 @@ as the starting point. The next item you select will be the aiming point (see \r
 
 \section{Creating a product}
 
-In the palette press 'compose product'. The components, etc. in the architecture view turn
-grey. You can now select the components, variants and releases you want to include into
-you new product. The chosen objects turn blue (see \ref{compose}). When done press the 
-'create product' button in the Architecture Editor. A dialog opens where you can enter
-the name and metainfo of your new product. After confirming the dialog, you can see
-your new product in the Architecture Tree and Architecture Editor
+In the palette press 'compose product'. The components, etc. in the architecture editor turn
+grey. Select 'releaseA'. The chosen object and all the objects that are needed for it turn blue. 
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{composeproduct.png}
-   \caption{Composing a Product}
-\label{compose}
+\includegraphics[width=10cm]{tutorial14.png}
+   \caption{Creating a product - step 1}
+\end{center}
+\end{figure}\par
+
+
+Press the 
+'create product' button in the Architecture Editor. A dialog opens where you can enter 'testproduct' as
+the name of your new product. After confirming the dialog, you can see
+your new product in the Architecture Tree and Architecture Editor.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{tutorial15.png}
+   \caption{Creating a product - step 2}
 \end{center}
 \end{figure}\par
 
@@ -158,35 +204,36 @@ your new product in the Architecture Tree and Architecture Editor
 \section{Writing a mail}
 
 In the menu of the Workflow View select "new mail". A Workflow window opens where
-you can enter your message, the subject and the recipient of the message. Send the
-message by pressing the "Send" button. Pressing the "Cancel" button will close the window
-without sending your message (see \ref{writemail}).
+you enter 'testuser' as the recipient in order to send yourself a testmail. 
+Choose 'test' as the subject of your message and enter 'this is a testmail'. 
+Press the 'transmit' button to send your mail.
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{writemail.png}
-   \caption{Write a new mail}
-\label{writemail}
+\includegraphics[width=10cm]{tutorial16.png}
+   \caption{Write a mail}
 \end{center}
 \end{figure}\par
 
-\section{Answering a mail}
+Afterwards open the menu of the Workflow View and select 'Fetch messages'. Your sent
+message arrives in your Workflow View.
 
-In the Workflow View double-click on the mail you want to answer. A Workflow
-window opens where you can see the message text of the mail. Below you can enter
-the subject and the text of your reply. Send the answer by pressing the "Send" 
-button. Pressing the "Cancel" button will close the window without sending 
-your message (see \ref{answermail}).
+\section{Answering your mail}
+
+In the Workflow View double-click on your testmail. The Workflow
+window opens where you can see the message text of the mail. Below you enter
+the subject 'reply' and the text of your reply. Send the answer by pressing the 'Transmit' 
+button. 
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{answermail.png}
+\includegraphics[width=10cm]{tutorial17.png}
    \caption{Answer a mail}
-\label{answermail}
 \end{center}
 \end{figure}\par
 
-
+Afterwards open the menu of the Workflow View and select 'Fetch messages'. Your sent
+message arrives in your Workflow View.
 
 
 

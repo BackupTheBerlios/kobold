@@ -13,6 +13,7 @@ In the Main Window you can see the following editors and views (see \ref{main}):
 \begin{itemize}
 	\item Architecture Editor
 	\item Architecture Tree
+	\item Navigator
 	\item Workflow View
 	\item Minimap
 \end{itemize}
@@ -46,7 +47,19 @@ Enter the url of your Kobold server, your username and password. Then press
 \end{center}
 \end{figure}\par
 
-After that you choose the product(line) you want to check out (see \ref{wizard2}).
+Before you proceed, you have the chance to import a new certificate. In order to do this,
+press the button 'import certificate...'. A new dialog opens (see \ref{certificate}) where you 
+can an alias and your new certificate. Confirm with 'OK'.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{certificate.png}
+   \caption{Importing a Certificate}
+\label{certificate}
+\end{center}
+\end{figure}\par
+
+After that you choose the productline you want to check out (see \ref{wizard2}).
 
 \begin{figure}[h!]
 \begin{center}
@@ -117,11 +130,13 @@ The Architecture Editor offers you the following options:
 	\item Creating a dependency edge
 	\item Creating an exclusion edge
 	\item Deleting an edge
-	\item Marking a component, variant or release "deprecated"
-	\item Setting the maintainers of a component
+	\item Marking a product, component, variant or release "deprecated"
+	\item Setting the maintainers of a productline, product or component
 	\item Moving an item
 	\item Changing the size of an item
 	\item Composing a product
+	\item Configuring a product
+	\item Edit the repository descriptor of a product
 	\item Export
 \end{itemize}
 
@@ -142,7 +157,7 @@ to work with the Architecture Editor and opens up when you click on it.
 
 In the pallete select the "component" item. Click within a variant or top-level in 
 the Architecture Editor. A component is inserted (see \ref{component}) and a dialog opens where you can enter the meta data of
-the component. Per drag+drop you can simply change the size of the component. \par
+the component. By clicking on the border and pulling it you can simply change the size of the component. \par
 Note: Core Assets/Components can only be inserted top-level or into variants.
 
 \begin{figure}[h!]
@@ -154,13 +169,24 @@ Note: Core Assets/Components can only be inserted top-level or into variants.
 \end{figure}\par
 
 \subsubsection{Configuring a core asset/component}
+In the Architecture Editor right-click on the core asset/component you want to configure. 
+A context menu opens where you choose 'Configure...'. This opens the Asset Configuration Dialog
+for components (see \ref{configcomp}). Here you can change the name, description, maintainers and scripts for the
+asset. You can also set the asset on deprecated if you like.
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=8cm]{configcomp.png}
+   \caption{Asset Configuration Dialog for Components}
+\label{configcomp}
+\end{center}
+\end{figure}\par
 
 \subsubsection{Creating a variant}
 
 In the pallete select the "variant" item. Click within a component in 
 the Architecture Editor. A variant is inserted (see \ref{variant}) and a dialog opens where you can enter the meta data of
-the variant. Per drag+drop you can simply change the size of the variant. \par
+the variant. By clicking on the border and pulling it you can simply change the size of the variant. \par
 Note: Variants can only be inserted into components.
 
 \begin{figure}[h!]
@@ -173,14 +199,25 @@ Note: Variants can only be inserted into components.
 
 
 \subsubsection{Configuring a variant}
+In the Architecture Editor right-click on the variant you want to configure. 
+A context menu opens where you choose 'Configure...'. This opens the Asset Configuration Dialog
+for variants (see \ref{configvar}). Here you can change the name, description and scripts for the
+asset. You can also set the asset on deprecated if you like.
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=8cm]{configvar.png}
+   \caption{Asset Configuration Dialog for Variants}
+\label{configvar}
+\end{center}
+\end{figure}\par
 
 \subsubsection{Creating a release}
 
 In the pallete select the "release" item. Click within a variant in 
 the Architecture Editor. A release is inserted (see \ref{release}) and a dialog opens where you can enter the meta data of
 the release. For each file of the variant you can select the revision number you want to add to the release. 
-Per drag+drop you can simply change the size of the release. \par
+By clicking on the border and pulling it you can simply change the size of the release. \par
 Note: Releases can only be inserted into variants.
 
 \begin{figure}[h!]
@@ -193,14 +230,16 @@ Note: Releases can only be inserted into variants.
 
 
 \subsubsection{Configuring a release}
-Right-click on the component and choose "configure". The Asset Configuration dialog (see \ref{config2}) opens.
-
+In the Architecture Editor right-click on the release you want to configure. 
+A context menu opens where you choose 'Configure...'. This opens the Asset Configuration Dialog
+for releases (see \ref{configrel}). Here you can change the name, description, resources and scripts for the
+asset. You can also set the asset on deprecated or mark it as a release if you like.
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=10cm]{config2.png}
-   \caption{Asset Configuration dialog (release)}
-\label{config2}
+\includegraphics[width=8cm]{configrel.png}
+   \caption{Asset Configuration Dialog for Releases}
+\label{configrel}
 \end{center}
 \end{figure}\par
 
@@ -242,18 +281,10 @@ Right-click on the meta node you want to delete and choose "delete" in the conte
 menu. Alternatively you
 can select the node and press "Del" on your keyboard.
 
-\subsubsection{Marking a component, variant or release as "deprecated"}
-Right-click on the object and choose "configure". The Asset Configuration dialog (see \ref{config} and \ref{config2}) opens where you can
+\subsubsection{Marking a product, component, variant or release as "deprecated"}
+Right-click on the object and choose "configure". The Asset Configuration dialog (see \ref{configp}, \ref{configcomp}, \ref{configvar} and \ref{configrel}) opens where you can
 mark the check-box 'deprecated'. This sets the object on deprecated. Deprecated objects are grey with a 
 red cross in the upper right-hand corner (see \ref{deprecated}).
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=10cm]{config.png}
-   \caption{Asset Configuration dialog (component)}
-\label{config}
-\end{center}
-\end{figure}\par
 
 \begin{figure}[h!]
 \begin{center}
@@ -297,33 +328,19 @@ Right-click on the edge you want to delete and choose "delete" in the context me
 Alternatively you can select the edge and press "Del" on your keyboard.
 
 
-\subsubsection{Marking a component, variant or release as "deprecated"}
-Right-click on the object and choose "configure". The Asset Configuration dialog (see \ref{config} and \ref{config2}) opens where you can
-mark the check-box 'deprecated'. This sets the object on deprecated. Deprecated objects are grey with a 
-red cross in the upper right-hand corner (see \ref{deprecated}).
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=10cm]{config.png}
-   \caption{Asset Configuration dialog (component)}
-\label{config}
-\end{center}
-\end{figure}\par
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=7cm]{deprecated.png}
-   \caption{Deprecated component}
-\label{deprecated}
-\end{center}
-\end{figure}\par
-
-
-\subsubsection{Setting the maintainers of a component}
-Right-click on the component and choose "configure". The Asset Configuration dialog (see \ref{config}) opens.
-Press the 'Edit...' button. A new window opens where you can select the users you want to make maintainers of
-the component (see \ref{maintainer}). After pressing 'OK' you can see the new maintainers in the Asset Configuration
+\subsubsection{Setting the maintainers of a productline, product or component}
+Right-click on the component or name of the productline and choose "configure". The Asset Configuration dialog (see \ref{configcomp}, \ref{configp} and \ref{configpl}) opens.
+Press the 'Edit Maintainer' button. A new window opens where you can select the users you want to make maintainers of
+the productline/component (see \ref{maintainer}). After pressing 'OK' you can see the new maintainers in the Asset Configuration
 dialog.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{configpl.png}
+   \caption{Asset Configuration Dialog for Productlines}
+\label{configpl}
+\end{center}
+\end{figure}\par
 
 \begin{figure}[h!]
 \begin{center}
@@ -335,19 +352,19 @@ dialog.
 
 
 \subsubsection{Moving an item}
-You can move any item per drag+drop.
+You can move any item by clicking on the item and pulling it.
 
 \subsubsection{Changing the size of an item}
-You can change the size of an item per drag+drop.
+You can change the size of an item by clicking on the border of the item and pulling it.
 
 
 \subsubsection{Composing a product}
 
-In the palette press 'compose product'. The components, etc. in the architecture view turn
+In the palette press 'compose product'. The components, etc. in the architecture editor turn
 grey. You can now select the components, variants and releases you want to include into
 you new product. The chosen objects turn blue (see \ref{compose}). When done press the 
 'create product' button in the Architecture Editor. A dialog opens where you can enter
-the name and metainfo of your new product. After confirming the dialog, you can see
+the name, resource, description, maintainers, scripts and repository descriptor of your new product. After confirming the dialog, you can see
 your new product in the Architecture Tree and Architecture Editor.
 
 \begin{figure}[h!]
@@ -357,6 +374,36 @@ your new product in the Architecture Tree and Architecture Editor.
 \label{compose}
 \end{center}
 \end{figure}\par
+
+\subsubsection{Configuring a product}
+In the Architecture Editor right-click on the product you want to configure. 
+A context menu opens where you choose 'Configure...'. This opens the Asset Configuration Dialog
+for products (see \ref{configp}). Here you can change the name, resource, description, maintainers, repository descriptor and scripts for the
+asset. You can also set the asset on deprecated if you like.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=8cm]{configp.png}
+   \caption{Asset Configuration Dialog for Products}
+\label{configp}
+\end{center}
+\end{figure}\par
+
+
+\subsubsection{Editing the repository descriptor of a product}
+In the Architecture Editor right-click on the product. A context menu opens where
+you choose 'Configure Asset'. This opens the Asset Configuration dialog for
+products (see \ref{configp}). Press the 'Repository...' button and a new dialog opens (see \ref{repository}).
+Here you can change the data of the repository that saves the data of the product. Confirm with 'OK'.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=8cm]{repository.png}
+   \caption{Edit Repository Descriptor}
+\label{repository}
+\end{center}
+\end{figure}\par
+
 
 
 \subsubsection{Export}
@@ -395,7 +442,7 @@ the export is finished. If you decide not to do the export, simply press the
 
 The Architecture Tree shows the current projects that are checked out in your workspace 
 (see \ref{roletree}).
-A project is a productline. You can navigate between the 
+A project is always a productline. You can navigate between the 
 different projects by selecting them. If you open the tree, you see the name
 of the productline. Double-click on 'Architecture' and the Architecture Editor will open. The open tree also 
 displays all products, PLEs and core assets that belong to the productline.
@@ -409,25 +456,36 @@ displays all products, PLEs and core assets that belong to the productline.
 \end{figure}\par
 
 When you right-click on a project, a context menu will open where you can choose 
-between different actions (see \ref{rolekontext}). The possible actions are different
-depending on which asset you open the context menu. Possible actions are:
+between different actions (see \ref{rolekontext} and \ref{rolekontext2}). The possible actions are different
+depending on which asset you open the context menu on. Possible actions are:
 
 \begin{itemize}
-	\item Creating a user
+	\item Creating a new user
 	\item Change password
 	\item Update full name
 	\item Configure asset
 	\item Suggesting an asset for a Core Group
-	\item Generate a document
+	\item Generate AssetInfo document
 	\item Export
+	\item Import
+	\item Add to Product
+	\item Delete Asset
 	\item Version Control
 \end{itemize}
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=5cm]{rolekontext.png}
-   \caption{Architecture Tree Context Menu}
+   \caption{Architecture Tree Context Menu 1}
 \label{rolekontext}
+\end{center}
+\end{figure}\par
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{rolekontext2.png}
+   \caption{Architecture Tree Context Menu 2}
+\label{rolekontext2}
 \end{center}
 \end{figure}\par
 
@@ -436,29 +494,22 @@ depending on which asset you open the context menu. Possible actions are:
 
 Right-click in the architecture tree. In the context menu choose
 'create new user'. The User Manager (see \ref{createuser1}) opens where you see a list of all existing users.
-Push the 'create new user' button. In the opening dialog you can enter the username, real name and the
-initial password of the user (see \ref{createuser2}). Pressing the 'OK' button creates the new user and you
+In order to create a new user, enter the username, name and password of the new user and press the 'add user' button.
+You
 can see the new user in the list of the User Manager.
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=10cm]{createuser1.png}
-   \caption{Create a new user - step 1}
+   \caption{Create a new user}
 \label{createuser1}
 \end{center}
 \end{figure}\par
 
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=10cm]{createuser2.png}
-   \caption{Create a new user - step 2}
-\label{createuser2}
-\end{center}
-\end{figure}\par
 
 \subsubsection{Changing your password}
 
-Right-click in the architecture tree and select 'change password'. A dialog opens where you can
+Right-click in the architecture tree and select 'update password'. A dialog opens where you can
 enter your new password (see \ref{password}). Confirm the password and press 'OK'. Your password has been changed.
 
 \begin{figure}[h!]
@@ -490,11 +541,11 @@ In the architecture tree right click on the asset you want to configure and sele
 
 In the Architecture Tree, select the asset you want to suggest and right-click on it. The context menu opens where
  you choose the option 'Suggest asset for core group'. A dialog opens where
- you can select the type of recipient, i.d. whether the suggestion is to be sent to a PE or a PLE. After
+ you can select the type of recipient, that is whether the suggestion is to be sent to a PE or a PLE. After
  that decision a Workflow
 window opens where you can enter the name of the asset and the username of the
 PE/PLE you want to send the message to. You can also enter an additional comment you want 
-the PE/PLE to read. Send the message by pressing the "Send" 
+the PE/PLE to read. Send the message by pressing the "Transmit" 
 button. Pressing the "Cancel" button will close the window without sending 
 your message (see \ref{core1}).
 
@@ -507,15 +558,104 @@ your message (see \ref{core1}).
 \end{figure}\par
 
 
-\subsubsection{Generating a document}
-In the role tree right-click on the object (productline, product, component, variant, release) you want the document about
-and select 'generate document...'. A 'Save as' dialog opens where you can select the parent folder into which the pdf-file
+\subsubsection{Generating an AssetInfo document}
+In the architecture tree right-click on the object (productline, product, component, variant, release) you want the document about
+and select 'generate AssetInfo document...'. A 'Save as' dialog opens where you can select the parent folder into which the pdf-file
 will be saved. Confirm by pressing the 'OK' button and the pdf-file is created.
 
 \subsubsection{Export}
-In the architecture tree right click on the asset you want to export and select
-'export...'. The corresponding dialog will open. For more information see
+In the architecture tree right-click on the asset you want to export and select
+'GXL Export'. The corresponding dialog will open. For more information see
 'Architecture Editor'.
+
+\subsubsection{Import}
+In the architecture tree right-click on a product and choose 'GXL Import...'. A dialog
+opens (see \ref{import}) where you can enter the name and path of the gxl-file you want to import. Click 
+'proceed' to finish.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{import.png}
+   \caption{Import}
+\label{import}
+\end{center}
+\end{figure}\par
+
+
+
+\subsubsection{Add Asset to Product}
+In the architecture tree right-click on the variant you want to add to a product
+and choose 'Add to Product'. A dialog opens where you can choose the products you
+want to add the variant to (see \ref{addproduct}). When done confirm by pressing
+'OK'. The variant is added to the chosen products.
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{addtoproduct.png}
+   \caption{Add an Asset to a Product}
+\label{addproduct}
+\end{center}
+\end{figure}\par
+
+
+\subsubsection{Delete Asset}
+In the architecture tree right-click on the asset you want to delete and choose
+'delete asset'. A dialog opens (see \ref{delete}) which asks you if you really want to delete the asset.
+If you press 'yes', the asset will be deleted. If you press 'no', the asset and its
+subassets will
+be marked as deprecated. You can change this status anytime through the asset 
+configuration dialog. 
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{deleteasset.png}
+   \caption{Deleting an Asset}
+\label{delete}
+\end{center}
+\end{figure}\par
+
+\subsubsection{Version Control}
+Right-click on an asset and choose 'Version Control'. Another menu opens where you can choose
+between different version control actions (see \ref{vcm}). Among those are:
+\begin{itemize}
+	\item Checkout
+	\item Import
+	\item Add
+	\item Update
+	\item Commit
+\end{itemize}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{vcm.png}
+   \caption{Version Control Actions}
+\label{vcm}
+\end{center}
+\end{figure}\par
+
+
+
+
+
+\subsection{Navigator}
+The Navigator hides behind the Architecture Tree and is brought to the front by
+clicking on it (see \ref{navigator}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{roletree2.png}
+   \caption{Navigator}
+\label{navigator}
+\end{center}
+\end{figure}\par
+
+It shows the folders the way they are saved on your hard disk and in the repositories.
+Here you can use the normal Eclipse actions you can easily look up in the Eclipse help.
+
+
+
 
 
 
@@ -587,7 +727,7 @@ Right-click on the message and choose "Delete message" in the context menu.
 
 In the menu of the Workflow View select "new mail". A Workflow window opens where
 you can enter your message, the subject and the recipient of the message. Send the
-message by pressing the "Send" button. Pressing the "Cancel" button will close the window
+message by pressing the "Transmit" button. Pressing the "Cancel" button will close the window
 without sending your message (see \ref{writemail}).
 
 \begin{figure}[h!]
@@ -602,7 +742,7 @@ without sending your message (see \ref{writemail}).
 
 In the Workflow View double-click on the mail you want to answer. A Workflow
 window opens where you can see the message text of the mail. Below you can enter
-the subject and the text of your reply. Send the answer by pressing the "Send" 
+the subject and the text of your reply. Send the answer by pressing the "Transmit" 
 button. Pressing the "Cancel" button will close the window without sending 
 your message (see \ref{answermail}).
 
@@ -621,7 +761,7 @@ In the menu of the Workflow View select 'Suggest asset for core group'. A dialog
  that decision a Workflow
 window opens where you can enter the name of the asset and the username of the
 PE/PLE you want to send the message to. You can also enter an additional comment you want 
-the PE/PLE to read. Send the message by pressing the "Send" 
+the PE/PLE to read. Send the message by pressing the "Transmit" 
 button. Pressing the "Cancel" button will close the window without sending 
 your message (see \ref{core1}).
 
@@ -639,7 +779,7 @@ your message (see \ref{core1}).
 In the Workflow View double-click on the Core Group suggestion message. A Workflow
 window opens where you can see the message of the programmer (see \ref{core2}) or PE (see \ref{core3}). Below you
 can select whether you agree to the suggestion or whether you decline it. You can also
-enter an additional comment if you like. Send the message by pressing the "Send" 
+enter an additional comment if you like. Send the message by pressing the "Transmit" 
 button. Pressing the "Cancel" button will close the window without sending 
 your message.\par
 Note: The file will not be automatically uploaded and committed. The PLE has to do
@@ -682,10 +822,65 @@ By doing this you can easily navigate through your architecture.
 
 \section{Server}
 
+The Server administrates the data of each user and their responsibilities. Also it
+offers the Clients a central message service . If a message is sent from a Client
+to the Server, the Server checks the message for possible consequences which are
+assigned to other clients as workflows. Besides the Server administrates the paths
+and the access configurations of the repositories which save the data of the products
+and the productlines.
+
+\subsection{Changing the Server Properties}
+When installing the server properties are automatically set for you. However, this section is for those
+of you who want to change your server properties manually:
+
+Edit the server.properties
+file from {\it kobold.server/server.properties} to suite your local
+requirements. Under UNIX this file might look similiar to the following
+bits:
+
+\begin{verbatim}
+# Note storePath is the prefix path for all kobold stores!
+kobold.server.storePath=[your storage path]
+kobold.server.productStore=product.xml
+kobold.server.userStore=user.xml
+kobold.server.ruleset={path to ruleset]
+#
+java.protocol.handler.pkgs=com.sun.net.ssl.internal.www.protocol
+javax.net.debug=none#all
+javax.net.ssl.keyStore=[your keystore path]
+javax.net.ssl.keyStorePassword=[your keystore passphrase]
+javax.net.ssl.trustStore=[your truststore path]
+javax.net.ssl.trustStorePassword=[your truststore passphrase]
+\end{verbatim}
+
+Under Windows-based systems you've to change the paths into a
+DOS-alike format.
+
+In the following table all properties are described in detail:
+
+\begin{tabular}{|l|l|l|}\hline
+\textbf{Property} &  \textbf{Description}\\ \hline
+kobold.server.storePath  & destination path for files stored by the server \\ \hline
+kobold.server.productStore & file name to store products and
+productlines \\ \hline
+kobold.server.userStore & file name to store user data \\ \hline
+kobold.server.ruleset & path to your ruleset file \\ \hline
+java.protocol.handler.pkgs & default protocol to commincate \\ \hline
+javax.net.debug & debug level of net communication \\ \hline
+javax.net.ssl.keyStore & path to your SSL keystore \\ \hline
+javax.net.ssl.keyStorePassword & password to access your SSL keystore \\
+    \hline
+javax.net.ssl.trustStore & path to your SSL truststore \\ \hline
+javax.net.ssl.trustStorePassword & password to access your SSL
+truststore \\ \hline
+\end{tabular}
+
+
+
 \subsection{Creating a Workflow}
 
 Workflows are triggered by specific rules which you can find in the ruleset.drl file.
-Here you can find some existing rules as an example. \par
+Here you can find some existing rules as examples. \par
 
 A rule consists of the following parts:
 \begin{itemize}
@@ -733,17 +928,9 @@ The parameter RPCSpy will contain the methodName which you can get with the "get
 This returns one of the above Strings. An RPCSpy object also contains a vector of
 arguments that were transmitted to the server for the execution. You have access to this vector through
 the "getArguments()" method. \par
-The ruleset.drl file contains a sample rule for adding a user. Whenever a new user is added, every other user
-is notified. \par
+The ruleset.drl file contains sample rules for all actions.\par
 In the last chapter you find the source code of the classes you need to work with for writing your own rules.
-In order to have an up-to-date appendix, check out the complete Kobold module. 
-Then enter the following command in the console within the directory of the user manual:
 
-\begin{verbatim}
-perl appendix.pl >appendix.tex
-\end{verbatim}
-
-After that, rebuild the usermanual.pdf.
 
 
 
@@ -850,3 +1037,44 @@ Enter the command 'userlist' in order to get a list of all registered users.
 
 \subsection{Exiting the tool}
 Enter the command "exit".
+
+
+
+
+
+
+\subsection{Changing the SAT Properties}
+When installing the SAT properties are automatically set for you. However, this section is for those
+of you who want to change your SAT properties manually:
+
+Edit the SAT.properties
+file from {\it kobold.client.serveradmin/sat.properties} to suite your local
+requirements. Under UNIX this file might look similiar to the following
+bits:
+
+\begin{verbatim}
+#used to communicate with Kobold servers via ssl
+java.protocol.handler.pkgs=com.sun.net.ssl.internal.www.protocol
+javax.net.debug=none #all
+javax.net.ssl.keyStore=/home/stsopra/werkbold/contan/workspace/kobold.common/kobold.common/scripts/keystore
+javax.net.ssl.keyStorePassword=kobold1
+javax.net.ssl.trustStore=/home/stsopra/werkbold/contan/workspace/kobold.common/kobold.common/scripts/truststore
+javax.net.ssl.trustStorePassword=kobold1
+\end{verbatim}
+
+Under Windows-based systems you've to change the paths into a
+DOS-alike format.
+
+In the following table all properties are described in detail:
+
+\begin{tabular}{|l|l|l|}\hline
+\textbf{Property} &  \textbf{Description}\\ \hline
+java.protocol.handler.pkgs & default protocol to commincate \\ \hline
+javax.net.debug & debug level of net communication \\ \hline
+javax.net.ssl.keyStore & path to your SSL keystore \\ \hline
+javax.net.ssl.keyStorePassword & password to access your SSL keystore \\
+    \hline
+javax.net.ssl.trustStore & path to your SSL truststore \\ \hline
+javax.net.ssl.trustStorePassword & password to access your SSL
+truststore \\ \hline
+\end{tabular}
