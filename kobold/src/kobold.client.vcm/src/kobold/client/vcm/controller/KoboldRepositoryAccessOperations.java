@@ -94,6 +94,8 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	private final String UPDATE = "update.";
 	private final String COMMIT = "commit.";
 	private final String CHECKOUT = "checkout.";
+	public static final char QUOTATION = 0x22;
+	
 	public KoboldRepositoryAccessOperations()
 	{
 		KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
@@ -278,9 +280,13 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			}
 			InputDialog messageInput = new InputDialog(new Shell(),"Please enter a message for the repository","VCM Message :",null, null);
 			messageInput.open();
-			tempString[tempString.length-1] = messageInput.getValue(); 
-			
-			connection.open(progress);
+			String message = "'";//String.valueOf(QUOTATION);
+			message = message.concat(messageInput.getValue());
+			message = message.concat("'");// message.concat(String.valueOf(QUOTATION));
+			System.out.println(message);
+			tempString[tempString.length-1] = message; 
+			argString = tempString;
+			connection.open(progress,argString);
 			connection.close();	
 			progress.done();
 		} catch (Exception e) {
@@ -297,7 +303,6 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("checkout working", 2);
 			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-			initConnection(connection,resources);
 			connection.setSkriptName(skriptPath.toOSString().concat(CHECKOUT).concat(skriptExtension));
 			initConnection(connection,resources);
 			connection.open(progress, argString);
@@ -382,9 +387,9 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				argString = new String[4];
 			if (localPath != null || repositoryHost != ""|| repositoryModulePath != "" || repositoryRootPath != ""  ) {
 				argString[0] = localPath;
-				argString[1] = repositoryHost;
-				argString[2] = repositoryRootPath;
-				argString[3] = "kobold"; // @ FIXME repositoryModulePath;
+				argString[1] = currentVCMProvider.getHost();//repositoryHost;
+				argString[2] = currentVCMProvider.getRoot();//repositoryRootPath;
+				argString[3] = "kobold"; //currentVCMProvider.getHost(); @ FIXME repositoryModulePath;
 			} else {
 				MessageDialog.openError(new Shell(), "Hoooonk", "Du nix hast gesetzt den RepositoryProvider Alder");
 			}

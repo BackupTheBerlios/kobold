@@ -240,10 +240,10 @@ public class ScriptServerConnection implements IServerConnection
 		try {
 			process = Util.createProcess(actualCommand, monitor);
 
-			inputStream = new PollingInputStream(new TimeoutInputStream(process.getInputStream(),
-					32768 /*16384 bufferSize*/, -1 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
-			outputStream = new PollingOutputStream(new TimeoutOutputStream(process.getOutputStream(),
-					16384 /*8192buffersize*/, 4000 /*writeTimeout*/, 4000 /*closeTimeout*/), 60, monitor);
+//			inputStream = new PollingInputStream(new TimeoutInputStream(process.getInputStream(),
+//					32768 /*16384 bufferSize*/, -1 /*readTimeout*/, -1 /*closeTimeout*/), 60, monitor);
+//			outputStream = new PollingOutputStream(new TimeoutOutputStream(process.getOutputStream(),
+//					16384 /*8192buffersize*/, 4000 /*writeTimeout*/, 4000 /*closeTimeout*/), 60, monitor);
 			// XXX need to do something more useful with stderr
 			// discard the input to prevent the process from hanging due to a full pipe
 	
