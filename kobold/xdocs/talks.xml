@@ -37,10 +37,12 @@
             <td>23.02.04</td><td>Eclipse SWT/GEF (Tammo van Lessen)</td>
           </tr>
           <tr>
-            <td>18.03.04</td><td>XML-RPC Kommunikation über HTTPS (Anselm Garbe)</td>
+            <td>25.03.04</td><td><a
+            href="ftp://ftp.berlios.de/pub/kobold/docs/talks/xmlrpc-folien.pdf">XML-RPC
+            Kommunikation über HTTPS (Anselm Garbe)</a></td>
           </tr>
           <tr>
-            <td>18.03.04</td><td>Drools Regelengine (Bettina Druckenmüller)</td>
+            <td>25.03.04</td><td>Drools Regelengine (Bettina Druckenmüller)</td>
           </tr>
         </table>
 
