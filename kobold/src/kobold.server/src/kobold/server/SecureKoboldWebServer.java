@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.75 2004/08/10 10:29:24 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.76 2004/08/11 10:13:18 neccaino Exp $
  *
  */
 package kobold.server;
@@ -374,7 +374,33 @@ public class SecureKoboldWebServer implements IKoboldServer,
                     logger.info("Exception during execute()", e);
                     return IKoboldServerAdministration.RETURN_FAIL;
                 }
-            }            
+            }
+            else if (methodName.equals("addKoboldUser")){
+                try{
+                    logger.info("Recieved admincall \"" + methodName + "\"\n");
+                    // admin method so leave without noticing the WorkflowEngine
+                    return addKoboldUser((String)arguments.elementAt(0),
+                                         (String)arguments.elementAt(1),
+                                         (String)arguments.elementAt(2),
+                                         (String)arguments.elementAt(3));
+                }
+                catch(Exception e){
+                    logger.info("Exception during execute()", e);
+                    return IKoboldServerAdministration.RETURN_FAIL;
+                }            	
+            }
+            else if (methodName.equals("removeKoboldUser")){
+                try{
+                    logger.info("Recieved admincall \"" + methodName + "\"\n");
+                    // admin method so leave without noticing the WorkflowEngine
+                    return removeKoboldUser((String)arguments.elementAt(0),
+                                            (String)arguments.elementAt(1));
+                }
+                catch(Exception e){
+                    logger.info("Exception during execute()", e);
+                    return IKoboldServerAdministration.RETURN_FAIL;
+                }               
+            }
 		} catch (Exception e) {
 			logger.info("Exception during execute()", e);
 			throw e;	
@@ -789,6 +815,71 @@ public class SecureKoboldWebServer implements IKoboldServer,
         }
         
         return ret;
+    }
+    
+    /**
+     * This method creates a new kobold user and adds it to the server.
+     * 
+     * @param adminPassword the Kobold server's administration password
+     * @param username the new userÄs username
+     * @param fullname the new user's full name
+     * @param password the password for the new user
+     * @return RETURN_OK if the new user could be created successfully, 
+     *         RETURN_FAIL if the server encountered an error (e.g. if the
+     *         passed username has already been assigned) or 
+     *         RETURN_SERVER_UNREACHABLE if the Kobold server could not be
+     *         reached
+     */
+    public String addKoboldUser(String adminPassword, 
+                                String username, 
+                                String fullname,
+                                String password){
+        // 1.) check the password
+        if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
+        
+        // 2.) create and add user
+        kobold.server.data.User user = new kobold.server.data.User(username,
+                fullname,
+                password);
+
+        if (UserManager.getInstance().addUser(user)){
+            return RETURN_OK;
+        }
+        else{
+            return RETURN_FAIL;
+        }
+    }
+    
+    /**
+     * This method removes a registered user from the Kobold server
+     * 
+     * NOTE: this method will remove the specified User even if it has been
+     * assigned to specific assets.
+     * 
+     * @param adminPassword the Kobold server's administration password
+     * @param username username of the user that should be removed
+     * @return RETURN_OK if the user could be removed successfully,
+     *         RETURN_FAIL if the server encountered an error (e.g. if the
+     *         passed username has not been registered) or
+     *         RETURN_SERVER_UNREACHABLE if the Kobold server could not be
+     *         reached
+     */
+    public String removeKoboldUser(String adminPassword, String username){
+        // 1.) check the password
+        if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
+        
+        // 2.) remove the user
+        if (UserManager.getInstance().removeUserByName(username) == null){
+            // the passed username has not been registered
+            return RETURN_FAIL;
+        }
+        else{
+            return RETURN_OK;
+        }
     }
     
 }
