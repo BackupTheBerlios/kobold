@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.9 2004/07/22 10:26:24 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.10 2004/07/22 10:29:34 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -64,7 +64,7 @@ public class StatusUpdater {
 
 		//command line command with the stats script to the changed part of the meta-data containing FD(s)
 		String[] command = {"perl", getScriptPath() + 
-							"stats.pl", fileDescriptorContainer.getLocalPath().toOSString()};
+							"stats.pl", fileDescriptorContainer.getLocalPath().getFullPath().toOSString()};
 		//process the connection (open and parse the input)
 		processConnection(command, fileDescriptorContainer);
 		
