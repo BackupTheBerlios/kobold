@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.8 2004/06/01 14:59:26 bettina Exp $
+ * $Id: WorkflowView.java,v 1.9 2004/06/06 15:51:32 bettina Exp $
  *
  */
 package kobold.client.plam.workflow;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.swing.*;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.listeners.IProjectChangeListener;
@@ -218,10 +219,15 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		
 		messageAction = new Action() {
 			public void run() {
+				
 				WorkflowMessage msg = new WorkflowMessage("TextMail");
-				UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
+				try {
+					UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
+					msg.setSender(user.getUserName());
+				} catch (Exception e) {
+					msg.setSender("unknown");	
+				}
 				msg.setStep(1);
-				msg.setSender(user.getUserName());
 				msg.setReceiver("-");
 				msg.setSubject("-");
 				msg.setMessageText("Enter the data for your mail:");
@@ -230,7 +236,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 				msg.addWorkflowControl(recipient);
 				msg.addWorkflowControl(subject);
 				WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
-				wfDialog.open();
+				wfDialog.open();	 
 			}
 		};
 		messageAction.setText("New mail");
@@ -239,9 +245,13 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		coreGroupAction = new Action() {
 			public void run() {
 				WorkflowMessage msg = new WorkflowMessage("Core Group Suggestion");
-				UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
+				try {
+					UserContext user = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
+					msg.setSender(user.getUserName());
+				} catch (Exception e) {
+					msg.setSender("unknown");
+				}	
 				msg.setStep(1);
-				msg.setSender(user.getUserName());
 				msg.setReceiver("PE");
 				msg.setSubject("Core Group Suggestion");
 				msg.setMessageText("Enter the data of the file you want to suggest:");
@@ -253,7 +263,6 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 				msg.addWorkflowControl(recipient);
 				WorkflowDialog wfDialog = new WorkflowDialog(viewer.getControl().getShell(), msg);
 				wfDialog.open();
-				
 			}
 		};
 		coreGroupAction.setText("Suggest file for core group");
