@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowDialog.java,v 1.11 2004/05/18 18:05:01 martinplies Exp $
+ * $Id: WorkflowDialog.java,v 1.12 2004/05/19 14:00:50 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -40,10 +40,8 @@ import kobold.common.data.WorkflowMessage;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -57,8 +55,8 @@ public class WorkflowDialog extends Dialog {
 	AbstractKoboldMessage msg;
 	private List viewItems = new ArrayList();
 	private ContainerViewItem containerItem;
-	private boolean send = false;
-	final WorkflowDialog thisWorkflowDialog = this;
+    private Text comment;
+	
 
 	
 	public WorkflowDialog(Shell parentShell, AbstractKoboldMessage msg)
@@ -70,12 +68,12 @@ public class WorkflowDialog extends Dialog {
 	
 	protected Control createDialogArea(Composite parent) {
 		Composite area = (Composite) super.createDialogArea(parent);
-		area.setLayout(new GridLayout());
-		
+		area.setLayout(new GridLayout());		
 
 		Composite header = new Composite(area, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
+
 		header.setLayout(gridLayout);
 		
 		new Label(header, SWT.NONE).setText("Sender:");
@@ -85,17 +83,26 @@ public class WorkflowDialog extends Dialog {
 		new Label(header, SWT.NONE).setText("Subject:");
 		new Label(header, SWT.NONE).setText(msg.getSubject());
 		
-		
+		// add Mesagetext
 		Text mt = new Text(area,SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		mt.setText(msg.getMessageText());
 	
+	    
 		if (msg instanceof WorkflowMessage) {
+		    // add workflowcontrol items
 			WorkflowItem[] items = ((WorkflowMessage)msg).getWorkflowControls();
 			WorkflowItem wi = new WorkflowItem("","",WorkflowItem.CONTAINER);
 			wi.addChildren(items);
-		    containerItem = new ContainerViewItem(wi);
+		    containerItem = new ContainerViewItem(wi);		 
 		    containerItem.createViewControl(area);
-		}  	   	
+		   
+		   // add comment item 	     
+		   comment = new Text(area, SWT.WRAP |SWT.MULTI |SWT.V_SCROLL|SWT.VERTICAL);
+		   GridData gd = new GridData();
+           gd.heightHint = 150;
+           gd.widthHint = 350;           
+           comment.setLayoutData(gd);  			 
+	}  	   	
   	  return area;
 	}
 
@@ -105,11 +112,14 @@ public class WorkflowDialog extends Dialog {
 	}
 	
 	
+	
 	public void okPressed(){
-		System.out.println("send pressed");
 		if (msg instanceof WorkflowMessage) {
-			this.containerItem.applyValues(this);		
-		   System.out.println( ((WorkflowMessage ) this.msg).getWorkflowData() );
+		   WorkflowMessage wm = (WorkflowMessage) msg;
+		   this.containerItem.applyValues(this);		
+		   System.out.println( wm.getWorkflowData() );
+		   
+		   wm.setComment(comment.getText());		  
 		}
 	    this.close();
 	}
