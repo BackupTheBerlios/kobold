@@ -46,10 +46,9 @@ anzeigt.\par
 Es gibt die Möglichkeit über ein Kontextmenü oder eine Tastenkombination die Eigenschaften des ausgewählten Knotens anzuzeigen.
 In den folgenden Abschnitten  werdeb die 3 verschiedenen Ansichten auf die Produktlinien- bzw. Produktarchitektur beschrieben.
 
-\paragraph{Ansicht der Rolle ProduktlinienIngenieur}
-Der Produktlinieningenieur hat die Möglichkeit, zwischen zwei Ansichten zu wechseln.
-Diese sind einerseits die Ansicht auf die Architektur der gesamten Produktlinie, die
-sich grafisch sehr stark an der vom Paper \cite{paper} vorgeschlagenen Sicht anlehnt. Es gibt die Möglichkeit, 
+\paragraph{Ansicht der Rolle Produktlinieningenieur}
+Der Produktlinieningenieur hat standardmäßig eine Ansicht auf die Architektur der gesamten Produktlinie, die
+sich grafisch sehr stark an die vom Paper \cite{paper} vorgeschlagene Ansicht lehnt. Es gibt die Möglichkeit, 
 bestimmte Beziehungen farblich hervorzuheben, bzw. in späteren Iterationen auch automatisch
 hervorheben zu lassen. Grundsätzlich kann die Farbe von Archtikturelementen gewählt werden. 
 Einige Farben werden aber Konflikten und ähnlichen Beziehungen vorbehalten.
@@ -58,16 +57,16 @@ Einige Farben werden aber Konflikten und ähnlichen Beziehungen vorbehalten.
    \caption{Ansicht des Produktlinieningenieurs}
 \end{figure}
 \paragraph{Ansicht der Rolle eines Produktingenieurs}
-Der Produktingenieur kann in dem Architektur-View immer nur ein Produkt auf einmal einsehen.
+Der Produktingenieur kann in dem Produktlinienarchitektur Editor standardmäßig ein Produkt auf einmal einsehen.
 Er kann im Rollen View die verschiedenen ihm zugeordneten Produktarchitekturen der
 verschiedenen Produkte zur Darstellung auswählen. Grafisch wird sich Kobold hier wiederum
-an der im Paper \cite{paper} orientieren.
+an der graphischen Darstellung im Paper \cite{paper} orientieren.
 \begin{figure}[ht]
 \includegraphics[width=15cm]{compiler-pe}
    \caption{Ansicht des Produktingenieurs}
 \end{figure}
 \paragraph{Ansicht der Rolle eines Programmierers}
-Der Programmierer hat eine sehr flache Sicht auf ein einziges ihm zugeordnetes Produkt.
+Der Programmierer hat standardmäßig eine sehr flache Sicht auf ein einziges ihm zugeordnetes Produkt.
 Er kann die für ihn änderbaren Produktteile des Produktes von den nicht änderbaren unterscheiden.
 Es besteht die Möglichkeit, den aktuellen Stand des Produktes in seinen aktuellen "Workspace"
 auszuchecken.
@@ -83,10 +82,15 @@ die momentan aktive Rolle und die mit Ihr verbundenen möglichen Sichten darstell
 \includegraphics[width=15cm]{../angebot/praesentation/verwaltung}
    \caption{Prototypistische Darstellung des Rollen Views}
 \end{figure}
+
 \subsubsection{Der Worklflow/Task View}
 Am unteren Rand der Ausgangsperspektive werden standardmässig die noch zu erfüllenden
-Aufgaben, die aktuellen Nachrichten oder etwaige Konflikte und ähnliches angezeigt.
+Aufgaben, die aktuellen Nachrichten oder etwaige Konflikte und ähnliches angezeigt.\par
+Durch Doppelklick auf eine Nachricht, öffnet sich die Detailansicht im Produktlinienarchitektur Editor.
+Dabei können auch Detailansichten zu mehreren Nachrichten geöffnet sein.
 
 \subsubsection{Die Minimap}
-Am rechten unteren Rand der Ausgangsperspektive wird eine sogennante Minimap angezeigt,
-in der ein Überblick über die ganze Architekturansicht der aktuellen Rolle gegeben wird.
+Am rechten unteren Rand der Ausgangsperspektive wird eine sogenannte Minimap angezeigt,
+in der ein Überblick über die ganze Architekturansicht der aktuellen Rolle gegeben wird.\par
+Über die Minimap lässt sich außerdem die Produktlinienarchitektur Editor navigieren. Klickt man in einen Bereich der Minimap,
+so wird dieser automatisch im Produktlinienarchtiktur Editor zentriert.
