@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.18 2004/08/23 08:42:27 neccaino Exp $
+ * $Id: ProductlineManager.java,v 1.19 2004/08/24 05:24:40 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -279,6 +279,10 @@ public class ProductlineManager {
 	    return result;
 	}
     
+    /**
+     * @return Vector containing all assets registered on the server (that is 
+     * all productlines, products, core assets and components).
+     */
     public Vector getAllRegisteredAssets(){
         Vector ret = new Vector();
         
