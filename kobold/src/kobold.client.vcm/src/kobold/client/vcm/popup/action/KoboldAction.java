@@ -28,14 +28,19 @@
 package kobold.client.vcm.popup.action;
 
 
-import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.product.Product;
-import kobold.client.plam.model.productline.Productline;
-import kobold.client.plam.model.productline.Variant;
 
+import kobold.client.vcm.KoboldVCMPlugin;
+import kobold.common.model.AbstractAsset;
+import kobold.common.model.product.Product;
+import kobold.common.model.productline.Productline;
+import kobold.common.model.productline.Variant;
+
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.core.TeamException;
 import org.eclipse.team.internal.ui.actions.TeamAction;
 import org.eclipse.ui.IActionDelegate;
@@ -93,5 +98,72 @@ public class KoboldAction extends TeamAction implements IObjectActionDelegate {
 
 		
 	}
+	
+	public String getLocalPath ()
+	{
+		IWorkspaceRoot ws = KoboldVCMPlugin.getDefault().getWorkspace().getRoot();
+		return ws.toString();
+	}
+
+	public void initUserData ()
+	{
+		//set the default userName and password (initial)
+		KoboldVCMPlugin.getDefault().getPreferenceStore().setDefault("userName","");
+		KoboldVCMPlugin.getDefault().getPreferenceStore().setDefault("userPassword","");
+	}
+
+	
+	public String getUserName ()
+	{
+		//gets the userName
+		String uN = KoboldVCMPlugin.getDefault().getPreferenceStore().getString("userName");
+ 
+		if (uN.equals(""))
+		{
+			uN = getPreference ("userName");
+			setUserName(uN);
+			return uN;
+		}
+		return uN;
+
+
+	}
+
+	public void setUserName (String userName)
+	{
+		//set the default userName (initial)
+		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("userName", userName);
+	}
+
+	
+	public String getUserPassword ()
+	{
+		//gets the userPassword
+		String uP = KoboldVCMPlugin.getDefault().getPreferenceStore().getString("userPassword");
+ 
+		if (uP.equals(""))
+		{
+			uP = getPreference ("userPassword");
+			setUserPassword(uP);
+			return uP;
+		}
+		return uP;
+	}
+
+	public void setUserPassword (String userPassword)
+	{
+		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue("userPassword",userPassword);
+	}
+
+	public String getPreference (String type)
+	{
+		InputDialog in = new InputDialog (new Shell(), type, "", null, null);
+		//open the dialog
+		in.open();
+		System.out.println(in.getValue());
+		return in.getValue ();
+	}
+
+	
 
 }
