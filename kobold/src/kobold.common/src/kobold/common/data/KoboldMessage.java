@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class KoboldMessage {
           private String sender;
-	      private String reciever;
+	      private String receiver;
 	      private String messageText;
 	      private String date;
 	      private String priority;
@@ -59,7 +59,7 @@ public class KoboldMessage {
 		 * @return
 		 */
 		public String getReciever() {
-			return reciever;
+			return receiver;
 		}
 
 		/**
@@ -108,7 +108,7 @@ public class KoboldMessage {
 		 * @param string
 		 */
 		public void setReciever(String string) {
-			reciever = string;
+			receiver = string;
 		}
 
 		/**

@@ -19,7 +19,7 @@ public class History {
 	private String decision_made;
 	private String decision_opportunities;
 	private String choices;
-	private int Step;
+	private int step;
 	
 	
 	
@@ -70,7 +70,7 @@ public class History {
 	 * @return
 	 */
 	public int getStep() {
-		return Step;
+		return step;
 	}
 
 	/**
@@ -97,8 +97,8 @@ public class History {
 	/**
 	 * @param i
 	 */
-	public void setId(int i) {
-		id = i;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
@@ -118,8 +118,8 @@ public class History {
 	/**
 	 * @param i
 	 */
-	public void setStep(int i) {
-		Step = i;
+	public void setStep(int step) {
+		this.step = step;
 	}
 
 }
