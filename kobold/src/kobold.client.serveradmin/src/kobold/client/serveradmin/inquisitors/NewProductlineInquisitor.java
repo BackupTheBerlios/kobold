@@ -82,7 +82,7 @@ public class NewProductlineInquisitor extends BasicInquisitor {
         containingAction = "new productline";
         addQuestion("1", PL_NAME, "unknown", false);
         addQuestion("2", PL_RES, "unknown", false);
-        addQuestion("3", REP_TYPE, "cvs", false);
+        addQuestion("3", REP_TYPE, "CVS", false);
         addQuestion("4", REP_PROTOCOL, "pserver", false);
         addQuestion("5", REP_HOST, "cvs.werkbold.org", false);
         addQuestion("6", REP_ROOT, "/cvsroot/unknown/", false);
