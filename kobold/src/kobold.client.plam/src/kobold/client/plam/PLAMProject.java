@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.10 2004/06/24 11:06:21 grosseml Exp $
+ * $Id: PLAMProject.java,v 1.11 2004/06/24 11:10:26 grosseml Exp $
  *
  */
 package kobold.client.plam;
@@ -69,6 +69,7 @@ public class PLAMProject
 	private String username;
 	private String password;
 	private String productline;
+	private Productline pl;
 
 	
 	/**
@@ -197,33 +198,36 @@ public class PLAMProject
 	 * @return Returns the productline or null if not stored.
 	 */
 	public Productline getProductline() {
-	    Productline model = new Productline("PL Compiler");
-	    model.setParent(this);
+	    if (pl == null) {
+		
+	    	pl = new Productline("PL Compiler");
+	    	pl.setParent(this);
 	    
-		Component ca1 = new Component("CA Frontend");
-		Component ca2 = new Component("CA Backend");
-		model.addComponent(ca1);
-		model.addComponent(ca2);
+	    	Component ca1 = new Component("CA Frontend");
+	    	Component ca2 = new Component("CA Backend");
+	    	pl.addComponent(ca1);
+	    	pl.addComponent(ca2);
 		
-		Variant va1 = new Variant("VA Java");
-		Variant va2 = new Variant("VA C++");
-		Variant va3 = new Variant("VA ADA");
+	    	Variant va1 = new Variant("VA Java");
+	    	Variant va2 = new Variant("VA C++");
+	    	Variant va3 = new Variant("VA ADA");
 		
-		Variant va4 = new Variant("VA x86");
-		Variant va5 = new Variant("VA PPC");
+	    	Variant va4 = new Variant("VA x86");
+	    	Variant va5 = new Variant("VA PPC");
 		
-		ca1.addVariant(va1);
-		ca1.addVariant(va2);
-		ca1.addVariant(va3);
+	    	ca1.addVariant(va1);
+	    	ca1.addVariant(va2);
+	    	ca1.addVariant(va3);
 		
-		ca2.addVariant(va4);
-		ca2.addVariant(va5);
+	    	ca2.addVariant(va4);
+	    	ca2.addVariant(va5);
+	    }
 		//model.serializeAll(project.getLocation().toOSString());*/
 		//Productline model = new Productline(getProductlineName());
 		//System.out.println(project.getLocation().toOSString());
 		//model.deserialize(project.getLocation().toOSString());
 
-	    return model;
+	    return pl;
 	}
 	
 	/**
