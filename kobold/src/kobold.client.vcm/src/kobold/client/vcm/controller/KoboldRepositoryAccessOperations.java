@@ -142,12 +142,13 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                             if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_COMMIT))
                             {
                                 progress.beginTask("precheckin working", 2);
-                                ScriptServerConnection connection = new ScriptServerConnection(
-                                        repositoryRootPath);
-                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                connection.setSkriptName(beforeSkriptPath);
-                                connection.open(progress);
-                                connection.close();
+                                ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
+                                if (connection != null) {
+                                    String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                                    connection.setSkriptName(beforeSkriptPath);
+                                    connection.open(progress);
+                                    connection.close();
+                                }
                                 progress.done();
                             }
                         }
@@ -177,12 +178,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                             if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_COMMIT))
                             {
                                 progress.beginTask("postcheckin working", 2);
-                                ScriptServerConnection connection = new ScriptServerConnection(
+                                ScriptServerConnection connection = ScriptServerConnection.getConnection(
                                         repositoryRootPath);
-                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                connection.setSkriptName(beforeSkriptPath);
-                                connection.open(progress);
-                                connection.close();
+                                if (connection != null) {
+                                    String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                                    connection.setSkriptName(beforeSkriptPath);
+                                    connection.open(progress);
+                                    connection.close();
+                                }
                                 progress.done();
                             }
                         }
@@ -263,12 +266,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                             if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_CHECKOUT))
                             {
                                 progress.beginTask("precheckout working", 2);
-                                ScriptServerConnection connection = new ScriptServerConnection(
+                                ScriptServerConnection connection = ScriptServerConnection.getConnection(
                                         repositoryRootPath);
-                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                connection.setSkriptName(beforeSkriptPath);
-                                connection.open(progress);
-                                connection.close();
+                                if (connection != null) {
+                                    String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                                    connection.setSkriptName(beforeSkriptPath);
+                                    connection.open(progress);
+                                    connection.close();
+                                }
                                 progress.done();
                             }
                         }
@@ -308,7 +313,8 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		try {
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("import working", 2);
-			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
+			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
+			if (connection != null)
 			connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
 			initConnection(connection,resources);
 			String tempString[] = new String[argString.length+1];
@@ -340,11 +346,13 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		try {
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("checkout working", 2);
-			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-			connection.setSkriptName(skriptPath.toOSString().concat(CHECKOUT).concat(skriptExtension));
-			initConnection(connection,resources);
-			connection.open(progress, argString);
-			connection.close();	
+			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
+			if (connection != null) {
+    			connection.setSkriptName(skriptPath.toOSString().concat(CHECKOUT).concat(skriptExtension));
+    			initConnection(connection,resources);
+    			connection.open(progress, argString);
+    			connection.close();	
+			}
 			progress.done();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -358,11 +366,13 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		try {
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("checkin/commit working", 2);
-			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-			connection.setSkriptName(skriptPath.toOSString().concat(COMMIT).concat(skriptExtension));
-			initConnection(connection,resources);
-			connection.open(progress,argString);
-			connection.close();	
+			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
+			if (connection != null) {
+    			connection.setSkriptName(skriptPath.toOSString().concat(COMMIT).concat(skriptExtension));
+    			initConnection(connection,resources);
+    			connection.open(progress,argString);
+    			connection.close();	
+			}
 			progress.done();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -391,12 +401,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		                            if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_IMPORT))
 		                            {
 		                                progress.beginTask("postimport working", 2);
-		                                ScriptServerConnection connection = new ScriptServerConnection(
+		                                ScriptServerConnection connection = ScriptServerConnection.getConnection(
 		                                        repositoryRootPath);
-		                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-		                                connection.setSkriptName(beforeSkriptPath);
-		                                connection.open(progress);
-		                                connection.close();
+		                                if (connection != null) {
+    		                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+    		                                connection.setSkriptName(beforeSkriptPath);
+    		                                connection.open(progress);
+    		                                connection.close();
+		                                }
 		                                progress.done();
 		                            }
 		                        }
@@ -432,12 +444,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                             if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_IMPORT))
                             {
                                 progress.beginTask("preimport working", 2);
-                                ScriptServerConnection connection = new ScriptServerConnection(
+                                ScriptServerConnection connection = ScriptServerConnection.getConnection(
                                         repositoryRootPath);
-                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                connection.setSkriptName(beforeSkriptPath);
-                                connection.open(progress);
-                                connection.close();
+                                if (connection != null) {
+                                    String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                                    connection.setSkriptName(beforeSkriptPath);
+                                    connection.open(progress);
+                                    connection.close();
+                                }
                                 progress.done();
                             }
                         }
@@ -486,12 +500,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                             if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_CHECKOUT))
                             {
                                 progress.beginTask("postcheckout working", 2);
-                                ScriptServerConnection connection = new ScriptServerConnection(
+                                ScriptServerConnection connection = ScriptServerConnection.getConnection(
                                         repositoryRootPath);
-                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                                connection.setSkriptName(beforeSkriptPath);
-                                connection.open(progress);
-                                connection.close();
+                                if (connection != null) {
+                                    String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                                    connection.setSkriptName(beforeSkriptPath);
+                                    connection.open(progress);
+                                    connection.close();
+                                }
                                 progress.done();
                             }
                         }
@@ -516,12 +532,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		try {
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("checkout working", 2);
-			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-			initConnection(connection,assets);
-			connection.setSkriptName(skriptPath.toOSString().concat(ADD).concat(skriptExtension));
-			initConnection(connection,assets);
-			connection.open(progress, argString);
-			connection.close();	
+			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
+			if (connection != null) {
+    			initConnection(connection,assets);
+    			connection.setSkriptName(skriptPath.toOSString().concat(ADD).concat(skriptExtension));
+    			initConnection(connection,assets);
+    			connection.open(progress, argString);
+    			connection.close();	
+			}
 			progress.done();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -545,12 +563,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                         if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_ADD))
                         {
                             progress.beginTask("preadd working", 2);
-                            ScriptServerConnection connection = new ScriptServerConnection(
+                            ScriptServerConnection connection = ScriptServerConnection.getConnection(
                                     repositoryRootPath);
-                            String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                            connection.setSkriptName(beforeSkriptPath);
-                            connection.open(progress);
-                            connection.close();
+                            if (connection != null) {
+                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                                connection.setSkriptName(beforeSkriptPath);
+                                connection.open(progress);
+                                connection.close();
+                            }
                             progress.done();
                         }
                     }
@@ -579,12 +599,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                         if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_ADD))
                         {
                             progress.beginTask("postadd working", 2);
-                            ScriptServerConnection connection = new ScriptServerConnection(
+                            ScriptServerConnection connection = ScriptServerConnection.getConnection(
                                     repositoryRootPath);
-                            String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                            connection.setSkriptName(beforeSkriptPath);
-                            connection.open(progress);
-                            connection.close();
+                            if (connection != null) {
+                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                                connection.setSkriptName(beforeSkriptPath);
+                                connection.open(progress);
+                                connection.close();
+                            }
                             progress.done();
                         }
                     }
@@ -603,12 +625,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 		try {
 			progress = KoboldPolicy.monitorFor(progress);
 			progress.beginTask("update working", 2);
-			ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-			initConnection(connection,resources);
-			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
-			initConnection(connection,resources);
-			connection.open(progress, argString);
-			connection.close();	
+			ScriptServerConnection connection = ScriptServerConnection.getConnection(repositoryRootPath);
+			if (connection != null) {
+    			initConnection(connection,resources);
+    			connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
+    			initConnection(connection,resources);
+    			connection.open(progress, argString);
+    			connection.close();	
+			}
 			progress.done();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -633,12 +657,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                         if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_UPDATE))
                         {
                             progress.beginTask("preupdate working", 2);
-                            ScriptServerConnection connection = new ScriptServerConnection(
+                            ScriptServerConnection connection = ScriptServerConnection.getConnection(
                                     repositoryRootPath);
-                            String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                            connection.setSkriptName(beforeSkriptPath);
-                            connection.open(progress);
-                            connection.close();
+                            if (connection != null) {
+                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                                connection.setSkriptName(beforeSkriptPath);
+                                connection.open(progress);
+                                connection.close();
+                            }
                             progress.done();
                         }
                     }
@@ -668,12 +694,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
                         if (tmpScriptDescriptor.getVcmActionType().equals(tmpScriptDescriptor.VCM_UPDATE))
                         {
                             progress.beginTask("postupdate working", 2);
-                            ScriptServerConnection connection = new ScriptServerConnection(
+                            ScriptServerConnection connection = ScriptServerConnection.getConnection(
                                     repositoryRootPath);
-                            String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
-                            connection.setSkriptName(beforeSkriptPath);
-                            connection.open(progress);
-                            connection.close();
+                            if (connection != null) {
+                                String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                                connection.setSkriptName(beforeSkriptPath);
+                                connection.open(progress);
+                                connection.close();
+                            }
                             progress.done();
                         }
                     }

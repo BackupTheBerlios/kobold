@@ -25,45 +25,26 @@
  */
 package kobold.client.vcm.dialog;
 
-import java.util.Map;
-
 import kobold.client.plam.KoboldPLAMPlugin;
-import kobold.client.plam.KoboldProject;
-import kobold.client.plam.controller.UserManager;
-import kobold.client.plam.editor.dialog.EditMaintainerDialog;
-import kobold.client.plam.model.AbstractMaintainedAsset;
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.preferences.VCMPreferencePage;
 import kobold.common.data.User;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.IInputValidator;
-import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.viewers.CheckboxTableViewer;
-import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
-public class PasswordDialog extends TitleAreaDialog{
+public class PasswordDialog extends Dialog{
 	
     private Label labelUsername;
     private Label labelPassword;
-
     
     private Text textUsername;
     private Text textPassword;
@@ -86,9 +67,7 @@ public class PasswordDialog extends TitleAreaDialog{
     
     protected Control createDialogArea(Composite parent)
     {
-        getShell().setText("Authentification");
-        setTitle("Insert Username and Password");
-        setMessage("Please insert your username and password in this dialog.");
+        getShell().setText("Enter VCM Password");
         Composite composite = (Composite) super.createDialogArea(parent);
         
         createContent(composite);
@@ -111,6 +90,11 @@ public class PasswordDialog extends TitleAreaDialog{
 		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
 		panel.setFont(parent.getFont());
 
+    	GridData gd = new GridData(GridData.GRAB_HORIZONTAL
+			| GridData.FILL_HORIZONTAL);
+		gd.widthHint = 350;
+		panel.setLayoutData(gd);
+		
         //password
         labelPassword = new Label(panel,SWT.NONE);
         labelPassword.setText("Password: ");
@@ -118,20 +102,17 @@ public class PasswordDialog extends TitleAreaDialog{
         textPassword.setEchoChar('*');
         textPassword.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		
 		textPassword.setFocus();
     }
    
     protected void okPressed()
     {
+ 		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(
+ 		        VCMPreferencePage.KOBOLD_VCM_PWD_STR, textPassword.getText());
     	super.okPressed();
-        
-        
     }
     
     protected void cancelPressed(){
- 		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_PWD_STR, "");   	
     	super.cancelPressed();
     }
- 
 }

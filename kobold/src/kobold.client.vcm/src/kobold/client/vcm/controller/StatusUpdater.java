@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.37 2004/09/19 22:32:35 vanto Exp $
+ * $Id: StatusUpdater.java,v 1.38 2004/09/20 16:03:31 garbeam Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -232,13 +232,15 @@ public class StatusUpdater {
     public static void deleteVariantVCMDirectory (Variant variant)
     {
     	
-    	ScriptServerConnection sc = new ScriptServerConnection("noUser");
+    	ScriptServerConnection sc = ScriptServerConnection.getConnection("noUser");
     	
+    	if (sc == null) {
+    	    return;
+    	}
     	StatusUpdater su = new StatusUpdater();
 		//command line command with the stats script to the changed part of the meta-data containing FD(s)
 		String[] command = {"perl", su.getScriptPath() + 
 							"cleanvcmdata.pl", variant.getLocalPath().toOSString()};
-    	
 		try 
 		{
 			String iString="";
@@ -249,7 +251,8 @@ public class StatusUpdater {
 			e.printStackTrace();
 		}
     	
-    	System.out.println ("deleted variant "+variant.getName()+" directory!");
+// TODO: Logger
+    	//System.out.println ("deleted variant "+variant.getName()+" directory!");
     }
     
 }

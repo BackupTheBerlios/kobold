@@ -42,6 +42,7 @@ import kobold.common.io.RepositoryDescriptor;
 import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Preferences;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -111,15 +112,22 @@ public class ScriptServerConnection implements IServerConnection
 	public static final char NEWLINE= 0xA;
 	
 	
+	public static ScriptServerConnection getConnection(String repositoryPath) {
+	    ScriptServerConnection result = new ScriptServerConnection(repositoryPath);
+	    if (result.getUserName() != null && result.getUserPassword() != null) {
+	        return result;
+	    }
+	    // Cancel script server connection
+	    return null;
+	}
 	
 	/** 
-	 * 
 	 * @author schneipk
 	 *
 	 * The protected default constructor for this class
 	 * @param location the location of the cvs repository @see ICVSRepositoryLocation
 	 */
-	public ScriptServerConnection(String repositoryPath) {
+	protected ScriptServerConnection(String repositoryPath) {
 
 		if (!"noUser".equals(repositoryPath))
 		{
@@ -127,8 +135,6 @@ public class ScriptServerConnection implements IServerConnection
 			this.user = getUserName();
 			this.password = getUserPassword();
 		}
-
-	
 	}
 	
 	
@@ -714,15 +720,12 @@ public class ScriptServerConnection implements IServerConnection
  
 		if (uN.equals(""))
 		{
-		    
 			uN = getPreference (VCMPreferencePage.KOBOLD_VCM_USER_STR);
-			//@ FIXME Dangerouse ;)
-			setUserName(uN);
-			return uN;
+			if (uN != null) {
+    			setUserName(uN);
+			}
 		}
 		return uN;
-
-
 	}
 
 	/**
@@ -757,8 +760,9 @@ public class ScriptServerConnection implements IServerConnection
 		if (prefs.getBoolean(VCMPreferencePage.KOBOLD_VCM_ASK_PWD) || prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR).equals(""))
 		{
 			uP = getPreference (VCMPreferencePage.KOBOLD_VCM_PWD_STR);
-			setUserPassword(uP);
-			return uP;
+			if (uP != null) {
+    			setUserPassword(uP);
+			}
 		}
 		return uP;
 	}
@@ -786,8 +790,13 @@ public class ScriptServerConnection implements IServerConnection
             type = "VCM User Password"; 
             PasswordDialog pd = new PasswordDialog (new Shell());
             //open the dialog
-            pd.open();
-            return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
+            if (pd.open() == Dialog.OK) {
+                return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
+            }
+            else {
+			    // CANCEL
+			    return null;
+			} 
         } 
 	    else if (type.equals(VCMPreferencePage.KOBOLD_VCM_USER_STR))
 	    {
@@ -795,14 +804,17 @@ public class ScriptServerConnection implements IServerConnection
 	        type = "VCM User Name";
 			InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
 			//open the dialog
-			in.open();
-			return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR);
+			if (in.open() == Dialog.OK) {
+    			return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR);
+			}
+			else {
+			    // CANCEL
+			    return null;
+			}
 	    }
-	    else 
-	    {
-	    	return "";
-	    }
+    	return "";
 	}
+	
 	/**
 	 * @param repositoryDescriptor The repositoryDescriptor to set.
 	 */
