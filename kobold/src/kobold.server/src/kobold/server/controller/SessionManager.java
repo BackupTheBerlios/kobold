@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SessionManager.java,v 1.2 2004/05/18 18:38:07 vanto Exp $
+ * $Id: SessionManager.java,v 1.3 2004/05/18 21:23:58 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -40,7 +40,7 @@ import kobold.common.data.UserContext;
  */
 public class SessionManager {
 
-	HashMap sessions;
+	private HashMap sessions;
 	
 	static private SessionManager instance;
 	 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManagerTest.java,v 1.3 2004/05/15 14:45:22 garbeam Exp $
+ * $Id: UserManagerTest.java,v 1.4 2004/05/18 21:23:58 garbeam Exp $
  *
  */
 
@@ -61,10 +61,10 @@ public class UserManagerTest extends TestCase {
 		UserManager manager = UserManager.getInstance();
 		
 		manager.addUser(user);
-		manager.serialize("test.xml");
+		manager.serialize("test-user.xml");
 		
 		manager.removeUser(user);
-		manager.deserialize("test.xml");
+		manager.deserialize("test-user.xml");
 		
 		user = manager.getUser("garbeam");
 		assertTrue(user.getPassword() == "halloballo");

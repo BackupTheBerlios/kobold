@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.6 2004/05/15 14:45:22 garbeam Exp $
+ * $Id: UserManager.java,v 1.7 2004/05/18 21:23:58 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -56,7 +56,8 @@ import kobold.common.data.User;
  */
 public class UserManager {
 
-	HashMap users;
+	private HashMap users = null;
+	private String userStore = "user.xml";
 	
 	static private UserManager instance;
 	 
@@ -73,6 +74,9 @@ public class UserManager {
 	 */
 	private UserManager() {
 		users = new HashMap();
+		this.userStore =
+			System.getProperty("kobold.server.storePath") +
+			System.getProperty("kobold.server.userStore");
 		// DEBUG
 		dummyUsers();
 	}
@@ -142,6 +146,14 @@ public class UserManager {
 	/**
 	 * Serializes all users with its roles to the file specified
 	 * by path.
+	 */
+	public void serialize() {
+		serialize(this.userStore);
+	}
+	
+	/**
+	 * Serializes all users with its roles to the file specified
+	 * by path.
 	 * 
 	 * @param path the file to serialize all users.
 	 */
@@ -170,8 +182,13 @@ public class UserManager {
 
 	/**
 	 * Deserializes all users from the specified file.
-	 * 
-	 * @param path - file where to read from.
+	 */
+	public void deserialize() {
+		deserialize(this.userStore);
+	}
+	
+	/**
+	 * Deserializes all users from the specified file.
 	 */
 	public void deserialize(String path) {
 		

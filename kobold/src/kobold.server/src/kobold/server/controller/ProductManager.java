@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductManager.java,v 1.4 2004/05/16 21:27:53 garbeam Exp $
+ * $Id: ProductManager.java,v 1.5 2004/05/18 21:23:58 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -52,8 +52,9 @@ import kobold.common.data.Productline;
  */
 public class ProductManager {
 
-	HashMap products;
-	HashMap productLines;
+	private HashMap products;
+	private HashMap productLines;
+	private String productStore = "products.xml";
 	
 	
 	static private ProductManager instance;
@@ -72,6 +73,9 @@ public class ProductManager {
 	private ProductManager() {
 		products = new HashMap();
 		productLines = new HashMap();
+		this.productStore = 
+			System.getProperty("kobold.server.storePath") + 
+			System.getProperty("kobold.server.productStore");
 		// DEBUG
 		dummyProds();
 	}
@@ -128,9 +132,17 @@ public class ProductManager {
 
 	/**
 	 * Serializes all users with its roles to the file specified
+	 * productStore.
+	 */
+	public void serialize() {
+		serialize(this.productStore);
+	}
+		
+	/**
+	 * Serializes all products and productlines to the file specified
 	 * by path.
 	 * 
-	 * @param path the file to serialize all users.
+	 * @param path the path to serialize.
 	 */
 	public void serialize(String path) {
 		Document document = DocumentHelper.createDocument();
@@ -164,7 +176,15 @@ public class ProductManager {
 	}
 
 	/**
-	 * Deserializes all users from the specified file.
+	 * Deserializes all products and productlines from
+	 * the productStore.
+	 */
+	public void deserialize() {
+		deserialize(productStore);
+	}
+	
+	/**
+	 * Deserializes all products and productlines from the specified file.
 	 * 
 	 * @param path - file where to read from.
 	 */

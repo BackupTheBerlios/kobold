@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GlobalMessageContainer.java,v 1.2 2004/05/18 18:38:07 vanto Exp $
+ * $Id: GlobalMessageContainer.java,v 1.3 2004/05/18 21:23:58 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -53,7 +53,7 @@ import kobold.common.data.AbstractKoboldMessage;
 public class GlobalMessageContainer {
 	
 	private Map messages = new HashMap();
-	private String messageStore = null;
+	private String globalMessageStore = "global.xml";
 	private static GlobalMessageContainer instance = null;
 	private static final Log logger = LogFactory.getLog(GlobalMessageContainer.class);
 	
@@ -62,16 +62,25 @@ public class GlobalMessageContainer {
 	 */
 	public synchronized static GlobalMessageContainer getInstance() {
 		if (instance == null) {
-			instance = new GlobalMessageContainer(
-					System.getProperty("kobold.server.messageStore"));
+			instance = new GlobalMessageContainer();
 		}
 		return instance;
 	}
 	
+
 	/**
 	 * Deserializes the messageStore.
 	 */
 	public void deserialize() {
+		deserialize(this.globalMessageStore);
+	}
+	
+	/**
+	 * Deserializes the messageStore.
+	 * 
+	 * @param path the global message store.
+	 */
+	public void deserialize(String path) {
 	
 		SAXReader reader = new SAXReader();
 		Document document = null;
@@ -79,7 +88,7 @@ public class GlobalMessageContainer {
 		try {
 			Map newMessages = new HashMap();
 			
-			document = reader.read(messageStore);
+			document = reader.read(path);
 			if (document != null) {
 				List list = document.selectNodes( "/kobold-server/messages/message" );
 				for (Iterator iter = list.iterator(); iter.hasNext(); ) {
@@ -97,12 +106,11 @@ public class GlobalMessageContainer {
 
 	/**
 	 * Basic constructure.
-	 * @param messageStore the path to the message store file,
-	 * e.g. <code>/var/kobold/messages.xml</code>.
 	 */
-	private GlobalMessageContainer(String messageStore) {
-		this.messageStore = messageStore;
-		
+	private GlobalMessageContainer() {
+		this.globalMessageStore =
+			System.getProperty("kobold.server.storePath") +
+				System.getProperty("kobold.server.globalMessageStore");
 		deserialize();			
 	}
 	
@@ -127,6 +135,15 @@ public class GlobalMessageContainer {
 	 * Serializes this GlobalMessageContainer.
 	 */
 	public void serialize() {
+		serialize(this.globalMessageStore);
+	}
+		
+	/**
+	 * Serializes this GlobalMessageContainer.
+	 * 
+	 * @param path the path to the store.
+	 */
+	public void serialize(String path) {
 		
 		Document document = DocumentHelper.createDocument();
 		Element root = document.addElement("kobold-server");
@@ -140,7 +157,7 @@ public class GlobalMessageContainer {
 
         XMLWriter writer;
 		try {
-			writer = new XMLWriter(new FileWriter(messageStore));
+			writer = new XMLWriter(new FileWriter(path));
 			writer.write(document);
 			writer.close();
 		} catch (IOException e) {

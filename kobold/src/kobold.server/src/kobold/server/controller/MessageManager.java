@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageManager.java,v 1.3 2004/05/18 18:38:07 vanto Exp $
+ * $Id: MessageManager.java,v 1.4 2004/05/18 21:23:58 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -57,7 +57,7 @@ public class MessageManager {
 
 	private Map queues = null;
 	private Map pendingMessages = null;
-	private String messageStore = null;
+	private String messageStore = "messages.xml";
 	
 	static private MessageManager instance;
 	 
@@ -75,8 +75,8 @@ public class MessageManager {
 	private MessageManager() {
 		queues = new HashMap();
 		pendingMessages = new HashMap();
-		this.messageStore = "MessageManager-"
-			+ System.getProperty("kobold.server.messageStore");
+		this.messageStore = System.getProperty("kobold.server.storePath") +
+			System.getProperty("kobold.server.messageStore");
 		deserialize();
 		// DEBUG
 		dummyMsg();
@@ -191,6 +191,15 @@ public class MessageManager {
 	 * Serializes all queues and all pending messages.
 	 */
 	public synchronized void serialize() {
+		serialize(this.messageStore);
+	}
+	
+	/**
+	 * Serializes all queues and all pending messages.
+	 * 
+	 * @param path the path to store.
+	 */
+	public synchronized void serialize(String path) {
 		
 		// first of all serialize all queues
 		for (Iterator it = queues.values().iterator(); it.hasNext(); ) {
@@ -211,7 +220,7 @@ public class MessageManager {
 
 		XMLWriter writer;
 		try {
-			writer = new XMLWriter(new FileWriter(messageStore));
+			writer = new XMLWriter(new FileWriter(path));
 			writer.write(document);
 			writer.close();
 		} catch (IOException e) {
@@ -225,11 +234,20 @@ public class MessageManager {
 	 * Deserializes all pending messages.
 	 */
 	public synchronized void deserialize() {
+		deserialize(this.messageStore);
+	}
+	
+	/**
+	 * Deserializes all pending messages.
+	 * 
+	 * @param path the store to read from.
+	 */
+	public synchronized void deserialize(String path) {
 		
 		SAXReader reader = new SAXReader();
 		Document document = null;
 		try {
-			document = reader.read(messageStore);
+			document = reader.read(path);
 		} catch (DocumentException e) {
 			Log log = LogFactory.getLog("kobold.server.controller.MessageManager");
 			log.error(e);

@@ -21,14 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.14 2004/05/18 18:46:42 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.15 2004/05/18 21:23:58 garbeam Exp $
  *
  */
 package kobold.server;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Vector;
 
 import kobold.common.controller.IKoboldServer;
@@ -80,6 +82,10 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			System.exit(1);
 		}
 
+		Properties props = new Properties();
+		props.load(new FileInputStream("server.properties"));
+		System.setProperties(props);
+		
 		server = new SecureWebServer(port);
 		// add an instance of this class as default handler
 		server.addHandler("$default", new SecureKoboldWebServer());
