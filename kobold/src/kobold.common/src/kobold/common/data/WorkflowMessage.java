@@ -27,11 +27,6 @@ public class WorkflowMessage extends KoboldMessage {
 		  return type;
 	  }
 
-
-
-   public History newHistory() {
-	   History history = new History();
-	   return history;
    }
 
 
@@ -41,23 +36,8 @@ public class WorkflowMessage extends KoboldMessage {
 
 
 
-/**
- *  
- * @param history Next Entry in History List
- */
- void addHistory(History history) {
- 	 historyList.add(history);
- }
- 
- 
 
    
-/**
- * @return
- */
-public List getHistoryList() {
-	return historyList;
-}
 
 /**
  * @return
@@ -80,4 +60,4 @@ public void setXmlMessage(String string) {
 	xmlMessage = string;
 }
 
-}
+

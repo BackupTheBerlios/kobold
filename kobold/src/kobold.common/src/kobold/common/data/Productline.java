@@ -6,6 +6,8 @@
  */
 package kobold.common.data;
 
+import org.dom4j.Element;
+
 /**
  * @author garbeam
  *
@@ -16,7 +18,32 @@ public class Productline {
 
 	private String productLineName;
 	
-	public String getName() {
+	public String getProductLineName() {
         return productLineName;
     }
+
+	/**
+	 * @param productLineName
+	 */
+	public void setProductLineName(String productLineName) {
+		this.productLineName = productLineName;
+	}
+    
+	/**
+	 * Serializes the product.
+	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
+	 */
+	public void serialize(Element productLineName) {
+			Element productLine = productLineName.addElement("product").addText(this.productLineName);
+		}
+
+	/**
+	 * @param productName
+	 */
+	private void deserialize(Element productLineName) {
+
+		this.productLineName = productLineName.selectSingleNode("//product/productLineName").getText();
+	}    
+
+
 }

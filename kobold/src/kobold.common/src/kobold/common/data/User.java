@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.2 2004/05/05 17:49:54 garbeam Exp $
+ * $Id: User.java,v 1.3 2004/05/12 18:03:44 rendgeor Exp $
  *
  */
 
@@ -107,14 +107,13 @@ public class User {
 	 */
 	public void serialize(Element users) {
 
-		Element user = users.addElement("user");
+		users.addElement("user");
 
-		Element userName = users.addElement("username").addText(this.userName);
+		users.addElement("username").addText(this.userName);
 
-		Element realName = users.addElement("realname").addText(this.realName);
+		users.addElement("realname").addText(this.realName);
 
-		Element password =
-			users.addElement("password").addText(
+		users.addElement("password").addText(
 				new BASE64Encoder().encode(this.password.getBytes()));
 
 		Element roles = users.addElement("roles");
@@ -131,7 +130,7 @@ public class User {
 	 * user context.
 	 */
 	public UserContext getInitialUserContext(String sessionId) {
-		return new UserContext(userName, sessionId);
+		return new UserContext(this, sessionId);
 	}
 
 	/**
