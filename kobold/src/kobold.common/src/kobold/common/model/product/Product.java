@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.7 2004/06/24 02:46:32 rendgeor Exp $
+ * $Id: Product.java,v 1.8 2004/06/24 03:35:01 rendgeor Exp $
  *
  */
 
@@ -94,9 +94,6 @@ public class Product extends AbstractAsset {
 	public Element serialize() {
 		
 		Element productElement = super.serialize();
-		
-		//Element productElement = DocumentHelper.createElement("product");
-		//productElement.addAttribute("name", getName());
 
 		Element prodRelElement = productElement.addElement("releases");
 		for (Iterator it = productReleases.iterator(); it.hasNext(); ) {
@@ -135,7 +132,7 @@ public class Product extends AbstractAsset {
 			try {
 				writer = new XMLWriter(new FileWriter(path+ File.separatorChar + ((AbstractAsset)getParent()).getName() 
 													+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
-													+ File.separatorChar + ".productlinemetainfo.xml"));
+													+ File.separatorChar + ".productmetainfo.xml"));
 				writer.write(document);
 				writer.close();
 			} catch (IOException e) {
@@ -150,7 +147,8 @@ public class Product extends AbstractAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		super.deserialize(element);
+		Element realElement = element.element (AbstractAsset.PRODUCT);
+		super.deserialize(realElement);
 		//setName(element.attributeValue("name"));
 		// TODO
 	}
@@ -160,11 +158,11 @@ public class Product extends AbstractAsset {
 		Document document = null;
 		try {
 			document = reader.read(path+
-			 File.separatorChar + ((Productline)getParent()).getName() 
+			 File.separatorChar + ((AbstractAsset)getParent()) .getName()
 			+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
 			+ File.separatorChar + ".productmetainfo.xml");
 		} catch (DocumentException e) {
-			System.out.print(path+ File.separatorChar + ((Productline)getParent()).getName()
+			System.out.print(path+ File.separatorChar + ((AbstractAsset)getParent()).getName()
 			+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
 			+ File.separatorChar + ".productmetainfo.xml" +  " read error");
 			//Log log = LogFactory.getLog("kobold.server.controller.ProductManager");

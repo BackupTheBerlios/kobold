@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.9 2004/06/24 02:46:32 rendgeor Exp $
+ * $Id: Component.java,v 1.10 2004/06/24 03:35:01 rendgeor Exp $
  *
  */
 
@@ -75,8 +75,9 @@ public class Component extends AbstractAsset
 	 */
 	public Component(Element element, AbstractAsset parent, String path) {
 		setName(element.attributeValue("name"));
+		System.out.println ("set name to " + element.attributeValue("name"));
 		setParent(parent);
-		deserialize(element);
+		deserialize(path);
 	}
 	
 	/**
@@ -114,7 +115,7 @@ public class Component extends AbstractAsset
 				writer = new XMLWriter(new FileWriter(path+ File.separatorChar + ((AbstractAsset)getParent()).getName() 
 													+ File.separatorChar + "CAS" 
 													+ File.separatorChar + getName () + File.separatorChar 
-													+ ".productlinemetainfo.xml"));
+													+ ".coreassetmetainfo.xml"));
 				writer.write(document);
 				writer.close();
 			} catch (IOException e) {
@@ -127,15 +128,17 @@ public class Component extends AbstractAsset
 	 * @see kobold.common.data.ISerializable#deserialize(Element)
 	 */
 	public void deserialize(Element element) {
-		super.deserialize(element);
+
+		Element realElement = element.element (AbstractAsset.COMPONENT);
+		super.deserialize(realElement);
 		
-		Iterator it = element.element("variants").elementIterator("asset");
+		Iterator it = realElement.element("variants").elementIterator("asset");
 		while (it.hasNext()) {
 		    Element varEl = (Element)it.next();
 		    addVariant(new Variant(varEl));
 		}
 		
-		repositoryPath = element.attributeValue("repositoryPath");
+		repositoryPath = realElement.attributeValue("repositoryPath");
 	}
 
 	public void deserialize(String path) {
@@ -143,11 +146,11 @@ public class Component extends AbstractAsset
 		SAXReader reader = new SAXReader();
 		Document document = null;
 		try {
-			document = reader.read(path+ File.separatorChar + getName() 
+			document = reader.read(path+ File.separatorChar + ((AbstractAsset)getParent()).getName() 
 			+ File.separatorChar + "CAS" + File.separatorChar + getName() 
 			+ File.separatorChar + ".coreassetmetainfo.xml");
 		} catch (DocumentException e) {
-			System.out.print(path+ File.separatorChar + ((Productline)getParent()).getName()
+			System.out.print(path+ File.separatorChar + ((AbstractAsset)getParent()).getName()
 			+ File.separatorChar + "CAS" + File.separatorChar + getName() 
 			+ File.separatorChar + ".coreassetmetainfo.xml" +  " read error");
 			//Log log = LogFactory.getLog("kobold.server.controller.ProductManager");

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.9 2004/06/24 02:46:32 rendgeor Exp $
+ * $Id: AbstractAsset.java,v 1.10 2004/06/24 03:35:01 rendgeor Exp $
  *
  */
 package kobold.common.model;
@@ -225,7 +225,7 @@ public abstract class AbstractAsset implements ISerializable
     public void deserialize(Element element) 
     {
         id = element.attributeValue("id");
-        System.out.print("set id to " + id);
+        System.out.println ("set id to " + id);
         //FIXME: Notify IdManager about the usage of this id
         name = element.elementTextTrim("name");
         description = element.elementTextTrim("description");
