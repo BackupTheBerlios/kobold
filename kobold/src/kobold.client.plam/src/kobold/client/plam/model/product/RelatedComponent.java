@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.18 2004/11/09 14:57:38 memyselfandi Exp $
+ * $Id: RelatedComponent.java,v 1.19 2004/11/09 16:24:12 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -67,6 +67,7 @@ public class RelatedComponent extends ProductComponent
 		super(variant.getParent().getName());
 		relatedVariant = variant;
 		setParent(variant.getParent());
+		setResource(variant.getName());
 		this.relatedRelease = release;		
 	}
 	
