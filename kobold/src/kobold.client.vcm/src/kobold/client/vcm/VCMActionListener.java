@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.15 2004/10/26 15:07:39 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.16 2004/10/26 16:17:49 garbeam Exp $
  *
  */
 package kobold.client.vcm;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,20 +39,20 @@ import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.productline.Productline;
-import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 import kobold.client.vcm.controller.KoboldRepositoryHelper;
 import kobold.client.vcm.controller.StatusUpdater;
 import kobold.common.data.Asset;
-import kobold.common.data.Product;
 import kobold.common.io.RepositoryDescriptor;
+import kobold.common.io.ScriptDescriptor;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException;
 
 /**
  * @author Tammo
@@ -66,26 +67,43 @@ public class VCMActionListener implements IVCMActionListener
     {
 		StatusUpdater st = new StatusUpdater();
 		st.updateFileDescriptors(container);
-		//System.out.println("TEST STATUS");
     }
 
-    /* (non-Javadoc)
-     * @see kobold.client.plam.listeners.IVCMActionListener#checkoutProductline(kobold.client.plam.model.AbstractRootAsset)
-     */
-    public void updateProductline(AbstractRootAsset rootAsset)
+    private void execHooks(Iterator iter, ScriptServerConnection connection,
+        				   IProgressMonitor progress, String localPath, String sdVcmType)
+        throws CVSAuthenticationException, IOException
     {
-		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
-		try
-		{
-			AbstractAsset tmpAsset[] = {rootAsset};
-			repoAccess.checkout(tmpAsset, null, null ,true);
-		}
-		catch (Exception e)
-		{
-			// TODO: handle exception
-		}
+        while(iter.hasNext()) {
+           ScriptDescriptor sd = (ScriptDescriptor) iter.next();
+           if (sd.getVcmActionType().equals(sdVcmType)) {
+               String sdCommand[] = new String[] { sd.getPath(), localPath };
+               connection.open(progress, sdCommand);
+               connection.close();
+           }
+        }
     }
-
+        
+    private void runHooks(AbstractAsset asset, ScriptServerConnection connection,
+            			  IProgressMonitor progress, String sdVcmType,
+            			  boolean preHook, boolean preOrder)
+    	throws CVSAuthenticationException, IOException
+    	
+    {
+        Iterator sit = preHook ? asset.getBeforeScripts().iterator()
+                			   : asset.getAfterScripts().iterator();
+        String localPath = KoboldRepositoryHelper.localPathForAsset(asset);
+        if (preOrder) {
+            execHooks(sit, connection, progress, localPath, sdVcmType);
+        }
+        for (Iterator it = asset.getChildren().iterator(); it.hasNext(); ) {
+            runHooks((AbstractAsset) it.next(), connection, progress, sdVcmType,
+                     preHook, preOrder);
+        }
+        if (!preOrder) { // postOrder ;)
+            execHooks(sit, connection, progress, localPath, sdVcmType);
+        }
+    }
+    
     private String[] createCommitCommand(AbstractRootAsset asset) {
         /**
 	     * 	# $1 working directory
@@ -131,15 +149,19 @@ public class VCMActionListener implements IVCMActionListener
 		    String command[] = createCommitCommand(pl);
 			try {
 			    // first we try to commit
+			    runHooks(pl, connection, progress, ScriptDescriptor.VCM_COMMIT, true, true);
     			connection.open(progress, command);
     			connection.close();	
+			    runHooks(pl, connection, progress, ScriptDescriptor.VCM_COMMIT, false, true);
     			
     			if (connection.getReturnValue() != 0) {
     			    // next we initially import
                     command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.IMPORT).concat(KoboldRepositoryHelper.getScriptExtension());
         			command[9] = "\"initial import\"";
+				    runHooks(pl, connection, progress, ScriptDescriptor.VCM_IMPORT, true, true);
                     connection.open(progress, command);
         			connection.close();	
+				    runHooks(pl, connection, progress, ScriptDescriptor.VCM_IMPORT, false, true);
     			    
         			if (connection.getReturnValue() == 0) {
         			// VERY DANGEROUS :)
@@ -159,6 +181,7 @@ public class VCMActionListener implements IVCMActionListener
     /**
      * @see kobold.client.plam.listeners.IVCMActionListener#updateProduct(kobold.common.data.Product, org.eclipse.core.resources.IProject)
      */
+    // TODO: hook handling? hmmm...
     public void updateAsset(Asset asset, IProject p) {
         IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 		String userName = KoboldRepositoryHelper.getUserName();
@@ -224,15 +247,19 @@ public class VCMActionListener implements IVCMActionListener
 		    String command[] = createCommitCommand(product);
 			try {
 			    // first we try to commit
+			    runHooks(product, connection, progress, ScriptDescriptor.VCM_COMMIT, true, true);
     			connection.open(progress, command);
     			connection.close();	
+			    runHooks(product, connection, progress, ScriptDescriptor.VCM_COMMIT, false, true);
     			
     			if (connection.getReturnValue() != 0) {
     			    // next we initially import
                     command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.IMPORT).concat(KoboldRepositoryHelper.getScriptExtension());
         			command[9] = "\"initial import\"";
+				    runHooks(product, connection, progress, ScriptDescriptor.VCM_IMPORT, false, true);
                     connection.open(progress, command);
         			connection.close();	
+				    runHooks(product, connection, progress, ScriptDescriptor.VCM_IMPORT, false, true);
     			    
         			if (connection.getReturnValue() == 0) {
         			// VERY DANGEROUS :)
@@ -352,6 +379,13 @@ public class VCMActionListener implements IVCMActionListener
 			command[6] = rd.getHost();
 			command[7] = rd.getRoot();
 			command[9] = "";
+		    try {
+                runHooks(asset, connection, progress, ScriptDescriptor.VCM_ADD, true, true);
+            } catch (CVSAuthenticationException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
 			for (Iterator it = fds.iterator(); it.hasNext();) {
     			    
 			    kobold.client.plam.model.FileDescriptor fd = (FileDescriptor)it.next();
@@ -372,6 +406,13 @@ public class VCMActionListener implements IVCMActionListener
     			    e.printStackTrace();
     			}
 			}
+		    try {
+                runHooks(asset, connection, progress, ScriptDescriptor.VCM_ADD, false, true);
+            } catch (CVSAuthenticationException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 		}
     }
 }
