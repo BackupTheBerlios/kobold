@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.38 2004/06/24 09:58:57 grosseml Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.39 2004/06/27 16:48:02 vanto Exp $
  *
  */
 package kobold.server;
@@ -40,7 +40,6 @@ import kobold.common.data.RPCSpy;
 import kobold.common.data.Role;
 import kobold.common.data.RoleP;
 import kobold.common.data.RolePE;
-import kobold.common.data.User;
 import kobold.common.data.UserContext;
 import kobold.common.data.WorkflowMessage;
 import kobold.common.io.RepositoryDescriptor;
@@ -48,6 +47,7 @@ import kobold.server.controller.MessageManager;
 import kobold.server.controller.ProductManager;
 import kobold.server.controller.SessionManager;
 import kobold.server.controller.UserManager;
+import kobold.server.data.User;
 import kobold.server.workflow.*;
 
 import org.apache.commons.logging.Log;

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SessionManager.java,v 1.3 2004/05/18 21:23:58 garbeam Exp $
+ * $Id: SessionManager.java,v 1.4 2004/06/27 16:48:02 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -29,8 +29,8 @@ package kobold.server.controller;
 import java.util.HashMap;
 
 import kobold.common.data.IdManager;
-import kobold.common.data.User;
 import kobold.common.data.UserContext;
+import kobold.server.data.User;
 /**
  * This class stores user data on the server and provides authentification
  * services for user interaction with the Server (sessionIDs). It's a

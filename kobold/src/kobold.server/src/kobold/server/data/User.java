@@ -21,17 +21,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.9 2004/06/16 14:09:33 garbeam Exp $
+ * $Id: User.java,v 1.1 2004/06/27 16:48:02 vanto Exp $
  *
  */
 
-package kobold.common.data;
+package kobold.server.data;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
+
+import kobold.common.data.ISerializable;
+import kobold.common.data.Role;
+import kobold.common.data.UserContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

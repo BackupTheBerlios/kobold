@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.8 2004/06/14 16:48:20 garbeam Exp $
+ * $Id: UserManager.java,v 1.9 2004/06/27 16:48:02 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -45,7 +45,7 @@ import kobold.common.data.Role;
 import kobold.common.data.RoleP;
 import kobold.common.data.RolePE;
 import kobold.common.data.RolePLE;
-import kobold.common.data.User;
+import kobold.server.data.User;
 
 /**
  * This class stores user data on the server and provides authentification
