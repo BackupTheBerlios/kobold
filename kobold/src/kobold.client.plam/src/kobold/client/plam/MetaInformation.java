@@ -108,7 +108,7 @@ public class MetaInformation {
     public void createMetaInfoForProduct(Document document, Product p1) 
     {
     	Product product = new Product("Product1");
-    	product.setName("test");
+
         product.getName();
     	product.getDescription();
     	product.getMaintainers();
