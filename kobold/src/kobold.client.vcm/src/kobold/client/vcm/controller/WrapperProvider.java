@@ -21,10 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: WrapperProvider.java,v 1.4 2004/09/19 22:32:35 vanto Exp $
+ * $Id: WrapperProvider.java,v 1.5 2004/11/05 10:50:58 grosseml Exp $
  */
 
 package kobold.client.vcm.controller;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.vcm.KoboldVCMPlugin;
 
@@ -40,6 +42,11 @@ import org.eclipse.team.core.RepositoryProvider;
  * @author garbeam
  */
 public class WrapperProvider extends RepositoryProvider {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(WrapperProvider.class);
 
 
     /**

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.23 2004/11/05 01:50:53 martinplies Exp $
+ * $Id: ProductlineManager.java,v 1.24 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 package kobold.server.controller;
+
+import org.apache.log4j.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -56,6 +58,11 @@ import org.dom4j.io.XMLWriter;
  * @see kobold.common.data.Productline    
  */
 public class ProductlineManager {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ProductlineManager.class);
 
 	private HashMap productlines;
 	private String productStore = "products.xml";

@@ -25,6 +25,8 @@
  */
 package kobold.client.vcm.dialog;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.preferences.VCMPreferencePage;
 
@@ -40,6 +42,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 public class PasswordDialog extends Dialog{
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(PasswordDialog.class);
 	
     private Label labelPassword;
     

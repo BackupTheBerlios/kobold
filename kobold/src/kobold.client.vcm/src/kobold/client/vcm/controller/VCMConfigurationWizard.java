@@ -25,6 +25,8 @@
 
 package kobold.client.vcm.controller;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.vcm.KoboldVCMPlugin;
 
 import org.eclipse.core.resources.IProject;
@@ -37,6 +39,12 @@ import org.eclipse.ui.IWorkbench;
  * @see Wizard
  */
 public class VCMConfigurationWizard extends Wizard implements IConfigurationWizard {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(VCMConfigurationWizard.class);
+
 	private IProject currentProject;
 	/**
 	 *
@@ -69,7 +77,9 @@ public class VCMConfigurationWizard extends Wizard implements IConfigurationWiza
 			}
 			catch (Exception e)
 			{
-				System.out.println("lala");
+				if (logger.isDebugEnabled()) {
+					logger.debug("init(IWorkbench, IProject) - lala");
+				}
 			}
 //		workbench.getActiveWorkbenchWindow().getWorkbench().
 	}

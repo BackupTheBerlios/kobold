@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.17 2004/10/21 21:34:11 martinplies Exp $
+ * $Id: Product.java,v 1.18 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 
 package kobold.common.data;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +42,10 @@ import org.dom4j.Element;
  * Represents a server side product. Used for client-server interchange.
  */
 public class Product extends Asset {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(Product.class);
 
 	private List components = new ArrayList(); //TODO: remove when finally changing to id mapping
     

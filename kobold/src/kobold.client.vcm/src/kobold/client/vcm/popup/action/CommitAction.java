@@ -25,6 +25,8 @@
 
 package kobold.client.vcm.popup.action;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
@@ -39,6 +41,10 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class CommitAction extends KoboldAction {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(CommitAction.class);
 
 	//The selected Object
 	IResource currentSelection = null;

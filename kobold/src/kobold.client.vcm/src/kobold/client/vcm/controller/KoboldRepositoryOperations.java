@@ -26,6 +26,8 @@
 
 package kobold.client.vcm.controller;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.Release;
 
@@ -38,7 +40,12 @@ import org.eclipse.team.core.TeamException;
  *	the changes needed to perform operations before and after the normal VCM operations
  */
 public interface KoboldRepositoryOperations {
-	
+	/**
+	 * Logger for this class
+	 
+	private static final Logger logger = Logger
+			.getLogger(KoboldRepositoryOperations.class);
+	*/
     /**
      * Adds all assets to version control.
      * @param assets

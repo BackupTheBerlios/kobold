@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.17 2004/10/21 21:34:11 martinplies Exp $
+ * $Id: IKoboldServer.java,v 1.18 2004/11/05 10:50:57 grosseml Exp $
  *
  */
 
 package kobold.common.controller;
+
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.util.Vector;
@@ -40,7 +42,11 @@ import kobold.common.data.UserContext;
  * kobold server.
  */
 public interface IKoboldServer {
+	/**
+	 * Logger for this class
 	
+	private static final Logger logger = Logger.getLogger(IKoboldServer.class);
+	 */
 	public static final String NO_RESULT = "NO_RESULT";
 
 	/**

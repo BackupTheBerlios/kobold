@@ -21,10 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateAction.java,v 1.10 2004/09/23 13:43:28 vanto Exp $
+ * $Id: UpdateAction.java,v 1.11 2004/11/05 10:50:58 grosseml Exp $
  */
 
 package kobold.client.vcm.popup.action;
+
+import org.apache.log4j.Logger;
 
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
@@ -34,6 +36,10 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class UpdateAction extends KoboldAction {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(UpdateAction.class);
 
 	/**
 	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)

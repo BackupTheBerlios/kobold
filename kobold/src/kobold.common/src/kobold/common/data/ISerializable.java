@@ -21,10 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ISerializable.java,v 1.2 2004/05/16 21:27:35 garbeam Exp $
+ * $Id: ISerializable.java,v 1.3 2004/11/05 10:50:56 grosseml Exp $
  *  
  */
 package kobold.common.data;
+
+import org.apache.log4j.Logger;
 
 import org.dom4j.Element;
 
@@ -32,7 +34,11 @@ import org.dom4j.Element;
  * @author garbeam
  */
 public interface ISerializable {
-	
+	/**
+	 * Logger for this class
+	 
+	private static final Logger logger = Logger.getLogger(ISerializable.class);
+	*/
 	/**
 	 * Serialize method.
 	 * @return Element of the serialized object. 

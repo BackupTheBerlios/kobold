@@ -25,6 +25,8 @@
 
 package kobold.client.vcm.popup.action;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
@@ -38,6 +40,10 @@ import org.eclipse.team.core.TeamException;
 import org.eclipse.ui.IActionDelegate;
 
 public class ImportAction extends KoboldAction {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(ImportAction.class);
 
 	/**
 	 * Constructor for Action1.
@@ -62,7 +68,7 @@ public class ImportAction extends KoboldAction {
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			logger.error("run(IAction)", e);
 		}
 	}
 

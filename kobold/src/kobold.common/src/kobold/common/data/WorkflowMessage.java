@@ -21,10 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.27 2004/10/21 21:34:11 martinplies Exp $
+ * $Id: WorkflowMessage.java,v 1.28 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 package kobold.common.data;
+
+import org.apache.log4j.Logger;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -41,6 +44,11 @@ import org.dom4j.Element;
  * @author vanto
  */
 public class WorkflowMessage extends AbstractKoboldMessage {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(WorkflowMessage.class);
 	
 	public static final String TYPE = "workflow";
 	public static final String DATA_VALUE_TRUE = "TRUE";

@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RPCSpy.java,v 1.1 2004/06/23 13:27:26 garbeam Exp $
+ * $Id: RPCSpy.java,v 1.2 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 
 package kobold.common.data;
+
+import org.apache.log4j.Logger;
 
 import java.util.Vector;
 
@@ -33,6 +35,10 @@ import java.util.Vector;
  * Container for RPC call sniffing.
  */
 public class RPCSpy {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(RPCSpy.class);
 	
 	private String methodName = null;
 	private Vector arguments = null;

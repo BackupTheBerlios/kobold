@@ -21,9 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMDecorator.java,v 1.4 2004/09/23 13:43:28 vanto Exp $
+ * $Id: VCMDecorator.java,v 1.5 2004/11/05 10:50:58 grosseml Exp $
  */
 package kobold.client.vcm;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,10 +52,17 @@ public class VCMDecorator extends LabelProvider
 			IResourceChangeListener
 {
 	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(VCMDecorator.class);
+
+	/**
 	 *
 	 */
 	public VCMDecorator() {
-		System.out.println("lalal");
+		if (logger.isDebugEnabled()) {
+			logger.debug("VCMDecorator() - lalal");
+		}
 	}
 
 	/**

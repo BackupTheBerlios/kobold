@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowItem.java,v 1.9 2004/11/05 01:50:54 martinplies Exp $
+ * $Id: WorkflowItem.java,v 1.10 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 package kobold.common.data;
+
+import org.apache.log4j.Logger;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -41,6 +43,10 @@ import org.dom4j.Element;
  * 
  */
 public class WorkflowItem {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(WorkflowItem.class);
 
 	public final static String TEXT = "text"; 
 	public final static String CHECK = "check";

@@ -21,9 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLException.java,v 1.4 2004/09/23 13:43:17 vanto Exp $
+ * $Id: GXLException.java,v 1.5 2004/11/05 10:50:56 grosseml Exp $
  */
 package kobold.common.exception;
+
+import org.apache.log4j.Logger;
 
 
 /**
@@ -32,6 +34,11 @@ package kobold.common.exception;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class GXLException extends Exception {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(GXLException.class);
+
    public GXLException(){
    	 super();
    }

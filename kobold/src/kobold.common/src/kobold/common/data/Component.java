@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.5 2004/08/03 16:46:35 garbeam Exp $
+ * $Id: Component.java,v 1.6 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 
 package kobold.common.data;
+
+import org.apache.log4j.Logger;
 
 import kobold.common.io.RepositoryDescriptor;
 
@@ -36,6 +38,10 @@ import org.dom4j.Element;
 * represents a server-side coreasset. Used for client-server interchange. 
  */
 public class Component extends Asset {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(Component.class);
 
 	/**
 	 * Basic constructor.

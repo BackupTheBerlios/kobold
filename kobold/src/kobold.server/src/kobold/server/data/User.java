@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.7 2004/10/21 21:34:56 martinplies Exp $
+ * $Id: User.java,v 1.8 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 
 package kobold.server.data;
+
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
@@ -48,6 +50,10 @@ import sun.misc.BASE64Encoder;
  * @author Armin Cont
  */
 public class User implements ISerializable {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(User.class);
 
 	private static final Log log = LogFactory.getLog(User.class);
 

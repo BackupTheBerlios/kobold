@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldCommonsPlugin.java,v 1.3 2004/08/01 16:08:59 vanto Exp $
+ * $Id: KoboldCommonsPlugin.java,v 1.4 2004/11/05 10:50:57 grosseml Exp $
  *
  */
 package kobold.common;
+
+import org.apache.log4j.Logger;
 
 import kobold.common.data.IdManager;
 
@@ -37,6 +39,11 @@ import org.osgi.framework.BundleContext;
  */
 public class KoboldCommonsPlugin extends Plugin 
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(KoboldCommonsPlugin.class);
 
 	private static KoboldCommonsPlugin plugin;
     String oldState = null;

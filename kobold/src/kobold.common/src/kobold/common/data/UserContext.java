@@ -21,10 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: UserContext.java,v 1.11 2004/10/21 21:34:11 martinplies Exp $
+ * $Id: UserContext.java,v 1.12 2004/11/05 10:50:56 grosseml Exp $
  */
 
 package kobold.common.data;
+
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 
@@ -39,6 +41,11 @@ import org.dom4j.Element;
  * @author garbeam
  */
 public class UserContext implements ISerializable {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(UserContext.class);
+
 	// members
 	private String userName;
 	private String sessionId;

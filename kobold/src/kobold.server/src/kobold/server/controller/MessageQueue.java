@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageQueue.java,v 1.9 2004/08/31 13:05:32 grosseml Exp $
+ * $Id: MessageQueue.java,v 1.10 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 package kobold.server.controller;
+
+import org.apache.log4j.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -48,6 +50,10 @@ import org.dom4j.io.XMLWriter;
  * @author garbeam
  */
 public class MessageQueue {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(MessageQueue.class);
     
     private static Log log = LogFactory.getLog(MessageQueue.class);
     private LinkedList queue = null;

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SessionManager.java,v 1.10 2004/10/21 21:34:56 martinplies Exp $
+ * $Id: SessionManager.java,v 1.11 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 package kobold.server.controller;
+
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 
@@ -40,6 +42,10 @@ import kobold.server.data.User;
  * @author garbeam
  */
 public class SessionManager {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(SessionManager.class);
 
 	private HashMap sessions;
 	

@@ -25,6 +25,8 @@
  */
 package kobold.client.vcm;
 
+import org.apache.log4j.Logger;
+
 import org.eclipse.ui.IStartup;
 
 /**
@@ -32,6 +34,10 @@ import org.eclipse.ui.IStartup;
  *
  */
 public class VCMStartup implements IStartup {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(VCMStartup.class);
 
 	/**
 	 * 

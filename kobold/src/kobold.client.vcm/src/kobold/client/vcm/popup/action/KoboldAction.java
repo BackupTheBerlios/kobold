@@ -27,6 +27,8 @@
  */
 package kobold.client.vcm.popup.action;
 
+import org.apache.log4j.Logger;
+
 
 
 import kobold.client.plam.model.AbstractAsset;
@@ -47,6 +49,10 @@ import org.eclipse.ui.IObjectActionDelegate;
  *  in their respective Variables
  */
 public class KoboldAction extends TeamAction implements IObjectActionDelegate {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(KoboldAction.class);
 
 	// Problems creating an AssetArray changing to Object
 	protected AbstractAsset testAssets[] = null;

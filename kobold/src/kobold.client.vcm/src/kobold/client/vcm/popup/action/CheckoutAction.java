@@ -25,6 +25,8 @@
 
 package kobold.client.vcm.popup.action;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
@@ -35,6 +37,11 @@ import org.eclipse.ui.IActionDelegate;
  * @author pschneid
  */
 public class CheckoutAction extends KoboldAction {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(CheckoutAction.class);
+
 	/**
 	 * @see IActionDelegate#run(IAction)
 	 */

@@ -24,6 +24,8 @@
  */
 package kobold.client.vcm.controller;
 
+import org.apache.log4j.Logger;
+
 
 
 import java.io.IOException;
@@ -48,6 +50,11 @@ import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException
  * the Kobold PLAM Tool
  */
 public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperations {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(KoboldRepositoryAccessOperations.class);
 
     private Path scriptPath; 
     private String scriptExtension = "";
@@ -112,8 +119,15 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 				command[8] = rd.getPath();
 				command[9] = lastParam != null ? lastParam : "";
 				for (int j = 0; j < command.length; j++) {
-					System.out.print(command[j]);
-					System.out.print(" ");
+					if (logger.isDebugEnabled()) {
+						logger
+								.debug("performVCMAction(AbstractAsset[], IProgressMonitor, String, String, String)"
+										+ command[j]);
+					}
+					if (logger.isDebugEnabled()) {
+						logger
+								.debug("performVCMAction(AbstractAsset[], IProgressMonitor, String, String, String)");
+					}
 				}
     			connection.open(progress, command);
     			connection.close();	
@@ -144,7 +158,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.ADD).concat(scriptExtension),
 			                 null, ScriptDescriptor.VCM_ADD);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("add(AbstractAsset[], IProgressMonitor)", e);
 		}
     }
     
@@ -158,7 +172,9 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.COMMIT).concat(scriptExtension),
 			                 msg, ScriptDescriptor.VCM_COMMIT);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger
+					.error("commit(AbstractAsset[], IProgressMonitor, String)",
+							e);
 		}
     }
     
@@ -171,7 +187,10 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	  			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.CHECKOUT).concat(scriptExtension),
     			                 tag, ScriptDescriptor.VCM_CHECKOUT);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger
+					.error(
+							"checkout(AbstractAsset[], IProgressMonitor, String, boolean)",
+							e);
 		}
     }
     
@@ -185,7 +204,10 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	  			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.IMPORT).concat(scriptExtension),
     			                 msg, ScriptDescriptor.VCM_IMPORT);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger
+					.error(
+							"importing(AbstractAsset[], IProgressMonitor, String, boolean)",
+							e);
 		}
     }
     
@@ -198,7 +220,9 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(scriptExtension),
 			                 tag, ScriptDescriptor.VCM_UPDATE);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger
+					.error("update(AbstractAsset[], IProgressMonitor, String)",
+							e);
 		}
     }
     
@@ -211,7 +235,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.REMOVE).concat(scriptExtension),
 			                 null, ScriptDescriptor.VCM_DELETE);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("remove(AbstractAsset[], IProgressMonitor)", e);
 		}
     }
 }

@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Asset.java,v 1.8 2004/10/21 21:34:11 martinplies Exp $
+ * $Id: Asset.java,v 1.9 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 package kobold.common.data;
+
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,6 +43,10 @@ import org.dom4j.Element;
  * interchange.
  */
 public class Asset implements ISerializable {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(Asset.class);
 
 	public static final String COMPONENT = "component";
 	public static final String PRODUCT = "product";

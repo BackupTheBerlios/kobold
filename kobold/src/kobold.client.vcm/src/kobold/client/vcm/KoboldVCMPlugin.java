@@ -26,6 +26,8 @@
 
 package kobold.client.vcm;
 
+import org.apache.log4j.Logger;
+
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -43,6 +45,12 @@ import org.osgi.framework.BundleContext;
  * The main plugin class to be used in the desktop.
  */
 public class KoboldVCMPlugin extends AbstractUIPlugin {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(KoboldVCMPlugin.class);
+
 	//The shared instance.
 	private static KoboldVCMPlugin plugin;
 	//Resource bundle.

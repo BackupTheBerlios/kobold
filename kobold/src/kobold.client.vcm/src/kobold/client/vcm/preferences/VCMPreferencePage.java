@@ -25,6 +25,8 @@
  */
 package kobold.client.vcm.preferences;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.plam.editor.dialog.PasswordFieldEditor;
 import kobold.client.vcm.KoboldVCMPlugin;
 
@@ -54,6 +56,12 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class VCMPreferencePage
 	extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(VCMPreferencePage.class);
+
 	public static final String KOBOLD_VCM_ASK_PWD = "kobold.vcm.askForPassword";
 	public static final String KOBOLD_VCM_PWD_STR = "kobold.vcm.user.Password";
 	public static final String KOBOLD_VCM_USER_STR = "kobold.vcm.userName";

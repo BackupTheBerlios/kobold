@@ -21,9 +21,11 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ScriptServerConnection.java,v 1.53 2004/11/05 01:51:11 martinplies Exp $
+ * $Id: ScriptServerConnection.java,v 1.54 2004/11/05 10:50:58 grosseml Exp $
  */
 package kobold.client.vcm.communication;
+
+import org.apache.log4j.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -54,6 +56,11 @@ import org.eclipse.ui.internal.Workbench;
  */
 public class ScriptServerConnection implements IServerConnection
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ScriptServerConnection.class);
 
 	// The variable for verifiying the connection is establisched
 	private static boolean connected = false;
@@ -240,10 +247,13 @@ public class ScriptServerConnection implements IServerConnection
 					MessageDialog.openError(new Shell(),"Error","An error occured while excecuting a VCM script, \n" +
 					"please check the message console for further details!");
                 }
-				System.out.println(returnValue);
+				if (logger.isDebugEnabled()) {
+					logger.debug("open(IProgressMonitor, String[])"
+							+ returnValue);
+				}
             } catch (Exception e)
             {
-                e.printStackTrace();
+				logger.error("open(IProgressMonitor, String[])", e);
             }
 
 
@@ -312,6 +322,12 @@ public class ScriptServerConnection implements IServerConnection
 	// discard the input to prevent the process from hanging due to a full pipe
 
 	private static class InputThreadToConsole extends Thread implements IRunnableWithProgress{
+		/**
+		 * Logger for this class
+		 */
+		private static final Logger logger = Logger
+				.getLogger(InputThreadToConsole.class);
+
 		private BufferedInputStream in, errStream;
 		private byte[] readLineBuffer = new byte[512];
 		IProgressMonitor monitor = null;
@@ -371,7 +387,10 @@ public class ScriptServerConnection implements IServerConnection
                     {
                         stream.println(new String(readLineBuffer, 0, index));
                     }
-                    System.out.println(new String(readLineBuffer, 0, index));
+					if (logger.isDebugEnabled()) {
+						logger.debug("run()"
+								+ new String(readLineBuffer, 0, index));
+					}
                     this.readLineBuffer = new byte[512];
                     index = 0;
                     
@@ -384,7 +403,7 @@ public class ScriptServerConnection implements IServerConnection
                 monitor.done();
             } catch (Exception e)
             {
-                e.printStackTrace();
+				logger.error("run()", e);
                 monitor.done();
             }
 
@@ -452,8 +471,10 @@ public class ScriptServerConnection implements IServerConnection
                     {
                         monitor.worked(1);
                         stream.print(new String(readLineBuffer, 0, index));
-                        System.out
-                                .print(new String(readLineBuffer, 0, index));
+						if (logger.isDebugEnabled()) {
+							logger.debug("run3()"
+									+ new String(readLineBuffer, 0, index));
+						}
 
                         this.readLineBuffer = new byte[512];
                         index = 0;
@@ -467,7 +488,7 @@ public class ScriptServerConnection implements IServerConnection
                 monitor.done();
             } catch (Exception e)
             {
-                e.printStackTrace();
+				logger.error("run3()", e);
             }
         }
 		public void run2() {
@@ -485,7 +506,7 @@ public class ScriptServerConnection implements IServerConnection
                         sleep(1050);
                     } catch (Exception e)
                     {
-                        e.printStackTrace();
+						logger.error("run2()", e);
                     }
 
                     while (r != -1 | s != -1 | exit < 120)
@@ -549,7 +570,7 @@ public class ScriptServerConnection implements IServerConnection
                 }
             } catch (IOException e)
             {
-                e.printStackTrace();
+				logger.error("run2()", e);
             } finally
             {
                 try
@@ -557,7 +578,7 @@ public class ScriptServerConnection implements IServerConnection
                     in.close();
                 } catch (IOException e1)
                 {
-                    e1.printStackTrace();
+					logger.error("run2()", e1);
                 }
             }
 		}

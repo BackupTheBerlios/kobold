@@ -25,6 +25,8 @@
 
 package kobold.client.vcm.popup.action;
 
+import org.apache.log4j.Logger;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -37,6 +39,11 @@ import org.eclipse.team.internal.ui.actions.TeamAction;
  * from the Kobold Repository Provider (WrapperProvider)
  */
 public class DisconnectAction extends TeamAction{
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(DisconnectAction.class);
 	
 	/**
 	 * This is the standard Constructor for the Class

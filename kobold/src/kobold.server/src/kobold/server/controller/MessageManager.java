@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageManager.java,v 1.9 2004/08/03 11:39:27 neccaino Exp $
+ * $Id: MessageManager.java,v 1.10 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 package kobold.server.controller;
+
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -45,6 +47,10 @@ import kobold.common.data.User;
  * @author garbeam
  */
 public class MessageManager {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(MessageManager.class);
 
 	private Map queues = null;
 	

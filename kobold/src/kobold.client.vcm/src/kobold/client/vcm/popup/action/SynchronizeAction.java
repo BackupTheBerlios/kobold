@@ -25,6 +25,8 @@
 
 package kobold.client.vcm.popup.action;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
 import org.eclipse.jface.action.IAction;
@@ -35,6 +37,11 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class SynchronizeAction extends KoboldAction {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(SynchronizeAction.class);
 
 	/**
 	 * Constructor for Action1.

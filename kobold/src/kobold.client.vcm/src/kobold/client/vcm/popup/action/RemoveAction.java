@@ -25,6 +25,8 @@
 
 package kobold.client.vcm.popup.action;
 
+import org.apache.log4j.Logger;
+
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 
 import org.eclipse.jface.action.IAction;
@@ -36,6 +38,10 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class RemoveAction extends KoboldAction {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(RemoveAction.class);
 
 	/**
 	 * Constructor for Action1.
@@ -65,7 +71,7 @@ public class RemoveAction extends KoboldAction {
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			logger.error("run(IAction)", e);
 		}
 	}
 

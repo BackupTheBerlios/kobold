@@ -21,10 +21,12 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ScriptExecuter.java,v 1.3 2004/10/21 21:33:58 martinplies Exp $
+ * $Id: ScriptExecuter.java,v 1.4 2004/11/05 10:50:58 grosseml Exp $
  * 
  */
 package kobold.client.vcm.controller;
+
+import org.apache.log4j.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -45,6 +47,11 @@ import org.eclipse.ui.console.MessageConsoleStream;
  */
 public class ScriptExecuter
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(ScriptExecuter.class);
+
 	private String[] command;
 
 	// incoming from remote host
@@ -119,7 +126,7 @@ public class ScriptExecuter
 			ethread = null;
 			return res;
 		} catch (InterruptedException e) {
-            e.printStackTrace();
+			logger.error("open(IProgressMonitor)", e);
             return null;
         } finally {
 			if (! connected) {
@@ -133,6 +140,12 @@ public class ScriptExecuter
 	}
 
 	private static class DiscardInputThread extends Thread {
+		/**
+		 * Logger for this class
+		 */
+		private static final Logger logger = Logger
+				.getLogger(DiscardInputThread.class);
+
 		private InputStream in;
 		public DiscardInputThread(InputStream in) {
 			this.in = in;
@@ -150,6 +163,12 @@ public class ScriptExecuter
 	}
 
 	private class StringInputThread extends Thread {
+		/**
+		 * Logger for this class
+		 
+		private static final Logger logger = Logger
+				.getLogger(StringInputThread.class);
+				*/
 		private InputStream in;
 		private StringBuffer result = new StringBuffer();
 		private MessageConsoleStream mcs;
@@ -169,7 +188,7 @@ public class ScriptExecuter
 		            in.close();
 		        }
 		    } catch (Exception e) {
-		        e.printStackTrace();
+				logger.error("run()", e);
 		    }
 		}
 		

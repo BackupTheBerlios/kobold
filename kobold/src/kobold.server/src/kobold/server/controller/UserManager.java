@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.24 2004/10/21 21:34:56 martinplies Exp $
+ * $Id: UserManager.java,v 1.25 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 package kobold.server.controller;
+
+import org.apache.log4j.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -49,6 +51,10 @@ import org.dom4j.io.XMLWriter;
  * This singleton class manages the users registered on the server.
  */
 public class UserManager {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(UserManager.class);
 
     private static final Log log = LogFactory.getLog(UserManager.class);
 

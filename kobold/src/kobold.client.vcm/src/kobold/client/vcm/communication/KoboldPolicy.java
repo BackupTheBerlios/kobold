@@ -27,6 +27,8 @@
  */
 package kobold.client.vcm.communication;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author schneipk
  *
@@ -46,6 +48,10 @@ import org.eclipse.core.runtime.OperationCanceledException;
  * provide NLSing of strings and aid in proper progress monitoring.
  */
 public class KoboldPolicy {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(KoboldPolicy.class);
 	
 	protected static ResourceBundle bundle = null;
 

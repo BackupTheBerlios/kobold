@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.16 2004/10/26 16:17:49 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.17 2004/11/05 10:50:58 grosseml Exp $
  *
  */
 package kobold.client.vcm;
+
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -59,6 +61,11 @@ import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException
  */
 public class VCMActionListener implements IVCMActionListener
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(VCMActionListener.class);
     
     /**
      * @see kobold.client.plam.listeners.IVCMActionListener#refreshFiledescriptors(kobold.client.plam.model.IFileDescriptorContainer)
@@ -131,8 +138,13 @@ public class VCMActionListener implements IVCMActionListener
 		command[8] = asset.getRepositoryDescriptor().getPath();
 		command[9] = "\"default commit\"";
 		for (int j = 0; j < command.length; j++) {
-			System.out.print(command[j]);
-			System.out.print(" ");
+			if (logger.isDebugEnabled()) {
+				logger.debug("createCommitCommand(AbstractRootAsset)"
+						+ command[j]);
+			}
+			if (logger.isDebugEnabled()) {
+				logger.debug("createCommitCommand(AbstractRootAsset)");
+			}
 		}
 		return command;
     }
@@ -173,7 +185,7 @@ public class VCMActionListener implements IVCMActionListener
     			}
 			}
 			catch (Exception e) {
-			    e.printStackTrace();
+				logger.error("commitProductline(Productline)", e);
 			}
 		}
     }
@@ -213,8 +225,12 @@ public class VCMActionListener implements IVCMActionListener
 			command[8] = asset.getRepositoryDescriptor().getPath();
 			command[9] = "";
 			for (int j = 0; j < command.length; j++) {
-				System.out.print(command[j]);
-				System.out.print(" ");
+				if (logger.isDebugEnabled()) {
+					logger.debug("updateAsset(Asset, IProject)" + command[j]);
+				}
+				if (logger.isDebugEnabled()) {
+					logger.debug("updateAsset(Asset, IProject)");
+				}
 			}
 			try {
 			    // first we try update
@@ -231,7 +247,7 @@ public class VCMActionListener implements IVCMActionListener
     			}
 			}
 			catch (Exception e) {
-			    e.printStackTrace();
+				logger.error("updateAsset(Asset, IProject)", e);
 			}
 		}
     }
@@ -272,7 +288,10 @@ public class VCMActionListener implements IVCMActionListener
     			}
 			}
 			catch (Exception e) {
-			    e.printStackTrace();
+				logger
+						.error(
+								"commitProduct(kobold.client.plam.model.product.Product)",
+								e);
 			}
 		}
     }
@@ -317,8 +336,12 @@ public class VCMActionListener implements IVCMActionListener
 			    Release.FileRevision fr = (Release.FileRevision) it.next();
     			command[8] = localPath + IPath.SEPARATOR + fr.getPath();
     			for (int j = 0; j < command.length; j++) {
-    				System.out.print(command[j]);
-    				System.out.print(" ");
+					if (logger.isDebugEnabled()) {
+						logger.debug("tagRelease(Release)" + command[j]);
+					}
+					if (logger.isDebugEnabled()) {
+						logger.debug("tagRelease(Release)");
+					}
     			}
     			try {
     			    // first we try to commit
@@ -329,7 +352,7 @@ public class VCMActionListener implements IVCMActionListener
     //				}
     			}
     			catch (Exception e) {
-    			    e.printStackTrace();
+					logger.error("tagRelease(Release)", e);
     			}
 			}
 		}
@@ -382,17 +405,24 @@ public class VCMActionListener implements IVCMActionListener
 		    try {
                 runHooks(asset, connection, progress, ScriptDescriptor.VCM_ADD, true, true);
             } catch (CVSAuthenticationException e1) {
-                e1.printStackTrace();
+				logger.error("addFileDescriptors(AbstractRootAsset, List)", e1);
             } catch (IOException e1) {
-                e1.printStackTrace();
+				logger.error("addFileDescriptors(AbstractRootAsset, List)", e1);
             }
 			for (Iterator it = fds.iterator(); it.hasNext();) {
     			    
 			    kobold.client.plam.model.FileDescriptor fd = (FileDescriptor)it.next();
     			command[8] = fd.getLocalPath().toOSString();
     			for (int j = 0; j < command.length; j++) {
-    				System.out.print(command[j]);
-    				System.out.print(" ");
+					if (logger.isDebugEnabled()) {
+						logger
+								.debug("addFileDescriptors(AbstractRootAsset, List)"
+										+ command[j]);
+					}
+					if (logger.isDebugEnabled()) {
+						logger
+								.debug("addFileDescriptors(AbstractRootAsset, List)");
+					}
     			}
     			try {
     			    // first we try to commit
@@ -403,15 +433,16 @@ public class VCMActionListener implements IVCMActionListener
     //				}
     			}
     			catch (Exception e) {
-    			    e.printStackTrace();
+					logger.error("addFileDescriptors(AbstractRootAsset, List)",
+							e);
     			}
 			}
 		    try {
                 runHooks(asset, connection, progress, ScriptDescriptor.VCM_ADD, false, true);
             } catch (CVSAuthenticationException e) {
-                e.printStackTrace();
+				logger.error("addFileDescriptors(AbstractRootAsset, List)", e);
             } catch (IOException e) {
-                e.printStackTrace();
+				logger.error("addFileDescriptors(AbstractRootAsset, List)", e);
             }
 		}
     }

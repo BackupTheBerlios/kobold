@@ -24,6 +24,8 @@
  */
 package kobold.client.vcm.controller;
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
 
 import kobold.client.plam.model.AbstractAsset;
@@ -50,6 +52,11 @@ import org.eclipse.swt.widgets.Shell;
  * the Kobold PLAM Tool
  */
 public class KoboldRepositoryHelper {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(KoboldRepositoryHelper.class);
 
     public static final String IMPORT = "import.";
 	public static final String ADD = "add.";

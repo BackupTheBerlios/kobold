@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldMessage.java,v 1.13 2004/11/05 01:50:54 martinplies Exp $
+ * $Id: KoboldMessage.java,v 1.14 2004/11/05 10:50:57 grosseml Exp $
  *
  */
 package kobold.common.data;
+
+import org.apache.log4j.Logger;
 
 import org.dom4j.Element;
 
@@ -33,6 +35,11 @@ import org.dom4j.Element;
  */
 public class KoboldMessage extends AbstractKoboldMessage 
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(KoboldMessage.class);
+
     public static final String TYPE = "kobold";
     
 	public KoboldMessage()

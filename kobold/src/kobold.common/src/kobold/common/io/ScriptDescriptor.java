@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptDescriptor.java,v 1.8 2004/09/23 13:43:17 vanto Exp $
+ * $Id: ScriptDescriptor.java,v 1.9 2004/11/05 10:50:57 grosseml Exp $
  *
  */
 package kobold.common.io;
+
+import org.apache.log4j.Logger;
 
 import java.net.URI;
 
@@ -44,6 +46,12 @@ import org.dom4j.Element;
  */
 public class ScriptDescriptor  implements ISerializable
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(ScriptDescriptor.class);
+
 	public static final String BASE_URI = "http://kobold.berlios.de/scripts#";
 	
 	public final static String VCM_IMPORT = "import";

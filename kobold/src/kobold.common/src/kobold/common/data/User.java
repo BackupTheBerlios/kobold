@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.14 2004/07/07 15:40:32 garbeam Exp $
+ * $Id: User.java,v 1.15 2004/11/05 10:50:56 grosseml Exp $
  *
  */
 package kobold.common.data;
+
+import org.apache.log4j.Logger;
 
 
 import org.dom4j.DocumentHelper;
@@ -40,6 +42,11 @@ import org.dom4j.Element;
  */
 public class User implements ISerializable
 {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(User.class);
+
     private String username;
     private String fullname;
     
