@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.51 2004/07/19 10:28:45 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.52 2004/07/19 11:47:26 neccaino Exp $
  *
  */
 package kobold.server;
@@ -566,9 +566,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		ProductlineManager plm = ProductlineManager.getInstance();
 		Productline pl = new Productline(nameOfProductline, 
 				repositoryDescriptor);
-		plm.addProductline(pl); // TODO: fetch return when there will be one
-		
-		return IKoboldServerAdministration.RETURN_OK;        
+		return plm.addProductline(pl) ? RETURN_OK : RETURN_FAIL;
 	}
 	
 	/**
@@ -592,12 +590,9 @@ public class SecureKoboldWebServer implements IKoboldServer,
 			return IKoboldServerAdministration.RETURN_FAIL;
 		}
 		
-		// 2.) [check if the passed productline exists and] remove it
+		// 2.) remove the productline
 		ProductlineManager plm = ProductlineManager.getInstance();
-		plm.removeProductline(nameOfProductline);
-		//TODO: check the return of removeProductline as soon as there is one
-		
-		return IKoboldServerAdministration.RETURN_OK;
+		return plm.removeProductline(nameOfProductline) ? RETURN_OK : RETURN_FAIL;
 	} 
 	
 	/**
@@ -627,14 +622,22 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		ProductlineManager plm = ProductlineManager.getInstance();
 		UserManager um = UserManager.getInstance();
 		kobold.server.data.User suser = um.getUser(nameOfUser);
+        
+        // 3.) stop if the user doesn't exist
+        if (suser == null){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
 		
-		// 3.) convert the user-object to its client-representation
+		// 4.) convert the user-object to its client-representation
 		User cuser = new User(suser.getUserName(), suser.getFullName());
-		
-		// 4.) assign the user
+
+        // 5.) stop if the user has already been assigned
+        if (plm.getProductline(nameOfProductline).getMaintainers().contains(cuser)){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
+        
+		// 6.) assign the user
 		plm.getProductline(nameOfProductline).addMaintainer(cuser);
-		
-		//TODO: check error return from um and plm as soon as there will be one
 		
 		return IKoboldServerAdministration.RETURN_OK;
 	}
@@ -667,13 +670,21 @@ public class SecureKoboldWebServer implements IKoboldServer,
         UserManager um = UserManager.getInstance();
         kobold.server.data.User suser = um.getUser(nameOfUser);
         
-        // 3.) convert the user-object to its client-representation
+        // 3.) stop if the user doesn't exist
+        if (suser == null){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
+        
+        // 4.) convert the user-object to its client-representation
         User cuser = new User(suser.getUserName(), suser.getFullName());
         
-        // 4.) unassign the user
-        plm.getProductline(nameOfProductline).removeMaintainer(cuser);
+        // 5.) stop if the user has not yet been assigned to the productline
+        if (!plm.getProductline(nameOfProductline).getMaintainers().contains(cuser)){
+            return IKoboldServerAdministration.RETURN_FAIL;
+        }
         
-        //TODO: check error return from um and plm as soon as there will be one
+        // 6.) unassign the user
+        plm.getProductline(nameOfProductline).removeMaintainer(cuser);
         
 		return IKoboldServerAdministration.RETURN_OK;
 	}
