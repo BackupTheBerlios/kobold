@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportAction.java,v 1.5 2004/07/23 22:27:11 vanto Exp $
+ * $Id: GXLExportAction.java,v 1.6 2004/07/28 15:10:59 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.action;
@@ -48,7 +48,7 @@ public class GXLExportAction extends SelectionAction {
     {
         super(part);
         setId(ID);
-        setText("Export");
+        setText("Export...");
         setLazyEnablementCalculation(true);
         setEnabled(true);
     }

@@ -8,7 +8,9 @@
    class="kobold.client.plam.KoboldPLAMPlugin">
 
    <runtime>
-      <library name="kobold-plam.jar"/>
+      <library name="kobold-plam.jar">
+         <export name="*"/>
+      </library>
    </runtime>
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
@@ -133,15 +135,19 @@
             id="kobold.client.plam.roletreecontribution">
          <action
                enablesFor="1"
-               label="%action.GXLImport"
-               class="kobold.client.plam.action.ImportGXLGraphAction"
-               id="kobold.client.plam.action3"/>
-         <action
-               enablesFor="1"
                label="%action.GXLExport"
                class="kobold.client.plam.action.GXLExportAction"
                id="kobold.client.plam.action1"/>
       </objectContribution>
+      <objectContribution
+            objectClass="kobold.client.plam.model.product.Product"
+            id="kobold.client.plam.roletreecontribution2">
+            <action
+               enablesFor="1"
+               label="%action.GraphImport"
+               class="kobold.client.plam.action.GraphImportAction"
+               id="kobold.client.plam.action3"/>
+            </objectContribution>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
