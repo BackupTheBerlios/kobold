@@ -12,7 +12,7 @@ set test2= %CD%
 set test2==%test%-%test2%
 echo %test%%CD%
 rem set dir=
-echo cvs.exe -z3 -d:pserver:%3:%4@%5:%6 co -d %test% %7 %8
+echo cvs.exe -z3 -d:pserver:%3:%4@%5:%6 co %8 %7
 goto END
 
 :LOCAL
