@@ -18,11 +18,11 @@ goto END
 :CVS
 if %3==local goto LOCAL
 
-echo cvs -z3 -d :%3:%4:%5@%6:%7 add %8
+cvs -z3 -d :%3:%4:%5@%6:%7 add %8
 
 goto END
 
 :LOCAL
-echo cvs -z3 -d %7 add %8
+cvs -z3 -d %7 add %8
 
 :END

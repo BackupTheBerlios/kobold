@@ -9,7 +9,7 @@ rem %7 root
 rem %8 module
 rem %9 userdef
 
-echo cd /d %1
+cd /d %1
 
 if %2 == CVS goto CVS
 goto END
@@ -18,21 +18,21 @@ goto END
 if %3 == local goto LOCAL
 
 if "%9" == "" GOTO EMPTY1
-echo    cvs -z3 -d :%3:%4:%5@%6:%7 up -dP -r %9
+  cvs -z3 -d :%3:%4:%5@%6:%7 up -dP -r %9
 
 goto END
 
 :EMPTY1
-echo    cvs -z3 -d :%3:%4:%5@%6:%7 up -dP
+    cvs -z3 -d :%3:%4:%5@%6:%7 up -dP
 goto END
 
 :LOCAL
 if "%9" == "" goto EMPTY2
-echo    cvs -z3 -d %7 up -dP -r %9
+    cvs -z3 -d %7 up -dP -r %9
 goto END
 
 :EMPTY2
-echo    cvs -z3 -d %7 up -dP
+    cvs -z3 -d %7 up -dP
 goto END
 
 :END
