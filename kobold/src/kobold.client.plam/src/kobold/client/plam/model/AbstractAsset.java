@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.25 2004/08/31 20:14:07 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.26 2004/09/01 11:23:47 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -313,12 +313,12 @@ public abstract class AbstractAsset implements ISerializable, INode
         
         Element bsEl = element.addElement("before-scripts");
         for (Iterator iterator = beforeScripts.iterator(); iterator.hasNext();) {
-            bsEl.add(((ScriptDescriptor)iterator).serialize());
+            bsEl.add(((ScriptDescriptor)iterator.next()).serialize());
         }
         
         Element asEl = element.addElement("after-scripts");
         for (Iterator iterator = afterScripts.iterator(); iterator.hasNext();) {
-            asEl.add(((ScriptDescriptor)iterator).serialize());
+            asEl.add(((ScriptDescriptor)iterator.next()).serialize());
         }
         
         return element;
