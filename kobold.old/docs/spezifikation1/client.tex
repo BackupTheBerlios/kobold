@@ -25,9 +25,28 @@ Die Ausgangsperspektive wird aus 4 Teilen bestehen:
 	\item Die Minimap
 \end{itemize}
 Diese werden in den jeweiligen Unterkapiteln näher beschrieben.
-Um das Rollen
-\section{Der Produktlinienarchitektur View}
-In diesem View wird die 
+Um das Rollenprinzip konsistent durchzusetzen ist eine zentrale Anmeldung an einem Server nötig.
+Details zu der Serverseitigen Lösung finden sie auf Seite %todo Link zur Serverseite% 
+. 
+\section{Authentifizierung}
+Die Authentifizierung am Server erfolgt durch einen RPC. Der Benutzer kann bei der Erstbenutzung des 
+Clients wählen ob er sich bei jedem Programmstart authentifiziern soll, oder ob das Passwort
+und der Benutzername gespeichert werden sollen.
+\section{Der Produktlinienarchitektur View/Editor}
+In diesem View wird die je nach aktiver Rolle relevante Sicht auf die Architektur der Produktlinie
+angezeigt. Die grafische "Notation" hält sich dabei an die in dem Paper ... festgelegte Struktur.
+Um dies nocheinmal grafisch darzustellen hier noch einmal die 3 verschiedenen Sichten auf die
+Produktlinien bzw. Produktarchitektur.
+Die Ansicht bietet die Möglichkeit verschidene Zoomstufen einzustellen. Dies reultiert darin,
+dass im aktuellen Ausschnitt möglicherweise nicht die ganze Architektur zu sehen ist.
+Um trotzdem den Überblick zu gewährleisten wird eine Minimap zur Verfügung gestellt.
+%todo Grafiken einfügen%
+
 \section{Der Rollen View}
+Auf der linken Seite der Ausgangsperspektive wird ein hierarchischer Baum angezeigt, der
+die momentan aktive Rolle und die mit Ihr verbundenen möglichen Sichten darstellt.
 \section{Der Worklflow/Task View}
+Am unteren Rand der Ausgangsperspektive wird standardmässig 
 \section{Die Minimap}
+Am rechten unteren Rand der Ausgangsperspektive wird eine sogennante Minimap angezeigt,
+in der ein Überblick über die ganze Architektursicht der aktuellen Rolle gegeben wird.
