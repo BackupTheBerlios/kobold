@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.14 2004/08/04 15:29:00 vanto Exp $
+ * $Id: RoleTreeViewPart.java,v 1.15 2004/08/04 16:26:06 grosseml Exp $
  *
  */
 package kobold.client.plam.view;
@@ -35,6 +35,7 @@ import kobold.client.plam.editor.ArchitectureEditorInput;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.useractions.UINewUser;
+import kobold.client.plam.editor.dialog.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -166,10 +167,8 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 	private void makeActions() {
 		action1 = new Action() {
 			public void run() {
-				UINewUser nU = new UINewUser(shell);
-				nU.createDialogArea(shell);
-//				nU.create();
-				nU.open();
+				EditUserManager eum = new EditUserManager(shell);
+				eum.open();
 			}
 		};
 		action1.setText("Create New User");
