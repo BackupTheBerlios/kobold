@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractMaintainedAsset.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: AbstractMaintainedAsset.java,v 1.2 2004/07/07 15:40:11 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -98,7 +98,8 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
     	    Iterator it = element.element("maintainers").elementIterator("maintainer");
     	    while (it.hasNext()) {
     	        Element maintEl = (Element)it.next();
-    	        addMaintainer(new User(maintEl.attributeValue("username")));
+    	        addMaintainer(new User(maintEl.attributeValue("username"),
+    	                			   maintEl.attributeValue("fullname")));
     	    }
     	}
     }
@@ -109,8 +110,10 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
         Element maintsEl = element.addElement("maintainers");
         Iterator it = maintainers.iterator();
         while (it.hasNext()) {
-            maintsEl.addElement("maintainer").addAttribute("username", 
-                	((User)it.next()).getUsername());
+            User user = (User) it.next();
+            Element maintEl = maintsEl.addElement("maintainer");
+            maintEl.addAttribute("username", user.getUsername()); 
+            maintEl.addAttribute("fullname", user.getFullname());
         }
 
         return element;

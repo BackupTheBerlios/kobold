@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.25 2004/07/05 15:58:53 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.26 2004/07/07 15:40:11 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -55,8 +55,12 @@ import org.dom4j.Element;
 import sun.misc.BASE64Decoder;
 
 /**
- * TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ */
+/**
  * @author garbeam
+ *
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class SecureKoboldClient implements IKoboldServer {
 
@@ -74,11 +78,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	}
 
 	/**
-	 * Login handler.
-	 * @param userName the username.
-	 * @param password the plain text password.
-	 * @return UserContext, if the userName and password
-	 * 			  is valid. 
+	 * {@see kobold.common.controller.IKoboldServer#login(String, String)}
 	 */
 	public UserContext login(String userName, String password) {
 		Vector v = new Vector();
@@ -97,9 +97,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	}
 
 	/**
-	 * Logout handler.
-	 * Invalidates the given user context.
-	 * @param userContext the user context.
+	 * {@see kobold.common.controller.IKoboldServer#logout(UserContext)}
 	 */
 	public void logout(UserContext userContext) {
 		Vector v = new Vector();
@@ -112,13 +110,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	}
 
 	/**
-	 * Adds an new user to the server.
-	 * @param userContext the user context of the valid creator of the
-	 * 			  new user (if the new user is a P, than the userContext
-	 * 			  must be at least a PE).
-	 * @param userName the user name.
-	 * @param password the password.
-	 * @param realName the real name.
+	 * {@see kobold.common.controller.IKoboldServer#addUser(UserContext, String, String, String)}
 	 */
 	public void addUser(UserContext userContext, String userName,
 									String password, String realName)
@@ -136,12 +128,8 @@ public class SecureKoboldClient implements IKoboldServer {
 	}
 	
 	/**
-	 * Triggers a change in the usercontext.
-	 * @param userContext
-	 * @param userName
-	 * @param realName
+	 * {@see kobold.common.controller.IKoboldServer#changeUser(UserContext userContext, String userName, String realName)}
 	 */
-	
 	public void changeUser(UserContext userContext, String userName, String realName)
 	{
 		Vector v = new Vector();
@@ -155,24 +143,8 @@ public class SecureKoboldClient implements IKoboldServer {
 		}
 	}
 	
-	public void changeUserPassword(UserContext userContext, String password){
-		Vector v = new Vector();
-		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		v.add(password);
-		
-		try {
-			Object result = client.execute("changeUserPassword",v);
-		} catch (Exception exception) {
-			log.error(exception);
-		}
-	}
-	
-	
 	/**
-	 * Fetches a productline by its name.
-	 * @param userContext the user context.
-	 * @param plName the name of the productline.
-	 * @return the product line.
+	 * @see kobold.common.controller.IKoboldServer#getProductline(kobold.common.data.UserContext, java.lang.String)
 	 */
 	public Productline getProductline(UserContext userContext, String plName) {
 		Vector v = new Vector();
@@ -190,97 +162,9 @@ public class SecureKoboldClient implements IKoboldServer {
 		}
 		return null;
 	}
-
+	
 	/**
-	 * Fetches a product by its name.
-	 * @param userContext the user context.
-	 * @param productName the name of the productline.
-	 * @return the product line.
-	 */
-	public Product getProduct(UserContext userContext, String productName) {
-		Vector v = new Vector();
-		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		v.add(productName);
-		try {
-			Object result = client.execute("getProduct", v);
-			if (!((String)result).equals(IKoboldServer.NO_RESULT)) {
-//				return new Product(RPCMessageTransformer.decode((String)result));
-			}
-		} catch (Exception exception) {
-			log.error(exception);
-		}
-		return null;
-	}
-
-	/**
-	 * Adds a new product.
-	 * @param userContext the user context.
-	 * @param product the product.
-	 */
-	public void addProduct(UserContext userContext, Product product){
-		Vector v = new Vector();
-		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		v.add(RPCMessageTransformer.encode(product.serialize()));
-		try {
-			Object result = client.execute("addProduct", v);
-		} catch (Exception exception) {
-			log.error(exception);
-		}
-	}
-
-	/**
-	 * Applies modifications to the given Productline.
-	 * @param userContext the user context.
-	 * @param productline the productline. 
-	 */
-	public void applyProductlineModifications(UserContext userContext, Productline productline) {
-		Vector v = new Vector();
-		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		v.add(RPCMessageTransformer.encode(productline.serialize()));
-		try {
-			Object result = client.execute("applyProductlineModifications", v);
-		} catch (Exception exception) {
-			log.error(exception);
-		}
-	}
-
-	/**
-	 * Applies modifications to the given Product.
-	 * @param userContext the user context.
-	 * @param product the product. 
-	 */
-	public void applyProductModifications(UserContext userContext, Product product) {
-		Vector v = new Vector();
-		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		v.add(RPCMessageTransformer.encode(product.serialize()));
-		try {
-			Object result = client.execute("applyProductModifications", v);
-		} catch (Exception exception) {
-			log.error(exception);
-		}
-	}
-
-	/**
-	 * Removes the specified user.
-	 * @param userContext the user context.
-	 * @param userName the user to remove.
-	 */
-	public void removeUser(UserContext userContext, String userName) {
-		Vector v = new Vector();
-		v.add(RPCMessageTransformer.encode(userContext.serialize()));
-		v.add(userName);
-		try {
-			Object result = client.execute("removeUser", v);
-		} catch (Exception exception) {
-			log.error(exception);
-		}
-	}
-
-	/**
-	 * Sends a KoboldMessage or WorkflowMessage.
-	 * 
-	 * @param userContext the user context.
-	 * @param koboldMessage the message.
+	 * @see kobold.common.controller.IKoboldServer#sendMessage(kobold.common.data.UserContext, kobold.common.data.AbstractKoboldMessage)
 	 */
 	public void sendMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
 		Vector v = new Vector();
@@ -294,11 +178,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	}
 
 	/**
-	 * Fetches a single KoboldMessage. Should be put to a queue.
-	 * Note: to remove the message from Servers message queue,
-	 * it has to be invalidated using invalidateMessage!
-	 * 
-	 * @param userContext the user context.
+	 * @see kobold.common.controller.IKoboldServer#fetchMessage(kobold.common.data.UserContext)
 	 */
 	public AbstractKoboldMessage fetchMessage(UserContext userContext) {
 		Vector v = new Vector();
@@ -315,11 +195,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	}
 
 	/**
-	 * Invalidates the specified message. This method will remove the message
-	 * from Servers message queue.
-	 * 
-	 * @param userContext the user context.
-	 * @param koboldMessage the message.
+	 * @see kobold.common.controller.IKoboldServer#invalidateMessage(kobold.common.data.UserContext, kobold.common.data.AbstractKoboldMessage)
 	 */
 	public void invalidateMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
 		Vector v = new Vector();
@@ -333,102 +209,54 @@ public class SecureKoboldClient implements IKoboldServer {
 	}
 
 	/**
-	 * This method is used by SAT-Clients to validate the accessibility of
-	 * the Kobold server with the passed password.
-	 *  
-	 * @param adminPassword server administration password
-	 * @return true, if the passed password is valid, false otherwise
+	 * @see kobold.common.controller.IKoboldServer#getProductlineNames(kobold.common.data.UserContext)
 	 */
-	public String validateSATAccessibility(String adminPassword){
-		Vector v = new Vector();
-		v.add(adminPassword);
-		try {
-			return (String) client.execute("validateSATAccessibility", v);			
-		}
-		catch(Exception e){
-			return IKoboldServer.NO_RESULT;
-		}
+	public List getProductlineNames(UserContext userContext) {
+		List result = new ArrayList();
+		return result;
 	}
 	
 	/**
-	 * this method is used by SAT-Clients to create a new productline
-	 * on the KoboldServer
-	 * @param adminPassword server administartion password
-	 * @param plname name of the new productline
-	 * @param rd repository description for the new productline
-	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 * @see kobold.common.controller.IKoboldServer#getAllUsers(kobold.common.data.UserContext)
 	 */
-	public String satCreateNewProductline(String adminPassword, String plname, RepositoryDescriptor rd){
-		Vector v = new Vector();
-		v.add(adminPassword);
-		v.add(plname);
-		try {
-			return (String) client.execute("satCreateNewProductline", v);			
-		}
-		catch(Exception e){
-			return IKoboldServer.NO_RESULT;
-		}
+	public List getAllUsers(UserContext userContext) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
+
 	/**
-	 * this method is used by SAT-Clients to remove a productline
-	 * on the KoboldServer
-	 * @param adminPassword server administartion password
-	 * @param plname name of the new productline
-	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 * @see kobold.common.controller.IKoboldServer#removeUser(kobold.common.data.UserContext, kobold.common.data.User)
 	 */
-	public String satRemoveProductline(String adminPassword, String plname){
-		Vector v = new Vector();
-		v.add(adminPassword);
-		v.add(plname);
-		try {
-			return (String) client.execute("satRemoveProductline", v);			
-		}
-		catch(Exception e){
-			return IKoboldServer.NO_RESULT;
-		}
+	public void removeUser(UserContext userContext, User user) {
+		// TODO Auto-generated method stub
+		
 	}
-	
+
 	/**
-	 * this method is used by SAT-Clients to set a productline's new PLE
-	 * @param adminPassword server administartion password
-	 * @param plname name of the new productline
-	 * @param username name of the user who should become plsname's
-	 *                 new PLE
-	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 * @see kobold.common.controller.IKoboldServer#updateProductline(kobold.common.data.UserContext, kobold.common.data.Productline)
 	 */
-	public String satAddPLE(String adminPassword, String plname, String username){
-		Vector v = new Vector();
-		v.add(adminPassword);
-		v.add(plname);
-		v.add(username);
-		try {
-			return (String) client.execute("satAddPLE", v);			
-		}
-		catch(Exception e){
-			return IKoboldServer.NO_RESULT;
-		}
+	public void updateProductline(UserContext userContext, Productline productline) {
+		// TODO Auto-generated method stub
+		
 	}
-	
+
 	/**
-	 * this method is used by SAT-Clients to invalidate a productline's 
-	 * PLE
-	 * @param adminPassword server administartion password
-	 * @param plname name of the new productline
-	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
+	 * @see kobold.common.controller.IKoboldServer#updateProduct(kobold.common.data.UserContext, java.lang.String, kobold.common.data.Product)
 	 */
-	public String satRemovePLE(String adminPassword, String plname){
-		Vector v = new Vector();
-		v.add(adminPassword);
-		v.add(plname);
-		try {
-			return (String) client.execute("satRemovePLE", v);			
-		}
-		catch(Exception e){
-			return IKoboldServer.NO_RESULT;
-		}
+	public void updateProduct(UserContext userContext, String productlineName, Product product) {
+		// TODO Auto-generated method stub
+		
 	}
-	
+
+	/**
+	 * @see kobold.common.controller.IKoboldServer#updateComponent(kobold.common.data.UserContext, java.lang.String, java.lang.String, kobold.common.data.Component)
+	 */
+	public void updateComponent(UserContext userContext, String productlineName,
+	        					String productName, Component component)
+	{
+		// TODO Auto-generated method stub
+	}
+
 	private class AdaptedSecureXmlRpcClient extends SecureXmlRpcClient {
 		
 		/**
@@ -453,69 +281,22 @@ public class SecureKoboldClient implements IKoboldServer {
 		}
 	}
 
-	/**
-	 * @see kobold.common.controller.IKoboldServer#getProductlineNames(kobold.common.data.UserContext)
-	 */
-	public List getProductlineNames(UserContext userContext) {
-		List result = new ArrayList();
-		return result;
-	}
-	
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.IKoboldServer#getAllUsers(kobold.common.data.UserContext)
-	 */
-	public List getAllUsers(UserContext userContext) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.IKoboldServer#getRoles(kobold.common.data.UserContext)
-	 */
-	public Vector getRoles(UserContext userContext) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.IKoboldServer#updateUser(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String)
-	 */
-	public void updateUser(UserContext userContext, User user, String password) {
-		// TODO Auto-generated method stub
-		
-	}
+    /**
+     * @see kobold.common.controller.IKoboldServer#updateUserFullName(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String)
+     */
+    public void updateUserFullName(UserContext userContext, User user, String password) {
+        // TODO Auto-generated method stub
+        
+    }
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.IKoboldServer#removeUser(kobold.common.data.UserContext, kobold.common.data.User)
-	 */
-	public void removeUser(UserContext userContext, User user) {
-		// TODO Auto-generated method stub
-		
-	}
+    /**
+     * @see kobold.common.controller.IKoboldServer#updateUserPassword(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String, java.lang.String)
+     */
+    public void updateUserPassword(UserContext userContext, User user, String oldPassword, String newPassword) {
+        // TODO Auto-generated method stub
+        
+    }
 
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.IKoboldServer#updateProductline(kobold.common.data.UserContext, kobold.common.data.Productline)
-	 */
-	public void updateProductline(UserContext userContext, Productline productline) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.IKoboldServer#updateProduct(kobold.common.data.UserContext, java.lang.String, kobold.common.data.Product)
-	 */
-	public void updateProduct(UserContext userContext, String productlineName, Product product) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.common.controller.IKoboldServer#updateComponent(kobold.common.data.UserContext, java.lang.String, kobold.common.data.Component)
-	 */
-	public void updateComponent(UserContext userContext, String productName, Component component) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }
 
