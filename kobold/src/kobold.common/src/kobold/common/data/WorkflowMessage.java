@@ -88,10 +88,6 @@ public class WorkflowMessage extends KoboldMessage {
 	}
 
 	/**
-	 * @param list
-	 */
-	
-	/**
 	 * @param i
 	 */
 	public void setStep(int i) {
@@ -103,6 +99,20 @@ public class WorkflowMessage extends KoboldMessage {
 	 */
 	public void setWorkflowID(int i) {
 		workflowID = i;
+	}
+
+	/**
+	 * @return
+	 */
+	public WorkflowItemGroup getWorkflowItemGroup() {
+		return itemGroup;
+	}
+
+	/**
+	 * @param group
+	 */
+	public void setWorkflowItemGroup(WorkflowItemGroup itemGroup) {
+		this.itemGroup = itemGroup;
 	}
 
 }   
