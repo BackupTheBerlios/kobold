@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.58 2004/07/28 14:31:42 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.59 2004/07/28 15:13:43 memyselfandi Exp $
  *
  */
 package kobold.server;
@@ -102,8 +102,7 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		BasicConfigurator.configure();
 		
         // set UUID node manager class
-        System.setProperty("org.apache.commons.id.uuid.NodeManager", ReadWriteFileStateImpl.class.getName());
-        System.setProperty("commons.uuid.configFileName", "/tmp/bla.conf");
+        System.setProperty("org.apache.commons.id.uuid.state.State", InMemoryStateImpl.class.getName());
 		try {
 		    Properties props = new Properties(System.getProperties());
 		    props.load(new FileInputStream(System.getProperty("kobold.server.configFile")));
