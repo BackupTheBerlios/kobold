@@ -1,6 +1,6 @@
 ###############################################################################
 ## Makefile for generating papers
-## $Id: Makefile,v 1.1 2004/02/07 22:49:58 garbeam Exp $
+## $Id: Makefile,v 1.2 2004/02/16 14:36:50 memyselfandi Exp $
 
 TEXCMD=pdflatex
 PDFCMD=pdflatex
@@ -26,3 +26,4 @@ dvi:
 	$(TEXCMD) $(INPUT)$(TEXEXT)
 
 end:
+	acroread spezifikatin1.pdf

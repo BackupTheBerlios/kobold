@@ -12,7 +12,20 @@ Eine Möglichkeit wäre Schema
   X  = Priorität der Anforderung (Noch zu Definieren)
   Y = Lfde Nummer
   Z = Vorraussichtliche Umsetzung in Iteration Z
-  Leider brauch ich für ne gute Umsetzung Hilfe in LAtex :-)
+   Leider brauch ich für ne gute Umsetzung Hilfe in LAtex :-)
+{
+
+	\renewcommand{\theenumi}{\Roman{enumi}.}%
+	\renewcommand{\theenumii}{\theenumi \Alph{enumii}.}%
+	\renewcommand{\theenumiii}{\theenumii \arabic{enumiii}.}%
+	\renewcommand{\labelenumi}{\theenumi}%
+	\renewcommand{\labelenumii}{\theenumii}%	
+	\renewcommand{\labelenumiii}{\theenumiii}%
+	
+\begin{enumerate}
+\item Iteration
+\begin{enumerate}
+\item Prio
 \begin{enumerate}
     \item Es kann mehrere Produktlinien geben
     \item Pro Programminstanz kann von einem Benutzer biliebiege Produktlinien bearbeitet werden
@@ -89,3 +102,7 @@ Eine Möglichkeit wäre Schema
     \item Der P kann sein Arbeitsverzeichnis aktualisieren /synchroniesieren.
     \item Der P kann seine Arbeit über das Grafiktool und über die Commandozeile einchecken.
 \end{enumerate}
+\end{enumerate}
+\end{enumerate}
+
+}
