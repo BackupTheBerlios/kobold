@@ -71,7 +71,7 @@ Inc.\footnote{unter http://java.sun.com/j2se/1.4.2/system-configurations.html} u
 Solaris-SPARC, Solaris-Intel, Windows NT/2000/XP und Linux lauff�hig.
 
 
-\section{Server}
+\chapter{Server}
 Der Server wird als HTTP-basierter {\it XML-RPC Server}
 \footnote{N�here Informationen: http://ws.apache.org/xmlrpc/}
 implementiert und ist SSL-basiert. Ausserdem erm�glicht
@@ -102,7 +102,7 @@ F�r ein Repository werden folgende Daten gespeichert:
 \item Schreibrecht (ja/nein)
 \end{itemize}
 
-\subsection{Berechtigungskonzept}
+\section{Berechtigungskonzept}
 
 Zur Realisierung des produktlinien\-�bergreifenden Berechtigungskonzepts
 verwaltet der Server alle benutzer-, rollen-, produktlinien- und
@@ -111,14 +111,14 @@ verwendet werden.\par
 Der Server bietet ein auf diesen Berechtigungen basierenden
 Authentifizierungsmechanismus an, der von allen Clients verwendet wird.
 
-\subsection{Persistierung}
+\section{Persistierung}
 
 Die Persistierung aller f�r das Berechtigungskonzept notwendigen Daten wird
 durch eine abstrakte Persistenzschicht realisiert, die es erm�glicht, die
 Datenhaltung flexibel zu organisieren. Im Rahmen dieses Angebotes wird die
 Persistierung XML-basiert angeboten.
 
-\subsection{Nachrichten-Queue}
+\section{Nachrichten-Queue}
 
 Die vom Server angebotene Nachrichten-Queue ist zustandsbehaftet, d.h. nach einem
 Stromausfall oder anderen unvorhersehbaren Ereignissen ist die Nachrichten-Queue
@@ -137,12 +137,12 @@ F�r die Nachrichten-Queue werden folgende Daten ben�tigt:
 
 
 
-\subsection{Web-basierte Statusinformationen}
+\section{Web-basierte Statusinformationen}
 
 Es ist jederzeit f�r einen authentifizierten Systemadministrator m�glich,
 den Status des Servers �ber einen Webbrowser abzufragen.
 
-\subsection{Administrationstool}
+\section{Administrationstool}
 
 Zur Administration des Servers wird ein kommandozeilen-orientiertes 
 Administrationstool angeboten, dass es erm�glicht, Produktlinien-Ingenieur-Accounts
