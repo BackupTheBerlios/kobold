@@ -24,17 +24,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.14 2004/07/21 17:07:36 garbeam Exp $
+ * $Id: IKoboldServer.java,v 1.16 2004/08/02 14:00:55 garbeam Exp $
  *
  */
 
 package kobold.common.controller;
 
+import java.net.URL;
 import java.util.Vector;
 
 import kobold.common.data.AbstractKoboldMessage;
-import kobold.common.data.Component;
-import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.User;
 import kobold.common.data.UserContext;
@@ -49,12 +48,13 @@ public interface IKoboldServer {
 
 	/**
 	 * Login handler.
+	 * @param url the server url.
 	 * @param userName the username.
 	 * @param password the plain text password.
 	 * @return UserContext, if the userName and password
 	 * 			  is valid. 
 	 */
-    public UserContext login(String userName, String password);
+    public UserContext login(URL url, String userName, String password);
 
 	/**
 	 * Logout handler.
@@ -113,10 +113,10 @@ public interface IKoboldServer {
     /**
      * Fetches a productline by its name.
      * @param userContext the user context.
-     * @param plName the name of the productline.
+     * @param id the id of the productline.
      * @return the product line.
      */
-    public Productline getProductline(UserContext userContext, String plName);
+    public Productline getProductline(UserContext userContext, String id);
 
     /**
      * Fetches all product line names.
@@ -133,30 +133,8 @@ public interface IKoboldServer {
 	 * @param productline the productline. 
 	 */
 	public void updateProductline(UserContext userContext,
-								  Productline productline);
+								  Productline id);
     
-	/**
-	 * Applies modifications to the given Product.
-	 * If you make changes to a specific component, use the
-	 * applComponentModification() method instead.
-	 * @param userContext the user context.
-	 * @param productlineName th
-	 * @param product the product. 
-	 */
-	public void updateProduct(UserContext userContext,
-							  String productlineName,
-							  Product product);
-    
-	/**
-	 * Applies modifications to the given Component.
-	 * @param userContext the user context.
-	 * @param product the product. 
-	 */
-	public void updateComponent(UserContext userContext,
-	        					String productlineName,
-								String productName,
-								Component component);
-	
 	/**
 	 * Sends a KoboldMessage or WorkflowMessage.
 	 * 
@@ -213,7 +191,7 @@ public interface IKoboldServer {
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractKoboldMessage.java,v 1.3 2004/05/18 19:13:06 vanto Exp $
+ * $Id: AbstractKoboldMessage.java,v 1.5 2004/08/01 11:53:11 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -262,7 +240,7 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 	 */
 	protected AbstractKoboldMessage(String idtype)
 	{
-		id = IdManager.getInstance().getMessageId(idtype);
+		id = IdManager.nextId(idtype);
 	}
 
 	/**
@@ -392,7 +370,7 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 		    xmsg.addElement("receiver").setText(receiver);
 		}
 
-		xmsg.addElement("date").setText(dateFormat.format(date));
+		xmsg.addElement("date").setText(date.getTime() + "");
 
 		if (subject != null) {
 		    xmsg.addElement("subject").setText(subject);
@@ -418,10 +396,9 @@ public abstract class AbstractKoboldMessage implements ISerializable {
 		
 		// fall back on parse error
 		date = new Date();
-		try {
-			date = dateFormat.parse(data.elementTextTrim("date"));
-		} catch (ParseException e) {
-			logger.debug("Could not parse date.", e);
+		String d = data.elementTextTrim("date");
+		if (d != null) {
+			date.setTime(Long.parseLong(d));
 		}
 
 		subject = data.elementTextTrim("subject");
@@ -520,7 +497,7 @@ public abstract class AbstractKoboldMessage implements ISerializable {
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Asset.java,v 1.1 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: Asset.java,v 1.6 2004/08/05 09:12:58 vanto Exp $
  *
  */
 package kobold.common.data;
@@ -544,7 +521,9 @@ public class Asset implements ISerializable {
 	public static final String COMPONENT = "component";
 	public static final String PRODUCT = "product";
 	public static final String PRODUCT_LINE = "productline";
-	
+
+	// resource (file or directory name) of this asset
+	private String resource = null;
 	// name of this asset
 	private String name = null;
 	// id of this asset
@@ -565,27 +544,35 @@ public class Asset implements ISerializable {
 	 * @param type the type of this asset, must be a value of the
 	 * 		  static final members of this class.
 	 * @param id a unique id of this asset.
-	 * @param name
+	 * @param name the name
+	 * @param resource the file or directory name (no PATH!)
 	 * @param repositoryDescriptor
 	 */
-	public Asset(Asset parent, String type, String name,
+	public Asset(Asset parent, String type, String name, String resource,
 			     RepositoryDescriptor repositoryDescriptor)
 	{
 		this.parent = parent;
 		this.type = type;
 		this.name = name;
+		this.resource = resource;
 		this.repositoryDescriptor = repositoryDescriptor;
 	
-		this.id = IdManager.getInstance().getAssetId(name);
+		this.id = IdManager.nextId(name);
 	}
 
+	
+	public Asset(Asset parent) 
+	{
+	    this.parent = parent;
+	}
+	
 	/**
 	 * DOM constructor for deserialization.
 	 */
-	public Asset(Asset parent, Element element) {
-		this.parent = parent;
-		deserialize(element);
-	}
+//	public Asset(Asset parent, Element element) {
+//		this.parent = parent;
+//		deserialize(element);
+//	}
 	
 	/**
 	 * Serializes this asset.
@@ -594,6 +581,7 @@ public class Asset implements ISerializable {
 		Element element = DocumentHelper.createElement(type);
 		element.addAttribute("id", this.id);
 		element.addAttribute("name", this.name);
+		element.addAttribute("resource", this.resource);
 		if (parent != null) {
 			element.addAttribute("parent-id", parent.getId());
 		}
@@ -613,10 +601,11 @@ public class Asset implements ISerializable {
 		this.type = element.getName();
 		this.id = element.attributeValue("id");
 		this.name = element.attributeValue("name");
+		this.resource = element.attributeValue("resource");
 		this.repositoryDescriptor =
 			new RepositoryDescriptor(element.element("repository-descriptor"));
 		Element maintainerElements = element.element("maintainers");
-		for (Iterator iterator = maintainerElements.elementIterator("maintainer");
+		for (Iterator iterator = maintainerElements.elementIterator("user");
 		     iterator.hasNext(); )
 		{
 			Element elem = (Element) iterator.next();
@@ -624,6 +613,13 @@ public class Asset implements ISerializable {
 		}
 	}
 
+	/**
+	 * Sets the id of this asset.
+	 * @param id
+	 */
+	public void setId(String id) {
+	    this.id = id;
+	}
 	/**
 	 * Returns the id of this asset.
 	 */
@@ -689,6 +685,14 @@ public class Asset implements ISerializable {
 	public String getType() {
 		return type;
 	}
+	
+    public String getResource() {
+        return resource;
+    }
+    
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
 }
 \end{verbatim}
 \section{Component}
@@ -716,15 +720,11 @@ public class Asset implements ISerializable {
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.1 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: Component.java,v 1.5 2004/08/03 16:46:35 garbeam Exp $
  *
  */
 
 package kobold.common.data;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import kobold.common.io.RepositoryDescriptor;
 
@@ -736,17 +736,18 @@ import org.dom4j.Element;
  */
 public class Component extends Asset {
 
-	private List components = new ArrayList();
-	
 	/**
 	 * Basic constructor.
 	 * @param parent the parent asset, e.g. a product or productline.
 	 * @param name the name of this component.
+	 * @param resource the resource
 	 * @param repositoryDescriptor the repository descriptor of this
 	 * 		  component.
 	 */
-	public Component(Asset parent, String name, RepositoryDescriptor repositoryDescriptor) {
-		super(parent, Asset.COMPONENT, name, repositoryDescriptor);
+	public Component(Asset parent, String name, String resource,
+	                 RepositoryDescriptor repositoryDescriptor)
+	{
+		super(parent, Asset.COMPONENT, name, resource, repositoryDescriptor);
 	}
 	
 	/**
@@ -755,24 +756,8 @@ public class Component extends Asset {
 	 * @param element the DOM element representing this component.
 	 */
 	public Component (Asset parent, Element element) {
-		super (parent, element);
-		deserialize(element);
-	}
-	
-	/**
-	 * Adds new component to this product.
-	 * @param component the component.
-	 */
-	public void addComponent(Component component) {
-		components.add(component);
-	}
-
-	/**
-	 * Removes an existing component from this product.
-	 * @param component the component.
-	 */
-	public void removeComponent(Component component) {
-		components.remove(component);
+		super(parent);
+		super.deserialize(element);
 	}
 	
 	/**
@@ -780,29 +765,7 @@ public class Component extends Asset {
 	 */
 	public Element serialize() {
 		Element element = super.serialize();
-
-		Element compElements = element.addElement("components");
-		for (Iterator iterator = components.iterator(); iterator.hasNext();) {
-			Component component = (Component) iterator.next();
-			compElements.add(component.serialize());
-		}
-		
 		return element;
-	}
-
-	/**
-	 * Deserializes this product.
-	 * @param productName
-	 */
-	public void deserialize(Element element) {
-		Element compElements = element.element("components");
-		
-		for (Iterator iterator = compElements.elementIterator(Asset.COMPONENT);
-			 iterator.hasNext(); )
-		{
-			Element elem = (Element) iterator.next();
-			components.add(new Component(this, elem));
-		}
 	}
 }
 
@@ -832,72 +795,212 @@ public class Component extends Asset {
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IdManager.java,v 1.5 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: IdManager.java,v 1.6 2004/07/25 23:17:48 vanto Exp $
  *
  */
 package kobold.common.data;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import kobold.common.KoboldCommonsPlugin;
+
+import org.apache.commons.id.IdentifierUtils;
+import org.apache.commons.id.uuid.NodeManager;
+import org.apache.commons.id.uuid.UUID;
+import org.apache.commons.id.uuid.clock.Clock;
+import org.apache.commons.id.uuid.state.Node;
+import org.apache.commons.id.uuid.state.State;
+import org.apache.commons.id.uuid.state.StateHelper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
+ * Provides an id manager using the IETF UUID standard.
+ * 
  * @author Tammo van Lessen
  */
 public class IdManager 
 {
-
-	private static final IdManager instance = new IdManager();
-	private Map idByModelName = new HashMap();
-	private Map idByScriptName = new HashMap();
-	private Map idByUserName = new HashMap();
-	private Map idByMessageType = new HashMap();
-	private Map idByGXLGraphName = new HashMap();
-	private Map idByAssetName = new HashMap();
+    private static final Log logger = LogFactory.getLog(IdManager.class);
 	
-	private IdManager() {}
-	
-	public static IdManager getInstance() 
-	{
-		return instance;
-	}
-	
-	public String getGXLGraphId(String name){
-		return createId(idByGXLGraphName, name);
-	}
-
-	public String getModelId(String name) 
-	{
-		return createId(idByModelName, name);
-	}
-
-	public String getScriptId(String name) 
-	{
-		return createId(idByScriptName, name);
-	}
-	
-	public String getSessionId(String name)	{
-		return createId(idByUserName, name);
-	}
-
-	public String getMessageId(String name)	{
-		return createId(idByMessageType, name);
-	}
-	
-	public String getAssetId(String name) {
-		return createId(idByAssetName, name);
-	}
-
-	private String createId(Map idPool, String name) {
-		Integer count = (Integer) idPool.get(name);
-		if (count == null) {
-			idPool.put(name, new Integer(1));
-			return name;
-		}
-		String id = name + count.toString();
-		idPool.put(name, new Integer(count.intValue() + 1));
-
+	public static String nextId(String idtype) {
+		String id = ((UUID)IdentifierUtils.UUID_VERSION_ONE_GENERATOR.nextIdentifier()).toString();
+		//logger.debug("new id for "+idtype+": "+id);
 		return id;
 	}
+	
+	public static class NodeManagerImpl implements NodeManager {
+
+	    /** Reference to the State implementation to use for loading and storing */
+	    private State nodeState;
+	    /** The current array index for the Node in use. */
+	    private int currentNodeIndex = 0;
+	    /** Flag indicating the node state has been initialized. */
+	    private boolean isInit = false;
+	    /** Set that references all instances. */
+	    private Set nodesSet;
+	    /** Array of the Nodes */
+	    private Node[] allNodes;
+	    /** UUID timestamp of last call to State.store */
+	    private long lastUUIDTimeStored = 0;
+	    
+	    public NodeManagerImpl() {
+	        // tell common-plugin my instance.
+	        KoboldCommonsPlugin.getDefault().setNodeManager(this);
+	    }
+	    
+	    /*** Initialization */
+	    public void init() {
+	        nodeState = new EclipseUUIDState();
+	        nodeState.load();
+	        nodesSet = nodeState.getNodes();
+	        Iterator it = nodesSet.iterator();
+	        allNodes = new Node[nodesSet.size()];
+	        int i = 0;
+	        while (it.hasNext()) {
+	            allNodes[i++] = (Node) it.next();
+	        }
+	        isInit = true;
+	    }
+	    
+	    public void store() {
+	        try {
+                nodeState.store(nodesSet);
+            } catch (IOException e) {
+                // nothing to do here.
+            }    
+	    }
+	    
+        /* (non-Javadoc)
+         * @see org.apache.commons.id.uuid.NodeManager#currentNode()
+         */
+        public Node currentNode()
+        {
+            if (!isInit) {
+                init();
+            }
+            // See if we need to store state information.
+            if ((lastUUIDTimeStored + nodeState.getSynchInterval()) > (findMaxTimestamp() / Clock.INTERVALS_PER_MILLI)) {
+                try {
+                    nodeState.store(nodesSet);
+                } catch (IOException ioe) {
+                    //@TODO add listener and send notify
+                }
+            }
+            return allNodes[currentNodeIndex];
+        }
+
+        /* (non-Javadoc)
+         * @see org.apache.commons.id.uuid.NodeManager#nextAvailableNode()
+         */
+        public Node nextAvailableNode()
+        {
+            if (!isInit) {
+                init();
+            }
+            currentNodeIndex++;
+            if (currentNodeIndex >= allNodes.length) {
+                currentNodeIndex = 0;
+            }
+            return currentNode();        
+        }
+
+        /**
+         * <p>Returns the maximum uuid timestamp generated from all <code>Node</code>s</p>
+         *
+         * @return maximum uuid timestamp generated from all <code>Node</code>s.
+         */
+        private long findMaxTimestamp() {
+            if (!isInit) {
+                init();
+            }
+            long max = 0;
+            for (int i = 0; i < allNodes.length; i++) {
+                if (allNodes[i] != null && allNodes[i].getLastTimestamp() > max) {
+                    max = allNodes[i].getLastTimestamp();
+                }
+            }
+            return max;
+        }
+        
+        public void lockNode(Node arg0)
+        {
+            // not implemented
+        }
+        public void releaseNode(Node arg0)
+        {
+            // not implemented
+        }
+	    
+	}
+	
+	private static class EclipseUUIDState implements State
+	{
+	    private HashSet nodes = new HashSet(1);
+	    private Node node = null;
+	    
+	    /**
+	     * @see org.apache.commons.id.uuid.state.State#load()
+	     */
+	    public void load() throws IllegalStateException
+	    {
+	        String nodeId = KoboldCommonsPlugin.getDefault().getPluginPreferences().getString("uuid-nodeid");
+	        long lastTime = KoboldCommonsPlugin.getDefault().getPluginPreferences().getLong("uuid-lasttime");
+	        short seq = (short)KoboldCommonsPlugin.getDefault().getPluginPreferences().getInt("uuid-clockseq");
+	        
+	        node = null;
+	        if ("".equals(nodeId)) {
+	            logger.debug("no node found, creating a new one");
+	            node = new Node(StateHelper.randomNodeIdentifier());    
+	        } else {
+	            logger.debug("node found. using node "+ nodeId +"");
+	            node = new Node(StateHelper.decodeMACAddress(nodeId), lastTime, seq);
+	        }
+	        
+	        nodes.add(node);
+	    }
+
+	    /**
+	     * @see org.apache.commons.id.uuid.state.State#getNodes()
+	     */
+	    public Set getNodes()
+	    {
+	        return nodes;
+	    }
+
+	    /**
+	     * @see org.apache.commons.id.uuid.state.State#store(java.util.Set)
+	     */
+	    public void store(Set arg0) throws IOException
+	    {
+	        KoboldCommonsPlugin.getDefault().getPluginPreferences().setValue("uuid-nodeid", StateHelper.encodeMACAddress(node.getNodeIdentifier()));
+	        KoboldCommonsPlugin.getDefault().getPluginPreferences().setValue("uuid-lasttime", node.getLastTimestamp());
+	        KoboldCommonsPlugin.getDefault().getPluginPreferences().setValue("uuid-clockseq", node.getClockSequence());
+	        KoboldCommonsPlugin.getDefault().savePluginPreferences();
+	        logger.debug("uuid node stored.");
+	    }
+
+	    /**
+	     * @see org.apache.commons.id.uuid.state.State#store(java.util.Set, long)
+	     */
+	    public void store(Set arg0, long arg1)
+	    {
+	       logger.error("store(Set, int) not implemented!");
+	    }
+
+	    /**
+	     * @see org.apache.commons.id.uuid.state.State#getSynchInterval()
+	     */
+	    public long getSynchInterval()
+	    {
+	        return 3000;//Long.MAX_VALUE;
+	    }
+
+	}
+
 }
 
 \end{verbatim}
@@ -994,7 +1097,7 @@ public class KoboldMessage extends AbstractKoboldMessage
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.10 2004/07/05 15:59:32 garbeam Exp $
+ * $Id: Product.java,v 1.13 2004/08/03 16:46:35 garbeam Exp $
  *
  */
 
@@ -1020,10 +1123,12 @@ public class Product extends Asset {
 	 * Basic constructor.
 	 * @param productline the parent productline.
 	 * @param name the name of this product.
+	 * @param resource the file or directory name
 	 * @param repositoryDescriptor the repository descriptor of this product.
 	 */
-	public Product (Productline productline, String name, RepositoryDescriptor repositoryDescriptor) {
-		super(productline, Asset.PRODUCT, name, repositoryDescriptor);
+	public Product (Productline productline, String name, String resource,
+	               RepositoryDescriptor repositoryDescriptor) {
+		super(productline, Asset.PRODUCT, name, resource, repositoryDescriptor);
 	}
 	
 	/**
@@ -1032,7 +1137,7 @@ public class Product extends Asset {
 	 * @param the DOM element representing this asset.
 	 */
 	public Product (Productline productline, Element element) {
-		super(productline, element);
+	    super(productline);
 		deserialize(element);
 	}
 	
@@ -1080,7 +1185,8 @@ public class Product extends Asset {
 	 * @param element the DOM element representing this product.
 	 */
 	public void deserialize(Element element) {
-		Element compElements = element.element("components");
+		super.deserialize(element);
+	    Element compElements = element.element("components");
 		
 		for (Iterator iterator = compElements.elementIterator(Asset.COMPONENT);
 			 iterator.hasNext(); )
@@ -1117,13 +1223,15 @@ public class Product extends Asset {
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.14 2004/07/14 15:55:46 garbeam Exp $
+ * $Id: Productline.java,v 1.20 2004/08/03 16:46:35 garbeam Exp $
  *
  */
 package kobold.common.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.dom4j.Element;
@@ -1132,7 +1240,17 @@ import kobold.common.io.RepositoryDescriptor;
 
 
 /**
- * Represents a server side productline. Used for client-server interchange.
+ * This class represents a server side productline. Productlines consist of
+ * several products, they can be assigned Users (Productline engineers) who
+ * have the right to modify it and they encapsulate the necessary information 
+ * about the repository where the actual products are stored.
+ * 
+ * They are created (and removed) by the corresponding administration methods 
+ * and stored directly on the Kobold server. 
+ * 
+ * @see kobold.server.controller.SecureKoboldWebServer
+ * @see kobold.common.data.Product
+ * @see kobold.common.io.RepositoryDescriptor 
  */
 public class Productline extends Asset {
 
@@ -1142,10 +1260,12 @@ public class Productline extends Asset {
 	/**
 	 * Base constructor for productlines.
 	 * @param name the name of this productline.
-	 * @param repositoryDescriptor the repository descriptor.
+	 * @param resource the file or directory name.
+	 * @param repositoryDescriptor containing the necessary information about
+	 *        this productlines repository
 	 */
-	public Productline(String name, RepositoryDescriptor repositoryDescriptor) {
-		super(null, Asset.PRODUCT_LINE, name, repositoryDescriptor);
+	public Productline(String name, String resource, RepositoryDescriptor repositoryDescriptor) {
+		super(null, Asset.PRODUCT_LINE, name, resource, repositoryDescriptor);
 	}
 
 	/**
@@ -1153,52 +1273,122 @@ public class Productline extends Asset {
 	 * @param element the DOM element representing this productline.
 	 */
 	public Productline(Element element) {
-		super(null, element);
+		super(null);
 		deserialize(element);
 	}
 
 	/**
-	 * Adds new product to this productline.
+	 * Adds a new product to this productline. Please note that each registered
+     * product needs to have its own (unique) name. Adding of a prodct with a
+     * name that has already been registered will be refused. 
+     * 
 	 * @param product the product to add.
+     * @return true, if the passed productline could be added successfully, 
+     *         false otherwise
 	 */
-	public void addProduct(Product product) {
-		products.put(product.getName(), product);
-		product.setParent(this);
+	public boolean addProduct(Product product) {
+		Object o = products.put(product.getName(), product);
+		
+		if (o != null){
+            // a product with the same name as the one to add already exists
+            // => undo the change and signal error
+            products.put(product.getName(), o);
+            return false;
+		}
+        else{
+        	product.setParent(this);
+            return true;
+        }
 	}
 	
 	/**
 	 * Gets a product by its name.
 	 * @param productName the product name.
+     * @return the product with the specified name or null if no product with
+     *         that name exists
 	 */
 	public Product getProduct(String productName) {
 	    return (Product)products.get(productName);
 	}
 	
 	/**
-	 * Removes existing product from this productline.
-	 * @param product the product to remove.
+	 * Gets a coreasset by its name.
+	 * @param coreAssetName the coreasset.
+     * @return the coreasset with the specified name or null if no coreasset with
+     *         that name exists
 	 */
-	public void removeProduct(Product product) {
-		products.remove(product.getName());
-		product.setParent(null);
-	}
-
-	/**
-	 * Adds new core asset to this productline.
-	 * @param coreasset the coreasset to add.
-	 */
-	public void addCoreAsset(Component coreasset) {
-		coreassets.put(coreasset.getName(), coreasset);
-		coreasset.setParent(this);
+	public Component getCoreAsset(String coreAssetName) {
+	    return (Component)products.get(coreAssetName);
 	}
 	
 	/**
-	 * Removes existing coreasset from this productline.
-	 * @param coreasset the coreassset to remove.
+	 * Gets all products.
+     * @return the products
 	 */
-	public void removeCoreAsset(Component coreasset) {
-		coreassets.remove(coreasset.getName());
-		coreasset.setParent(null);
+	public List getProducts() {
+	    return new ArrayList(products.values());
+	}
+	
+	/**
+	 * Gets all coreassets.
+     * @return the coreassets
+	 */
+	public List getCoreAssets() {
+	    return new ArrayList(coreassets.values());
+	}
+	
+	/**
+	 * Removes the passed product from this productline if its reagistered.
+	 * @param product the product to remove.
+     * @return the removed Product if it was part of this productline or null 
+     *         if not
+	 */
+	public Product removeProduct(Product product) {
+		Product ret = (Product) products.remove(product.getName());
+        
+        if (ret != null){
+        	ret.setParent(null);
+        }
+        
+        return ret;
+	}
+
+	/**
+	 * Adds new core asset to this productline. Please note that each registered
+     * coreasset needs to have its own (unique) name. Adding of a ca with a
+     * name that has already been registered will be refused. 
+     * 
+	 * @param coreasset the coreasset to add.
+     * @return true if the passed coreasset could be registered successfully,
+     *         false otherwise
+	 */
+	public boolean addCoreAsset(Component coreasset) {
+        Object o = coreassets.put(coreasset.getName(), coreasset);
+        
+        if (o != null){
+            coreassets.put(coreasset.getName(), o);
+            return false;
+        }
+        else{
+        	coreasset.setParent(this);
+            return true;
+        }
+	}
+	
+	/**
+	 * Removes a coreasset from this productline, if it is registered.
+	 * @param coreasset the coreassset to remove.
+     * @return the removed coreasset if it existed as part of this productline 
+     *         or null if not
+	 */
+	public Component removeCoreAsset(Component coreasset) {
+		Component ret = (Component) coreassets.remove(coreasset.getName());
+        
+        if (ret != null){
+        	coreasset.setParent(null);
+        }
+        
+        return ret;
 	}
 
 	/**
@@ -1228,7 +1418,8 @@ public class Productline extends Asset {
 	 * @param element the DOM element representing this productline.
 	 */
 	public void deserialize(Element element) {
-		Element coreassetElements = element.element("coreassets");
+		super.deserialize(element);
+	    Element coreassetElements = element.element("coreassets");
 		for (Iterator iterator = coreassetElements.elementIterator(Asset.COMPONENT);
 			 iterator.hasNext(); )
 		{
@@ -1238,7 +1429,7 @@ public class Productline extends Asset {
 		}
 		
 		Element productElements = element.element("products");
-		for (Iterator iterator = coreassetElements.elementIterator(Asset.PRODUCT);
+		for (Iterator iterator = productElements.elementIterator(Asset.PRODUCT);
 			 iterator.hasNext(); )
 		{
 			Element elem = (Element) iterator.next();
@@ -1470,10 +1661,12 @@ public class User implements ISerializable
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: UserContext.java,v 1.9 2004/05/18 11:19:27 vanto Exp $
+ * $Id: UserContext.java,v 1.10 2004/08/02 14:00:55 garbeam Exp $
  */
 
 package kobold.common.data;
+
+import java.net.URL;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -1486,6 +1679,10 @@ import org.dom4j.Element;
  * @author garbeam
  */
 public class UserContext implements ISerializable {
+	// members
+	private String userName;
+	private String sessionId;
+	private URL serverUrl = null;
 	
     /**
      * DOM constructor for user contexts.
@@ -1495,10 +1692,7 @@ public class UserContext implements ISerializable {
 		deserialize(element);
 	}
 
-	// members
-	private String userName;
-	private String sessionId;
-	 
+
     /**
      * Default constructor, which provides basic info
      * about the user context.
@@ -1545,6 +1739,7 @@ public class UserContext implements ISerializable {
 		Element userContext = DocumentHelper.createElement("usercontext");
 		userContext.addElement("username").addText(this.userName);
 		userContext.addElement("session-id").addText(this.sessionId);
+		
 		return userContext;
 	}
 	
@@ -1556,6 +1751,14 @@ public class UserContext implements ISerializable {
 		this.userName = element.elementText("username");
 		this.sessionId = element.elementText("session-id");
 	}
+	
+    public URL getServerUrl() {
+        return serverUrl;
+    }
+    
+    public void setServerUrl(URL serverUrl) {
+        this.serverUrl = serverUrl;
+    }
 }
 \end{verbatim}
 \section{WorkflowItem}

@@ -111,7 +111,7 @@ and 'show view'.
 
 In the palette press 'compose product'. The components, etc. in the architecture view turn
 grey. You can now select the components, variants and releases you want to include into
-you new product. The chosen objects turn green (see \ref{compose}).
+you new product. The chosen objects turn blue (see \ref{compose}).
 
 \begin{figure}[h!]
 \begin{center}
@@ -166,7 +166,7 @@ you new product. The chosen objects turn green (see \ref{compose}).
 \subsection{Creating a component}
 
 In the pallete select the "component" tool. Click and drag within a variant or top-level in 
-the Architecture Editor. A component is inserted (see \ref{component}). If you double-click on the component, a dialog opens where you can enter the meta data of
+the Architecture Editor. A component is inserted (see \ref{component}) and a dialog opens where you can enter the meta data of
 the component. Per drag+drop you can simply change the size of the component. \par
 Note: Components can only be inserted top-level or into variants.
 
@@ -182,7 +182,7 @@ Note: Components can only be inserted top-level or into variants.
 \subsection{Creating a variant}
 
 In the pallete select the "variant" tool. Click and drag within a component in 
-the Architecture Editor. A variant is inserted (see \ref{variant}). If you double-click on the variant, a dialog opens where you can enter the meta data of
+the Architecture Editor. A variant is inserted (see \ref{variant}) and a dialog opens where you can enter the meta data of
 the variant. Per drag+drop you can simply change the size of the variant. \par
 Note: Variants can only be inserted into components.
 
@@ -198,7 +198,7 @@ Note: Variants can only be inserted into components.
 \subsection{Creating a release}
 
 In the pallete select the "release" tool. Click and drag within a variant in 
-the Architecture Editor. A release is inserted (see \ref{release}). If you double-click on the release, a dialog opens where you can enter the meta data of
+the Architecture Editor. A release is inserted (see \ref{release}) and a dialog opens where you can enter the meta data of
 the release. For each file of the variant you can select the revision number you want to add to the release. 
 Per drag+drop you can simply change the size of the release. \par
 Note: Releases can only be inserted into variants.
@@ -213,15 +213,24 @@ Note: Releases can only be inserted into variants.
 
 \subsection{Creating a meta node}
 
-In the pallete select the "metanode" tool. Click and drag within the Architecture Editor. 
-A meta node is inserted (see \ref{meta}). If you double-click on the meta node, a dialog opens where you can select the type of the node.
-Possible types are AND and OR. 
+In the pallete select the "meta node" tool. Click and drag within the Architecture Editor. 
+A meta node is inserted (see \ref{meta}). Possible meta node types are AND and OR. Be careful with
+the direction of the edges that are linked to a meta node! In the following architecture component A
+needs components B and C. But components B and C are independent of component A (see \ref{example}).
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=4cm]{metanode.png}
    \caption{Some meta nodes}
 \label{meta}
+\end{center}
+\end{figure}\par
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{example.png}
+   \caption{Meta node example}
+\label{example}
 \end{center}
 \end{figure}\par
 
@@ -232,18 +241,58 @@ menu. Alternatively you
 can select the item and press "Del" on your keyboard. Is the item used in other projects
 you will be notified and be able to cancel the deletion process.
 
-%\subsection{Deleting a meta node}
+\subsection{Deleting a meta node}
 
-%Right-click on the meta node you want to delete and choose "delete" in the context
-%menu. Alternatively you
-%can select the node and press "Del" on your keyboard.
+Right-click on the meta node you want to delete and choose "delete" in the context
+menu. Alternatively you
+can select the node and press "Del" on your keyboard.
 
-%\subsection{Marking a component as "deprecated"}
-%Right-click on the component and choose "mark as deprecated". Alternatively you 
-%can select the component and press "D" on your keyboard. Deprecated components are
-%indicated by a small flagg.
+\subsection{Marking a component, variant or release as "deprecated"}
+Right-click on the object and choose "configure". The Asset Configuration dialog (see \ref{config} and \ref{config2}) opens where you can
+mark the check-box 'deprecated'. This sets the object on deprecated. Deprecated objects are grey with a 
+red cross in the upper right-hand corner (see \ref{deprecated}).
 
-%TODO: Screenshot einfügen
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{config.png}
+   \caption{Asset Configuration dialog (component)}
+\label{config}
+\end{center}
+\end{figure}\par
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=7cm]{deprecated.png}
+   \caption{Deprecated component}
+\label{deprecated}
+\end{center}
+\end{figure}\par
+
+\subsection{Setting the maintainers of a component}
+Right-click on the component and choose "configure". The Asset Configuration dialog (see \ref{config}) opens.
+Press the 'Edit...' button. A new window opens where you can select the users you want to make maintainers of
+the component (see \ref{maintainer}). After pressing 'OK' you can see the new maintainers in the Asset Configuration
+dialog.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{maintainer.png}
+   \caption{Selecting maintainers}
+\label{maintainer}
+\end{center}
+\end{figure}\par
+
+\subsection{Selecting resources for a release}
+Right-click on the component and choose "configure". The Asset Configuration dialog (see \ref{config2}) opens.
+In the bottom of the dialog you can select the files of the variant you want to include into the release.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{config2.png}
+   \caption{Asset Configuration dialog (release)}
+\label{config2}
+\end{center}
+\end{figure}\par
 
 \subsection{Moving an item}
 You can move any item per drag+drop.
@@ -482,6 +531,8 @@ The parameter RPCSpy will contain the methodName which you can get with the "get
 This returns one of the above Strings. An RPCSpy object also contains a vector of
 arguments that were transmitted to the server for the execution. You have access to this vector through
 the "getArguments()" method. \par
+The ruleset.drl file contains a sample rule for adding a user. Whenever a new user is added, every other user
+is notified. \par
 In the last chapter you find the source code of the classes you need to work with for writing your own rules.
 In order to have an up-to-date appendix, check out the complete Kobold module. 
 Then enter the following command in the console within the directory of the user manual:
@@ -504,15 +555,34 @@ After that, rebuild the usermanual.pdf.
 
 %TODO: Screenshot einfügen
 
+\section{Generating a metainfo document}
+In the role tree right-click on the object (product line, component, variant, release) you want the metainfo document about
+and select 'generate document...'. A 'Save as' dialog opens where you can select the parent folder into which the pdf-file
+will be saved (see \ref{generate}). Confirm by pressing the 'OK' button and the pdf-file is created.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{generate.png}
+   \caption{Generate a metainfo document}
+\label{generate}
+\end{center}
+\end{figure}\par
+
+\section{Configuring an asset}
+In the role tree right-click on the object (product line, component, variant, release) you want to configure
+and select 'configure asset...'. The corresponding 'Asset Configuration' dialog opens where you can make your
+changes (see \ref{config} and \ref{config2}).
 
 
 \section{User-related}
 
 \subsection{Creating a user}
 
-Right-click on the product the new user shall belong to. In the context menu choose
-"new" and then "user". A wizard opens where you can enter the username and the
-initial password of the user (see \ref{createuser1}). 
+Right-click in the role tree. In the context menu choose
+'create new user'. The User Manager (see \ref{createuser1}) opens where you see a list of all existing users.
+Push the 'create new user' button. In the opening dialog you can enter the username, real name and the
+initial password of the user (see \ref{createuser2}). Pressing the 'OK' button creates the new user and you
+can see the new user in the list of the User Manager.
 
 \begin{figure}[h!]
 \begin{center}
@@ -522,12 +592,13 @@ initial password of the user (see \ref{createuser1}).
 \end{center}
 \end{figure}\par
 
-After you press "next", you are able to specify the role of the user in the current
-project.
-
-%TODO: Screenshot einfügen
-
-Pressing "next" again finishes the process. The new user is created.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{createuser2.png}
+   \caption{Create a new user}
+\label{createuser2}
+\end{center}
+\end{figure}\par
 
 %\subsection{Changing a user role}
 
@@ -543,20 +614,39 @@ Pressing "next" again finishes the process. The new user is created.
 
 %TODO: Screenshot einfügen
 
-%\subsection{Deleting a user}
+\subsection{Deleting a user}
 
-%(still undefined)
+Right-click in the role tree and select 'remove user'. A dialog opens with a list of all 
+existing users (see \ref{delete}). Simply select the check-box next to the user you want to delete and confirm
+with 'OK'. The user has been deleted.
 
-%\subsection{Changing ones password}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{delete.png}
+   \caption{Remove a user}
+\label{delete}
+\end{center}
+\end{figure}\par
 
-%(still undefined)
+\subsection{Changing ones password}
+
+Right-click in the role tree and select 'change password'. A dialog opens where you can
+enter your new password (see \ref{password}). Confirm the password and press 'OK'. Your password has been changed.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{password.png}
+   \caption{Change your password}
+\label{password}
+\end{center}
+\end{figure}\par
 
 
 \section{SAT-related}
 
 \subsection{Creating a product line}
 Enter the command "createpl". You are asked to enter the name of the new product
-line. Once you confirmed your entry, the product line is created.
+line and its meta data. Once you confirmed your entry, the product line is created.
 
 \subsection{Deleting a product line}
 Enter the command "removepl". You are then asked to enter the name of the product
