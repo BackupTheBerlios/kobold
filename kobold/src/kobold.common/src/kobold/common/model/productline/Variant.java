@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.6 2004/06/23 13:34:58 vanto Exp $
+ * $Id: Variant.java,v 1.7 2004/06/24 02:49:26 rendgeor Exp $
  *
  */
 
@@ -94,13 +94,13 @@ public class Variant extends AbstractAsset
 	/**
 	 * @see kobold.common.data.ISerializable#deserialize(Element)
 	 */
-	public void deserialize(Element element) {
+	public void deserialize(Element element, String path) {
 		super.deserialize(element);
 		
 		Iterator it = element.element("components").elementIterator(AbstractAsset.COMPONENT);
 		while (it.hasNext()) {
 		    Element varEl = (Element)it.next();
-		    addComponent(new Component(varEl));
+		    addComponent(new Component(varEl, this, path));
 		}
 		
 		it = element.element("releases").elementIterator(AbstractAsset.RELEASE);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.12 2004/06/24 01:49:45 rendgeor Exp $
+ * $Id: Productline.java,v 1.13 2004/06/24 02:46:32 rendgeor Exp $
  *
  */
 package kobold.common.model.productline;
@@ -248,23 +248,41 @@ public class Productline extends AbstractAsset
 	}
 
 	
-	public void deserialize(Element element) {
-		System.out.print ("start deserializing!");
-	    super.deserialize(element);
-	    repositoryPath = element.attributeValue("repositoryPath");
+	public void deserialize(Element element, String path) {
+		
+		Element realElement = element.element (AbstractAsset.PRODUCT_LINE);
+		
+		System.out.println ("start deserializing!");
+	    super.deserialize(realElement);
+	    repositoryPath = realElement.attributeValue("repositoryPath");
 	    
-		Iterator it = element.element("products").elementIterator(AbstractAsset.PRODUCT);
+		Iterator it = realElement.element("products").elementIterator(AbstractAsset.PRODUCT);
 		while (it.hasNext()) {
 		    Element pEl = (Element)it.next();
 		    /* FIXME: load and create the product by finding its local path and 
 		     		  deserializing it from there.
 		    */
 		    // FIXME: addProduct(AbstractAsset.createProduct(localPath));
-		    addProduct(new Product (pEl.getTextTrim()));
-		    System.out.print ("Product "+ pEl.getTextTrim() + " created!");
+			addProduct(new Product (pEl, this,  path));
+		    System.out.println ("Product "+ pEl.attributeValue("name") + " created!");
+		    
+		    
 		}
 		
-		// FIXME: Same here with coreassets.
+		//Same here with coreassets.
+		it = realElement.element("coreassets").elementIterator(AbstractAsset.COMPONENT);
+		while (it.hasNext()) {
+			Element pEl = (Element)it.next();
+			/* FIXME: load and create the product by finding its local path and 
+					  deserializing it from there.
+			*/
+			// FIXME: addProduct(AbstractAsset.createProduct(localPath));
+			addComponent(new Component (pEl, this, path));
+			System.out.println ("Component "+ pEl.attributeValue("name") + " created!");
+			
+			
+		}
+		
 	}
 	
 	/**
@@ -286,7 +304,7 @@ public class Productline extends AbstractAsset
 		}
 
 		//give the result to the deserializer
-		deserialize(document.getRootElement());
+		deserialize(document.getRootElement(), path);
 	}
 
 	/**

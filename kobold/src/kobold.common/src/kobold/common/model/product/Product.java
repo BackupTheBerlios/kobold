@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.6 2004/06/24 01:35:08 rendgeor Exp $
+ * $Id: Product.java,v 1.7 2004/06/24 02:46:32 rendgeor Exp $
  *
  */
 
@@ -30,9 +30,13 @@ package kobold.common.model.product;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 import java.io.FileWriter;
@@ -44,6 +48,7 @@ import java.io.IOException;
 
 import java.util.Iterator;
 
+import kobold.common.data.Productline;
 import kobold.common.io.RepositoryDescriptor;
 import kobold.common.model.AbstractAsset;
 
@@ -76,8 +81,10 @@ public class Product extends AbstractAsset {
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Product(Element element) {
-		deserialize(element);
+	public Product(Element element, AbstractAsset parent, String path) {
+		setName(element.attributeValue("name"));
+		setParent(parent);
+		deserialize(path);
 	}
 	
 	/**
@@ -143,9 +150,31 @@ public class Product extends AbstractAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		setName(element.attributeValue("name"));
+		super.deserialize(element);
+		//setName(element.attributeValue("name"));
 		// TODO
 	}
+	public void deserialize(String path) {
+		
+		SAXReader reader = new SAXReader();
+		Document document = null;
+		try {
+			document = reader.read(path+
+			 File.separatorChar + ((Productline)getParent()).getName() 
+			+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
+			+ File.separatorChar + ".productmetainfo.xml");
+		} catch (DocumentException e) {
+			System.out.print(path+ File.separatorChar + ((Productline)getParent()).getName()
+			+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() 
+			+ File.separatorChar + ".productmetainfo.xml" +  " read error");
+			//Log log = LogFactory.getLog("kobold.server.controller.ProductManager");
+			//log.error(e);
+		}
+
+		//give the result to the deserializer
+		deserialize(document.getRootElement());
+	}
+	
 
 	/**
 	 * @see kobold.common.data.AbstractProduct#getType()

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.8 2004/06/24 01:26:37 vanto Exp $
+ * $Id: Component.java,v 1.9 2004/06/24 02:46:32 rendgeor Exp $
  *
  */
 
@@ -44,7 +44,9 @@ import kobold.common.model.IVariantContainer;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 /**
  * @author garbeam
@@ -71,7 +73,9 @@ public class Component extends AbstractAsset
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Component(Element element) {
+	public Component(Element element, AbstractAsset parent, String path) {
+		setName(element.attributeValue("name"));
+		setParent(parent);
 		deserialize(element);
 	}
 	
@@ -133,6 +137,27 @@ public class Component extends AbstractAsset
 		
 		repositoryPath = element.attributeValue("repositoryPath");
 	}
+
+	public void deserialize(String path) {
+		
+		SAXReader reader = new SAXReader();
+		Document document = null;
+		try {
+			document = reader.read(path+ File.separatorChar + getName() 
+			+ File.separatorChar + "CAS" + File.separatorChar + getName() 
+			+ File.separatorChar + ".coreassetmetainfo.xml");
+		} catch (DocumentException e) {
+			System.out.print(path+ File.separatorChar + ((Productline)getParent()).getName()
+			+ File.separatorChar + "CAS" + File.separatorChar + getName() 
+			+ File.separatorChar + ".coreassetmetainfo.xml" +  " read error");
+			//Log log = LogFactory.getLog("kobold.server.controller.ProductManager");
+			//log.error(e);
+		}
+
+		//give the result to the deserializer
+		deserialize(document.getRootElement());
+	}
+
 
 	/**
 	 * @return name of the dependent productline.
