@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.18 2004/08/05 18:18:06 garbeam Exp $
+ * $Id: StatusUpdater.java,v 1.19 2004/08/05 19:09:50 garbeam Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -168,11 +168,12 @@ public class StatusUpdater {
 		            else {
     	            
     		            Date date = null;
-    		            try {
-    		            	/*3*/date = df.parse(localLine.nextToken());
-                        } catch (ParseException e) {
-                        	logger.debug("could not parse date - using null instead", e);
-                        }
+    		            //try {
+    		               // df.setNumberFormat(new NumberFormat())
+    		            	/*3*/date = null; //df.parse(localLine.nextToken());
+                        //} catch (ParseException e) {
+                        	//logger.debug("could not parse date - using null instead", e);
+                        //}
     
                         /*4*/boolean isBinary = localLine.nextToken().equals("binary");                    
                         
