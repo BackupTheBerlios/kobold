@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.32 2004/08/02 14:36:03 vanto Exp $
+ * $Id: SecureKoboldClient.java,v 1.33 2004/08/02 16:31:25 garbeam Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -66,7 +66,6 @@ public class SecureKoboldClient implements IKoboldServer {
 	private static SecureKoboldClient instance = null;
 	
 	private Map clientByUrlPool = new HashMap();
-
 	
 	public static SecureKoboldClient getInstance() {
 	    if (instance == null) {

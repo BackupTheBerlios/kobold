@@ -21,12 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.16 2004/08/01 11:53:11 garbeam Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.17 2004/08/02 16:31:25 garbeam Exp $
  *
  */
 package kobold.client.plam;
 
-import java.io.FileInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
@@ -35,6 +34,7 @@ import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import kobold.client.plam.controller.SSLHelper;
 import kobold.client.plam.controller.SecureKoboldClient;
 import kobold.client.plam.listeners.IProjectChangeListener;
 import kobold.client.plam.workflow.LocalMessageQueue;
@@ -261,19 +261,22 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
     public void start(BundleContext ctx) throws Exception
     {
         super.start(ctx);
+        initSSLProperties();
+    }
+    
+    public void initSSLProperties() {
 		// set properties
 		try {
 		    Properties props = new Properties(System.getProperties());
-		    props.setProperty(KoboldPlamPreferencePage.PROTOKOL_HANDLER, getPluginPreferences().getString(KoboldPlamPreferencePage.PROTOKOL_HANDLER));
-		    props.setProperty(KoboldPlamPreferencePage.JAVA_DEBUG, getPluginPreferences().getString(KoboldPlamPreferencePage.JAVA_DEBUG));
-		    props.setProperty(KoboldPlamPreferencePage.KEY_STORE, getPluginPreferences().getString(KoboldPlamPreferencePage.KEY_STORE));
-		    props.setProperty(KoboldPlamPreferencePage.KEY_STORE_PASSWORD, getPluginPreferences().getString(KoboldPlamPreferencePage.KEY_STORE_PASSWORD));
-		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE, getPluginPreferences().getString(KoboldPlamPreferencePage.TRUST_STORE));
-		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE_PASSWORD, getPluginPreferences().getString(KoboldPlamPreferencePage.KEY_STORE_PASSWORD));
+		    props.setProperty(SSLHelper.PROTOKOL_HANDLER, getPluginPreferences().getString(SSLHelper.PROTOKOL_HANDLER));
+		    props.setProperty(SSLHelper.JAVA_DEBUG, getPluginPreferences().getString(SSLHelper.JAVA_DEBUG));
+		    props.setProperty(SSLHelper.KEY_STORE, getPluginPreferences().getString(SSLHelper.KEY_STORE));
+		    props.setProperty(SSLHelper.KEY_STORE_PASSWORD, getPluginPreferences().getString(SSLHelper.KEY_STORE_PASSWORD));
+//		    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE, getPluginPreferences().getString(KoboldPlamPreferencePage.TRUST_STORE));
+	//	    props.setProperty(KoboldPlamPreferencePage.TRUST_STORE_PASSWORD, getPluginPreferences().getString(KoboldPlamPreferencePage.KEY_STORE_PASSWORD));
 		    System.setProperties(props);
         } catch (Exception e) {
 			logger.error("Could not find client configuration",e);
         }
-
     }
 }

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: NewProjectWizard.java,v 1.19 2004/08/02 13:32:57 garbeam Exp $
+ * $Id: NewProjectWizard.java,v 1.20 2004/08/02 16:31:25 garbeam Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -235,9 +235,9 @@ public class NewProjectWizard extends Wizard implements INewWizard, IExecutableE
 			p.store();
 			
 			// fetch server PL
-			Productline pl = ServerHelper.fetchProductline(p);
-			System.out.println(pl.getRepositoryDescriptor());
-			System.out.println(pl.getId());
+			//Productline pl = ServerHelper.fetchProductline(p);
+			//System.out.println(pl.getRepositoryDescriptor());
+			//System.out.println(pl.getId());
 			// create secure client
 			// -> moved lazy to KoboldProjectNature
 									

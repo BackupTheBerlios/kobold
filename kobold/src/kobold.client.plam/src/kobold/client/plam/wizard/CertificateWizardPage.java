@@ -21,10 +21,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CertificateWizardPage.java,v 1.2 2004/08/02 14:41:18 garbeam Exp $
+ * $Id: CertificateWizardPage.java,v 1.3 2004/08/02 16:31:25 garbeam Exp $
  */
 package kobold.client.plam.wizard;
 
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.cert.Certificate;
+import java.util.Enumeration;
+
+import kobold.client.plam.controller.SSLHelper;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -43,6 +52,7 @@ import org.eclipse.swt.widgets.Listener;
  */ 
 public class CertificateWizardPage extends WizardPage {
 
+    public static final Log logger = LogFactory.getLog(CertificateWizardPage.class);
     public static final String PAGE_ID = "KOBOLD_WIZARD_SERVER_CERTIFICATES"; 
     private Combo combo = null;
     private Button importButton = null;
@@ -89,7 +99,18 @@ public class CertificateWizardPage extends WizardPage {
 		// combo box for certificates
 		combo = new Combo (certGroup, SWT.READ_ONLY);
 		
-		combo.setItems (new String [] {"Werkbold1-Certificate"});
+	    KeyStore keyStore = SSLHelper.getKeyStore();
+	        
+	    try {
+	        Enumeration e = keyStore.aliases();
+            while (e.hasMoreElements()) {
+                combo.add((String)e.nextElement());
+            }
+        } catch (KeyStoreException e1) {
+            logger.error("Can't determine keystore aliases", e1);
+        }
+	    
+	    combo.setItems (new String [] {"Werkbold1-Certificate"});
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.widthHint = 250;
 		combo.setLayoutData(data);
@@ -107,7 +128,23 @@ public class CertificateWizardPage extends WizardPage {
 			public void widgetSelected(SelectionEvent event) {
 			    NewCertificateDialog dlg = new NewCertificateDialog(parent.getShell());
 			    dlg.open();
-		    	// TODO: pop up import certificate dialog
+			    
+			    Certificate certificate = null;
+			    String plainText = dlg.getCertificateText();
+			    if (dlg.getCertificateText().length() > 0) {
+			        certificate = SSLHelper.getCertificateForPlainText(plainText);
+			    }
+
+			    String alias = dlg.getName();
+			    
+			    if (alias.length() > 0 && (certificate != null)) {
+			        try {
+                        SSLHelper.getKeyStore().setCertificateEntry(alias, certificate);
+                    } catch (KeyStoreException e) {
+                        logger.error("Can't import certificate", e);
+                    }
+			    }
+			    
 			}
 		});
 	}
