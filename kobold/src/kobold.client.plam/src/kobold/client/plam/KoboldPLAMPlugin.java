@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.27 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.28 2004/11/22 21:51:54 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -355,9 +355,9 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin
     {
         try {
 	        AssetFinderVisitor afv = new AssetFinderVisitor();
-            delta.accept(afv);
+            //delta.accept(afv);
             return afv.getAssets();
-        } catch (CoreException e) {
+        } catch (/*Core*/Exception e) {
             e.printStackTrace();
         }
         return null;

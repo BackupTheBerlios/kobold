@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IVCMActionListener.java,v 1.14 2004/11/17 11:53:16 garbeam Exp $
+ * $Id: IVCMActionListener.java,v 1.15 2004/11/22 21:51:54 garbeam Exp $
  *
  */
 package kobold.client.plam.listeners;
@@ -34,8 +34,10 @@ import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.product.ProductComponent;
 import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
 
 import org.eclipse.core.resources.IProject;
 
@@ -86,11 +88,18 @@ public interface IVCMActionListener
     void commitProductline(Productline pl);
     
     /**
-     * Commit productline.
+     * Add realease (variant) to product.
      * 
      * @param product
      */
     void addToProduct(Product product, Release release);
+    
+    /**
+     * Add product component to variant of productline.
+     * @param v the variant.
+     * @param pc the product component.
+     */
+    public void addToVariant(Variant v, ProductComponent pc);
     
      /**
      * Commit product.

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PromoteProductComponentAction.java,v 1.1 2004/10/12 00:01:11 vanto Exp $
+ * $Id: PromoteProductComponentAction.java,v 1.2 2004/11/22 21:51:54 garbeam Exp $
  *
  */
 package kobold.client.plam.action;
@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.KoboldProject;
 import kobold.client.plam.controller.roletree.RoleTreeLabelProvider;
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
 import kobold.client.plam.model.IProductComponentContainer;
@@ -108,7 +109,7 @@ public class PromoteProductComponentAction implements IActionDelegate
             } else {
                 Release r = new Release("initial");
                 v.addRelease(r);
-                // FIXME: move files from selection to v and import. tag it with r.
+                selection.getRoot().getProductline().getKoboldProject().addToVariant(v, selection);
                 RelatedComponent rc = new RelatedComponent(v, r);
                 ((Product)selection.getRoot()).addProductComponent(rc);
                 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.36 2004/11/22 15:20:22 garbeam Exp $
+ * $Id: KoboldProject.java,v 1.37 2004/11/22 21:51:54 garbeam Exp $
  *
  */
 package kobold.client.plam;
@@ -53,8 +53,10 @@ import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.ProductlineFactory;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.product.ProductComponent;
 import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
 import kobold.client.plam.workflow.LocalMessageQueue;
 import kobold.common.data.Component;
 import kobold.common.data.User;
@@ -177,6 +179,41 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
         this.password = password;
     }
     
+    private void copyMaintainer(kobold.common.data.Productline spl, Productline pl) {
+        
+	    List sMaints = spl.getMaintainers();
+        productline.getMaintainers().clear();
+        Iterator it = sMaints.iterator();
+        while (it.hasNext()) {
+            User user = (User)it.next();
+            productline.addMaintainer(user);
+            logger.debug("Maintainer added: " + user);
+        }
+        
+        it = spl.getCoreAssets().iterator();
+        while (it.hasNext()) {
+            Component sc = (Component)it.next();
+            AbstractAsset a = productline.getAssetById(sc.getId());
+            if (a != null && a instanceof AbstractMaintainedAsset) {
+                Iterator mit = sc.getMaintainers().iterator();
+                while (mit.hasNext())
+                ((AbstractMaintainedAsset)a).addMaintainer((User)mit.next());
+            }
+        }
+       
+        /* product maintainer */
+        it = spl.getProducts().iterator();
+        while (it.hasNext()) {
+            kobold.common.data.Product p = (kobold.common.data.Product)it.next();
+            Product prod  = productline.getProduct(p.getName());
+            if (prod != null && prod instanceof AbstractMaintainedAsset) {
+                Iterator mit = p.getMaintainers().iterator();
+                while (mit.hasNext())
+                prod.addMaintainer((User)mit.next());
+            }
+        }
+    }
+	        
     /**
      * @return Returns the productline.
      */
@@ -203,6 +240,7 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
 		        productline = ProductlineFactory.create(spl);
 			    productline.setProject(this);
 			    productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
+			    copyMaintainer(spl, productline);
 		        
 		        ModelStorage.storeModel(productline);
 		        commitProductline(productline);
@@ -212,40 +250,9 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
 		    } else {
 		        productline.setRepositoryDescriptor(spl.getRepositoryDescriptor());
 		        productline.setProject(this);
+			    copyMaintainer(spl, productline);
 		    }
 
-            List sMaints = spl.getMaintainers();
-	        productline.getMaintainers().clear();
-	        Iterator it = sMaints.iterator();
-	        while (it.hasNext()) {
-	            User user = (User)it.next();
-	            productline.addMaintainer(user);
-	            logger.debug("Maintainer added: " + user);
-	        }
-	        
-	        it = spl.getCoreAssets().iterator();
-	        while (it.hasNext()) {
-	            Component sc = (Component)it.next();
-	            AbstractAsset a = productline.getAssetById(sc.getId());
-	            if (a != null && a instanceof AbstractMaintainedAsset) {
-	                Iterator mit = sc.getMaintainers().iterator();
-	                while (mit.hasNext())
-	                ((AbstractMaintainedAsset)a).addMaintainer((User)mit.next());
-	            }
-	        }
-	       
-	        /* product maintainer */
-	        it = spl.getProducts().iterator();
-	        while (it.hasNext()) {
-	            kobold.common.data.Product p = (kobold.common.data.Product)it.next();
-	            Product prod  = productline.getProduct(p.getName());
-	            if (prod != null && prod instanceof AbstractMaintainedAsset) {
-	                Iterator mit = p.getMaintainers().iterator();
-	                while (mit.hasNext())
-	                prod.addMaintainer((User)mit.next());
-	            }
-	        }
-	        
 	        productline.addModelChangeListener(this);
 
 	    }
@@ -618,6 +625,15 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener,
 	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
 	    if (l != null) {
 	        l.tagRelease(release);
+	    } else {
+	        logger.error("no vcm listener registered");
+	    }
+	}
+	
+	public void addToVariant(Variant v, ProductComponent pc) {
+	    IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
+	    if (l != null) {
+	        l.addToVariant(v, pc);
 	    } else {
 	        logger.error("no vcm listener registered");
 	    }
