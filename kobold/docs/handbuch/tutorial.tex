@@ -148,3 +148,178 @@ In the last step you have to choose the productline (see \ref{wizard3}).
 
 A new project has been created. You can open the different views through the Window menu
 and 'show view'. 
+
+
+\section{Writing a mail}
+
+In the menu of the Workflow View select "new mail". A Workflow window opens where
+you can enter your message, the subject and the recipient of the message. Send the
+message by pressing the "Send" button. Pressing the "Cancel" button will close the window
+without sending your message.
+
+%TODO: Screenshot einfügen
+
+\section{Answering a mail}
+In the Workflow View double-click on the mail you want to answer. A Workflow
+window opens where you can see the message text of the mail. Below you can enter
+the subject and the text of your reply. Send the answer by pressing the "Send" 
+button. Pressing the "Cancel" button will close the window without sending 
+your message.
+
+%TODO: Screenshot einfügen
+
+\section{Suggesting a file for a Core Group}
+
+In the menu of the Workflow View select "Suggest file for core group". A Workflow
+window opens where you can enter the name of the file, its path and the username of the
+PE you want to send the message to. You can also enter an additional comment you want 
+the PE and PLE to read. Send the message by pressing the "Send" 
+button. Pressing the "Cancel" button will close the window without sending 
+your message.
+
+%TODO: Screenshot einfügen
+
+\section{Dealing with a Core Group suggestion}
+
+In the Workflow View double-click on the Core Group suggestion message. A Workflow
+window opens where you can see the message of the programmer (and PE). Below you
+can select whether you agree to the suggestion or whether you decline it. You cam aösp
+enter an additional comment if you like. Send the message by pressing the "Send" 
+button. Pressing the "Cancel" button will close the window without sending 
+your message.\par
+Note: The file will not be automatically uploaded and committed. The PLE has to do
+this manually.
+
+%TODO: Screenshot einfügen
+
+\section{Exporting through GXL}
+
+Select the productline, product, component or variant you want to export. In the
+menu of the main window select "GXL-Export". A wizard opens where you can choose
+whether to create a jar-file of the selected source or not. You should then enter
+the path and names of the gxl-file and the jar-file. Alternatively you can enter 
+the data through the "save as" dialog. To start the export, press the finish button.
+You are able to see the status of your export in the wizard which will close after
+the export is finished. If you decide not to do the export, simply press the 
+"cancel" button.
+
+%TODO: Screenshot einfügen
+
+\section{Creating a Core Asset}
+
+In the pallete select the "core asset" tool. Click into the Architecture Editor and
+a core asset is inserted. A dialog opens where you can enter the meta data of
+the core asset. Per drag+drop you can simply change the size of the core
+asset. \par
+Note: Core assets can only be inserted on the top-level plane of the Architecture Editor.
+
+%TODO: Screenshot einfügen
+
+\section{Creating a variant}
+
+In the pallete select the "variant" tool. Click into a core asset or component in 
+the Architecture Editor. A variant is inserted. A dialog opens where you can enter the meta data of
+the variant. Per drag+drop you can simply change the size of the variant. \par
+Note: Variants can only be inserted into core assets or components.
+
+%TODO: Screenshot einfügen
+
+\section{Creating a component}
+
+In the pallete select the "component" tool. Click into a variant in 
+the Architecture Editor. A component is inserted. A dialog opens where you can enter the meta data of
+the component. Per drag+drop you can simply change the size of the component. \par
+Note: Components can only be inserted into variants.
+
+%TODO: Screenshot einfügen
+
+\section{Creating a version}
+
+In the pallete select the "version" tool. Click into a variant in 
+the Architecture Editor. A version is inserted. A dialog opens where you can enter the meta data of
+the version. For each file of the variant you can select the revision number you want to add to the version. 
+Per drag+drop you can simply change the size of the version. \par
+Note: Versions can only be inserted into variants.
+
+%TODO: Screenshot einfügen
+
+\section{Creating a meta node}
+
+In the pallete select the "metanode" tool. Click into the Architecture Editor. 
+A meta node is inserted. A dialog opens where you can select the type of the node.
+Possible types are AND, OR, XOR. 
+
+%TODO: Screenshot einfügen
+
+\section{Deleting a core asset, component, variant or version}
+
+Right-click on the item you want to delete and choose "delete" in the context
+menu. Alternatively you
+can select the item and press "Del" on your keyboard. Is the item used in other projects
+you will be notified and be able to cancel the deletion process.
+
+%TODO: Screenshot einfügen
+
+\section{Deleting a meta node}
+
+Right-click on the meta node you want to delete and choose "delete" in the context
+menu. Alternatively you
+can select the node and press "Del" on your keyboard.
+
+\section{Creating a dependency edge}
+
+In the pallete select the "dependency" tool. Select an item in the Architecture Editor
+as the starting point. The next item you select will be the aiming point.
+
+%TODO: Screenshot einfügen
+
+\section{Creating an exclusion edge}
+
+In the pallete select the "exclude" tool. Select an item in the Architecture Editor
+as the starting point. The next item you select will be the aiming point.
+
+%TODO: Screenshot einfügen
+
+\section{Deleting an edge}
+
+Right-click on the edge you want to delete and choose "delete" in the context menu.
+Alternatively you can select the edge and press "Del" on your keyboard.
+
+\section{Marking a component as "deprecated"}
+Right-click on the component and choose "mark as deprecated". Alternatively you 
+can select the component and press "D" on your keyboard. Deprecated components are
+indicated by a small flagg.
+
+%TODO: Screenshot einfügen
+
+\section{Moving an item}
+You can move any item per drag+drop.
+
+\section{Changing the size of an item}
+You can change the size of an item per drag+drop.
+
+\section{Filtering the Architecture View}
+
+The toolbar of the Architecture Editor provides you with the following filterings:
+\begin{itemize}
+	\item Show/hide dependency edges
+	\item Show/hide exclusion edges
+	\item Show/hide synthetical edges
+	\item Show/hide deprecated components
+\end{itemize}
+
+%TODO: Screenshot einfügen
+
+\section{Creating a custom component}
+
+In the pallete select the "custom component" tool. Click into the Architecture 
+Editor. A component is inserted. A dialog opens where you can enter the meta data of
+the component. Per drag+drop you can simply change the size of the component. \par
+
+%TODO: Screenshot einfügen
+
+\section{Deleting a custom component}
+
+Right-click on the component you want to delete and choose "delete" in the context
+menu. Alternatively you
+can select the component and press "Del" on your keyboard. 
