@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: GraphImportDialog.java,v 1.7 2004/09/01 01:08:04 vanto Exp $
+ * $Id: GraphImportDialog.java,v 1.8 2004/11/17 11:53:16 garbeam Exp $
  *
  *
  */
@@ -154,7 +154,7 @@ public class GraphImportDialog  extends TitleAreaDialog {
         getButton(IDialogConstants.PROCEED_ID).setEnabled(false);
         getButton(IDialogConstants.CLOSE_ID).setEnabled(true);        
     }
-    
+    	
    
     
     

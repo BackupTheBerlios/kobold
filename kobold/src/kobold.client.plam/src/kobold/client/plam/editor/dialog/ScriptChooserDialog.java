@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptChooserDialog.java,v 1.10 2004/11/08 12:17:55 garbeam Exp $
+ * $Id: ScriptChooserDialog.java,v 1.11 2004/11/17 11:53:16 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -248,7 +248,7 @@ public class ScriptChooserDialog extends TitleAreaDialog
         item = new SDTreeItem(ScriptDescriptor.VCM_REMOVE, ScriptDescriptor.VCM_REMOVE, null);
 		fillItemWithSDs(item, asset.getBeforeScripts());
 		befRoot.addSDItem(item);
-        item = new SDTreeItem(ScriptDescriptor.VCM_IMPORT, ScriptDescriptor.VCM_IMPORT, null);
+        item = new SDTreeItem(ScriptDescriptor.VCM_UPDATE, ScriptDescriptor.VCM_UPDATE, null);
 		fillItemWithSDs(item, asset.getBeforeScripts());
 		befRoot.addSDItem(item);
 		root.addSDItem(befRoot);
@@ -263,7 +263,7 @@ public class ScriptChooserDialog extends TitleAreaDialog
         item = new SDTreeItem(ScriptDescriptor.VCM_REMOVE, ScriptDescriptor.VCM_REMOVE, null);
 		fillItemWithSDs(item, asset.getAfterScripts());
 		afRoot.addSDItem(item);
-        item = new SDTreeItem(ScriptDescriptor.VCM_IMPORT, ScriptDescriptor.VCM_IMPORT, null);
+        item = new SDTreeItem(ScriptDescriptor.VCM_UPDATE, ScriptDescriptor.VCM_UPDATE , null);
 		fillItemWithSDs(item, asset.getAfterScripts());
 		afRoot.addSDItem(item);
 		root.addSDItem(afRoot);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.56 2004/11/09 17:19:20 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.57 2004/11/17 11:53:16 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -322,44 +322,6 @@ public class ModelStorage
         }
         // @ FIXME when root = null --> nullpointerexception
         return root.getKoboldProject().getProject().getFolder(thePath);
-    }
-    
-    
-    /**
-     * Magic method which adds all files under the given asset to version
-     * control which aren't already under version control.
-     * @param asset
-     */
-    public static void prepareCommit(AbstractRootAsset asset) {
-        
-        Productline pl = asset.getProductline();
-        FileDescriptor fd = new FileDescriptor();
-        fd.setParent(null);
-        fd.setParentAsset(null);
-        fd.setDirectory(true);
-        fd.setRevision(null);
-        fd.setAuthor(null);
-        fd.setFilename(getPathForAsset(asset).toOSString());
-        KoboldProject kp = pl.getKoboldProject();
-        
-        kp.refreshResources(fd);
-        List addCandidates = new ArrayList();
-        createAddCandidates(addCandidates, fd);
-        
-        if (addCandidates.size() > 0) {
-            kp.addFileDescriptors(asset, addCandidates);
-        }
-    }
-    
-    private static void createAddCandidates(List addCandidates, IFileDescriptorContainer fdc) {
-        for (Iterator it = fdc.getFileDescriptors().iterator(); it.hasNext();) {
-            FileDescriptor fd = (FileDescriptor) it.next();
-            System.out.println("XXXX: " + fd.getFilename());
-            createAddCandidates(addCandidates, fd);
-            if (fd.getRevision() == null) {
-                addCandidates.add(fd);
-            }
-        }
     }
     
     public static void serializeProduct (Productline pl, IProgressMonitor monitor)
