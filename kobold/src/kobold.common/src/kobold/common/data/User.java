@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.8 2004/06/16 11:27:35 rendgeor Exp $
+ * $Id: User.java,v 1.9 2004/06/16 14:09:33 garbeam Exp $
  *
  */
 
@@ -35,9 +35,9 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.dom4j.Element;
+import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
-
+import org.dom4j.Element;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -106,14 +106,12 @@ public class User implements ISerializable {
 	 * Serializes this User and returns the resulting DOM tree.
 	 * @return
 	 */
+
 	public Element serialize() {
-
-		Element user = DocumentHelper.createElement("user");
-
-		user.addElement("username").addText(this.userName);
-
+		Document document = DocumentHelper.createDocument();
+		Element user = document.addElement("user");
 		user.addElement("realname").addText(this.realName);
-
+		user.addElement("username").addText(this.userName);
 		user.addElement("password").addText(
 				new BASE64Encoder().encode(this.password.getBytes()));
 
@@ -136,9 +134,7 @@ public class User implements ISerializable {
 	}
 
 	/**
-	 * Adds a new Role to this user's role list. NOTE: if the passed Role
-	 * object is not associated with this user (that is the Role's user-
-	 * attribute equals the user-object's username), addRole() is ignored.
+	 * Adds a new Role to this user's role list.
 	 * 
 	 * @param role the Role to add
 	 */
