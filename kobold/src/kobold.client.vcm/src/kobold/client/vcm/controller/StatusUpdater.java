@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2004 Armin Cont, Anselm R. Garbe, Bettina Druckenmueller,
  *                    Martin Plies, Michael Grosse, Necati Aydin,
@@ -21,7 +22,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.35 2004/08/31 20:14:26 vanto Exp $
+ * $Id: StatusUpdater.java,v 1.36 2004/09/09 11:52:57 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -185,7 +186,7 @@ public class StatusUpdater {
 		                }
 		                
 		            }
-			        //it's a file und cvs control
+			        //it's a file under cvs control
 		            else {
 		            	Date date = null;
 		            	if(localLine.hasMoreTokens())
