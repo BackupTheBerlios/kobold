@@ -21,16 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldPLAMPlugin.java,v 1.6 2004/05/16 02:27:55 vanto Exp $
+ * $Id: KoboldPLAMPlugin.java,v 1.7 2004/05/19 16:09:22 garbeam Exp $
  *
  */
 package kobold.client.plam;
 
+import java.io.FileInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.MissingResourceException;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import kobold.client.plam.controller.SecureKoboldClient;
@@ -75,7 +77,10 @@ public class KoboldPLAMPlugin extends AbstractUIPlugin {
 		
 		try {
 			resourceBundle= ResourceBundle.getBundle("kobold.client.plam.KoboldPLAMPluginResources");
-		} catch (MissingResourceException x) {
+			Properties props = new Properties(System.getProperties());
+			props.load(new FileInputStream((String)System.getProperty("kobold.client.configFile")));
+			System.setProperties(props);
+		} catch (Exception x) {
 			resourceBundle = null;
 		}
 	}
