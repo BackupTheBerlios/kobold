@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Model.java,v 1.1 2004/04/21 15:04:51 memyselfandi Exp $
+ * $Id: Model.java,v 1.2 2004/04/21 15:36:44 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model;
@@ -42,7 +42,7 @@ public class Model {
 		
 		if (type instanceof ProductLine)
 		{
-			buildProductLine("ProductLine");
+			buildProductLine((ProductLine)type);
 		}
 		if ( type instanceof Product)
 		{
