@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.13 2004/08/25 14:59:13 vanto Exp $
+ * $Id: ProductComponent.java,v 1.14 2004/08/25 16:36:08 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -68,6 +68,7 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 		prodComps.add(comp);
 		comp.setParent(this);
 		addToPool(comp);
+		fireStructureChange(AbstractAsset.ID_CHILDREN, comp);
 	}
 	
 	public void removeProductComponent(ProductComponent comp)
@@ -129,6 +130,7 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
     {
         filedescs.add(fd);
         fd.setParentAsset(this);
+        fireStructureChange(AbstractAsset.ID_FILE_DESCRIPTORS, fd);
     }
 
     /**
