@@ -21,12 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AddToProductDialog.java,v 1.7 2004/11/25 21:28:06 martinplies Exp $
+ * $Id: AddToProductDialog.java,v 1.8 2005/02/06 03:38:17 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
@@ -34,6 +37,7 @@ import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.product.ProductComponent;
 import kobold.client.plam.model.product.RelatedComponent;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
@@ -167,13 +171,23 @@ public class AddToProductDialog extends TitleAreaDialog
  
     protected void okPressed()
     {
+        
+        
 //        asset.getMaintainers().clear();
 //        Folder tmpFolder =  Folder.create(true,true, new NullProgressMonitor());
         IVCMActionListener l = KoboldPLAMPlugin.getDefault().getVCMListener();
         
+        
         Object[] checkedElems = allProductViewer.getCheckedElements();
         for (int i = 0; i < checkedElems.length; i++) {
+            Product product = (Product)checkedElems[i];
+            
+            
             RelatedComponent tmpRelatedComponent = new RelatedComponent((Variant)currentRelease.getParent(),currentRelease);
+            Variant variant = (Variant)currentRelease.getParent();
+            tmpRelatedComponent.setResource(
+                    this.getResourceName("prodComp_"+variant.getParent().getResource()+"_"+variant.getResource()
+                    , product));
             l.addToProduct((Product)checkedElems[i],currentRelease);
 //            ModelStorage.serializeProduct(tmpRelatedComponent.getRoot().getProductline(),null);
             ((Product)checkedElems[i]).addRelatedComponent(tmpRelatedComponent);
@@ -181,6 +195,22 @@ public class AddToProductDialog extends TitleAreaDialog
 //            asset.addMaintainer((User)checkedElems[i]);
         }
         super.okPressed();
+    }
+    
+    private String getResourceName(String name, Product product) {
+        Set allResourcesNames = new HashSet();
+        for(Iterator ite = product.getProductComponents().iterator(); ite.hasNext();){
+            allResourcesNames.add(((ProductComponent) ite.next()).getResource() ); 
+        }
+        if(allResourcesNames.contains(name)){
+           int i = 1;
+           while(allResourcesNames.contains(name + "_" + i)){
+               i++;
+           }
+           name= name+"_" + i;
+        }
+        allResourcesNames.add(name);
+        return name;
     }
     
 }

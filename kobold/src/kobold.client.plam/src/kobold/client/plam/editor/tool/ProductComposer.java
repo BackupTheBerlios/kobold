@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposer.java,v 1.18 2004/10/21 21:32:40 martinplies Exp $
+ * $Id: ProductComposer.java,v 1.19 2005/02/06 03:38:07 martinplies Exp $
  */
 package kobold.client.plam.editor.tool;
 
@@ -1003,18 +1003,20 @@ public class ProductComposer {
     	product.setRepositoryDescriptor(new RepositoryDescriptor("", "", "", "", ""));
     	HashMap assets = new HashMap();
     	
-        // create ProductComponments for used CoreAssets.    	
+        // create ProductComponments for used CoreAssets.
+        Set resourceNames = new HashSet();
     	for (Iterator ite = productline.getComponents().iterator(); ite.hasNext();){
     	    Component node = (Component) ite.next();
     	    if (get(node).isUsed()){
-    	        product.addProductComponent(generateProductComponent(node, assets));
+    	        //product.addProductComponent(generateProductComponent(node, assets));
+    	        this.generateProductComponents(product, node, resourceNames);
     	    }    	   
     	}    	
     	
     	
         // add edges to product
     	// assets conatins all used productline assets as key an the productcomponent as value
-    	EdgeContainer productCont = product.getEdgeContainer();  
+  /*  	EdgeContainer productCont = product.getEdgeContainer();  
     	Set keySet = assets.keySet();
     	for (Iterator ite = keySet.iterator(); ite.hasNext();){
     	    Set  visited = new HashSet(); // remember visited metanode to run not in loops
@@ -1036,13 +1038,50 @@ public class ProductComposer {
     	        }
     	    }    	    
     	}
-    	
+    */	
     	product.setProject(productline.getKoboldProject());
     	productline.addProduct(product);
     	return product;
     }
     
 
+    private void generateProductComponents(Product product, Component component, Set resourceNames ){
+        ProductComponent productComponent;
+        for (Iterator ite = component.getVariants().iterator(); ite.hasNext();){
+            Variant variant = (Variant) ite.next();
+            if (this.get(variant).isUsed()) {
+                Release release = null;                 
+                Iterator  relIte = variant.getReleases().iterator();
+        	    // look for a used Release
+        	    while ( relIte.hasNext() &&
+        	            ! get( release = (Release) relIte.next() ).isUsed()  
+        	           ){}
+        	    if (release != null && get(release).isUsed()){
+        	        // => a related Component can be construct
+        	        productComponent = new RelatedComponent(variant, release);
+        	        productComponent.setResource(
+        	                this.getResourceName(
+        	                        "prodComp_"+component.getResource()+"_"+variant.getResource(),
+        	                        resourceNames));
+        	        product.addProductComponent(productComponent);
+        	    }
+            } 
+             
+        }
+    }
+    
+    private String getResourceName(String name, Set allNames) {
+        if(allNames.contains(name)){
+           int i = 1;
+           while(allNames.contains(name + "_" + i)){
+               i++;
+           }
+           name= name+"_" + i;
+        }
+        allNames.add(name);
+        return name;
+    }
+    
     /*
      * Create a Productcomponent for a Component.
      * if comp has a used Variant and a used Relase a Related Component is created
@@ -1074,7 +1113,8 @@ public class ProductComposer {
     	        productComponent = new RelatedComponent(variant, release);
     	        assets.put(comp, productComponent);
     	        assets.put(variant, productComponent);
-    	        assets.put(release, productComponent);    	        
+    	        assets.put(release, productComponent);  
+    	        productComponent.setResource("prodComp_"+comp.getResource()+"_"+variant.getResource());
     	    } else{
     	        productComponent = new SpecificComponent(comp.getName());
     	        productComponent.setDescription(variant.getDescription());
@@ -1087,7 +1127,7 @@ public class ProductComposer {
     	    for (Iterator subIte = variant.getComponents().iterator(); subIte.hasNext();){
     	        Component subComp = (Component) subIte.next(); 
     	        if (get(subComp).isUsed()){
-    	            productComponent.addProductComponent(generateProductComponent(subComp, assets));    	            
+    	            productComponent.addProductComponent(generateProductComponent(subComp, assets));    	           
     	        }
     	    }
     	} else {
