@@ -21,11 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.8 2004/05/18 11:19:27 vanto Exp $
+ * $Id: Product.java,v 1.9 2004/06/24 09:58:57 grosseml Exp $
  *
  */
 
 package kobold.common.data;
+
+import kobold.common.io.RepositoryDescriptor;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -37,16 +39,20 @@ public class Product implements IAsset {
 
 	private String productLineName;
 	private String productName;
+	private RepositoryDescriptor repositoryDescriptor = null;
 
 	/**
 	 * Basic constructor.
 	 * @param productName
 	 * @param productLineName
 	 */
-	public Product (String productName, String productLineName) {
+	public Product (String productName, String productLineName,
+				RepositoryDescriptor repositoryDescriptor)
+	{
 		super();
 		this.productName = productName;
 		this.productLineName = productLineName;
+		this.repositoryDescriptor = repositoryDescriptor;
 	}
 	
 	/**
@@ -63,7 +69,8 @@ public class Product implements IAsset {
 	 */
 	public Element serialize() {
 		Element product = DocumentHelper.createElement("product");
-		product.addText(this.productName);
+		product.addAttribute("name", this.productName);
+		product.add(repositoryDescriptor.serialize());
 		product.addElement("productline").addText(this.productLineName);
 		return product;
 	}
@@ -74,7 +81,9 @@ public class Product implements IAsset {
 	 */
 	public void deserialize(Element element) {
 		Element product = element.element("product");
-		this.productName = element.getText();
+		this.productName = element.attributeValue("name");
+		this.repositoryDescriptor =
+			new RepositoryDescriptor(element.element("repository-descriptor"));
 		this.productLineName = element.elementText("productline");
 	}
 

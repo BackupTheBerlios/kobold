@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.37 2004/06/24 09:28:02 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.38 2004/06/24 09:58:57 grosseml Exp $
  *
  */
 package kobold.server;
@@ -377,7 +377,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * @param userContext the user context.
 	 * @param product the product.
 	 */
-	public void addProduct(UserContext userContext, kobold.common.model.product.Product product) {
+	public void addProduct(UserContext userContext, Product product) {
 		ProductManager productManager = ProductManager.getInstance();
 		UserManager userManager = UserManager.getInstance();
 		if (userManager.isPLE(userContext.getUserName())) {
@@ -607,4 +607,6 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	public String satRemovePLE(String adminPassword, String plname){
 		return IKoboldServer.NO_RESULT;// until fully implemented
 	}
+
+
 }

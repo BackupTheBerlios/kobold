@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductManager.java,v 1.7 2004/06/24 07:47:50 grosseml Exp $
+ * $Id: ProductManager.java,v 1.8 2004/06/24 09:58:57 grosseml Exp $
  *
  */
 package kobold.server.controller;
@@ -86,7 +86,7 @@ public class ProductManager {
 	 *
 	 * @param product String containing the new productname
 	 */
-	public void addProduct(kobold.common.model.product.Product product) {
+	public void addProduct(Product product) {
 		products.put(product.getName(), product);
 	}
 	
@@ -105,7 +105,7 @@ public class ProductManager {
 	 * @param productname the name of the product.
 	 */
 	public Product getProduct(String productName) {
-		return (Product) products.get(productName);
+		return  (Product)products.get(productName);
 	}
 
 	/**
@@ -232,8 +232,14 @@ public class ProductManager {
 					   "/cvsroot/kobold/kobold4")));
 		
 		// TODO: repository descriptot for products
-		addProduct(new Product("kobold server", "kobold2"));
-		addProduct(new Product("kobold client", "kobold3"));
-		addProduct(new Product("kobold vcm", "kobold4"));
+		addProduct(new Product("kobold server", "kobold2",
+				new RepositoryDescriptor("cvs",
+				"cvs.berlios.de", "/cvsroot/kobold/kobold2")));
+		addProduct(new Product("kobold client", "kobold3",
+				new RepositoryDescriptor("cvs",
+			   	"cvs.berlios.de", "/cvsroot/kobold/kobold2")));
+		addProduct(new Product("kobold vcm", "kobold4",
+				new RepositoryDescriptor("cvs",
+			   	"cvs.berlios.de", "/cvsroot/kobold/kobold2")));
 	}
 }

@@ -7,8 +7,7 @@
 package kobold.client.plam.useractions;
 
 import kobold.client.plam.controller.*;
-import kobold.client.plam.model.Product;
-import kobold.common.model.product.*;
+import kobold.common.io.RepositoryDescriptor;
 import kobold.client.plam.*;
 import kobold.common.data.*;
 /**
@@ -27,8 +26,14 @@ public class productactions {
         SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();		
         UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
         
-        kobold.common.model.product.Product prod1 = new kobold.common.model.product.Product(productName);
+        Product prod1 = new Product(productName, productLineName,
+        							new RepositoryDescriptor("cvs", "blafasel.org",
+        									"/root/blubber"));
         
         client.addProduct(currUser, prod1);        
+	}
+	
+	public void changeProduct(UserContext userContext, String productName) {
+	
 	}
 }

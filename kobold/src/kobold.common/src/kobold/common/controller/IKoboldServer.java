@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IKoboldServer.java,v 1.10 2004/06/24 08:45:23 grosseml Exp $
+ * $Id: IKoboldServer.java,v 1.11 2004/06/24 09:58:57 grosseml Exp $
  *
  */
 
@@ -101,7 +101,7 @@ public interface IKoboldServer {
      * @param userContext the user context.
      * @param product the product.
      */
-    public void addProduct(UserContext userContext, kobold.common.model.product.Product product);
+    public void addProduct(UserContext userContext, Product product);
 
     /**
      * Adds a new role.
@@ -133,7 +133,7 @@ public interface IKoboldServer {
 	 * @param product the product. 
 	 */
 	public void applyProductModifications(UserContext userContext,
-			kobold.common.model.product.Product product);
+			Product product);
     
     /**
      * Removes the specified user.

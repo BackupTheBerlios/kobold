@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.23 2004/06/24 07:57:42 grosseml Exp $
+ * $Id: SecureKoboldClient.java,v 1.24 2004/06/24 09:58:58 grosseml Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -257,7 +257,7 @@ public class SecureKoboldClient implements IKoboldServer {
 	 * @param userContext the user context.
 	 * @param product the product.
 	 */
-	public void addProduct(UserContext userContext, kobold.common.model.product.Product product) {
+	public void addProduct(UserContext userContext, Product product){
 		Vector v = new Vector();
 		v.add(RPCMessageTransformer.encode(userContext.serialize()));
 		v.add(RPCMessageTransformer.encode(product.serialize()));
@@ -528,5 +528,6 @@ public class SecureKoboldClient implements IKoboldServer {
 				}
 		}
 	}
+
 }
 
