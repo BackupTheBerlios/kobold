@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LocalMessageQueue.java,v 1.7 2004/05/18 11:21:50 vanto Exp $
+ * $Id: LocalMessageQueue.java,v 1.8 2004/05/19 16:08:34 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -36,8 +36,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import kobold.client.plam.KoboldProjectNature;
 import kobold.client.plam.listeners.IMessageQueueListener;
 import kobold.common.data.AbstractKoboldMessage;
+import kobold.common.data.UserContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,6 +51,7 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 
 /**
  * Stores/Manages all local kobold messages
@@ -164,6 +167,21 @@ public class LocalMessageQueue  {
 			
 		} catch (IOException e) {
 			logger.debug("Error while writing PLAM config.", e);
+		}
+	}
+	
+	public void fetchMessages() {
+		try {
+			KoboldProjectNature nature = (KoboldProjectNature)queueFile.getProject().getNature(KoboldProjectNature.NATURE_ID);
+			UserContext context = nature.getUserContext(); 
+			if (nature.getUserContext() != null) {
+				AbstractKoboldMessage msg = null;
+				while ((msg = nature.getClient().fetchMessage(context)) != null) {
+					addMessage(msg);
+				}
+			}
+		} catch (CoreException e) {
+			logger.info("exception on fetch", e);
 		}
 	}
 

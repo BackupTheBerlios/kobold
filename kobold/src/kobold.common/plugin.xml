@@ -37,7 +37,9 @@
       <library name="/home/garbeam/jsse1.0.3_03/lib/jsse.jar">
          <export name="*"/>
       </library>
-      <library name="New Library"/>
+      <library name="contrib/dom4j/jaxen-1.1-beta-2/jaxen-1.1-beta-2.jar">
+         <export name="*"/>
+      </library>
    </runtime>
 
 </plugin>

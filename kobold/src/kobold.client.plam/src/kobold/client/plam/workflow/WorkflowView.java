@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.4 2004/05/18 19:03:29 vanto Exp $
+ * $Id: WorkflowView.java,v 1.5 2004/05/19 16:08:37 martinplies Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -197,14 +197,15 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 		
 		action2 = new Action() {
 			public void run() {
-				showMessage("Action 2 executed");
-				viewer.refresh();
+				KoboldPLAMPlugin.getCurrentMessageQueue().fetchMessages();
+				
 			}
 		};
 		action2.setText("Action 2");
 		action2.setToolTipText("Action 2 tooltip");
 		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 			getImageDescriptor(ISharedImages.IMG_OBJS_TASK_TSK));
+
 		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProjectNature.java,v 1.9 2004/05/19 15:08:03 garbeam Exp $
+ * $Id: KoboldProjectNature.java,v 1.10 2004/05/19 16:08:37 martinplies Exp $
  *
  */
 package kobold.client.plam;
@@ -158,14 +158,14 @@ public class KoboldProjectNature implements IProjectNature, IResourceChangeListe
 	 * @return
 	 */
 	public UserContext getUserContext() {
+		if (userContext == null /*TODO || isValid() */ ) {
+			userContext = getClient().login(getPLAMProject().getUsername(), getPLAMProject().getUsername());
+		}
+		if (userContext == null) {
+			logger.error("login failed");
+		}
+		
 		return userContext;
-	}
-
-	/**
-	 * @param context
-	 */
-	public void setUserContext(UserContext context) {
-		this.userContext = context;
 	}
 
 }

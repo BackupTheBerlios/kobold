@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowItem.java,v 1.6 2004/05/18 18:05:57 martinplies Exp $
+ * $Id: WorkflowItem.java,v 1.7 2004/05/19 16:08:34 martinplies Exp $
  *
  */
 package kobold.common.data;
@@ -41,6 +41,7 @@ import org.dom4j.Element;
  * 
  */
 public class WorkflowItem {
+
 	public final static String TEXT = "text"; 
 	public final static String CHECK = "check";
 	public final static String RADIO = "radio";
@@ -77,6 +78,7 @@ public class WorkflowItem {
 		this.description = description;
 		this.type = type;
 	}
+
 	
 	public void addChild(WorkflowItem control)
 	{
