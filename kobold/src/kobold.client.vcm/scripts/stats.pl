@@ -227,7 +227,7 @@ if ($#ARGV == -1)
 
     #my $root = shift; # shifted at next argument in @_
     #print "beginning with: $currDir\n";
-    #!!!!!!!!TEST!!!!!read_phys;
+    read_phys;
 
     read_entries($currDir);
 
