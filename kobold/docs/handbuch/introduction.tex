@@ -3,20 +3,58 @@
 \section{About this document}
 
 This manual provides instructions for the installation and usage of the
-product line management system Kobold.
+productline management system Kobold.
 
-\section{The Kobold System}
+\section{Background information}
 
-The primary purpose of Kobold is to provide a tool for the development
-and maintenance of software product lines. Kobold also supports the
-establishment of a role-based development process.
+Short time-to-market cycles, high product quality und low costs are the 
+key factors for success in the field of software engineering. These incompatible 
+goals can be reached through systematic reuse throughout the development of
+software. \par
+
+The gist of the productline approach is to systematically gather the differences
+and commonalities of different products and to explicitly picture these aspects
+in form of a software architecture. This effects all steps in the development
+process and in the design and strategy of products.\par
+
+In order to establish an efficient productline development in the field of
+software engineering, you have to put this product strategy rigorously into
+practice.\par
+
+The ideal goal of a well-configured productline is to create a product with a
+simple combination of core assets which are customized for the product. Therefore 
+a productline is ideally configured if the productline architecture is sufficiently
+specified for all possible products. This is the task of a product(line) engineer.
+He specifies the architecture by defining core assets and their main relations 
+(scoping and domain engineering). If a new product is to be added to the productline 
+(application engineering), it has to follow this architecture. In order to achieve
+this existing variants of core assets are combined with new variants und transferred
+to the product engineer who takes responsibility for this product. He has to make
+sure that the development of the product does not interfere with the architecture
+of the productline.\par
+
+In this hierarchy it is important that procedures are performed according to fixed
+rules. For example, if an existing variant of a core asset is already used in
+a product, it mustn't be changed by the product engineer. Changes are only
+allowed by the responsible core asset developer. He has to decide whether the
+changes are useful since his core asset is also used in other products. If he declines
+the changes, the product engineer has to develop a product-specific variant of the
+core asset. This process is very complex because several people take part in 
+the decision. In order to enforce a productline rigorously these operations must
+be specified. \par
+
+Kobold supports the development of productlines, simplifies the configuration
+management, the communication and the development and helps to model 
+operations
+
+
 
 \section{Structure of this document}
 This user manual will help you to install the Kobold system and to
 determine the technical conditions. \par
-The description of the usage is divided in two parts. The first part
-will provide descriptions of each window and
+The description of the usage is divided in three parts. The first part provides descriptions of each window and
 each menu item. 
 \par
-The second part will describe the functionality of Kobold. This tutorial
-will help you answer your questions while working with Kobold.
+The second part is a short tutorial through which you can start working with Kobold right away.\par
+The third part is a list of the interfaces you need to implement your own workflow
+rules (for more information see chapter 4).
