@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.21 2004/06/13 19:58:04 bettina Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.22 2004/06/16 14:56:14 grosseml Exp $
  *
  */
 package kobold.server;
@@ -243,6 +243,22 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 		user.setPassword(password);
 		UserManager manager = UserManager.getInstance();
 		manager.addUser(user);
+	}
+	
+	/**
+	 * This method changes all userdate from a given user except his password
+	 * for changing the password see method changepassword
+	 * @param userContext	the user context
+	 * @param userName		the user name
+	 * @param realName		the real name
+	 */
+	public void changeUser(UserContext userContext, String userName,
+		 String realName)
+	{
+		UserManager manager = UserManager.getInstance();
+		User user = manager.getUser(userName);
+		user.setUserName(userName);
+		user.setRealName(realName);
 	}
 
 	/**
