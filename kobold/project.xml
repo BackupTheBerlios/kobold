@@ -26,13 +26,11 @@
   <!--<package>de.berlios.kobold</package>-->
   <logo>http://developer.berlios.de/bslogo.php?group_id=1364</logo>
   <description>
-    Kobold ist ein Client-Server basiertes System zur Visualisierung und Verwaltung von Software-Produktlinien. (de)
-    Kobold is a client-server based system for visualization and maintenance of software product lines. (en)
+    Kobold is a client-server based system for visualization and maintenance of software product lines.
   </description>
   <!-- a short description of what the project does -->
   <shortDescription>
-    Kobold ist ein Client-Server basiertes System zur Visualisierung und Verwaltung von Software-Produktlinien. (de)
-    Kobold is a client-server based system for visualization and maintenance of software product lines. (en)
+    Kobold is a client-server based system for visualization and maintenance of software product lines.
   </shortDescription>
 
   <!-- the project home page -->

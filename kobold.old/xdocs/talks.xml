@@ -36,6 +36,12 @@
           <tr>
             <td>23.02.04</td><td>Eclipse SWT/GEF (Tammo van Lessen)</td>
           </tr>
+          <tr>
+            <td>18.03.04</td><td>XML-RPC Kommunikation über HTTPS (Anselm Garbe)</td>
+          </tr>
+          <tr>
+            <td>18.03.04</td><td>Drools Regelengine (Bettina Druckenmüller)</td>
+          </tr>
         </table>
 
       </section>
