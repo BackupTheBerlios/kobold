@@ -1,0 +1,3 @@
+/**
+ * Our second product.
+ */
