@@ -1,5 +1,6 @@
+@echo off
+cd /d %1
 
-cd %1
 
 if %3 == local	goto LOCAL	endif
 
@@ -7,7 +8,7 @@ if %2 == CVS goto CVS endif
 goto ERROR
 
 :CVS
-cvs -z3 -d :pserver:%4:%5@%6:%7 import -m %9 %8 
+cvs -z3 -d :pserver:%4:%5@%6:%7 import -m %9 %8 start %4
 goto END
 
 :LOCAL
