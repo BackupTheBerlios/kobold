@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.2 2004/07/01 15:52:17 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -31,6 +31,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Map;
 
+import kobold.client.plam.PLAMProject;
+
 
 /**
  * This is the abstract root for Productline.
@@ -39,7 +41,7 @@ import java.util.Map;
  */
 public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 {
-    private Object project;
+    private PLAMProject project;
     private Map userPool = new HashMap();
     protected Map releasePool = new HashMap();
     protected transient PropertyChangeSupport changeListeners = new PropertyChangeSupport(this); 
@@ -63,7 +65,7 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     /**
      * @param project The project to set.
      */
-    public void setProject(Object project)
+    public void setProject(PLAMProject project)
     {
         this.project = project;
     }
@@ -72,7 +74,7 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     /**
      * @return Returns the project.
      */
-    public Object getProject()
+    public PLAMProject getProject()
     {
         return project;
     }

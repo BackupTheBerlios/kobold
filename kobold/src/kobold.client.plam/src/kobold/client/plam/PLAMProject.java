@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PLAMProject.java,v 1.13 2004/07/01 11:27:25 vanto Exp $
+ * $Id: PLAMProject.java,v 1.14 2004/07/01 15:52:17 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -201,6 +201,7 @@ public class PLAMProject
 	    if (pl == null) {
 		
 	    	pl = new Productline("PL Compiler");
+	    	pl.setDescription("Bauhaus Compiler Suite");
 	    	pl.setProject(this);
 	    
 	    	Component ca1 = new Component("CA Frontend");

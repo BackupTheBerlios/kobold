@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineEditPart.java,v 1.5 2004/07/01 11:27:25 vanto Exp $
+ * $Id: ProductlineEditPart.java,v 1.6 2004/07/01 15:52:17 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -35,17 +35,22 @@ import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.editor.policy.ProductlineContainerEditPolicy;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IComponentContainer;
 
 import org.eclipse.draw2d.AutomaticRouter;
 import org.eclipse.draw2d.BendpointConnectionRouter;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.FanRouter;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.ManhattanConnectionRouter;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
@@ -53,19 +58,24 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.MarqueeDragTracker;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.swt.graphics.Font;
 
 
 /**
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductlineEditPart.java,v 1.5 2004/07/01 11:27:25 vanto Exp $
+ * @version $Id: ProductlineEditPart.java,v 1.6 2004/07/01 15:52:17 vanto Exp $
  */
 public class ProductlineEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
 
     /** Singleton instance of MarqueeDragTracker. */
     static DragTracker dragTracker = null;
+    
+    private Label plNameLabel;
+    private Label plDescLabel;
 
     /**
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
@@ -76,6 +86,21 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
 
         // Don't know why, but if you don't setOpaque(true), you cannot move by drag&drop!
         f.setOpaque(true);
+        
+        plNameLabel = new Label();
+        plNameLabel.setLabelAlignment(Label.LEFT);
+		Font font = JFaceResources.getBannerFont();
+		plNameLabel.setFont(font);
+        plNameLabel.setLocation(new Point(5,5));
+		plNameLabel.setForegroundColor(ColorConstants.black);
+        f.add(plNameLabel);
+
+        plDescLabel = new Label();
+        plDescLabel.setLabelAlignment(Label.LEFT);
+		font = JFaceResources.getDefaultFont();
+		plDescLabel.setFont(font);
+		plDescLabel.setForegroundColor(ColorConstants.gray);
+        f.add(plDescLabel);
 
         return f;
     }
@@ -96,6 +121,8 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
         if (prop.equals(AbstractAsset.ID_CHILDREN)) {
            System.out.println("refresh");
            refreshChildren();
+        } else {
+            refreshVisuals();
         }
     }
 
@@ -135,6 +162,26 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
      */
     protected void refreshVisuals()
     {
+        String name = ((AbstractRootAsset)getModel()).getName(); 
+        if (name != null) {
+            plNameLabel.setText(((AbstractRootAsset)getModel()).getName());
+    		plNameLabel.setSize(FigureUtilities.getTextExtents(name, plNameLabel.getFont()));
+    		plNameLabel.setVisible(true);
+        } else {
+            plNameLabel.setVisible(false);
+        }
+
+        String desc = ((AbstractRootAsset)getModel()).getDescription();
+        if (desc != null) {
+            plDescLabel.setText(desc);
+            plDescLabel.setLocation(new Point(5, 5 + plNameLabel.getSize().height));
+            plDescLabel.setSize(FigureUtilities.getTextExtents(desc, plDescLabel.getFont()));
+            plDescLabel.setVisible(true);
+        } else {
+            plDescLabel.setVisible(false);
+        }
+
+        
         ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
 
         // It seems that Manhanttan routing cannot be used with bendpoints...
