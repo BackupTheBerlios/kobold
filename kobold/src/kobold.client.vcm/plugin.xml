@@ -37,45 +37,49 @@
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
-            objectClass="org.eclipse.core.resources.IFile"
             adaptable="true"
+            objectClass="org.eclipse.core.resources.IFile"
             id="kobold.client.vcm.contribution1">
          <action
                label="Commit"
-               class="kobold.client.vcm.popup.actions.CommitAction"
+               class="kobold.client.vcm.popup.action.CommitAction"
                menubarPath="team.main/group1"
                enablesFor="1"
                id="kobold.client.vcm.commitaction">
          </action>
          <action
                label="Synchronize"
-               class="kobold.client.vcm.popup.actions.SynchronizeAction"
+               class="kobold.client.vcm.popup.action.SynchronizeAction"
                menubarPath="team.main/group1"
                enablesFor="1"
                id="kobold.client.vcm.synchronizeaction">
          </action>
          <action
                label="Update"
-               class="kobold.client.vcm.popup.actions.UpdateAction"
+               class="kobold.client.vcm.popup.action.UpdateAction"
                menubarPath="team.main/group1"
                enablesFor="1"
                id="kobold.client.vcm.updateaction">
          </action>
          <filter
-               value="org.eclipse.team.core.repository=kobold.client.vcm.controller.WrapperProvider"
-               name="projectPersistentProperty">
+               name="projectPersistentProperty"
+               value="org.eclipse.team.core.repository=kobold.client.vcm.controller.WrapperProvider">
          </filter>
       </objectContribution>
       <objectContribution
+            adaptable="true"
             objectClass="org.eclipse.core.resources.IProject"
-            id="kobold.client.vcm.ProjectContributions"
-            adaptable="true">
+            id="kobold.client.vcm.ProjectContributions">
          <action
-               class="kobold.client.vcm.popup.actions.DisconnectAction"
                label="Unmanage Kobold Project"
+               class="kobold.client.vcm.popup.action.DisconnectAction"
                menubarPath="team.main/group2"
                id="kobold.client.vcm.unmanage">
          </action>
+         <filter
+               value="org.eclipse.team.core.repository=kobold.client.vcm.controller.WrapperProvider"
+               name="projectPersistentProperty">
+         </filter>
       </objectContribution>
    </extension>
    <extension
