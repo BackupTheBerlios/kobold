@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.17 2004/05/17 02:15:09 vanto Exp $
+ * $Id: WorkflowMessage.java,v 1.18 2004/05/17 12:14:39 grosseml Exp $
  *
  */
 package kobold.common.data;
@@ -40,7 +40,8 @@ public class WorkflowMessage extends KoboldMessage {
 	private String comment = "";
 	private Set parents = new HashSet();
 	private List controlItems = new LinkedList();
-	private HashMap answer; 
+	private HashMap answer;
+	private int step;
 
 
 	public WorkflowMessage()
@@ -193,6 +194,18 @@ public class WorkflowMessage extends KoboldMessage {
 		sb.append("\t[controls: " + getWorkflowControls().length + "]\n");
 
 		return super.toString() + sb.toString(); 
+	}
+	/**
+	 * @return Returns the step.
+	 */
+	public int getStep() {
+		return step;
+	}
+	/**
+	 * @param step The step to set.
+	 */
+	public void setStep(int step) {
+		this.step = step;
 	}
 }   
    
