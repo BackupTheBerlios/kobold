@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.17 2004/08/11 10:12:32 neccaino Exp $
+ * $Id: UserManager.java,v 1.18 2004/08/11 12:17:54 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -43,6 +43,7 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 import kobold.server.data.User;
+import kobold.common.data.Asset;
 
 /**
  * This singleton class manages the users registered on the server.
@@ -62,7 +63,14 @@ public class UserManager {
 		 }
 		 return instance;
 	}
-	
+    
+    /**
+     * The following ints are returned by 'getRemovabilityState().
+     */
+    static public final int NOT_REGISTERED = 0; // username unknown
+    static public final int STILL_ASSIGNED = 1; // user is still assigned to an asset
+	static public final int READY_FOR_REMOVAL = 2; // user not assigned
+    
 	/**
 	 * Basic constructor of this singleton.
      * TODO: remove the dummy-call before delivery
@@ -124,7 +132,10 @@ public class UserManager {
 	}
 
     /**
-     * Removes the user with the passed username.
+     * Removes the user with the passed username. Note that a user will be
+     * removed even if it is still assigned to an asset. If you want to avoid 
+     * data inconsistency within your Kobold system use 'getRemovabilityState()
+     * and/or 'unassignFromAllAssets() before calling this method.
      * 
      * @param username username of the user that should be removed
      * @return the removed User object or null, if the passed username hasn't 
@@ -132,6 +143,54 @@ public class UserManager {
      */
     public User removeUserByName(String username){
         return (User) users.remove(username);
+    }
+    
+    /**
+     * This method checks if the user specified by the passed username is still
+     * assigned to any assets (and could cause data inconsistencies among the
+     * assets if removed now).
+     * 
+     * @param username name of the user to check for removability
+     * @return NOT_REGISTERED if the username has not been registered, 
+     *         STILL_ASSIGNED if the user specified by 'username is still
+     *         assigned to an asset or READY_FOR_REMOVAL if that user can be
+     *         removed without risking data inconsistencies among the assets.
+     */
+    public int getRemovabilityState(String username){
+        // 1.) chack if the passed username is registered
+        if (getUser(username) == null){
+            return NOT_REGISTERED;
+        }
+        
+        // 2.) check if the user is still assigned to any asset
+        Iterator it = ProductlineManager.getInstance().getAllRegisteredAssets().iterator();
+        while(it.hasNext()){
+            if (((Asset)it.next()).isMaintainer(username)){
+                return STILL_ASSIGNED;
+            }
+        }
+        
+        return READY_FOR_REMOVAL;
+    }
+    
+    /**
+     * The following method unassigns the user specified by 'username from all
+     * assets.
+     * 
+     * @param username name of user that should be unassigned from all assets
+     */
+    public void unassignFromAllAssets(String username){
+        // 1.) stop if the passed user doesn't exist
+        if (getUser(username) == null){
+            return;
+        }
+        
+        // 2.) unassign from all Assets
+        kobold.common.data.User user = getUser(username).getSecureRepresentation();
+        Iterator it = ProductlineManager.getInstance().getAllRegisteredAssets().iterator();
+        while(it.hasNext()){
+            ((Asset)it.next()).removeMaintainer(user);
+        }
     }
     
 	/**
