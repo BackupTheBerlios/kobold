@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CoreAsset.java,v 1.3 2004/06/09 14:33:13 rendgeor Exp $
+ * $Id: CoreAsset.java,v 1.4 2004/06/16 16:59:17 rendgeor Exp $
  *
  */
 
@@ -31,7 +31,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import java.util.HashMap;
-
+import java.util.Iterator;
 /**
  * @author garbeam
  */
@@ -61,14 +61,26 @@ public class CoreAsset extends AbstractAsset {
 	}
 	
 	/**
-	 * Serializes the product.
+	 * Serializes the coreAsset.
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element product = DocumentHelper.createElement("coreAsset");
-		product.addText (getName ());
-		//product.addElement("productline").addText(this.productLineName);
-		return product;
+		Element productElement = DocumentHelper.createElement("coreAsset");
+		productElement.addText(getName());
+
+		
+		//now all components
+		Element componentElement = productElement.addElement ("components");
+		
+		//serialize each component
+		
+		for (Iterator it = this.components.values().iterator(); it.hasNext();)
+		{
+			ComponentRelated component = (ComponentRelated) it.next ();
+			componentElement.add (component.serialize ());
+		}
+		
+		return productElement;
 	}
 
 	/**
@@ -97,13 +109,6 @@ public class CoreAsset extends AbstractAsset {
 		return AbstractAsset.CORE_ASSET;
 	}
 
-    /**
-     * @see kobold.common.data.IAsset#getName()
-     */
-    public String getName()
-    {
-        return getName ();
-    }
 
 	/**
 	 * Adds a new component.

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentSpecific.java,v 1.3 2004/06/16 15:54:22 rendgeor Exp $
+ * $Id: ComponentSpecific.java,v 1.4 2004/06/16 16:59:17 rendgeor Exp $
  *
  */
 
@@ -94,6 +94,7 @@ public class ComponentSpecific extends AbstractComponent {
 			Version version = (Version) it.next ();
 			versionElement.add (version.serialize ());
 		}
+		componentElement.add (versionElement);
 		
 		return componentElement;
 	}

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Version.java,v 1.5 2004/06/16 15:54:22 rendgeor Exp $
+ * $Id: Version.java,v 1.6 2004/06/16 16:59:17 rendgeor Exp $
  *
  */
 
@@ -32,7 +32,7 @@ import org.dom4j.Element;
 
 //import java.util.HashMap;
 
-import java.util.Iterator;
+//import java.util.Iterator;
 /**
  * @author garbeam
  */
@@ -45,6 +45,8 @@ public class Version extends AbstractAsset {
 	 */
 	public Version (String productName) {
 		super (productName);
+		
+		fileDescriptor = new FileDescriptor ("fd");
 
 	}
 	
@@ -53,6 +55,9 @@ public class Version extends AbstractAsset {
 	 * @param productName
 	 */
 	public Version (Element element) {
+
+		fileDescriptor = new FileDescriptor ("fd");
+		
 		deserialize(element);
 	}
 	

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.3 2004/06/09 14:33:13 rendgeor Exp $
+ * $Id: Variant.java,v 1.4 2004/06/16 16:59:17 rendgeor Exp $
  *
  */
 
@@ -67,7 +67,6 @@ public class Variant extends AbstractAsset {
 	public Element serialize() {
 		Element product = DocumentHelper.createElement("product");
 		product.addText(getName());
-		//product.addElement("productline").addText(this.productLineName);
 		return product;
 	}
 

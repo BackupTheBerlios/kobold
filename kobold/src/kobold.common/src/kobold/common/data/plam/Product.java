@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.4 2004/06/16 11:27:35 rendgeor Exp $
+ * $Id: Product.java,v 1.5 2004/06/16 16:59:17 rendgeor Exp $
  *
  */
 
@@ -71,17 +71,19 @@ public class Product extends AbstractAsset {
 		Element productElement = DocumentHelper.createElement("product");
 		productElement.addText(getName());
 
+		
 		//now all components
 		Element componentElement = productElement.addElement ("components");
 		
 		//serialize each component
+		
 		for (Iterator it = this.components.values().iterator(); it.hasNext();)
 		{
 			ComponentSpecific component = (ComponentSpecific) it.next ();
 			componentElement.add (component.serialize ());
 		}
 		
-		return componentElement;
+		return productElement;
 	}
 
 	/**
@@ -115,10 +117,6 @@ public class Product extends AbstractAsset {
 	 *
 	 * @param component contains the new component
 	 */
-	public void addComponent(ComponentRelated component) {
-		components.put(component.getName(), component);
-	}
-
 	public void addComponent(ComponentSpecific component) {
 		components.put(component.getName(), component);
 	}

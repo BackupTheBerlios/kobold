@@ -21,13 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.4 2004/06/16 15:54:22 rendgeor Exp $
+ * $Id: ProductLineTest.java,v 1.5 2004/06/16 16:59:17 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
 import junit.framework.TestCase;
-
-import kobold.common.data.plam.*;
 
 
 
@@ -66,8 +64,8 @@ public class ProductLineTest extends TestCase {
 		
 		ComponentSpecific componentC = new ComponentSpecific ("compC");
 		
-		productA.addComponent(componentA);
-		productA.addComponent(componentB);
+		productA.addComponent(componentC);
+		//productA.addComponent(componentB);
 		
 		//--
 		Variant variantA = new Variant ("varA");
@@ -94,16 +92,16 @@ public class ProductLineTest extends TestCase {
 		CoreAsset coreAssetA = new CoreAsset ("caBla");
 		CoreAsset coreAssetB = new CoreAsset ("caBlubber");
 		
-		pl.addCoreAsset(coreAssetA);
-		pl.addCoreAsset(coreAssetB);
+		pl.addCoreAsset (coreAssetA);
+		pl.addCoreAsset (coreAssetB);
 
 		//serialize the whole product-line (all included)
 		// .productlinemetainfo 
 		pl.serialize("test-productlinemetainfo.xml", 0);
 		//.productmetainfo 
-		pl.serialize("test-productmetainfo.xml", 1);
+		//pl.serialize("test-productmetainfo.xml", 1);
 		//.coreassetmetainfo 
-		pl.serialize("test-coreassetmetainfo.xml", 2);
+		//pl.serialize("test-coreassetmetainfo.xml", 2);
 		
 		//pl.removeProduct();
 		//...	

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.8 2004/06/16 15:54:22 rendgeor Exp $
+ * $Id: Productline.java,v 1.9 2004/06/16 16:59:17 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
@@ -56,16 +56,17 @@ public class Productline extends AbstractAsset{
 	
 
 	//create a instance
-	static private Productline instance;
+	//static private Productline instance;
 
-	static public Productline getInstance() {
+	/*static public Productline getInstance() {
 		 if (instance == null ) {
 		 	 instance = new Productline("PL");
 		 }
 		 return instance;
 	}	
+	*/
 	
-	/**Basic constructor of this singleton.
+	/**Basic constructor
 	 */
 	public Productline(String name) {
 		super(name);
@@ -212,21 +213,8 @@ public class Productline extends AbstractAsset{
 		return AbstractAsset.PRODUCT_LINE;
 	}
 
-    /**
-     * @see kobold.common.data.IAsset#getName()
-     */
-    public String getName()
-    {
-        return getName();
-    }
+ 
 
-	/**
-	 * @param name The name to set.
-	 */
-	/*public void setName(String name) {
-		super.setName (name);
-	}*/
-	
 	
 	/**
 	 * @return Returns the repositoryPath.
