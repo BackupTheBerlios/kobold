@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ProductLineChooserWizardPage.java,v 1.1 2004/05/13 19:29:25 vanto Exp $
+ * $Id: ProductLineChooserWizardPage.java,v 1.2 2004/05/13 20:02:18 vanto Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -93,7 +93,6 @@ public class ProductLineChooserWizardPage extends WizardPage {
 	
 	private boolean validatePage()
 	{
-		System.out.println(combo.getSelectionIndex());
 		if (combo.getSelectionIndex() == 0) {
 			setErrorMessage("You have to select a product line.");
 			return false;
