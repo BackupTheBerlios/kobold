@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.10 2004/08/03 00:05:23 vanto Exp $
+ * $Id: ModelStorage.java,v 1.11 2004/08/03 11:08:35 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -119,12 +119,12 @@ public class ModelStorage
 
         
     	//CAS
-        plFolder = plFolder.getFolder(COREASSETS_FOLDER_NAME);
+        IFolder  plFolder2 = plFolder.getFolder(COREASSETS_FOLDER_NAME);
         createDirectory (plFolder, monitor);
 
 
         //PRODUCTS
-        plFolder = plFolder.getFolder(PRODUCTS_FOLDER_NAME);
+	plFolder2 = plFolder.getFolder(PRODUCTS_FOLDER_NAME);
         createDirectory (plFolder, monitor);
         
 	}	
