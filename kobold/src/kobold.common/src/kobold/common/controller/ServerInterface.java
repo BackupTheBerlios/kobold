@@ -21,11 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerInterface.java,v 1.5 2004/05/03 22:57:07 garbeam Exp $
+ * $Id: ServerInterface.java,v 1.1 2004/05/12 16:56:34 garbeam Exp $
  *
  */
 
-package kobold.server.controller;
+package kobold.common.controller;
 
 import java.util.List;
 
@@ -34,6 +34,7 @@ import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.Role;
 import kobold.common.data.UserContext;
+
 
 /**
  * This class acts as an interface for Kobold-clients.

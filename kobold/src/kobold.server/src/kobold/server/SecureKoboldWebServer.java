@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.4 2004/05/03 22:57:07 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.5 2004/05/12 16:58:26 garbeam Exp $
  *
  */
 package kobold.server;
@@ -29,12 +29,12 @@ package kobold.server;
 import java.util.List;
 import java.util.Vector;
 
+import kobold.common.controller.ServerInterface;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.Role;
 import kobold.common.data.UserContext;
-import kobold.server.controller.ServerInterface;
 
 import org.apache.xmlrpc.XmlRpcHandler;
 import org.apache.xmlrpc.secure.SecureWebServer;
