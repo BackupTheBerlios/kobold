@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: SpecificComponent.java,v 1.2 2004/07/07 14:23:21 memyselfandi Exp $
  *
  */
 
@@ -39,6 +39,7 @@ import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.Release;
 
 import org.dom4j.Element;
+import org.eclipse.core.runtime.IPath;
 
 
 /**
@@ -170,5 +171,14 @@ public class SpecificComponent extends ProductComponent
         // TODO Auto-generated method stub
         return null;
     }
+    
+	/**
+	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
+	 */
+	public IPath getLocalPath() {
+		//FIXME: calc localpath
+		return null;
+	}
+
 }
 

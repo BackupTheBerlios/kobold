@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.3 2004/07/07 01:50:36 vanto Exp $
+ * $Id: Variant.java,v 1.4 2004/07/07 14:23:21 memyselfandi Exp $
  *
  */
 
@@ -42,6 +42,7 @@ import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.Release;
 
 import org.dom4j.Element;
+import org.eclipse.core.runtime.IPath;
 
 /**
  * @author garbeam
@@ -274,6 +275,14 @@ public class Variant extends AbstractAsset
 	
 	public String getGXLType() {
 		return GXL_TYPE;
+	}
+
+	/**
+	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
+	 */
+	public IPath getLocalPath() {
+		//FIXME: calc localpath
+		return null;
 	}
    
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeViewPart.java,v 1.9 2004/06/28 01:17:42 vanto Exp $
+ * $Id: RoleTreeViewPart.java,v 1.10 2004/07/07 14:23:21 memyselfandi Exp $
  *
  */
 package kobold.client.plam.view;
@@ -138,6 +138,7 @@ public class RoleTreeViewPart extends ViewPart implements ISelectionChangedListe
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(action1);
 		manager.add(action2);
+		
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here

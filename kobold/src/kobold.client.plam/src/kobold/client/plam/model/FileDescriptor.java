@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: FileDescriptor.java,v 1.2 2004/07/07 14:23:21 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model;
@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+import org.eclipse.core.runtime.IPath;
 
 import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Variant;
@@ -196,4 +198,13 @@ public class FileDescriptor implements IFileDescriptorContainer {
     {
         return Collections.unmodifiableList(children);
     }
+    
+	/**
+	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
+	 */
+	public IPath getLocalPath() {
+		//FIXME: calc localpath
+		return null;
+	}
+
 }

@@ -21,12 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IFileDescriptorContainer.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: IFileDescriptorContainer.java,v 1.2 2004/07/07 14:23:21 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.util.List;
+
+import org.eclipse.core.runtime.IPath;
 
 
 
@@ -50,9 +52,15 @@ public interface IFileDescriptorContainer
     void removeFileDescriptor(FileDescriptor fd);
     
     /**
-     * Returns an unmodifiable list of filedescriptors.
+     * Returns a modifiable list of filedescriptors.
      * 
      * @return list of filedescriptors
      */
     List getFileDescriptors();
+    
+    /**
+     * Returns the local path of this.
+     * @return
+     */
+    IPath getLocalPath();
 }
