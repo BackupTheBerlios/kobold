@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptDescriptor.java,v 1.6 2004/08/27 16:28:03 garbeam Exp $
+ * $Id: ScriptDescriptor.java,v 1.7 2004/08/31 10:10:29 garbeam Exp $
  *
  */
 package kobold.common.io;
@@ -46,19 +46,28 @@ public class ScriptDescriptor  implements ISerializable
 {
 	public static final String BASE_URI = "http://kobold.berlios.de/scripts#";
 	
+	public final static String VCM_IMPORT = "import";
+	public final static String VCM_CHECKOUT = "checkout";
+	public final static String VCM_UPDATE = "update";
+	public final static String VCM_COMMIT = "commit";
+	public final static String VCM_ADD = "add";
+	public final static String VCM_DELETE = "delete";
+	
 	private String id;
 	// absolute path to the specific script
 	private String path;
 	private String name;
+	private String vcmActionType;
     
 	public ScriptDescriptor(Element sd) {
 	    deserialize(sd);
 	}
 	
-    public ScriptDescriptor(String name) 
+    public ScriptDescriptor(String name, String vcmActionType) 
     {
 		id = IdManager.nextId(name);
 		this.name = name;
+		this.vcmActionType = vcmActionType;
     }
     
     private void setId(URI id)
@@ -95,7 +104,7 @@ public class ScriptDescriptor  implements ISerializable
         sd.addAttribute("id", id);
         sd.addAttribute("name", name);
         sd.addAttribute("path", path);
-        
+        sd.addAttribute("vcmtype", vcmActionType);
         return sd;
     }
 
@@ -106,5 +115,14 @@ public class ScriptDescriptor  implements ISerializable
         id = element.attributeValue("id");
         name = element.attributeValue("name");
         path = element.attributeValue("path");
+        vcmActionType = element.attributeValue("vcmtype");
+    }
+    
+    public String getVcmActionType() {
+        return vcmActionType;
+    }
+    
+    public void setVcmActionType(String vcmActionType) {
+        this.vcmActionType = vcmActionType;
     }
 }
