@@ -1,0 +1,153 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% StuPro A, Produktlinien (Kobold)
+%% Team Werkbold
+%% Projektplan
+%% $Id: iteration2.tex,v 1.1 2004/06/02 19:14:51 garbeam Exp $
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Iteration II}
+
+Ziel der zweiten Iteration ist die Entwicklung und Auslieferung eines
+lauffähigen Kobold Systems, dass alle im Folgenden genannten UseCases
+implementiert. Darauf aufbauend werden in den Folge-Iterationen darüber
+hinausgehende Anforderungen entwickelt.\par
+Folgende UseCases sind für die Iteration II geplant:
+
+\begin{itemize}
+\item UC Anlegen/Modifizieren neuer Benutzer
+\item UC Anlegen von Produkt
+\item UC Modifizieren von Produkt/Produktlinie
+\item UC VCM Aktionen von P/PL
+\item UC Auslösen von Workflows an IKoboldServer
+\item UC Administrationstool Kobold Server
+\item UC GXL-Export inkl. JAR-Export
+\end{itemize}
+
+Darüber hinaus werden in der ersten Iterationen folgende Dokumente erstellt:
+
+\begin{itemize}
+\item Spezifikation der zu entwickelnden UseCases
+\item Entwurf der UseCase-Implementierung
+\item Entwickler Howtos zu UseCase-Implementierung
+\item JUnit Testsuite
+\item Teil-Handbuch zur den implementierten UseCases
+\end{itemize}
+
+\subsection {Zeitplan}
+
+Durch den krankheitsbedingten Teilausfall zweier Team-Mitglieder konnte in der
+Iteration I nicht der vorgesehene Gesamtaufwand von 1600h erreicht werden.
+Demzufolge wurde der Aufwand der Iteration II etwas nach oben korrigiert, da
+die ausgefallenen Team-Mitglieder einen höherem Nachholaufwand in das Projekt 
+investieren werden.
+
+\begin{tabular}{llrll}\\
+\bf ID & \bf Arbeitspaket & \bf Aufwand & \bf Termin & \bf Meilenstein \\ \hline
+25 & Spezifikation II der zu entwickelnden UseCases & 100 & KW22 & \\
+26 & Review der Spezifikation II & 50 & KW24 & \\
+26 & Korrektur der Spezifikation II & 50 & KW24 & \\
+27 & Auslieferung der Spezifikation II & & KW24 & M7 \\
+26 & Implementierung der UseCases & 500 & KW26 & \\
+26 & Test der UseCases & 50 & KW26 & \\
+26 & Erweitertes Handbuch UseCases & 100 & KW26 & \\
+26 & Auslieferung des zweiten Kobold Systems & & 24.6. (KW26) & M8 \\
+   & \bf Gesamt & \bf 850 & 5 Wochen &\\
+\end{tabular}
+
+Sofern nicht näher angegeben, sind Auslieferungstermine, die nach Kalenderwochen
+angegeben wurden bis spätestens zum letzten gesetzlichen Arbeitstag um {\bf 16:00
+Uhr} in der jeweiligen Kalenderwoche einzuhalten. Sofern eine Auslieferung zu
+einem früheren Zeitpunkt möglich ist, wird diese an einem früheren Zeitpunkt in
+Rücksprache mit dem Auftraggeber durchgeführt.\par
+Sollte sich eine Auslieferung absehbar verzögern, wird der Auftraggeber
+möglichst mind. eine Kalenderwoche im Voraus darüber in Kenntnis gesetzt.
+Sollte sich eine Auslieferung nur kurzfristig (aufgrund technischer Probleme
+oder durch Peronalausfall) verzögern, d.h. auf den Folge-Arbeitstag um {\bf
+8:00 Uhr} in der Folge-Kalenderwoche (also übers Wochenende), so wird dies dem
+Auftraggeber bis spätestens eine Stunde vor dem spätestmöglich vereinbarten
+Auslieferungstermin bekanntgegeben.
+
+\subsection{Kostenschätzung}
+
+Die Schätzung im Voraus wird nach dem Top-Down Ansatz durchgeführt und
+beruht vorrangig aus Bottom-Up Vergleichen aus der Ermittlung der bisher
+angefallenen Aufwände zur Entwicklung des Produktlinien Management Systems
+\product sowie auf Erfahrungswerten aus Industrie-Praktikas,
+dem Softwarepraktikum, dem Studienprojekt B (Automatisierung) und der
+Initiierung verschiedener
+umfangreicher OpenSource Projekte im C++ und J2SE-Umfeld.\par
+Nach Abzug der Aufwände für das Vorprojekt und der Iteration I 
+und unter Zugrundelegung eines Gesamtaufwands für die Projektdurchführung
+von {\bf 500 Stunden} pro Team-Mitglied (entspricht {\bf 4500 Stunden}
+Gesamtaufwand) verbleiben für das Hauptprojekt {\bf XXXX Stunden}.\par
+Der Iteration II wird nach Anpassung der Detailaufwändeein Aufwand von
+{\bf 850 Stunden} zugrundegelegt, dies entspricht einem prozentualem Anteil
+von ca. {\bf 25\%} vom Gesamtaufwand, wenn {\bf 4500 Stunden} für den
+Gesamtaufwand angesetzt werden. Legt man einer Arbeitsstunde
+einen Preis von {\bf 100 EUR} zugrunde, entspricht dies {\bf 85.000 EUR}.
+Die Kosten für die einzelnen Arbeitspakete ergeben sich aus dem Produkt des
+Aufwands (siehe Zeitplan) multipliziert mit dem Preis einer Arbeitsstunde.
+
+\subsection{Meilensteine}
+Das Projekt ist in mehrere Iterationen
+unterteilt, die sich wiederum in kleinere Phasen aufteilen. Phasen
+werden im Rahmen dieses Projektplans durch (externe) Meilensteine
+abgeschlossen. Meilensteine gelten erst als erreicht, wenn die für die
+jeweilige Phase geplanten Arbeitspakete zur vollständigen Zufriedenheit
+des Auftraggebers erfolgreich erstellt und ausgeliefert wurden.\par
+Erst nach dem erreichen eines Meilensteins wird die Folgephase
+begonnen.\par
+
+In der zweiten Iteration werden folgende Meilensteine verwirklicht:
+
+\subsubsection{M7: Spezifikation}
+
+{\bf Ergebnis:} Spezifikation von UseCases \par
+Die Spezifikation von priorisierten UseCases dient als Grundlage zur Entwicklung
+aller erweiterten Funktionen des Basissystems für \product.\par
+Im Einzelnen enthält die Spezifikation folgende Abschnitte:
+\begin{itemize}
+\item Funktionale Anforderungen an UseCases
+\item Begriffslexikon bzgl. der UseCases
+\end{itemize}
+Die Spezifikation wird im Rahmen eines Reviews in Zusammenarbeit mit dem
+Auftraggeber geprüft.
+
+\subsubsection{M8: Erweitertetes Kobold System}
+
+{\bf Ergebnis: } Lauffähiges und um UseCases erweitertes Rahmensystem\par
+Die Auslieferung des erweiterten Rahmensystems stellt das Ende der
+Iteration II dar.
+Ziel ist es ein lauffähiges und zuverlässiges System zu erstellen,
+dass die spezifizierten UseCases (priorisierte Anforderungen) aufsetzend
+auf das bereits vorhandene Rahmensystem implementiert. 
+
+Die Auslieferung des erweiterten Rahmensystems enthält (wie unter Lieferumfang
+angegeben), neben dem Source- und Bytecode (inkl. notwendiger
+Komponenten von Drittanbietern) auch eine
+Installationsanleitung sowie alle Testfälle, den Testplan und die
+Testresultate. Anhand der Testresultate wird die Qualität des
+erweiterten Rahmensystems unterstrichen.
+
+\subsection{Lieferumfang}
+
+Ziel der Iteration II ist die Auslieferung eines lauffähigen erweiterten Rahmensystems,
+das die priorisierten UseCases verwirklicht. Im Einzelnen werden folgende Dokumente
+und Software-Pakete ausgeliefert:
+
+\begin{itemize}
+\item Spezifikation der UserCases
+\item Entwurf der UseCases
+\item Source- und Bytecode des Clients und Servers
+\item Source- und Bytecode notwendiger Komponenten von Drittanbietern
+\item Testfälle, Testplan und Testresultate des Clients und Servers
+\item Teil-Handbuch der UseCases
+\end{itemize}
+
+Alle anderen Dokumente, die während dieser Iterationen entstehen, gehören nicht zum Lieferumfang.
+
+
+%%% Local Variables: 
+%%% TeX-master: "angebot"
+%%% End: 
+%%% vim:tw=79:
