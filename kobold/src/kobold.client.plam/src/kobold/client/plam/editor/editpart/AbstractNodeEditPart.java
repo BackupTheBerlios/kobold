@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeEditPart.java,v 1.5 2004/06/22 23:30:12 vanto Exp $
+ * $Id: AbstractNodeEditPart.java,v 1.6 2004/06/23 12:58:10 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -31,7 +31,7 @@ import java.beans.PropertyChangeListener;
 
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
-import kobold.client.plam.editor.policy.ContainerEditPolicy;
+import kobold.client.plam.editor.policy.ComponentEditPolicy;
 import kobold.client.plam.editor.policy.GraphicalNodeEditPolicy;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
 import kobold.common.model.AbstractAsset;
@@ -47,7 +47,6 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.ui.IViewLayout;
 
 /**
  * @author Tammo
@@ -62,8 +61,9 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 			new GraphicalNodeEditPolicy());
-		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ContainerEditPolicy());
+		//installEditPolicy(EditPolicy.CONTAINER_ROLE, new ContainerEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy());
 	}
 
 	/**

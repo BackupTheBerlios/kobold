@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentEditPart.java,v 1.5 2004/06/22 23:30:12 vanto Exp $
+ * $Id: ComponentEditPart.java,v 1.6 2004/06/23 12:58:10 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -29,15 +29,17 @@ package kobold.client.plam.editor.editpart;
 import java.util.List;
 
 import kobold.client.plam.editor.figure.ComponentFigure;
+import kobold.client.plam.editor.policy.ComponentContainerEditPolicy;
 import kobold.common.model.productline.Component;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.EditPolicy;
 
 /**
  * ComponentEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ComponentEditPart.java,v 1.5 2004/06/22 23:30:12 vanto Exp $
+ * @version $Id: ComponentEditPart.java,v 1.6 2004/06/23 12:58:10 vanto Exp $
  */
 public class ComponentEditPart extends AbstractNodeEditPart {
 
@@ -76,5 +78,14 @@ public class ComponentEditPart extends AbstractNodeEditPart {
      */
     public IFigure getContentPane() {
         return figure.getContentPane();
+    }
+
+    /**
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies()
+    {
+        super.createEditPolicies();
+        installEditPolicy(EditPolicy.CONTAINER_ROLE, new ComponentContainerEditPolicy());
     }
 }

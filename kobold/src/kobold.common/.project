@@ -3,7 +3,6 @@
 	<name>kobold.common</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.team.core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

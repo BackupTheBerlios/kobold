@@ -21,17 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineContainerEditPolicy.java,v 1.2 2004/06/23 12:58:10 vanto Exp $
+ * $Id: ComponentContainerEditPolicy.java,v 1.1 2004/06/23 12:58:10 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
 
-import kobold.client.plam.editor.command.CreateComponentCommand;
+import kobold.client.plam.editor.command.CreateVariantCommand;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModelContainer;
 import kobold.common.model.AbstractAsset;
-import kobold.common.model.IComponentContainer;
-import kobold.common.model.productline.Component;
+import kobold.common.model.IVariantContainer;
+import kobold.common.model.productline.Variant;
 
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.commands.Command;
@@ -45,7 +45,7 @@ import org.eclipse.gef.requests.GroupRequest;
 /**
  * @author Tammo
  */
-public class ProductlineContainerEditPolicy extends ContainerEditPolicy
+public class ComponentContainerEditPolicy extends ContainerEditPolicy
 {
 
     /**
@@ -59,16 +59,16 @@ public class ProductlineContainerEditPolicy extends ContainerEditPolicy
         IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getHost().getViewer().getEditDomain()).getEditorPart();
         ViewModelContainer vmc = vmp.getViewModelContainer(); 
         
-        if (request.getNewObjectType().equals(AbstractAsset.COMPONENT)
-             && parent instanceof IComponentContainer) {
-            
-            CreateComponentCommand cmd = new CreateComponentCommand();
-            cmd.setParent((IComponentContainer) parent);
-            cmd.setChild((Component) request.getNewObject());
-            
-            resultCmd = cmd;
+        if (request.getNewObjectType().equals(AbstractAsset.VARIANT)
+                && parent instanceof IVariantContainer) {
+               
+               CreateVariantCommand cmd = new CreateVariantCommand();
+               cmd.setParent((IVariantContainer) parent);
+               cmd.setChild((Variant) request.getNewObject());
+               
+               resultCmd = cmd;
         }
-       
+        
         return resultCmd;
     }
     

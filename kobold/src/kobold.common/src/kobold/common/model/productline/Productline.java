@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.5 2004/06/22 17:18:56 vanto Exp $
+ * $Id: Productline.java,v 1.6 2004/06/23 12:59:05 vanto Exp $
  *
  */
 package kobold.common.model.productline;
@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import kobold.common.model.AbstractAsset;
+import kobold.common.model.IComponentContainer;
 import kobold.common.model.product.Product;
 
 import org.dom4j.Document;
@@ -42,7 +43,8 @@ import org.dom4j.io.SAXReader;
 /**
  * @author rendgeor
  */
-public class Productline extends AbstractAsset{
+public class Productline extends AbstractAsset
+						 implements IComponentContainer {
 
 	//the products and core-assets
 	private List products = new ArrayList();
@@ -91,7 +93,7 @@ public class Productline extends AbstractAsset{
 	 * Adds a CoreAsset (Component) and sets its parent to this.
 	 *
 	 */
-	public void addCoreAsset(Component coreAsset) {
+	public void addComponent(Component coreAsset) {
 		coreAssets.add(coreAsset);
 		coreAsset.setParent(this);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, coreAsset);
@@ -102,13 +104,13 @@ public class Productline extends AbstractAsset{
 	 * 
 	 * @param product The coreAsset to remove.
 	 */
-	public void removeCoreAsset(Component coreAsset){
+	public void removeComponent(Component coreAsset){
 		coreAssets.remove(coreAsset);
 		coreAsset.setParent(null);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, coreAsset);
 	}
 	
-	public List getCoreAssets()
+	public List getComponents()
 	{
 	    return Collections.unmodifiableList(coreAssets);
 	}

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.9 2004/06/23 02:26:23 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.10 2004/06/23 12:58:10 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -138,8 +138,8 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 		
 		Component ca1 = new Component("CA Frontend");
 		Component ca2 = new Component("CA Backend");
-		model.addCoreAsset(ca1);
-		model.addCoreAsset(ca2);
+		model.addComponent(ca1);
+		model.addComponent(ca2);
 		
 		Variant va1 = new Variant("VA Java");
 		Variant va2 = new Variant("VA C++");

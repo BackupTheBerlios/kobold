@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.4 2004/06/22 12:50:55 vanto Exp $
+ * $Id: Component.java,v 1.5 2004/06/23 12:59:05 vanto Exp $
  *
  */
 
@@ -33,12 +33,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import kobold.common.model.AbstractAsset;
+import kobold.common.model.IVariantContainer;
 
 import org.dom4j.Element;
 /**
  * @author garbeam
  */
-public class Component extends AbstractAsset {
+public class Component extends AbstractAsset 
+					   implements IVariantContainer {
 
 	//the variants
 	private List variants = new ArrayList();

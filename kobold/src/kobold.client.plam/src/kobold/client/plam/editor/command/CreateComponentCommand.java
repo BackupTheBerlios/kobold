@@ -21,81 +21,45 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CreateCommand.java,v 1.1 2004/06/23 02:26:23 vanto Exp $
+ * $Id: CreateComponentCommand.java,v 1.1 2004/06/23 12:58:10 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
 
-import kobold.common.model.AbstractAsset;
+import kobold.common.model.IComponentContainer;
 import kobold.common.model.productline.Component;
-import kobold.common.model.productline.Productline;
-
-import org.eclipse.gef.commands.Command;
 
 
 /**
  * @author Tammo
  */
-public class CreateCommand extends Command
+public class CreateComponentCommand extends AbstractCreateCommand
 {
-    private AbstractAsset parent, child;
-    
-    public CreateCommand()
-    {
-        super("Create Asset");
-    }
+    private IComponentContainer parent;
+    private Component child;
 
-    public void setParent(AbstractAsset parent)
+    public void setParent(IComponentContainer parent)
     {
         this.parent = parent;
     }
     
-    public void setChild(AbstractAsset child)
+    public void setChild(Component child)
     {
         this.child = child;
     }
     
     /**
-     * @see org.eclipse.gef.commands.Command#execute()
-     */
-    public void execute()
-    {
-        if (parent instanceof Productline
-             && child instanceof Component) {
-            ((Productline)parent).addCoreAsset((Component)child);
-        }
-        // TODO usw.
-    }
-    
-    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
-    public void redo()
+    protected void addChildToParent()
     {
-        if (parent instanceof Productline
-                && child instanceof Component) {
-               ((Productline)parent).addCoreAsset((Component)child);
-        }
+        parent.addComponent(child);
     }
     
     /**
-     * @see org.eclipse.gef.commands.Command#undo()
      */
-    public void undo()
+    protected void removeChildFromParent()
     {
-        if (parent instanceof Productline
-                && child instanceof Component) {
-               ((Productline)parent).removeCoreAsset((Component)child);
-        }
-        super.undo();
-    }
-    
-    /**
-     * @see org.eclipse.gef.commands.Command#canExecute()
-     */
-    public boolean canExecute()
-    {
-        // TODO implement it!!!
-        return super.canExecute();
+        parent.removeComponent(child);
     }
 }

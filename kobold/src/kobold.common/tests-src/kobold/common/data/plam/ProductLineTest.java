@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.8 2004/06/22 12:50:55 vanto Exp $
+ * $Id: ProductLineTest.java,v 1.9 2004/06/23 12:59:05 vanto Exp $
  *
  */
 package kobold.common.data.plam;
@@ -108,8 +108,8 @@ public class ProductLineTest extends TestCase {
 		Component coreAssetB = new Component("coreAssetB");
 		coreAssetB.setRepositoryPath("svn.berlios.de");
 		
-		pl.addCoreAsset(coreAssetA);
-		pl.addCoreAsset(coreAssetB);
+		pl.addComponent(coreAssetA);
+		pl.addComponent(coreAssetB);
 
 		//--add variant--\\
 		Variant variantA = new Variant ("varA");

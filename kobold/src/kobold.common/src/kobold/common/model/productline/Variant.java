@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.4 2004/06/22 12:50:55 vanto Exp $
+ * $Id: Variant.java,v 1.5 2004/06/23 12:59:05 vanto Exp $
  *
  */
 
@@ -33,6 +33,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import kobold.common.model.AbstractAsset;
+import kobold.common.model.IComponentContainer;
+import kobold.common.model.IReleaseContainer;
 import kobold.common.model.Release;
 
 import org.dom4j.Element;
@@ -41,7 +43,8 @@ import org.dom4j.Element;
  * @author garbeam
  * @author vanto
  */
-public class Variant extends AbstractAsset {
+public class Variant extends AbstractAsset 
+					 implements IComponentContainer, IReleaseContainer {
 
 	private List components = new ArrayList();
 	private List releases = new ArrayList();;
