@@ -22,7 +22,7 @@ public class productactions {
 		
 	}
 	
-	public void newProduct(UserContext userContext, String productName, String productLineName){
+	/*public void newProduct(UserContext userContext, String productName, String productLineName){
         SecureKoboldClient client = KoboldPLAMPlugin.getCurrentClient();		
         UserContext currUser = KoboldPLAMPlugin.getCurrentProjectNature().getUserContext();
         
@@ -31,7 +31,7 @@ public class productactions {
         									"/root/blubber"));
         
         client.addProduct(currUser, prod1);        
-	}
+	}*/
 	
 	public void changeProduct(UserContext userContext, String productName) {
 	
