@@ -21,16 +21,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.11 2004/06/17 13:30:31 rendgeor Exp $
+ * $Id: Productline.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
  *
  */
-package kobold.common.data.plam;
+package kobold.common.model.productline;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import kobold.common.model.*;
+import kobold.common.model.product.*;
+import kobold.common.model.productline.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

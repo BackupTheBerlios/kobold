@@ -21,14 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.5 2004/06/18 12:18:49 garbeam Exp $
+ * $Id: AbstractAsset.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
  *
  */
-package kobold.common.data.plam;
+package kobold.common.model;
 
 import kobold.common.data.ISerializable;
 import kobold.common.data.IdManager;
 import kobold.common.exceptions.BogusProductlineException;
+import kobold.common.model.productline.Productline;
 
 /**
  * @author Tammo

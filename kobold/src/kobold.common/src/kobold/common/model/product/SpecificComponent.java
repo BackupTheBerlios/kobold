@@ -21,21 +21,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentSpecific.java,v 1.7 2004/06/18 12:18:49 garbeam Exp $
+ * $Id: SpecificComponent.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
  *
  */
 
-package kobold.common.data.plam;
+package kobold.common.model.product;
 
 import org.dom4j.Element;
 import org.dom4j.DocumentHelper;
 
 import java.util.HashMap;
 import java.util.Iterator;
+
+import kobold.common.data.plam.AbstractComponent;
+import kobold.common.model.*;
 /**
  * @author garbeam
  */
-public class ComponentSpecific extends AbstractComponent {
+public class SpecificComponent extends AbstractComponent {
 
 	//the parent
 	private Product parent;
@@ -48,7 +51,7 @@ public class ComponentSpecific extends AbstractComponent {
 	 * @param componentName
 	 * @param productLineName
 	 */
-	public ComponentSpecific (String componentName) {
+	public SpecificComponent (String componentName) {
 		super(componentName);
 		
 		//p-spec type
@@ -60,7 +63,7 @@ public class ComponentSpecific extends AbstractComponent {
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public ComponentSpecific (Element element) {
+	public SpecificComponent (Element element) {
 		super (element);
 	}
 	

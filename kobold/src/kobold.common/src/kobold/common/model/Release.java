@@ -21,46 +21,44 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptor.java,v 1.7 2004/06/17 13:30:31 rendgeor Exp $
+ * $Id: Release.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
  *
  */
 
-package kobold.common.data.plam;
+package kobold.common.model;
+
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
+//import java.util.HashMap;
+
+//import java.util.Iterator;
 /**
  * @author garbeam
  */
-public class FileDescriptor extends AbstractAsset {
+public class Release extends AbstractAsset {
 
-
-	//the config
-	String path;
-	String version;
-	String lastChangeDate;
-	String lastAuthor;
-	
-	
-	//or another fileDescriptor for a directory
 	private FileDescriptor fileDescriptor;
-
 	/**
 	 * Basic constructor.
-	 * @param productName
-	 * @param productLineName
+	 * @param versionName
 	 */
-	public FileDescriptor (String fileDescriptorName) {
-		super();
-		setName (fileDescriptorName);
+	public Release (String versionName) {
+		setName (versionName);
+		
+		//fileDescriptor = new FileDescriptor ("fd_unnamed");
+
 	}
 	
 	/**
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public FileDescriptor (Element element) {
+	public Release (Element element) {
+
+		//fileDescriptor = new FileDescriptor ("fd_unnamed");
+		
 		deserialize(element);
 	}
 	
@@ -69,26 +67,19 @@ public class FileDescriptor extends AbstractAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element fdElement = DocumentHelper.createElement("fd");
-		fdElement.addText(getName ());
-		
+		Element versionElement = DocumentHelper.createElement("version");
+		versionElement.addText(getName());
+
 		if (fileDescriptor != null)
 		{
 			//now all fd'S
-			//Element fdElement2 = fdElement.addElement ("fds");
+			//Element fdElement = versionElement.addElement ("fds");
 		
 			//serialize the fd
-			if  (this.path != null) fdElement.addElement("path").addText(this.path);
-			fdElement.add (fileDescriptor.serialize ());
+			versionElement.add (fileDescriptor.serialize ());
 		}
-		else
-		{
-			if (this.path != null) fdElement.addElement("path").addText(this.path);
-			if (this.version != null) fdElement.addElement("version").addText(this.version);
-			if (this.lastChangeDate != null) fdElement.addElement("lastChangeDate").addText(this.lastChangeDate);
-			if (this.lastAuthor != null) fdElement.addElement("lastAuthor").addText(this.lastAuthor);
-		}		
-		return fdElement;
+		return versionElement;
+
 	}
 
 	/**
@@ -114,10 +105,9 @@ public class FileDescriptor extends AbstractAsset {
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
 	public String getType() {
-		return AbstractAsset.FILE_DESCRIPTOR;
+		return AbstractAsset.VERSION;
 	}
 
-   
 	/**
 	 * Adds a new fileDescriptor.
 	 *
@@ -129,56 +119,5 @@ public class FileDescriptor extends AbstractAsset {
 		fileDescriptor.setParent(this);
 
 	}
-
     
-	/**
-	 * @return Returns the lastAuthor.
-	 */
-	public String getLastAuthor() {
-		return lastAuthor;
-	}
-	/**
-	 * @param lastAuthor The lastAuthor to set.
-	 */
-	public void setLastAuthor(String lastAuthor) {
-		this.lastAuthor = lastAuthor;
-	}
-	/**
-	 * @return Returns the lastChangeDate.
-	 */
-	public String getLastChangeDate() {
-		return lastChangeDate;
-	}
-	/**
-	 * @param lastChangeDate The lastChangeDate to set.
-	 */
-	public void setLastChangeDate(String lastChangeDate) {
-		this.lastChangeDate = lastChangeDate;
-	}
-	/**
-	 * @return Returns the path.
-	 */
-	public String getPath() {
-		return path;
-	}
-	/**
-	 * @param path The path to set.
-	 */
-	public void setPath(String path) {
-		this.path = path;
-	}
-	/**
-	 * @return Returns the version.
-	 */
-	public String getVersion() {
-		return version;
-	}
-	/**
-	 * @param version The version to set.
-	 */
-	public void setVersion(String version) {
-		this.version = version;
-	}
-	
-
 }

@@ -21,21 +21,25 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentRelated.java,v 1.4 2004/06/17 13:30:31 rendgeor Exp $
+ * $Id: RelatedComponent.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
  *
  */
 
-package kobold.common.data.plam;
+package kobold.common.model.product;
 
 import org.dom4j.Element;
 import org.dom4j.DocumentHelper;
 
 import java.util.HashMap;
 import java.util.Iterator;
+
+import kobold.common.data.plam.AbstractComponent;
+import kobold.common.model.productline.CoreAsset;
+import kobold.common.model.productline.Variant;
 /**
  * @author garbeam
  */
-public class ComponentRelated extends AbstractComponent {
+public class RelatedComponent extends AbstractComponent {
 
 	private CoreAsset parent;
 	
@@ -47,7 +51,7 @@ public class ComponentRelated extends AbstractComponent {
 	 * @param componentName
 	 * @param productLineName
 	 */
-	public ComponentRelated (String componentName) {
+	public RelatedComponent (String componentName) {
 		super(componentName);
 		
 		variants = new HashMap ();
@@ -58,7 +62,7 @@ public class ComponentRelated extends AbstractComponent {
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public ComponentRelated (Element element) {
+	public RelatedComponent (Element element) {
 		super (element);
 	}
 	

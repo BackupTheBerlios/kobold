@@ -21,79 +21,83 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.7 2004/06/17 13:30:31 rendgeor Exp $
+ * $Id: Variant.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
  *
  */
 
-package kobold.common.data.plam;
+package kobold.common.model.productline;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import java.util.HashMap;
-
 import java.util.Iterator;
+
+import kobold.common.model.*;
+import kobold.common.model.product.*;
 /**
  * @author garbeam
  */
-public class Product extends AbstractAsset {
+public class Variant extends AbstractAsset {
 
-	//the components
-	private HashMap components;	
-	
-	//the repository-path
-	String repositoryPath;
+	private HashMap components;
+	private HashMap versions;
 	
 	/**
 	 * Basic constructor.
 	 * @param productName
 	 * @param productLineName
 	 */
-	public Product (String productName) {
+	public Variant (String productName) {
 		super(productName);
 		
-		components = new HashMap();
+		components = new HashMap ();
+		versions  = new HashMap ();
 	}
 	
 	/**
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Product (Element element) {
+	public Variant (Element element) {
 		deserialize(element);
 	}
 	
 	/**
-	 * Serializes the product.
+	 * Serializes the variant.
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element productElement = DocumentHelper.createElement("product");
-		productElement.addText(getName());
+		Element variantElement = DocumentHelper.createElement("variant");
+		variantElement.addText(getName());
 
-		
+		//now all versions
+		if (this.versions.values().iterator().hasNext())
+		{
+			Element versionElement = variantElement.addElement ("versions");
+			
+			//serialize each version
+			for (Iterator it = this.versions.values().iterator(); it.hasNext();)
+			{
+				Version version = (Version) it.next ();
+				versionElement.add (version.serialize ());
+			}
+		}
+			
 		//now all components
 		if (this.components.values().iterator().hasNext())
 		{
-			Element componentElement = productElement.addElement ("components");
-		
+			Element componentElement = variantElement.addElement ("components");
+				
 			//serialize each component
-			
 			for (Iterator it = this.components.values().iterator(); it.hasNext();)
 			{
-				ComponentSpecific component = (ComponentSpecific) it.next ();
+				ComponentRelated component = (ComponentRelated) it.next ();
 				componentElement.add (component.serialize ());
 			}
 		}
 		
-		if (getRepositoryPath() != null)
-		{
-			Element repositoryPathElement = productElement.addElement ("repositoryPath");
-			repositoryPathElement.addText (getRepositoryPath());
-		}
-
-		
-		return productElement;
+		return variantElement;
 	}
 
 	/**
@@ -101,7 +105,8 @@ public class Product extends AbstractAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		setName(element.getText());
+		Element product = element.element("product");
+		setName (element.getText());
 		//this.productLineName = element.elementText("productline");
 	}
 
@@ -118,33 +123,33 @@ public class Product extends AbstractAsset {
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
 	public String getType() {
-		return AbstractAsset.PRODUCT;
+		return AbstractAsset.VARIANT;
 	}
 
-  
 	/**
 	 * Adds a new component.
 	 *
 	 * @param component contains the new component
 	 */
-	public void addComponent(ComponentSpecific component) {
+	public void addComponent(ComponentRelated component) {
 		components.put(component.getName(), component);
 		//set parent
 		component.setParent(this);
 
 	}
 
+	
+	/**
+	 * Adds a new version.
+	 *
+	 * @param version contains the new version
+	 */
+	public void addVersion(Version version) {
+		versions.put(version.getName(), version);
+		//set parent
+		version.setParent(this);
+
+	}
+
     
-	/**
-	 * @return Returns the repositoryPath.
-	 */
-	public String getRepositoryPath() {
-		return repositoryPath;
-	}
-	/**
-	 * @param repositoryPath The repositoryPath to set.
-	 */
-	public void setRepositoryPath(String repositoryPath) {
-		this.repositoryPath = repositoryPath;
-	}
 }

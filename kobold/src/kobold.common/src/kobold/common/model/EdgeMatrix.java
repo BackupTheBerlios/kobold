@@ -1,15 +1,14 @@
-package kobold.common.data.plam;
+package kobold.common.model;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,9 +30,7 @@ public class EdgeMatrix {
 	public EdgeMatrix(String fileName) {
 		//TODO
 	}
-	
-	
-	
+
 	public void addEdge(AbstractAsset from, AbstractAsset to, int value) {
 		int fromIndex = assets.indexOf(from);
 		if (fromIndex == -1) {

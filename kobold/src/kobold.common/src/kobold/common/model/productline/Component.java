@@ -21,21 +21,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: CoreAsset.java,v 1.6 2004/06/17 13:30:31 rendgeor Exp $
+ * $Id: Component.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
  *
  */
 
-package kobold.common.data.plam;
+package kobold.common.model.productline;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import java.util.HashMap;
 import java.util.Iterator;
+
+import kobold.common.model.*;
+import kobold.common.model.product.*;
 /**
  * @author garbeam
  */
-public class CoreAsset extends AbstractAsset {
+public class Component extends AbstractAsset {
 
 	//the components
 	private HashMap components;
@@ -48,7 +51,7 @@ public class CoreAsset extends AbstractAsset {
 	 * @param productName
 	 * @param productLineName
 	 */
-	public CoreAsset (String productName) {
+	public Component (String productName) {
 		super(productName);
 		components = new HashMap ();
 	}
@@ -57,7 +60,7 @@ public class CoreAsset extends AbstractAsset {
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public CoreAsset (Element element) {
+	public Component (Element element) {
 		components = new HashMap ();
 		deserialize(element);
 	}

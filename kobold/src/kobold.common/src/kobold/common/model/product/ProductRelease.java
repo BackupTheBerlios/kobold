@@ -21,36 +21,45 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractComponent.java,v 1.1 2004/06/09 14:33:13 rendgeor Exp $
+ * $Id: ProductRelease.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
  *
  */
 
-package kobold.common.data.plam;
+package kobold.common.model.product;
+
+import kobold.common.model.FileDescriptor;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
+//import java.util.HashMap;
+
+//import java.util.Iterator;
 /**
  * @author garbeam
  */
-public abstract class AbstractComponent extends AbstractAsset {
+public class ProductRelease extends AbstractAsset {
 
+	private FileDescriptor fileDescriptor;
 	/**
 	 * Basic constructor.
-	 * @param componentName
-	 * @param productLineName
+	 * @param versionName
 	 */
-	public AbstractComponent (String componentName) {
-		super();
-		setName (componentName);
+	public ProductRelease (String versionName) {
+		setName (versionName);
 		
+		//fileDescriptor = new FileDescriptor ("fd_unnamed");
+
 	}
 	
 	/**
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public AbstractComponent (Element element) {
+	public ProductRelease (Element element) {
+
+		//fileDescriptor = new FileDescriptor ("fd_unnamed");
+		
 		deserialize(element);
 	}
 	
@@ -59,10 +68,19 @@ public abstract class AbstractComponent extends AbstractAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element product = DocumentHelper.createElement("product");
-		product.addText(getName ());
-		//product.addElement("productline").addText(this.productLineName);
-		return product;
+		Element versionElement = DocumentHelper.createElement("version");
+		versionElement.addText(getName());
+
+		if (fileDescriptor != null)
+		{
+			//now all fd'S
+			//Element fdElement = versionElement.addElement ("fds");
+		
+			//serialize the fd
+			versionElement.add (fileDescriptor.serialize ());
+		}
+		return versionElement;
+
 	}
 
 	/**
@@ -71,20 +89,36 @@ public abstract class AbstractComponent extends AbstractAsset {
 	 */
 	public void deserialize(Element element) {
 		Element product = element.element("product");
-		setName (element.getText());
+		setName (element.getText ());
 		//this.productLineName = element.elementText("productline");
 	}
+
+	/**
+	 * @return name of the dependent productline.
+
+	public String getDependsName() {
+		return productLineName;
+	}
+	 */
 
 
 	/**
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
 	public String getType() {
-		return getType();
+		return AbstractAsset.VERSION;
 	}
 
+	/**
+	 * Adds a new fileDescriptor.
+	 *
+	 * @param fileDescriptor contains the new fileDescriptor
+	 */
+	public void addFileDescriptor(FileDescriptor fileDescriptor) {
+		this.fileDescriptor = fileDescriptor;
+		//set parent
+		fileDescriptor.setParent(this);
 
-
-
-	
+	}
+    
 }

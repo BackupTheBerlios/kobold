@@ -21,43 +21,48 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Version.java,v 1.8 2004/06/17 13:30:31 rendgeor Exp $
+ * $Id: Product.java,v 1.1 2004/06/21 21:03:54 garbeam Exp $
  *
  */
 
-package kobold.common.data.plam;
+package kobold.common.model.product;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
-//import java.util.HashMap;
+import java.util.HashMap;
 
-//import java.util.Iterator;
+import java.util.Iterator;
+
+import kobold.common.model.*;
+import kobold.common.model.product.*;
 /**
  * @author garbeam
  */
-public class Version extends AbstractAsset {
+public class Product extends AbstractAsset {
 
-	private FileDescriptor fileDescriptor;
+	//the components
+	private HashMap components;	
+	
+	//the repository-path
+	String repositoryPath;
+	
 	/**
 	 * Basic constructor.
-	 * @param versionName
+	 * @param productName
+	 * @param productLineName
 	 */
-	public Version (String versionName) {
-		setName (versionName);
+	public Product (String productName) {
+		super(productName);
 		
-		//fileDescriptor = new FileDescriptor ("fd_unnamed");
-
+		components = new HashMap();
 	}
 	
 	/**
 	 * DOM constructor.
 	 * @param productName
 	 */
-	public Version (Element element) {
-
-		//fileDescriptor = new FileDescriptor ("fd_unnamed");
-		
+	public Product (Element element) {
 		deserialize(element);
 	}
 	
@@ -66,19 +71,32 @@ public class Version extends AbstractAsset {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public Element serialize() {
-		Element versionElement = DocumentHelper.createElement("version");
-		versionElement.addText(getName());
+		Element productElement = DocumentHelper.createElement("product");
+		productElement.addText(getName());
 
-		if (fileDescriptor != null)
-		{
-			//now all fd'S
-			//Element fdElement = versionElement.addElement ("fds");
 		
-			//serialize the fd
-			versionElement.add (fileDescriptor.serialize ());
+		//now all components
+		if (this.components.values().iterator().hasNext())
+		{
+			Element componentElement = productElement.addElement ("components");
+		
+			//serialize each component
+			
+			for (Iterator it = this.components.values().iterator(); it.hasNext();)
+			{
+				ComponentSpecific component = (ComponentSpecific) it.next ();
+				componentElement.add (component.serialize ());
+			}
 		}
-		return versionElement;
+		
+		if (getRepositoryPath() != null)
+		{
+			Element repositoryPathElement = productElement.addElement ("repositoryPath");
+			repositoryPathElement.addText (getRepositoryPath());
+		}
 
+		
+		return productElement;
 	}
 
 	/**
@@ -86,8 +104,7 @@ public class Version extends AbstractAsset {
 	 * @param productName
 	 */
 	public void deserialize(Element element) {
-		Element product = element.element("product");
-		setName (element.getText ());
+		setName(element.getText());
 		//this.productLineName = element.elementText("productline");
 	}
 
@@ -104,19 +121,33 @@ public class Version extends AbstractAsset {
 	 * @see kobold.common.data.AbstractProduct#getType()
 	 */
 	public String getType() {
-		return AbstractAsset.VERSION;
+		return AbstractAsset.PRODUCT;
 	}
 
+  
 	/**
-	 * Adds a new fileDescriptor.
+	 * Adds a new component.
 	 *
-	 * @param fileDescriptor contains the new fileDescriptor
+	 * @param component contains the new component
 	 */
-	public void addFileDescriptor(FileDescriptor fileDescriptor) {
-		this.fileDescriptor = fileDescriptor;
+	public void addComponent(ComponentSpecific component) {
+		components.put(component.getName(), component);
 		//set parent
-		fileDescriptor.setParent(this);
+		component.setParent(this);
 
 	}
+
     
+	/**
+	 * @return Returns the repositoryPath.
+	 */
+	public String getRepositoryPath() {
+		return repositoryPath;
+	}
+	/**
+	 * @param repositoryPath The repositoryPath to set.
+	 */
+	public void setRepositoryPath(String repositoryPath) {
+		this.repositoryPath = repositoryPath;
+	}
 }
