@@ -21,28 +21,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ScriptChooserDialog.java,v 1.3 2004/08/30 13:18:13 garbeam Exp $
+ * $Id: ScriptChooserDialog.java,v 1.4 2004/08/30 14:06:04 garbeam Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
-import java.io.File;
-import java.util.Iterator;
+import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.AbstractAsset;
+import kobold.common.data.User;
 import kobold.common.io.ScriptDescriptor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
+import org.eclipse.jface.viewers.TableViewer;
 
 import org.eclipse.jface.viewers.LabelProvider;
 
@@ -72,8 +70,8 @@ public class ScriptChooserDialog extends TitleAreaDialog
     public static final Log logger = LogFactory.getLog(ScriptChooserDialog.class);
  
     private AbstractAsset asset;
-    private CheckboxTableViewer beforeScriptsViewer; 
-    private CheckboxTableViewer afterScriptsViewer; 
+    private TableViewer beforeScriptsViewer; 
+    private TableViewer afterScriptsViewer; 
     private Table beforeScriptsTable;
     private Table afterScriptsTable;
     
@@ -114,7 +112,7 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		label.setText("Invoke after VCM action");
 		
 		/// Before Scripts table
-		beforeScriptsTable = new Table(panel, SWT.CHECK | SWT.BORDER | SWT.LEAD | SWT.WRAP 
+		beforeScriptsTable = new Table(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP 
 		        				   | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
 		beforeScriptsTable.setLinesVisible(false);
 		TableColumn colScriptNames = new TableColumn(beforeScriptsTable, SWT.NONE);
@@ -125,7 +123,7 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		
 	    colScriptNames.pack();
 		
-		beforeScriptsViewer = new CheckboxTableViewer(beforeScriptsTable);
+		beforeScriptsViewer = new TableViewer(beforeScriptsTable);
 		beforeScriptsViewer.setLabelProvider(new LabelProvider() {
 		    private Image image;
 		    public String getText(Object element) {
@@ -146,7 +144,7 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		beforeScriptsTable.setLayoutData(gd);
         
 		/// After Scripts table
-		afterScriptsTable = new Table(panel, SWT.CHECK | SWT.BORDER | SWT.LEAD | SWT.WRAP 
+		afterScriptsTable = new Table(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP 
 		        				   | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
 		afterScriptsTable.setLinesVisible(false);
 		colScriptNames = new TableColumn(afterScriptsTable, SWT.NONE);
@@ -157,7 +155,7 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		
 	    colScriptNames.pack();
 		
-		afterScriptsViewer = new CheckboxTableViewer(afterScriptsTable);
+		afterScriptsViewer = new TableViewer(afterScriptsTable);
 		afterScriptsViewer.setLabelProvider(new LabelProvider() {
 		    private Image image;
 		    public String getText(Object element) {
@@ -178,6 +176,18 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		afterScriptsTable.setLayoutData(gd);
 	    
 		Composite leftButtons = new Composite(panel, SWT.NONE);
+    	layout = new GridLayout(2, true);
+		layout.marginHeight =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+		layout.marginWidth =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+		layout.verticalSpacing =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
+		layout.horizontalSpacing =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+		leftButtons.setLayout(layout);
+		leftButtons.setLayoutData(new GridData(GridData.FILL_BOTH));
+		leftButtons.setFont(parent.getFont());
 		Button add = new Button(leftButtons, SWT.NONE);
 		add.setText("&Add...");
 		add.addSelectionListener(new SelectionAdapter() {
@@ -193,8 +203,8 @@ public class ScriptChooserDialog extends TitleAreaDialog
 			}
 		});
 		Button remove = new Button(leftButtons, SWT.NONE);
-		add.setText("Remove");
-		add.addSelectionListener(new SelectionAdapter() {
+		remove.setText("Remove");
+		remove.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 			    IStructuredSelection selection = (IStructuredSelection)beforeScriptsViewer.getSelection();
 			    if (selection != null && selection.size() > 0) {
@@ -204,6 +214,18 @@ public class ScriptChooserDialog extends TitleAreaDialog
 		});
 		
         Composite rightButtons = new Composite(panel, SWT.NONE);
+    	layout = new GridLayout(2, true);
+		layout.marginHeight =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+		layout.marginWidth =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+		layout.verticalSpacing =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
+		layout.horizontalSpacing =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+		rightButtons.setLayout(layout);
+		rightButtons.setLayoutData(new GridData(GridData.FILL_BOTH));
+		rightButtons.setFont(parent.getFont());
 		add = new Button(rightButtons, SWT.NONE);
 		add.setText("&Add...");
 		add.addSelectionListener(new SelectionAdapter() {
@@ -219,8 +241,8 @@ public class ScriptChooserDialog extends TitleAreaDialog
 			}
 		});
 		remove = new Button(rightButtons, SWT.NONE);
-		add.setText("Remove");
-		add.addSelectionListener(new SelectionAdapter() {
+		remove.setText("Remove");
+		remove.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 			    IStructuredSelection selection = (IStructuredSelection)afterScriptsViewer.getSelection();
 			    if (selection != null && selection.size() > 0) {
@@ -228,13 +250,24 @@ public class ScriptChooserDialog extends TitleAreaDialog
 			    }
 			}
 		});
-		        return panel;
+		
+		beforeScriptsViewer.add(asset.getBeforeScripts().toArray());
+		afterScriptsViewer.add(asset.getAfterScripts().toArray());
+		
+        return panel;
     }
     
-    protected void okPressed()
-    {
-    // TODO: write selection to model
+    protected void okPressed() {
+        List befScripts = asset.getBeforeScripts();
+        List afScripts = asset.getAfterScripts();
+        befScripts.clear();
+        afScripts.clear();
+        for (int i = 0; i < beforeScriptsViewer.getTable().getItemCount(); i++) {
+            befScripts.add(beforeScriptsViewer.getElementAt(i));
+        }
+        for (int i = 0; i < afterScriptsViewer.getTable().getItemCount(); i++) {
+            afScripts.add(afterScriptsViewer.getElementAt(i));
+        }
         super.okPressed();
     }
-    
 }

@@ -21,14 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.23 2004/08/25 16:44:38 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.24 2004/08/30 14:06:04 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.lang.reflect.Array;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -41,6 +43,7 @@ import kobold.client.plam.model.productline.Productline;
 import kobold.common.data.ISerializable;
 import kobold.common.data.IdManager;
 import kobold.common.exception.GXLException;
+import kobold.common.io.ScriptDescriptor;
 import net.sourceforge.gxl.GXLGraph;
 import net.sourceforge.gxl.GXLNode;
 import net.sourceforge.gxl.GXLString;
@@ -89,8 +92,9 @@ public abstract class AbstractAsset implements ISerializable, INode
     private String description = "";
     private Set statusSet = new HashSet();
     private boolean isResourceDefined = false;
+    private List beforeScripts = new ArrayList();
+    private List afterScripts = new ArrayList();
     
-
     public AbstractAsset()
     {
         this.id = IdManager.nextId(getType());
@@ -308,6 +312,16 @@ public abstract class AbstractAsset implements ISerializable, INode
             statesEl.add(status.serialize());
         }
         
+        Element bsEl = element.addElement("before-scripts");
+        for (Iterator iterator = beforeScripts.iterator(); iterator.hasNext();) {
+            bsEl.add(((ScriptDescriptor)iterator).serialize());
+        }
+        
+        Element asEl = element.addElement("after-scripts");
+        for (Iterator iterator = afterScripts.iterator(); iterator.hasNext();) {
+            asEl.add(((ScriptDescriptor)iterator).serialize());
+        }
+        
         return element;
     }
     
@@ -330,6 +344,20 @@ public abstract class AbstractAsset implements ISerializable, INode
     		while (it.hasNext()) {
     			Element stEl = (Element)it.next();
     			addStatus(AbstractStatus.createStatus(stEl));
+    		}
+    	}
+    	if (element.element("before-scripts") != null) {
+    		Iterator it = element.element("before-scripts").elementIterator("script-descriptor");
+    		while (it.hasNext()) {
+    			Element el = (Element)it.next();
+    			beforeScripts.add(new ScriptDescriptor(el));
+    		}
+    	}
+    	if (element.element("after-scripts") != null) {
+    		Iterator it = element.element("after-scripts").elementIterator("script-descriptor");
+    		while (it.hasNext()) {
+    			Element el = (Element)it.next();
+    			afterScripts.add(new ScriptDescriptor(el));
     		}
     	}
     }
@@ -414,5 +442,13 @@ public abstract class AbstractAsset implements ISerializable, INode
     
     public void setResourceDefined(boolean isResourceDefined) {
         this.isResourceDefined = isResourceDefined;
+    }
+    
+    public List getAfterScripts() {
+        return afterScripts;
+    }
+    
+    public List getBeforeScripts() {
+        return beforeScripts;
     }
 }
