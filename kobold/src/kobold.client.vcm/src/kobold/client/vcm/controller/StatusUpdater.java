@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.28 2004/08/24 11:03:26 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.29 2004/08/24 13:12:57 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -167,7 +167,7 @@ public class StatusUpdater {
         		                    						 fileDescriptorContainer);
 		                }
 		                else {
-		                     System.out.println("create dir started");
+		                     //System.out.println("create dir started");
 		                     FileDescriptorHelper.createDirectory(filename, fileDescriptorContainer);
 	
 		                }

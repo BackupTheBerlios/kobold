@@ -62,9 +62,12 @@ sub read_entries {
         #or instead:
         my ($ss,$mm,$hh,$day,$month,$year,$zone) = strptime($date);
         
-        #fixes ?!
-        $year = $year + 1900;
-        $month = $month + 1;
+        #year minus 1900
+        #month: 0..11
+
+        #fixes, only for displaying
+        #$year = $year + 1900;
+        #$month = $month + 1;
 
         $date = "$year,$month,$day,$hh,$mm,$ss";
         #print "HALLO: $ss,$mm,$hh,$day,$month,$year\n";

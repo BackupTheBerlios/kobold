@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.15 2004/08/23 01:27:28 martinplies Exp $
+ * $Id: FileDescriptor.java,v 1.16 2004/08/24 13:12:56 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -186,6 +186,7 @@ public class FileDescriptor implements IFileDescriptorContainer, INode, IGXLExpo
         if (parentAsset != null) {
             fd.setParentAsset(parentAsset);
         }
+    	System.out.println ("fd "+fd.filename + " added!");
     }
 
 

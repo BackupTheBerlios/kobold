@@ -21,12 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorTest.java,v 1.4 2004/08/24 11:18:20 garbeam Exp $
+ * $Id: FileDescriptorTest.java,v 1.5 2004/08/24 13:12:57 rendgeor Exp $
  *
  */
 package kobold.client.vcm.test;
 
 import java.util.Iterator;
+
+import org.eclipse.core.runtime.IPath;
 
 import junit.framework.TestCase;
 import kobold.client.plam.model.FileDescriptor;
@@ -54,11 +56,13 @@ public class FileDescriptorTest extends TestCase {
 	{
 		String dump =
 			"/src\tD*\n"
-			+"/src/kobold\tD*\n"
+			//+"/src/kobold\tD*\n"
 			+"/src/kobold/client\tD*\n"
 			+"/src/kobold/client/plam\tD*\n"
 			+"/src/kobold/client/plam/model\tD*\n"
 			+"/src/kobold/client/plam/model/IComponentContainer.java\t*\n"
+			+"/src/kobold/client2/plam/model/IComponentContainer2.java\t*\n"
+			+"/src/kobold/client/vcm/popup/action/DisconnectAction.java\t1.2\t104,5,13,16,33,39\n"
 			;
 		//update FD(s)
 		StatusUpdater statUp = new StatusUpdater ();
@@ -68,16 +72,21 @@ public class FileDescriptorTest extends TestCase {
 		fd.setDirectory(true);
 		statUp.parseInputString(fd, dump);
 	
-		prettyPrintFD(fd);
+		prettyPrintFD(fd, "");
 	}
-	
-	private void prettyPrintFD(FileDescriptor fd) {
-	    System.out.println("fd: " + fd.getFilename() + "\t" + fd.getRevision() +
+	/**
+	 * prints the root node and all children
+	 * @param fd
+	 */
+	private void prettyPrintFD(FileDescriptor fd, String prefix) {
+	    String newPrefix = prefix + IPath.SEPARATOR +   fd.getFilename();
+	    System.out.println("fd: "+ prefix + "\t" + fd.getRevision() +
 	                       ((fd.getLastChange() != null) ? "\t" + fd.getLastChange().toString() : ""));
+
 	    for (Iterator iterator = fd.getFileDescriptors().iterator();
 	         iterator.hasNext(); )
 	    {
-	        prettyPrintFD((FileDescriptor)iterator.next());
+	        prettyPrintFD((FileDescriptor)iterator.next(), newPrefix);
 	    }
 	}
 		
