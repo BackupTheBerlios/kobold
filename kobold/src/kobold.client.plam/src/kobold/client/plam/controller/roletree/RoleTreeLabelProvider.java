@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.15 2004/08/25 16:28:26 garbeam Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.16 2004/08/25 16:33:47 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -33,6 +33,7 @@ import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.TreeContainer;
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.DeprecatedStatus;
 import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
@@ -44,9 +45,12 @@ import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.model.IWorkbenchAdapter;
@@ -62,7 +66,8 @@ import org.eclipse.ui.model.IWorkbenchAdapter;
 public class RoleTreeLabelProvider extends LabelProvider
 {
 	private Map imgCache = null;
-
+	private final Image depr = KoboldPLAMPlugin.getImageDescriptor("icons/deprecated.gif").createImage();
+	
 	public String getText(Object element) {
 		if (element instanceof User) {
 			return ((User)element).getFullname();
@@ -148,7 +153,66 @@ public class RoleTreeLabelProvider extends LabelProvider
 			image = id.createImage();
 			imgCache.put(id, image);
 		}
+		
+		// decorate
+		if (element instanceof AbstractAsset &&
+		        DeprecatedStatus.isDeprecated((AbstractAsset)element)) {
+		    id = new DecoratorImageDescriptor(image, depr);
+		    
+		    image = (Image)imgCache.get(id);
+		    if (image == null) {
+		        image = id.createImage();
+		        imgCache.put(id, image);
+		    }
+		}
+		    
 		return image;
 	}
+
+    private class DecoratorImageDescriptor extends CompositeImageDescriptor 
+    {
+        private Image srcImage, ovrImage;
+        private Point size;
+        
+        public DecoratorImageDescriptor(Image srcImage, Image ovrImage) 
+        {
+            this.srcImage = srcImage;
+            this.ovrImage = ovrImage;
+            this.size = new Point(srcImage.getBounds().width, 
+                    srcImage.getBounds().height);
+        }
+        
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.resource.CompositeImageDescriptor#drawCompositeImage(int, int)
+         */
+        protected void drawCompositeImage(int width, int height)
+        {
+            drawImage(srcImage.getImageData(), 0, 0); 
+			ImageData data= ovrImage.getImageData();
+			drawImage(data, 0, size.y - data.height);
+        }
+
+        /* (non-Javadoc)
+         * @see org.eclipse.jface.resource.CompositeImageDescriptor#getSize()
+         */
+        protected Point getSize()
+        {
+            return size;
+        }
+        
+        public boolean equals(Object o) 
+        {
+            try {
+                DecoratorImageDescriptor oid = (DecoratorImageDescriptor)o;
+                return srcImage.equals(oid.srcImage) && ovrImage.equals(oid.ovrImage);
+            } catch (ClassCastException e) {
+                return false;
+            }
+        }
+        
+        public int hashCode() {
+            return srcImage.hashCode() + ovrImage.hashCode();
+        }
+    }
 
 }

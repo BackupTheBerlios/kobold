@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.27 2004/08/25 16:16:55 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.28 2004/08/25 16:33:47 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -497,6 +497,11 @@ public class ModelStorage
     public static Product retrieveProject(Productline pl, String productId)
     {
         kobold.common.data.Product product = ServerHelper.fetchProduct(pl.getKoboldProject(), productId);
+        
+        if (product == null) {
+            return null;
+        }
+        
         IProject project = pl.getKoboldProject().getProject();
         
         IFolder productsFolder = project.getFolder(pl.getResource());
