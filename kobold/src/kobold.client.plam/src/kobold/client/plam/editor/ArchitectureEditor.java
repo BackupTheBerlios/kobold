@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.1 2004/04/21 23:40:05 vanto Exp $
+ * $Id: ArchitectureEditor.java,v 1.2 2004/04/26 13:40:05 garbeam Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -125,7 +125,7 @@ public class ArchitectureEditor extends GraphicalEditorWithPalette {
 					null, null));*/ 
                     
 		PaletteRoot palette = new PaletteRoot();
-		palette.setChildren(entries);
+// @TODO: fix		palette.setChildren(entries);
 
 		return palette;
 	}
