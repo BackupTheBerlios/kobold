@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeLabelProvider.java,v 1.14 2004/08/25 01:50:32 vanto Exp $
+ * $Id: RoleTreeLabelProvider.java,v 1.15 2004/08/25 16:28:26 garbeam Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -80,7 +80,7 @@ public class RoleTreeLabelProvider extends LabelProvider
 		    FileDescriptor fd = (FileDescriptor) element;
 		    String result = fd.getFilename();
 		    if (fd.getRevision().length() > 0) {
-		        result += "(" + fd.getRevision() + ")";
+		        result += " (" + fd.getRevision() + ")";
 		    }
 		    return result;
 		} else if (element instanceof ArchitectureItem) {
