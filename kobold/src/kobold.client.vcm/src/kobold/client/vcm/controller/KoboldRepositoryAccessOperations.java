@@ -63,10 +63,12 @@ import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException
 public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperations {
 
     private final String IMPORT = "import.";
+    private final String IMPORTPL = "importpl.";
 	private final String ADD = "add.";
 	private final String UPDATE = "update.";
 	private final String COMMIT = "commit.";
 	private final String CHECKOUT = "checkout.";
+	private final String CHECKOUTPL = "checkoutpl.";
 	private final String TAG = "tag.";
 	private final String REMOVE = "rm.";
 	
@@ -354,7 +356,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
         try {
 			progress = KoboldPolicy.monitorFor(progress);
 			if (isPl) {
-    			performVCMAction(assets, progress, scriptPath.toOSString().concat(CHECKOUT).concat("pl").concat(scriptExtension),
+    			performVCMAction(assets, progress, scriptPath.toOSString().concat(CHECKOUTPL).concat(scriptExtension),
     			                 tag, ScriptDescriptor.VCM_CHECKOUT);
 			}
 			else {
@@ -374,7 +376,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
         try {
 			progress = KoboldPolicy.monitorFor(progress);
 			if (isPl) {
-    			performVCMAction(assets, progress, scriptPath.toOSString().concat(IMPORT).concat("pl").concat(scriptExtension),
+    			performVCMAction(assets, progress, scriptPath.toOSString().concat(IMPORTPL).concat(scriptExtension),
     			                 msg, ScriptDescriptor.VCM_IMPORT);
 			}
 			else {
