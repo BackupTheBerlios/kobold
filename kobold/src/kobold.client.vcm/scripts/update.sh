@@ -20,17 +20,17 @@ cd $1
 if [ $3 = "local" ] ; then
 
     if [ $9 != "" ] ; then
-        cvs -z3 -d $7 up -r $9 $8
+        cvs -z3 -d $7 up -dP -r $9 $8
     else
-        cvs -z3 -d $7 up $8
+        cvs -z3 -d $7 up -dP $8
     fi
 
 else
 
     if [ $9 != "" ] ; then
-        cvs -z3 -d :$3:$4:$5@$6:$7 up -r $9 $8
+        cvs -z3 -d :$3:$4:$5@$6:$7 up -dP -r $9 $8
     else
-        cvs -z3 -d :$3:$4:$5@$6:$7 up $8
+        cvs -z3 -d :$3:$4:$5@$6:$7 up -dP $8
     fi
 
 fi

@@ -1,18 +1,35 @@
 @echo off
+rem %1 working directory
+rem %2 repo type
+rem %3 protocoal type
+rem %4 username
+rem %5 password
+rem %6 host
+rem %7 root
+rem %8 module
+rem %9 userdef
+
 cd /d %1
 
-if %3 == local					goto LOCAL	endif
 if %2 == CVS goto CVS endif
-goto ERROR
+goto END
 
 :CVS
-cvs.exe -z3 -d :pserver:%4:%5@%6:%7 up -dPA %8
+if %3 == local goto LOCAL endif
+
+if %9 == ""
+    cvs -z3 -d :%3:%4:%5@%6:%7 up -dP
+else
+    cvs -z3 -d :%3:%4:%5@%6:%7 up -dP -r %9
+endif
+
 goto END
 
 :LOCAL
-cvs -z3 -d %5 up -dPA %6
-goto END
+if %9 == ""
+    cvs -z3 -d %7 up -dP
+else
+    cvs -z3 -d %7 up -dP -r %9
+endif
 
-:ERROR
-echo This VCM Type is not supported by this script
 :END
