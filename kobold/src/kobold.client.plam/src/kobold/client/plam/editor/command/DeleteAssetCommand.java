@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.3 2004/09/18 16:09:32 martinplies Exp $
+ * $Id: DeleteAssetCommand.java,v 1.4 2004/09/18 16:30:06 neco Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import kobold.client.plam.editor.dialog.DeleteDeprecatedDialog;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.AbstractStatus;
@@ -54,6 +55,7 @@ import kobold.client.plam.model.productline.Variant;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 
 /**
@@ -68,6 +70,7 @@ public class DeleteAssetCommand extends Command
     private List edges = new ArrayList();
     private List depAssets = new ArrayList();
     private int action;
+    private AbstractAsset selection;
     AbstractAsset parent;
     
 
@@ -151,15 +154,9 @@ public class DeleteAssetCommand extends Command
    
     public void execute()
     {
-        if (MessageDialog.openQuestion(Display.getDefault().getActiveShell(), 
-            	"Deleted or Deprecated", 
-            	"Are you sure to delete this asset? Press \"Yes\" to delete or \"No\" to mark the asset deprecated.")) {
-            action = DELETE;
-        } else {
-            action = DEPRECATED;
-        }
-        
-        execute(action);
+        Shell shell = Display.getDefault().getActiveShell();
+		DeleteDeprecatedDialog dialog = new DeleteDeprecatedDialog(shell, selection); 
+		dialog.open();
     }
     
     public void undo()
