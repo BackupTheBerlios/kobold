@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.52 2004/11/09 15:20:50 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.53 2004/11/09 15:41:54 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -291,8 +291,11 @@ public class ModelStorage
     
     public static IPath getLocalPathForAsset (AbstractAsset asset) {
         String thePath = "";
-        while (asset != null && !(asset instanceof Product)) {
+        while (asset != null) {
             thePath = asset.getResource() + IPath.SEPARATOR + thePath;
+            if (asset instanceof Product) {
+                break;
+            }
             asset = asset.getParent();
         }
         return new Path(thePath);
