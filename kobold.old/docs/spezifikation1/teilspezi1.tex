@@ -1,243 +1,91 @@
-\chapter{Produktanatomie}
-
-\section{Leistungsanforderungen}
-Das System wird zun?chst so ausgelegt, dass mind. 50 Benutzer gleichzeitig mit dem Produkt arbeiten k?nnen.
-Die Skalierbarkeit h?ngt ausschliesslich von dem Server ab, dessen Leistungsf?higkeit von der Hardware und
-der verwendeten Persistenzschicht-Implementierung beeinflusst wird. Garantiert wird die Bereitstellung von 
-10 Produktlinien zu je 50 Produkten. Pro Produktlinie k?nnen 100 Benutzer verwaltet werden.
-
-\section{Minimale Hardwareanforderungen}
-Das Softwaresystem wird auf einem Pentium II basierten PC mit 400 Mhz CPU-Takt, 256 MB Hauptspeicher
-und mind. 200 MB freien Festplattenspeicher (oder unter einer vergleichbaren Unix-Workstation)
-unter den Betriebssystemen Windows, Solaris und Linux lauff?hig sein.
-
-\section{Entwurfseinschr?nkungen}
-Das Produkt wird in Java 2 Version 1.4.1.3 implementiert. Als Workbench-Framework wird die 
-Eclipse Plattform\footnote{http://www.eclipse.org/, http://www.eclipse.org/platform/}
-verwendet, sowie deren Widgettoolkit SWT\footnote{Standard Widget Toolkit, http://www.eclipse.org/swt/}
-und GEF\footnote{Graphical Editing Framework, http://www.eclipse.org/gef/}.
-Zudem werden Bibliotheken von der Apache Software
-Foundation\footnote{http://www.apache.org/} benutzt. Die
-Generierung der Dokumenation setzt auf iText\footnote{http://www.lowagie.com/iText/} auf.
-
-\section{Verf?gbarkeit}
-F?r den Client gibt es keine besonderen Anforderungen bzgl. der Verf?gbarkeit. Die Verf?gbarkeit des Servers
-h?ngt ma?geblich von der Konfiguration des Rechners ab, der den Serverdienst zur Vef?gung stellt.
-
-\section{Sicherheit}
-Die Daten, die der Server bereitstellt, werden bei jeder ?nderung sofort auf dem Datentr?ger gespeichert.
-Somit wird die Gefahr eines Datenverlusts beim Eintritt von unvorhersehbaren Ereignissen minimiert.
-Alle Client-spezifischen Daten werden in den Produktlinien- bzw.
-Produkt-Repositories gespeichert und unterliegen  den Sicherheitsregeln des verwendeten
-Versionskontrollsystems.
-
-\section{Robustheit}
-Fehleingaben und Fehler im System werden erkannt und dem Benutzer mit einer aussagekr?ftigen 
-Fehlermeldung mitgeteilt.
-Sie f?hren nicht zum Programmabsturz.
-
-\section{Wartbarkeit}
-Durch die st?ndige ?berpr?fung des Programmquellcodes mit Metriken auf Kopplung, Zusammenhalt und
-Styleguide-Konformit?t wird die hohe Wartbarkeit des 
-Produkts gew?hrleistet. Zudem wird das Produkt mit einer umfangreichen
-Regression-Testsuite f?r die Nicht-GUI-Komponenten ausgeliefert.
-
-\section{Performance}
-%Das Softwaresystem soll laut Kundenangaben auf einem handels?blichen
-%Pentium II PC mit mind. 400 Mhz CPU-Takt, mind. 256 MB Hauptspeicher
-%und 200 MB freien Festplattenspeicher (oder auf einer vergleichbare Unix-Workstation)
-%unter den Betriebssystemen Windows, Solaris oder Linux lauff?hig sein.
-%Das System soll es erm?glichen die Produkt(-linien) Architekturen als Graph zu
-%visualisieren.
-%Es wurde nicht gefordert den ganzen Graphen, der unter Umst?nden sehr komplex und 
-%gro? werden kann, auf einmal performant zu visualisieren.\par
-%Es gen?gt die f?r die 
-%jeweilige Architekturansicht relevanten Teile des Graphen zu visualisieren.
-%Diese Ausschnitte werden sich der ?bersichtlichkeit halber wahrscheinlich in einer 
-%Gr??enordnung bis zu 125 Knoten bewegen. Die Anzeige der Teilgraphen sollte 
-%eine Grenze von 8 Sekunden zur Berechnung der Darstellung nicht ?berschreiten.
-Es wurde nicht gefordert den ganzen Graphen, der unter Umst?nden sehr komplex
-werden kann, performant zu visualisieren.\par
-Es soll gen?gen, die f?r die jeweilige Architekturansicht relevanten
-Ausschnitte des Graphen zu visualisieren.
-Diese werden sich der ?bersichtlichkeit proforma in einer 
-Gr??enordnung bis zu 125 Knoten bewegen. Die Anzeige der Teilgraphen sollte 
-eine Grenze von 8 Sekunden zur Berechnung der Darstellung nicht ?berschreiten.
-
-\section{Portabilit?t}
-Der Server st?tzt sich auf keine nativen Schnittstellen sondern benutzt ausschlie?lich 
-\emph{pure java}. Somit ist er laut Sun Microsystems 
-Inc.\footnote{unter http://java.sun.com/j2se/1.4.2/system-configurations.html} unter 
-Solaris-SPARC, Solaris-Intel, Windows NT/2000/XP und Linux lauff?hig.
-
-
-\chapter{Server}
-Der Server wird als HTTP-basierter {\it XML-RPC Server}
-\footnote{N?here Informationen: http://ws.apache.org/xmlrpc/}
-implementiert und ist SSL-basiert. Ausserdem erm?glicht
-der Server eine Client-zu-Client-Kommunikation ?ber eine Nachrichten-Queue, welche
-in regelm?ssigen Abst?nden von den Clients abgefragt wird (Request/Response).
-Alle Informationen, die der Server bereitstellt sind persistent.\par
-Die Wartung des Servers wird durch ein kommandozeilen-orientiertes
-Administrationstool realisiert.\newline
-
-F?r jeden Benutzer werden folgende Daten gespeichert:
-\begin{itemize}
-\item Benutzername
-\item Passwort
-\item eMail
-\item Name
-\item Liste von Rollen
-\end{itemize}
-
-Eine Rolle besteht aus einer Liste von Produkten und Produktlinien.\newline
-F?r jedes Element in der Liste wird au?erdem noch eine Liste der zugeh?rigen Repositories angeh?ngt. 
-Ist das Element ein Produkt, so werden auch die Daten der dazugeh?rigen Produktlinie erfasst.\newline
-
-F?r ein Repository werden folgende Daten gespeichert:
-\begin{itemize}
-\item Pfad
-\item Passwort
-\item Benutzername
-\item Schreibrecht (ja/nein)
-\end{itemize}
-
-\section{Berechtigungskonzept}
-
-Zur Realisierung des produktlinien\-?bergreifenden Berechtigungskonzepts
-verwaltet der Server alle benutzer-, rollen-, produktlinien- und
-produkt-basierten Berechtigungen. Dabei kann ein Server produktlinien-?bergreifend
-verwendet werden.\par
-Der Server bietet ein auf diesen Berechtigungen basierenden
-Authentifizierungsmechanismus an, der von allen Clients verwendet wird.
-
-\section{Persistierung}
-
-Die Persistierung aller f?r das Berechtigungskonzept notwendigen Daten wird
-durch eine abstrakte Persistenzschicht realisiert, die es erm?glicht, die
-Datenhaltung flexibel zu organisieren. Im Rahmen dieses Angebotes wird die
-Persistierung XML-basiert angeboten.
-
-\section{Nachrichten-Queue}
-
-Die vom Server angebotene Nachrichten-Queue ist zustandsbehaftet, d.h. nach einem
-Stromausfall oder anderen unvorhersehbaren Ereignissen ist die Nachrichten-Queue
-in der Regel ohne Datenverlust wiederherstellbar.\par
-Dadurch wird ein hoher Grad an Konsistenztreue und Zuverl?ssigkeit erreicht.\newline
-
-F?r die Nachrichten-Queue werden folgende Daten ben?tigt:
-\begin{itemize}
-\item von wem
-\item an wen
-\item Inhalt
-\item Datum
-\item ID
-\item Priorit?t
-\end{itemize}
-
-
-
-\section{Web-basierte Statusinformationen}
-
-Es ist jederzeit f?r einen authentifizierten Systemadministrator m?glich,
-den Status des Servers ?ber einen Webbrowser abzufragen.
-
-\section{Administrationstool}
-
-Zur Administration des Servers wird ein kommandozeilen-orientiertes 
-Administrationstool angeboten, dass es erm?glicht, Produktlinien-Ingenieur-Accounts
-anzulegen bzw. zu entfernen, die Nachrichten-Queue zu
-leeren und den Server zu starten oder zu stoppen.
-
-
 \section{Metainformationskomponente}
 
-F?r die Elemente in Kobold werden unterschiedliche Metainformationen gespeichert. Dieses Kapitel liefert eine genaue Auflistung der geplanten Metadaten.\newline
+Für die Elemente in Kobold werden unterschiedliche Metainformationen gespeichert. Dieses Kapitel liefert eine genaue Auflistung der geplanten Metadaten.\newline
 
-\textbf{Produkt:}\par
+\paragraph{Produkt:}
 Das Produkt wird vom Produktingenieur bearbeitet und entsteht aus der Architektur der Produktlinie. 
 \begin{itemize}
-\item letztes Release\newline
+\item letztes Release
 \end{itemize}
 
-\textbf{Release:}\par
+\paragraph{Release:}
 Ein Release besteht aus einer Gruppe von Objekten (Source Code, Dokumentation, etc.) in einem Zustand, in dem sie als Teil des fertigen Produktes eingesetzt werden kann.
 \begin{itemize}
 \item Liste der Dateien (mit Versionsangabe)
-\item Liste der zus?tzlichen Objekte
+\item Liste der zusätzlichen Objekte
 \item Liste der Skripte
-\item Erstellungsdatum\newline
+\item Erstellungsdatum
 \end{itemize}
 
-\textbf{Version:}\par
-Objekte (Source Code, Dokumentation, etc.) sind in unterschiedlichen Versionen verf?gbar. Die Versionskontrolle ?bernimmt dabei eine Standard Versiosverwaltungssystem wie zum Beispiel CVS, RCS, etc.
+\paragraph{Version:}
+Objekte (Source Code, Dokumentation, etc.) sind in unterschiedlichen Versionen verfügbar. Die Versionskontrolle übernimmt dabei eine Standard Versionsverwaltungssystem wie zum Beispiel CVS, RCS, etc.
 \begin{itemize}
 \item Liste der Skripte
-\item Status\newline
+\item Status
 \end{itemize}
 
-\textbf{Datei:}\par
-Eine Datei ist ein Objekt, das Source Code enth?lt.
+\paragraph{Datei:}
+Eine Datei ist ein Objekt, das Source Code enthält.
 \begin{itemize}
 \item Liste der Versionen
 \item ID
 \item Name
-\item bin?r (ja/nein)
-\item Beschreibung\newline
+\item binär (ja/nein)
+\item Beschreibung
 \end{itemize}
 
-\textbf{Variante:}\par
+\paragraph{Variante:}
 Eine Variante besteht entweder aus weiteren Komponenten oder aus Releases.
 \begin{itemize}
 \item Liste aller Dateien
 \item Versionsnummer
-\item Zust?ndiger
+\item Zuständiger
 \item Name
 \item Beschreibung
 \item ID
 \item Liste der Skripte
-\item Status\newline
+\item Status
 \end{itemize}
 
-\textbf{Komponente:}\par
+\paragraph{Komponente:}
 Eine Komponente besteht aus einer oder mehreren Varianten.
 \begin{itemize}
 \item Liste aller Varianten
 \item Name
-\item Zust?ndiger
+\item Zuständiger
 \item Beschreibung
 \item ID
 \item Liste der Skripte
-\item Status\newline
+\item Status
 \end{itemize}
 
-\textbf{Abh?ngigkeit:}\par
-Eine Abh?ngigkeit besteht zwischen zwei Knoten der Architektur. F?r Abh?ngigkeiten zwischen mehr als zwei Knoten werden Metaknoten verwendet.
+\paragraph{Abhängigkeit:}
+Eine Abhängigkeit besteht zwischen zwei Knoten der Architektur. Für Abhängigkeiten zwischen mehr als zwei Knoten werden Metaknoten verwendet.
 \begin{itemize}
 \item Typ
 \item Richtung
 \item Knoten1
 \item Knoten2
-\item weiter beliebig attributierbar\newline
+\item weiter beliebig attributierbar
 \end{itemize}
 
-\textbf{Metaknoten:}\par
-Metaknoten werden f?r Mehrfachbeziehungen verwendet.
+\paragraph{Metaknoten:}
+Metaknoten werden für Mehrfachbeziehungen verwendet.
 \begin{itemize}
 \item Typ
-\item ID\newline
+\item ID
 \end{itemize}
 
-\textbf{Architektur:}\par
+\paragraph{Architektur:}
 Eine Architektur stellt sowohl ein Produkt als auch eine Produktlinie graphisch dar.
 \begin{itemize}
 \item Liste der Metaknoten
-\item Liste der Abh?ngigkeiten
+\item Liste der Abhängigkeiten
 \item Liste der Komponenten (oberste Ebene)
 \item Name
 \item Typ
 \item Status
-\item Zust?ndiger
+\item Zuständiger
 \item Link auf das Repository
 \item Liste der Skripte
 \end{itemize}
@@ -248,6 +96,4 @@ Eine Architektur stellt sowohl ein Produkt als auch eine Produktlinie graphisch 
 Zur besseren Kommunikation mit der Server, soll ein Repository Abstraction Layer erstellt werden, das mit der Authentifizierung am Server umgehen kann. Dieses vermittelt zwischen Kobold und dem VCM der Eclipse-Komponente.\newline
 
 Das Repository Abstraction Layer behandelt Anfragen an den Server, indem es diese entweder an das eigentliche VCM weiterleitet, oder mit einer passenden Meldung ablehnt.\par
-Ist in der Eclipse-Komponente noch nicht der Pfad eines Repositories gespeichert, so holt sich das Repository Abstraction Layer die n?tigen Informationen vom Server und speichert diese in der Eclipse-Komponente.
-
-
+Ist in der Eclipse-Komponente noch nicht der Pfad eines Repositories gespeichert, so holt sich das Repository Abstraction Layer die nötigen Informationen vom Server und speichert diese in der Eclipse-Komponente.
