@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.44 2004/07/14 14:05:13 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.45 2004/07/14 14:11:29 neccaino Exp $
  *
  */
 package kobold.server;
@@ -265,28 +265,62 @@ public class SecureKoboldWebServer implements IKoboldServer,
 				invalidateMessage(uc, msg);
 			
 			}
-			// TODO: separate to special interface
-			else if (methodName.equals("validateSATAccessibility")){
-				return validateSATAccessibility((String)arguments.elementAt(0));
-			}
-			else if (methodName.equals("satCreateNewProductline")){
-				return satCreateNewProductline((String)arguments.elementAt(0),
-														               (String)arguments.elementAt(1),
-						                                               (RepositoryDescriptor)arguments.elementAt(2));
-			}
-			else if (methodName.equals("satRemoveProductline")){
-				return satRemoveProductline((String)arguments.elementAt(0),
-						                                          (String)arguments.elementAt(1));
-			}
-			else if (methodName.equals("satAddPLE")){
-				return satAddPLE((String)arguments.elementAt(0),
-						                        (String)arguments.elementAt(1),
-						                        (String)arguments.elementAt(2));
-			}
-			else if (methodName.equals("satRemovePLE")){
-				return satRemovePLE((String)arguments.elementAt(0),
-						                               (String)arguments.elementAt(1));
-			}
+            else if (methodName.equals("checkAdministrability")){
+                try{
+                   // admin method so leave without noticing the WorkflowEngine
+                   return checkAdministrability((String)arguments.elementAt(0));
+                }
+                catch(Exception e){
+                   logger.info("Exception during execute()", e);
+                   return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }
+            else if (methodName.equals("newProductline")){
+                try{
+                    // admin method so leave without noticing the WorkflowEngine
+                    return newProductline((String)arguments.elementAt(0),
+                                          (String)arguments.elementAt(1),
+                                          (RepositoryDescriptor)arguments.elementAt(2));
+                }
+                catch(Exception e){
+                    logger.info("Exception during execute()", e);
+                    return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }
+            else if (methodName.equals("invalidateProductline")){
+                try{
+                   // admin method so leave without noticing the WorkflowEngine
+                   return invalidateProductline((String)arguments.elementAt(0),
+                                                (String)arguments.elementAt(1));
+                }
+                catch(Exception e){
+                    logger.info("Exception during execute()", e);
+                    return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }
+            else if (methodName.equals("assignPle")){
+                try{
+                    // admin method so leave without noticing the WorkflowEngine
+                    return assignPle((String)arguments.elementAt(0),
+                                     (String)arguments.elementAt(1),
+                                     (String)arguments.elementAt(2));
+                }
+                catch(Exception e){
+                   logger.info("Exception during execute()", e);
+                   return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }
+            else if (methodName.equals("unassignPle")){
+                try{
+                    // admin method so leave without noticing the WorkflowEngine
+                    return unassignPle((String)arguments.elementAt(0),
+                                       (String)arguments.elementAt(1));
+                }
+                catch(Exception e){
+                    logger.info("Exception during execute()", e);
+                    return IKoboldServerAdministration.RETURN_FAIL;
+                }
+            }
 		} catch (Exception e) {
 			logger.info("Exception during execute()", e);
 			throw e;	
@@ -432,95 +466,6 @@ public class SecureKoboldWebServer implements IKoboldServer,
 		MessageManager.getInstance().invalidateMessage(userContext, koboldMessage);
 	}
 	
-	/**
-	 * This method is used by SAT-Clients to validate the accessibility of
-	 * the Kobold server with the passed password.
-	 * 
-	 * NOTE: since there is no real administrator password functionality
-	 * on the Kobold server after it2, every password is accepted!
-	 *  
-	 * @param adminPassword server administration password
-	 * @return true, if the passed password is valid, false otherwise
-	 */
-	public String validateSATAccessibility(String adminPassword){
-		return ""; // no password's needed, so check is successful
-	}
-	
-	/**
-	 * this method is used by SAT-Clients to create a new productline
-	 * on the KoboldServer
-	 * 
-	 * NOTE: this member has not yet been fully implemented!
-	 * (adminPassword is not checked -> it3)
-	 * 
-	 * @param adminPassword server administartion password
-	 * @param plname name of the new productline
-	 * @return IKoboldServer::NO_RESULT if the server is not
-	 *				   accessible that way, "" otherwise 
-	 */
-	public String satCreateNewProductline(String adminPassword, String plname, RepositoryDescriptor rd){
-		try{
-			ProductlineManager.getInstance().addProductline(new Productline(plname, rd));
-		}
-		catch(Exception e){
-			return IKoboldServer.NO_RESULT;
-		}
-		
-		return ""; // return success
-	}
-	
-	/**
-	 * this method is used by SAT-Clients to remove a new productline
-	 * on the KoboldServer
-	 * 
-	 * NOTE: this member has not yet been fully implemented!
-	 * (adminPassword is not checked -> it3)
-	 *
-     * @param adminPassword server administartion password
-	 * @param plname name of the new productline
-	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
-	 */
-	public String satRemoveProductline(String adminPassword, String plname){
-		try{
-			ProductlineManager.getInstance().removeProductLine(new Productline(plname, null));
-		}
-		catch(Exception e){
-			return IKoboldServer.NO_RESULT;
-		}
-		
-		return ""; // return success
-	}
-	
-	/**
-	 * this method is used by SAT-Clients to set a productline's new PLE
-     * 
-	 * NOTE: this member has not yet been fully implemented!
-	 * (stub has been inserted to avoid comp. errors)
-	 * 
-     * @param adminPassword server administartion password
-	 * @param plname name of the new productline
-	 * @param username name of the user who should become plsname's
-	 *                 new PLE
-	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
-	 */
-	public String satAddPLE(String adminPassword, String plname, String username){		
-		return IKoboldServer.NO_RESULT;// until fully implemented
-	}
-	
-	/**
-	 * this method is used by SAT-Clients to invalidate a productline's 
-	 * PLE
-	 * 
-	 * NOTE: this member has not yet been fully implemented!
-	 * (stub has been inserted to avoid comp. errors)
-	 * 
-	 * @param adminPassword server administartion password
-	 * @param plname name of the new productline
-	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
-	 */
-	public String satRemovePLE(String adminPassword, String plname){
-		return IKoboldServer.NO_RESULT;// until fully implemented
-	}
 
     /**
      * @see kobold.common.controller.IKoboldServer#updateComponent(kobold.common.data.UserContext, java.lang.String, java.lang.String, kobold.common.data.Component)
