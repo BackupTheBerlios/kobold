@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.15 2004/06/27 18:41:26 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.16 2004/06/28 01:17:42 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Set;
 
 import kobold.client.plam.KoboldProjectNature;
-import kobold.common.model.AbstractAsset;
+import kobold.common.model.AbstractRootAsset;
 import kobold.common.model.productline.Component;
 import kobold.common.model.productline.Productline;
 import kobold.common.model.productline.Variant;
@@ -223,14 +223,14 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	
 	public class ArchitectureItem 
 	{
-	    private AbstractAsset asset;
+	    private AbstractRootAsset asset;
 
-        ArchitectureItem(AbstractAsset asset)
+        ArchitectureItem(AbstractRootAsset asset)
 	    {
 	        this.asset = asset;
 	    }
         
-        public AbstractAsset getAsset()
+        public AbstractRootAsset getAsset()
         {
             return asset;
         }

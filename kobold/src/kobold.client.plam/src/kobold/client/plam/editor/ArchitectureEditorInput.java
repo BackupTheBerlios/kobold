@@ -21,12 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditorInput.java,v 1.1 2004/06/24 03:06:01 vanto Exp $
+ * $Id: ArchitectureEditorInput.java,v 1.2 2004/06/28 01:17:42 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
 
-import kobold.common.model.AbstractAsset;
+import kobold.common.model.AbstractRootAsset;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
@@ -39,14 +39,14 @@ import org.eclipse.ui.IPersistableElement;
 public class ArchitectureEditorInput implements IEditorInput
 {
 
-    private AbstractAsset asset;
+    private AbstractRootAsset asset;
 
-    public ArchitectureEditorInput(AbstractAsset asset) 
+    public ArchitectureEditorInput(AbstractRootAsset asset) 
     {
         this.asset = asset;
     }
     
-    public AbstractAsset getAsset()
+    public AbstractRootAsset getAsset()
     {
         return asset;
     }

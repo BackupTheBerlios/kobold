@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeEditPart.java,v 1.6 2004/06/23 12:58:10 vanto Exp $
+ * $Id: AbstractNodeEditPart.java,v 1.7 2004/06/28 01:17:42 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -71,7 +71,7 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
-		System.out.println(prop);
+
 		if (AbstractAsset.ID_CHILDREN.equals(prop))
 			refreshChildren();
 		//else if (AbstractAsset.ID_INPUTS.equals(prop))

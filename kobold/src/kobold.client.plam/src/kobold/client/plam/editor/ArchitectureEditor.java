@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ArchitectureEditor.java,v 1.15 2004/06/24 23:44:58 grosseml Exp $
+ * $Id: ArchitectureEditor.java,v 1.16 2004/06/28 01:17:42 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -35,7 +35,7 @@ import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.PLAMProject;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModelContainer;
-import kobold.common.model.AbstractAsset;
+import kobold.common.model.AbstractRootAsset;
 import kobold.common.model.productline.Productline;
 
 import org.eclipse.core.resources.IMarker;
@@ -116,7 +116,7 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 	private boolean isSaving = false;
 	private OutlinePage outlinePage;
 	
-	private AbstractAsset model = new Productline("");
+	private AbstractRootAsset model = new Productline();
 	
 	/**
 	 * Creates a architecture editor
@@ -261,8 +261,8 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			System.out.println(model);
 			System.out.println(model.getParent());
-			if (model.getParent() instanceof PLAMProject) {
-			    PLAMProject pp = (PLAMProject)model.getParent();
+			if (model.getProject() instanceof PLAMProject) {
+			    PLAMProject pp = (PLAMProject)model.getProject();
 			    pp.storeViewModelContainer(viewModel, monitor);
 			    pp.getProductline().serializeAll();
 				getCommandStack().markSaveLocation();
@@ -482,8 +482,8 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
     {
     	super.setInput(input);
 		model = getArchEditorInput().getAsset();
-		if (model.getParent() instanceof PLAMProject) {
-		    PLAMProject pp = (PLAMProject)model.getParent();
+		if (model.getProject() instanceof PLAMProject) {
+		    PLAMProject pp = (PLAMProject)model.getProject();
 		    try {
                 viewModel = pp.restoreViewModelContainer();
             } catch (Exception e) {
@@ -491,8 +491,8 @@ public class ArchitectureEditor extends GraphicalEditorWithFlyoutPalette
             }
 		}
  
-		//setPartName(getArchEditorInput().getName());
-		setTitle(getArchEditorInput().getName());
+		setPartName(getArchEditorInput().getName());
+		//setTitle(getArchEditorInput().getName());
 
     	if (!isSaving) {
     		if (getGraphicalViewer() != null) {

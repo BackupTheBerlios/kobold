@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.15 2004/06/27 23:52:28 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.16 2004/06/28 01:17:37 vanto Exp $
  *
  */
 package kobold.common.model;
@@ -88,7 +88,7 @@ public abstract class AbstractAsset implements ISerializable
 
     public AbstractAsset(String name)
     {
-        super();
+        this();
     	this.name = name;
     }
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: XYLayoutEditPolicy.java,v 1.5 2004/06/23 12:58:10 vanto Exp $
+ * $Id: XYLayoutEditPolicy.java,v 1.6 2004/06/28 01:17:42 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
@@ -44,7 +44,7 @@ import org.eclipse.gef.requests.CreateRequest;
  * XYLayoutEditPolicy
  * 
  * @author Tammo van Lessen
- * @version $Id: XYLayoutEditPolicy.java,v 1.5 2004/06/23 12:58:10 vanto Exp $
+ * @version $Id: XYLayoutEditPolicy.java,v 1.6 2004/06/28 01:17:42 vanto Exp $
  */
 public class XYLayoutEditPolicy 
 	extends org.eclipse.gef.editpolicies.XYLayoutEditPolicy {
@@ -61,7 +61,6 @@ public class XYLayoutEditPolicy
      */
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
 		SetConstraintCommand locationCommand = new SetConstraintCommand();
-
 	    IViewModelProvider vmp = (IViewModelProvider)((DefaultEditDomain)getHost().getViewer().getEditDomain()).getEditorPart();
 		ViewModel vp = vmp.getViewModelContainer().getViewModel((AbstractAsset)child.getModel());
 		locationCommand.setViewModel(vp);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.24 2004/06/27 23:52:29 vanto Exp $
+ * $Id: Productline.java,v 1.25 2004/06/28 01:17:37 vanto Exp $
  *
  */
 package kobold.common.model.productline;
@@ -66,6 +66,11 @@ public class Productline extends AbstractRootAsset
 	//the repository-path
 	private String repositoryPath;
 	private String localPath;
+	
+	public Productline() 
+	{
+	    super();
+	}
 	
 	public Productline(String name) {
 		super(name);
