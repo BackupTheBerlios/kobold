@@ -42,14 +42,17 @@ das jeweilige Produkt:
       \item{Filedeskriptor: Pfad, Version der Datei, Letzte
           Änderung an Datei, Letzter Bearbeiter}
     \end{itemize}
+    \item{Repository-Pfad: Name}
   \end{itemize}
 %--------------------------
   \item{verwendete Komponente (type=''related''): Name}
   \begin{itemize}
-    \item{verwendete Variante: Name, Version}
-    \begin{itemize}
-      \item{Filedeskriptor: Pfad, Version der Datei, Letzte
-          Änderung an Datei, Letzter Bearbeiter}
+    \item{verwendete Variante: Name
+      \begin{itemize}
+        \item{verwendete Version: Name}
+	\begin{itemize}
+	  \item{Verweis auf eine Version einer Variante des Core-Assets}
+	\end{itemize}
     \end{itemize}
   \end{itemize}
 \end{itemize}
@@ -60,9 +63,9 @@ die verwendeten Core-Assets:
 \begin{itemize}
     \item{verwendete Komponente: Name}
     \begin{itemize}
-      \item{verwendete Variante: Name}
+      \item{Varianten: Name}
       \begin{itemize}
-        \item{verwendete Version: Name}
+        \item{Versionn: Name}
         \begin{itemize}
           \item{Filedeskriptor: Pfad, Version der Datei, Letzte
           Änderung an Datei, Letzter Bearbeiter}
