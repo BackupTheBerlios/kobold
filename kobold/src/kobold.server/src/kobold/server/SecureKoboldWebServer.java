@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.43 2004/07/14 13:52:44 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.44 2004/07/14 14:05:13 neccaino Exp $
  *
  */
 package kobold.server;
@@ -531,295 +531,148 @@ public class SecureKoboldWebServer implements IKoboldServer,
     }
 
     /*
-
     --------------------------------------------------------------------------------
-
      The following section contains the IKoboldServerAdministration-methods'
-
      implementation. Thay are called by 'execute().
-
     -------------------------------------------------------------------------------- 
-
     */
-
-
-
         /**
-
          * this method is used to check if the called Kobold server is reachable 
-
          * and can be administrated with the passed password
-
          * 
-
          * NOTE: this method has not yet been fully implemented - every password is
-
          *       accepted
-
          * 
-
          * TODO: implement real password checking
-
          *  
-
          * @param adminPassword the Kobold server's administration password
-
          * 
-
          * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-
          *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-
          *         occured while executing the method on the server. 
-
          */
-
-        public String checkAdministrability(String adminPassword){
-
+       public String checkAdministrability(String adminPassword){
             // 1.) Since no checking has to occur, signal success.
-
             return IKoboldServerAdministration.RETURN_OK;
-
         }
-
         
-
         /**
-
          * call this method if you want to create a new productline on the Kobold
-
          * server. Note that if there already exists a productline with the name
-
          * 'nameOfProductline, the method will exit with an error. 
-
          * 
-
          * @param adminPassword the Kobold server's administration password
-
          * @param nameOfProductline the new productline's desired name
-
          * @param repositoryDescriptor description of the repository for the new
-
          *                             productline
-
          * 
-
          * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-
          *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-
          *         occured while executing the method on the server. 
-
          */
-
         public String newProductline(String adminPassword, 
-
                                      String nameOfProductline, 
-
                                      RepositoryDescriptor repositoryDescriptor){
-
             // 1.) check the password
-
             if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-
                 return IKoboldServerAdministration.RETURN_FAIL;
-
             }
-
-            
 
             // 2.) create the new pl
-
             ProductlineManager plm = ProductlineManager.getInstance();
-
             Productline pl = new Productline(nameOfProductline, 
-
                                              repositoryDescriptor);
-
             plm.addProductline(pl); // TODO: fetch return when there will be one
-
             
-
             return IKoboldServerAdministration.RETURN_OK;        
-
         }
-
         
-
         /**
-
          * to assure data consistency of products that are realted to a certain
-
          * productline, productlines cannot be entirely deleted. nonetheless this 
-
          * method provides you with the possibility to mark an existing productline
-
          * as invalid. 
-
          *  
-
          * @param adminPassword the Kobold server's administration password
-
          * @param nameOfProductline name of the productline that is to be 
-
          *                          invalidated
-
          * 
-
          * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-
          *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-
          *         occured while executing the method on the server. 
-
          */
-
         public String invalidateProductline(String adminPassword, 
-
                                             String nameOfProductline){
-
             // 1.) check the password
-
             if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-
                 return IKoboldServerAdministration.RETURN_FAIL;
-
             }
-
             
-
             // 2.) [check if the passed productline exists and] remove it
-
             ProductlineManager plm = ProductlineManager.getInstance();
-
             plm.removeProductLine(plm.getProductLine(nameOfProductline));
-
             //TODO: check the return of removeProductline as soon as there is one
-
             
-
             return IKoboldServerAdministration.RETURN_OK;
-
         } 
-
         
-
         /**
-
          * This method assigns a user to a productline (users that are assigned
-
          * directly to productlines act as the productline's ple). Possible already
-
          * assigned user will be automatically unassigned.
-
          * 
-
          * @param adminPassword the Kobold server's administration password
-
          * @param nameOfProductline name of the productline that should be assigned
-
          *                          a new PLE
-
          * @param nameOfUser name of the user that should be assigned to the 
-
          *                   specified productline
-
          * 
-
          * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-
          *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-
          *         occured while executing the method on the server. 
-
          */
-
         public String assignPle(String adminPassword,
-
                                 String nameOfProductline,
-
                                 String nameOfUser){
-
             // 1.) check the password
-
             if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-
                 return IKoboldServerAdministration.RETURN_FAIL;
-
             }
-
             
-
             // 2.) assign the ple
-
             ProductlineManager plm = ProductlineManager.getInstance();
-
             UserManager um = UserManager.getInstance();
-
             //plm.getProductLine(nameOfProductline).removeMaintainer(um.getUser(nameOfUser));
-
             //TODO: solve the kobold.server/common.data.User conflict
-
             //TODO: check error return from um and plm as soon as there will be one
-
             
-
             return IKoboldServerAdministration.RETURN_OK;
-
         }
-
         
-
         /**
-
          * This methods unassigns a user (ple) from a productline. Since there can
-
          * only be one assigned ple per productline at the same time, the specified
-
          * productline will have no more assigned ple after a successful call of
-
          * this method.
-
          * 
-
          * @param adminPassword the Kobold server's administration password
-
          * @param nameOfProductline name of the productline that should "loose"
-
          *                          the specified user
-
          * @param nameOfUser username specifiing which user should be unassigned 
-
          * 
-
          * @return IKoboldServerAdministration.RETURN_OK, if the check was 
-
          *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
-
          *         occured while executing the method on the server. 
-
          */
-
         public String unassignPle(String adminPassword, String nameOfProductline){
-
             // 1.) check the password
-
             if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
-
                 return IKoboldServerAdministration.RETURN_FAIL;
-
             }
-
-            
 
             // 2.) unassign the ple
-
             //TODO: check if pls really may have more than one PLE, then implement
-
             
-
             return IKoboldServerAdministration.RETURN_FAIL;
-
         }
-
 }
