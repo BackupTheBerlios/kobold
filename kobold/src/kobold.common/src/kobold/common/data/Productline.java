@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.14 2004/07/14 15:55:46 garbeam Exp $
+ * $Id: Productline.java,v 1.15 2004/07/29 09:54:14 neccaino Exp $
  *
  */
 package kobold.common.data;
@@ -36,7 +36,17 @@ import kobold.common.io.RepositoryDescriptor;
 
 
 /**
- * Represents a server side productline. Used for client-server interchange.
+ * This class represents a server side productline. Productlines consist of
+ * several products, they can be assigned Users (Productline engineers) who
+ * have the right to modify it and they encapsulate the necessary information 
+ * about the repository where the actual products are stored.
+ * 
+ * They are created (and removed) by the corresponding administration methods 
+ * and stored directly on the Kobold server. 
+ * 
+ * @see kobold.server.controller.SecureKoboldWebServer
+ * @see kobold.common.data.Product
+ * @see kobold.common.io.RepositoryDescriptor 
  */
 public class Productline extends Asset {
 
@@ -46,7 +56,8 @@ public class Productline extends Asset {
 	/**
 	 * Base constructor for productlines.
 	 * @param name the name of this productline.
-	 * @param repositoryDescriptor the repository descriptor.
+	 * @param repositoryDescriptor containing the necessary information about
+	 *        this productlines repository
 	 */
 	public Productline(String name, RepositoryDescriptor repositoryDescriptor) {
 		super(null, Asset.PRODUCT_LINE, name, repositoryDescriptor);
@@ -62,47 +73,91 @@ public class Productline extends Asset {
 	}
 
 	/**
-	 * Adds new product to this productline.
+	 * Adds a new product to this productline. Please note that each registered
+     * product needs to have its own (unique) name. Adding of a prodct with a
+     * name that has already been registered will be refused. 
+     * 
 	 * @param product the product to add.
+     * @return true, if the passed productline could be added successfully, 
+     *         false otherwise
 	 */
-	public void addProduct(Product product) {
-		products.put(product.getName(), product);
-		product.setParent(this);
+	public boolean addProduct(Product product) {
+		Object o = products.put(product.getName(), product);
+		
+		if (o != null){
+            // a product with the same name as the one to add already exists
+            // => undo the change and signal error
+            products.put(product.getName(), o);
+            return false;
+		}
+        else{
+        	product.setParent(this);
+            return true;
+        }
 	}
 	
 	/**
 	 * Gets a product by its name.
 	 * @param productName the product name.
+     * @return the product with the specified name or null if no product with
+     *         that name exists
 	 */
 	public Product getProduct(String productName) {
 	    return (Product)products.get(productName);
 	}
 	
 	/**
-	 * Removes existing product from this productline.
+	 * Removes the passed product from this productline if its reagistered.
 	 * @param product the product to remove.
+     * @return the removed Product if it was part of this productline or null 
+     *         if not
 	 */
-	public void removeProduct(Product product) {
-		products.remove(product.getName());
-		product.setParent(null);
+	public Product removeProduct(Product product) {
+		Product ret = (Product) products.remove(product.getName());
+        
+        if (ret != null){
+        	ret.setParent(null);
+        }
+        
+        return ret;
 	}
 
 	/**
-	 * Adds new core asset to this productline.
+	 * Adds new core asset to this productline. Please note that each registered
+     * coreasset needs to have its own (unique) name. Adding of a ca with a
+     * name that has already been registered will be refused. 
+     * 
 	 * @param coreasset the coreasset to add.
+     * @return true if the passed coreasset could be registered successfully,
+     *         false otherwise
 	 */
-	public void addCoreAsset(Component coreasset) {
-		coreassets.put(coreasset.getName(), coreasset);
-		coreasset.setParent(this);
+	public boolean addCoreAsset(Component coreasset) {
+        Object o = coreassets.put(coreasset.getName(), coreasset);
+        
+        if (o != null){
+            coreassets.put(coreasset.getName(), o);
+            return false;
+        }
+        else{
+        	coreasset.setParent(this);
+            return true;
+        }
 	}
 	
 	/**
-	 * Removes existing coreasset from this productline.
+	 * Removes a coreasset from this productline, if it is registered.
 	 * @param coreasset the coreassset to remove.
+     * @return the removed coreasset if it existed as part of this productline 
+     *         or null if not
 	 */
-	public void removeCoreAsset(Component coreasset) {
-		coreassets.remove(coreasset.getName());
-		coreasset.setParent(null);
+	public Component removeCoreAsset(Component coreasset) {
+		Component ret = (Component) coreassets.remove(coreasset.getName());
+        
+        if (ret != null){
+        	coreasset.setParent(null);
+        }
+        
+        return ret;
 	}
 
 	/**
