@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.10 2004/07/15 13:58:25 martinplies Exp $
+ * $Id: GXLExportDialog.java,v 1.11 2004/08/04 12:55:29 martinplies Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -38,6 +38,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -55,19 +57,21 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+
 /**
  * @author pliesmn
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
+ * 
+ * Display Export Dialog and export the model as GXL.
  */
-public class GXLExportDialog extends Dialog {
+public class GXLExportDialog extends TitleAreaDialog {
 
     private Text textJarFile;
     private Text textGxlFile;
     private Button buttonJarExport;
     private Button searchJARFileButton;
     private static final Log logger = LogFactory.getLog(GXLExportDialog.class);
+    private String messageCreateFile = "Create a File for Export";
 
     private AbstractAsset exportAsset; // asset that should be exportet
     private Group jarExportGroup;
@@ -76,35 +80,33 @@ public class GXLExportDialog extends Dialog {
      */
     public GXLExportDialog(Shell parentShell, AbstractAsset asset) {
         super(parentShell);
-        exportAsset = asset;
+        exportAsset = asset;        
     }
 
     protected void createButtonsForButtonBar(Composite parent) {
-        createButton(parent, IDialogConstants.OK_ID, Messages
-                .getString("GXLExportDialog.OK"), true); //$NON-NLS-1$
+        createButton(parent, IDialogConstants.PROCEED_ID, "Export", true);
         createButton(parent, IDialogConstants.CANCEL_ID, Messages
                 .getString("GXLExportDialog.Close"), false); //$NON-NLS-1$
     }
 
     protected Control createDialogArea(Composite parent) {
-
+        this.setTitle("GXL EXPORT");
+        this.setMessage("mess", 1);
         Composite exportGroup = new Composite(parent, SWT.NONE);
-        try {
             GridLayout layout = new GridLayout();
             layout.numColumns = 1;
             exportGroup.setLayout(layout);
             exportGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-            // jar export
+            // jar export.  export not implemented, widgets are invisible
             buttonJarExport = new Button(exportGroup, SWT.CHECK);
-            buttonJarExport.setEnabled(false); // is not yet implemented
+            buttonJarExport.setVisible(false); // is not yet implemented
             buttonJarExport.setText(Messages
                     .getString("GXLExportDialog.CheckBNameJarExport")); 
 
-            Label label1 = new Label(exportGroup, SWT.NONE);
-            label1.setText(Messages
-                    .getString("GXLExportDialog.GroupNameJarExport"));
             jarExportGroup = new Group(exportGroup, SWT.NONE);
+            jarExportGroup.setText("GXLExportDialog.GroupNameJarExport");
+            jarExportGroup.setVisible(false);
             layout = new GridLayout();
             layout.numColumns = 2;
             jarExportGroup.setLayout(layout);
@@ -119,6 +121,7 @@ public class GXLExportDialog extends Dialog {
                     .getString("GXLExportDialog.Browse")); 
             searchJARFileButton.addListener(SWT.Selection, new Listener() {
                 public void handleEvent(Event event) {
+                    GXLExportDialog.this.setErrorMessage(null);
                     FileDialog fd = new FileDialog(GXLExportDialog.this
                             .getShell(), SWT.SAVE);
                     GXLExportDialog.this.textJarFile.setText(fd.open());
@@ -146,46 +149,51 @@ public class GXLExportDialog extends Dialog {
                 }
             });
 
-            // gxl export
-            new Label(exportGroup, SWT.NONE);
-            Label label2 = new Label(exportGroup, SWT.NONE);
-            label2.setText(Messages
-                    .getString("GXLExportDialog.GroupNameGXLExport")); 
-            Group gxlExportGroup = new Group(exportGroup, SWT.NONE);
+
+            // gxl Export
+            Group gxlExportGroup = new Group(exportGroup, SWT.SHADOW_NONE);
             layout = new GridLayout();
             layout.numColumns = 2;
             gxlExportGroup.setLayout(layout);
             gxlExportGroup
                     .setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-            textGxlFile = new Text(gxlExportGroup, SWT.SINGLE);
+            gxlExportGroup.setText(Messages
+                    .getString("GXLExportDialog.GroupNameGXLExport"));
+            textGxlFile = new Text(gxlExportGroup, SWT.SINGLE | SWT.BORDER);
             GridData gd1 = new GridData();
             gd1.widthHint = 300;
             textGxlFile.setLayoutData(gd1);
        
-            Button searchGXLFileButton = new Button(gxlExportGroup, SWT.PUSH);
-            searchGXLFileButton.setText(Messages
+            Button GXLFileButton = new Button(gxlExportGroup, SWT.PUSH);
+            GXLFileButton.setText(Messages
                     .getString("GXLExportDialog.Browse")); 
-            searchGXLFileButton.addListener(SWT.Selection, new Listener() {
+            GXLFileButton.addListener(SWT.Selection, new Listener() {
                 public void handleEvent(Event event) {
+                    GXLExportDialog.this.setMessage(null, IMessageProvider.NONE);//delete old error Messages
                     FileDialog fd = new FileDialog(GXLExportDialog.this
                             .getShell(), SWT.SAVE);
                     GXLExportDialog.this.textGxlFile.setText(fd.open());
                     GXLExportDialog.this.textGxlFile.redraw();
                 }
             });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return exportGroup;
-
     }
 
-    public void okPressed() {
-        boolean noFault = true;      
-        noFault = exportGraph(exportAsset, new File(textGxlFile.getText()));
-        if(noFault){this.close();}
-    }
 
+   public void buttonPressed(int button){
+       switch (button){
+         case IDialogConstants.PROCEED_ID: proceedPressed(); break;
+         case IDialogConstants.CANCEL_ID: cancelPressed(); break;   
+       }
+   }
+
+
+  private void proceedPressed() {
+       this.setMessage(null, IMessageProvider.NONE);//delete old error Messages
+       boolean noFault = true;      
+       noFault = exportGraph(exportAsset, new File(textGxlFile.getText()));
+       if(noFault){this.close();}
+   }
 
     public void cancelPressed() {
         this.close();
@@ -195,30 +203,31 @@ public class GXLExportDialog extends Dialog {
         System.out.println(Messages.getString("GXLExportDialog.exportFiles")); //$NON-NLS-1$
     }
 
-    public boolean exportGraph(AbstractAsset asset, File gxlFile) {
+    /**
+     * Generate GXL export. Export <code>asset</code> to <code>GXLFile</code>.
+     * @param asset 
+     * @param gxlFile 
+     */
+    public boolean exportGraph(AbstractAsset asset, File GXLFile) {
         GXLGraph graph = new GXLGraph("koboldgraph"); //$NON-NLS-1$
         GXLDocument doc = new GXLDocument();
         try {
             graph.add(asset.getGXLGraph());
             doc.getDocumentElement().add(graph);
-            doc.write(gxlFile);
+            doc.write(GXLFile);
         } catch (GXLException e) {
             logger.debug(e.getLocalizedMessage(), e);
-            showError(e.getLocalizedMessage());
+            this.setMessage(e.getLocalizedMessage(), IMessageProvider.ERROR);
             return false;
         } catch (IOException e) {
             logger.warn(e.getLocalizedMessage(), e);
-            showError(e.getLocalizedMessage());
+            this.setMessage(e.getLocalizedMessage(), IMessageProvider.ERROR);
             return false;
         }
+        
+        this.setMessage("Graph is exported", IMessageProvider.NONE);//delete old error Messages
         return true;
     }
     
-    private void showError(String error) {
-        MessageBox mb = new MessageBox(this.getShell(), SWT.ICON_ERROR
-                | SWT.OK);
-        mb.setMessage(Messages.getString(error));
-        mb.open();
-    }
 
 }
