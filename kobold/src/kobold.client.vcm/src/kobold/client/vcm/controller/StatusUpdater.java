@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.10 2004/07/22 10:29:34 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.11 2004/07/22 12:06:47 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -71,7 +71,7 @@ public class StatusUpdater {
 
 	}
 	
-	private void processConnection (String[] command,
+	public void processConnection (String[] command,
 									IFileDescriptorContainer fileDescriptorContainer)
 	{
 		CVSSererConnection conn = new CVSSererConnection("faceLoc", "fakeUser","fakePswd");

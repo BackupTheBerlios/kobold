@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMTest.java,v 1.4 2004/07/21 16:09:16 rendgeor Exp $
+ * $Id: VCMTest.java,v 1.5 2004/07/22 12:06:47 rendgeor Exp $
  *
  */
 package kobold.client.vcm.test;
@@ -78,34 +78,17 @@ public class VCMTest extends TestCase {
 		
 		//update FD(s)
 		StatusUpdater statUp = new StatusUpdater ();
-		statUp.updateFileDescriptors(var);
+
+		String[] command = {"perl", "/home/rendgeor/workspace/kobold.client.vcm/scripts/"+ 
+				"stats.pl", "/home/rendgeor/workspace/kobold.client.vcm/"};
+		
+		statUp.processConnection(command, var);
 
 		
 		//assertTrue (productline.getName() == "office");
 	
 
 	}
-	
-	public void testFileDescriptors()
-	{
-		CVSSererConnection conn = new CVSSererConnection("faceLoc", "fakeUser","fakePswd");
-		//command line command with the stats script to the changed part of the meta-data containing FD(s)
-		String[] command = {"perl",	"/home/rendgeor/workspace/kobold.client.vcm/scripts/stats.pl",
-							"/home/rendgeor/workspace/kobold.common"};
-		try 
-		{
-			conn.open(command);
-			String iString = conn.getInputStream().toString();
-			//parse the string
-			//!parseInputString(fileDescriptorContainer, iString);
-		
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-	}
+
 		
 }
