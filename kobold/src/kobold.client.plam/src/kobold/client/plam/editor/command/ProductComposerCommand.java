@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposerCommand.java,v 1.4 2004/08/01 18:24:31 martinplies Exp $
+ * $Id: ProductComposerCommand.java,v 1.5 2004/08/04 08:50:12 vanto Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -42,20 +42,24 @@ public class ProductComposerCommand extends Command
 {
     private AbstractAsset asset;
     private ProductComposer composer;
+    private boolean ctrlKey;
 
-    public ProductComposerCommand(AbstractAsset asset, ProductComposer composer)
+    public ProductComposerCommand(AbstractAsset asset, ProductComposer composer, boolean ctrlKey)
     {
         super("product composer command");
         this.asset = asset;
         this.composer = composer;
+        this.ctrlKey = ctrlKey;
     }
     
     public void execute()
     {
         if (composer.isOpen(asset)) {
-            composer.setUsed(asset);
-        } else if (composer.isUsed(asset)) {
-            composer.setMustNotUse(asset);
+            if (!ctrlKey) {
+                composer.setUsed(asset);
+            } else {
+                composer.setMustNotUse(asset);
+            }
         } else {
             composer.setOpen(asset);
         }
@@ -64,13 +68,13 @@ public class ProductComposerCommand extends Command
     
     public void redo()
     {
-        // TODO Auto-generated method stub
+        // FIXME
         super.redo();
     }
     
     public void undo()
     {
-        // TODO Auto-generated method stub
+        // FIXME
         super.undo();
     }
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposerTool.java,v 1.3 2004/07/24 01:11:08 vanto Exp $
+ * $Id: ProductComposerTool.java,v 1.4 2004/08/04 08:50:12 vanto Exp $
  *
  */
 package kobold.client.plam.editor.tool;
@@ -88,7 +88,7 @@ public class ProductComposerTool extends TargetingTool
      */
     protected void updateTargetRequest() {
     	ProductComposerRequest request = (ProductComposerRequest)getTargetRequest();
-    	//request.setModifiers(getCurrentInput().getModifiers());
+    	request.setControlKeyPressed(getCurrentInput().isControlKeyDown());
     	request.setType(getCommandName());
     	request.setLocation(getLocation());
     }

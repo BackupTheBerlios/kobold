@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComposeEditPolicy.java,v 1.4 2004/08/01 18:24:54 martinplies Exp $
+ * $Id: ComposeEditPolicy.java,v 1.5 2004/08/04 08:50:12 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
@@ -30,6 +30,7 @@ import kobold.client.plam.editor.ArchitectureEditor;
 import kobold.client.plam.editor.KoboldGraphicalViewer;
 import kobold.client.plam.editor.command.ProductComposerCommand;
 import kobold.client.plam.editor.tool.ProductComposer;
+import kobold.client.plam.editor.tool.ProductComposerRequest;
 import kobold.client.plam.editor.tool.ProductComposerTool;
 import kobold.client.plam.model.AbstractAsset;
 
@@ -52,16 +53,16 @@ public class ComposeEditPolicy extends AbstractEditPolicy
     public Command getCommand(Request request)
     {
     	if (ProductComposerTool.REQ_COMPOSE.equals(request.getType())) {
-    	    return getProductComposerCommand();
+    	    return getProductComposerCommand(((ProductComposerRequest)request).isControlKeyPressed());
     	} 
     	return null;
     }
     
-    protected Command getProductComposerCommand()
+    protected Command getProductComposerCommand(boolean isCtrlKeyPressed)
     {
         ArchitectureEditor ae = (ArchitectureEditor)((DefaultEditDomain)getHost().getViewer().getEditDomain()).getEditorPart();
         ProductComposer comp = ((KoboldGraphicalViewer)ae.getAdapter(GraphicalViewer.class)).getProductComposer();
-        return new ProductComposerCommand((AbstractAsset)getHost().getModel(), comp);
+        return new ProductComposerCommand((AbstractAsset)getHost().getModel(), comp, isCtrlKeyPressed);
     }
     
     public EditPart getTargetEditPart(Request request)

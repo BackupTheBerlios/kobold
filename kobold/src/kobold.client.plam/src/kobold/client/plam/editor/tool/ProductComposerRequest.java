@@ -21,12 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComposerRequest.java,v 1.1 2004/07/22 16:42:23 vanto Exp $
+ * $Id: ProductComposerRequest.java,v 1.2 2004/08/04 08:50:12 vanto Exp $
  *
  */
 package kobold.client.plam.editor.tool;
 
-import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.gef.requests.LocationRequest;
 
 
@@ -35,37 +34,19 @@ import org.eclipse.gef.requests.LocationRequest;
  */
 public class ProductComposerRequest extends LocationRequest
 {
-    private int statemask;
+    private boolean ctrlKey;
     
-    /**
-     * Sets the statemask for this request.
-     * @param mask the statemask
-     */
-    public void setModifiers(int mask) {
-    	statemask = mask;
-    }
-    
-    /**
-     * Returns <code>true</code> if the ALT key is currently pressed.
-     * @return whether the ALT key is pressed
-     */
-    public boolean isAltKeyPressed() {
-    	return ((statemask & MouseEvent.ALT) != 0);
-    }
-
     /**
      * Returns <code>true</code> if the CTRL key is currently pressed.
      * @return whether the CTRL key is pressed
      */
-    public boolean isControlKeyPressed() {
-    	return ((statemask & MouseEvent.CONTROL) != 0);
+    public boolean isControlKeyPressed() 
+    {
+    	return ctrlKey;
     }
 
-    /**
-     * Returns <code>true</code> if the SHIFT key is currently pressed.
-     * @return whether the SHIFT key is pressed
-     */
-    public boolean isShiftKeyPressed() {
-    	return ((statemask & MouseEvent.SHIFT) != 0);
+    public void setControlKeyPressed(boolean ctrl) 
+    {
+        ctrlKey = ctrl;
     }
 }
