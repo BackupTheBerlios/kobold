@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin
    id="kobold.commons"
-   name="Kobold Commond Plug-in"
+   name="Kobold Commons Plug-in"
    version="1.0.0"
    provider-name="Werkbold">
 
@@ -17,6 +17,9 @@
          <export name="*"/>
       </library>
       <library name="contrib/jakarta-commons/commons-logging-api.jar">
+         <export name="*"/>
+      </library>
+      <library name="contrib/xmlrpc2-devel/xmlrpc-2.0-a1-dev.jar">
          <export name="*"/>
       </library>
    </runtime>

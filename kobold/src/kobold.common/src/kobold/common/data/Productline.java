@@ -1,8 +1,28 @@
 /*
- * Created on 18.04.2004
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
  *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: Productline.java,v 1.4 2004/05/12 22:26:30 vanto Exp $
+ *
  */
 package kobold.common.data;
 
@@ -10,23 +30,20 @@ import org.dom4j.Element;
 
 /**
  * @author garbeam
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class Productline {
 
-	private String productLineName;
+	private String name;
 	
-	public String getProductLineName() {
-        return productLineName;
+	public String getName() {
+        return name;
     }
 
 	/**
 	 * @param productLineName
 	 */
-	public void setProductLineName(String productLineName) {
-		this.productLineName = productLineName;
+	public void setName(String name) {
+		this.name = name;
 	}
     
 	/**
@@ -34,7 +51,7 @@ public class Productline {
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public void serialize(Element productLineName) {
-			Element productLine = productLineName.addElement("product").addText(this.productLineName);
+			Element productLine = productLineName.addElement("product").addText(this.name);
 		}
 
 	/**
@@ -42,7 +59,7 @@ public class Productline {
 	 */
 	private void deserialize(Element productLineName) {
 
-		this.productLineName = productLineName.selectSingleNode("//product/productLineName").getText();
+		this.name = productLineName.selectSingleNode("//product/productLineName").getText();
 	}    
 
 

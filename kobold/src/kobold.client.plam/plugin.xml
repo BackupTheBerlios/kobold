@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin
-   id="KoboldPLAM"
+   id="kobold.plam"
    name="Kobold PLAM Plug-in"
    version="1.0.0"
    provider-name="Werkbold"
    class="kobold.client.plam.KoboldPLAMPlugin">
 
    <runtime>
-      <library name="KoboldPLAM.jar"/>
+      <library name="kobold-plam.jar"/>
    </runtime>
    <requires>
       <import plugin="org.eclipse.core.resources"/>
@@ -15,7 +15,8 @@
       <import plugin="org.eclipse.draw2d"/>
       <import plugin="org.eclipse.gef"/>
       <import plugin="org.eclipse.swt"/>
-      <import plugin="KoboldVCM"/>
+      <import plugin="kobold.commons"/>
+      <import plugin="kobold.vcm"/>
    </requires>
 
 
@@ -23,8 +24,8 @@
          point="org.eclipse.ui.editors">
       <editor
             name="Architecture Editor"
-            icon="icons/sample.gif"
             extensions="kae"
+            icon="icons/sample.gif"
             class="kobold.client.plam.editor.ArchitectureEditor"
             id="KoboldPLAM.editors.ArchitectureEditor">
       </editor>
@@ -50,8 +51,8 @@
          <view
                ratio="0.5"
                relative="org.eclipse.ui.views.TaskList"
-               relationship="left"
-               id="kobold.client.plam.view.RoleTreeViewPart">
+               id="kobold.client.plam.view.RoleTreeViewPart"
+               relationship="left">
          </view>
       </perspectiveExtension>
    </extension>

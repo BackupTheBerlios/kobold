@@ -17,14 +17,14 @@ import org.dom4j.Element;
  */
 public class Product {
 
-	private String productName;
+	private String name;
 	
 	/**
 	 * Serializes the product.
 	 * @see kobold.common.data.Product#serialize(org.dom4j.Element)
 	 */
 	public void serialize(Element productName) {
-			Element product = productName.addElement("product").addText(this.productName);
+			Element product = productName.addElement("product").addText(this.name);
 		}
 
 	/**
@@ -32,21 +32,21 @@ public class Product {
 	 */
 	private void deserialize(Element productName) {
 
-		this.productName = productName.selectSingleNode("//product/productName").getText();
+		this.name = productName.selectSingleNode("//product/productName").getText();
 	}
 	
 	/**
 	 * @return
 	 */
-	public String getProductName() {
-		return productName;
+	public String getName() {
+		return name;
 	}
 
 	/**
 	 * @param string
 	 */
-	public void setProductName(String string) {
-		productName = string;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

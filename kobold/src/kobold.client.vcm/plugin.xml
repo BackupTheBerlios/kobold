@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin
-   id="KoboldVCM"
+   id="kobold.vcm"
    name="Kobold VCM Plug-in"
    version="1.0.0"
    provider-name="Werkbold"
    class="kobold.client.vcm.KoboldVCMPlugin">
 
    <runtime>
-      <library name="KoboldVCM.jar"/>
+      <library name="kobold-vcm.jar"/>
    </runtime>
    <requires>
       <import plugin="org.eclipse.core.resources"/>
@@ -17,6 +17,7 @@
       <import plugin="org.eclipse.ui.externaltools"/>
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.ui.workbench"/>
+      <import plugin="kobold.commons"/>
    </requires>
 
 

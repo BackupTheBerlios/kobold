@@ -27,37 +27,19 @@ public class WorkflowMessage extends KoboldMessage {
 		  return type;
 	  }
 
-   }
-
-
-
-
-
-
-
-
-
+}   
    
-
-/**
- * @return
- */
+/*
 public HashMap getResult() {
 	return result;
 }
 
-/**
- * @return
- */
 public String getXmlMessage() {
 	return xmlMessage;
 }
 
-/**
- * @param string
- */
 public void setXmlMessage(String string) {
 	xmlMessage = string;
 }
 
-
+*/
