@@ -27,6 +27,7 @@
  */
 package kobold.client.vcm.communication;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -150,8 +151,8 @@ public class ScriptServerConnection implements IServerConnection
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
 				new IConsole[] {console});
 			stream = console.newMessageStream();
-			inputThread = new InputThreadToConsole(inputStream,stream);//process.getInputStream(), stream);
-			errorThread = new InputThreadToConsole(errStream,stream);//process.getErrorStream(), stream);
+			inputThread = new InputThreadToConsole(process,stream);//process.getInputStream(), stream);
+//			errorThread = new InputThreadToConsole(errStream,stream);//process.getErrorStream(), stream);
 //			readInpuStreamsToConsole();
 			inputThread.run();
 			errorThread.run();
@@ -195,8 +196,8 @@ public class ScriptServerConnection implements IServerConnection
 			// full pipe
 			errStream = (process.getErrorStream());
 			connected = true;
-			errorThread = new InputThreadToConsole(errStream,null);
-			inputThread = new InputThreadToConsole(process.getInputStream(), null);
+//			errorThread = new InputThreadToConsole(errStream,null);
+			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, null);
 			((InputThreadToConsole)inputThread).setReturnString(returnStr);
 			((InputThreadToConsole)errorThread).setReturnString(returnStr);
 			inputThread.run();
@@ -253,13 +254,13 @@ public class ScriptServerConnection implements IServerConnection
 				new IConsole[] {console});
 			stream2 = console.newMessageStream();
 			connected = true;
-			errorThread = new InputThreadToConsole(process.getErrorStream(), stream2);
+			errorThread = new InputThreadToConsole(process/*.getErrorStream()*/, stream2);
 //			errorThread.
-			inputThread = new InputThreadToConsole(process.getInputStream(), stream2);
+			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
 			
 //			readInpuStreamsToConsole();
 
-			errorThread.run();
+//			errorThread.run();
 			inputThread.run();
 //			readInpuStreamsToConsole();
 		} finally {
@@ -383,36 +384,65 @@ public class ScriptServerConnection implements IServerConnection
 	// 
 	// discard the input to prevent the process from hanging due to a full pipe
 	private static class InputThreadToConsole extends Thread {
-		private InputStream in;
+		private BufferedInputStream in, errStream;
 		private byte[] readLineBuffer = new byte[512];
 		private MessageConsoleStream stream = null;
 		String returnString = null;
-		public InputThreadToConsole(InputStream in,MessageConsoleStream stream ) {
-			this.in = in;
+		public InputThreadToConsole(Process proc,MessageConsoleStream stream ) {
+			this.in = new BufferedInputStream(proc.getInputStream());
 			this.stream = stream;
+			this.errStream = new BufferedInputStream(proc.getErrorStream());
 		}
 
 		public void run() {
 			
 				try {
 					if (in != null) {
-					int r = 0,index = 0;
+					int r = 0, s = 0,index = 0;
 //					sleep(2500);
+					
 //					System.out.println(in.toString()+" :"+in.available());(in.available() != 0) && 
-					while(r != -1 )
+					while(r != -1 | s != -1)
 					{
-						while ((in != null && (r = in.read()) != -1 ) ) {
-//							if(r == NEWLINE) break;
+//						int test = errStream.available();
+						if (errStream != null && errStream.available() != 0)
+						{
+						while (errStream != null && (s = errStream.read()) != -1 )
+						{
+							if(s == NEWLINE) break;
+							readLineBuffer = append(readLineBuffer, index++, (byte) s);
+						}
+						}
+//						int testIn = ;
+						if (in.available() != 0)
+						{
+						while ((in != null && (r = in.read()) != -1 ) ) 
+						{
+							if(r == NEWLINE) break;
 							readLineBuffer = append(readLineBuffer, index++, (byte) r);
 						}
-
+						}
+						if(returnString != null)
+						{
+							if(returnString.equals(""))
+								returnString = new String(readLineBuffer, 0, index);
+							else
+								returnString  = returnString.concat(new String(readLineBuffer, 0, index));
+							readLineBuffer = new byte[512];
+						}
+							
+						else{
+							stream.print(new String(readLineBuffer, 0, index));
+							readLineBuffer = new byte[512];
+							index=0;
+						}
 						
 					}
-					if(returnString != null)
-						returnString = new String(readLineBuffer, 0, index);
-					else{
-						stream.print(new String(readLineBuffer, 0, index));
-					}
+//					if(returnString != null)
+//						returnString = new String(readLineBuffer, 0, index);
+//					else{
+//						stream.print(new String(readLineBuffer, 0, index));
+//					}
 //					stream.getConsole().
 	
 				} 
