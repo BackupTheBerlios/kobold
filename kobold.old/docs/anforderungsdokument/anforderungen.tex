@@ -1,0 +1,104 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% StuPro A, Produktlinien (Kobold)
+%% Team Werkbold
+%% Anforderungsdokument
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Funktionale Anforderungen}
+\section{Architekturanforderungen}
+\begin{enumerate}
+    \item Es kann mehrere Produktlinien geben
+    \item Es darf immer nur eine Produktlinie pro Programminstanz bearbeitet werden
+    \item Es muss möglich sein, Skripte an jede mögliche Aktion zwischen Repositories anzuhängen. Werden mehrere Skripte bei einer Aktion ausgeführt, so muss vorher festgelegt werden, in welcher Reihenfolge dies geschehen soll.
+    \item Als Aktionen muss es checkin, checkout, commit und update geben
+    \item Es muss möglich sein, die Architekturen verschiedener Produkte zu überlappen und damit gleichzeitig anzuzeigen, um die Unterschiede und Gemeinsamkeiten dieser zu sehen
+    \item Beim Anlegen und Bearbeiten von Architekturen soll das System überprüfen, ob diese korrekt sind. Wenn nicht, soll zwar eine Warnung gegeben werden, die Aktion soll aber trotzdem ausführbar sein
+    \item Es muss möglich sein, variantenunabhängige Komponenten und Dateien anzugeben
+    \item Für jede Komponente muss die Möglichkeit gegeben werden, Zuständigkeiten vergeben zu können, um bei Fragen oder Anregungen einen Ansprechpartner zu haben
+    \item Die Dateien werden auf der Produktebene versioniert
+    \item Auf der Produktlinienebene werden die Varianten versioniert
+    \item Die Bezeichnung der Architektur lautet: "Komponente C in Variante 25"
+    \item Es muss die Möglichkeit geben Produkte abzuschließen. Abgeschlossene Produkte werden soweit wie möglich auf die nötigen Dateien reduziert, ins PLE Repository geladen und aus dem des PE gelöscht. Es muss außerdem ein Tracking erstellt werden, über das sich das jeweilige Produkt leicht nachbauen
+    lässt.Zusätzlich wird das Projekt beim Server registriert.
+    \item Es darf nicht möglich sein, Produktlinien oder Varianten jemals zu löschen.
+    \item Produktlinien und Varianten dürfen nur auf "depricated" gesetzt werden. Danach werden diese Objekte für ein neues Produkt nicht mehr sichtbar und werden nur von den davor erstellten Produkten verwendet und weiter bearbeitet.
+    \item Die Sicht und Möglichkeiten im System sollen für unterschiedliche Benutzerrollen unterschiedlich sein
+    \item Es soll einen Product Line Engineer geben, der eine ganze Produktlinie bearbeiten und anschauen kann. Er befindet sich nach dem Einloggen automatisch auf der Produktlinienebene (siehe 3.3). Auf dieser Ebene bekommen Varianten Versionsnummern, nicht die darunter stehenden Dateien.
+    \item Ein Product Engineer ist zuständig für ein bestimmtes Produkt und loggt sich daher automatisch auf der Produktebene ein (siehe 3.4). Auf dieser Ebene werden die Dateien versioniert. Hier gibt es keine besonderen Unterschiede zwischen Komponente und Variante
+    \item Unter dem Product Engineer stehen als letzte Instanz die Programmierer.
+    \item Aus den Metadaten und den Abhängigkeiten wird ein Produkt- bzw. Produktlinien-Überblick als Dokument wahlweise im HTML, RTF oder PDF-Format erzeugt.
+    \item Der Architekturgraph stellt die grundlegende Produktlinien- Architektur graphisch dar.
+    \item Die Core-Assets und deren konkrete Varianten werden differenziert als Knoten dargestellt. Die oben genannten Beziehungen werden durch Kanten in dem Graph visualisiert und lassen sich über Filter ein und ausblenden.
+    \item Knoten/Komponenten sind in sich verschachtelt und können bis auf die Dateiebene geöffnet und angezeigt werden.
+    \item Es gibt Marker für Beziehungen. Ein Marker besagt z.B., ob ein Produktentwickler diese Komponente verändern darf, oder ob sie von einer neuen Core-Asset-Version vorbehaltlos überschrieben werden kann.
+    \item Dem Benutzer steht es frei, die Komponenten visuell zu verschieben. Diese Veränderung wird gespeichert, ist jedoch nur für diesen Benutzer relevant.
+    \item Die Anzeige des Architekturgraphen basiert auf den Informationen aus den Repositories. Diese werden beim öffnen der Ansicht einmal erzeugt und nicht laufend aktualisiert.
+    \item Strukturelle Änderungen an der Architektur müssen explizit mit den Repositories synchronisiert werden.
+    \item Bei Konsistenzproblemen werden Workflows angeboten.
+\end{enumerate}
+
+\section{Anforderungen an den Product Line Engineer (PLE)}
+\begin{enumerate}
+    \item Der PLE kann eine neue Architektur erstellen
+    \item Der PLE kann eine neue Architektur bearbeiten
+    \item Der PLE muss sich per Passwort authentifizieren
+    \item Der PLE kann eine neue Komponente erstellen
+    \item Der PLE muss ein neues Produkt anlegen können und danach einem PE zuweisen
+    \item Der PLE hat Zugriff auf alle Komponenten und alle Varianten
+    \item Der PLE hat die Möglichkeit, Rechte zu vergeben: welcher PE bekommt welche Variante und was kann er damit machen bzw. welche Core Group bearbeitet welche Variante
+    \item Der PLE bearbeitet lediglich die Architektur; es ist der PE, der später die Varianten und Komponenten ausfüllt und Dateien hinzufügt
+    \item Der PLE kann nach "unten" schauen und sich die Architekturen seiner PE begutachten
+    \item Wählt der PLE eine Architektur für den PE aus, die seinem eigenen Pattern widerspricht, so kommt zwar eine Warnung, die Aktion soll aber trotzdem möglich sein
+    \item "eine neue Architektur zusammenstellen" kann auch bedeuten "eine bestehende Architektur nachträglich ändern".
+    \item Der PLE kann auf die Dateien des PE zugreifen und in das eigene Repository laden. Dadurch wird automatisch eine neue Variante / Komponente erstellt.
+    \item Es muss die Möglichkeit gegeben sein, Nachrichten an andere Benutzer zu senden.
+    \item Ändert sich eine Architektur oder gibt es eine neue Version, so kann der PLE Änderungsnachrichten an die betroffenen PEs und Core Groups schicken, die daraufhin ein Update durchführen können.
+    \item Ein PLE kann auch die Architekturen seiner PEs einsehen.
+    \item Marker können von dem Produktlinien-Ingenieur graphisch hinzugefügt, gelöscht oder bearbeitet werden.
+    \item Komponentenbeziehungen können von dem Produktlinien-Ingenieur graphisch hinzugefügt, gelöscht oder bearbeitet werden.
+    \item Wie bei der Produktlinie kann man auch die Architektur der Produkte ändern. Hier ist es neben Ergänzungen durch oder dem Austauschen von neuen Core-Asset-Varianten auch möglich, Komponenten aus der Architektur zu entfernen. Hierbei muss der Produkt-Ingenieur kosultiert werden.
+    \item Zusammen mit dem Projekt-Ingenieur kann ein Produkt aus der Produktlinie entfernt werden.
+    \item Der PLE kann einen Produktlinienüberblick anhand der Metadaten erzeugen. Dies kann in mehreren Formaten geschehen.
+\end{enumerate}
+
+\section{Anforderungen an den Product Engineer (PE)}
+\begin{enumerate}
+    \item Änderungsnachrichten werden automatisch an die betroffenen PE geschickt; diese können ohne eine Bestätigung des PLE ihre Varianten updaten
+    \item Der PE muss sich per Passwort authentifizieren
+    \item Der PE kann Nachrichten an alle Benutzer des Systems schicken
+    \item Der PE kann dem PLE "pending requests" schicken, die dem PLE bei jedem Start des Systems erscheinen; pending requests sind z.B. Aufforderungen, eine gewisse Variante hochzuladen;
+    \item WIDERSPRUCH!!!! Der PE committed nicht; stattdessen benachrichtigt er den PLE, der dann auf die Dateien des PE zugreift und diese hochlädt; dabei gibt er auch an, um was es sich handelt (neue Version, neue Variante, Bugfix, etc.)
+    \item Hat der PE bei einer Variante nur Lesestatus, kann er nach einer Warnung trotzdem einen "Hot Fix" durchführen; die Variante bekommt daraufhin einen neuen Status;
+    \item Updates werden niemals automatisch durchgeführt; die Entscheidung liegt immer beim PE
+    \item PE darf auch neue Varianten bzw. Varianten noch nicht bestehender Komponenten anlegen
+    \item Der PE darf seine Architektur unabhängig vom PLE in jeder Hinsicht
+    ändern. WIDERSPRUCH!!!! Der Produkt-Ingenieur kann sein Produkt beliebig verändern und erweitern, solange er die Produktlinienarchitektur nicht verletzt. Er kann das Produkt um produktspezifische Komponente erweitern.
+    \item In der Produktansicht werden nur die in dem Produkt instanziierten Core Assets und deren Beziehungen untereinander angezeigt.
+    \item Der PE kann neue Programmierer hinzufügen
+    \item Der PE kann Metainformationen über sein Projekt in verschiedenen Formaten anzeigen.
+\end{enumerate}
+
+\section{Anforderungen an den Programmer  (P)}
+\begin{enumerate}
+    \item Der P kann dem PE "pending requests" schicken, die dem PE bei jedem Start des Systems erscheinen; pending requests sind z.B. Aufforderungen, eine gewisse Variante hochzuladen
+    \item Der P authentifiziert sich mit Passwort
+    \item Ein P kann Nachrichten an alle Benutzer schicken
+    \item Der Programmierer kann lesend auf alle Architekturen zugreifen.
+    \item Der P bekommt immer die aktuellste Version, die im Repository des PE zu finden ist. Die Programmierer erstellen dann weitere Versionen. Dabei sollen z.B. P2 und P3 ein Update bekommen, sobald P1 eine neue Version erstellt hat, damit alle Programmierer auf dem gleichen Wissenstand arbeiten.
+    \item Programmierer bekommen die aktuellste Version, es sei denn sie möchten explizit eine ältere.
+    \item Ein Programmierer darf auch die ursprüngliche PL-Architektur einsehen.
+    \item Der P kann direkt alle Produkt-Repositories in sein Arbeitsverzeichnis auschecken um dort mit seiner Arbeit zu beginnen.
+    \item Der P kann sein Arbeitsverzeichnis aktualisieren.
+    \item Der P kann seine Arbeit einchecken.
+\end{enumerate}
+
+\section{Funktionen}
+Alle aufgeführten Rollen können außerdem die folgenden Funktionen
+ausführen:
+\begin{itemize}
+    \item Workflow anstoßen
+    \item Produkt- und Produktlinienarchtitektur einsehen
+    \item Repositories ansehen
+    \item Schnittgraphen anzeigen
+    \item Produktlinie und deren Produkte nach Metainformation durchsuchen
+\end{itemize}
