@@ -21,12 +21,10 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: UserContext.java,v 1.2 2004/04/16 12:39:46 garbeam Exp $
+ * $Id: UserContext.java,v 1.3 2004/05/03 22:56:31 garbeam Exp $
  */
 
 package kobold.common.data;
-
-import java.lang.String;
 
 /**
  * Base class for user context information (session info).
@@ -36,7 +34,10 @@ import java.lang.String;
  * @author garbeam
  */
 public class UserContext{
-
+	
+    // members
+	 private String username;
+	 private String sessionId;
     /**
      * Default constructor, which provides basic info
      * about the user context.
@@ -67,9 +68,4 @@ public class UserContext{
     public String getSessionId() {
         return this.sessionId;
     }
-
-    // members
-
-    private String username;
-    private String sessionId;
 }

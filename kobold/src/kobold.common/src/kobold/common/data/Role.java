@@ -1,6 +1,6 @@
 package kobold.common.data;
 
-import java.lang.String;
+import org.dom4j.Element;
 
 /**
  * this is the base class for RoleP, -PE and -PLE. a Role-Object is always
@@ -11,43 +11,61 @@ import java.lang.String;
  */
 public class Role {
 
-/**
- * name of associated user
- */
-private String user;
+	protected static final short ROLE_PLE = 1;
+	protected static final short ROLE_PE = 2;
+	protected static final short ROLE_P = 2;
 
-/**
- * String that describes the related permissions
- */
-private String permissions;
-  
-/**
- * @return the associated user's name
- */
-public String getUser() {
-  return null;
-  }
+	private String permissions;
+	private short type;
 
-/**
- * associates the Roleobject with an user
- *  
- * @param user the user to associate
- */
-public void setUser(String user) {
-  }
+	/**
+	 * @return the associated user's name
+	 */
+	public String getUser() {
+		return null;
+	}
 
-/**
- * @return permissions related to this Role
- */
-public String getPermissions() {
-  return null;
-  }
+	/**
+	 * associates the Roleobject with an user
+	 *  
+	 * @param user the user to associate
+	 */
+	public void setUser(String user) {
+	}
 
-/**
- * sets the permissions for this Role
- * 
- * @param perm - the permissions
- */
-public void setPermissions(String perm) {
-  }
+	/**
+	 * @return permissions related to this Role
+	 */
+	public String getPermissions() {
+		return null;
+	}
+
+	/**
+	 * sets the permissions for this Role
+	 * 
+	 * @param perm - the permissions
+	 */
+	public void setPermissions(String perm) {
+	}
+
+	/**
+	 * Serializes this object.
+	 * 
+	 * @param roles DOM parent element to attach this role.
+	 */
+	public void serialize(Element roles) {
+		String roleType = null;
+		switch (type) {
+			case 1 :
+				roleType = "PLE";
+				break;
+			case 2 :
+				roleType = "PE";
+				break;
+			case 3 :
+				roleType = "P";
+				break;
+		}
+		Element role = roles.addElement("role").addText(roleType);
+	}
 }
