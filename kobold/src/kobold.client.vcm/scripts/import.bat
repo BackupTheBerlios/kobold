@@ -1,12 +1,22 @@
 @echo off
 cd %1
 
-if %4 = "local"					goto LOCAL	endif
+if %3 == "local"	goto LOCAL	endif
 
-cvs -z3 -d :pserver:%2:%3@%4:%5 import -m %6 %7 %8 %9
+if %2 == "CVS" goto CVS endif
+goto ERROR
+
+:CVS
+cvs -z3 -d :pserver:%4:%5@%6:%7 import -m %9 %8 
 goto END
 
 :LOCAL
 cvs -z3 -d %5 import -m %6 %7 %8 %9
+goto END
+
+:ERROR
+echo This VCM Type is not supported by this script
 
 :END
+
+
