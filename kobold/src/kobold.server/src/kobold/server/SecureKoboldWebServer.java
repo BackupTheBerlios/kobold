@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.34 2004/06/24 07:42:44 neccaino Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.35 2004/06/24 07:48:29 grosseml Exp $
  *
  */
 package kobold.server;
@@ -129,6 +129,16 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 					}
 					return result;
 				}
+				
+			}
+			else if (methodName.equals("getProductRole")){			
+				Role resultRole;
+				UserContext userContext = (UserContext)arguments.elementAt(0);
+				String userName = (String)arguments.elementAt(1);
+				String productName = (String)arguments.elementAt(2);
+				resultRole = getProductRole(userContext,userName,productName);
+				
+				return RPCMessageTransformer.encode(resultRole.serialize());									
 			}
 			else if (methodName.equals("addUser")) {
 				addUser(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
@@ -196,6 +206,11 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			else if (methodName.equals("validateSATAccessibility")){
 				return validateSATAccessibility((String)arguments.elementAt(0));
 			}
+
+			else if (methodName.equals("changeUserPassword")){
+				changeUserPassword((UserContext)arguments.get(0), (String)arguments.get(1));
+	
+			}
 			else if (methodName.equals("satCreateNewProductline")){
 				return satCreateNewProductline((String)arguments.elementAt(0),
 														               (String)arguments.elementAt(1),
@@ -240,6 +255,39 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	public Vector getRoles(UserContext userContext) {
 		UserManager manager = UserManager.getInstance();
 		return manager.getUser(userContext.getUserName()).getRoles(); 
+	}
+	
+	
+	/**
+	 * Finds out which role a user has in a specific product
+	 * @param userContext
+	 * @param userName
+	 * @param productName
+	 * @return
+	 */
+	public Role getProductRole(UserContext userContext, String userName, String productName){
+		UserManager manager = UserManager.getInstance();
+		Vector v = manager.getUser(userName).getRoles();
+		
+		Role productRole;
+		
+		for (int i=0; i < v.size(); i++){
+			productRole = (Role) v.get(i);
+			if (productRole instanceof RoleP){
+				RoleP tmpRole = (RoleP) productRole;
+				if(tmpRole.getProductName().equals(productName)){
+					return tmpRole;
+				}
+			}
+			else if (productRole instanceof RolePE){
+				RolePE tmpRole = (RolePE) productRole;
+				if(tmpRole.getProductName().equals(productName)){
+					return tmpRole;
+				}	
+			}
+		}
+		
+		return null;
 	}
 
 	/**
@@ -316,7 +364,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * @param userContext the user context.
 	 * @param product the product.
 	 */
-	public void addProduct(UserContext userContext, Product product) {
+	public void addProduct(UserContext userContext, kobold.common.model.product.Product product) {
 		ProductManager productManager = ProductManager.getInstance();
 		UserManager userManager = UserManager.getInstance();
 		if (userManager.isPLE(userContext.getUserName())) {
