@@ -46,12 +46,76 @@ Die Aufteilung der Client-Komponenten in MVC-Gruppen sieht wie folgt aus:\par
     \item Komponente Team-Plugin (teilweise 3rd-Party)
 \end{itemize}\par
 
-\section{Viewkomponente RollenView}
+\section{Das Kobold Client Feature Set}
+Wie eingangs erwähnt wird der Client als Feature-Set implementiert.
+Dieses Feature-Set besteht aus den für das Tool nötigen Plug-Ins und
+dem Product Branding. Die einzelnen Plugins werden in den folgenden
+Abschnitten dargestellt.
+
+\subsubsection{Kurzspezifikation}
+Das Feature Set dient als ''Container'' für die 3 Kern-Plug-Ins des
+Kobold Clients. Es stellt eine ''Kurzinformations''-Seite, die Lizenzvereinbarungen
+sowie Copyright Informationen zur Verfügung. Weiterhin stattet es das Produkt
+mit einem Logo aus, das bei Programmstart geladen wird.
+Folgend ein kurzausschnitt dar:
+\begin{verbatim}
+<feature
+      id="kobold.client"
+      label="Kobold Produktlinien Tool"
+      version="1.0.0"
+      provider-name="Werkbold Group"
+      image="evolution.gif"
+      primary="true">
+
+   <install-handler/>
+
+   <description>
+      	Hier wird spaeter eine ausführliche Beschreibung des Features
+		stehen
+   </description>
+
+   <copyright url="www.copyright.de">
+     	Hier steht etwas oder der Link verweist auf eine page mit Copyright vereinbarungen
+   </copyright>
+
+   <license>
+      	Hier werden mögliche Lizenzvereinbarungen stehen
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.resources"/>
+   </requires>
+
+   <plugin
+         id="gxl"
+         download-size="0"
+         install-size="0"
+         version="1.0.0"/>
+
+   <plugin
+         id="vcmwrapper"
+         download-size="0"
+         install-size="0"
+         version="1.0.0"/>
+
+   <plugin
+         id="productlinetool"
+         download-size="0"
+         install-size="0"
+         version="1.0.0"/>
+
+</feature>
+\end{verbatim}
+
+\section{Das UserInterface Plug-In}
+
+\subsection{Viewkomponente RollenView}
 Die Rollenview zeigt in einem Baum die Rollen und dazugehörigen
 Produkte bzw. die zugehörige Produktlinie des angemeldeten Benutzers
 an.\par
 
-\subsection{Kurzspezifikation}
+\subsubsection{Kurzspezifikation}
 Unter dem Wurzelknoten erscheinen die jeweiligen Rollen des
 angemeldeten Benutzers. Ein Benutzer kann in einer
 Produktlinienentwicklung mehrer Rollen annehmen, daher können hier bis
@@ -75,7 +139,7 @@ Durch einen Rechtsklick mit der Maus öffnet sich ein Kontextmenü.
 In diesem Menü bekommt man die oben genannten Aktionen sowie die
 Aktionen des VCM-Wrappers zur Verfügung gestellt.
 
-\subsection{Entwurfsdetails}
+\subsubsection{Entwurfsdetails}
 Die Rollenview operiert über die Eclipse-Plattform
 (ITreeContentProvider) auf der Komponente ArchitekturModel.
 
@@ -116,13 +180,13 @@ kobold.client.controler.roletree.RoleTreeLabelProvider
 wird zur Darstellung der Baumknoten verwendet.
 
 
-\section{Viewkomponente ArchitekturEditor}
+\subsection{Viewkomponente ArchitekturEditor}
 Der Architektur-Editor wird mittels der Draw2D und GEF Frameworks realisiert
 und stellt die Produktlinienarchitektur gemäß 2.2.2., Spezifikation I
 dar.  Er operiert via GEF auf dem ArchitekturViewModel.
 Auch die Viewkomponente kann Aktionen des VCM-Wrappers ausführen.
 
-\subsection{Kurzspezifikation}
+\subsubsection{Kurzspezifikation}
 Nach dem Öffnen einer Architektur zeigt der Architektureditor eine
 weiße Fläche, auf der sich freipositionierbar Komponenten
 befinden. Komponenten werden als hellgelb eingefärbte rechteckige
@@ -134,10 +198,13 @@ Varianten werden durch leicht türkis eingefärbte Rechtecke mit
 abgerundeten Ecken angezeigt. Auch hier wird oben ein Titel, darunter
 nebeneinander ebenfalls in statischem Layout, die enthaltenen
 Komponenten dargestellt.
-
-In den Produktlinien-Architekturen können zusätzlich Versionen und
-Dateien/Verzeichnisse angezeigt werden. Die Darstellung erfolgt
-analog.
+%Hääääää was soll denn der folgende Satz heissen?! hab keine Ahnung hört sich 
+%aber eggelhaft an! ;) schneipk
+In den Produktlinien-Architekturen werden zusätzlich Versionen angezeigt.
+Durch Doppelklick auf die graue Versionengrafik wird ein neues Editorfenster
+geöffnet, in dem alle Versionen zu einer Variante angezeigt werden. Durch erneutes
+Doppelklicken auf eine einzelne Version, werden die dazugehörigen Dateien/Verzeichnisse 
+in einem neuen Editorfenster dargestellt.
 
 Zwischen den Blöcken können sowohl gerichtete als auch ungerichtete
 Kanten existieren. Je nach semantischer Bedeutung werden diese
@@ -153,15 +220,17 @@ die die folgenden Werkzeuge bereitstellt:
   \item Objekte mit einer Schliest-aus-Kante verbinden
   \item neue Komponente einfügen
   \item neue Variante einfügen
+  \item Objekt löschen
 \end{itemize}
 
 Mittels dieser Werkzeuge lässt sich das Architekturmodell
-erweitern. Ein Doppelklick auf einen Block öffnet einen Dialog in dem
+erweitern. Ein Doppelklick auf einen Block öffnet einen Dialog in dem %häää was ist ein Block?
 die definierten Metadaten eingesehen und verändert werden können.
 Ein Rechtsklick mit der Maus öffnet ein Kontextmenü mit VCM-Aktionen
 für diesen Block sowie Aktionen zur Konsistenzüberprüfung.
-
-\subsection{Entwurfsdetails}
+Objekt können immer gelöscht werden. Falls diese schon in das CVS übernommen wurden,
+Wird eine Warnung ausgegeben diese besser als ''Deprecated'' zu markieren.
+\subsubsection{Entwurfsdetails}
 Der interne Entwurf wird durch das MVC-Konzept von GEF vorgegeben. Die
 Integration in die Plattform erfolgt über folgenden Extensionpoint:
 \begin{verbatim}
@@ -179,41 +248,38 @@ Integration in die Plattform erfolgt über folgenden Extensionpoint:
 
 
 
-\section{Viewkomponente Minimap}
+\subsection{Viewkomponente Minimap}
 Die Minimap (2.2.3., Spezifikation I) ist direkt mit dem Architektur-Editor 
 verknüpft und stellt eine verkleinerte Fassung der Architektur dar.
 
-\section{Viewkomponente Task-/WorkflowView}
+\subsection{Viewkomponente Task-/WorkflowView}
 Diese Komponente zeigt die Tasks und Workflows an. Sie operiert über die
 Controllerkomponente Eclipse-Plattform (IMarker) auf der Komponente MessageQueue.
 
-\section{Viewkomponente TaskDetailView}
+\subsection{Viewkomponente TaskDetailView}
 Hier werden die Details zu einem Workflow angezeigt. Die Daten werden über die
 MessageQueue bezogen.
 
-\section{Modelkomponente ArchitekturModel}
+\subsection{Modelkomponente ArchitekturModel}
 Das Architektur-Model enthält baumartig aufgebaut alle Informationen über die
 Produktlinie(n). Das umfasst Varianten, Komponenten, Assets und
 Benutzer.
 
-\section{Modelkomponente ArchitekturViewModel}
+\subsection{Modelkomponente ArchitekturViewModel}
 Diese Komponente repräsentiert auf Modelebene all das, was im Architektur-
 Editor angezeigt wird. Das Viewmodel enthält zusätzlich noch Informationen 
 über die Position der einzelnen Viewelemente auf dem Canvas. Der Aufbau der
 ViewModel-Elemente erfolgt dynamisch auf Basis des Architektur-Models und 
 durchläuft Filter, die steuern, welche Elemente tatsächlich angezeigt werden 
 sollen. Somit wird eine performantere Darstellung gesichert.
-
-\section{Modelkomponente GXL}
-Import und Export der Architekturmodels von und nach GXL.
-
-\section{Modelkomponente MessageQueue}
+%--------------------------------------------------------------------------
+\subsection{Modelkomponente MessageQueue}
 Diese Komponente ist die lokale Repräsentation der MessageQueue auf dem Server.
 Alle Nachrichten werden über die Server-Kommunikations-Komponente bezogen und 
 lokal gespeichert. Diese Komponente bedient über den Eclipse-Controller die
 Task-/Workflow-Viewkomponente.
 
-\section{Controllerkomponente Server-Kommunikation}
+\subsection{Controllerkomponente Server-Kommunikation}
 Diese Singleton-Komponente übernimmt die Kommunikation mit dem Kobold Server.
 Die Kommunikation findet mittels HTTPS (SSL) basierter XML-RPCs statt. Das
 von der Komponente implementierte Querschnitts-Interface ist unter Kapitel
@@ -223,7 +289,7 @@ Neben der Delegierung der Methodenaufrufe an den Server
 via XML-RPC kapselt die Komponente auch das Berechtigungskonzept
 zum Server von den restlichen clientseitigen Komponenten ab.
 
-\subsection{Kapselung des Berechtigungskonzeptes}
+\subsubsection{Kapselung des Berechtigungskonzeptes}
 
 Die Controllerkomponente Server-Kommunikation meldet sich mit
 Benutzernamen und Passwort am Kobold Server an und erhält vom
@@ -241,27 +307,20 @@ vergebene Session-ID ungültig und eine neue Session-ID an die zweite
 Client Instanz vergeben. Dadurch wird die Datenkonsistenz
 sichergestellt.
 
-\subsection{Resultatwerte der XML-RPC Aufrufe}
+\subsubsection{Resultatwerte der XML-RPC Aufrufe}
 
 Durch die Auswertung der Resultatwerte von XML-RPCs kann die
 Komponente entscheiden, ob die Server-Aktion erfolgreich
 ausgeführt wurde oder ob eine erneute Authentifizierung notwendig ist.
 
-\section{Controllerkomponente GEF}
-Das Graphical Editing Framework ist ein MVC-basiertes Editing-Framework von 
-Eclipse. Der Architektur-Editor setzt darauf auf und kommuniziert über darüber
-mit dem ArchitekturViewModel.
+%--------------------------------------------------------------------------
+\section{Das GXL Plug-In}
+\subsection{Modelkomponente GXL}
+Import und Export der Architekturmodels von und nach GXL.
 
-\section{Controllerkomponente Eclipse-Plattform}
-Die Eclipse-Plattform bietet viele MVC-unterstützende Klassen und Komponenten
-mit deren Hilfe die Trennung zwischen Model und View ermöglicht wird.
+\section{Das VCM-Wrapper Plug-In}
 
-\section{Controllerkomponente Team-Plugin}
-Die Teamplugins sind die Team-Komponenten an die der VCM-Wrapper die Anfragen
-weiterdelegiert. In der Eclipse-Plattform ist das CVS-Team-Plugin bereits 
-enthalten. Weitere Plugins sind als 3rd-Party-Module verfügbar.
-
-\section{Controlerkomponente VCM-Wrapper}
+\subsection{Controlerkomponente VCM-Wrapper}
 
 Der VCM-Wrapper spiegelt der Eclipse-Plattform ein vollfunktionsfähiges Team-
 Plugin vor, über das alle Repositoryoperationen durchgeführt werden. Intern
@@ -287,7 +346,7 @@ die Eclipse-Plattform (Repository Perspektive) ab. Hierdurch wird eine
 optimale Anbindung an bereits existierende Eclipse-Strukturen
 geschaffen.
 
-\subsection{Ablaufschritte beim Zugriff auf Repositories durch den VCM-Wrapper}
+\subsubsection{Ablaufschritte beim Zugriff auf Repositories durch den VCM-Wrapper}
 
 Die Ablaufschritte:\par
 
@@ -301,7 +360,7 @@ Die Ablaufschritte:\par
     Repository (checkout)
 \end{itemize}\par
 
-\subsection{Mögliche Wrapper-Aktionen}
+\subsubsection{Mögliche Wrapper-Aktionen}
 
 Alle möglichen Wrapper-Aktionen lassen sich in zwei verschiedene
 Gruppen einteilen. Aktionen die keine Berechtigung erfordern, d.h. für
@@ -340,14 +399,14 @@ Aktion eine Fehlermeldung zurück gibt, wird über die
 Server-Kommunikations Schnittstelle auf dem Server ein Workflow mit
 Aktionskontext beauftragt.
 
-\subsection{Skriptausführung}
+\subsubsection{Skriptausführung}
 
 Vor und nach VCM-Aktionen wie checkout, import, update und commit können
 auf Datei oder Verzeichnisebene beliebige Skripte (externe
 Prozessaufrufe) in frei definierbarer Reihenfolge sequentiell ausgeführt
 werden (z.B. zur Substitution bestimmter Dateiinhalte).
 
-\subsection{Der initiale Metadaten-Abgleich}
+\subsubsection{Der initiale Metadaten-Abgleich}
 
 Als Metadaten sind alle datei- und verzeichnisbezogenen
 Repository-Metadaten wie Revision, letzter Bearbeiter, Datum der letzten
@@ -359,7 +418,7 @@ Metadaten-Abgleich realisiert. Dieser liefert eine initiale Menge aller
 Metainformationen der dem Produkt oder der Produktlinie zugeordneten
 Meta-Informationen.
 
-\subsection{Der allgemeine Metadaten-Abgleich}
+\subsubsection{Der allgemeine Metadaten-Abgleich}
 
 Nach allen Schreibaktionen auf ein Produkt-Repository oder
 Produktlinien-Repository müssen die zugehörigen Meta-Informationen
@@ -377,14 +436,14 @@ Reihenfolge beim Schreiben von Metainformationen verdeutlicht:
 \end{itemize}
 
 
-\subsection{Konsistenzcheck der Metadaten}
+\subsubsection{Konsistenzcheck der Metadaten}
 
 Zur Prüfung der aufgezeichneten Metadaten bietet der VCM-Wrapper einen
 Delta-Algorithmus zum Vergleich gegebener Metadaten mit den
 tatsächlichen Repository-Metadaten an. Dieser erhält als Eingabe die
 gegebenen Metadaten und liefert als Rückgabe ein Delta.
 
-\subsection{Einschränkungen bei der Implementierung}
+\subsubsection{Einschränkungen bei der Implementierung}
 \begin{itemize}
   \item ``eigene'' Eclipse VCM-Aktionen müssen abgefangen
   werden. Ansonsten können Daten ungesehen manipuliert
@@ -396,7 +455,7 @@ gegebenen Metadaten und liefert als Rückgabe ein Delta.
   \item
 \end{itemize}
 
-\subsection{Entwurfsdetails}
+\subsubsection{Entwurfsdetails}
 
 Der VCM-Wrapper wird als Repository Provider {\it
 VCMWrapperProvider} für die Eclipse Team
@@ -416,3 +475,18 @@ Definition verwendet:
       id="kobold.client.controller.vcm.VCMWrapperProvider"/>
 </extension>
 \end{verbatim}
+%------------------------------------------------------------
+
+\section{Controllerkomponente GEF}
+Das Graphical Editing Framework ist ein MVC-basiertes Editing-Framework von 
+Eclipse. Der Architektur-Editor setzt darauf auf und kommuniziert über darüber
+mit dem ArchitekturViewModel.
+
+\section{Controllerkomponente Eclipse-Plattform}
+Die Eclipse-Plattform bietet viele MVC-unterstützende Klassen und Komponenten
+mit deren Hilfe die Trennung zwischen Model und View ermöglicht wird.
+
+\section{Controllerkomponente Team-Plugin}
+Die Teamplugins sind die Team-Komponenten an die der VCM-Wrapper die Anfragen
+weiterdelegiert. In der Eclipse-Plattform ist das CVS-Team-Plugin bereits 
+enthalten. Weitere Plugins sind als 3rd-Party-Module verfügbar.
