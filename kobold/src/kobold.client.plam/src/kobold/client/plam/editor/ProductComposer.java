@@ -79,7 +79,7 @@ public class ProductComposer {
     public ProductComposer(Productline pl) {
         productline = pl;
         nodes.put(pl, new NodeAttr());
-        container = pl.getEdgeConatainer();
+        container = pl.getEdgeContainer();
     }
 
     private NodeAttr get(INode node) {
