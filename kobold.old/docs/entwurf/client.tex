@@ -145,52 +145,43 @@ weiterdelegiert. In der Eclipse-Plattform ist das CVS-Team-Plugin bereits
 enthalten. Weitere Plugins sind als 3rd-Party-Module verfügbar.
 
 \section{Controlerkomponente VCM-Wrapper}
-\subsection{Zusammenfassung}
+
 Der VCM-Wrapper spiegelt der Eclipse-Plattform ein vollfunktionsfähiges Team-
 Plugin vor, über das alle Repositoryoperationen durchgeführt werden. Intern
-gibt die Komponente die Aktionen jedoch an andere Team-Plugins weiter. Vor und
-nach jeder dieser Aktion wird die Kommunikations-Komponente konsultiert, um 
-den Server bzw. andere Clients über Veränderungen am Repository zu 
-informieren. Die VCM-Wrapper-Komponente kennt sowohl die Datei-Ebene und deren
-Repositories als auch die Abstraktion auf Produktlinien/Komponenten/Varianten.
-Für beide Ebenen lassen sich atomare (z.B. checkin) und komplexe VCM-
-Aktionen () ausführen. Die nötigen Informationen über 
-Repository-Positionen und Struktur bezieht der VCM-Wrapper über die Server-
-Kommunikations-Komponente sowie das Architekturmodel.
+delegiert die Komponente die Aktionen jedoch an die eigentlichen
+(3rd-Party) Team-Plugins weiter.
 
-%\includegraphics[width=15cm]{client.jpg}
+Vor jeder dieser Aktion wird die Kommunikations-Komponente
+konsultiert, um die Berechtigung der Aktion zu validieren. Sollte keine
+Berechtigung aus Sicht der Kobold Rollenkonfiguration vorhanden sein,
+kann der Benutzer die Aktion abbrechen bzw. die Aktion forcen. Sollte
+die Aktion geforced werden, wird in jedem Fall ein Workflow nach
+erfolgter Aktionsausführung an den Server über die
+Kommunikations-Komponente beauftragt.
 
-\subsection{Manueller Import der Einstellungen}
-Der Client stöß die Delegater-Schicht an. Als positives Ergebnis sind
-alle Konfigurationsdaten in Eclipse gespeichert. 
-\par 
-Durch diese Konfigurationsdaten kann Eclipse entscheiden welche
-Repositories, zugehörige Rollen und Zugriffsrechte benutzt werden
-müssen.
-Dadurch können in Eclipse durch die erhaltenen Rollen und
-Repository-Daten die vordefinierten Felder zum Zugriff auf
-VCM-Repositories entsprechend gesetzt werden. Hierdurch wird eine
+Die VCM-Wrapper-Komponente hat sowohl auf Metainformationen der Datei-Ebene
+und deren Repositories als auch auf die Abstraktion auf
+Produktlinien/Komponenten/Varianten durch Serveraufrufe Zugriff und kann
+dadurch Konsistenzprüfungen der Metainformationen durchführen.
+
+Darüber hinaus kapselt der VCM-Wrapper die Importierung von
+produktlinien- bzw. produktspezifischen Repository-Konfigurationen in
+die Eclipse-Plattform (Repository Perspektive) ab. Hierdurch wird eine
 optimale Anbindung an bereits existierende Eclipse-Strukturen
-geschaffen. 
+geschaffen.
 
-\subsection{Automatischer Import der Einstellungen}
-Falls der Benutzer das erste Mal Eclipse startet, d.h. noch keine
-Konfigurationsdaten zu Rollen und Repositories vorliegen, wird die
-delegater-Schicht automatisch angestoßen, und die Konfigurationsdaten
-vom Server geladen und in Eclipsae gepeichert, wie im manuellen
-Import näher beschrieben.
-
-\subsection{Ablaufschritte beim Zugriff auf das Repository}
+\subsection{Ablaufschritte beim Zugriff auf Repositories durch den VCM-Wrapper}
 
 Die Ablaufschritte:\par
 
 \begin{itemize}
     \item Lade Konfigurationsdaten vom Server (fetch)
-    \item Extrahiere Rollenzuteilung, Repository-Daten
-    \item Lokale Prüfung auf vorhandenes Produkt, d.h. Produktdaten, Benutzerdaten (check)
+    \item Extrahiere Repository-Daten (Server, Repository-Pfad, Repository-Username,
+            Repository-Passwort) (extract)
+    \item Lokale Prüfung auf vorhandene Produkt-Arbeitskopie (check)
     \item Prüfungsergebnisse führen bei nicht vorhandenem Produkt zu
-    öffnendem Dialog und anschließender Lade-Aktion (checkout) aus dem
-    Repository
+    öffnendem Dialog und anschließender Intial-Lade-Aktion aus dem
+    Repository (checkout)
 \end{itemize}\par
 
 \subsection{Mögliche Wrapper-Aktionen}
@@ -198,67 +189,83 @@ Die Ablaufschritte:\par
 Alle möglichen Wrapper-Aktionen lassen sich in zwei verschiedene
 Gruppen einteilen. Aktionen die keine Berechtigung erfordern, d.h. für
 alle Benutzer möglich sind und Aktionen die eine Berechtigung
-erfordern, d.h. nur für bestimmte möglich sind.\par
+erfordern, d.h. nur für bestimmte Benutzer möglich sind.\par
 
 Die sichtbaren Aktionen:\par
 
 {\bf Alle Benutzer:}
 \begin{itemize}
-  \item check out: immer möglich, ggf. nur Leserechte.
+  \item check out: Vorbedingung: Lese-Zugriff auf Repository
   \item update: Vorbedingung: check out
 \end{itemize}
+Bspw. ist es für Programmierer möglich Core-Assets aus dem
+Produktlinien-Repository auszuchecken, sofern sie Lese-Berechtigung auf
+das PL-Repository haben. I.d.R. wird dies der Fall und im Interesse der
+PL-Beteiligten sein.
 
 {\bf Nur bestimmte Benutzer:}
 
 \begin{itemize}
-  \item commit: Vorbedingung: check out
-  \item import: in der ersten Iteration nicht möglich!
+  \item import: Vorbedingung: Schreib-Berechtigung
+  \item commit: Vorbedingung: check out und Schreib-Berechtigung
   \item delete: -
   \item add: -
 \end{itemize}
+Bspw. gehören PLEs oder PEs zur Gruppe bestimmter Benutzer, die
+Schreibrechte auf der Ebene der PL oder eines Produktes haben.
+Schreib-Rechte implizieren Leserechte.
 
 Falls eine Aktion der zweiten Gruppe nicht erfolgreich ausgeführt
 werden kann, entweder weil der Client feststellt dass der Benutzer
-nicht die passende Rolle besitzt, d.h. eine unerlaubte Aktion
-angestoßen wurde oder weil der Repository-Server beim durchführen der
-Aktion eine Fehlermeldung zurück gibt wird auf dem Server ein
-passender Workflow der zu dem speziellen Feedback passt, angestossen.
-
+nicht die passende Rolle und Berechtigung besitzt, d.h. eine unerlaubte
+Aktion angestoßen wurde oder weil der Repository-Server beim Durchführen der
+Aktion eine Fehlermeldung zurück gibt, wird über die
+Server-Kommunikations Schnittstelle auf dem Server ein Workflow mit
+Aktionskontext beauftragt.
 
 \subsection{Skriptausführung}
-Allen möglichen Wrapper-Aktionen kann zusätzlich eine bestimmte
-Matainfo-Datei übergeben werden, das eine georndete Liste von Skripten
-enthält, die vor und nach einem ``commit'' ausgeführt werden. Diese
-möglichen Metainfo-Dateien werden an anderer Stelle festgelegt.
 
-\subsection{Der (initiale) Metadaten-Abgleich}
-{\bf Vorbedingung:} Um einen korrekten Konsistenzcheck durchführen zu
-können, müssen Informationen über alle Dateien, Verzeichnisse, deren
-Autoren und die vorhandenen Dateiversionen vorliegen. Diese werden im
-weiteren als Metadaten bezeichnet.\par
-Da es passieren kann, dass verschiedene Personen an Dateien und
-Versionen arbeiten, sollte vor der produktzusammenstellung eine
-erneute Syncronisation dieser Daten durchgeführt werde.
+Vor und nach VCM-Aktionen wie checkout, import, update und commit können
+auf Datei oder Verzeichnisebene beliebige Skripte (externe
+Prozessaufrufe) in frei definierbarer Reihenfolge sequentiell ausgeführt
+werden (z.B. zur Substitution bestimmter Dateiinhalte).
 
-\subsection{Reihenfolge beim Schreiben von Metainformationen}
+\subsection{Der initiale Metadaten-Abgleich}
+
+Als Metadaten sind alle datei- und verzeichnisbezogenen
+Repository-Metadaten wie Revision, letzter Bearbeiter, Datum der letzten
+Änderung, etc. gemeint.
+
+Bei der initialen Erstellung von Produklinien oder Produkten mit
+vorhandenen Sourcen wird durch den VCM-Wrapper ein initialer
+Metadaten-Abgleich realisiert. Dieser liefert eine initiale Menge aller
+Metainformationen der dem Produkt oder der Produktlinie zugeordneten
+Meta-Informationen.
+
+\subsection{Der allgemeine Metadaten-Abgleich}
+
+Nach allen Schreibaktionen auf ein Produkt-Repository oder
+Produktlinien-Repository müssen die zugehörigen Meta-Informationen
+abgeglichen werden. Um die Metadaten aktuell zu halten, müssen zuerst
+alle produkt- bzw. produktlinienspezifischen Daten committed werden,
+danach die Metadaten abgeglichen werden und schlussendlich die
+Metainformationsdateien selbst, über die kein Meta-Informationsabgleich
+durchgeführt wird, committed werden. Dies wird durch folgende
+Reihenfolge beim Schreiben von Metainformationen verdeutlicht:
+
 \begin{itemize}
-  \item commit aller Dateien (Änderungen)
-  \item update des Repositories, damit werden die aktuellen (neuen)
-  Revisionsnummern gesetzt)
+  \item commit aller Dateien (Änderungen), damit werden die aktuellen (neuen)
+  Revisionsnummern gesetzt
   \item commit der Metadaten (neue Revisionen)
 \end{itemize}
 
 
-\subsection{Konsistenzcheck bei der Produktzusammenstellung}
-Als Konsistenzcheck wird die Anfrage an die Datenbasis genannt, die
-als Eingabeparameter die Revision oder den Autor einer bestimmten
-Datei xy erhält und zurückgibt, ob die Datei vorhanden (match=syncron)
-ist (oder nicht) und ob die Revision übereinstimmt. Im Fehlerfall wird
-ein passender Workflow angestoßen.\par
-Zur Überprüfung des gesamten Produktes werden oben genannte Schritte
-angewandt, wobei die Eingabemenge aus Dateinamen und deren Revisionen
-besteht.
+\subsection{Konsistenzcheck der Metadaten}
 
+Zur Prüfung der aufgezeichneten Metadaten bietet der VCM-Wrapper einen
+Delta-Algorithmus zum Vergleich gegebener Metadaten mit den
+tatsächlichen Repository-Metadaten an. Dieser erhält als Eingabe die
+gegebenen Metadaten und liefert als Rückgabe ein Delta.
 
 \subsection{Einschränkungen bei der Implementierung}
 \begin{itemize}
