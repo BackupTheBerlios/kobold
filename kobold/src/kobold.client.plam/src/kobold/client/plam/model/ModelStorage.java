@@ -20,8 +20,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
- *
- * $Id: ModelStorage.java,v 1.15 2004/08/04 14:47:06 rendgeor Exp $
+ * 
+ * $Id: ModelStorage.java,v 1.16 2004/08/04 18:29:39 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
