@@ -21,30 +21,56 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserAdmin.java,v 1.1 2004/05/03 22:57:07 garbeam Exp $
+ * $Id: UserManager.java,v 1.1 2004/05/04 22:30:20 garbeam Exp $
  *
  */
 package kobold.server.controller;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 
-import kobold.server.model.User;
+import kobold.common.data.User;
 
 /**
  * This class stores user data on the server and provides authentification
- * services for user interaction with the Server (sessionIDs).
+ * services for user interaction with the Server (sessionIDs). It's a
+ * singleton class.
  *
- * @author Armin Cont
+ * @author garbeam
  */
-public class UserAdmin {
+public class UserManager {
 
 	HashMap users;
-
+	
+	static private UserManager instance;
+	 
+	static public UserManager getInstance() {
+		 if (instance == null ) {
+		 	 instance = new UserManager("users.xml");
+		 }
+		 return instance;
+	}
+	
+	/**
+	 * Basic constructor of this singleton.
+	 * @param path
+	 */
+	private UserManager(String path) {
+		deserialize(path);
+	}
+	
 	/**
 	 * Adds a new user.
 	 *
@@ -70,7 +96,13 @@ public class UserAdmin {
 		users.remove(user);
 	}
 
-	public Document serialize() {
+	/**
+	 * Serializes all users with its roles to the file specified
+	 * by path.
+	 * 
+	 * @param path the file to serialize all users.
+	 */
+	public void serialize(String path) {
 		Document document = DocumentHelper.createDocument();
 		Element root = document.addElement("kobold");
 
@@ -81,7 +113,39 @@ public class UserAdmin {
 			user.serialize(users);
 		}
 
-		return document;
+		 XMLWriter writer;
+		try {
+			writer = new XMLWriter(new FileWriter(path));
+			writer.write(document);
+			writer.close();
+		} catch (IOException e) {
+			Log log = LogFactory.getLog("kobold.server.controller.UserAdmin");
+			log.error(e);
+		}
+
 	}
 
+	/**
+	 * Deserializes all users from the specified file.
+	 * 
+	 * @param path - file where to read from.
+	 */
+	protected void deserialize(String path) {
+		
+		SAXReader reader = new SAXReader();
+		Document document = null;
+		try {
+			document = reader.read(path);
+		} catch (DocumentException e) {
+			Log log = LogFactory.getLog("kobold.server.controller.UserAdmin");
+			log.error(e);
+		}
+		
+		List list = document.selectNodes( "//kobold/users" );
+		for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+			Element element = (Element) iter.next();
+			User user = new User(element);
+			users.put(user.getUserName(), user);
+		}
+	}
 }

@@ -1,71 +1,66 @@
+/*
+ * Copyright (c) 2003 - 2004 Necati Aydin, Armin Cont, 
+ * Bettina Druckenmueller, Anselm Garbe, Michael Grosse, 
+ * Tammo van Lessen,  Martin Plies, Oliver Rendgen, Patrick Schneider
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * $Id: Role.java,v 1.4 2004/05/04 22:29:46 garbeam Exp $
+ *
+ */
 package kobold.common.data;
 
 import org.dom4j.Element;
 
 /**
- * this is the base class for RoleP, -PE and -PLE. a Role-Object is always
+ * This is the base class for RoleP, -PE and -PLE. a Role-Object is always
  * associated to a specific user and stores information about the user's
  * permissions that are related to that Role
  *
- * @author Armin Cont
+ * @author garbeam
  */
-public class Role {
+public abstract class Role {
 
-	protected static final short ROLE_PLE = 1;
-	protected static final short ROLE_PE = 2;
-	protected static final short ROLE_P = 2;
-
-	private String permissions;
-	private short type;
-
+	
 	/**
-	 * @return the associated user's name
-	 */
-	public String getUser() {
-		return null;
-	}
-
-	/**
-	 * associates the Roleobject with an user
-	 *  
-	 * @param user the user to associate
-	 */
-	public void setUser(String user) {
-	}
-
-	/**
-	 * @return permissions related to this Role
-	 */
-	public String getPermissions() {
-		return null;
-	}
-
-	/**
-	 * sets the permissions for this Role
+	 * Creates the specific role and returns it.
 	 * 
-	 * @param perm - the permissions
+	 * @param element
+	 * @return
 	 */
-	public void setPermissions(String perm) {
-	}
-
-	/**
-	 * Serializes this object.
-	 * 
-	 * @param roles DOM parent element to attach this role.
-	 */
-	public void serialize(Element roles) {
-		String roleType = null;
-		switch (type) {
-			case 1 :
-				roleType = "PLE";
-				break;
-			case 2 :
-				roleType = "PE";
-				break;
-			case 3 :
-				roleType = "P";
-				break;
+	public static Role createRole(Element element) {
+		
+		String roleType = element.selectSingleNode("//roles/role").getText();
+		if (roleType == "PLE") {
+			return new RolePLE(element);
+		} else if (roleType == "PE") {
+			return new RolePE(element);
+		} else {
+			return new RoleP(element);
 		}
-		Element role = roles.addElement("role").addText(roleType);
 	}
+	
+	/**
+		 * Serializes this object.
+		 * 
+		 * @param roles DOM parent element to attach this role.
+		 */
+	public abstract void serialize(Element roles);
+
 }
