@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorTest.java,v 1.2 2004/08/24 10:18:52 rendgeor Exp $
+ * $Id: FileDescriptorTest.java,v 1.3 2004/08/24 11:03:26 rendgeor Exp $
  *
  */
 package kobold.client.vcm.test;
@@ -53,12 +53,12 @@ public class FileDescriptorTest extends TestCase {
 	public void testStatusUpdater ()
 	{
 		String dump =
-			"/src\n"
-			+"/src/kobold\n"
-			+"/src/kobold/client\n"
-			+"/src/kobold/client/plam\n"
-			+"/src/kobold/client/plam/model\n"
-			+"/src/kobold/client/plam/model/IComponentContainer.java	*\n"
+			"/src\tD*\n"
+			+"/src/kobold\tD*\n"
+			+"/src/kobold/client\tD*\n"
+			+"/src/kobold/client/plam\tD*\n"
+			+"/src/kobold/client/plam/model\tD*\n"
+			+"/src/kobold/client/plam/model/IComponentContainer.java\t*\n"
 			;
 		//update FD(s)
 		StatusUpdater statUp = new StatusUpdater ();

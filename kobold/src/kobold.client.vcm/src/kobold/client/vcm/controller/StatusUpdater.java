@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.27 2004/08/24 10:21:27 memyselfandi Exp $
+ * $Id: StatusUpdater.java,v 1.28 2004/08/24 11:03:26 rendgeor Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -139,18 +139,21 @@ public class StatusUpdater {
 		    while(localLine.hasMoreTokens()) 
 		    { 
 		    
-		        //it's a directory
-		        if (localLine.countTokens() == 1)
-		        {
-		        	FileDescriptorHelper.
-							createDirectory(localLine.nextToken(), fileDescriptorContainer);
-          
-		        }
+	        	/*1*/String filename = localLine.nextToken();
+	        	/*2*/String revision = localLine.nextToken();
+		    	
+//		        //it's a directory
+//		        if (localLine.countTokens() == 1)
+//		        {
+	
+//		        	FileDescriptorHelper.
+//							createDirectory(localLine.nextToken(), fileDescriptorContainer);
+//          
+//		        }
+//
+//		        else
+//		        {
 
-		        else
-		        {
-		        	/*1*/String filename = localLine.nextToken();
-		        	/*2*/String revision = localLine.nextToken();
 		        	
 		        	//not checked in directory or file
 		            if (revision.endsWith("*")) {
@@ -164,25 +167,28 @@ public class StatusUpdater {
         		                    						 fileDescriptorContainer);
 		                }
 		                else {
+		                     System.out.println("create dir started");
 		                     FileDescriptorHelper.createDirectory(filename, fileDescriptorContainer);
+	
 		                }
 		                
 		            }
-			        //it's a file
+			        //it's a file und cvs control
 		            else {
 		            	Date date = null;
 		            	if(localLine.hasMoreTokens())
 		            	{   		            
-		            		//try {
+		            		try {
 		            		    
- 	            		java.util.StringTokenizer localDate = new java.util.StringTokenizer(localLine.nextToken(), ",");
-		            		date = new Date(Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
+		            				java.util.StringTokenizer localDate = new java.util.StringTokenizer(localLine.nextToken(), ",");
+		            				date = new Date(Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
 		            						Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()), 
 		            						Integer.parseInt(localDate.nextToken()), Integer.parseInt(localDate.nextToken()));
-		            		//}
-		            		//catch (NumberFormatException ex) {
-		            		//    date = null;
-		            		//}
+		            		}
+		            		catch (NumberFormatException ex) {
+		            			System.out.println("Date parse exception");
+		            			date = null;
+		            		}
     		            	/*3*/
     		            	//date = df.parse(localLine.nextToken());
 		            	}
@@ -199,5 +205,5 @@ public class StatusUpdater {
 		        }
 		    }
 		}	
-	}
+	//}
 }
