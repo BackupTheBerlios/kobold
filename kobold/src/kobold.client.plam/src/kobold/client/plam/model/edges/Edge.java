@@ -40,7 +40,11 @@ public class Edge {
     private INode targetNode;
     private String type;
     private int edgeCount; // Number of edges, that this this edge represent
-        
+
+    // kobold edge types
+    public static final String INCLUDE = "include";
+    public static final String EXCLUDE = "exclude";
+    
      /**
      * @param startNode2
      * @param targetNode2
