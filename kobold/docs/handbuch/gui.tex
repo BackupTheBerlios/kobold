@@ -1,10 +1,18 @@
 \chapter{User Interface}
 
-\section{Main Window}
+\section{Client}
+
+The Kobold Client is based on Eclipse. Eclipse is a kind of universal tool 
+platform - an open extensible IDE for anything and nothing in particular. Its 
+user interface consists of views and editors. In editors you can both see and 
+alter the data which is displayed whereas in views you can only look at the data 
+but not alter it.
+
+\subsection{Main Window}
 In the Main Window you can see the following editors and views (see \ref{main}):
 \begin{itemize}
 	\item Architecture Editor
-	\item Role View
+	\item Architecture Tree
 	\item Workflow View
 	\item Minimap
 \end{itemize}
@@ -20,15 +28,68 @@ In the Main Window you can see the following editors and views (see \ref{main}):
 The menu offers you in addition to the Eclipse standard options the following
 possibilities:
 \begin{itemize}
-	\item Checking out a product
+	\item Creating a new Kobold project
 	\item Changing Kobold properties
 \end{itemize}
-Look up the explanations in the "Tutorial" section.
 
-\section{Architecture Editor}
+\subsubsection{Creating a new project}
+
+In the File menu select 'New' and then 'Kobold PLAM Project'. The Kobold wizard opens.
+Enter the url of your Kobold server, your username and password. Then press
+"test connection". If the test succeeds, the "next" button is enabled (see \ref{wizard1}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{wizard1.png}
+   \caption{Kobold wizard}
+\label{wizard1}
+\end{center}
+\end{figure}\par
+
+After that you choose the product(line) you want to check out (see \ref{wizard2}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{wizard2.png}
+   \caption{Kobold wizard}
+\label{wizard2}
+\end{center}
+\end{figure}\par
+
+In the last step you have to enter the name of the project you want to create (see \ref{wizard3}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{wizard3.png}
+   \caption{Kobold wizard}
+\label{wizard3}
+\end{center}
+\end{figure}\par
+
+A new project has been created. You can open the different views and editors through the Window menu
+and 'show view'. 
+
+\subsubsection{Setting the Kobold preferences}
+In the Kobold Client menu, select 'Window' and then 'Preferences'. The preferences
+dialog opens (see \ref{pref}). Open the Kobold tree. In the SSL tab you can enter the 
+properties for the Kobold Client. They resemble your SAT properties (see chapter 'Installation').
+The VCM Configuration allows you to save your username, password and script for the
+communication with the projects' repositories.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=14cm]{pref.png}
+   \caption{Kobold preferences}
+\label{pref}
+\end{center}
+\end{figure}\par
+
+
+
+\subsection{Architecture Editor}
 
 The Architecture Editor (see \ref{architecture}) displays the architecture of the product,
-or product line respectively, that is selected in the Role View. \par
+or productline respectively, that is selected in the Architecture Tree. \par
 
 \begin{figure}[h!]
 \begin{center}
@@ -44,29 +105,29 @@ any relationship between nodes.\par
 
 The Architecture Editor offers you the following options:
 \begin{itemize}
-%	\item Creating a Core Asset
+	\item Creating a core asset/component
+	\item Configuring a core asset/component
 	\item Creating a variant
-	\item Creating a component
+	\item Configuring a variant
 	\item Creating a release
+	\item Configuring a release
+	\item Deleting a core asset/component, variant or release
 	\item Creating a meta node
-	\item Deleting a component, variant or release
 	\item Deleting a meta node
 	\item Creating a dependency edge
 	\item Creating an exclusion edge
 	\item Deleting an edge
 	\item Marking a component, variant or release "deprecated"
 	\item Setting the maintainers of a component
-	\item Selecting resources for variants and releases
 	\item Moving an item
 	\item Changing the size of an item
-%	\item Filtering the Architecture View
-%	\item Creating a custom component
-%	\item Deleting a custom component
 	\item Composing a product
 	\item Export
 \end{itemize}
 
-Most of them can be reached through the palette (see \ref{palette}), that opens up when you click on it.
+Most of the options can be reached through the palette (see \ref{palette}).
+You can find it to the right of the Architecture Editor. If offers you the tools
+to work with the Architecture Editor and opens up when you click on it.
 
 \begin{figure}[h!]
 \begin{center}
@@ -76,56 +137,389 @@ Most of them can be reached through the palette (see \ref{palette}), that opens 
 \end{center}
 \end{figure}\par
 
-Please look up the explanations in the "Tutorial" section.
 
-\section{Role View}
+\subsubsection{Creating a Core Asset/component}
 
-The Role View shows the current projects that are checked out in your workspace 
+In the pallete select the "component" tool. Click within a variant or top-level in 
+the Architecture Editor. A component is inserted (see \ref{component}) and a dialog opens where you can enter the meta data of
+the component. Per drag+drop you can simply change the size of the component. \par
+Note: Core Assets/Components can only be inserted top-level or into variants.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=8cm]{component.png}
+   \caption{Component}
+\label{component}
+\end{center}
+\end{figure}\par
+
+\subsubsection{Configuring a core asset/component}
+
+
+\subsubsection{Creating a variant}
+
+In the pallete select the "variant" tool. Click within a component in 
+the Architecture Editor. A variant is inserted (see \ref{variant}) and a dialog opens where you can enter the meta data of
+the variant. Per drag+drop you can simply change the size of the variant. \par
+Note: Variants can only be inserted into components.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{variant.png}
+   \caption{Variant}
+\label{variant}
+\end{center}
+\end{figure}\par
+
+
+\subsubsection{Configuring a variant}
+
+
+\subsubsection{Creating a release}
+
+In the pallete select the "release" tool. Click within a variant in 
+the Architecture Editor. A release is inserted (see \ref{release}) and a dialog opens where you can enter the meta data of
+the release. For each file of the variant you can select the revision number you want to add to the release. 
+Per drag+drop you can simply change the size of the release. \par
+Note: Releases can only be inserted into variants.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{release.png}
+   \caption{Release}
+\label{release}
+\end{center}
+\end{figure}\par
+
+
+\subsubsection{Configuring a release}
+Right-click on the component and choose "configure". The Asset Configuration dialog (see \ref{config2}) opens.
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{config2.png}
+   \caption{Asset Configuration dialog (release)}
+\label{config2}
+\end{center}
+\end{figure}\par
+
+
+\subsubsection{Deleting a core asset/component, variant or release}
+
+Right-click on the item you want to delete and choose "delete" in the context
+menu. Alternatively you
+can select the item and press "Del" on your keyboard. Is the item used in other projects
+you will be notified and be able to cancel the deletion process.
+
+
+\subsubsection{Creating a meta node}
+
+In the pallete select the "meta node" tool. Click within the Architecture Editor. 
+A meta node is inserted (see \ref{meta}). Possible meta node types are AND and OR. Be careful with
+the direction of the edges that are linked to a meta node! In the following architecture component A
+needs components B and C. But components B and C are independent of component A (see \ref{example}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=4cm]{metanode.png}
+   \caption{Some meta nodes}
+\label{meta}
+\end{center}
+\end{figure}\par
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{example.png}
+   \caption{Meta node example}
+\label{example}
+\end{center}
+\end{figure}\par
+
+\subsubsection{Deleting a meta node}
+
+Right-click on the meta node you want to delete and choose "delete" in the context
+menu. Alternatively you
+can select the node and press "Del" on your keyboard.
+
+\subsubsection{Marking a component, variant or release as "deprecated"}
+Right-click on the object and choose "configure". The Asset Configuration dialog (see \ref{config} and \ref{config2}) opens where you can
+mark the check-box 'deprecated'. This sets the object on deprecated. Deprecated objects are grey with a 
+red cross in the upper right-hand corner (see \ref{deprecated}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{config.png}
+   \caption{Asset Configuration dialog (component)}
+\label{config}
+\end{center}
+\end{figure}\par
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=7cm]{deprecated.png}
+   \caption{Deprecated component}
+\label{deprecated}
+\end{center}
+\end{figure}\par
+
+
+
+\subsubsection{Creating a dependency edge}
+
+In the pallete select the "include edge" tool. Select an item in the Architecture Editor
+as the starting point. The next item you select will be the aiming point (see \ref{include}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{include.png}
+   \caption{Dependency edge}
+\label{include}
+\end{center}
+\end{figure}\par
+
+\subsubsection{Creating an exclusion edge}
+
+In the pallete select the "exclude edge" tool. Select an item in the Architecture Editor
+as the starting point. The next item you select will be the aiming point (see \ref{exclude}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{exclude.png}
+   \caption{Exclusion edge}
+\label{exclude}
+\end{center}
+\end{figure}\par
+
+\subsubsection{Deleting an edge}
+
+Right-click on the edge you want to delete and choose "delete" in the context menu.
+Alternatively you can select the edge and press "Del" on your keyboard.
+
+
+\subsubsection{Marking a component, variant or release as "deprecated"}
+Right-click on the object and choose "configure". The Asset Configuration dialog (see \ref{config} and \ref{config2}) opens where you can
+mark the check-box 'deprecated'. This sets the object on deprecated. Deprecated objects are grey with a 
+red cross in the upper right-hand corner (see \ref{deprecated}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{config.png}
+   \caption{Asset Configuration dialog (component)}
+\label{config}
+\end{center}
+\end{figure}\par
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=7cm]{deprecated.png}
+   \caption{Deprecated component}
+\label{deprecated}
+\end{center}
+\end{figure}\par
+
+
+\subsubsection{Setting the maintainers of a component}
+Right-click on the component and choose "configure". The Asset Configuration dialog (see \ref{config}) opens.
+Press the 'Edit...' button. A new window opens where you can select the users you want to make maintainers of
+the component (see \ref{maintainer}). After pressing 'OK' you can see the new maintainers in the Asset Configuration
+dialog.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{maintainer.png}
+   \caption{Selecting maintainers}
+\label{maintainer}
+\end{center}
+\end{figure}\par
+
+
+\subsubsection{Moving an item}
+You can move any item per drag+drop.
+
+\subsubsection{Changing the size of an item}
+You can change the size of an item per drag+drop.
+
+
+\subsubsection{Composing a product}
+
+In the palette press 'compose product'. The components, etc. in the architecture view turn
+grey. You can now select the components, variants and releases you want to include into
+you new product. The chosen objects turn blue (see \ref{compose}). When done press the 
+'create product' button in the Architecture Editor. A dialog opens where you can enter
+the name and metainfo of your new product. After confirming the dialog, you can see
+your new product in the Role View.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{composeproduct.png}
+   \caption{Composing a Product}
+\label{compose}
+\end{center}
+\end{figure}\par
+
+
+\subsubsection{Export}
+
+Select the productline, product, component or variant you want to export. In the
+context menu of the object select "export" (see \ref{archcontext}). A wizard opens (see \ref{export}) where you can enter
+the path and name of the gxl-file. Alternatively you can enter 
+the data through the "browse" dialog. To start the export, press the OK button.
+You are able to see the status of your export in the wizard which will close after
+the export is finished. If you decide not to do the export, simply press the 
+"cancel" button.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{architecturekontext.png}
+   \caption{Context menu of the Architecture View}
+\label{archcontext}
+\end{center}
+\end{figure}\par
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{export.png}
+   \caption{Export wizard}
+\label{export}
+\end{center}
+\end{figure}\par
+
+
+
+
+
+
+
+\subsection{Architecture Tree}
+
+The Architecture Tree shows the current projects that are checked out in your workspace 
 (see \ref{roletree}).
-A project is usually a product line. You can navigate between the 
+A project is a productline. You can navigate between the 
 different projects by selecting them. If you open the tree, you see the name
-of the product line. Double-click on 'Architecture' and the Architecture Editor will open. The open tree also 
+of the productline. Double-click on 'Architecture' and the Architecture Editor will open. The open tree also 
 displays all products, PLEs and core assets that belong to the productline.
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=7cm]{roletree.png}
-   \caption{Role View}
+   \caption{Architecture Tree}
 \label{roletree}
 \end{center}
 \end{figure}\par
 
 When you right-click on a project, a context menu will open where you can choose 
-between different actions (see \ref{rolekontext}). Among those are:
+between different actions (see \ref{rolekontext}). The possible actions are different
+depending on which asset you open the context menu. Possible actions are:
 
 \begin{itemize}
-%	\item Renaming a product
-%	\item Changing a product
-%	\item Setting a product on deprecated
-%	\item Setting a module on deprecated
 	\item Creating a user
-	\item Deleting a user
-	\item Change one's password
+	\item Change password
 	\item Update full name
 	\item Configure asset
 	\item Suggesting an asset for a Core Group
-	\item Generate a metainfo document
+	\item Generate a document
 	\item Export
-%	\item Changing a user role
+	\item Version Control
 \end{itemize}
-Look up the explanations in the "Tutorial" section.
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=5cm]{rolekontext.png}
-   \caption{Role Tree Context Menu}
+   \caption{Architecture Tree Context Menu}
 \label{rolekontext}
 \end{center}
 \end{figure}\par
 
 
+\subsubsection{Creating a user}
 
-\section{Workflow View}
+Right-click in the architecture tree. In the context menu choose
+'create new user'. The User Manager (see \ref{createuser1}) opens where you see a list of all existing users.
+Push the 'create new user' button. In the opening dialog you can enter the username, real name and the
+initial password of the user (see \ref{createuser2}). Pressing the 'OK' button creates the new user and you
+can see the new user in the list of the User Manager.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{createuser1.png}
+   \caption{Create a new user - step 1}
+\label{createuser1}
+\end{center}
+\end{figure}\par
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{createuser2.png}
+   \caption{Create a new user - step 2}
+\label{createuser2}
+\end{center}
+\end{figure}\par
+
+\subsubsection{Changing your password}
+
+Right-click in the architecture tree and select 'change password'. A dialog opens where you can
+enter your new password (see \ref{password}). Confirm the password and press 'OK'. Your password has been changed.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{password.png}
+   \caption{Change your password}
+\label{password}
+\end{center}
+\end{figure}\par
+
+\subsubsection{Updating your full name}
+Right-click in the architecture tree and select 'update full name'. A dialog opens where you can
+enter your new full name (see \ref{fullname}). Confirm the changes with your password and press 'OK'. Your full name has been changed.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{updatefullname.png}
+   \caption{Update your full name}
+\label{fullname}
+\end{center}
+\end{figure}\par
+
+\subsubsection{Configure Asset}
+In the architecture tree right click on the asset you want to configure and select
+'configure asset...'. The corresponding dialog will open. For more information see
+'Architecture Editor'.
+
+\subsubsection{Suggesting an asset for a Core Group}
+
+In the Architecture Tree, select the asset you want to suggest and right-click on it. The context menu opens where
+ you choose the option 'Suggest asset for core group'. A dialog opens where
+ you can select the type of recipient, i.d. whether the suggestion is to be sent to a PE or a PLE. After
+ that decision a Workflow
+window opens where you can enter the name of the asset and the username of the
+PE/PLE you want to send the message to. You can also enter an additional comment you want 
+the PE/PLE to read. Send the message by pressing the "Send" 
+button. Pressing the "Cancel" button will close the window without sending 
+your message (see \ref{core1}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{core1.png}
+   \caption{Suggesting a file for a Core Group}
+\label{core1}
+\end{center}
+\end{figure}\par
+
+
+\subsubsection{Generating a document}
+In the role tree right-click on the object (productline, product, component, variant, release) you want the document about
+and select 'generate document...'. A 'Save as' dialog opens where you can select the parent folder into which the pdf-file
+will be saved. Confirm by pressing the 'OK' button and the pdf-file is created.
+
+\subsubsection{Export}
+In the architecture tree right click on the asset you want to export and select
+'export...'. The corresponding dialog will open. For more information see
+'Architecture Editor'.
+
+
+
+\subsection{Workflow View}
 
 In the bottom of the window you can see the Workflow View which displays all 
 the messages and workflows for the current user (see \ref{workflow}). 
@@ -137,6 +531,9 @@ the messages and workflows for the current user (see \ref{workflow}).
 \label{workflow}
 \end{center}
 \end{figure}\par
+
+The icon in front of each message/workflow helps you to determine whether the entry is a 
+workflow or a message. A 'W' represents a workflow, a 'K' represents a Kobold message.\par
 
 Double-click on an entry and a 
 separate dialog will be opened where you can read the details of that message or
@@ -156,9 +553,7 @@ between different actions (see \ref{workflowkontext}). Among these are:
 \begin{itemize}
 	\item Fetching messages
 	\item Deleting the selected message
-%	\item Filtering sent messages
 \end{itemize}
-Look up the explanations in the "Tutorial" section.
 
 \begin{figure}[h!]
 \begin{center}
@@ -175,13 +570,104 @@ The Workflow View offers you the following additional options:
 	\item Suggesting an asset for a Core Group
 	\item Dealing with a Core Group suggestion
 \end{itemize}
-Look up the explanations in the "Tutorial" section.
 
-\section{Minimap}
 
-The Minimap (see \ref{map}) is on the left side beneath the Role View. It shows the whole architecture.
+\subsubsection {Fetching messages}
+
+Select a project. Right-click in the Workflow View or open the corresponding menu. Choose "Fetch message".
+Your new messages are being fetched and displayed in the Workflow View.
+
+
+\subsubsection{Deleting a message}
+
+Right-click on the message and choose "Delete message" in the context menu.
+
+
+\subsubsection{Writing a mail}
+
+In the menu of the Workflow View select "new mail". A Workflow window opens where
+you can enter your message, the subject and the recipient of the message. Send the
+message by pressing the "Send" button. Pressing the "Cancel" button will close the window
+without sending your message (see \ref{writemail}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{writemail.png}
+   \caption{Write a new mail}
+\label{writemail}
+\end{center}
+\end{figure}\par
+
+\subsubsection{Answering a mail}
+
+In the Workflow View double-click on the mail you want to answer. A Workflow
+window opens where you can see the message text of the mail. Below you can enter
+the subject and the text of your reply. Send the answer by pressing the "Send" 
+button. Pressing the "Cancel" button will close the window without sending 
+your message (see \ref{answermail}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{answermail.png}
+   \caption{Answer a mail}
+\label{answermail}
+\end{center}
+\end{figure}\par
+
+\subsubsection{Suggesting an asset for a Core Group}
+
+In the menu of the Workflow View select 'Suggest asset for core group'. A dialog opens where
+ you can select the type of recipient, i.d. whether the suggestion is to be sent to a PE or a PLE. After
+ that decision a Workflow
+window opens where you can enter the name of the asset and the username of the
+PE/PLE you want to send the message to. You can also enter an additional comment you want 
+the PE/PLE to read. Send the message by pressing the "Send" 
+button. Pressing the "Cancel" button will close the window without sending 
+your message (see \ref{core1}).
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{core1.png}
+   \caption{Suggesting a file for a Core Group}
+\label{core1}
+\end{center}
+\end{figure}\par
+
+\subsubsection{Dealing with a Core Group suggestion}
+
+In the Workflow View double-click on the Core Group suggestion message. A Workflow
+window opens where you can see the message of the programmer (see \ref{core2}) or PE (see \ref{core3}). Below you
+can select whether you agree to the suggestion or whether you decline it. You can also
+enter an additional comment if you like. Send the message by pressing the "Send" 
+button. Pressing the "Cancel" button will close the window without sending 
+your message.\par
+Note: The file will not be automatically uploaded and committed. The PLE has to do
+this manually.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=14cm]{core2.png}
+   \caption{Dealing with a Core Group suggestion - PE}
+\label{core2}
+\end{center}
+\end{figure}\par
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=14cm]{core3.png}
+   \caption{Dealing with a Core Group suggestion - PLE}
+\label{core3}
+\end{center}
+\end{figure}\par
+
+
+\subsection{Minimap}
+
+The Minimap (see \ref{map}) is on the left side beneath the Architecture Tree. It shows the whole architecture.
 By clicking at one spot on the map, the Architecture Editor automatically centers on that
-spot. 
+spot. You can also click on the coloured rectangle and pull it to another position. 
+By doing this you can easily navigate through your architecture.
 
 \begin{figure}[h!]
 \begin{center}
@@ -190,6 +676,15 @@ spot.
 \label{map}
 \end{center}
 \end{figure}\par
+
+
+
+
+\section{Server}
+
+
+
+
 
 
 \section{Server Administration Tool (SAT)}
@@ -213,3 +708,55 @@ possibilities:
 	\item get a list of all users
 \end{itemize}
 
+
+\subsection{Creating a product line}
+Enter the command 'newpl'. You are asked to enter the name of the new product
+line and its meta data. Once you confirmed your entry, the product line is created.
+
+\subsection{Deleting a product line}
+Enter the command 'rempl'. You are then asked to enter the name of the product
+line you want to remove. Once you confirmed your entry, the product line is deleted.
+
+\subsection{Upgrading an existing user to PLE status}
+Enter the command 'assignple'. You are asked to enter the name of the person you want
+to upgrade as PLE. Finally, enter the name of the product line you want to assign
+the new PLE to. Once you confirmed your entry, the user has PLE rights.
+
+\subsection{Removing PLE rights}
+Enter the command 'unassignple'. You are asked to enter the name of the user who shall 
+no longer have PLE rights. Also, enter the name of the product line you want to
+remove the PLE from. Once you confirmed your entry, the user is no longer PLE of
+the entered product line.
+
+\subsection{Getting a list of all existing commands}
+Enter the command 'help' and you get a list of all the commands of this tool and
+their meanings.
+
+\subsection{Getting information about SAT's version and licence}
+Enter the command 'about' and you get information about the programm's version and licence.
+
+\subsection{Changing the URL}
+Enter the command 'seturl'. Enter a new url to change the current url.
+
+\subsection{Changing the password}
+Enter the command 'setpasswd' and then a new password in order to change the password that is used to access
+the current server.
+
+\subsection{Creating a new user}
+Enter the command 'newuser'. Enter the name, username and password of the new user and confirm.
+
+\subsection{Deleting a user}
+Enter the command 'remuser'. Enter the username of the user in order to remove him/her from the server.
+
+\subsection{Getting a list of all productlines}
+Enter the command 'pllist' in order to get a list of all existing productlines.
+
+\subsection{Getting a list of all ples of a productline}
+Enter the command 'plelist' and then the name of the productline in order to get a list
+ of the assigned ples.
+ 
+\subsection{Getting a list of all registered users}
+Enter the command 'userlist' in order to get a list of all existing users.
+
+\subsection{Exiting the tool}
+Enter the command "exit".
