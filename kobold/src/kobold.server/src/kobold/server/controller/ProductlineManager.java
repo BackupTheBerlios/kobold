@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineManager.java,v 1.4 2004/07/20 12:04:20 neccaino Exp $
+ * $Id: ProductlineManager.java,v 1.5 2004/07/20 12:50:16 neccaino Exp $
  *
  */
 package kobold.server.controller;
@@ -118,11 +118,11 @@ public class ProductlineManager {
 	 * Removes the specified productline.
 	 * 
 	 * @param productline String containing the name the productline to remove.
-     * @return true, if the productline with the specified name existed, false
-     *         otherwise
+     * @return the productline that has been removed or null if there dosen't
+     *         exist a productline with the passed name
 	 */
-	public boolean removeProductline(String productlineName) {
-		return (productlines.remove(productlineName) != null);
+	public Productline removeProductline(String productlineName) {
+		return (Productline) productlines.remove(productlineName);
 	}
 
 	/**
