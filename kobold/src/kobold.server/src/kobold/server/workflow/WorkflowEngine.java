@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.7 2004/06/25 18:32:52 bettina Exp $
+ * $Id: WorkflowEngine.java,v 1.8 2004/07/12 19:40:40 bettina Exp $
  *
  */
 package kobold.server.workflow;
@@ -30,6 +30,8 @@ import kobold.common.data.RPCSpy;
 import kobold.common.data.WorkflowMessage;
 import org.drools.*;
 import org.drools.rule.*;
+
+import java.net.URL;
 import java.util.*;
 
 
@@ -74,7 +76,6 @@ public class WorkflowEngine {
 			theInstance.loadRuleBase();
 			RuleBase base = theInstance.getRuleBase();
 			if (base == null) {
-				System.out.println("Huhu");
 			}
 			theInstance.setWorkingMemory(base.newWorkingMemory());
 		}
@@ -118,10 +119,9 @@ public class WorkflowEngine {
 	 */
 	private void loadRuleBase() {
 		try {
-			RuleSet ruleSet = WorkflowRules.createRuleSet();
-			RuleBaseBuilder builder = new RuleBaseBuilder();
-			builder.addRuleSet(ruleSet);
-			this.setRuleBase(builder.build());
+			URL url = WorkflowEngine.class.getResource( "ruleset.drl" );
+			RuleBase ruleBase = org.drools.io.RuleBaseBuilder.buildFromUrl( url );
+			this.setRuleBase(ruleBase);
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
