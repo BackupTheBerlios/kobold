@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: LayoutAction.java,v 1.1 2004/09/21 12:58:25 vanto Exp $
+ * $Id: LayoutAction.java,v 1.2 2004/09/21 12:59:32 vanto Exp $
  *
  */
 package kobold.client.plam.editor.action;
@@ -106,8 +106,12 @@ public class LayoutAction extends WorkbenchPartAction
             Node n = new Node(a);
             n.x = vm.getLocation().x;
             n.y = vm.getLocation().y;
-            n.width = vm.getSize().width;
-            n.height = vm.getSize().height;
+            if (vm.getSize().width > 0) {
+                n.width = vm.getSize().width;
+            }
+            if (vm.getSize().height > 0) {
+                n.height = vm.getSize().height;
+            }
             nodes.add(n);
             m.put(a, n);
         }
