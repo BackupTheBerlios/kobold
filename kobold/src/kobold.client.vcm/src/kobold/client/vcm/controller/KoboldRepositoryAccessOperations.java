@@ -77,50 +77,6 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	
     // XXXX
 
-	private String localPathForAsset(AbstractAsset asset) {
-	
-		if(asset == null) {
-		    return null;
-		}
-				
-		if (asset instanceof Productline) {
-		    return ((Productline)asset).getLocalPath().toOSString();
-		}
-		else if (asset instanceof Product) {
-		    return ((Product)asset).getLocalPath().toOSString();
-		}
-		else if (asset instanceof Variant) {
-		    return ((Variant)asset).getLocalPath().toOSString();
-		}
-		else if (asset instanceof Component) {
-		    return ((Component)asset).getLocalPath().toOSString();
-		}	
-		
-		return null;
-	}
-	
-	private RepositoryDescriptor repositoryDescriptorForAsset(AbstractAsset asset)
-	{
-		if(asset == null) {
-		    return null;
-		}
-				
-		if (asset instanceof Productline) {
-		    return ((Productline)asset).getRepositoryDescriptor();
-		}
-		else if (asset instanceof Product) {
-		    return ((Product)asset).getRepositoryDescriptor();
-		}
-		else if (asset instanceof Variant) {
-		    return ((Variant)asset).getRemoteRepository();
-		}
-		else if (asset instanceof Component) {
-		    return ((Component)asset).getRemoteRepository();
-		}	
-		
-		return null;
-	}
-	
 	private void performVCMAction(AbstractAsset[] assets, IProgressMonitor progress,
 	        					  String vcmScriptPath, String lastParam,
 	        					  String sdVcmType)
@@ -129,7 +85,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	{
 		progress.beginTask("working", 2);
 	    for (int i = 0; i < assets.length; i++) {
-	        RepositoryDescriptor rd = repositoryDescriptorForAsset(assets[i]);
+	        RepositoryDescriptor rd = KoboldRepositoryHelper.repositoryDescriptorForAsset(assets[i]);
         	ScriptServerConnection connection = ScriptServerConnection.getConnection(rd.getRoot());
     		if (connection != null) {
     			
@@ -144,7 +100,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
     				# $8 module
     				# $9 userdef
     		     */
-			    String localPath = localPathForAsset(assets[i]);
+			    String localPath = KoboldRepositoryHelper.localPathForAsset(assets[i]);
    		        
    		        // pre scripts hook
    		        for (Iterator it = assets[i].getBeforeScripts().iterator(); it.hasNext();) {

@@ -24,9 +24,17 @@
  */
 package kobold.client.vcm.controller;
 
+import java.io.File;
+
+import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.productline.Component;
+import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.dialog.PasswordDialog;
 import kobold.client.vcm.preferences.VCMPreferencePage;
+import kobold.common.io.RepositoryDescriptor;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -52,6 +60,50 @@ public class KoboldRepositoryHelper {
 	public static final String CHECKOUTPL = "checkoutpl.";
 	public static final String TAG = "tag.";
 	public static final String REMOVE = "rm.";
+	
+	public static String localPathForAsset(AbstractAsset asset) {
+	
+		if(asset == null) {
+		    return null;
+		}
+				
+		if (asset instanceof Productline) {
+		    return ((Productline)asset).getLocalPath().toOSString();
+		}
+		else if (asset instanceof Product) {
+		    return ((Product)asset).getLocalPath().toOSString();
+		}
+		else if (asset instanceof Variant) {
+		    return ((Variant)asset).getLocalPath().toOSString();
+		}
+		else if (asset instanceof Component) {
+		    return ((Component)asset).getLocalPath().toOSString();
+		}	
+		
+		return null;
+	}
+	
+	public static RepositoryDescriptor repositoryDescriptorForAsset(AbstractAsset asset)
+	{
+		if(asset == null) {
+		    return null;
+		}
+				
+		if (asset instanceof Productline) {
+		    return ((Productline)asset).getRepositoryDescriptor();
+		}
+		else if (asset instanceof Product) {
+		    return ((Product)asset).getRepositoryDescriptor();
+		}
+		else if (asset instanceof Variant) {
+		    return ((Variant)asset).getRemoteRepository();
+		}
+		else if (asset instanceof Component) {
+		    return ((Component)asset).getRemoteRepository();
+		}	
+		
+		return null;
+	}
 	
     public static Path getScriptPath() {
         
@@ -188,5 +240,23 @@ public class KoboldRepositoryHelper {
     		}
         }
     	return "";
+    }
+
+    private static void deleteTree( File path )
+    {
+        File files[] = path.listFiles();
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isDirectory()) deleteTree(files[i]);
+                files[i].delete();
+            }
+        }
+        path.delete();
+    }
+    
+    public static void deleteTree(String path) {
+       if (path != null && !path.equals("")) {
+           deleteTree(new File(path));
+       }
     }
 }

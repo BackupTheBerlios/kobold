@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.6 2004/09/22 16:08:01 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.7 2004/09/22 16:54:10 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -34,12 +34,12 @@ import kobold.client.plam.listeners.IVCMActionListener;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IFileDescriptorContainer;
+import kobold.client.plam.model.productline.Productline;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 import kobold.client.vcm.controller.KoboldRepositoryHelper;
 import kobold.client.vcm.controller.StatusUpdater;
-import kobold.common.data.Productline;
 
 /**
  * @author Tammo
@@ -77,7 +77,7 @@ public class VCMActionListener implements IVCMActionListener
     /**
      * @see kobold.client.plam.listeners.IVCMActionListener#updateProductline(kobold.common.data.Productline, org.eclipse.core.resources.IProject)
      */
-    public void updateProductline(Productline spl, IProject p) {
+    public void updateProductline(kobold.common.data.Productline spl, IProject p) {
         
         IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 		String userName = KoboldRepositoryHelper.getUserName();
@@ -98,7 +98,7 @@ public class VCMActionListener implements IVCMActionListener
 		     */
 		    String localPath = p.getLocation().toOSString() + IPath.SEPARATOR + spl.getResource();
     		String command[] = new String[10];
-            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.ADD).concat(KoboldRepositoryHelper.getScriptExtension());
+            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
 		    command[1] = localPath;
 		    command[2] = spl.getRepositoryDescriptor().getType();
 		    command[3] = spl.getRepositoryDescriptor().getProtocol();
@@ -113,8 +113,18 @@ public class VCMActionListener implements IVCMActionListener
 				System.out.print(" ");
 			}
 			try {
+			    // first we try update
     			connection.open(progress, command);
     			connection.close();	
+    			
+    			if (connection.getReturnValue() != 0) {
+    			    // update failed, let's try to checkout
+                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.CHECKOUTPL).concat(KoboldRepositoryHelper.getScriptExtension());
+        			connection.open(progress, command);
+        			connection.close();	
+        			
+        			// if that fails, don't care
+    			}
 			}
 			catch (Exception e) {
 			    e.printStackTrace();
@@ -125,8 +135,66 @@ public class VCMActionListener implements IVCMActionListener
     /**
      * @see kobold.client.plam.listeners.IVCMActionListener#commitProductline(kobold.client.plam.model.productline.Productline)
      */
-    public void commitProductline(kobold.client.plam.model.productline.Productline pl) {
+    public void commitProductline(Productline pl) {
         
+        IProgressMonitor progress = KoboldPolicy.monitorFor(null);
+		String userName = KoboldRepositoryHelper.getUserName();
+		String password = KoboldRepositoryHelper.getUserPassword();
+		ScriptServerConnection connection =
+		    ScriptServerConnection.getConnection(pl.getRepositoryDescriptor().getRoot());
+		if (connection != null) {
+		    /**
+		     * 	# $1 working directory
+				# $2 repo type
+				# $3 protocoal type
+				# $4 username
+				# $5 password
+				# $6 host
+				# $7 root
+				# $8 module
+				# $9 userdef
+		     */
+		    String localPath = KoboldRepositoryHelper.localPathForAsset(pl);
+    		String command[] = new String[10];
+            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.COMMIT).concat(KoboldRepositoryHelper.getScriptExtension());
+		    command[1] = localPath;
+		    command[2] = pl.getRepositoryDescriptor().getType();
+		    command[3] = pl.getRepositoryDescriptor().getProtocol();
+		    command[4] = userName;
+		    command[5] = password; 
+			command[6] = pl.getRepositoryDescriptor().getHost();
+			command[7] = pl.getRepositoryDescriptor().getRoot();
+			command[8] = pl.getRepositoryDescriptor().getPath();
+			command[9] = "default commit";
+			for (int j = 0; j < command.length; j++) {
+				System.out.print(command[j]);
+				System.out.print(" ");
+			}
+			try {
+			    // first we try to commit
+    			connection.open(progress, command);
+    			connection.close();	
+    			
+    			if (connection.getReturnValue() != 0) {
+    			    // next we initially import
+                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.IMPORTPL).concat(KoboldRepositoryHelper.getScriptExtension());
+        			command[9] = "initial pl import";
+                    connection.open(progress, command);
+        			connection.close();	
+    			    
+        			if (connection.getReturnValue() == 0) {
+        			// VERY DANGEROUS :)
+        			    KoboldRepositoryHelper.deleteTree(localPath);
+        			    
+        			    updateProductline(new kobold.common.data.Productline(pl.getName(), pl.getResource(), pl.getRepositoryDescriptor()),
+        			            		  pl.getKoboldProject().getProject());
+        			}
+    			}
+			}
+			catch (Exception e) {
+			    e.printStackTrace();
+			}
+		}
         
     }
 
