@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+  <document>
+
+	<properties>
+	  <title>Programming Style Guidelines</title>
+	</properties>
+
+	<body>
+
+	  <section name="Programming Style Guideline">
+          <p>During development, we will follow the style guides below:
+          <ul>
+              <li><a href="http://java.sun.com/docs/codeconv/index.html">Code Conventions for the Java Programming Language (Sun)</a></li>
+              <li><a href="http://www.eclipse.org/articles/Article-UI-Guidelines/Contents.html">Eclipse User Interface Guidelines (OTI et al.)</a></li>
+              <li><a href="http://dev.eclipse.org/conventions.html">Standards, Conventions and Guidelines (Eclipse.org)</a></li>
+          </ul>
+          </p>
+      </section>
+    </body>
+  </document>

@@ -1,0 +1,25 @@
+#rightcol 
+{
+  background: #fff;
+  border-left: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+}
+
+#stats
+{
+  font-size: x-small;
+}
+
+#stats a:active, #stats a:hover, #stats a:visited 
+{
+  color: blue;
+}
+
+div#banner {
+ border-top: 1px solid #369;
+ border-bottom: 1px solid #aaa;
+ }
+
+#navcolumn div {
+    color: #F6A11C;
+}
