@@ -21,17 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductLineTest.java,v 1.18 2004/06/24 14:11:14 rendgeor Exp $
+ * $Id: ProductLineTest.java,v 1.19 2004/06/30 19:45:27 rendgeor Exp $
  *
  */
 package kobold.common.data.plam;
 
 
+import java.io.FileReader;
 import java.util.Date;
 
 import junit.framework.TestCase;
+import kobold.common.io.FileDescriptor;
 import kobold.common.io.RepositoryDescriptor;
-import kobold.common.model.FileDescriptor;
 import kobold.common.model.Release;
 import kobold.common.model.product.Product;
 import kobold.common.model.product.ProductRelease;
@@ -97,9 +98,9 @@ public class ProductLineTest extends TestCase {
 		componentC.addRelease(releaseB);
 
 		//--add FD
-		FileDescriptor fd1 = new FileDescriptor ("fd1");
-		fd1.setPath("/tmp/");
-		releaseA.addFileDescriptor(fd1);
+/*		FileRevision fd1 = new FileRevision ();
+		fd1.setFilename("/tmp/");
+		releaseA.addFileRevision(fd1);
 		
 		//--add a second FD
 		FileDescriptor fd1_1 = new FileDescriptor ("fd1_1");
@@ -154,7 +155,7 @@ public class ProductLineTest extends TestCase {
 		//Productline plGet = (Productline) fd2.getRoot ();
 		
 	
-
+	*/
 		//------------------------------
 		//serialize the whole product-line (all included)
  
@@ -220,5 +221,6 @@ public class ProductLineTest extends TestCase {
 		//productline = manager.getProductLine("office");
 		//assertTrue (productline.getName() == "office");
 	
+
 	}
 }
