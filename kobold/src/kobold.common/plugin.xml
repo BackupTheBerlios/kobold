@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+   id="kobold.commons"
+   name="Kobold Commond Plug-in"
+   version="1.0.0"
+   provider-name="Werkbold">
+
+   <runtime>
+      <library name="kobold-commons.jar"/>
+      <library name="contrib/gxl.jar">
+         <export name="*"/>
+      </library>
+      <library name="contrib/dom4j/dom4j-1.5-beta-1.jar">
+         <export name="*"/>
+      </library>
+      <library name="contrib/jakarta-commons/commons-logging.jar">
+         <export name="*"/>
+      </library>
+      <library name="contrib/jakarta-commons/commons-logging-api.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+</plugin>
