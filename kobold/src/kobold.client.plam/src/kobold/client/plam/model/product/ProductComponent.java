@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.16 2004/09/01 02:58:22 vanto Exp $
+ * $Id: ProductComponent.java,v 1.17 2004/09/18 16:06:49 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -51,7 +51,8 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 									   implements IGXLExport,
 									   			  IFileDescriptorContainer {
 
-	private List prodComps = new ArrayList();
+	private List relatedComps = new ArrayList();
+	private List specificComps = new ArrayList();
 	
 	public ProductComponent() 
 	{
@@ -62,10 +63,26 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 	{
 		super(name);
 	}
+	
+	public void addProductComponent(ProductComponent comp){
+	    addProductComponent(comp, -1);
+	}
 
-	public void addProductComponent(ProductComponent comp)
+	public void addProductComponent(ProductComponent comp,int index)
 	{
-		prodComps.add(comp);
+        if(comp instanceof SpecificComponent) {
+            if (index >= 0){
+                 this.specificComps.add(index,comp);
+            }else{
+                this.specificComps.add(comp);
+            }
+        } else {
+            if (index >= 0){
+                this.relatedComps.add(index,comp);
+           }else{
+               this.relatedComps.add(comp);
+           }
+        }
 		comp.setParent(this);
 		addToPool(comp);
 		fireStructureChange(AbstractAsset.ID_CHILDREN, comp);
@@ -73,12 +90,31 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 	
 	public void removeProductComponent(ProductComponent comp)
 	{
-		prodComps.remove(comp);
+	    if(comp instanceof SpecificComponent) {
+            this.specificComps.remove(comp);
+        } else {
+            this.relatedComps.remove(comp);;
+        }	
+	    comp.setParent(null);
+		fireStructureChange(AbstractAsset.ID_CHILDREN, comp);
 	}
 	
 	public List getProductComponents()
 	{
-		return Collections.unmodifiableList(prodComps);
+	    List list = new ArrayList();
+	    list.addAll(this.specificComps);
+	    list.addAll(this.relatedComps);
+		return list;
+	}
+	
+	public List getSpecificComponents()
+	{
+		return Collections.unmodifiableList(this.specificComps);
+	}
+	
+	public List getRelatedComponents()
+	{
+		return Collections.unmodifiableList(this.relatedComps);
 	}
 	
 	
@@ -102,7 +138,7 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 		Element element = super.serialize();
 		Element childrenEl = element.addElement("product-components");
 		
-		Iterator it = prodComps.iterator();
+		Iterator it = this.getProductComponents().iterator();
 		while (it.hasNext()) {
 			ProductComponent comp = (ProductComponent) it.next();
 			childrenEl.add(comp.serialize());

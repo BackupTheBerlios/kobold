@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.22 2004/09/01 01:07:37 vanto Exp $
+ * $Id: Product.java,v 1.23 2004/09/18 16:06:30 martinplies Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -35,6 +35,7 @@ import java.util.List;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IGXLExport;
+import kobold.client.plam.model.IProductComponentContainer;
 import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.productline.Productline;
 import kobold.common.data.User;
@@ -49,7 +50,7 @@ import org.eclipse.core.runtime.IPath;
  * This class represents a product.  
  */
 public class Product extends AbstractRootAsset
-                     implements IGXLExport{
+                     implements IGXLExport, IProductComponentContainer{
 
 	// containers
 	private List productReleases = new ArrayList();
@@ -133,7 +134,7 @@ public class Product extends AbstractRootAsset
 		    /* load and create the product by finding its local path and 
 		     		  deserializing it from there.
 		    */
-			addComponent(new SpecificComponent(this, pEl));
+			addProductComponent(new SpecificComponent(this, pEl));
 		}
 
 		it = element.element("related-components").elementIterator(AbstractAsset.RELATED_COMPONENT);
@@ -142,7 +143,7 @@ public class Product extends AbstractRootAsset
 		    /* load and create the product by finding its local path and 
 		     		  deserializing it from there.
 		    */
-		    addComponent(new RelatedComponent(this, pEl));	
+		    addProductComponent(new RelatedComponent(this, pEl));	
 		}
 
 		// edges must deserialize at last. Otherwise the other nodes are missing in the ie pool. 
@@ -185,17 +186,8 @@ public class Product extends AbstractRootAsset
 	 *
 	 * @param component contains the new component
 	 */
-	public void addComponent(ProductComponent component) {
-		if (component instanceof SpecificComponent) {
-			specificComponents.add((SpecificComponent)component);
-			component.setParent(this);
-		}
-		else if (component instanceof RelatedComponent) {
-			relatedComponents.add((RelatedComponent)component);
-			component.setParent(this);
-		}
-		//component.setParent(this);
-		addToPool(component);
+	public void addProductComponent(ProductComponent component) {
+	    addProductComponent(component, -1);
 	}
 
 	
@@ -219,6 +211,8 @@ public class Product extends AbstractRootAsset
 	public List getRelatedComponents() {
 		return Collections.unmodifiableList(relatedComponents);
 	}
+	
+	
 
 	/**
 	 * @return
@@ -287,5 +281,66 @@ public class Product extends AbstractRootAsset
 	    l.addAll(getRelatedComponents());
 	    return l;
 	}
+ 
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.IProductComponetContainer#removeProductComponent(kobold.client.plam.model.product.ProductComponent)
+     */
+    public void removeProductComponent(ProductComponent comp) {
+        if(comp instanceof SpecificComponent){
+            this.specificComponents.remove(comp);
+        } else {
+            this.relatedComponents.remove(comp);
+        }
+        comp.setParent(null);
+		fireStructureChange(AbstractAsset.ID_CHILDREN, comp);
+        
+    }
+
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.IProductComponentContainer#getProductComponents()
+     */
+    public List getProductComponents() {
+        List list = new ArrayList();
+        list.addAll(this.relatedComponents);
+        list.addAll(this.specificComponents);
+        return list;
+    }
+
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.IProductComponentContainer#addProductComponent(kobold.client.plam.model.product.ProductComponent, int)
+     */
+    public void addProductComponent(ProductComponent comp, int index) {
+        if (comp instanceof SpecificComponent) {
+            addSpecificComponent((SpecificComponent)comp, index);
+		}
+		else if (comp instanceof RelatedComponent) {
+		    addSpecificComponent((SpecificComponent)comp, index);
+		}
+    }
+    
+    public void addSpecificComponent(SpecificComponent comp, int index){
+        if (index >= 0){
+            specificComponents.add(index, (SpecificComponent)comp);
+        } else {
+            specificComponents.add((SpecificComponent)comp);
+        }        
+        comp.setParent(this);
+        addToPool(comp);
+        fireStructureChange(AbstractAsset.ID_CHILDREN, comp);
+    }
+    
+    public void addRelatedComponent(RelatedComponent comp, int index){
+        if (index >= 0){
+           relatedComponents.add(index, (RelatedComponent)comp);
+        } else {
+            relatedComponents.add((RelatedComponent)comp); 
+        }        
+		comp.setParent(this);
+		addToPool(comp);
+		fireStructureChange(AbstractAsset.ID_CHILDREN, comp);
+    }
 
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteAssetCommand.java,v 1.2 2004/08/30 13:31:57 rendgeor Exp $
+ * $Id: DeleteAssetCommand.java,v 1.3 2004/09/18 16:09:32 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.command;
@@ -35,6 +35,7 @@ import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.AbstractStatus;
 import kobold.client.plam.model.DeprecatedStatus;
 import kobold.client.plam.model.IComponentContainer;
+import kobold.client.plam.model.IProductComponentContainer;
 import kobold.client.plam.model.IReleaseContainer;
 import kobold.client.plam.model.IVariantContainer;
 import kobold.client.plam.model.MetaNode;
@@ -43,6 +44,9 @@ import kobold.client.plam.model.Release;
 import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.product.ProductComponent;
+import kobold.client.plam.model.product.RelatedComponent;
+import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
@@ -132,6 +136,16 @@ public class DeleteAssetCommand extends Command
         } else if (parent instanceof AbstractRootAsset
                 && asset instanceof MetaNode) {
             ((AbstractRootAsset)parent).removeMetaNode((MetaNode)asset);
+        } else if( parent instanceof IProductComponentContainer &&
+                   asset instanceof SpecificComponent) {
+            IProductComponentContainer pcc =(IProductComponentContainer)parent;
+            index = pcc.getSpecificComponents().indexOf(asset);
+            pcc.removeProductComponent((ProductComponent)asset);
+        } else if (parent instanceof IProductComponentContainer
+                && asset instanceof RelatedComponent) {
+            IProductComponentContainer pcc = (IProductComponentContainer) parent;
+            index = pcc.getRelatedComponents().indexOf(asset);
+            pcc.removeProductComponent((ProductComponent) asset);
         }
     }
    
@@ -181,6 +195,16 @@ public class DeleteAssetCommand extends Command
         } else if (parent instanceof AbstractRootAsset
                 && asset instanceof MetaNode) {
             ((AbstractRootAsset)parent).addMetaNode((MetaNode)asset);
+        } else if (parent instanceof IProductComponentContainer
+                && asset instanceof SpecificComponent){            
+            IProductComponentContainer pcc = (IProductComponentContainer) parent;
+            
+            pcc.addSpecificComponent((SpecificComponent)asset, index);
+        } else if (parent instanceof IProductComponentContainer
+                && asset instanceof RelatedComponent){            
+            IProductComponentContainer pcc = (IProductComponentContainer) parent;
+            
+            pcc.addRelatedComponent((RelatedComponent)asset, index);
         }
         
         EdgeContainer ec = parent.getRoot().getEdgeContainer();
@@ -208,6 +232,9 @@ public class DeleteAssetCommand extends Command
         }
         if (asset instanceof IReleaseContainer) {
             assetList.addAll(((IReleaseContainer)asset).getReleases());
+        }
+        if (asset instanceof IProductComponentContainer) {
+            assetList.addAll(((IProductComponentContainer)asset).getProductComponents());
         }
 
         Iterator it = assetList.iterator();
