@@ -48,10 +48,13 @@ import org.eclipse.team.internal.core.streams.PollingInputStream;
 import org.eclipse.team.internal.core.streams.PollingOutputStream;
 import org.eclipse.team.internal.core.streams.TimeoutInputStream;
 import org.eclipse.team.internal.core.streams.TimeoutOutputStream;
+import org.eclipse.team.internal.ui.actions.ProgressDialogRunnableContext;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
+
+
 
 /**
  * @author schneipk
@@ -226,6 +229,8 @@ public class ScriptServerConnection implements IServerConnection
 	public void open(IProgressMonitor monitor,String[] command) throws IOException,
 			CVSAuthenticationException
 	{
+//	    Job job = new Job();
+//	    Workbench.getInstance().getProgressService().showInDialog(new Shell(),)
 //		vcmHostLocation = repositoryDescriptor.getHost();
 //		repositoryPath = repositoryDescriptor.getPath();
 		String[] actualCommand = new String[command.length + 3];
@@ -260,7 +265,11 @@ public class ScriptServerConnection implements IServerConnection
 				new IConsole[] {console});
 			stream2 = console.newMessageStream();
 			connected = true;
+			ProgressDialogRunnableContext pc = new ProgressDialogRunnableContext(new Shell());
+			
 			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
+			
+			monitor.beginTask("VCM work...",6000);
 			inputThread.run();
 		} finally {
 			if (! connected) {
@@ -376,6 +385,7 @@ public class ScriptServerConnection implements IServerConnection
 	
 	// 
 	// discard the input to prevent the process from hanging due to a full pipe
+
 	private static class InputThreadToConsole extends Thread {
 		private BufferedInputStream in, errStream;
 		private byte[] readLineBuffer = new byte[512];
@@ -388,10 +398,11 @@ public class ScriptServerConnection implements IServerConnection
 			this.errStream = new BufferedInputStream(proc.getErrorStream());
 			this.proc = proc;
 		}
-public void run(){
-    int index = 0, r = 0, s = 0, i = 0, lineCount = 250;
+		public void run(){
+		    int index = 0, r = 0, s = 0, i = 0, lineCount = 250;
             try
             {
+                
                 while (in.available() == 0 & errStream.available() == 0)
                 {
                     sleep(5);       
@@ -457,7 +468,7 @@ public void run(){
                 e.printStackTrace();
             }
         }
-    public void run2() {
+		public void run2() {
 
 				try
             {
