@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Edge.java,v 1.8 2004/08/05 15:05:21 vanto Exp $
+ * $Id: Edge.java,v 1.9 2004/08/06 03:43:27 martinplies Exp $
  *
  */
 package kobold.client.plam.model.edges;
@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.productline.Productline;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -72,10 +73,18 @@ public class Edge {
     }
     
     public Edge(Element element) {
-        deserialize (element);
+       
     }
     
     
+    /**
+     * @param element
+     * @param productline
+     */
+    public Edge(Element element, Productline productline) {        
+        deserialize (element, productline);
+    }
+
     /**
      * @return Returns the edgeCount.
      */
@@ -147,11 +156,13 @@ public class Edge {
     }
     
     
-    public void deserialize (Element element){
+    public void deserialize (Element element, Productline prodline){
         type = element.attributeValue("type");
         String fromAssetId = element.attributeValue("from");
         String  toAssetId = element.attributeValue("to");        
-        //FIXME get Asssets                
+        startNode =  prodline.getAsset(fromAssetId);
+        targetNode = prodline.getAsset(toAssetId);   
+        ;int a =0;
     }
     
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.15 2004/08/05 15:05:21 vanto Exp $
+ * $Id: EdgeContainer.java,v 1.16 2004/08/06 03:43:16 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -75,6 +75,11 @@ public class EdgeContainer implements ISerializable {
     
     public EdgeContainer(AbstractRootAsset root) {
         this.root = root;
+    }
+    
+    public EdgeContainer(Element element, AbstractRootAsset root){
+        this.root = root;
+        this.deserialize(element);        
     }
     
     /**
@@ -264,8 +269,8 @@ public class EdgeContainer implements ISerializable {
         if (containsEdge(edge.getStartNode(), edge.getTargetNode(), edge.getType())) {
             return null;
         }
-        List sourceEdges = (List)startNodesList.get(edge.getStartNode());
-        List targetEdges = (List)targetNodesList.get(edge.getTargetNode());
+        List sourceEdges = getSourceEdges(edge.getStartNode());
+        List targetEdges = getTargetEdges(edge.getTargetNode());
         sourceEdges.add(edge);
         listeners.firePropertyChange(ID_SOURCE_CHANGED, null, edge);
         targetEdges.add(edge);
@@ -362,13 +367,9 @@ public class EdgeContainer implements ISerializable {
         return element;
     }
     
-    public void deserialize(Element element) {
-        
-        // FIXME root aus dem idpool holen
-        // FIXME clear all edges 
+    public void deserialize(Element element) {        
         for (Iterator ite = element.elementIterator("edge"); ite.hasNext(); ){
-
-            //this.addEdge(new Edge((Element) ite.next()));
+            this.addEdge(new Edge((Element) ite.next(), this.root.getProductline()));
         }
     }
     

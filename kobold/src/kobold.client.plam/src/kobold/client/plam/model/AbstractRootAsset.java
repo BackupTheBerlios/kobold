@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.15 2004/08/05 17:47:27 martinplies Exp $
+ * $Id: AbstractRootAsset.java,v 1.16 2004/08/06 03:42:22 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -158,8 +158,7 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 		    addMetaNode(new MetaNode(mEl));
 		}
 		
-		Element edges = element.element("edges");
-		edgeContainer.deserialize(edges);
+		
     }
     
     public Element serialize()
@@ -171,7 +170,8 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 			metaEl.add(node.serialize());
 		}
 		
-		root.add(edgeContainer.serialize());
+		//root.add(edgeContainer.serialize());
+		// must not desirialize here. Other Assets must desirialize first. 
 		
 		return root;
     }
