@@ -1,82 +1,49 @@
-String dump = {
-"./src/CVS	*" + 
-"./config/CVS/Root	*" + 
-"./autom4te-2.53.cache	D*" + 
-"./src	D*" + 
-"./config/CVS/Repository	*" + 
-"./doc/portsman.man	1.4	1043939574	" + 
-"./CVS	D*" + 
-"./Makefile.am	1.3	1043939574	" + 
-"./src/fns.h	1.22	1064905457	" + 
-"./CVS/Root	*" + 
-"./stats.txt	*" + 
-"./src/CVS/Entries	*" + 
-"./doc/CVS/Repository	*" + 
-"./src/tree.c	1.4	1043939574	" + 
-"./NEWS	1.2	1043939574	" + 
-"./src/parse.c	1.21	1064905457	" + 
-"./doc/CVS/Root	*" + 
-"./config.log	*" + 
-"./CVS/Entries	*" + 
-"./doc	D*" + 
-"./src/CVS/Repository	*" + 
-"./src/res.h	1.8	1064905457	" + 
-"./autogen-rh72.sh	*" + 
-"./src/includes.h	1.6	1064905457	" + 
-"./README	1.3	1064905457	" + 
-"./autom4te-2.53.cache/output.0	*" + 
-"./Makefile	*" + 
-"./doc/Makefile.in	*" + 
-"./CONTRIB	1.4	1043939574	" + 
-"./doc/Makefile.am	1.6	1043939574	" + 
-"./src/window.c	1.12	1043939574	" + 
-"./src/types.h	1.17	1064905458	" + 
-"./src/list.c	1.7	1043939574	" + 
-"./config.status	*" + 
-"./aclocal.m4	*" + 
-"./autom4te-2.53.cache/traces.0	*" + 
-"./FAQ	1.1.1.1	1043078869	" + 
-"./config/CVS	*" + 
-"./doc/Makefile	*" + 
-"./src/compare.c	1.3	1043939574	" + 
-"./src/system.c	1.21	1064905457	" + 
-"./Makefile.in	*" + 
-"./configure.ac	1.5	1043939574	" + 
-"./CVS/Repository	*" + 
-"./config/CVS/Entries	*" + 
-"./config/portsmanrc.sample	1.6	1043939574	" + 
-"./config/Makefile.in	*" + 
-"./TODO	1.4	1064905457	" + 
-"./COPYING	1.2	1043939574	" + 
-"./COPYRIGHT	1.2	1043939574	" + 
-"./ChangeLog	1.3	1064905457	" + 
-"./doc/CVS/Entries	*" + 
-"./src/consts.h	1.17	1064905457	" + 
-"./src/main.c	1.23	1043939574	" + 
-"./config/Makefile	*" + 
-"./doc/portsmanrc.man	1.5	1043939574	" + 
-"./src/tree.h	1.5	1064905457	" + 
-"./autom4te-2.53.cache/requests	*" + 
-"./install-sh	*" + 
-"./src/manage.c	1.24	1064905457	" + 
-"./config	D*" + 
-"./CVS/Entries.Log	*" + 
-"./src/Makefile.in	*" + 
-"./mkinstalldirs	*" + 
-"./config/Makefile.am	1.3	1064905457	" + 
-"./src/Makefile.am	1.3	1043939574	" + 
-"./AUTHORS	1.1.1.1	1043078869	" + 
-"./BUGS	1.2	1043413812	" + 
-"./configure	*" + 
-"./autogen.sh	1.1.1.1	1043078869	" + 
-"./doc/CVS	*" + 
-"./INSTALL	1.1.1.1	1043078869	" + 
-"./src/globals.h	1.10	1064905457	" + 
-"./src/Makefile	*" + 
-"./src/io.c	1.2	1043939574	" + 
-"./missing	*" + 
-"./src/CVS/Root	*" + 
-"./src/list.h	1.7	1064905457	" + 
-"./LICENSE	1.2	1043939574	" + 
-"./src/browse.c	1.34	1043939574	";
-
+String dump = 
+"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/editor/editpart/ProductEditPart.class	*"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/model/IComponentContainer.java	*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/workflow/AbstractViewItem.class	*"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/listeners/CVS/Repository	*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/editor/figure/RelatedComponentFigure.class	*"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/editor/tool/CVS/Entries	*"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/CVS	D*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/graphimport/GraphImportDialog$2.class	*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/editor/GraphicalPartFactory.class	*"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/controller/roletree/RoleTreeContentProvider.java	*"
++"/home/rendgeor/workspace/kobold.client.plam/src/CVS/Entries	*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/controller/SecureKoboldClient.class	*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/editor/dialog/UpdateFullNameDialog.class	*"
++"/home/rendgeor/workspace/kobold.client.plam/icons/component.gif	*"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/controller/roletree	D*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/model/AbstractMaintainedAsset.class	*"
++"/home/rendgeor/workspace/kobold.client.plam//src/kobold/client/plam/editor/editpart/ComponentEditPart.java	1.11	2004,8,6,10,26,16	"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/model/IGXLExport.java	*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/graphimport/GraphImportDialog.class	*"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/wizard/NewProjectWizardServerPage.java	*"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/editor/policy/CVS/Entries	*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/editor/KoboldContextMenuProvider.class	*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/editor/dialog	D*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/controller/roletree/RoleTreeContentProvider$1.class	*"
++"/home/rendgeor/workspace/kobold.client.plam//src/kobold/client/plam/editor/editpart/ProductlineEditPart.java	1.11	2004,8,17,12,12,29	"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/model/ModelStorage.java	*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/editor/dialog/AssetConfigurationDialog.class	*"
++"/home/rendgeor/workspace/kobold.client.plam//src/kobold/client/plam/editor/command/CreateReleaseCommand.java	1.2	2004,7,1,11,27,25	"
++"/home/rendgeor/workspace/kobold.client.plam//src/kobold/client/plam/model/IReleaseContainer.java	1.1	2004,7,1,11,27,25	"
++"/home/rendgeor/workspace/kobold.client.plam//icons/sample.gif	1.1	2004,4,21,23,40,05	binary"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/editor/policy/VariantContainerEditPolicy.java	*"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/editor/figure/AbstractNodeFigure.java	*"
++"/home/rendgeor/workspace/kobold.client.plam//icons/product.gif	1.1	2004,6,24,01,26,42	binary"
++"/home/rendgeor/workspace/kobold.client.plam//src/kobold/client/plam/action/ChangePasswordAction.java	1.1	2004,8,5,15,13,48	"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/editor/dialog/CVS/Root	*"
++"/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/view/CVS	D*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/editor/tool/ProductComposerTool.class	*"
++"/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/editor/editpart/AbstractComposableEditPart.class	*"
++""/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/model/AbstractStatus.class	*"
++""/home/rendgeor/workspace/kobold.client.plam//src/kobold/client/plam/editor/model/ViewModelContainer.java	1.6	2004,8,2,17,23,53	"
++""/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/useractions/Useractions.java	*"
++""/home/rendgeor/workspace/kobold.client.plam//src/kobold/client/plam/editor/tool/AssetCreationTool.java	1.2	2004,8,6,10,26,19	"
++""/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/wizard/NewProjectWizard.class	*"
++""/home/rendgeor/workspace/kobold.client.plam/src/kobold/client/plam/editor/tool/AssetCreationTool.java	*"
++""/home/rendgeor/workspace/kobold.client.plam/bin/kobold/client/plam/editor/dialog/RemoveUserDialog.class	*"
++""/home/rendgeor/workspace/kobold.client.plam//.cvsignore	1.8	2004,7,1,11,27,25	
++""/home/rendgeor/workspace/kobold.client.plam/tests-src/kobold/client/plam/CVS/Root	*"
+;

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: FileDescriptorTest.java,v 1.1 2004/08/06 11:07:19 garbeam Exp $
+ * $Id: FileDescriptorTest.java,v 1.2 2004/08/24 10:18:52 rendgeor Exp $
  *
  */
 package kobold.client.vcm.test;
@@ -52,88 +52,14 @@ public class FileDescriptorTest extends TestCase {
 	
 	public void testStatusUpdater ()
 	{
-	    String dump = 
-	            "./src/CVS	*\n" + 
-	            "./config/CVS/Root	*\n" + 
-	            "./autom4te-2.53.cache	D*\n" + 
-	            "./src	D*\n" + 
-	            "./config/CVS/Repository	*\n" + 
-	            "./doc/portsman.man	1.4	1043939574\n" + 
-	            "./CVS	D*\n" + 
-	            "./Makefile.am	1.3	1043939574\n" + 
-	            "./src/fns.h	1.22	1064905457\n" + 
-	            "./CVS/Root	*\n" + 
-	            "./stats.txt	*\n" + 
-	            "./src/CVS/Entries	*\n" + 
-	            "./doc/CVS/Repository	*\n" + 
-	            "./src/tree.c	1.4	1043939574\n" + 
-	            "./NEWS	1.2	1043939574\n" + 
-	            "./src/parse.c	1.21	1064905457\n" + 
-	            "./doc/CVS/Root	*\n" + 
-	            "./config.log	*\n" + 
-	            "./CVS/Entries	*\n" + 
-	            "./doc	D*\n" + 
-	            "./src/CVS/Repository	*\n" + 
-	            "./src/res.h	1.8	1064905457\n" + 
-	            "./autogen-rh72.sh	*\n" + 
-	            "./src/includes.h	1.6	1064905457\n" + 
-	            "./README	1.3	1064905457\n" + 
-	            "./autom4te-2.53.cache/output.0	*\n" + 
-	            "./Makefile	*\n" + 
-	            "./doc/Makefile.in	*\n" + 
-	            "./CONTRIB	1.4	1043939574\n" + 
-	            "./doc/Makefile.am	1.6	1043939574\n" + 
-	            "./src/window.c	1.12	1043939574\n" + 
-	            "./src/types.h	1.17	1064905458\n" + 
-	            "./src/list.c	1.7	1043939574\n" + 
-	            "./config.status	*\n" + 
-	            "./aclocal.m4	*\n" + 
-	            "./autom4te-2.53.cache/traces.0	*\n" + 
-	            "./FAQ	1.1.1.1	1043078869\n" + 
-	            "./config/CVS	*\n" + 
-	            "./doc/Makefile	*\n" + 
-	            "./src/compare.c	1.3	1043939574\n" + 
-	            "./src/system.c	1.21	1064905457\n" + 
-	            "./Makefile.in	*\n" + 
-	            "./configure.ac	1.5	1043939574\n" + 
-	            "./CVS/Repository	*\n" + 
-	            "./config/CVS/Entries	*\n" + 
-	            "./config/portsmanrc.sample	1.6	1043939574\n" + 
-	            "./config/Makefile.in	*\n" + 
-	            "./TODO	1.4	1064905457\n" + 
-	            "./COPYING	1.2	1043939574\n" + 
-	            "./COPYRIGHT	1.2	1043939574\n" + 
-	            "./ChangeLog	1.3	1064905457\n" + 
-	            "./doc/CVS/Entries	*\n" + 
-	            "./src/consts.h	1.17	1064905457\n" + 
-	            "./src/main.c	1.23	1043939574\n" + 
-	            "./config/Makefile	*\n" + 
-	            "./doc/portsmanrc.man	1.5	1043939574\n" + 
-	            "./src/tree.h	1.5	1064905457\n" + 
-	            "./autom4te-2.53.cache/requests	*\n" + 
-	            "./install-sh	*\n" + 
-	            "./src/manage.c	1.24	1064905457\n" + 
-	            "./config	D*\n" + 
-	            "./CVS/Entries.Log	*\n" + 
-	            "./src/Makefile.in	*\n" + 
-	            "./mkinstalldirs	*\n" + 
-	            "./config/Makefile.am	1.3	1064905457\n" + 
-	            "./src/Makefile.am	1.3	1043939574\n" + 
-	            "./AUTHORS	1.1.1.1	1043078869\n" + 
-	            "./BUGS	1.2	1043413812\n" + 
-	            "./configure	*\n" + 
-	            "./autogen.sh	1.1.1.1	1043078869\n" + 
-	            "./doc/CVS	*\n" + 
-	            "./INSTALL	1.1.1.1	1043078869\n" + 
-	            "./src/globals.h	1.10	1064905457\n" + 
-	            "./src/Makefile	*\n" + 
-	            "./src/io.c	1.2	1043939574\n" + 
-	            "./missing	*\n" + 
-	            "./src/CVS/Root	*\n" + 
-	            "./src/list.h	1.7	1064905457\n" + 
-	            "./LICENSE	1.2	1043939574\n" + 
-	            "./src/browse.c	1.34	1043939574";
-
+		String dump =
+			"/src\n"
+			+"/src/kobold\n"
+			+"/src/kobold/client\n"
+			+"/src/kobold/client/plam\n"
+			+"/src/kobold/client/plam/model\n"
+			+"/src/kobold/client/plam/model/IComponentContainer.java	*\n"
+			;
 		//update FD(s)
 		StatusUpdater statUp = new StatusUpdater ();
 		
@@ -142,7 +68,7 @@ public class FileDescriptorTest extends TestCase {
 		fd.setDirectory(true);
 		statUp.parseInputString(fd, dump);
 	
-		prettyPrintFD(fd);
+		//prettyPrintFD(fd);
 	}
 	
 	private void prettyPrintFD(FileDescriptor fd) {
