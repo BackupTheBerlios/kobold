@@ -21,10 +21,9 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.2 2004/07/07 14:23:21 memyselfandi Exp $
+ * $Id: RelatedComponent.java,v 1.3 2004/07/11 12:38:34 vanto Exp $
  *
  */
-//FIXME: Implement IFileDescriptorContainer
 package kobold.client.plam.model.product;
 
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ import org.dom4j.Element;
  */
 
 public class RelatedComponent extends ProductComponent 
-                              implements IGXLExport{
+                              implements IGXLExport {
 
 	private Component relatedComponent;
 	private Release plCompRelease;

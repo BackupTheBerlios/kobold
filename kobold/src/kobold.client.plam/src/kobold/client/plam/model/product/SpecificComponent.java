@@ -21,36 +21,31 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.3 2004/07/08 15:00:52 rendgeor Exp $
+ * $Id: SpecificComponent.java,v 1.4 2004/07/11 12:38:34 vanto Exp $
  *
  */
 
 package kobold.client.plam.model.product;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.FileDescriptor;
-import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.Release;
 
 import org.dom4j.Element;
-import org.eclipse.core.runtime.IPath;
 
 
 /**
  * Represents a product specific component.
  */
 public class SpecificComponent extends ProductComponent 
-							   implements IFileDescriptorContainer {
+{
 
 
 	private List releases = new ArrayList();
-	private List filedescs = new ArrayList();
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#component";
 	
 	/**
@@ -117,35 +112,7 @@ public class SpecificComponent extends ProductComponent
 		return AbstractAsset.SPECIFIC_COMPONENT;
 	}
 
-    /**
-     * @see kobold.client.plam.model.IFileDescriptorContainer#addFileDescriptor(kobold.common.io.FileDescriptor)
-     */
-    public void addFileDescriptor(FileDescriptor fd)
-    {
-        filedescs.add(fd);
-        fd.setParentAsset(fd);
-    }
-
-    /**
-     * @see kobold.client.plam.model.IFileDescriptorContainer#removeFileDescriptor(kobold.common.io.FileDescriptor)
-     */
-    public void removeFileDescriptor(FileDescriptor fd)
-    {
-        filedescs.remove(fd);
-        fd.setParentAsset(null);
-    }
-
-    /**
-     * @see kobold.client.plam.model.IFileDescriptorContainer#getFileDescriptors()
-     */
-    public List getFileDescriptors()
-    {
-        return Collections.unmodifiableList(filedescs);
-    }
-
-
-	
-	/** (non-Javadoc)
+    /** (non-Javadoc)
      * @see kobold.client.plam.model.IGXLExport#getGXLAttributes()
      */
     public Map getGXLAttributes()
@@ -171,28 +138,5 @@ public class SpecificComponent extends ProductComponent
         // TODO Auto-generated method stub
         return null;
     }
-    
-	/**
-	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
-	 */
-	public IPath getLocalPath() {
-		//FIXME: calc localpath
-		return null;
-	}
-	
-	//TODO
-	public boolean clear ()
-	{
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.client.plam.model.IFileDescriptorContainer#setLocalPath(java.lang.String)
-	 */
-	public IPath setLocalPath(String localPath) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.5 2004/07/08 15:00:52 rendgeor Exp $
+ * $Id: Variant.java,v 1.6 2004/07/11 12:38:34 vanto Exp $
  *
  */
 
@@ -220,7 +220,7 @@ public class Variant extends AbstractAsset
     public void addFileDescriptor(FileDescriptor fd)
     {
         filedescs.add(fd);
-        fd.setParentAsset(fd);
+        fd.setParentAsset(this);
     }
 
     /**
@@ -284,19 +284,5 @@ public class Variant extends AbstractAsset
 		//FIXME: calc localpath
 		return null;
 	}
-	
-	//TODO
-	public boolean clear ()
-	{
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.client.plam.model.IFileDescriptorContainer#setLocalPath(java.lang.String)
-	 */
-	public IPath setLocalPath(String localPath) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-   
+  
 }

@@ -21,23 +21,22 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.3 2004/07/08 15:00:52 rendgeor Exp $
+ * $Id: FileDescriptor.java,v 1.4 2004/07/11 12:38:34 vanto Exp $
  *
  */
 package kobold.client.plam.model;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
-
 import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Variant;
 import kobold.common.data.User;
+
+import org.eclipse.core.runtime.IPath;
 
 /**
  * Base class for locating working copies.
@@ -61,35 +60,6 @@ public class FileDescriptor implements IFileDescriptorContainer {
     public FileDescriptor() {
     }
 
-	/**
-	 * Constructor for a implicit file 
-	 * @param filename
-	 * @param directory
-	 * @param revision
-	 * @param lastChange
-	 * @param isBinary
-	 */
-    public FileDescriptor(String filename, 
-    						String revision, Date lastChange, boolean isBinary) 
-    {
-    	setFilename(filename);
-    	//setDirectory(false);
-    	setRevision(revision);
-    	setLastChange(lastChange);
-    	setBinary(isBinary);
-    }
-    
-    /**
-     * Constructor for a implicit directory
-     * @param filename
-     */
-    public FileDescriptor (String filename)
-    {
-    	setFilename (filename);
-    	setDirectory(true);
-    }
-
-    
     /**
      * @param author The author to set.
      */
@@ -239,21 +209,6 @@ public class FileDescriptor implements IFileDescriptorContainer {
 		return null;
 	}
 
-	//TODO
-	public boolean clear ()
-	{
-		return true;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see kobold.client.plam.model.IFileDescriptorContainer#setLocalPath(java.lang.String)
-	 */
-	public IPath setLocalPath(String localPath) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	/**
 	 * @return Returns the isBinary.
 	 */

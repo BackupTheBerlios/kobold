@@ -21,47 +21,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: IFileDescriptorContainer.java,v 1.4 2004/07/11 12:38:34 vanto Exp $
+ * $Id: IVCMActionListener.java,v 1.1 2004/07/11 12:38:34 vanto Exp $
  *
  */
-package kobold.client.plam.model;
+package kobold.client.plam.listeners;
 
-import java.util.List;
-
-import org.eclipse.core.runtime.IPath;
-
+import kobold.client.plam.model.IFileDescriptorContainer;
 
 
 /**
+ * Provides an interface to all vcm action. Due to information hiding issues,
+ * the VCM Plugin should implement this listener and has to register itself to
+ * all active productlines, which invoke action via this interface.
+ * 
  * @author Tammo
  */
-public interface IFileDescriptorContainer
+public interface IVCMActionListener
 {
-	/**
-	 * Adds a filedescriptor.
-	 *
-	 * @param filedescriptor to add
-	 */
-    void addFileDescriptor(FileDescriptor fd);
-
     /**
-	 * Removes a filedescriptor.
-	 *
-	 * @param filedescriptor to remove
-	 */
-    void removeFileDescriptor(FileDescriptor fd);
-    
-    /**
-     * Returns an unmodifiable list of filedescriptors.
+     * Refreshes all filedescriptors in this container.
      * 
-     * @return list of filedescriptors
+     * @param container
      */
-    List getFileDescriptors();
+    void refreshFiledescriptors(IFileDescriptorContainer container);
     
-    /**
-     * Returns the local path of this.
-     * @return
-     */
-    IPath getLocalPath();
-
+    //TODO: To be continued.
 }

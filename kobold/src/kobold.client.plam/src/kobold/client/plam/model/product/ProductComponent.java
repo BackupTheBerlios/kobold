@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.1 2004/07/01 11:27:25 vanto Exp $
+ * $Id: ProductComponent.java,v 1.2 2004/07/11 12:38:34 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -33,15 +33,19 @@ import java.util.List;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractMaintainedAsset;
+import kobold.client.plam.model.FileDescriptor;
+import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.plam.model.IGXLExport;
 
 import org.dom4j.Element;
+import org.eclipse.core.runtime.IPath;
 
 /**
  * @author rendgeor
  */
 public abstract class ProductComponent extends AbstractMaintainedAsset 
-									   implements IGXLExport {
+									   implements IGXLExport,
+									   			  IFileDescriptorContainer {
 
 	private List prodComps = new ArrayList();
 	
@@ -107,5 +111,41 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 			return new SpecificComponent(element);
 		}
 		throw new IllegalArgumentException("Unkown product component type");
+	}
+
+    private List filedescs = new ArrayList();
+
+    /**
+     * @see kobold.client.plam.model.IFileDescriptorContainer#addFileDescriptor(kobold.common.io.FileDescriptor)
+     */
+    public void addFileDescriptor(FileDescriptor fd)
+    {
+        filedescs.add(fd);
+        fd.setParentAsset(this);
+    }
+
+    /**
+     * @see kobold.client.plam.model.IFileDescriptorContainer#removeFileDescriptor(kobold.common.io.FileDescriptor)
+     */
+    public void removeFileDescriptor(FileDescriptor fd)
+    {
+        filedescs.remove(fd);
+        fd.setParentAsset(null);
+    }
+
+    /**
+     * @see kobold.client.plam.model.IFileDescriptorContainer#getFileDescriptors()
+     */
+    public List getFileDescriptors()
+    {
+        return Collections.unmodifiableList(filedescs);
+    }
+    
+	/**
+	 * @see kobold.client.plam.model.IFileDescriptorContainer#getLocalPath()
+	 */
+	public IPath getLocalPath() {
+		//FIXME: calc localpath
+		return null;
 	}
 }

@@ -21,20 +21,25 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
+ * $Id: StatusUpdater.java,v 1.5 2004/07/11 12:38:37 vanto Exp $
  * 
  */
 package kobold.client.vcm.controller;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-
-import kobold.client.plam.model.FileDescriptor;
+import kobold.client.plam.model.FileDescriptorHelper;
 import kobold.client.plam.model.IFileDescriptorContainer;
 import kobold.client.vcm.KoboldVCMPlugin;
 import kobold.client.vcm.communication.CVSSererConnection;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 /**
  * @author rendgeor
@@ -46,7 +51,9 @@ import kobold.client.vcm.communication.CVSSererConnection;
 
 public class StatusUpdater {
 
-
+    private DateFormat df = new SimpleDateFormat();
+    private static final Log logger = LogFactory.getLog(StatusUpdater.class);
+    
 	/**
 	 * Listener who acts on the delivered FD-container and updates all included FD(s)
 	 * @param fileDescriptorContainer, the FD-container to update
@@ -94,43 +101,47 @@ public class StatusUpdater {
 		System.out.println (inputString);
 		
 		//clears all FD(s)
-		if (fileDescriptorContainer.clear ())
-		{
-			//for the complete output of stats
-			java.util.StringTokenizer line = new java.util.StringTokenizer(inputString, "\n");
-			while(line.hasMoreTokens()) 
-			{ 
-				//for each line
-				java.util.StringTokenizer localLine = new java.util.StringTokenizer(inputString, "\t");
-				while(localLine.hasMoreTokens()) 
-				{ 
-				
-					//it's a directory
-					if (line.countTokens() == 1)
-					{
-						fileDescriptorContainer.addFileDescriptor(new FileDescriptor(localLine.nextToken()));
-						
-						//TODO:recursive for all files included or still flat hierarchy??
-						
-					}
-					//it's a file
-					else
-					{
-						fileDescriptorContainer.addFileDescriptor(
-									new FileDescriptor(
-									localLine.nextToken (), localLine.nextToken(),
-									DateFormat.parse(localLine.nextToken()), localLine.nextToken().equals("binary") ) );
-						//System.out.println(line.nextToken());
-	
-					}
-				}
+		FileDescriptorHelper.clear(fileDescriptorContainer);
 
-			}	
-		}
-		else
-		{
-			//logger
-		}
+		//for the complete output of stats
+		java.util.StringTokenizer line = new java.util.StringTokenizer(inputString, "\n");
+		while(line.hasMoreTokens()) 
+		{ 
+		    //for each line
+		    java.util.StringTokenizer localLine = new java.util.StringTokenizer(inputString, "\t");
+		    while(localLine.hasMoreTokens()) 
+		    { 
+		        
+		        //it's a directory
+		        if (line.countTokens() == 1)
+		        {
+		            fileDescriptorContainer.addFileDescriptor(FileDescriptorHelper.createDirectory(localLine.nextToken()));
+		            
+		            //TODO:recursive for all files included or still flat hierarchy??
+		            
+		        }
+		        //it's a file
+		        else
+		        {
+		            String filename = localLine.nextToken();
+		            String revision = localLine.nextToken();
+		            boolean isBinary = localLine.nextToken().equals("binary");
+		            
+		            Date date = null;
+		            try {
+                        date = df.parse(localLine.nextToken());
+                    } catch (ParseException e) {
+                        logger.debug("could not parse date - using null instead", e);
+                    }
+		            
+		            fileDescriptorContainer.addFileDescriptor(FileDescriptorHelper.createFile(
+		                    filename, revision, date, isBinary) );
+		            //System.out.println(line.nextToken());
+		            
+		        }
+		    }
+		    
+		}	
 	}
  
 }

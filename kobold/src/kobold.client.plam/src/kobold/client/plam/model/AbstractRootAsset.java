@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractRootAsset.java,v 1.2 2004/07/01 15:52:17 vanto Exp $
+ * $Id: AbstractRootAsset.java,v 1.3 2004/07/11 12:38:34 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -29,9 +29,12 @@ package kobold.client.plam.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import kobold.client.plam.PLAMProject;
+import kobold.client.plam.listeners.IVCMActionListener;
 
 
 /**
@@ -45,6 +48,7 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
     private Map userPool = new HashMap();
     protected Map releasePool = new HashMap();
     protected transient PropertyChangeSupport changeListeners = new PropertyChangeSupport(this); 
+    protected transient List vcmListeners = new LinkedList();
     
     /**
      * Default constructor. 
@@ -101,4 +105,15 @@ public abstract class AbstractRootAsset extends AbstractMaintainedAsset
 	{
 	    changeListeners.firePropertyChange("refresh", false, true);
 	}
+	
+    public void addVCMActionListener(IVCMActionListener l)
+	{
+		vcmListeners.add(l);
+	}
+
+	public void removeVCMActionListener(IVCMActionListener l)
+	{
+		vcmListeners.remove(l);
+	}
+
 }
