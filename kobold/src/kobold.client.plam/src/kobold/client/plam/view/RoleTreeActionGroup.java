@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeActionGroup.java,v 1.10 2004/08/24 13:17:57 garbeam Exp $
+ * $Id: RoleTreeActionGroup.java,v 1.11 2004/08/27 00:34:57 martinplies Exp $
  *
  */
 package kobold.client.plam.view;
@@ -30,10 +30,12 @@ import kobold.client.plam.KoboldConstants;
 import kobold.client.plam.action.ConfigureAssetAction;
 import kobold.client.plam.action.RefreshFileDescriptorsAction;
 import kobold.client.plam.action.SuggestFileAction;
+import kobold.client.plam.action.deleteAction;
 import kobold.client.plam.controller.roletree.RoleTreeContentProvider.ArchitectureItem;
 import kobold.client.plam.editor.ArchitectureEditorInput;
 import kobold.client.plam.model.AbstractAsset;
 
+import org.eclipse.gef.ui.actions.DeleteAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -50,7 +52,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.actions.ActionGroup;
-import org.eclipse.ui.actions.DeleteResourceAction;
+//import org.eclipse.ui.actions.DeleteResourceAction;
 import org.eclipse.ui.actions.NewWizardMenu;
 import org.eclipse.ui.part.DrillDownAdapter;
 
@@ -68,7 +70,7 @@ public class RoleTreeActionGroup extends ActionGroup
     private DrillDownAdapter drillDownAdapter;
     private RefreshFileDescriptorsAction refreshFDAction;
     private ConfigureAssetAction configureAssetAction;
-    private DeleteResourceAction deleteAction;
+    private deleteAction deleteAction;
     private SuggestFileAction suggestFileAction;
     
     public RoleTreeActionGroup(RoleTreeViewPart part) 
@@ -80,7 +82,7 @@ public class RoleTreeActionGroup extends ActionGroup
 		configureAssetAction = new ConfigureAssetAction(part.getSite().getShell());
 		
 		ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
-		deleteAction = new DeleteResourceAction(part.getSite().getShell());
+		deleteAction = new deleteAction(part.getSite().getShell());
 		deleteAction.setDisabledImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE_DISABLED));
 		deleteAction.setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
 		
@@ -146,7 +148,7 @@ public class RoleTreeActionGroup extends ActionGroup
     {
         refreshFDAction.handleSelectionChanged(event);
         configureAssetAction.handleSelectionChanged(event);
-        deleteAction.selectionChanged(((IStructuredSelection)event.getSelection()));
+        deleteAction.handleSelectionChanged(event);
         suggestFileAction.handleSelectionChanged(event);
     }
     

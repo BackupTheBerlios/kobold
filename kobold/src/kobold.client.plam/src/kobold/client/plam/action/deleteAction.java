@@ -21,72 +21,62 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: DeleteCommand.java,v 1.7 2004/08/27 00:36:17 martinplies Exp $
+ * $Id: deleteAction.java,v 1.1 2004/08/27 00:36:17 martinplies Exp $
  *
  */
-package kobold.client.plam.editor.command;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+package kobold.client.plam.action;
 
 import kobold.client.plam.DeleteAsset;
+import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.model.AbstractAsset;
-import kobold.client.plam.model.AbstractRootAsset;
-import kobold.client.plam.model.AbstractStatus;
-import kobold.client.plam.model.DeprecatedStatus;
-import kobold.client.plam.model.IComponentContainer;
-import kobold.client.plam.model.IReleaseContainer;
-import kobold.client.plam.model.IVariantContainer;
 import kobold.client.plam.model.MetaNode;
-import kobold.client.plam.model.Release;
-import kobold.client.plam.model.edges.Edge;
-import kobold.client.plam.model.edges.EdgeContainer;
-import kobold.client.plam.model.productline.Component;
-import kobold.client.plam.model.productline.Variant;
+import kobold.client.plam.workflow.CoreGroupDialog;
+import kobold.common.data.WorkflowMessage;
 
-import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Display;
-
+import org.eclipse.swt.widgets.Shell;
 
 /**
- * @author Tammo
+ * @author pliesmn
+ *
+ * Excute actions of DeleteAction and DeleteCommand.
  */
-public class DeleteCommand extends Command
-{
-    private AbstractAsset asset;
-    private int action;
-    private DeleteAsset delAsset;
+public class deleteAction extends Action {
+	
+	private Shell shell;
+    private AbstractAsset selection;
+    private DeleteAsset delAsset = new DeleteAsset();
     
-    public DeleteCommand()
+    public deleteAction(Shell shell) 
     {
-        super("delete command");
-        delAsset = new DeleteAsset(); 
-        
+        this.shell = shell;
+		setText("delete asset");
     }
     
-    public void setAsset(AbstractAsset asset)
-    {
-         delAsset.setAsset(asset);
-    }
-    
-    public void execute()
-    {
+    public void run()
+    {        
         if (MessageDialog.openQuestion(Display.getDefault().getActiveShell(), 
             	"Deleted or Deprecated", 
             	"Are you sure to delete this asset? Press \"Yes\" to delete or \"No\" to mark the asset deprecated.")) {
-            action = DeleteAsset.DELETE;
+            delAsset.execute(DeleteAsset.DELETE);
         } else {
-            action = DeleteAsset.DEPRECATED;
+            delAsset.execute(DeleteAsset.DEPRECATED);
         }
-        
-        delAsset.execute(action);
-    }
+    }    
     
-    public void undo() {
-        delAsset.undo();
+    public void handleSelectionChanged(SelectionChangedEvent event)
+    {
+        IStructuredSelection sel = (IStructuredSelection)event.getSelection();
+        if (sel.size() == 1 && sel.getFirstElement() instanceof AbstractAsset){
+            setEnabled(true);
+            delAsset.setAsset((AbstractAsset)sel.getFirstElement());
+        } else {
+            setEnabled(false);
+            delAsset.setAsset(null);
+        }
     }
-
-
 }
