@@ -55,11 +55,12 @@ public class Useractions {
         SecureKoboldClient.getInstance().removeUser(ctx, getOneUser(userName));
 	}
 	
-	public void changePassword(String newPassword, String confirmPassword){
-		if(newPassword.equals(confirmPassword)){
+	public void changePassword(String oldPassword, String newPassword){
 		    UserContext ctx = ServerHelper.getUserContext(KoboldPLAMPlugin.getCurrentKoboldProject());
-		    SecureKoboldClient.getInstance().updateUserPassword(ctx, getOneUser(ctx.getUserName()), confirmPassword, newPassword);
-		}
+		    SecureKoboldClient.getInstance().updateUserPassword(ctx, getOneUser(ctx.getUserName()), oldPassword, newPassword);
+		    //changing the password at the client
+		    KoboldProject tmpProj = KoboldPLAMPlugin.getCurrentKoboldProject();
+		    tmpProj.setPassword(newPassword);
 	}
 	
 	public void updateFullName(String userName, String newName, String password){

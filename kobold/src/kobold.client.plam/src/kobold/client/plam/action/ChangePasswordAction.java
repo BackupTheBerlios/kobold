@@ -21,37 +21,38 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewUserAction.java,v 1.3 2004/08/05 15:13:48 grosseml Exp $
- *
+ * grosseml 05.08.2004
  */
 package kobold.client.plam.action;
 
 import kobold.client.plam.KoboldPLAMPlugin;
+import kobold.client.plam.editor.dialog.ChangePasswordDialog;
 import kobold.client.plam.editor.dialog.UserManagerDialog;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Shell;
 
-
 /**
- * @author Tammo
+ * @author grosseml
+ *
+ * Provides the opportunity to change the current user's password
  */
-public class NewUserAction extends Action
-{
-    private Shell shell;
-    
-    public NewUserAction(Shell shell) 
-    {
-        this.shell = shell;
-		setText("Create New User");
-		setToolTipText("Creates a New User for the PL");
-		setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/lock.gif"));
+public class ChangePasswordAction extends Action{
+	
+	private Shell shell;
+	
+	public ChangePasswordAction(Shell shell2){
+		shell = shell2;
+		setText("Change password");
+		setToolTipText("Changes your password");
+		setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/user.gif"));
 
-    }
-    
+	}
+	
     public void run()
     {
-		UserManagerDialog eum = new UserManagerDialog(shell);
-		eum.open();
+		ChangePasswordDialog cpd = new ChangePasswordDialog(shell);
+		cpd.open();
     }
+
 }

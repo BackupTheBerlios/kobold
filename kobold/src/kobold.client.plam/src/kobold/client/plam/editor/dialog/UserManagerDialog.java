@@ -21,18 +21,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManagerDialog.java,v 1.2 2004/08/05 12:54:40 grosseml Exp $
+ * $Id: UserManagerDialog.java,v 1.3 2004/08/05 15:13:48 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.model.AbstractMaintainedAsset;
-import kobold.client.plam.useractions.UINewUser;
 import kobold.common.data.User;
 
 import org.apache.commons.logging.Log;
@@ -52,7 +50,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
