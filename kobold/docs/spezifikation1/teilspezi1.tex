@@ -5,7 +5,7 @@ Produkten und Produktlinien, die für das \product System notwendig
 sind, jedoch weder aus dem zentralen Kobold Serverdienst noch aus
 Repository-Informationen gewonnen werden können.\par
 
-Um die notwendigen Meta-Informationen der unten aufgeführten
+Um die notwendigen Metainformationen der unten aufgeführten
 Elemente in Kobold zu speichern, wird eine
 Metainformationskomponente als eigenständiges Plug-In realisiert,
 das alle Metainformationen verwaltet. Es ermöglicht außerdem eine
@@ -54,7 +54,7 @@ gespeichert:
 \subsubsection{Skript}
 Ein Skript ist ein externer Aufruf einer ausführbaren Datei (z.B. ein
 Perl Skript, ein configure Skript oder ein externes Programm), welches
-vor der nach einer VCM-Aktion ausgeführt wird. Folgende Metainformationen
+vor oder nach einer VCM-Aktion ausgeführt wird. Folgende Metainformationen
 werden dafür gespeichert werden:
 \begin{itemize}
 \item Aktion
@@ -93,7 +93,7 @@ Für jede Abhängigkeit werden folgende Metainformationen
 gespeichert:
 \begin{itemize}
 \item Typ
-\item Richtung
+%\item Richtung
 \item Startknoten
 \item Zielknoten
 \end{itemize}
@@ -123,11 +123,11 @@ gespeichert:
 
 \subsubsection{VCM Wrapper}
 
-Um die Zugriffsrechte auf Repositories aus dem Kobold-Client
-heraus konsistent durchzusetzen und die automatisierte
-Nachrichtenzustellung zum Kobold Serverdienst zu ermöglichen, wird
+Um die Zugriffsrechte auf Repositories des Kobold-Client
+konsistent durchzusetzen und die automatisierte
+Nachrichtenzustellung des Kobold Serverdienst zu ermöglichen, wird
 ein VCM Wrapper erstellt, der das von Eclipse zur Verfügung
-gestellte Repository Abstraction Layer wrappt.\par Der VCM Wrapper
+gestellte Repository Abstraction Layer kapselt.\par Der VCM Wrapper
 fängt VCM-Aktionen an das Repository Abstraction Layer ab und
 prüft, ob die VCM-Aktionen konform zu den Berechtigungen der
 aktuellen Rolle des Benutzers sind. Ist dies der Fall, leitet der
@@ -145,7 +145,7 @@ Es soll möglich sein, vor und nach jeder VCM-Aktion auf einer
 beliebigen Architekturebene für alle betroffenen Architekturelemente
 sog. Skripte auszuführen. Skripte sind externe Aufrufe von
 ausführbaren Dateien. Skripte können in beliebiger Reihenfolge
-ausgeführt werden und durch Benutzerinteraktion mit beliebigen
+ausgeführt und durch Benutzerinteraktion mit beliebigen
 Argumenten versehen werden, die in einer späteren Spezifikation genau
 spezifiziert werden.\par
 Die Skriptausführung wird durch eine spezielle Schnittstelle im VCM

@@ -6,7 +6,7 @@ passenden Passwort. Dieser ist dadurch bei seiner Arbeit nicht an einen
 festen Rechner gebunden, sondern kann von jedem Rechner mit einem Kobold
 Client über den Kobold Serverdienst an seine Daten gelangen und diese
 bearbeiten. Ausserdem ermöglicht der Server eine
-Client-zu-Client-Kommunikation über eine Nachrichten-Queue, welche
+Client-zu-Client Kommunikation über eine Nachrichten-Queue, welche
 im Minutentakt von den Clients abgefragt wird.\par
 
 Der Server wird als HTTPS-basierter {\it XML-RPC Server}
@@ -30,7 +30,7 @@ kann dabei nur die Daten verändern, für die er auch eine Berechtigung besitzt.
 \subsection{Persistierung}
 
 Die Persistierung aller für das Berechtigungskonzept notwendigen Daten wird
-durch eine abstrakte, XML-basierte Persistenzschicht realisiert, wodurch eine
+durch eine abstrakte, XML-basierte Persistenzschicht, realisiert, wodurch eine
 flexible Datenhaltung ermöglicht wird.\par
 Die Persistenzschicht dient zur Speicherung aller Rollen-,
 Authentifizierungs-, Produktlinien- und Produktrelationen. Die Grundstruktur dieser Schicht ist
@@ -60,11 +60,11 @@ Für jeden Benutzer werden vom Kobold Serverdienst folgende Daten gespeichert:
 Der Kobold Serverdienst bildet für jeden Kobold-Benutzer eine
 Nachrichten-Queue. Werden Nachrichten oder Workflow-Objekte an
 einen Benutzer geschickt, so werden diese in der Nachrichten-Queue
-gespeichert und bei der nächsten Abfrage des Benutzers an diesen
+gespeichert und bei der nächsten Nachrichtenabfrage des Benutzers an ihn
 weitergeleitet.\par Die vom Server angebotene Nachrichten-Queue
-ist zustandsbehaftet, das heißt bei nicht physisch begründeten
-Ausfällen ist die Nachrichten-Queue in der Regel ohne Datenverlust
-wiederherstellbar.\par
+ist zustandsbehaftet, das heißt dass bei nicht physisch begründeten
+Ausfällen die Nachrichten-Queue in der Regel ohne Datenverlust
+wiederherstellbar ist.\par
 
 Für jede Nachricht in der Nachrichten-Queue werden folgende Daten benötigt:
 \begin{itemize}
@@ -89,7 +89,5 @@ Workflow-Objekt geschrieben, sofern eine Regel dies definiert
 hat).
 \par
 Ein Workflow-Objekt ist eine XML-Struktur, die einen Titel und eine Liste
-aller Regelresultate besitzt. Dieses Workflow-Objekt wird
-dann auf Message-Queues von Clients zugeteilt, für die das Workflow-Objekt relevant
-ist (d.h. Clients von bestimmten Rollen rufen diese Workflow-Objekte
-dann ab).
+aller Regelresultate besitzt. Dieses Workflow-Objekt wird einem Client
+zugeteilt und in die Message-Queue des Servers gelegt.
