@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportDialog.java,v 1.22 2004/10/21 21:32:41 martinplies Exp $
+ * $Id: GXLExportDialog.java,v 1.23 2004/11/11 19:20:30 neco Exp $
  *
  */
 package kobold.client.plam.wizard;
@@ -65,6 +65,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -89,110 +90,177 @@ public class GXLExportDialog extends TitleAreaDialog {
     /**
      * @param parentShell
      */
-    public GXLExportDialog(Shell parentShell, AbstractAsset asset) {
+    public GXLExportDialog(Shell parentShell, AbstractAsset asset) 
+    {
         super(parentShell);
         exportAsset = asset;        
     }
 
-    protected void createButtonsForButtonBar(Composite parent) {
+    protected void createButtonsForButtonBar(Composite parent) 
+    {
         createButton(parent, IDialogConstants.PROCEED_ID, "Export", true);
         createButton(parent, IDialogConstants.CANCEL_ID, Messages
                 .getString("GXLExportDialog.Close"), false); //$NON-NLS-1$
     }
-
-    protected Control createDialogArea(Composite parent) {
-        //this.setTitle("GXL EXPORT");
-        this.setMessage(" Select a File for Export", 1);
-        this.getShell().setText("GXL EXPORT");
-        Composite exportGroup = new Composite(parent, SWT.NONE);
-            GridLayout layout = new GridLayout();
-            layout.numColumns = 1;
-            exportGroup.setLayout(layout);
-            exportGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-            // jar export.  export not implemented, widgets are invisible
-            buttonJarExport = new Button(exportGroup, SWT.CHECK);
-            buttonJarExport.setVisible(false); // is not yet implemented
-            buttonJarExport.setText(Messages
-                    .getString("GXLExportDialog.CheckBNameJarExport")); 
-
-            jarExportGroup = new Group(exportGroup, SWT.NONE);
-            jarExportGroup.setText("GXLExportDialog.GroupNameJarExport");
-            jarExportGroup.setVisible(false);
-            layout = new GridLayout();
-            layout.numColumns = 2;
-            jarExportGroup.setLayout(layout);
-            jarExportGroup
-                    .setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-            textJarFile = new Text(jarExportGroup, SWT.SINGLE);
-            GridData gd = new GridData();
-            gd.widthHint = 300;
-            textJarFile.setLayoutData(gd);
-            searchJARFileButton = new Button(jarExportGroup, SWT.PUSH);
-            searchJARFileButton.setText(Messages
-                    .getString("GXLExportDialog.Browse")); 
-            searchJARFileButton.addListener(SWT.Selection, new Listener() {
-                public void handleEvent(Event event) {
-                    GXLExportDialog.this.setErrorMessage(null);
-                    FileDialog fd = new FileDialog(GXLExportDialog.this
-                            .getShell(), SWT.SAVE);
-                    GXLExportDialog.this.textJarFile.setText(fd.open());
-                    GXLExportDialog.this.textJarFile.redraw();
-                }
-            });
-
-            GXLExportDialog.this.textJarFile.setEnabled(false);
-            GXLExportDialog.this.searchJARFileButton.setEnabled(false);
-            buttonJarExport.addSelectionListener(new SelectionListener() {
-                public void widgetSelected(SelectionEvent e) {
-                    if (GXLExportDialog.this.buttonJarExport.getSelection()) {
-                        GXLExportDialog.this.textJarFile.setEnabled(true);
-                        GXLExportDialog.this.searchJARFileButton
-                                .setEnabled(true);
-                    } else {
-                        GXLExportDialog.this.textJarFile.setEnabled(false);
-                        GXLExportDialog.this.searchJARFileButton
-                                .setEnabled(false);
-                    }
-                }
-
-                public void widgetDefaultSelected(SelectionEvent e) {
-                    widgetSelected(e);
-                }
-            });
-
-
-            // gxl Export
-            Group gxlExportGroup = new Group(exportGroup, SWT.SHADOW_NONE);
-            layout = new GridLayout();
-            layout.numColumns = 2;
-            gxlExportGroup.setLayout(layout);
-            gxlExportGroup
-                    .setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-            gxlExportGroup.setText(Messages
-                    .getString("GXLExportDialog.GroupNameGXLExport"));
-            textGxlFile = new Text(gxlExportGroup, SWT.SINGLE | SWT.BORDER);
-            GridData gd1 = new GridData();
-            gd1.widthHint = 300;
-            textGxlFile.setLayoutData(gd1);
-       
-            Button GXLFileButton = new Button(gxlExportGroup, SWT.PUSH);
-            GXLFileButton.setText(Messages
-                    .getString("GXLExportDialog.Browse")); 
-            GXLFileButton.addListener(SWT.Selection, new Listener() {
-                public void handleEvent(Event event) {
-                    GXLExportDialog.this.setMessage(null, IMessageProvider.NONE);//delete old error Messages
-                    FileDialog fd = new FileDialog(GXLExportDialog.this
-                            .getShell(), SWT.SAVE);
-                    String path = fd.open();
-                    if (path != null){
-                       GXLExportDialog.this.textGxlFile.setText(path);
-                    }
-                    GXLExportDialog.this.textGxlFile.redraw();
-                }
-            });
-        return exportGroup;
+    protected Control createDialogArea(Composite parent)
+    {
+    	//this.setTitle("GXL EXPORT");
+	    
+	    this.setTitle("GXL Export");
+	    this.getShell().setText("GXL Export");
+	    this.setMessage(" Select a File for Export", 1);
+    
+        Composite composite = (Composite) super.createDialogArea(parent);
+        
+        createContent(composite);
+        return composite;
     }
+    
+    private void createContent(Composite parent)
+    {
+		Composite panel = new Composite(parent, SWT.NONE);
+
+		GridLayout layout = new GridLayout(2, false);
+		layout.marginHeight =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+		layout.marginWidth =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+		layout.verticalSpacing =
+		    convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
+		layout.horizontalSpacing =
+		    convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+		panel.setLayout(layout);
+		panel.setLayoutData(new GridData(GridData.FILL_BOTH));
+		panel.setFont(parent.getFont());
+		
+		textGxlFile = new Text(panel, SWT.SINGLE | SWT.BORDER);
+		GridData gd = new GridData();
+		gd.widthHint = 350;
+		textGxlFile.setLayoutData(gd);
+		
+		Button GXLFileButton = new Button(panel, SWT.PUSH);
+		GXLFileButton.setText(Messages
+				.getString("GXLExportDialog.Browse")); 
+		GXLFileButton.setFocus();
+		GXLFileButton.addListener(SWT.Selection, new Listener() 
+		{
+			public void handleEvent(Event event) 
+			{
+		        GXLExportDialog.this.setMessage(null, IMessageProvider.NONE);//delete old error Messages
+		        GXLExportDialog.this.textGxlFile.setText("");
+		        FileDialog fd = new FileDialog(GXLExportDialog.this
+		    		.getShell(), SWT.SAVE);
+		        String path = fd.open();
+		        if (path != null)
+		        {
+		        	GXLExportDialog.this.textGxlFile.setText(path);
+		        	GXLExportDialog.this.setMessage(" File selected", 1);
+		        	GXLExportDialog.this.getButton(10).setFocus();
+		        }
+		        else
+		        {
+		        	GXLExportDialog.this.setMessage(" Select a File for Export", 1);
+		        	
+		        }
+		        GXLExportDialog.this.textGxlFile.redraw();
+		        
+			}
+		});
+    }
+   
+//    protected Control createDialogArea(Composite parent) {
+//        //this.setTitle("GXL EXPORT");
+//        this.setMessage(" Select a File for Export", 1);
+//        this.getShell().setText("GXL EXPORT");
+//        Composite exportGroup = new Composite(parent, SWT.NONE);
+//            GridLayout layout = new GridLayout();
+//            layout.numColumns = 1;
+//            exportGroup.setLayout(layout);
+//            exportGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+//
+//            // jar export.  export not implemented, widgets are invisible
+//            buttonJarExport = new Button(exportGroup, SWT.CHECK);
+//            buttonJarExport.setVisible(false); // is not yet implemented
+//            buttonJarExport.setText(Messages
+//                    .getString("GXLExportDialog.CheckBNameJarExport")); 
+//
+//            jarExportGroup = new Group(exportGroup, SWT.NONE);
+//            jarExportGroup.setText("GXLExportDialog.GroupNameJarExport");
+//            jarExportGroup.setVisible(false);
+//            layout = new GridLayout();
+//            layout.numColumns = 2;
+//            jarExportGroup.setLayout(layout);
+//            jarExportGroup
+//                    .setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+//            textJarFile = new Text(jarExportGroup, SWT.SINGLE);
+//            GridData gd = new GridData();
+//            gd.widthHint = 300;
+//            textJarFile.setLayoutData(gd);
+//            searchJARFileButton = new Button(jarExportGroup, SWT.PUSH);
+//            searchJARFileButton.setText(Messages
+//                    .getString("GXLExportDialog.Browse")); 
+//            searchJARFileButton.addListener(SWT.Selection, new Listener() {
+//                public void handleEvent(Event event) {
+//                    GXLExportDialog.this.setErrorMessage(null);
+//                    FileDialog fd = new FileDialog(GXLExportDialog.this
+//                            .getShell(), SWT.SAVE);
+//                    GXLExportDialog.this.textJarFile.setText(fd.open());
+//                    GXLExportDialog.this.textJarFile.redraw();
+//                }
+//            });
+//
+//            GXLExportDialog.this.textJarFile.setEnabled(false);
+//            GXLExportDialog.this.searchJARFileButton.setEnabled(false);
+//            buttonJarExport.addSelectionListener(new SelectionListener() {
+//                public void widgetSelected(SelectionEvent e) {
+//                    if (GXLExportDialog.this.buttonJarExport.getSelection()) {
+//                        GXLExportDialog.this.textJarFile.setEnabled(true);
+//                        GXLExportDialog.this.searchJARFileButton
+//                                .setEnabled(true);
+//                    } else {
+//                        GXLExportDialog.this.textJarFile.setEnabled(false);
+//                        GXLExportDialog.this.searchJARFileButton
+//                                .setEnabled(false);
+//                    }
+//                }
+//
+//                public void widgetDefaultSelected(SelectionEvent e) {
+//                    widgetSelected(e);
+//                }
+//            });
+//
+//
+//            // gxl Export
+//            Group gxlExportGroup = new Group(exportGroup, SWT.SHADOW_NONE);
+//            layout = new GridLayout();
+//            layout.numColumns = 2;
+//            gxlExportGroup.setLayout(layout);
+//            gxlExportGroup
+//                    .setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+//            gxlExportGroup.setText(Messages
+//                    .getString("GXLExportDialog.GroupNameGXLExport"));
+//            textGxlFile = new Text(gxlExportGroup, SWT.SINGLE | SWT.BORDER);
+//            GridData gd1 = new GridData();
+//            gd1.widthHint = 300;
+//            textGxlFile.setLayoutData(gd1);
+//       
+//            Button GXLFileButton = new Button(gxlExportGroup, SWT.PUSH);
+//            GXLFileButton.setText(Messages
+//                    .getString("GXLExportDialog.Browse")); 
+//            GXLFileButton.addListener(SWT.Selection, new Listener() {
+//                public void handleEvent(Event event) {
+//                    GXLExportDialog.this.setMessage(null, IMessageProvider.NONE);//delete old error Messages
+//                    FileDialog fd = new FileDialog(GXLExportDialog.this
+//                            .getShell(), SWT.SAVE);
+//                    String path = fd.open();
+//                    if (path != null){
+//                       GXLExportDialog.this.textGxlFile.setText(path);
+//                    }
+//                    GXLExportDialog.this.textGxlFile.redraw();
+//                }
+//            });
+//        return exportGroup;
+//    }
 
 
    public void buttonPressed(int button){
