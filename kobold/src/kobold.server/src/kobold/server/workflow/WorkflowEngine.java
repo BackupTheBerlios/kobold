@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.8 2004/07/12 19:40:40 bettina Exp $
+ * $Id: WorkflowEngine.java,v 1.9 2004/07/13 18:08:37 bettina Exp $
  *
  */
 package kobold.server.workflow;
@@ -75,9 +75,9 @@ public class WorkflowEngine {
 			theInstance = new WorkflowEngine();
 			theInstance.loadRuleBase();
 			RuleBase base = theInstance.getRuleBase();
-			if (base == null) {
+			if (!(base == null)) {
+				theInstance.setWorkingMemory(base.newWorkingMemory());
 			}
-			theInstance.setWorkingMemory(base.newWorkingMemory());
 		}
 		return theInstance; 
 	}

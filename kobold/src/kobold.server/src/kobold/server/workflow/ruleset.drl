@@ -1,14 +1,184 @@
-<rule-set name="drools test"
+<rule-set name="Kobold"
 		  xmlns="http://drools.org/rules"
           xmlns:java="http://drools.org/semantics/java">
-
-    <rule name="test rule">
+          
+          
+	/**
+	 * Rule No.1
+	 * Core Group Suggestion
+	 * transfers the suggestion from p to his pe
+	 */          
+    <rule name="Core Group Suggestion - Step 1">
         <parameter identifier="msg">
             <java:class>kobold.common.data.WorkflowMessage</java:class>
         </parameter>
-        <java:condition>1 == 1</java:condition>
+        <java:condition>(msg.getWorkflowType().equals("Core Group Suggestion") && msg.getStep() == 1)</java:condition>
         <java:consequence>
-            System.out.println( "This works." );
+            kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());
+			answer.addParentId(msg.getId());	
+			answer.setSender(msg.getSender());	
+			answer.setSubject("New Request for a Core Group Commit");
+			answer.setStep(msg.getStep() + 1);
+			// gets the sender's inputs
+			java.util.HashMap map = msg.getWorkflowData();
+			answer.setReceiver(map.get("recipient"));
+			answer.setMessageText("Programmer "+msg.getSender() + " would like to suggest " +
+					"committing the file " + map.get("file") + " in component " + map.get("component") + 
+					" to a Core Group. He added the following comment: " +
+					msg.getComment());
+			// adds decision possibilities for the pe
+			kobold.common.data.WorkflowItem recipient = new kobold.common.data.WorkflowItem("recipient","Recipient (PLE)",kobold.common.data.WorkflowItem.TEXT);
+			kobold.common.data.WorkflowItem rb1 = new kobold.common.data.WorkflowItem("true","Assent and transfer to PLE",kobold.common.data.WorkflowItem.RADIO);
+			kobold.common.data.WorkflowItem rb2 = new kobold.common.data.WorkflowItem("false","Dismiss suggestion", kobold.common.data.WorkflowItem.RADIO);
+			kobold.common.data.WorkflowItem cont = new kobold.common.data.WorkflowItem("decision","Decision: ",kobold.common.data.WorkflowItem.CONTAINER);
+			cont.addChild(rb1);
+			cont.addChild(rb2);
+			answer.addWorkflowControl(recipient);
+			answer.putWorkflowData("P", map.get("P"));
+			answer.putWorkflowData("file", map.get("file"));
+			answer.putWorkflowData("component", map.get("component"));
+			answer.addWorkflowControl(cont);
+			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);
         </java:consequence>
     </rule>
+
+
+
+	/**
+	 * Rule No.2
+	 * Core Group Suggestion
+	 * transfers the suggestion from pe to ple
+	 * or sends a rejection to p
+	 */
+    <rule name="Core Group Suggestion - Step 2">
+        <parameter identifier="msg">
+            <java:class>kobold.common.data.WorkflowMessage</java:class>
+        </parameter>
+        <java:condition>(msg.getWorkflowType().equals("Core Group Suggestion") && msg.getStep() == 2)</java:condition>
+        <java:consequence>
+            java.lang.String decision = "";
+			kobold.common.data.AbstractKoboldMessage answer;
+			// gets the sender's input
+			java.util.HashMap map = msg.getWorkflowData();
+			decision = map.get("decision");
+			//if the pe supports the suggestion
+			if (decision.equals("true")){
+				answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());
+				answer.setSender(msg.getSender());
+				answer.addParentId(msg.getId());
+				answer.setStep(msg.getStep()+1);
+				answer.setReceiver(map.get("recipient"));
+				answer.setSubject("New Request for a Core Group Commit");
+				answer.setMessageText("Product Engineer " + msg.getSender() + " got a suggestion from one of his programmers to " +
+					"commit the file " + map.get("file") + " in component " + map.get("component") +
+					"to a Core Group. He added the following comment: " + msg.getComment());
+				//add decision possibilities for the ple
+				kobold.common.data.WorkflowItem radio1 = new kobold.common.data.WorkflowItem("true","Assent",kobold.common.data.WorkflowItem.RADIO);
+				kobold.common.data.WorkflowItem radio2 = new kobold.common.data.WorkflowItem("false","Dissent",kobold.common.data.WorkflowItem.RADIO);
+				kobold.common.data.WorkflowItem container = new kobold.common.data.WorkflowItem("decision","Decision: ",kobold.common.data.WorkflowItem.CONTAINER);
+				container.addChild(radio1);
+				container.addChild(radio2);
+				answer.addWorkflowControl(container);
+				answer.putWorkflowData("P", map.get("P"));
+				answer.putWorkflowData("PE", answer.getSender());
+				answer.putWorkflowData("file", map.get("file"));
+				answer.putWorkflowData("component", map.get("component"));
+			}
+			// if the pe rejects
+			else if (decision.equals("false")){
+				answer = new kobold.common.data.KoboldMessage();
+				answer.setSender(msg.getSender());
+				answer.setReceiver(map.get("P"));
+				answer.setSubject("Core Group suggestion rejected");"+
+				answer.setMessageText("Your suggestion was rejected by "+msg.getSender() + " due to the following reasons: " +
+					 msg.getComment());
+			}
+			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);
+        </java:consequence>
+    </rule>
+
+
+
+	/**
+	 * Rule No.3
+	 * Core Group Suggestion
+	 * lets the pe and p know about the ple's decision
+	 */
+    <rule name="Core Group Suggestion - Step 3">
+        <parameter identifier="msg">
+            <java:class>kobold.common.data.WorkflowMessage</java:class>
+        </parameter>
+        <java:condition>(msg.getWorkflowType().equals("Core Group Suggestion") && msg.getStep() == 3)</java:condition>
+        <java:consequence>
+            //gets the sender's inputs
+			java.util.HashMap map = msg.getWorkflowData();
+			// answer to p
+			kobold.common.data.KoboldMessage answerP = new kobold.common.data.KoboldMessage();
+			answerP.setSender(msg.getSender());
+			// answer to pe
+			kobold.common.data.KoboldMessage answerPE = new kobold.common.data.KoboldMessage();
+			answerPE.setSender(msg.getSender());
+			//analyzing the answer
+			String decision = "";
+			decision = map.get("decision");
+			//setting the recipients
+			answerP.setReceiver(map.get("P"));
+			answerPE.setReceiver(map.get("PE"));
+			// if the ple assents
+			if (decision.equals("true")){
+				answerP.setSubject("Core Group Suggestion accepted");
+				answerP.setMessageText("Your suggestion was accepted by "+msg.getSender() +" with the following annotation: " +
+					msg.getComment());
+				answerPE.setSubject("Core Group Suggestion accepted");
+				answerPE.setMessageText("Your suggestion was accepted by "+msg.getSender() +" with the following annotation: " +
+					msg.getComment());
+			}
+			// if the ple dissents
+			else if (decision.equals("false")){
+				answerP.setSubject("Core Group Suggestion rejected");
+				answerP.setMessageText("Your suggestion was rejected by "+msg.getSender() +" due to the following reasons: " +
+					msg.getComment());
+				answerPE.setSubject("Core Group Suggestion rejected");
+				answerPE.setMessageText("Your suggestion was accepted by "+msg.getSender() +" due to the following reasons: " +
+					msg.getComment());
+			}
+			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answerP);
+			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answerPE);
+        </java:consequence>
+    </rule>
+
+
+
+	/**
+	 * Rule No.4
+	 * implements a text mail
+	 */
+    <rule name="Text Mail">
+        <parameter identifier="msg">
+            <java:class>kobold.common.data.WorkflowMessage</java:class>
+        </parameter>
+        <java:condition>(msg.getWorkflowType().equals("TextMail"))</java:condition>
+        <java:consequence>
+            kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage("TextMail");
+			answer.setSender(msg.getSender());
+			// reference to msg
+			answer.addParentId(msg.getId());
+			answer.setStep(msg.getStep()+1);
+			// gets the sender's inputs
+			java.util.HashMap map = msg.getWorkflowData();
+			answer.setReceiver(map.get(\"recipient\"));
+			answer.setSubject(map.get(\"subject\"));
+			answer.setMessageText(msg.getComment());
+			//add the possibility to reply
+			kobold.common.data.WorkflowItem subj = new kobold.common.data.WorkflowItem("subject","Subject: ",kobold.common.data.WorkflowItem.TEXT);
+			answer.addWorkflowControl(subj);
+			//set recipient of the reply
+			answer.putWorkflowData("recipient", msg.getSender());
+			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);
+        </java:consequence>
+    </rule>
+
+
+
+
 </rule-set>
