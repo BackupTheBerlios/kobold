@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.26 2004/07/07 15:40:11 garbeam Exp $
+ * $Id: SecureKoboldClient.java,v 1.27 2004/07/12 08:27:47 grosseml Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -286,15 +286,32 @@ public class SecureKoboldClient implements IKoboldServer {
      * @see kobold.common.controller.IKoboldServer#updateUserFullName(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String)
      */
     public void updateUserFullName(UserContext userContext, User user, String password) {
-        // TODO Auto-generated method stub
-        
+  
+    	//changeUser(userContext, user.getUsername(), user.getFullname());
+        Vector v = new Vector();
+        v.add(RPCMessageTransformer.encode(userContext.serialize()));
+        v.add(RPCMessageTransformer.encode(user.serialize()));
+		try {
+			Object result = client.execute("updateUserFullname",v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}        
     }
 
     /**
      * @see kobold.common.controller.IKoboldServer#updateUserPassword(kobold.common.data.UserContext, kobold.common.data.User, java.lang.String, java.lang.String)
      */
     public void updateUserPassword(UserContext userContext, User user, String oldPassword, String newPassword) {
-        // TODO Auto-generated method stub
+		Vector v = new Vector();
+		v.add(RPCMessageTransformer.encode(userContext.serialize()));
+		v.add(RPCMessageTransformer.encode(user.serialize()));
+		v.add(oldPassword);
+		v.add(newPassword);
+		try {
+			Object result = client.execute("updateUserPassword",v);
+		} catch (Exception exception) {
+			log.error(exception);
+		}
         
     }
 

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.41 2004/07/07 15:40:52 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.42 2004/07/12 08:27:03 grosseml Exp $
  *
  */
 package kobold.server;
@@ -153,6 +153,30 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 				
 				removeUser(uc, user);
 			}
+			else if (methodName.equals("updateUserPassword")){
+				UserContext uc = new UserContext (
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				kobold.common.data.User user = new kobold.common.data.User(
+						RPCMessageTransformer.decode((String)arguments.elementAt(1)));
+				String oldPassword = (String)arguments.elementAt(2);
+				String newPassword = (String)arguments.elementAt(3);
+				sniffArgs.add(uc);
+				sniffArgs.add(user);
+				
+				updateUserPassword(uc, user, oldPassword, newPassword);
+			}
+			
+			else if (methodName.equals("updateUserFullName")){
+				UserContext uc = new UserContext(
+						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+				kobold.common.data.User user = new kobold.common.data.User(
+						RPCMessageTransformer.decode((String)arguments.elementAt(1)));
+				String password = (String)arguments.elementAt(2);
+				
+				updateUserFullName(uc, user, password);
+				
+			}
+			
 			else if (methodName.equals("getProductlineNames")) {			
 				UserContext uc = new UserContext(
 						RPCMessageTransformer.decode((String)arguments.elementAt(0)));
