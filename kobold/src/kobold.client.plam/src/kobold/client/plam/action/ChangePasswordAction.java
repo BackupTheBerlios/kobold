@@ -39,8 +39,6 @@ import org.eclipse.ui.actions.ActionDelegate;
  */
 public class ChangePasswordAction extends ActionDelegate {
 	
-	private Shell shell;
-	
     public void run(IAction action)
     {
         Shell shell = Display.getDefault().getActiveShell();

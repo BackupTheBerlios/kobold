@@ -21,36 +21,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: NewUserAction.java,v 1.3 2004/08/05 15:13:48 grosseml Exp $
+ * $Id: NewUserAction.java,v 1.4 2004/08/24 13:17:57 garbeam Exp $
  *
  */
 package kobold.client.plam.action;
 
-import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.editor.dialog.UserManagerDialog;
 
-import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.actions.ActionDelegate;
 
 
 /**
  * @author Tammo
  */
-public class NewUserAction extends Action
+public class NewUserAction extends ActionDelegate
 {
-    private Shell shell;
-    
-    public NewUserAction(Shell shell) 
+    public void run(IAction action)
     {
-        this.shell = shell;
-		setText("Create New User");
-		setToolTipText("Creates a New User for the PL");
-		setImageDescriptor(KoboldPLAMPlugin.getImageDescriptor("icons/lock.gif"));
-
-    }
-    
-    public void run()
-    {
+        Shell shell = Display.getDefault().getActiveShell();
 		UserManagerDialog eum = new UserManagerDialog(shell);
 		eum.open();
     }

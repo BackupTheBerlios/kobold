@@ -21,20 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateUserDataDialog.java,v 1.2 2004/08/24 11:42:13 garbeam Exp $
+ * $Id: UpdateUserDataDialog.java,v 1.3 2004/08/24 13:17:57 garbeam Exp $
  */
 package kobold.client.plam.editor.dialog;
-
-import java.util.Map;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.controller.UserManager;
+import kobold.common.data.User;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -57,6 +55,7 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
     
     private boolean isEditFullName;
 	private String userName;
+	private User user;
 	
     /**
      * @param parentShell
@@ -68,6 +67,7 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
         super(parentShell);
         this.isEditFullName = isEditFullName;
         this.userName = KoboldPLAMPlugin.getCurrentKoboldProject().getUserName();
+        this.user = (User)KoboldPLAMPlugin.getCurrentKoboldProject().getUserPool().get(userName);
     }
     
     protected Control createDialogArea(Composite parent)
@@ -103,6 +103,9 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
             labelRealName.setText("Full Name:");
             textRealName = new Text(panel, SWT.BORDER);		
             textRealName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            textRealName.setText(user.getFullname());
+            
+            textRealName.setFocus();
                 
             //password
             labelPassword = new Label(panel,SWT.NONE);
@@ -118,6 +121,8 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
             textOldPassword = new Text(panel, SWT.BORDER);		
             textOldPassword.setEchoChar('*');
             textOldPassword.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            
+            textOldPassword.setFocus();
                 
             //password
             labelNewPassword = new Label(panel,SWT.NONE);

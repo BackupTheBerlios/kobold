@@ -21,7 +21,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- *MiG05.08.2004
+ * $Id: UpdateFullNameAction.java,v 1.4 2004/08/24 13:17:57 garbeam Exp $
+ * 
  */
 package kobold.client.plam.action;
 
