@@ -85,6 +85,13 @@ public class BasicInquisitor {
             if (!q.maskAnswer) {
                 System.out.print(" [" + q.answer + "]");
             }
+            else {
+                System.out.print(" [");
+                for (int n = 0; n < q.answer.length(); n++) {
+                    System.out.print("*");
+                }
+                System.out.print("]");
+            }
             System.out.print("\n");
         }
         
