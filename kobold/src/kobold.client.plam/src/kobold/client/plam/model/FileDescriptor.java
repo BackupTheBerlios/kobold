@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: FileDescriptor.java,v 1.22 2004/09/18 10:34:15 martinplies Exp $
+ * $Id: FileDescriptor.java,v 1.23 2004/09/20 06:46:27 martinplies Exp $
  *
  */
 package kobold.client.plam.model;
@@ -52,7 +52,7 @@ import org.eclipse.core.runtime.Path;
  *
  * @author garbeam
  */
-public class FileDescriptor implements IFileDescriptorContainer, 
+public class FileDescriptor extends AbstractAsset implements IFileDescriptorContainer, 
 							INode, IGXLExport, IAdaptable {
 
     private List children = new ArrayList();
@@ -132,7 +132,7 @@ public class FileDescriptor implements IFileDescriptorContainer,
     /**
      * @return Returns the parent.
      */
-    public FileDescriptor getParent()
+    public AbstractAsset getParent()
     {
         return parent;
     }
@@ -238,7 +238,7 @@ public class FileDescriptor implements IFileDescriptorContainer,
 	 */
 	public IPath getLocalPath() {
 	    if (parent != null){
-	       return new Path(getParent().getLocalPath().toString() + filename);
+	       return new Path(((FileDescriptor)getParent()).getLocalPath().toString() + filename);
 	    } else {
 	        return new Path( this.parentAsset.getLocalPath().toString() + filename);
 	    }
@@ -281,7 +281,7 @@ public class FileDescriptor implements IFileDescriptorContainer,
 	 */
 	public RepositoryDescriptor getRemoteRepository() {
 		RepositoryDescriptor repositoryDescriptor =
-			new RepositoryDescriptor(getParent().getRemoteRepository().serialize());
+			new RepositoryDescriptor(((FileDescriptor)getParent()).getRemoteRepository().serialize());
 		repositoryDescriptor.setPath(repositoryDescriptor.getPath() + filename);
 		return repositoryDescriptor;
 	}
@@ -341,7 +341,7 @@ public class FileDescriptor implements IFileDescriptorContainer,
 		listeners.removePropertyChangeListener(l);
 	}
 
-	protected final void fireStructureChange(String prop, Object child){
+	/*protected final void fireStructureChange(String prop, Object child){
 		listeners.firePropertyChange(prop, null, child);
 
 		AbstractRootAsset root = getRoot();
@@ -353,5 +353,21 @@ public class FileDescriptor implements IFileDescriptorContainer,
 		}
 
 	}
+
+*/
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.edges.INode#getId()
+     */
+    public String getId() {
+        return this.getLocalPath().toOSString();
+    }
+
+
+    /* (non-Javadoc)
+     * @see kobold.client.plam.model.AbstractAsset#getType()
+     */
+    public String getType() {        
+        return AbstractAsset.FILE_DESCRIPTOR;
+    }
 
 }
