@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerInterface.java,v 1.2 2004/04/18 14:04:40 garbeam Exp $
+ * $Id: ServerInterface.java,v 1.3 2004/04/21 12:42:15 garbeam Exp $
  *
  */
 
@@ -56,15 +56,7 @@ public interface ServerInterface {
      */
     public void logout(String sessionID);
 
-    /**
-     * Posts a KoboldMessage on the server. The interface delivers
-     * the passed message to the proper Objects on the server.
-     *
-     * @see kobold.util.data.KoboldMessage
-     */
-    public void sendMessage(String sessionID, KoboldMessage msg);
-
-    /**
+        /**
      * @see kobold.server.model.ProductlineAdmin.addProductline(java.lang.String)
      */
     public void addProductline(String sessionID, String name);
@@ -141,4 +133,20 @@ public interface ServerInterface {
      */
     public void removeUser(String sessionID, String username);
 
+	/**
+	 * Commits a single Message.
+	 * 
+	 * @param uc the UserContext, @see kobold.common.data.UserContext
+	 * @param koboldMessage, @see kobold.common.data.KoboldMessage
+	 */
+	public void commitMessage(UserContext uc,
+												KoboldMessage koboldMessage);
+	
+	/**
+	 * Fetches a single Message.
+	 * 
+	 * @param uc the UserContext, @see kobold.common.data.UserContext
+	 * @return of WorkflowMessages.
+	 */
+	public KoboldMessage fetchMessage(UserContext uc);
 }
