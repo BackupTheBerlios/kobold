@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldClient.java,v 1.20 2004/06/24 06:40:53 neccaino Exp $
+ * $Id: SecureKoboldClient.java,v 1.21 2004/06/24 07:16:57 neccaino Exp $
  *
  */
 package kobold.client.plam.controller;
@@ -445,16 +445,24 @@ public class SecureKoboldClient implements IKoboldServer {
 	}
 	
 	/**
-	 * this method is used by SAT-Clients to remove a new productline
+	 * this method is used by SAT-Clients to remove a productline
 	 * on the KoboldServer
 	 * @param adminPassword server administartion password
 	 * @param plname name of the new productline
 	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
 	 */
 	public String satRemoveProductline(String adminPassword, String plname){
-		return IKoboldServer.NO_RESULT;
+		Vector v = new Vector();
+		v.add(adminPassword);
+		v.add(plname);
+		try {
+			return (String) client.execute("satRemoveProductline", v);			
+		}
+		catch(Exception e){
+			return IKoboldServer.NO_RESULT;
+		}
 	}
-		
+	
 	/**
 	 * this method is used by SAT-Clients to set a productline's new PLE
 	 * @param adminPassword server administartion password
@@ -464,7 +472,16 @@ public class SecureKoboldClient implements IKoboldServer {
 	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
 	 */
 	public String satAddPLE(String adminPassword, String plname, String username){
-		return IKoboldServer.NO_RESULT;
+		Vector v = new Vector();
+		v.add(adminPassword);
+		v.add(plname);
+		v.add(username);
+		try {
+			return (String) client.execute("satAddPLE", v);			
+		}
+		catch(Exception e){
+			return IKoboldServer.NO_RESULT;
+		}
 	}
 	
 	/**
@@ -475,7 +492,15 @@ public class SecureKoboldClient implements IKoboldServer {
 	 * @return IKoboldServer::NO_RESULT if an error occured,"" otherwise 
 	 */
 	public String satRemovePLE(String adminPassword, String plname){
-		return IKoboldServer.NO_RESULT;
+		Vector v = new Vector();
+		v.add(adminPassword);
+		v.add(plname);
+		try {
+			return (String) client.execute("satRemovePLE", v);			
+		}
+		catch(Exception e){
+			return IKoboldServer.NO_RESULT;
+		}
 	}
 	
 		private class AdaptedSecureXmlRpcClient extends SecureXmlRpcClient {
