@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.7 2004/07/26 08:29:03 martinplies Exp $
+ * $Id: EdgeContainer.java,v 1.8 2004/07/26 17:34:52 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -29,6 +29,7 @@ package kobold.client.plam.model.edges;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -274,11 +275,11 @@ public class EdgeContainer implements ISerializable {
      * @param startNode
      * @param targetNode
      * @return a list of edges that start at the startNode and end at the targetNode 
-     * or null
+     * or Collection.EMPTY_LIST
      */
     private List getEdges(INode startNode, INode targetNode) {
         if (! startNodesList.containsKey(startNode)) {
-            return null;
+            return Collections.EMPTY_LIST;
         }
         List list = new LinkedList();
         List edges = (List) startNodesList.get(startNode);
@@ -293,7 +294,7 @@ public class EdgeContainer implements ISerializable {
     
     /**
      * Returns an Edge list with all Edges from startNode. 
-     * If no edges exists from this node, null is returned.
+     * If no edges exists from this node, Collection.EMPTY_LIST is returned.
      * 
      * @param startNode
      * @return Returns an Edgearray with all Edges from startNode. 
@@ -302,13 +303,13 @@ public class EdgeContainer implements ISerializable {
         if (startNodesList.containsKey(startNode)){
             return Collections.unmodifiableList((List)startNodesList.get(startNode));
         } else {
-            return null;
+            return Collections.EMPTY_LIST;
         }
     }
     
     /**
      * Returns an Edge list with all Edges from targetNode.
-     * If no edges exists to this node, null is returned.
+     * If no edges exists to this node, Collection.EMPTY_LIST is returned.
      * 
      * @param targetNode
      * @return Returns an Edgearray with all Edges from targetNode.
@@ -317,7 +318,7 @@ public class EdgeContainer implements ISerializable {
         if (targetNodesList.containsKey(targetNode)){
             return Collections.unmodifiableList((List)targetNodesList.get(targetNode));
         } else {
-            return null;
+            return Collections.EMPTY_LIST;
         }
     }
     
