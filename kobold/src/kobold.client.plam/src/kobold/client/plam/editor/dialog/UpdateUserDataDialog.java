@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UpdateUserDataDialog.java,v 1.4 2004/08/25 00:36:26 neco Exp $
+ * $Id: UpdateUserDataDialog.java,v 1.5 2004/08/25 09:23:23 garbeam Exp $
  */
 package kobold.client.plam.editor.dialog;
 
@@ -142,12 +142,9 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
 	    KoboldProject tmpProj = KoboldPLAMPlugin.getCurrentKoboldProject();
         UserManager acts = new UserManager();
        
-        String pass = textPassword.getText();
-        
         if (isEditFullName) {
-        	if (pass.equals(tmpProj.getPassword())){
-           	acts.updateFullName(tmpProj.getUserName(), textRealName.getText(), textPassword.getText());
-           	
+        	if (textPassword.getText().equals(tmpProj.getPassword())){
+        	    acts.updateFullName(tmpProj.getUserName(), textRealName.getText(), textPassword.getText());
         	}
         	else {
         		MessageDialog.openError(getShell(), "Kobold Error", 
@@ -155,13 +152,15 @@ public class UpdateUserDataDialog extends TitleAreaDialog{
 						+ "Please try again.");
         	}
         }
-        else if (textOldPassword.getText().equals(tmpProj.getPassword())){
+        else {
+            if (textOldPassword.getText().equals(tmpProj.getPassword())){
         		acts.changePassword(textOldPassword.getText(), textNewPassword.getText());
-        }
-        else{
-        	MessageDialog.openError(getShell(), "Kobold Error", 
+            }
+            else {
+            	MessageDialog.openError(getShell(), "Kobold Error", 
     			"Can't update password, because the entered old password don't match. " 
        			+ "Please try again.");
+            }
         }
         
         super.okPressed();
