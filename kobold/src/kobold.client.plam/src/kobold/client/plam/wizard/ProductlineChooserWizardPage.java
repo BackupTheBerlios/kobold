@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  * 
- * $Id: ProductlineChooserWizardPage.java,v 1.6 2004/11/05 10:32:32 grosseml Exp $
+ * $Id: ProductlineChooserWizardPage.java,v 1.7 2004/11/25 14:59:16 garbeam Exp $
  *  
  */
 package kobold.client.plam.wizard;
@@ -114,6 +114,7 @@ public class ProductlineChooserWizardPage extends WizardPage implements ISelecti
 	void setProductlines(Map pls)
 	{
 	    plNames = pls;
+	    combo.removeAll();
 	    for (Iterator iterator = plNames.values().iterator(); iterator.hasNext(); ) {
 	        combo.add((String) iterator.next());
 	    }

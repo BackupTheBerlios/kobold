@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.30 2004/11/22 21:51:57 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.31 2004/11/25 14:59:20 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -230,11 +230,10 @@ public class VCMActionListener implements IVCMActionListener
      * @see kobold.client.plam.listeners.IVCMActionListener#addToProduct(kobold.client.plam.model.product.Product)
      */
     public void addToProduct(kobold.client.plam.model.product.Product product, Release release) {
-        
+
         // First we create a temporary folder into which we want to check out the product 
         ResourceInfo test = null;
         IFolder tmpFolder = null;
-        Productline pl = product.getProductline();
         KoboldProject koboldProject = KoboldPLAMPlugin.getCurrentKoboldProject();
         IProject project = koboldProject.getProject();
         try
@@ -250,104 +249,54 @@ public class VCMActionListener implements IVCMActionListener
                 tmpFolder.delete(false, null);
                 tmpFolder.create(false, true, null);
             }
-            
-//            tmpFolder.delete(false,null);
         } catch (Exception e)
         {
             e.printStackTrace();// TODO: handle exception
         }
-//        product.getR
-        {
-	        IProgressMonitor progress = KoboldPolicy.monitorFor(null);
-			String userName = KoboldRepositoryHelper.getUserName();
-			String password = KoboldRepositoryHelper.getUserPassword();
-			ScriptServerConnection connection =
-			    ScriptServerConnection.getConnection();
-			if (connection != null) {
-			    /**
-	             * # $1 working directory # $2 repo type # $3 protocoal type # $4
-	             * username # $5 password # $6 host # $7 root # $8 module # $9
-	             * userdef
-	             */
-			    String localPath = KoboldRepositoryHelper.localPathForAsset(pl);
-	    		String command[] = new String[9];
-	//    		Producitline parentProductLine = release.getRoot();
-	            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
-			    command[1] = tmpFolder.getLocation().toOSString();
-			    command[2] = pl.getRepositoryDescriptor().getType();
-			    command[3] = pl.getRepositoryDescriptor().getProtocol();
-			    command[4] = userName;
-			    command[5] = password; 
-				command[6] = pl.getRepositoryDescriptor().getHost();
-				command[7] = pl.getRepositoryDescriptor().getRoot();
-				command[8] = release.getName();
-//				command[9] = "\"product checkout\"";
-				for (int j = 0; j < command.length; j++) {
-					System.out.print(command[j]);
-					System.out.print(" ");
-				}
-				try
-                {
-//				    connection.open(KoboldPolicy.monitorFor(null),command);
-//				    connection.close();
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-			}
-        }
-        String[] commandLine = {"perl", KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.REMOVEVCMDATA),tmpFolder.getLocation().toOSString(),pl.getRepositoryDescriptor().getType()};
-        ScriptExecuter connection2 = new ScriptExecuter(commandLine); //.getConnection(pl.getRepositoryDescriptor().getRoot());
-		if (connection2 != null) {
-		    
-		    try
-            {
-		        connection2.open(new NullProgressMonitor());
-		        connection2.close();
+        IProgressMonitor progress = KoboldPolicy.monitorFor(null);
+		String userName = KoboldRepositoryHelper.getUserName();
+		String password = KoboldRepositoryHelper.getUserPassword();
+		ScriptServerConnection connection =
+		    ScriptServerConnection.getConnection();
+		if (connection != null) {
+		    /**
+             * # $1 working directory # $2 repo type # $3 protocoal type # $4
+             * username # $5 password # $6 host # $7 root # $8 module # $9
+             * userdef
+             */
+		    String localPath = KoboldRepositoryHelper.localPathForAsset(release);
+    		String command[] = new String[10];
+    		RepositoryDescriptor rd = release.getRoot().getRepositoryDescriptor();
+            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
+		    command[1] = tmpFolder.getLocation().toOSString();
+		    command[2] = rd.getType();
+		    command[3] = rd.getProtocol();
+		    command[4] = userName;
+		    command[5] = password; 
+			command[6] = rd.getHost();
+			command[7] = rd.getRoot();
+			command[8] = release.getRoot().getResource() + "/" + release.getResource();
+			try {
+			    connection.open(KoboldPolicy.monitorFor(null),command);
+			    connection.close();
             } catch (Exception e)
             {
                 e.printStackTrace();
             }
-            
-            // Now copy contents of tmpDir to product Dir
-            try
-            {
-                IPath productFolder = product.getLocalPath();
-                //= new Path(product.getLocalPath().toOSString()).setDevice(null).removeFirstSegments(1);
-                IPath tmpPath = tmpFolder.getLocation().makeAbsolute();
-//                productFolder  = productFolder.makeUNC(true);
-                int removeableSegments = productFolder.matchingFirstSegments(tmpPath);
-                productFolder = productFolder.removeFirstSegments(removeableSegments);
-                productFolder = productFolder.setDevice(null);
-                IResource[] tmpResources = tmpFolder.members();
-               
-                    IPath tmpPath2 = productFolder.addTrailingSeparator().append(release.getName());
-                    
-                for (int i = 0; i < tmpResources.length; i++)
-                {
-                    IResource tmpResource = tmpResources[i];
-                    try
-                    {
-                        tmpResource.move(tmpPath2,true,new NullProgressMonitor());
-                    } catch (Exception e)
-                    {
-                        tmpPath2.append(tmpResource.getName()).toFile().delete();
-                        tmpResource.move(tmpPath2,true,new NullProgressMonitor());
-                    }
-                }
-                IFolder addedProductFolder = project.getFolder(productFolder.addTrailingSeparator().append(release.getName()));
-                if (addedProductFolder.exists())
-                {
-                    
-                    addedProductFolder.delete(true,false, null);
-                }
-                tmpFolder.move(productFolder.addTrailingSeparator().append(release.getName()),true, new NullProgressMonitor());
-                
+// XXX
+            // TODO: implement addtoproduct.sh script
+            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat("addtoproduct.").concat(KoboldRepositoryHelper.getScriptExtension());
+		    command[1] = tmpFolder.getLocation().toOSString();
+			command[2] = release.getRoot().getResource() + "/" + release.getResource();
+			command[3] = KoboldRepositoryHelper.localPathForAsset(product);
+			try {
+			    connection.open(KoboldPolicy.monitorFor(null),command);
+			    connection.close();
             } catch (Exception e)
             {
                 e.printStackTrace();
             }
-		}
+		}   
     }
 
     /**

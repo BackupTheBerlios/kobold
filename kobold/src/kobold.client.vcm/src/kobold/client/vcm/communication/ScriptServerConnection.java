@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ScriptServerConnection.java,v 1.57 2004/11/22 19:12:29 garbeam Exp $
+ * $Id: ScriptServerConnection.java,v 1.58 2004/11/25 14:59:20 garbeam Exp $
  */
 package kobold.client.vcm.communication;
 
@@ -47,12 +47,8 @@ import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.internal.Workbench;
 
-
-
 /**
  * @author schneipk
- *
- * 
  */
 public class ScriptServerConnection implements IServerConnection
 {
@@ -103,7 +99,7 @@ public class ScriptServerConnection implements IServerConnection
 	}
 	
 	
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.team.internal.ccvs.core.IServerConnection#open(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void open(IProgressMonitor monitor) throws IOException,
@@ -144,58 +140,8 @@ public class ScriptServerConnection implements IServerConnection
 			}
 		}
 	}
-//	/**
-//	 * This method allows the caller to run a given command as a
-//	 * runtime excecution call
-//	 * @param command
-//	 * @throws IOException
-//	 * @throws CVSAuthenticationException
-//	 */
-//	public String open(String[] command, String returnStr) throws IOException,
-//	CVSAuthenticationException
-//{
-//		IProgressMonitor progress = KoboldPolicy.monitorFor(null);
-//		connected = false;
-//		try {
-//			process = Util.createProcess(command,progress);
-//
-////			inputStream = new PollingInputStream(new TimeoutInputStream(process
-////					.getInputStream(), 8192 /* bufferSize */,
-////					2900 /* readTimeout */, -1 /* closeTimeout */), 60, null);
-////			outputStream = new PollingOutputStream(new TimeoutOutputStream(
-////					process.getOutputStream(), 8192 /* buffersize */,
-////					1000 /* writeTimeout */, 1000 /* closeTimeout */), 60,
-////					null);
-//
-//			
-//			// discard the input to prevent the process from hanging due to a
-//			// full pipe
-//			errStream = (process.getErrorStream());
-//			connected = true;
-////			errorThread = new InputThreadToConsole(errStream,null);
-//			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, null);
-//			((InputThreadToConsole)inputThread).setReturnString(returnStr);
-//
-//			try
-//            {
-//			    Workbench.getInstance().getProgressService().run(true,false,(InputThreadToConsole)inputThread) ;
-//            } catch (Exception e)
-//            {
-//                // TODO: handle exception
-//            }
-////			errorThread.run();
-//			return ((InputThreadToConsole)inputThread).getReturnString();
-//		} finally {
-//			if (!connected) {
-//				try {
-//					close();
-//				} finally {
-//					// Ignore any exceptions during close
-//				}
-//			//		}
-//}	
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.eclipse.team.internal.ccvs.core.IServerConnection#open(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void open(IProgressMonitor monitor,String[] command) throws IOException,
@@ -243,8 +189,10 @@ public class ScriptServerConnection implements IServerConnection
 				returnValue =  process.exitValue();
 				if (returnValue != 0)
                 {
+				    /* To prevent confusion in end presentation
 					MessageDialog.openError(new Shell(),"Error","An error occured while excecuting a VCM script, \n" +
 					"please check the message console for further details!");
+					*/
                 }
 				if (logger.isDebugEnabled()) {
 					logger.debug("open(IProgressMonitor, String[])"
@@ -267,7 +215,8 @@ public class ScriptServerConnection implements IServerConnection
 			}
 		}
 	}
-	/* (non-Javadoc)
+	
+	/**
 	 * @see org.eclipse.team.internal.ccvs.core.IServerConnection#close()
 	 */
 	public void close() throws IOException
@@ -302,14 +251,16 @@ public class ScriptServerConnection implements IServerConnection
 			}
 		} 
 	}
-	/* (non-Javadoc)
+	
+	/**
 	 * @see org.eclipse.team.internal.ccvs.core.IServerConnection#getInputStream()
 	 */
 	public InputStream getInputStream()
 	{
 		return inputStream;
 	}
-	/* (non-Javadoc)
+	
+	/**
 	 * @see org.eclipse.team.internal.ccvs.core.IServerConnection#getOutputStream()
 	 */
 	public OutputStream getOutputStream()
@@ -317,19 +268,6 @@ public class ScriptServerConnection implements IServerConnection
 		return outputStream;
 	}
 	
-/*	private static byte[] append(byte[] buffer, int index, byte b) {
-		if (index >= buffer.length) {
-			byte[] newBuffer= new byte[index * 2];
-			System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
-			buffer= newBuffer;
-		}
-		buffer[index]= b;
-		return buffer;
-	}
-*/
-	
-	
-
 	private static class InputThreadToConsole extends Thread implements IRunnableWithProgress{
 		/**
 		 * Logger for this class
