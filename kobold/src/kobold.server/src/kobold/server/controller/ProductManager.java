@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductManager.java,v 1.5 2004/05/18 21:23:58 garbeam Exp $
+ * $Id: ProductManager.java,v 1.6 2004/06/24 00:39:15 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -43,6 +43,7 @@ import org.dom4j.io.XMLWriter;
 
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
+import kobold.common.io.RepositoryDescriptor;
 /**
  * This class stores user data on the server and provides authentification
  * services for user interaction with the Server (sessionIDs). It's a
@@ -216,10 +217,21 @@ public class ProductManager {
 	
 	// DEBUG
 	public void dummyProds() {
-		addProductLine(new Productline("kobold2"));
-		addProductLine(new Productline("kobold3"));
-		addProductLine(new Productline("kobold4"));
 		
+		addProductLine(new Productline("kobold2",
+					   new RepositoryDescriptor(
+						"cvs", "cvs.berlios.de",
+						"/cvsroot/kobold/kobold2")));
+		addProductLine(new Productline("kobold3",
+				       new RepositoryDescriptor(
+		 			   "cvs", "cvs.berlios.de",
+		 			   "/cvsroot/kobold/kobold3")));
+		addProductLine(new Productline("kobold4",
+					   new RepositoryDescriptor(
+					   "cvs", "cvs.berlios.de",
+					   "/cvsroot/kobold/kobold4")));
+		
+		// TODO: repository descriptot for products
 		addProduct(new Product("kobold server", "kobold2"));
 		addProduct(new Product("kobold client", "kobold3"));
 		addProduct(new Product("kobold vcm", "kobold4"));

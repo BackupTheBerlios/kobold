@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductManagerTest.java,v 1.4 2004/05/18 21:23:58 garbeam Exp $
+ * $Id: ProductManagerTest.java,v 1.5 2004/06/24 00:39:15 garbeam Exp $
  *
  */
 
@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
+import kobold.common.io.RepositoryDescriptor;
 import kobold.server.controller.ProductManager;
 
 /**
@@ -50,7 +51,9 @@ public class ProductManagerTest extends TestCase {
 	public void testSerialize() {
 		
 		Product product = new Product("windows", "office");
-		Productline productline = new Productline("office");
+		Productline productline = new Productline("office",
+				new RepositoryDescriptor(
+						"cvs", "office.org", "/root/zucker"));
 		
 		ProductManager manager = ProductManager.getInstance();
 		
