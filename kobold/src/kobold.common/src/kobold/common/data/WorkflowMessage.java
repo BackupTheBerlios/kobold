@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowMessage.java,v 1.24 2004/06/22 21:22:58 bettina Exp $
+ * $Id: WorkflowMessage.java,v 1.25 2004/06/23 13:27:26 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -30,6 +30,7 @@ import java.util.*;
 import org.dom4j.Element;
 
 /**
+ 
  * @author garbeam
  * @author vanto
  */
@@ -41,7 +42,7 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 	private String workflowType = new String();
 	private String comment = "";
 	private Set parents = new HashSet();
-	private List controlItems = new LinkedList();
+	private List controlItems = new LinkedList(); // ArrayList performs much better
 	private HashMap workflowData = new HashMap();
 	private int step;
 
@@ -65,8 +66,6 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 		super(TYPE);
 	    deserialize(data);
 	}
-
-
 	
 	public void addParentId(String id)
 	{
@@ -120,7 +119,7 @@ public class WorkflowMessage extends AbstractKoboldMessage {
 	public void setWorkflowType(String type) {
 		workflowType = type;
 	}
-
+	
 	/**
 	 * @return
 	 */
