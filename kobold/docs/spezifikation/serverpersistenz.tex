@@ -1,0 +1,20 @@
+\section{Serverseitige Persistierung}
+Vom Kobold Serverdienst werden Benutzer-, Rollen-, Produkt-,
+Produktlinien- und Nachrichtendaten in Form eines eigenen XML Fromates
+persistiert. Bei Produkten und Produktlinien werden lediglich die Repository-Lokationen
+sowie der zugehörige Produkt- bzw. Produktlinienname persistiert, da die
+wesentliche Metainformations-Speicherung clientseitig geschieht. Alle
+anderen Daten werden vollständig serverseitig persistiert.
+
+\subsection{Benutzerpersistierung}
+
+Benutzer werden vom Kobold in Form von folgender XML-Struktur persistiert.
+
+\begin{verbatim}
+<users>
+    <user>
+
+
+
+</users>
+\end{verbatim}
