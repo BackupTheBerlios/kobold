@@ -21,18 +21,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.9 2004/07/13 18:08:37 bettina Exp $
+ * $Id: WorkflowEngine.java,v 1.10 2004/07/18 14:54:43 bettina Exp $
  *
  */
 package kobold.server.workflow;
 
+import java.net.URL;
+import java.util.List;
+
 import kobold.common.data.RPCSpy;
 import kobold.common.data.WorkflowMessage;
-import org.drools.*;
-import org.drools.rule.*;
 
-import java.net.URL;
-import java.util.*;
+import org.drools.FactException;
+import org.drools.RuleBase;
+import org.drools.WorkingMemory;
 
 
 /**
