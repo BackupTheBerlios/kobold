@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.6 2004/06/25 12:58:28 rendgeor Exp $
+ * $Id: RelatedComponent.java,v 1.7 2004/06/25 17:25:34 martinplies Exp $
  *
  */
 
 package kobold.common.model.product;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import org.dom4j.Element;
 import org.dom4j.DocumentHelper;
 
 import kobold.common.model.AbstractAsset;
+import kobold.common.model.IGXLExport;
 import kobold.common.model.Release;
 import kobold.common.model.productline.Component;
 
@@ -42,7 +44,9 @@ import kobold.common.model.productline.Component;
  * components of products which are related to a product
  * lines component.
  */
-public class RelatedComponent extends ProductComponent {
+
+public class RelatedComponent extends ProductComponent 
+                              implements IGXLExport{
 
 	private Component relatedComponent;
 	private Release plCompRelease;
@@ -114,7 +118,10 @@ public class RelatedComponent extends ProductComponent {
 	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
 	 */
 	public List getGXLChildren() {
-		return relatedComponent.getGXLChildren();
+	    List children = new ArrayList();
+	    children.addAll(getProductComponents());
+	    children.add(pCompRelease);
+		return children;
 	}
 
 	/* (non-Javadoc)

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductRelease.java,v 1.5 2004/06/25 12:58:28 rendgeor Exp $
+ * $Id: ProductRelease.java,v 1.6 2004/06/25 17:25:35 martinplies Exp $
  *
  */
 
@@ -123,46 +123,6 @@ public class ProductRelease extends AbstractAsset
 	 */
 	public String getType() {
 		return AbstractAsset.PRODUCT_RELEASE;
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getAttributes()
-	 */
-	public Map getAttributes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getChildren()
-	 */
-	public List getChildren() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLType()
-	 */
-	public String getGXLType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
-	 */
-	public Map getGXLAttributes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
-	 */
-	public List getGXLChildren() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

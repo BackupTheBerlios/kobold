@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.22 2004/06/25 12:58:28 rendgeor Exp $
+ * $Id: Productline.java,v 1.23 2004/06/25 17:25:35 martinplies Exp $
  *
  */
 package kobold.common.model.productline;
@@ -37,6 +37,7 @@ import java.io.File;
 
 import kobold.common.model.AbstractAsset;
 import kobold.common.model.IComponentContainer;
+import kobold.common.model.IGXLExport;
 import kobold.common.model.product.Product;
 
 import org.apache.commons.logging.Log;
@@ -52,7 +53,7 @@ import org.dom4j.io.XMLWriter;
  * @author rendgeor
  */
 public class Productline extends AbstractAsset
-						 implements IComponentContainer {
+                         implements IGXLExport {
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#productline";
 
 	//the products and core-assets

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.13 2004/06/25 12:58:28 rendgeor Exp $
+ * $Id: Component.java,v 1.14 2004/06/25 17:25:35 martinplies Exp $
  *
  */
 
@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import kobold.common.model.AbstractAsset;
+import kobold.common.model.IGXLExport;
 import kobold.common.model.IVariantContainer;
 
 import org.apache.commons.logging.Log;
@@ -51,7 +52,7 @@ import org.dom4j.io.XMLWriter;
  * @author garbeam
  */
 public class Component extends AbstractAsset 
-					   implements IVariantContainer {
+	                   implements IGXLExport, IVariantContainer {
 
 	public static final String GXL_TYPE = "http://kobold.berlios.de/types#component";
 	//the variants

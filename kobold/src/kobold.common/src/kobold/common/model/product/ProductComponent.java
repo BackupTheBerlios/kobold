@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.1 2004/06/25 12:58:28 rendgeor Exp $
+ * $Id: ProductComponent.java,v 1.2 2004/06/25 17:25:35 martinplies Exp $
  *
  */
 package kobold.common.model.product;
@@ -34,11 +34,13 @@ import java.util.List;
 import org.dom4j.Element;
 
 import kobold.common.model.AbstractAsset;
+import kobold.common.model.IGXLExport;
 
 /**
  * @author rendgeor
  */
-public abstract class ProductComponent extends AbstractAsset {
+public abstract class ProductComponent extends AbstractAsset 
+implements IGXLExport{
 
 	private List prodComps = new ArrayList();
 	

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.7 2004/06/25 12:58:28 rendgeor Exp $
+ * $Id: SpecificComponent.java,v 1.8 2004/06/25 17:25:35 martinplies Exp $
  *
  */
 
@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import kobold.common.model.AbstractAsset;
+import kobold.common.model.IGXLExport;
 import kobold.common.model.Release;
 
 
@@ -43,6 +44,7 @@ import kobold.common.model.Release;
  * Represents a product specific component.
  */
 public class SpecificComponent extends ProductComponent {
+
 
 	private List releases = new ArrayList();
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#component";
@@ -122,8 +124,12 @@ public class SpecificComponent extends ProductComponent {
 	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
 	 */
 	public List getGXLChildren() {
-		// TODO add releases;
-		return null;
+	    List children = new ArrayList();
+	    children.addAll(getProductComponents());
+	    if (releases.size() > 0){
+	       children.add(releases.get(releases.size()-1));
+	    }
+		return children;
 	}
 
 	/* (non-Javadoc)

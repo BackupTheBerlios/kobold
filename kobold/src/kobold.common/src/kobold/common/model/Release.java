@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Release.java,v 1.5 2004/06/25 12:58:28 rendgeor Exp $
+ * $Id: Release.java,v 1.6 2004/06/25 17:25:34 martinplies Exp $
  *
  */
 
@@ -133,26 +133,6 @@ public class Release extends AbstractAsset {
 	/* (non-Javadoc)
 	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
 	 */
-	public Map getGXLAttributes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLChildren()
-	 */
-	public List getGXLChildren() {
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see kobold.common.model.AbstractAsset#getGXLType()
-	 */
-	public String getGXLType() {
-		// TODO Auto-generated method stub
-		return null;
-		//! hier sollte noch was passieren
-	}
 
 
 }
