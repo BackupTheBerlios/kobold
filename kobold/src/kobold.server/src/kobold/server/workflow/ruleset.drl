@@ -57,23 +57,19 @@
         <java:condition>msg.getWorkflowType().equals("Core Group Suggestion")</java:condition>
         <java:condition>msg.getStep() == 2</java:condition>
         <java:consequence>
-        	
+        	kobold.common.data.AbstractKoboldMessage answer;
 			// gets the sender's input
 			java.util.HashMap map = msg.getWorkflowData();
-     		java.lang.String decision = map.get("decision");
+			java.lang.String decision = map.get("decision");
 			//if the pe supports the suggestion
-			
 			if (decision.equals("true")) {
-				System.out.println("Punkt erreicht: " + decision);
-				kobold.common.data.AbstractKoboldMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());
+			    answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());
 				answer.setSender(msg.getSender());
 				answer.addParentId(msg.getId());
 				answer.setStep(msg.getStep()+1);
 				answer.setReceiver(map.get("recipient"));
 				answer.setSubject("New Request for a Core Group Commit");
-				answer.setMessageText("Product Engineer " + msg.getSender() + " got a suggestion from one of his programmers to " +
-					"commit the file " + map.get("file") + " in component " + map.get("component") +
-					"to a Core Group. He added the following comment: " + msg.getComment());
+				answer.setMessageText("Product Engineer " + msg.getSender() + " got a suggestion from one of his programmers to commit the file " + map.get("file") + " in component " + map.get("component") + " to a Core Group. He added the following comment: " + msg.getComment());
 				//add decision possibilities for the ple
 				kobold.common.data.WorkflowItem radio1 = new kobold.common.data.WorkflowItem("true","Assent",kobold.common.data.WorkflowItem.RADIO);
 				kobold.common.data.WorkflowItem radio2 = new kobold.common.data.WorkflowItem("false","Dissent",kobold.common.data.WorkflowItem.RADIO);
@@ -84,20 +80,17 @@
 				answer.putWorkflowData("P", map.get("P"));
 				answer.putWorkflowData("PE", answer.getSender());
 				answer.putWorkflowData("file", map.get("file"));
-				answer.putWorkflowData("component", map.get("component"));
-			}
-			// if the pe rejects
-			else if (decision.equals("false")){
-				
-				kobold.common.data.AbstractKoboldMessage answer = new kobold.common.data.KoboldMessage();
+				answer.putWorkflowData("component", map.get("component")); 				
+            }
+			if (decision.equals("false")) {							
+				answer = new kobold.common.data.KoboldMessage();
 				answer.setSender(msg.getSender());
 				answer.setReceiver(map.get("P"));
-				answer.setSubject("Core Group suggestion rejected");"+
+				answer.setSubject("Core Group suggestion rejected");
 				answer.setMessageText("Your suggestion was rejected by "+msg.getSender() + " due to the following reasons: " +
 					 msg.getComment());
-			}
-			
-			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);
+			}			
+			kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);			
         </java:consequence>
     </rule>
 
