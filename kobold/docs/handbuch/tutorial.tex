@@ -212,38 +212,62 @@ Note: Core assets can only be inserted on the top-level plane of the Architectur
 \subsection{Creating a variant}
 
 In the pallete select the "variant" tool. Click into a core asset or component in 
-the Architecture Editor. A variant is inserted. A dialog opens where you can enter the meta data of
+the Architecture Editor. A variant is inserted (see \ref{variant}). If you double-click on the variant, a dialog opens where you can enter the meta data of
 the variant. Per drag+drop you can simply change the size of the variant. \par
 Note: Variants can only be inserted into core assets or components.
 
-%TODO: Screenshot einfügen
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{variant.png}
+   \caption{Variant}
+\label{variant}
+\end{center}
+\end{figure}\par
 
 \subsection{Creating a component}
 
 In the pallete select the "component" tool. Click into a variant in 
-the Architecture Editor. A component is inserted. A dialog opens where you can enter the meta data of
+the Architecture Editor. A component is inserted (see \ref{component}). If you double-click on the component, a dialog opens where you can enter the meta data of
 the component. Per drag+drop you can simply change the size of the component. \par
 Note: Components can only be inserted into variants.
 
-%TODO: Screenshot einfügen
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{component.png}
+   \caption{Component}
+\label{component}
+\end{center}
+\end{figure}\par
 
-\subsection{Creating a version}
+\subsection{Creating a release}
 
-In the pallete select the "version" tool. Click into a variant in 
-the Architecture Editor. A version is inserted. A dialog opens where you can enter the meta data of
-the version. For each file of the variant you can select the revision number you want to add to the version. 
-Per drag+drop you can simply change the size of the version. \par
-Note: Versions can only be inserted into variants.
+In the pallete select the "release" tool. Click into a variant in 
+the Architecture Editor. A release is inserted (see \ref{release}). If you double-click on the release, a dialog opens where you can enter the meta data of
+the release. For each file of the variant you can select the revision number you want to add to the release. 
+Per drag+drop you can simply change the size of the release. \par
+Note: Releases can only be inserted into variants.
 
-%TODO: Screenshot einfügen
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{release.png}
+   \caption{Release}
+\label{release}
+\end{center}
+\end{figure}\par
 
 \subsection{Creating a meta node}
 
 In the pallete select the "metanode" tool. Click into the Architecture Editor. 
-A meta node is inserted. A dialog opens where you can select the type of the node.
+A meta node is inserted (see \ref{meta}). If you double-click on the meta node, a dialog opens where you can select the type of the node.
 Possible types are AND, OR, XOR. 
 
-%TODO: Screenshot einfügen
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{metanode.png}
+   \caption{Some meta nodes}
+\label{meta}
+\end{center}
+\end{figure}\par
 
 \subsection{Deleting a core asset, component, variant or version}
 
@@ -302,17 +326,29 @@ used in a product.
 
 \subsection{Creating a dependency edge}
 
-In the pallete select the "dependency" tool. Select an item in the Architecture Editor
-as the starting point. The next item you select will be the aiming point.
+In the pallete select the "include edge" tool. Select an item in the Architecture Editor
+as the starting point. The next item you select will be the aiming point (see \ref{include}).
 
-%TODO: Screenshot einfügen
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{include.png}
+   \caption{Dependency edge}
+\label{include}
+\end{center}
+\end{figure}\par
 
 \subsection{Creating an exclusion edge}
 
-In the pallete select the "exclude" tool. Select an item in the Architecture Editor
-as the starting point. The next item you select will be the aiming point.
+In the pallete select the "exclude edge" tool. Select an item in the Architecture Editor
+as the starting point. The next item you select will be the aiming point (see \ref{exclude}).
 
-%TODO: Screenshot einfügen
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{exclude.png}
+   \caption{Exclusion edge}
+\label{exclude}
+\end{center}
+\end{figure}\par
 
 \subsection{Deleting an edge}
 
@@ -414,7 +450,7 @@ this manually.
 \section{Exporting through GXL}
 
 Select the productline, product, component or variant you want to export. In the
-menu of the main window select "GXL-Export". A wizard opens where you can choose
+menu of the main window select "GXL-Export". A wizard opens (see \ref{export}) where you can choose
 whether to create a jar-file of the selected source or not. You should then enter
 the path and names of the gxl-file and the jar-file. Alternatively you can enter 
 the data through the "save as" dialog. To start the export, press the finish button.
@@ -422,7 +458,13 @@ You are able to see the status of your export in the wizard which will close aft
 the export is finished. If you decide not to do the export, simply press the 
 "cancel" button.
 
-%TODO: Screenshot einfügen
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=10cm]{export.png}
+   \caption{Export wizard}
+\label{export}
+\end{center}
+\end{figure}\par
 
 
 \section{Creating a Workflow}
