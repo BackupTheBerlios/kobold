@@ -26,6 +26,8 @@ package kobold.client.vcm.controller;
 
 
 
+import java.util.List;
+
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.product.Product;
@@ -37,6 +39,7 @@ import kobold.client.vcm.communication.ScriptServerConnection;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.common.data.UserContext;
 import kobold.common.io.RepositoryDescriptor;
+import kobold.common.io.ScriptDescriptor;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
@@ -127,14 +130,25 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			IProgressMonitor progress, boolean performOperation) throws TeamException {
 		if (performOperation) {
 			try {
-				progress = KoboldPolicy.monitorFor(progress);
-				progress.beginTask("precheckin working", 2);
-				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-				connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
-				initConnection(connection,resources);
-				connection.open(progress);
-				connection.close();	
-				progress.done();
+			    for (int i = 0; i < resources.length; i++)
+	            {
+			        List tmpList = resources[i].getBeforeScripts();
+                    if (tmpList != null)
+                    {
+                        for (int j = 0; j < tmpList.size(); j++)
+                        {
+                            progress = KoboldPolicy.monitorFor(progress);
+                            progress.beginTask("precheckout working", 2);
+                            ScriptServerConnection connection = new ScriptServerConnection(
+                                    repositoryRootPath);
+                            String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                            connection.setSkriptName(beforeSkriptPath);
+                            connection.open(progress);
+                            connection.close();
+                            progress.done();
+                        }
+                    }
+	            }
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -218,16 +232,25 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 			) throws TeamException {
 		if (performOperation) {
 			try {
-				progress = KoboldPolicy.monitorFor(progress);
-				progress.beginTask("precheckout working", 2);
-			
-					ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-					connection.setSkriptName(skriptPath.toOSString().concat(IMPORT).concat(skriptExtension));
-					initConnection(connection , resources);
-					connection.open(progress);
-					connection.close();	
-					progress.done();
-
+			    for (int i = 0; i < resources.length; i++)
+	            {
+			        List tmpList = resources[i].getBeforeScripts();
+                    if (tmpList != null)
+                    {
+                        for (int j = 0; j < tmpList.size(); j++)
+                        {
+                            progress = KoboldPolicy.monitorFor(progress);
+                            progress.beginTask("precheckout working", 2);
+                            ScriptServerConnection connection = new ScriptServerConnection(
+                                    repositoryRootPath);
+                            String beforeSkriptPath = ((ScriptDescriptor)tmpList.get(j)).getPath();
+                            connection.setSkriptName(beforeSkriptPath);
+                            connection.open(progress);
+                            connection.close();
+                            progress.done();
+                        }
+                    }
+	            }
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -351,21 +374,36 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	public void preImport(AbstractAsset[] resources, int depth,
 			IProgressMonitor progress, boolean performOperation) throws TeamException
 	{
-		if (performOperation) {
-			try {
-				progress = KoboldPolicy.monitorFor(progress);
-				progress.beginTask("preImport working", 2);
-				ScriptServerConnection connection = new ScriptServerConnection(repositoryRootPath);
-				connection.setSkriptName(skriptPath.toOSString().concat(UPDATE).concat(skriptExtension));
-				initConnection(connection,resources);
-				connection.open(progress);
-				connection.close();	
-				progress.done();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}	
-		}
-	}
+		if (performOperation)
+        {
+            try
+            {
+                for (int i = 0; i < resources.length; i++)
+                {
+                    List tmpList = resources[i].getBeforeScripts();
+                    if (tmpList != null)
+                    {
+                        for (int j = 0; j < tmpList.size(); j++)
+                        {
+                            progress = KoboldPolicy.monitorFor(progress);
+                            progress.beginTask("precheckout working", 2);
+                            ScriptServerConnection connection = new ScriptServerConnection(
+                                    repositoryRootPath);
+                            String beforeSkriptPath = ((ScriptDescriptor) tmpList
+                                    .get(j)).getPath();
+                            connection.setSkriptName(beforeSkriptPath);
+                            connection.open(progress);
+                            connection.close();
+                            progress.done();
+                        }
+                    }
+                }
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 	/**
 	 * @param currentVCMProvider The currentVCMProvider to set.
 	 */
@@ -418,8 +456,33 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#preAdd(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
 	 */
 	public void preAdd(AbstractAsset[] assets, int depth, IProgressMonitor progress, boolean performOperation) throws TeamException {
-		
-	}
+	    try
+        {
+            for (int i = 0; i < assets.length; i++)
+            {
+                List tmpList = assets[i].getBeforeScripts();
+                if (tmpList != null)
+                {
+                    for (int j = 0; j < tmpList.size(); j++)
+                    {
+                        progress = KoboldPolicy.monitorFor(progress);
+                        progress.beginTask("precheckout working", 2);
+                        ScriptServerConnection connection = new ScriptServerConnection(
+                                repositoryRootPath);
+                        String beforeSkriptPath = ((ScriptDescriptor) tmpList
+                                .get(j)).getPath();
+                        connection.setSkriptName(beforeSkriptPath);
+                        connection.open(progress);
+                        connection.close();
+                        progress.done();
+                    }
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postAdd(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor, boolean)
 	 */
@@ -450,7 +513,34 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#preUpdate(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void preUpdate(AbstractAsset[] resources, int depth, IProgressMonitor progress) throws TeamException {
-	}
+	    try
+        {
+            for (int i = 0; i < resources.length; i++)
+            {
+                List tmpList = resources[i].getBeforeScripts();
+                if (tmpList != null)
+                {
+                    for (int j = 0; j < tmpList.size(); j++)
+                    {
+                        progress = KoboldPolicy.monitorFor(progress);
+                        progress.beginTask("precheckout working", 2);
+                        ScriptServerConnection connection = new ScriptServerConnection(
+                                repositoryRootPath);
+                        String beforeSkriptPath = ((ScriptDescriptor) tmpList
+                                .get(j)).getPath();
+                        connection.setSkriptName(beforeSkriptPath);
+                        connection.open(progress);
+                        connection.close();
+                        progress.done();
+                    }
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
 	/* (non-Javadoc)
 	 * @see kobold.client.vcm.controller.KoboldRepositoryOperations#postUpdate(kobold.client.plam.model.AbstractAsset[], int, org.eclipse.core.runtime.IProgressMonitor)
 	 */

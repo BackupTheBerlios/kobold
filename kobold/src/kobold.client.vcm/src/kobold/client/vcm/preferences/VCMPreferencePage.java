@@ -104,7 +104,6 @@ public class VCMPreferencePage
 				KOBOLD_VCM_ASK_PWD,
 				"&Ask for Password everytime",
 				getFieldEditorParent()));
-
 		addField(new StringFieldEditor(KOBOLD_VCM_USER_STR, "User name:", getFieldEditorParent()));
 		addField(new DirectoryFieldEditor(KOBOLD_VCM_SCRIPT_LOCATION, "Script location:", getFieldEditorParent()));
 		addField(new StringFieldEditor(KOBOLD_VCM_PWD_STR, "User Password:", getFieldEditorParent()));

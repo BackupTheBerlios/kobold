@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: StatusUpdater.java,v 1.32 2004/08/30 12:43:55 rendgeor Exp $
+ * $Id: StatusUpdater.java,v 1.33 2004/08/31 10:24:08 memyselfandi Exp $
  * 
  */
 package kobold.client.vcm.controller;
@@ -70,9 +70,11 @@ public class StatusUpdater {
 	public void updateFileDescriptors(IFileDescriptorContainer fileDescriptorContainer)
 	{
 
+	    String tmpString = fileDescriptorContainer.getLocalPath().toOSString();
+	    
 		//command line command with the stats script to the changed part of the meta-data containing FD(s)
 		String[] command = {"perl", getScriptPath() + 
-							"stats.pl", fileDescriptorContainer.getLocalPath().toOSString()};
+							"stats.pl", tmpString.substring(0,tmpString.length()-1)};
 	    logger.debug("updateFileDescriptors: " + command[0] + command[1] + command[2]);
 		//process the connection (open and parse the input)
 		processConnection(command, fileDescriptorContainer);

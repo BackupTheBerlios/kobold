@@ -25,8 +25,12 @@
 
 package kobold.client.vcm.popup.action;
 
+import java.util.List;
+
 import kobold.client.plam.model.ModelStorage;
+import kobold.client.plam.model.Release;
 import kobold.client.plam.model.productline.Productline;
+import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
 import kobold.common.io.RepositoryDescriptor;
 
@@ -50,9 +54,9 @@ public class CheckoutAction extends KoboldAction {
 		try
 		{
 
-//			ModelStorage.storeModel((Productline)testAssets[0]);
-//			RepositoryDescriptor rd = ((Productline)testAssets[0]).getRepositoryDescriptor();
+		    repoAccess.preCheckout(testAssets,IResource.DEPTH_INFINITE,null,true);
 			repoAccess.checkout(testAssets,IResource.DEPTH_INFINITE,null);
+			repoAccess.postCheckout(testAssets,IResource.DEPTH_INFINITE,null,true);
 		}
 		catch (Exception e)
 		{

@@ -42,6 +42,7 @@ import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.team.internal.ccvs.core.IServerConnection;
@@ -145,32 +146,27 @@ public class ScriptServerConnection implements IServerConnection
 			}
 			process = Util.createProcess(command, monitor);
 
-			inputStream = new PollingInputStream(new TimeoutInputStream(process.getInputStream(),
-				8192 /*bufferSize*/, 2900 /*readTimeout*/, 1000 /* "was -1"closeTimeout*/), 60, monitor);
-			outputStream = new PollingOutputStream(new TimeoutOutputStream(process.getOutputStream(),
-				8192 /*buffersize*/, 1000 /*writeTimeout*/, 1000 /*closeTimeout*/), 60, monitor);
-
-			// 
-			// discard the input to prevent the process from hanging due to a full pipe
-			errStream = (process.getErrorStream());
-			connected = true;
-			ConsolePlugin.getDefault();
-			MessageConsoleStream stream = null;
-			MessageConsole console= new MessageConsole("Kobold VCM Console",null);
+			MessageConsoleStream stream1,stream2 = null;
+			MessageConsole console= new MessageConsole("Kobold Script Console",null);
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(
 				new IConsole[] {console});
-			stream = console.newMessageStream();
-			inputThread = new InputThreadToConsole(process,stream);//process.getInputStream(), stream);
-//			errorThread = new InputThreadToConsole(errStream,stream);//process.getErrorStream(), stream);
-//			readInpuStreamsToConsole();
-			inputThread.run();
-			errorThread.run();
+			stream2 = console.newMessageStream();
+			connected = true;
+			
+			inputThread = new InputThreadToConsole(process/*.getInputStream()*/, stream2);
+			try
+            {
+			    Workbench.getInstance().getProgressService().run(true,false,(InputThreadToConsole)inputThread) ;
+            } catch (Exception e)
+            {
+                // TODO: handle exception
+            }
+			
 		} finally {
 			if (! connected) {
 				try {
 					close();
 				} finally {
-					errorThread = null;
 					inputThread = null;
 					// Ignore any exceptions during close
 				}
@@ -662,7 +658,14 @@ public class ScriptServerConnection implements IServerConnection
 	protected void setUserName (String userName)
 	{
 		//set the default userName (initial)
-		KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_USER_STR, userName);
+	    if (userName != null)
+        {
+	        KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_USER_STR, userName);
+        }
+	    else
+	    {
+	        MessageDialog.openError(new Shell(),"VCM User not set","VCM User not set, please reconfigure!");
+	    }
 	}
 
 	/**
@@ -675,7 +678,7 @@ public class ScriptServerConnection implements IServerConnection
 	    Preferences prefs = KoboldVCMPlugin.getDefault().getPluginPreferences();
 		String uP = prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
 		
-		if (prefs.getBoolean(VCMPreferencePage.KOBOLD_VCM_ASK_PWD))
+		if (prefs.getBoolean(VCMPreferencePage.KOBOLD_VCM_ASK_PWD) || prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR).equals(""))
 		{
 			uP = getPreference (VCMPreferencePage.KOBOLD_VCM_PWD_STR);
 			setUserPassword(uP);
