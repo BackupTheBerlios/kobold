@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponent.java,v 1.4 2004/07/11 12:38:34 vanto Exp $
+ * $Id: SpecificComponent.java,v 1.5 2004/08/03 22:11:46 vanto Exp $
  *
  */
 
@@ -52,8 +52,9 @@ public class SpecificComponent extends ProductComponent
 	 * Basic constructor.
 	 * @param componentName the component name.
 	 */
-	public SpecificComponent (String componentName) {
-		super(componentName);
+	public SpecificComponent (String name) 
+	{
+		super(name);
 	}
 	
 	/**
@@ -62,7 +63,8 @@ public class SpecificComponent extends ProductComponent
 	 * 		  object.
 	 */
 	protected SpecificComponent (Element element) {
-		deserialize(element);
+		super();
+	    deserialize(element);
 	}
 	
 	/**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.10 2004/08/02 17:23:53 vanto Exp $
+ * $Id: Product.java,v 1.11 2004/08/03 22:11:46 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -58,23 +58,8 @@ public class Product extends AbstractRootAsset
 
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#Product";
 		
-	/**
-	 * Basic constructor.
-	 * @param productName
-	 */
-	public Product(String productName) {
-		super(productName);
-	}
 	
-	/**
-	 * DOM constructor.
-	 * @param productName
-	 */
-	public Product(Element element, AbstractAsset parent) {
-		super(element.attributeValue("name"));
-		setParent(parent);
-		deserializeProduct();
-	}
+
 	
 	/**
 	 * Serializes the product.

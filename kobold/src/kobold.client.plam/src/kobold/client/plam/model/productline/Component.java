@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Component.java,v 1.10 2004/08/02 17:23:54 vanto Exp $
+ * $Id: Component.java,v 1.11 2004/08/03 22:11:46 vanto Exp $
  *
  */
 
@@ -63,7 +63,7 @@ public class Component extends AbstractMaintainedAsset
 	public Component(String name) {
 		super(name);
 	}
-	
+
 	/**
 	 * DOM constructor.
 	 * @param productName

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.8 2004/08/02 09:23:04 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.9 2004/08/03 22:11:46 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -93,9 +93,9 @@ public abstract class AbstractAsset implements ISerializable, INode
     public AbstractAsset(String name)
     {
         this();
-    	this.name = name;
+        setName(name);
     }
-
+    
     protected void setId(String id)
     {
         this.id = id;
@@ -347,5 +347,29 @@ public abstract class AbstractAsset implements ISerializable, INode
 
 	}
 
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj)
+    {
+    	if (this == obj) {
+    	    return true;
+    	}
+    	
+    	if (!(obj instanceof AbstractAsset)) {
+    	    return false;
+    	}
+    	
+    	AbstractAsset other = (AbstractAsset)obj;
+    	return id.equals(other.getId());
+    }
+    
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode()
+    {
+        return id.hashCode();
+    }
 }
 

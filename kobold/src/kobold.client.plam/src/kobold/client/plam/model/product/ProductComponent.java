@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductComponent.java,v 1.7 2004/08/02 17:23:53 vanto Exp $
+ * $Id: ProductComponent.java,v 1.8 2004/08/03 22:11:46 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -51,14 +51,16 @@ public abstract class ProductComponent extends AbstractMaintainedAsset
 
 	private List prodComps = new ArrayList();
 	
-	public ProductComponent() {
-		super("unnamed");
+	public ProductComponent() 
+	{
+		super();
 	}
 
-	public ProductComponent(String name) {
+	public ProductComponent(String name) 
+	{
 		super(name);
 	}
-	
+
 	public void addProductComponent(ProductComponent comp)
 	{
 		prodComps.add(comp);

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Variant.java,v 1.18 2004/08/02 17:23:54 vanto Exp $
+ * $Id: Variant.java,v 1.19 2004/08/03 22:11:46 vanto Exp $
  *
  */
 
@@ -60,19 +60,22 @@ public class Variant extends AbstractAsset
 	
 	private static final String GXL_TYPE = "http://kobold.berlios.de/types#variant";;
 	
-	/**
-	 * Basic constructor.
-	 * @param productName
-	 */
-	public Variant (String productName) {
-		super(productName);
+	public Variant()
+	{
+	    super();
 	}
 	
+	public Variant(String name)
+	{
+	    super(name);
+	}
+
 	/**
 	 * DOM constructor.
 	 * @param productName
 	 */
 	public Variant(Element element) {
+	    super();
 	    deserialize(element);
 	}
 	

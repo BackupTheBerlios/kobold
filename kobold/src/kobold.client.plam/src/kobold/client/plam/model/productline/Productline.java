@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.18 2004/08/03 11:41:23 vanto Exp $
+ * $Id: Productline.java,v 1.19 2004/08/03 22:11:46 vanto Exp $
  *
  */
 package kobold.client.plam.model.productline;
@@ -55,21 +55,17 @@ public class Productline extends AbstractRootAsset
 	private List products = new ArrayList();
 	private List coreAssets = new ArrayList();
 	
-	//the repository-path
-//	private String repositoryPath;
-
     public Productline() 
 	{
 	    super();
 	}
 
-	public Productline(String name) 
+    public Productline(String name) 
 	{
 	    super(name);
 	}
 
-	
-	public Productline(Element element) {
+    public Productline(Element element) {
 		super();
 		deserialize(element);
 	}
@@ -256,21 +252,6 @@ public class Productline extends AbstractRootAsset
 		return AbstractAsset.PRODUCT_LINE;
 	}
 	
-//	/**
-//	 * @return Returns the repositoryPath.
-//	 */
-//	public String getRepositoryPath() {
-//		return repositoryPath;
-//	}
-//	/**
-//	 * @param repositoryPath The repositoryPath to set.
-//	 */
-//	public void setRepositoryPath(String repositoryPath) {
-//		this.repositoryPath = repositoryPath;
-//		firePropertyChange(AbstractAsset.ID_DATA, null, repositoryPath);
-//	}
-
-
 	/* (non-Javadoc)
 	 * @see kobold.common.model.AbstractAsset#getGXLAttributes()
 	 */

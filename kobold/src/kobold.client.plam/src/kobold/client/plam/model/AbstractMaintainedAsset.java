@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractMaintainedAsset.java,v 1.6 2004/08/03 18:41:33 garbeam Exp $
+ * $Id: AbstractMaintainedAsset.java,v 1.7 2004/08/03 22:11:46 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -47,14 +47,11 @@ public abstract class AbstractMaintainedAsset extends AbstractAsset
         super();
     }
     
-	/**
-     * @param name
-     */
-    public AbstractMaintainedAsset(String name)
+    public AbstractMaintainedAsset(String name) 
     {
         super(name);
     }
-    
+
     /**
 	 * @see kobold.client.plam.model.IMaintainerContainer#addMaintainer(kobold.common.data.User)
 	 */

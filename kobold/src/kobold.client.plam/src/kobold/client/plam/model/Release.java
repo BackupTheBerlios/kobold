@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Release.java,v 1.4 2004/07/26 16:27:52 martinplies Exp $
+ * $Id: Release.java,v 1.5 2004/08/03 22:11:46 vanto Exp $
  *
  */
 
@@ -47,20 +47,23 @@ public class Release extends AbstractAsset{
     private List revisions = new ArrayList();
     private boolean released = false;
 
-	/**
-	 * Basic constructor.
-	 * @param versionName
-	 */
-	public Release (String releaseName) {
-	    super(releaseName);
-	}
+    public Release()
+    {
+        super();
+    }
 	
-	/**
+    public Release(String name)
+    {
+        super(name);
+    }
+
+    /**
 	 * DOM constructor.
 	 * @param productName
 	 */
 	public Release (Element element) {
-		deserialize(element);
+		super();
+	    deserialize(element);
 	}
 	
 	/**

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.26 2004/08/03 19:39:20 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.27 2004/08/03 22:11:46 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -37,10 +37,12 @@ import java.util.List;
 import java.util.Set;
 
 import kobold.client.plam.KoboldProject;
+import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
+import kobold.common.data.User;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -136,13 +138,15 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 			this.input.removeResourceChangeListener(this);
 		}
 
-		this.input = (IWorkspace) newInput;
+		if (newInput instanceof IWorkspace) {
+		    this.input = (IWorkspace)newInput;
 
-		if (this.input != null) {
-			this.input.addResourceChangeListener(this, 
-					IResourceChangeEvent.POST_CHANGE);
+		    if (this.input != null) {
+		        this.input.addResourceChangeListener(this, 
+		            IResourceChangeEvent.POST_CHANGE);
+		    }
 		}
-
+        
 		this.viewer = (TreeViewer) viewer;
     }
 
@@ -200,12 +204,15 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
     /**
      * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
      */
-    public Object getParent(Object element) {
-    /*
-     * if (element instanceof TreeObject) {
-		  return ((TreeObject)element).getParent();
-		  }
-	*/	  
+    public Object getParent(Object element) 
+    {
+        if (element instanceof AbstractAsset) {
+            return ((AbstractAsset)element).getParent();
+        } else if (element instanceof User) {
+            return null; //fix
+        } else if (element instanceof TreeContainer) {
+            return ((TreeContainer)element).productline;
+        }
         return null;
     }
 
@@ -234,6 +241,10 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	    TreeContainer(String id, Productline pl) {
 	        this.productline = pl;
 	        this.id = id;
+	    }
+	    
+	    public Productline getPL() {
+	        return productline;
 	    }
 	    
 	    public String getName()
