@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: VCMWrapperProvider.java,v 1.1 2004/03/30 23:40:07 garbeam Exp $
+ * $Id: WrapperProvider.java,v 1.1 2004/04/01 00:12:08 garbeam Exp $
  */
 
 package kobold.client.controller.vcm;
@@ -30,20 +30,20 @@ import java.lang.String;
 import org.eclipse.team.core.RepositoryProvider;
 
 /**
- * VCMWrapperProvider.
+ * WrapperProvider.
  *
- * Base class of the Kobold VCM wrapper to provide an Eclipse Team
+ * Base class of the Kobold  wrapper to provide an Eclipse Team
  * plugin for repository access.
  *
  * @author garbeam
  */
-public class VCMWrapperProvider extends RepositoryProvider {
+public class WrapperProvider extends RepositoryProvider {
 
 
     /**
      * Default constructor.
      */
-    public VCMWrapperProvider() {
+    public WrapperProvider() {
         super();
     }
 

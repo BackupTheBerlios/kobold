@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMWrapperInterface.java,v 1.4 2004/03/31 00:05:31 vanto Exp $
+ * $Id: WrapperInterface.java,v 1.1 2004/04/01 00:12:08 garbeam Exp $
  *
  */
 package kobold.client.controller.vcm;
@@ -29,25 +29,25 @@ package kobold.client.controller.vcm;
 import java.util.List;
 
 import kobold.util.data.UserContext;
-import kobold.util.exception.VCMIOException;
-import kobold.util.exception.VCMNotPermitException;
-import kobold.util.exception.VCMScriptInvocationException;
+import kobold.util.exception.IOException;
+import kobold.util.exception.NotPermitException;
+import kobold.util.exception.ScriptInvocationException;
 import kobold.util.io.FileDescriptor;
 import kobold.util.io.RepositoryDescriptor;
 import kobold.util.io.ScriptDescriptor;
 
 /**
- * VCMWrapperInterface.
+ * WrapperInterface.
  *
- * Default interface for all VCM actions which are invoked by Kobold
- * or which are delegated by {@link kobold.client.controller.WrappedVCMProvider}.
+ * Default interface for all  actions which are invoked by Kobold
+ * or which are delegated by {@link kobold.client.controller.WrappedProvider}.
  *
  * @author garbeam
  */
-public interface VCMWrapperInterface {
+public interface WrapperInterface {
 
 
-    //// Standard VCM actions ////
+    //// Standard  actions ////
 
     /**
      * Assigns Eclipse to import all data of the given working copy
@@ -59,14 +59,14 @@ public interface VCMWrapperInterface {
      * @param repository the repository to use.
      * @param script the script descriptor for special script
      *        invocation.
-     * @throws {@link kobold.exception.VCMNotPermitException} if
+     * @throws {@link kobold.util.exception.VCMNotPermitException} if
      *        the import is not permitted by the given user context.
-     * @throws {@link kobold.exception.VCMIoException} if an IO
+     * @throws {@link kobold.util.exception.VCMIOException} if an IO
      *        error occured while trying to import the data.
-     * @throws {@link kobold.exception.VCMScriptInvocationException} if
+     * @throws {@link kobold.util.exception.VCMScriptInvocationException} if
      *        a script could not be invoced.
      */
-    public void VCMImport(UserContext userContext,
+    public void imports(UserContext userContext,
                           FileDescriptor directory,
                           RepositoryDescriptor repository,
                           ScriptDescriptor script)
@@ -85,14 +85,14 @@ public interface VCMWrapperInterface {
      * @param repository the repository to use.
      * @param script the script descriptor for special script
      *        invocation.
-     * @throws {@link kobold.exception.VCMNotPermitException} if
+     * @throws {@link kobold.util.exception.VCMNotPermitException} if
      *        the commit is not permitted by the given user context.
-     * @throws {@link kobold.exception.VCMIoException} if an IO
+     * @throws {@link kobold.util.exception.VCMIOException} if an IO
      *        error occured while trying to commit the data.
-     * @throws {@link kobold.exception.VCMScriptInvocationException} if
+     * @throws {@link kobold.util.exception.VCMScriptInvocationException} if
      *        a script could not be invoced.
      */
-    public void VCMCommit(UserContext userContext,
+    public void commit(UserContext userContext,
                           FileDescriptor directory,
                           RepositoryDescriptor repository,
                           ScriptDescriptor script)
@@ -111,12 +111,12 @@ public interface VCMWrapperInterface {
      *        checkout from.
      * @param script the script descriptor for special script
      *        invocation.
-     * @throws {@link kobold.exception.VCMIoException} if an IO
+     * @throws {@link kobold.util.exception.VCMIOException} if an IO
      *        error occured while trying to checkout the data.
-     * @throws {@link kobold.exception.VCMScriptInvocationException} if
+     * @throws {@link kobold.util.exception.VCMScriptInvocationException} if
      *        a script could not be invoced.
      */
-    public void VCMCheckout(FileDescriptor directory,
+    public void checkout(FileDescriptor directory,
                             RepositoryDescriptor repository,
                             ScriptDescriptor script)
         throws VCMIOException,
@@ -133,19 +133,19 @@ public interface VCMWrapperInterface {
      *        updated from.
      * @param script the script descriptor for special script
      *        invocation.
-     * @throws {@link kobold.exception.VCMIoException} if an IO
+     * @throws {@link kobold.util.exception.VCMIOException} if an IO
      *        error occured while trying to update the data.
-     * @throws {@link kobold.exception.VCMScriptInvocationException} if
+     * @throws {@link kobold.util.exception.VCMScriptInvocationException} if
      *        a script could not be invoced.
      */
-    public void VCMUpdate(FileDescriptor directory,
+    public void update(FileDescriptor directory,
                             RepositoryDescriptor repository,
                             ScriptDescriptor script)
         throws VCMIOException,
                VCMScriptInvocationException;
 
 
-    //// Special Kobold VCM actions. ////
+    //// Special Kobold  actions. ////
 
 
     /**
@@ -158,7 +158,7 @@ public interface VCMWrapperInterface {
      *
      * @param repository the repository with module information to
      *        get meta info from from.
-     * @throws {@link kobold.exception.VCMIoException} if an IO
+     * @throws {@link kobold.util.exception.VCMIOException} if an IO
      *        error occured while trying to get meta information.
      */
     public List getMetaInfo(RepositoryDescriptor repository)
@@ -178,7 +178,7 @@ public interface VCMWrapperInterface {
      *        information about the repository.
      * @param repository the repository with module information to
      *        get delta meta info from from.
-     * @throws {@link kobold.exception.VCMIoException} if an IO
+     * @throws {@link kobold.util.exception.VCMIOException} if an IO
      *        error occured while trying to get meta information.
      */
     public List getDeltaMetaInfo(List knownMetaInfo,
