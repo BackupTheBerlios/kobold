@@ -18,6 +18,7 @@ public class WorkflowMessage extends KoboldMessage {
 	private List history;
 	private WorkflowItemGroup itemGroup;
 	private int step;
+	private HashMap answer; 
 
 	public void addHistoryObject(WorkflowMessage newWflowMessage){
 			history.add(newWflowMessage);
@@ -113,6 +114,20 @@ public class WorkflowMessage extends KoboldMessage {
 	 */
 	public void setWorkflowItemGroup(WorkflowItemGroup itemGroup) {
 		this.itemGroup = itemGroup;
+	}
+
+	/**
+	 * @return
+	 */
+	public HashMap getAnswer() {
+		return answer;
+	}
+
+	/**
+	 * @param map
+	 */
+	public void setAnswer(HashMap map) {
+		answer = map;
 	}
 
 }   
