@@ -21,12 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GXLExportAction.java,v 1.6 2004/07/28 15:10:59 martinplies Exp $
+ * $Id: GXLExportAction.java,v 1.7 2004/08/23 00:59:48 martinplies Exp $
  *
  */
 package kobold.client.plam.editor.action;
 
 import kobold.client.plam.editor.editpart.AbstractAssetEditPart;
+import kobold.client.plam.editor.editpart.ProductEditPart;
+import kobold.client.plam.editor.editpart.ProductlineEditPart;
 import kobold.client.plam.editor.editpart.ReleaseEditPart;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.wizard.GXLExportDialog;
@@ -69,8 +71,11 @@ public class GXLExportAction extends SelectionAction {
         }
         
         Object selection = getSelectedObjects().get(0);
-        if ((selection instanceof AbstractAssetEditPart) 
-            && !(selection instanceof ReleaseEditPart)) {
+        if (((selection instanceof AbstractAssetEditPart) 
+            && !(selection instanceof ReleaseEditPart))
+           || (selection instanceof ProductlineEditPart)
+           || (selection instanceof ProductEditPart))
+          {
             
             return true;
         }
