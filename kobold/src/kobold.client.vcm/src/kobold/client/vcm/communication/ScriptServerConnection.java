@@ -112,8 +112,8 @@ public class ScriptServerConnection implements IServerConnection
 		if (repositoryPath != "noUser")
 		{
 			this.repositoryPath = repositoryPath;
-			this.password = getUserPassword();
 			this.user = getUserName();
+			this.password = getUserPassword();
 		}
 
 	

@@ -4,6 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
+/*
 package kobold.client.vcm.communication;
 
 import java.io.IOException;
@@ -51,4 +52,4 @@ public class InputThreadToString extends Thread {
 		return buffer;
 	}
 }
-
+*/
