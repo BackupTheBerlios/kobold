@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.22 2004/11/09 12:08:44 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.23 2004/11/09 14:57:59 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -312,7 +312,6 @@ public class VCMActionListener implements IVCMActionListener
     /**
      * @see kobold.client.plam.listeners.IVCMActionListener#updateProduct(kobold.common.data.Product, org.eclipse.core.resources.IProject)
      */
-    // TODO: hook handling? hmmm...
     public void updateAsset(Asset asset, IProject p) {
         IProgressMonitor progress = KoboldPolicy.monitorFor(null);
 		String userName = KoboldRepositoryHelper.getUserName();

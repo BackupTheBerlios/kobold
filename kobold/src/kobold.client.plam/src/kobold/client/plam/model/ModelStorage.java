@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.50 2004/11/08 15:55:13 memyselfandi Exp $
+ * $Id: ModelStorage.java,v 1.51 2004/11/09 14:57:58 garbeam Exp $
  *
  */
 package kobold.client.plam.model;
@@ -284,38 +284,15 @@ public class ModelStorage
      * @param asset theAsset an abstract asset
      */
     public static IPath getPathForAsset(AbstractAsset asset) {
-        
-
         AbstractRootAsset root = asset.getRoot();        
         return new Path(root.getKoboldProject().getProject().getLocation()
                 + "" + IPath.SEPARATOR + getLocalPathForAsset(asset));
     }
     
-    public static IPath getLocalPathForAsset (AbstractAsset asset)
-    {
-
+    public static IPath getLocalPathForAsset (AbstractAsset asset) {
         String thePath = "";
-        while (asset != null) {
-            
-            /*
-            if (asset.getType() == AbstractAsset.COMPONENT) {
-                if (asset.getParent().getType() != AbstractAsset.VARIANT) {
-                    thePath = COREASSETS_FOLDER_NAME + IPath.SEPARATOR +
-                    asset.getResource() + IPath.SEPARATOR + thePath;
-                }
-                else {
-                    thePath = asset.getResource() + IPath.SEPARATOR + thePath;
-                }
-            }
-            else if (asset.getType() == AbstractAsset.PRODUCT) {
-                thePath = PRODUCTS_FOLDER_NAME + IPath.SEPARATOR + asset.getResource()
-                		  + IPath.SEPARATOR + thePath;
-            }
-            else {
-            */
-                thePath = asset.getResource() + IPath.SEPARATOR + thePath;
-            //}
-            
+        while (asset != null || !(asset instanceof Product)) {
+            thePath = asset.getResource() + IPath.SEPARATOR + thePath;
             asset = asset.getParent();
         }
         return new Path(thePath);
