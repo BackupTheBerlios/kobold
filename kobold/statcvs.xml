@@ -39,14 +39,17 @@
       <setting key="Site">xdocs/**/*</setting>
     </modules> -->
 
-    <include>src/**/*.java;src/**/*.properties;src/**/*.xml</include>
+    <include>src/**/*.java;src/**/*.properties;src/**/*.xml;docs/**/*.tex</include>
     <exclude>src/kobold/**</exclude>
     <modules type="map">
       <setting key="PLAM">src/kobold.client.plam/src/**</setting>
       <setting key="VCM">src/kobold.client.vcm/src/**</setting>
       <setting key="Common">src/kobold.common/src/**</setting>
       <setting key="Server">src/kobold.server/src/**</setting>
+      <setting key="SAT">src/kobold.client.serveradmin/src/**</setting>
       <setting key="Unit-Tests">src/**/tests-src/**</setting>
-    </modules> 
+      <setting key="Docs">docs/**/*.tex</setting>
+    </modules>
+    <setting key="commitlog.MostCommonCommentsTable.limit">9999999</setting>
   </settings>
 </statcvs>
