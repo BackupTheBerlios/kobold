@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.9 2004/08/03 22:11:46 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.10 2004/08/03 22:54:09 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -79,10 +79,10 @@ public abstract class AbstractAsset implements ISerializable, INode
 		ID_COMPOSE = "compose", //$NON-NLS-1$
 		ID_STATUS = "status"; //$NON-NLS-1$
 
-    private String name;
+    private String name = "";
     private String id;
     private AbstractAsset parent;
-    private String description;
+    private String description = "";
     private Set statusSet = new HashSet();
 
     public AbstractAsset()

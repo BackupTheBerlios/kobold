@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RoleTreeContentProvider.java,v 1.27 2004/08/03 22:11:46 vanto Exp $
+ * $Id: RoleTreeContentProvider.java,v 1.28 2004/08/03 22:54:09 vanto Exp $
  *
  */
 package kobold.client.plam.controller.roletree;
@@ -36,6 +36,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.KoboldProject;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
@@ -50,6 +51,7 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -277,12 +279,14 @@ public class RoleTreeContentProvider implements IStructuredContentProvider,
 	/**
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	public void propertyChange(PropertyChangeEvent event) {
+	public void propertyChange(final PropertyChangeEvent event) {
 	    viewer.getControl().getDisplay().syncExec(new Runnable() {		
 			public void run() {		
 			    viewer.refresh();
 				// FIXME: restore expanded nodes.
-				//viewer.expandAll();
+				if (KoboldPLAMPlugin.getCurrentProject() != null) {
+				    viewer.expandToLevel(KoboldPLAMPlugin.getCurrentProject(),AbstractTreeViewer.ALL_LEVELS);
+				}
 			}
 		});
 	}
