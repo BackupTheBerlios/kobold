@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  * 
- * $Id: ModelStorage.java,v 1.30 2004/08/27 16:55:39 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.31 2004/08/27 17:08:38 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -44,6 +44,10 @@ import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
+
+//import kobold.client.vcm.communication.ScriptServerConnection;
+//import kobold.client.vcm.controller.StatusUpdater;
+
 import kobold.common.io.RepositoryDescriptor;
 
 import org.apache.log4j.Logger;
@@ -166,7 +170,8 @@ public class ModelStorage
      */
     public static void deleteVariantDirectory (Variant variant)
     {
-    	/** !ScriptServerConnection sc = new ScriptServerConnection("noUser");
+    	/**
+    	ScriptServerConnection sc = new ScriptServerConnection("noUser");
     	
     	StatusUpdater su = new StatusUpdater();
 		//command line command with the stats script to the changed part of the meta-data containing FD(s)
@@ -182,9 +187,9 @@ public class ModelStorage
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	**/
+    	
     	System.out.println ("deleted variant "+variant.getName()+" directory!");
-    }
+    **/}
     
     
     /**
