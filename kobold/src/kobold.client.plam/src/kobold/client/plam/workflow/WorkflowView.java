@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowView.java,v 1.23 2004/08/24 18:46:24 garbeam Exp $
+ * $Id: WorkflowView.java,v 1.24 2004/09/18 11:40:08 bettina Exp $
  *
  */
 package kobold.client.plam.workflow;
@@ -254,7 +254,7 @@ public class WorkflowView extends ViewPart implements IProjectChangeListener {
 					wfDialog.open();	
 				} catch (Exception e) {
 					// FIXME: Diesen Bullshit mal richtig behandeln!!!!!!
-				    showMessage("A project must be selected!");
+				    showMessage("You must be properly logged in!");
 				}
 			}
 		};
