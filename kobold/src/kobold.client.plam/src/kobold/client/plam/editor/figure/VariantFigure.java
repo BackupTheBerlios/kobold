@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantFigure.java,v 1.4 2004/07/07 01:50:36 vanto Exp $
+ * $Id: VariantFigure.java,v 1.5 2004/07/23 22:27:11 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
 
+import kobold.client.plam.editor.KoboldColors;
+
 import org.eclipse.draw2d.BorderLayout;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.Graphics;
@@ -42,7 +43,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * VariantFigure
  * 
  * @author Tammo van Lessen
- * @version $Id: VariantFigure.java,v 1.4 2004/07/07 01:50:36 vanto Exp $
+ * @version $Id: VariantFigure.java,v 1.5 2004/07/23 22:27:11 vanto Exp $
  */
 public class VariantFigure extends AbstractNodeFigure {
     
@@ -53,7 +54,7 @@ public class VariantFigure extends AbstractNodeFigure {
     public VariantFigure() 
     {
         super();
-        setBackgroundColor(ColorConstants.orange);
+        setBackgroundColor(KoboldColors.variant);
         
         releasePane = new Figure();
        

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractAsset.java,v 1.4 2004/07/23 20:31:54 vanto Exp $
+ * $Id: AbstractAsset.java,v 1.5 2004/07/23 22:27:11 vanto Exp $
  *
  */
 package kobold.client.plam.model;
@@ -66,6 +66,7 @@ public abstract class AbstractAsset implements ISerializable, INode
     public static final String RELEASE = "release";
     public static final String PRODUCT_RELEASE = "product-release";
     public static final String FILE_DESCRIPTOR = "filedesc";
+    public static final String META_NODE = "meta-node";
     
     protected static final Log logger = LogFactory.getLog(AbstractAsset.class);
 

@@ -21,49 +21,34 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentFigure.java,v 1.7 2004/07/23 22:27:11 vanto Exp $
+ * $Id: AbstractComposableEditPart.java,v 1.1 2004/07/23 22:27:11 vanto Exp $
  *
  */
-package kobold.client.plam.editor.figure;
+package kobold.client.plam.editor.editpart;
 
-import kobold.client.plam.editor.KoboldColors;
+import kobold.client.plam.editor.figure.ComposableFigure;
 
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Rectangle;
 
 
 /**
- * ComponentFigure
- * 
- * @author Tammo van Lessen
- * @version $Id: ComponentFigure.java,v 1.7 2004/07/23 22:27:11 vanto Exp $
+ * @author Tammo
  */
-public class ComponentFigure extends AbstractNodeFigure {
-    
-    public ComponentFigure() 
-    {
-		super();
-		setBackgroundColor(KoboldColors.component);
-		//((ToolbarLayout)getContentPane().getLayoutManager()).setVertical(false);
-    }
-
+public abstract class AbstractComposableEditPart extends AbstractAssetEditPart
+{
 	/**
-	 * @see org.eclipse.draw2d.Shape#fillShape(org.eclipse.draw2d.Graphics)
+	 * Toggles the composing mode on refresh. 
 	 */
-	protected void fillShape(Graphics graphics) {
-		graphics.fillRectangle(getBounds());
-		
+	protected void refreshVisuals() 
+	{
+	    super.refreshVisuals();
+	    
+		String comp = (String)getViewer().getProperty("composing");
+		if (comp != null && comp.equals("true")) {
+		    ((ComposableFigure)getFigure()).startComposing();
+		} else {
+		    ((ComposableFigure)getFigure()).stopComposing();
+		}
 	}
+  
 
-	/**
-	 * @see org.eclipse.draw2d.Shape#outlineShape(org.eclipse.draw2d.Graphics)
-	 */
-	protected void outlineShape(Graphics graphics) {
-		Rectangle r = getBounds();
-		int x = r.x + lineWidth / 2;
-		int y = r.y + lineWidth / 2;
-		int w = r.width - lineWidth;
-		int h = r.height - lineWidth;
-		graphics.drawRectangle(x, y, w, h);
-	}
 }

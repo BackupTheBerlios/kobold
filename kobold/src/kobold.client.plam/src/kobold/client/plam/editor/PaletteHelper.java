@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PaletteHelper.java,v 1.5 2004/07/23 20:31:54 vanto Exp $
+ * $Id: PaletteHelper.java,v 1.6 2004/07/23 22:27:11 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -33,6 +33,7 @@ import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.editor.model.KoboldAssetFactory;
 import kobold.client.plam.editor.tool.ProductComposerToolEntry;
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.MetaNode;
 
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
@@ -122,6 +123,26 @@ public class PaletteHelper
     		"Release",
     		"Insert a new Release.",
     		new KoboldAssetFactory(AbstractAsset.RELEASE),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
+    	);
+    	entries.add(combined);
+    	
+    	entries.add(new PaletteSeparator());
+
+    	combined = new CreationToolEntry(
+    	    "AND Node",
+    		"Insert a new Release.",
+    		new KoboldAssetFactory(MetaNode.AND),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
+    		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
+    	);
+    	entries.add(combined);
+
+    	combined = new CreationToolEntry(
+    	    "OR Node",
+    		"Insert a new Release.",
+    		new KoboldAssetFactory(MetaNode.OR),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif"),
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
     	);

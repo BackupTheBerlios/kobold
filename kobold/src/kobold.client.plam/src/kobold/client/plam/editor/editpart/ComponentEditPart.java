@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentEditPart.java,v 1.9 2004/07/23 20:31:54 vanto Exp $
+ * $Id: ComponentEditPart.java,v 1.10 2004/07/23 22:27:11 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -39,9 +39,10 @@ import org.eclipse.gef.EditPolicy;
  * ComponentEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ComponentEditPart.java,v 1.9 2004/07/23 20:31:54 vanto Exp $
+ * @version $Id: ComponentEditPart.java,v 1.10 2004/07/23 22:27:11 vanto Exp $
  */
-public class ComponentEditPart extends AbstractNodeEditPart {
+public class ComponentEditPart extends AbstractComposableEditPart 
+{
 
     private ComponentFigure figure;
     

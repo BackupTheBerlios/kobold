@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantEditPart.java,v 1.10 2004/07/23 20:31:54 vanto Exp $
+ * $Id: VariantEditPart.java,v 1.11 2004/07/23 22:27:11 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -31,7 +31,8 @@ import java.util.List;
 
 import kobold.client.plam.editor.figure.VariantFigure;
 import kobold.client.plam.editor.policy.VariantContainerEditPolicy;
-import kobold.client.plam.model.productline.Variant;
+import kobold.client.plam.model.IComponentContainer;
+import kobold.client.plam.model.IReleaseContainer;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;
@@ -43,10 +44,10 @@ import org.eclipse.gef.GraphicalEditPart;
  * VariantEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: VariantEditPart.java,v 1.10 2004/07/23 20:31:54 vanto Exp $
+ * @version $Id: VariantEditPart.java,v 1.11 2004/07/23 22:27:11 vanto Exp $
  */
-public class VariantEditPart extends AbstractNodeEditPart {
-
+public class VariantEditPart extends AbstractComposableEditPart 
+{
     private VariantFigure figure;
 
     /**
@@ -74,8 +75,8 @@ public class VariantEditPart extends AbstractNodeEditPart {
     protected List getModelChildren()
     {
         List children = new ArrayList(); 
-        children.addAll(((Variant)getModel()).getComponents());
-        children.addAll(((Variant)getModel()).getReleases());
+        children.addAll(((IComponentContainer)getModel()).getComponents());
+        children.addAll(((IReleaseContainer)getModel()).getReleases());
         return children;
     }
     

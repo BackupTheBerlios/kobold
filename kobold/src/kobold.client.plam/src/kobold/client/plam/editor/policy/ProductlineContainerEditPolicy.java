@@ -21,16 +21,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineContainerEditPolicy.java,v 1.3 2004/07/01 11:27:25 vanto Exp $
+ * $Id: ProductlineContainerEditPolicy.java,v 1.4 2004/07/23 22:27:11 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
 
 import kobold.client.plam.editor.command.CreateComponentCommand;
+import kobold.client.plam.editor.command.CreateMetaNodeCommand;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModelContainer;
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IComponentContainer;
+import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.productline.Component;
 
 import org.eclipse.gef.DefaultEditDomain;
@@ -60,11 +63,19 @@ public class ProductlineContainerEditPolicy extends ContainerEditPolicy
         ViewModelContainer vmc = vmp.getViewModelContainer(); 
         
         if (request.getNewObjectType().equals(AbstractAsset.COMPONENT)
-             && parent instanceof IComponentContainer) {
+                && parent instanceof IComponentContainer) {
             
             CreateComponentCommand cmd = new CreateComponentCommand();
             cmd.setParent((IComponentContainer) parent);
             cmd.setChild((Component) request.getNewObject());
+            
+            resultCmd = cmd;
+        } else if ((request.getNewObjectType().equals(MetaNode.OR) || request.getNewObjectType().equals(MetaNode.AND))
+                && parent instanceof AbstractRootAsset) {
+            
+            CreateMetaNodeCommand cmd = new CreateMetaNodeCommand();
+            cmd.setParent((AbstractRootAsset) parent);
+            cmd.setChild((MetaNode) request.getNewObject());
             
             resultCmd = cmd;
         }

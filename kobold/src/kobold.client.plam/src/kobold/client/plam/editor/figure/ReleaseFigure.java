@@ -21,10 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ReleaseFigure.java,v 1.2 2004/07/23 20:31:54 vanto Exp $
+ * $Id: ReleaseFigure.java,v 1.3 2004/07/23 22:27:11 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
+
+import kobold.client.plam.editor.KoboldColors;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
@@ -47,7 +49,7 @@ public class ReleaseFigure extends ComposableFigure
     public ReleaseFigure()
     {
 		 super();
-		 setBackgroundColor(ColorConstants.lightGray);
+		 setBackgroundColor(KoboldColors.release);
 		 setForegroundColor(ColorConstants.lightBlue);
 		 titleLabel = new Label();
 		 ToolbarLayout tbl = new ToolbarLayout();

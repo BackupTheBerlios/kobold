@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantContainerEditPolicy.java,v 1.2 2004/07/01 11:27:25 vanto Exp $
+ * $Id: VariantContainerEditPolicy.java,v 1.3 2004/07/23 22:27:11 vanto Exp $
  *
  */
 package kobold.client.plam.editor.policy;
@@ -63,7 +63,7 @@ public class VariantContainerEditPolicy extends ContainerEditPolicy
         ViewModelContainer vmc = vmp.getViewModelContainer(); 
         
         if (request.getNewObjectType().equals(AbstractAsset.COMPONENT)
-             && parent instanceof IComponentContainer) {
+                && parent instanceof IComponentContainer) {
             
             CreateComponentCommand cmd = new CreateComponentCommand();
             cmd.setParent((IComponentContainer) parent);
@@ -72,14 +72,14 @@ public class VariantContainerEditPolicy extends ContainerEditPolicy
             resultCmd = cmd;
         } else if (request.getNewObjectType().equals(AbstractAsset.RELEASE)
                 && parent instanceof IReleaseContainer) {
-               
-               CreateReleaseCommand cmd = new CreateReleaseCommand();
-               cmd.setParent((IReleaseContainer) parent);
-               cmd.setChild((Release) request.getNewObject());
-               
-               resultCmd = cmd;
-           }
-       
+            
+            CreateReleaseCommand cmd = new CreateReleaseCommand();
+            cmd.setParent((IReleaseContainer) parent);
+            cmd.setChild((Release) request.getNewObject());
+            
+            resultCmd = cmd;
+        }
+        
         return resultCmd;
     }
     

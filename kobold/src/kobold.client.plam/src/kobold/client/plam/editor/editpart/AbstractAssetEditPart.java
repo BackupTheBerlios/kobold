@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeEditPart.java,v 1.11 2004/07/23 20:31:54 vanto Exp $
+ * $Id: AbstractAssetEditPart.java,v 1.1 2004/07/23 22:27:11 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -31,7 +31,6 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
-import kobold.client.plam.editor.figure.ComposableFigure;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.editor.policy.ComponentEditPolicyImpl;
@@ -62,10 +61,10 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * @author Tammo
  */
-public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
+public abstract class AbstractAssetEditPart extends AbstractGraphicalEditPart
 	implements PropertyChangeListener, NodeEditPart {
 
-    private static final Log logger = LogFactory.getLog(AbstractNodeEditPart.class);
+    private static final Log logger = LogFactory.getLog(AbstractAssetEditPart.class);
     private ChopboxAnchor anchor;
     
 	/**
@@ -74,7 +73,7 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
 			new GraphicalNodeEditPolicyImpl());
-		//installEditPolicy(EditPolicy.CONTAINER_ROLE, new ContainerEditPolicy());
+
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicyImpl());
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicyImpl());
 		installEditPolicy("composer", new ComposeEditPolicy());
@@ -149,13 +148,6 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 
 		((GraphicalEditPart) getParent()).setLayoutConstraint(
 			this, getFigure(), r);
-		
-		String comp = (String)getViewer().getProperty("composing");
-		if (comp != null && comp.equals("true")) {
-		    ((ComposableFigure)getFigure()).startComposing();
-		} else {
-		    ((ComposableFigure)getFigure()).stopComposing();
-		}
 	}
 
 	/**
@@ -218,6 +210,7 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
         AbstractAsset asset = getAsset();
         return asset.getRoot().getEdgeConatainer().getEdgesFrom(asset);
     }
+    
     /**
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
      */

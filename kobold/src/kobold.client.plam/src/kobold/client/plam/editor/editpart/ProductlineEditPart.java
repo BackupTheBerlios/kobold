@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineEditPart.java,v 1.8 2004/07/23 20:31:54 vanto Exp $
+ * $Id: ProductlineEditPart.java,v 1.9 2004/07/23 22:27:11 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import kobold.client.plam.editor.model.IViewModelProvider;
@@ -66,7 +67,7 @@ import org.eclipse.swt.graphics.Font;
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductlineEditPart.java,v 1.8 2004/07/23 20:31:54 vanto Exp $
+ * @version $Id: ProductlineEditPart.java,v 1.9 2004/07/23 22:27:11 vanto Exp $
  */
 public class ProductlineEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
@@ -118,8 +119,8 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
      */
     public void propertyChange(PropertyChangeEvent evt) {
         String prop = evt.getPropertyName();
-        if (prop.equals(AbstractAsset.ID_CHILDREN)) {
-           System.out.println("refresh");
+        if (prop.equals(AbstractAsset.ID_CHILDREN) 
+            || prop.equals(AbstractAsset.ID_META)) {
            refreshChildren();
         } else {
             refreshVisuals();
@@ -153,7 +154,9 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
      */
     protected List getModelChildren()
     {
-        List children = ((IComponentContainer) getModel()).getComponents();
+        List children = new ArrayList(); 
+        children.addAll(((IComponentContainer)getModel()).getComponents());
+        children.addAll(((AbstractRootAsset)getModel()).getMetaNodes());
         return children;
     }
 

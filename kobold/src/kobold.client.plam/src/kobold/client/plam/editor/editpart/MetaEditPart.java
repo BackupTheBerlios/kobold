@@ -21,49 +21,40 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentFigure.java,v 1.7 2004/07/23 22:27:11 vanto Exp $
+ * $Id: MetaEditPart.java,v 1.1 2004/07/23 22:27:11 vanto Exp $
  *
  */
-package kobold.client.plam.editor.figure;
+package kobold.client.plam.editor.editpart;
 
 import kobold.client.plam.editor.KoboldColors;
+import kobold.client.plam.model.MetaNode;
 
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.RoundedRectangle;
 
 
 /**
- * ComponentFigure
- * 
- * @author Tammo van Lessen
- * @version $Id: ComponentFigure.java,v 1.7 2004/07/23 22:27:11 vanto Exp $
+ * @author Tammo
  */
-public class ComponentFigure extends AbstractNodeFigure {
+public class MetaEditPart extends AbstractAssetEditPart
+{
+    private Label label;
     
-    public ComponentFigure() 
+    /**
+     * @see kobold.client.plam.editor.editpart.AbstractAssetEditPart#createNodeFigure()
+     */
+    protected IFigure createNodeFigure()
     {
-		super();
-		setBackgroundColor(KoboldColors.component);
-		//((ToolbarLayout)getContentPane().getLayoutManager()).setVertical(false);
+        RoundedRectangle rect = new RoundedRectangle();
+        
+        String l = getAsset().getType().equals(MetaNode.AND) ? "AND" : "OR";
+        rect.setBackgroundColor(getAsset().getType().equals(MetaNode.AND)
+            	? KoboldColors.andMeta
+            	: KoboldColors.orMeta);
+        label = new Label(l);
+        rect.add(label);
+        return rect;
     }
 
-	/**
-	 * @see org.eclipse.draw2d.Shape#fillShape(org.eclipse.draw2d.Graphics)
-	 */
-	protected void fillShape(Graphics graphics) {
-		graphics.fillRectangle(getBounds());
-		
-	}
-
-	/**
-	 * @see org.eclipse.draw2d.Shape#outlineShape(org.eclipse.draw2d.Graphics)
-	 */
-	protected void outlineShape(Graphics graphics) {
-		Rectangle r = getBounds();
-		int x = r.x + lineWidth / 2;
-		int y = r.y + lineWidth / 2;
-		int w = r.width - lineWidth;
-		int h = r.height - lineWidth;
-		graphics.drawRectangle(x, y, w, h);
-	}
 }

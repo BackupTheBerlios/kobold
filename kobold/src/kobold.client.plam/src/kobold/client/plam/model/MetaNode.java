@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MetaNode.java,v 1.1 2004/07/23 20:31:54 vanto Exp $
+ * $Id: MetaNode.java,v 1.2 2004/07/23 22:27:11 vanto Exp $
  *
  */ 
 package kobold.client.plam.model;
@@ -33,13 +33,13 @@ package kobold.client.plam.model;
  * 
  */
 public class MetaNode  extends AbstractAsset {
-    public static final String OR = "OR"; // a logic xor
-    public static final String AND = "AND";
+    public static final String OR = META_NODE + ".OR"; // a logic xor
+    public static final String AND = META_NODE + ".AND";
     
     private String type;
     private String id;
     
-    public MetaNode(String type ){
+    public MetaNode(String type){
         this.type = type;
     }
     

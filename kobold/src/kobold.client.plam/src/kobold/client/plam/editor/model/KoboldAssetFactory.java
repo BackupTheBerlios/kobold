@@ -21,12 +21,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldAssetFactory.java,v 1.3 2004/07/02 12:33:58 vanto Exp $
+ * $Id: KoboldAssetFactory.java,v 1.4 2004/07/23 22:27:11 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
 
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Variant;
@@ -59,6 +60,10 @@ public class KoboldAssetFactory implements CreationFactory
             return new Variant("dummy");
         } else if (id.equals(AbstractAsset.RELEASE)) {
             return new Release("dummy");
+        } else if (id.equals(MetaNode.AND)) {
+            return new MetaNode(MetaNode.AND);
+        } else if (id.equals(MetaNode.OR)) {
+            return new MetaNode(MetaNode.OR);
         } else {
             return null;
         }

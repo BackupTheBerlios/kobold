@@ -21,49 +21,45 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentFigure.java,v 1.7 2004/07/23 22:27:11 vanto Exp $
+ * $Id: CreateMetaNodeCommand.java,v 1.1 2004/07/23 22:27:11 vanto Exp $
  *
  */
-package kobold.client.plam.editor.figure;
+package kobold.client.plam.editor.command;
 
-import kobold.client.plam.editor.KoboldColors;
-
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Rectangle;
+import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.MetaNode;
 
 
 /**
- * ComponentFigure
- * 
- * @author Tammo van Lessen
- * @version $Id: ComponentFigure.java,v 1.7 2004/07/23 22:27:11 vanto Exp $
+ * @author Tammo
  */
-public class ComponentFigure extends AbstractNodeFigure {
-    
-    public ComponentFigure() 
+public class CreateMetaNodeCommand extends AbstractCreateCommand
+{
+    private AbstractRootAsset parent;
+    private MetaNode child;
+
+    public void setParent(AbstractRootAsset parent)
     {
-		super();
-		setBackgroundColor(KoboldColors.component);
-		//((ToolbarLayout)getContentPane().getLayoutManager()).setVertical(false);
+        this.parent = parent;
     }
-
-	/**
-	 * @see org.eclipse.draw2d.Shape#fillShape(org.eclipse.draw2d.Graphics)
-	 */
-	protected void fillShape(Graphics graphics) {
-		graphics.fillRectangle(getBounds());
-		
-	}
-
-	/**
-	 * @see org.eclipse.draw2d.Shape#outlineShape(org.eclipse.draw2d.Graphics)
-	 */
-	protected void outlineShape(Graphics graphics) {
-		Rectangle r = getBounds();
-		int x = r.x + lineWidth / 2;
-		int y = r.y + lineWidth / 2;
-		int w = r.width - lineWidth;
-		int h = r.height - lineWidth;
-		graphics.drawRectangle(x, y, w, h);
-	}
+    
+    public void setChild(MetaNode child)
+    {
+        this.child = child;
+    }
+    
+    /**
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
+    protected void addChildToParent()
+    {
+        parent.addMetaNode(child);
+    }
+    
+    /**
+     */
+    protected void removeChildFromParent()
+    {
+        parent.removeMetaNode(child);
+    }
 }
