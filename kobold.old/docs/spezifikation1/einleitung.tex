@@ -15,12 +15,16 @@ Entwicklung und Pflege von Softwareproduktlinien und die Etablierung eines rolle
 Entwicklungsprozesses. Dieser soll eine effiziente Produktlinienentwicklung ermöglichen und wird durch 
 Kobold unterstützt.\newline
 
-Die Architektur von Kobold gliedert sich in zwei Teile: Server und Client. \par
-Der Client bietet dem Benutzer eine graphische Benutzeroberfläche, mit der er seine Produktlinien und seine 
-Produkte verwalten kann. Er kann sich damit seine Architekturen ansehen und verändern, neue Rollen verteilen, 
-Nachrichten verschicken, etc. (Näheres siehe Kapitel 2). Die Koordination einer Produktlinie verläuft dabei 
-über den Server.\par
-Der Server verwaltet die Daten der einzelnen Benutzer und steuert ihre Zugriffsrechte. Er bietet den 
-Clients außerdem einen eigenen Nachrichtendienst. Führt der Client eine Aktion durch, so untersucht der Server 
-diese auf mögliche Inkonsistenzen, die dabei auftreten können. Der Server verwaltet auch die Repositories, in 
+Kobold unterstützt drei unterschiedliche Rollen: Dem Produktlinieningenieur untersteht eine Produktlinie. 
+Er verwaltet außerdem die Rechte seiner Produktingenieure. Diese verwalten ein einzelnes Produkt einer Produktlinie. Die dritte und letzte Rolle ist der 
+Programmierer, der dem Produktingenieur untersteht und dessen Produkte implementiert.\newline
+
+Die Architektur von Kobold gliedert sich in zwei Teile: Client und Server. \newline
+Der Client bietet dem Benutzer eine graphische Benutzeroberfläche, über die er seine Produktlinien und seine 
+Produkte verwalten kann. Er kann damit seine Architekturen ansehen und verändern, neue Rollen verteilen, 
+Nachrichten verschicken, etc. (Näheres siehe Kapitel 2).\newline
+
+Der Server verwaltet die Daten der einzelnen Benutzer und deren Zugriffsrechte. Er bietet den 
+Clients außerdem einen eigenen Nachrichtendienst. Führt der Client eine bestimmte Aktion durch, meldet er diese dem Server, 
+der sie dann auf mögliche Inkonsistenzen, die dabei auftreten können, untersucht. Der Server verwaltet auch die Pfade der Repositories, in 
 denen die Daten der Produkte und Produktlinien gespeichert und versioniert werden. 
