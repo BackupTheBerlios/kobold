@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.6 2004/08/02 14:32:52 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.7 2004/08/02 15:13:22 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -29,7 +29,6 @@ package kobold.client.plam.model;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -38,17 +37,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import kobold.client.plam.model.product.Product;
-import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.common.io.RepositoryDescriptor;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
