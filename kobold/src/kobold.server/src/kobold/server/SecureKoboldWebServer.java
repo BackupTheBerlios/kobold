@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.11 2004/05/17 12:53:37 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.12 2004/05/17 22:34:39 garbeam Exp $
  *
  */
 package kobold.server;
@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Vector;
 
 import kobold.common.controller.IKoboldServer;
+import kobold.common.controller.RPCMessageTransformer;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
@@ -96,61 +97,61 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 				return login((String)arguments.elementAt(0), (String)arguments.elementAt(1));
 			}
 			else if (methodName.equals("logout")) {
-				logout((UserContext)arguments.elementAt(0));
+				logout(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))));
 			}
 			else if (methodName.equals("getRoles")) {
 				return getRoles((UserContext)arguments.elementAt(0));
 			}
 			else if (methodName.equals("addUser")) {
-				addUser((UserContext)arguments.elementAt(0),
+				addUser(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
 						  (String)arguments.elementAt(1),
 						  (String)arguments.elementAt(2),
 						  (String)arguments.elementAt(3));
 			}
 			else if (methodName.equals("getProductline")) {
-				return getProductline((UserContext)arguments.elementAt(0),
+				return getProductline(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
 											  (String)arguments.elementAt(1));
 			}
 			else if (methodName.equals("getProduct")) {
-				return getProduct((UserContext)arguments.elementAt(0),
+				return getProduct(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
 										 (String)arguments.elementAt(1));
 			}
 			else if (methodName.equals("addProduct")) {
-				addProduct((UserContext)arguments.elementAt(0),
-							  (Product)arguments.elementAt(1));
+				addProduct(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
+							  new Product(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
 			}
 			else if (methodName.equals("addRole")) {
-				addRole((UserContext)arguments.elementAt(0),
+				addRole(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
 						 (String)arguments.elementAt(1), 
-						 (Role)arguments.elementAt(2));
+						 Role.createRole(RPCMessageTransformer.decode((String)arguments.elementAt(2))));
 			}
 			else if (methodName.equals("removeRole")) {
-				removeRole((UserContext)arguments.elementAt(0),
+				removeRole(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
 							   (String)arguments.elementAt(1),
-								(Role)arguments.elementAt(2));
+								Role.createRole(RPCMessageTransformer.decode((String)arguments.elementAt(2))));
 			}
 			else if (methodName.equals("applyProductlineModifications")) {
-				applyProductlineModifications((UserContext)arguments.elementAt(0),
-														(Productline)arguments.elementAt(1));
+				applyProductlineModifications(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
+														new Productline(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
 			}
 			else if (methodName.equals("applyProductModifications")) {
-				applyProductModifications((UserContext)arguments.elementAt(0),
-													(Product)arguments.elementAt(1));
+				applyProductModifications(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
+													new Product(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
 			}
 			else if (methodName.equals("removeUser")) {
-				removeUser((UserContext)arguments.elementAt(0),
+				removeUser(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
 								(String)arguments.elementAt(1));
 			}
 			else if (methodName.equals("sendMessage")) {
-				sendMessage((UserContext)arguments.elementAt(0),
-								 (KoboldMessage)arguments.elementAt(1));
+				sendMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
+								 new KoboldMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
 			}
 			else if (methodName.equals("fetchMessage")) {
-				return fetchMessage((UserContext)arguments.elementAt(0));
+				return fetchMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))));
 			}
 			else if (methodName.equals("invalidateMessage")) {
-			invalidateMessage((UserContext)arguments.elementAt(0),
-										(KoboldMessage)arguments.elementAt(1));
+				invalidateMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
+										new KoboldMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
 			}
 		} catch (Exception e) {
 			logger.info("Exception during execute()", e);
