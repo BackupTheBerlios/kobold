@@ -33,6 +33,7 @@ package kobold.client.serveradmin.tools;
  * @author contan
  */
 public class InquisitorQuestion {
+    public static boolean secureMasking = false;
     public boolean maskAnswer;
     public String shortcut;
     public String prompt;
@@ -56,9 +57,17 @@ public class InquisitorQuestion {
         System.out.print("new " + prompt.replaceAll("\t", "") + ": ");
         
         if (maskAnswer) {
-            RandomEchoMaskingThread maskingThread = new RandomEchoMaskingThread("new " + prompt + ": ");
+            Thread t = null;
             
-            Thread t = new Thread(maskingThread);
+            if (secureMasking) {
+            	RandomEchoMaskingThread maskingThread = new RandomEchoMaskingThread("new " + prompt + ": ");
+                t = new Thread(maskingThread);
+            }
+            else {
+                MaskingThread maskingThread = new MaskingThread("new " + prompt + ": ");
+                t = new Thread(maskingThread);                
+            }
+            
             t.start();
             String oldanswer = answer;
             answer = "";
