@@ -27,7 +27,6 @@ package kobold.client.plam.editor.tool;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 
 import kobold.client.plam.model.AbstractAsset;
+import kobold.client.plam.model.FileDescriptor;
 import kobold.client.plam.model.MetaNode;
 import kobold.client.plam.model.Release;
 import kobold.client.plam.model.edges.Edge;
@@ -83,19 +83,27 @@ public class ProductComposer {
 
     public ProductComposer(Productline pl) {
         productline = pl;
-        nodes.put(pl, new NodeAttr((AbstractAsset)pl));
+        nodes.put(pl, new NodeAttr());
         container = pl.getEdgeContainer();
     }
 
+    
+    /*
+     * Create an intern  
+     */
     private NodeAttr get(INode node) {
         if (!nodes.containsKey(node)) {
-            nodes.put(node, new NodeAttr((AbstractAsset)node));
+            nodes.put(node, new NodeAttr());
         }
         return (NodeAttr) nodes.get(node);
     }
 
+    
+    /**
+     * Set <code>node</code> to Used and update graph
+     * @param node
+     */
     public void setUsed(AbstractAsset node) {
-        s=0;
         if (node instanceof MetaNode) { return; // User cannot change type of
                                                 // Metanodes
         }
@@ -105,16 +113,14 @@ public class ProductComposer {
         logger.debug(node + " has new state USED");
     }
 
-    /**
+    /*
+     * Set Use to MetaNode update dependend nodes
      * precondition: node is no MetaNode;
      * 
-     * @param node
      */
     private void use(AbstractAsset node, boolean firstAction) {
-        
-        debug(p(++s)+"use "+ ((AbstractAsset)node).getName());
         NodeAttr attr = get(node);
-        if (attr.isUsed()) {s--; return; }
+        if (attr.isUsed()) { return; }
         attr.setChanged(true);
         attr.setUserChanged(firstAction);
 
@@ -156,15 +162,7 @@ public class ProductComposer {
         // set children to USE
         setUSEtoChildren(node);
 
-        //      [ follow incomeing inclued edges to test, if
-        // the start nodes have(need) the status to work on]
-        // actualize Nodes of incoming edges
-
-        //actualizeIncomingIncludeEdges(node);
-        // Now Follow the edges.
-
         // follow Edges and test, if target nodes, need/can change.
-
         for (Iterator ite = container.getEdgesFrom(node).iterator(); ite
                 .hasNext();) {
             Edge edge = (Edge) ite.next();
@@ -198,34 +196,12 @@ public class ProductComposer {
                 updateStateMetaExclude(edge.getStartNode(), node, newSet(node));
             }
         }
-s--;
+
     }
+  
 
     /*
-     * Test if a Variant or Comonent or Release form which the edgesystem start
-     * isUsed. Returns true, if a start of the edgeSystem is used. otherwiese
-     * false; *
-     */
-    /*
-     * private boolean isStartUsed(AbstractAsset node) { if (!(node instanceof
-     * MetaNode)) { return get(node).isUsed(); } boolean startUsed = false; for
-     * (Iterator ite = container.getEdgesTo(node).iterator(); ite .hasNext();) {
-     * Edge edge = (Edge) ite.next(); AbstractAsset start = (AbstractAsset)
-     * edge.getStartNode(); if (isStartUsed(edge.getStartNode())) { startUsed =
-     * true; } } return startUsed; }
-     */
-
-    /**
-     * @param string
-     */
-    private void debug(String string) {
-        if (true){
-        System.err.println(string);
-        }
-    }
-
-    /*
-     * try to find one way that can be used
+     * Set Use to MetaNode update dependend nodes
      */
     private void useMeta(INode node, Set visited) {
         visited.add(node);
@@ -310,13 +286,12 @@ s--;
      * also used @param node
      */
     private void mustNotUseMeta(INode node, Set visited) {
-        debug(p(++s)+"mustnotUseMesta "+ ((AbstractAsset)node).getName());
         visited.add(node);
-        if (!get(node).isOpen()) {s--; return; // parents can only set status to
+        if (!get(node).isOpen()) { return; // parents can only set status to
         // open children.
         }
         if (!(node instanceof MetaNode)) {
-            mustNotUse((AbstractAsset) node, false);s--;
+            mustNotUse((AbstractAsset) node, false);
             return;
         }
         get(node).setUserChanged(true);
@@ -344,23 +319,15 @@ s--;
             get(node).setMustNotUse();
         } else {
             get(node).setOpen();
-        }s--;
+        }
     }
 
-    /*
-     * void setUserChangedToTargets(INode node){ if(! (node instanceof
-     * MetaNode)){ return; } for (Iterator ite = container.getEdgesTo(node);
-     * ite.hasNext();){ setUserChangedToTargets(((Edge)
-     * ite.next()).getTargetNode()); } }
-     */
-
-    /**
-     * @param node
-     */
+ /*
+  * set node to MustNotUse and propergate this decissoins to other nodes
+  */
     private void mustNotUse(AbstractAsset node, boolean firstAction) {        
-        debug(p(++s)+ "mustNotUse "+ ((AbstractAsset)node).getName());
         NodeAttr attr = get(node);
-        if (attr.isMustNotUse()) {s--; return; }
+        if (attr.isMustNotUse()) { return; }
 
         boolean wasOldStateUse= attr.isUsed();
         attr.setChanged(true);
@@ -397,11 +364,10 @@ s--;
         if (wasOldStateUse && get(node.getParent()).isUsed()) {
             notNeededUse(node.getParent());
         }
-        s--;
+        
     }
 
     private List getChildren(INode node) {
-        debug(p(++s)+"getchildren "+ ((AbstractAsset)node).getName());
         List children;
         if (node instanceof Variant) {
             children = new LinkedList();
@@ -414,17 +380,16 @@ s--;
         } else {
             children = Collections.EMPTY_LIST;
         }
-        s--;
+        
         return children;      
     }
 
-    /**
+    /*
      * 
      * 
      * @param parent
      */
     private void setUSEtoChildren(AbstractAsset parent) {        
-        debug(p(++s)+" setUseChildren"+ ((AbstractAsset)parent).getName());
         if (parent instanceof Variant) {
             // all components have to set to USE.
             for (Iterator ite = ((Variant) parent).getComponents().iterator(); ite
@@ -486,19 +451,18 @@ s--;
                 }
             }
         }
-s--;
+
     }
 
-    /**
+    /*
      * Test, if this node is need in the product.
      * 
      * @param node
-     * @return
+     * @return true  if so
      */
 
     private boolean notNeededUse(AbstractAsset start) {
         
-        debug(p(++s)+"notneededUse "+ ((AbstractAsset)start).getName());
         // if this node or
         //its children is set to USE from the // user the node is need.
         LinkedList list = new LinkedList();
@@ -514,7 +478,7 @@ s--;
                     if (get(node).isUserChanged()
                             && !(node instanceof MetaNode)) {
                         // node start is needed.
-                        s--;return false;
+                        return false;
                     } else {
                         useNodes.add(node);
                         // add all children. If a child has set to used this
@@ -603,15 +567,15 @@ s--;
         }
         
         // 
-        s--;
+        
         return true;
     }
 
     /*
-     * @param asset
+     * Test if node need state MustNotUse and set all found nodes that not need the state MustNot it back to OPEN.
+     * @param node
      */
     private boolean notNeededMustNot(AbstractAsset node) {        
-        debug(p(++s)+"notNeededMustNot "+ ((AbstractAsset)node).getName());
         LinkedList list = new LinkedList(); // start and all parent, grandparent, ...    
         
         // node is MustNotUse => parent is MustNotUse
@@ -619,7 +583,7 @@ s--;
             list.add(node);
             if ( get(node).isUserChanged() 
                     || ((node instanceof Variant || node instanceof Release) && brotherNeedUse(node))) {
-                s--;return false;
+                return false;
             }
             
             // test, if a source nodes of incomimg ecxlude edges has USE.
@@ -631,7 +595,7 @@ s--;
                 usedNodeFound = findUsedNodes(asset, visited);
             }
             if (usedNodeFound){
-                s--;return false;
+                return false;
             }
                 
             // now look at parent 
@@ -668,11 +632,11 @@ s--;
                 }
             }
         }
-        s--;
+        
         return true;
     }
     
-    /**
+    /*
      * try to find an used non MetaNode. Follow incoming edges.  
      * @param node  
      * @param visited List with alredy visited nodes.
@@ -696,51 +660,40 @@ s--;
         return false;
     }
     
-    int s =0;
-String p(int i){
-    String ss ="";
-    if (i > 50)s =20;
-    if (i< 0)i =0;
-    for (; i > 0; i--){
-        ss = ss + " ";
-    }
-    return ss;
-}
     
     // test for notNeededMustNot(..) if a brother of node need the use state
     private boolean brotherNeedUse(AbstractAsset node) {
-        debug(p(++s)+"brotherIstNeededuse "+ ((AbstractAsset)node).getName());
         List brothers;
         if (node instanceof Release){
             brothers = ((Variant) node.getParent()).getReleases();            
         } else if (node instanceof Variant){
             brothers = ((Component) node.getParent()).getVariants();  
         } else {
-            s--;return false;
+            return false;
         }
         for (Iterator ite = brothers.iterator(); ite.hasNext();){
             AbstractAsset brother = (AbstractAsset) ite.next();
             if (brother != node && get(brother).isUsed()){
-                s--;return notNeededUse(brother);                  
+                return notNeededUse(brother);                  
             }            
         }
-        s--;
+        
         return false;
     }
 
+    
     /*
      * node need use
      * try to set the brothers  of node to open. 
      * returns false, if one brother need USE.  
      */
     private boolean brotherNotNeedUse(AbstractAsset node) {
-        debug(p(++s)+"brotherNotNeedUse "+ ((AbstractAsset)node).getName());
         List brothers;
         if (node instanceof Release) {
             brothers = ((Variant) node.getParent()).getReleases();
         } else if (node instanceof Variant) {
             brothers = ((Component) node.getParent()).getVariants();
-        } else {s--;
+        } else {
             return false;
         }
         
@@ -754,12 +707,9 @@ String p(int i){
                  mustNotUse(brother, false);
              }
         }
-        s--;
+        
         return stateStillUse;
     }
-    
-    
-    
     
     
     /*
@@ -771,7 +721,6 @@ String p(int i){
     private String clear(Edge edge, Set visited) {        
         INode node = edge.getTargetNode();
         visited.add(node);
-        debug(p(++s)+"clear "+ ((AbstractAsset)node).getName());        
         NodeAttr nodeAttr = get(node);        
         if (!(node instanceof MetaNode)) {
             if (nodeAttr.isUsed()) {
@@ -785,7 +734,7 @@ String p(int i){
             for(Iterator ite = container.getEdgesTo(node).iterator(); ite.hasNext();){
                 INode n = ((Edge) ite.next()).getStartNode();
                 if ( (!visited.contains(n)) &&  get(n).isUsed()){
-                    s--;
+                    
                     return STATE_USED;
                 }
             }
@@ -809,7 +758,7 @@ String p(int i){
             }
             setStateMeta(node, edge.getType(), sizeOpen, sizeUsed, sizeMustNot);           
         }
-        s--;
+        
         return nodeAttr.getState();
     }
     
@@ -821,13 +770,12 @@ String p(int i){
      * information and set state
      */
     private void updateStateMetaInclude(INode node, INode targetNode, Set visited) {
-        debug(p(++s)+"updateStateInclude "+ ((AbstractAsset)node).getName());
         visited.add(node);        
         if (!(node instanceof MetaNode)) {
             if (get(node).isUsed() && get(targetNode).isOpen()){
                 this.useMeta(targetNode, newSet(node));
             }
-            s--;
+            
             return; 
         }
         String acState = get(node).getState();
@@ -856,7 +804,7 @@ String p(int i){
                 && get(node).isUsed() && get(node).isUserChanged
                 && otherUsedNode != null) {           
             if (notNeededUse((AbstractAsset) otherUsedNode)) { 
-                s--;
+                
                 return; // node has been updatet.
             }
         }
@@ -864,7 +812,6 @@ String p(int i){
         // aktualize state of this node.
         setStateMeta(node,Edge.INCLUDE, sizeOpen, sizeUse, sizeMustNot);
         
-        //if (acState != get(node).getState()) {
             // state changed => node, that edges point to this node
             // must be updated.
             for (Iterator ite = container.getEdgesTo(node).iterator(); ite
@@ -874,11 +821,10 @@ String p(int i){
                     updateStateMetaInclude(edge.getStartNode(), edge.getTargetNode(), visited);
                 }
             }
-       // }
-            s--;
+            
     }
     
-
+    // returns a new Set 
     private Set newSet(INode node){
         Set s = new HashSet();
         s.add(node);
@@ -894,7 +840,6 @@ String p(int i){
      * @param sizeMustNot  number of target nodes, that has the state MUST_NOT_USED
      */
     private void setStateMeta(INode node, String edgeType, int sizeOpen, int sizeUse, int sizeMustNot) {
-        debug(p(++s)+"setStateMeta "+ ((AbstractAsset)node).getName());
         if (edgeType.equals(Edge.INCLUDE)){
             if (((MetaNode) node).getType().equals(MetaNode.AND)) {
                 if (sizeOpen == 0 && sizeMustNot == 0) {
@@ -925,7 +870,7 @@ String p(int i){
             }
         }
         
-        s--;
+        
     }
 
     /*
@@ -938,13 +883,12 @@ String p(int i){
     // run loops.
     private void updateStateMetaExclude(INode node, INode targetNode, Set visited) {
         visited.add(node);
-        debug(p(++s)+"updateStateMetaExclude "+ ((AbstractAsset)node).getName());
         if (!(node instanceof MetaNode)) {
             // none MetaNode node is USE => targetNode need MUST_NOT_USE 
             if (get(node).isUsed() && get(targetNode).isOpen()){
                 mustNotUseMeta(targetNode, newSet(node));
             }
-            s--;
+            
             return; 
         }
         String state = get(node).getState();
@@ -975,7 +919,7 @@ String p(int i){
                 }
             }
         }
-        s--;
+        
     }
 
     
@@ -984,7 +928,6 @@ String p(int i){
      * @param node
      */
     public void setMustNotUse(AbstractAsset node) { 
-        s=0;
         if (node instanceof MetaNode) { 
             return; // User cannot change type of
         }           // Metanodes
@@ -1003,7 +946,6 @@ String p(int i){
      * @param node
      */
     public void setOpen(AbstractAsset node) {
-        s=0;
         if (node instanceof MetaNode) { 
             return; // User cannot change type of
         }           // Metanodes
@@ -1032,10 +974,6 @@ String p(int i){
 
     public String getState(AbstractAsset node) {
         return get(node).getState();
-    }
-
-    public boolean isToWorkOn(AbstractAsset node) {
-        return get(node).isToWorkOn();
     }
 
     public boolean hasWarning(AbstractAsset node) {
@@ -1085,9 +1023,10 @@ String p(int i){
     	        INode node = edge.getTargetNode();
     	        if (! visited.contains(node)){
     	            visited.add(node);
-    	            if ( node instanceof MetaNode){
+    	            if (node instanceof MetaNode){
     	                list.addAll(container.getEdgesFrom(node));
-    	            } else if(assets.keySet().contains(node)){
+    	            } else if(assets.keySet().contains(node) 
+    	                    && assets.get(source) != assets.get(node) ) {
     	                // node and grounde are nodes and are in the product.
     	                // And ground has and edge to "node"(maybe there are Metanodes between)
     	                // =>There must also an edge in product.
@@ -1136,25 +1075,29 @@ String p(int i){
     	        assets.put(variant, productComponent);
     	        assets.put(release, productComponent);    	        
     	    } else{
-    	        productComponent = new SpecificComponent(comp.getName()); 
+    	        productComponent = new SpecificComponent(comp.getName());
+    	        productComponent.setDescription(variant.getDescription());
     	        assets.put(comp, productComponent);
     	        assets.put(variant, productComponent);
     	    }
+    	    productComponent.setResource("prodComp_"+comp.getResource()+"_"+variant.getResource());
     	    // add sub components
     	    
     	    for (Iterator subIte = variant.getComponents().iterator(); subIte.hasNext();){
     	        Component subComp = (Component) subIte.next(); 
     	        if (get(subComp).isUsed()){
-    	            productComponent.addProductComponent(generateProductComponent(subComp, assets));
+    	            productComponent.addProductComponent(generateProductComponent(subComp, assets));    	            
     	        }
     	    }
     	} else {
             // no variant of this component is used
     	    productComponent = new SpecificComponent(comp.getName()); 
+    	    productComponent.setResource("prodComp_"+comp.getResource());
     	    assets.put(comp, productComponent);
     	    // no sub variant is used => there must not exitst subnodes of variant, that are usesd.
     	}
     	
+    	 productComponent.setResource(comp.getResource());
     	 return productComponent;   
 	}
     
@@ -1169,8 +1112,6 @@ String p(int i){
 
         private String status = STATE_OPEN;
 
-        private boolean isToWorkOn = false;
-
         private boolean hasWarning = false;
 
         private String warning;
@@ -1178,12 +1119,9 @@ String p(int i){
         private boolean isUserChanged = false;
 
         private boolean changed = false;
-        AbstractAsset a;
 
-        NodeAttr(AbstractAsset a) {
-          this.a = a;
+        NodeAttr() {
         }
-
  
         void removeChangeState() {
             changed = false;
@@ -1206,14 +1144,12 @@ String p(int i){
         }
 
         void setOpen() {
-            debug(p(s)+"setOpen "+ a.getName() + " "+ a.getType());
             status = STATE_OPEN;
             isUserChanged = false;
             // Now alsp the algorithm is allowed to change the status.
         }
 
         void setMustNotUse() {
-            debug(p(s)+"setMUSTNOT "+ a.getName() + " "+ a.getType());
             status = STATE_MUST_NOT;
         }
 
@@ -1222,11 +1158,10 @@ String p(int i){
         }
 
         String getWarning() {
-            return "warningf";
+            return this.warning;
         }
 
         void setUse() {
-            debug(p(s)+"setUsed "+ a.getName() + " "+ a.getType());
             status = STATE_USED;
         }
 
@@ -1240,14 +1175,6 @@ String p(int i){
 
         boolean isOpen() {
             return status == STATE_OPEN;
-        }
-
-        boolean isToWorkOn() {
-            return isToWorkOn;
-        }
-
-        void setToWorkOn(boolean b) {
-            isToWorkOn = b;
         }
 
         boolean hasWarning() {
