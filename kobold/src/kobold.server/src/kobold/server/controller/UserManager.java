@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserManager.java,v 1.7 2004/05/18 21:23:58 garbeam Exp $
+ * $Id: UserManager.java,v 1.8 2004/06/14 16:48:20 garbeam Exp $
  *
  */
 package kobold.server.controller;
@@ -165,7 +165,7 @@ public class UserManager {
 
 		for (Iterator it = this.users.values().iterator(); it.hasNext();) {
 			User user = (User) it.next();
-			user.serialize(users);
+            users.add(user.serialize());
 		}
 
 		 XMLWriter writer;

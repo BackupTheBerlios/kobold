@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.6 2004/06/09 13:56:09 garbeam Exp $
+ * $Id: User.java,v 1.7 2004/06/14 16:48:20 garbeam Exp $
  *
  */
 
@@ -46,7 +46,7 @@ import sun.misc.BASE64Encoder;
  *
  * @author Armin Cont
  */
-public class User {
+public class User implements ISerializable {
 
 	private Vector roles;
 	private String userName;
@@ -105,22 +105,23 @@ public class User {
 	 * Serializes this User and returns the resulting DOM tree.
 	 * @return
 	 */
-	public void serialize(Element users) {
+	public Element serialize() {
 
-		users.addElement("user");
+		Element user = DocumentHelper.createElement("user");
 
-		users.addElement("username").addText(this.userName);
+		user.addElement("username").addText(this.userName);
 
-		users.addElement("realname").addText(this.realName);
+		user.addElement("realname").addText(this.realName);
 
-		users.addElement("password").addText(
+		user.addElement("password").addText(
 				new BASE64Encoder().encode(this.password.getBytes()));
 
-		Element roles = users.addElement("roles");
+		Element roles = user.addElement("roles");
 		for (Iterator it = (Iterator) this.roles.iterator();	it.hasNext(); ) {
 			Role role = (Role) it.next();
 			roles.add(role.serialize());
 		}
+        return user;
 	}
 
 	/**
@@ -202,5 +203,4 @@ public class User {
 	public void setUserName(String string) {
 		userName = string;
 	}
-
 }
