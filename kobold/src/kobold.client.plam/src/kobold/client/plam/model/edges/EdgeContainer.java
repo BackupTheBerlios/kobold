@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EdgeContainer.java,v 1.6 2004/07/23 23:25:14 vanto Exp $
+ * $Id: EdgeContainer.java,v 1.7 2004/07/26 08:29:03 martinplies Exp $
  * 
  */
 package kobold.client.plam.model.edges;
@@ -322,7 +322,7 @@ public class EdgeContainer implements ISerializable {
     }
     
     
-    
+        
     /**
      * Retruns the edge, or null, if the edge not exists.
      * @param edges
@@ -363,10 +363,30 @@ public class EdgeContainer implements ISerializable {
 		listeners.addPropertyChangeListener(l);
 	}
 
-	public void removePropertyChangeListener(PropertyChangeListener l)
+ public void removePropertyChangeListener(PropertyChangeListener l)
 	{
 		listeners.removePropertyChangeListener(l);
 	}
+ 
+
+
+ /**
+  * Returns all nodes, that have an edge with this type to targetNode.
+ * @param targetNode
+ * @param type
+ * @return
+ */
+public List getEdgesTo(INode targetNode, String type ){
+     LinkedList arrL = new LinkedList();
+     for (Iterator ite = ((List) targetNodesList.get(targetNode)).iterator(); ite.hasNext(); ){
+        Edge edge = (Edge) ite.next();
+        if (edge.getType().equals(type)){
+          arrL.add(edge.getStartNode());
+        }
+     }            
+     return arrL;
+ }
+  
 
     
 }
