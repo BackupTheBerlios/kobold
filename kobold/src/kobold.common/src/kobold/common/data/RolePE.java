@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RolePE.java,v 1.4 2004/05/05 17:49:54 garbeam Exp $
+ * $Id: RolePE.java,v 1.5 2004/05/12 10:32:27 neco Exp $
  *
  */
 package kobold.common.data;
@@ -69,4 +69,12 @@ public class RolePE extends Role {
 	public void serialize(Element roles) {
 		Element role = roles.addElement("role").addText("PE");
 	}
+	
+	/**
+	 * @return
+	 */
+	public List getProducts() {
+		return products;
+	}
+	
 }

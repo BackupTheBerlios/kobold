@@ -14,4 +14,11 @@ package kobold.common.data;
  */
 public class Product {
 
+	private String productName;
+	
+	public String getName() {
+        return productName;
+    }
+
+	
 }
