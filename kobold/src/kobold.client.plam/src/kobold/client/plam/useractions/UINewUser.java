@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UINewUser.java,v 1.6 2004/08/05 10:20:23 grosseml Exp $
+ * $Id: UINewUser.java,v 1.7 2004/08/05 10:48:49 grosseml Exp $
  *
  */
 package kobold.client.plam.useractions;
@@ -29,6 +29,7 @@ package kobold.client.plam.useractions;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -116,8 +117,17 @@ public class UINewUser extends Dialog	{
     
     public void okPressed(){
         Useractions acts = new Useractions();
-        acts.createUser(textRealName.getText(),textUserName.getText(), textPassword.getText(), textConfPass.getText());
-        this.close();
+        if (textPassword.getText().equals(textConfPass.getText())){
+        	acts.createUser(textRealName.getText(),textUserName.getText(), textPassword.getText(), textConfPass.getText());
+        	this.close();
+        }
+        else {
+        	Color color = new Color(null,255,0,0);
+        	this.labelPassword.setForeground(color);
+        	this.labelConfPass.setForeground(color);
+        	this.textPassword.setText("");
+        	this.textConfPass.setText("");
+        }
     }
     
     public void cancelPressed(){
