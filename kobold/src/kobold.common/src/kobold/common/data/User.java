@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.4 2004/05/13 23:45:07 garbeam Exp $
+ * $Id: User.java,v 1.5 2004/05/17 09:17:11 garbeam Exp $
  *
  */
 
@@ -119,7 +119,7 @@ public class User {
 		Element roles = users.addElement("roles");
 		for (Iterator it = (Iterator) this.roles.iterator();	it.hasNext(); ) {
 			Role role = (Role) it.next();
-			role.serialize(roles);
+			roles.add(role.serialize());
 		}
 	}
 

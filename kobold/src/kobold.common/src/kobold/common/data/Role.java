@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Role.java,v 1.6 2004/05/15 01:25:50 garbeam Exp $
+ * $Id: Role.java,v 1.7 2004/05/17 09:17:11 garbeam Exp $
  *
  */
 package kobold.common.data;
@@ -35,7 +35,7 @@ import org.dom4j.Element;
  *
  * @author garbeam
  */
-public abstract class Role {
+public abstract class Role implements ISerializable {
 
 	/**
 	 * Creates the specific role and returns it.
@@ -58,8 +58,15 @@ public abstract class Role {
 	/**
 	 * Serializes this object.
 	 * 
-	 * @param roles DOM parent element to attach this role.
+	 * @return DOM Element of this object.
 	 */
-	public abstract void serialize(Element roles);
+	public abstract Element serialize();
+	
+	/**
+	 * Deserializes this object.
+	 * 
+	 * @param element the DOM element which represents this object.
+	 */
+	public abstract void deserialize(Element element);
 
 }

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.9 2004/05/15 19:52:16 vanto Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.10 2004/05/17 09:17:11 garbeam Exp $
  *
  */
 package kobold.server;
@@ -29,7 +29,7 @@ package kobold.server;
 import java.util.List;
 import java.util.Vector;
 
-import kobold.common.controller.ServerInterface;
+import kobold.common.controller.IKoboldServer;
 import kobold.common.data.KoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
@@ -54,7 +54,7 @@ import org.apache.xmlrpc.secure.SecureWebServer;
  * Implements the server interface and delegates all RPCs to its
  * appropriate methods.
  */
-public class SecureKoboldWebServer implements ServerInterface, XmlRpcHandler {
+public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	
 	private static final Log logger = LogFactory.getLog(SecureKoboldWebServer.class);
 	

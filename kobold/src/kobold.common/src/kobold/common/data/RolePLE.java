@@ -21,11 +21,12 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RolePLE.java,v 1.6 2004/05/15 14:45:08 garbeam Exp $
+ * $Id: RolePLE.java,v 1.7 2004/05/17 09:17:11 garbeam Exp $
  *
  */
 package kobold.common.data;
 
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 /**
@@ -55,7 +56,7 @@ public class RolePLE extends Role {
 	/**
 	 * @param element
 	 */
-	private void deserialize(Element element) {
+	public void deserialize(Element element) {
 		productLineName = element.elementText("productline");
 	}
 
@@ -63,9 +64,10 @@ public class RolePLE extends Role {
 	 * Serializes this role.
 	 * @see kobold.common.data.Role#serialize(org.dom4j.Element)
 	 */
-	public void serialize(Element roles) {
-		Element role = roles.addElement("role").addText("PLE");
+	public Element serialize() {
+		Element role = DocumentHelper.createElement("role").addText("PLE");
 		role.addElement("productline").addText(productLineName);
+		return role;
 	}
 	
 	/**

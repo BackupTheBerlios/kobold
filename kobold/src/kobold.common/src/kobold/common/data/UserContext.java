@@ -21,13 +21,13 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * $Id: UserContext.java,v 1.6 2004/05/15 21:57:02 vanto Exp $
+ * $Id: UserContext.java,v 1.7 2004/05/17 09:17:11 garbeam Exp $
  */
 
 package kobold.common.data;
 
-import java.io.Serializable;
-
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 
 /**
  * Base class for user context information (session info).
@@ -36,7 +36,7 @@ import java.io.Serializable;
  *
  * @author garbeam
  */
-public class UserContext implements Serializable {
+public class UserContext implements ISerializable {
 	
     // members
 	private String userName;
@@ -78,5 +78,25 @@ public class UserContext implements Serializable {
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
 	}
-    
+	
+	/**
+	 * Serializes this object.
+	 * 
+	 * @return DOM Element representing this object.
+	 */
+	public Element serialize() {
+		Element userContext = DocumentHelper.createElement("usercontext");
+		userContext.addElement("username").addText(this.userName);
+		userContext.addElement("session-id").addText(this.sessionId);
+		return userContext;
+	}
+	
+	/**
+	 * Deserializes this object.
+	 * @param element the DOM element representing this object.
+	 */
+	public void deserialize(Element element) {
+		this.userName = element.elementText("usernam");
+		this.sessionId = element.elementText("session-id");
+	}
 }

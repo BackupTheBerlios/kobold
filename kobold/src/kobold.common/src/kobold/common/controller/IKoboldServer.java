@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerInterface.java,v 1.4 2004/05/15 01:23:40 garbeam Exp $
+ * $Id: IKoboldServer.java,v 1.1 2004/05/17 09:17:11 garbeam Exp $
  *
  */
 
@@ -39,7 +39,7 @@ import kobold.common.data.UserContext;
  * This class acts as an interface between kobold clients and a
  * kobold server.
  */
-public interface ServerInterface {
+public interface IKoboldServer {
 
 	/**
 	 * Login handler.
