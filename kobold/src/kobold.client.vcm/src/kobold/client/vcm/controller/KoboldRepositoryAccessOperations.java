@@ -62,16 +62,6 @@ import org.eclipse.team.internal.ccvs.core.connection.CVSAuthenticationException
  */
 public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperations {
 
-    private final String IMPORT = "import.";
-    private final String IMPORTPL = "importpl.";
-	private final String ADD = "add.";
-	private final String UPDATE = "update.";
-	private final String COMMIT = "commit.";
-	private final String CHECKOUT = "checkout.";
-	private final String CHECKOUTPL = "checkoutpl.";
-	private final String TAG = "tag.";
-	private final String REMOVE = "rm.";
-	
     private Path scriptPath; 
     private String scriptExtension = "";
     private String userName;
@@ -79,134 +69,14 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
 	
 	public KoboldRepositoryAccessOperations()
 	{
-		KoboldVCMPlugin plugin = KoboldVCMPlugin.getDefault();
-		String tmpLocation = plugin.getBundle().getLocation();
-		// The Location String contains "@update/" this needs to be removed
-		
-		String tmpString = System.getProperty("os.name");
-		// This tests what OS is used and sets the skript extension accordingly
-		if (tmpString.indexOf("Win",0) != -1 ) 
-		{
-			this.scriptPath = new Path(tmpLocation.substring(8,tmpLocation.length()));
-			this.scriptPath = (Path)scriptPath.append("scripts" + IPath.SEPARATOR);
-			this.scriptExtension = "bat";
-		}
-		else
-		{
-			this.scriptPath = new Path(tmpLocation.substring(7,tmpLocation.length()));
-			this.scriptPath = (Path)scriptPath.append("scripts" + IPath.SEPARATOR);
-			this.scriptExtension = "sh";
-		}
-		userName = getUserName();
-		password = getUserPassword();
+	    scriptPath = KoboldRepositoryHelper.getScriptPath();
+	    scriptExtension = KoboldRepositoryHelper.getScriptExtension();
+		userName = KoboldRepositoryHelper.getUserName();
+		password = KoboldRepositoryHelper.getUserPassword();
 	}
 	
     // XXXX
 
-    /**
-     * Gets the userName
-     * @return the username
-     */
-    private String getUserName ()
-    {
-    	//gets the userName
-    	String uN = KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR);
-    
-    	if (uN.equals(""))
-    	{
-    		uN = getPreference (VCMPreferencePage.KOBOLD_VCM_USER_STR);
-    		if (uN != null) {
-    			setUserName(uN);
-    		}
-    	}
-    	return uN;
-    }
-    /**
-     * Sets the userName to the preferences
-     * @param userName, the userName to store
-     */
-    protected void setUserName (String userName)
-    {
-    	//set the default userName (initial)
-        if (userName != null)
-        {
-            KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_USER_STR, userName);
-        }
-        else
-        {
-            MessageDialog.openError(new Shell(),"VCM User not set","VCM User not set, please reconfigure!");
-        }
-    }
-    /**
-     * gets the stored userName
-     * @return the stored userName
-     * 
-     * if the user pressed cancel, the password will be ""
-     */
-    private String getUserPassword ()
-    {
-    	//gets the userPassword
-        Preferences prefs = KoboldVCMPlugin.getDefault().getPluginPreferences();
-    	String uP = prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
-    	
-    	if (prefs.getBoolean(VCMPreferencePage.KOBOLD_VCM_ASK_PWD) || prefs.getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR).equals(""))
-    	{
-    		uP = getPreference (VCMPreferencePage.KOBOLD_VCM_PWD_STR);
-    		if (uP != null) {
-    			setUserPassword(uP);
-    		}
-    	}
-    	return uP;
-    }
-    
-    /**
-     * Sets the new userName
-     * @param userPassword, the userPassword to store
-     */
-    private void setUserPassword (String userPassword)
-    {
-    	KoboldVCMPlugin.getDefault().getPreferenceStore().setValue(VCMPreferencePage.KOBOLD_VCM_PWD_STR,userPassword);
-    }
-    
-    /**
-     * Opens a input Dialog to enter the user-data
-     * @param type, the variableName to get of the user
-     * @return the input-value of the dialog
-     */
-    private String getPreference (String type)
-    {
-        String preferenceName = "";
-        if (type.equals(VCMPreferencePage.KOBOLD_VCM_PWD_STR))
-        {
-            preferenceName = type;
-            type = "VCM User Password"; 
-            PasswordDialog pd = new PasswordDialog (new Shell());
-            //open the dialog
-            if (pd.open() == Dialog.OK) {
-                return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_PWD_STR);
-            }
-            else {
-    		    // CANCEL
-    		    return null;
-    		} 
-        } 
-        else if (type.equals(VCMPreferencePage.KOBOLD_VCM_USER_STR))
-        {
-            preferenceName = type;
-            type = "VCM User Name";
-    		InputDialog in = new InputDialog (new Shell(), "Please enter the " + type, "Please enter the " + type +":", null, null);
-    		//open the dialog
-    		if (in.open() == Dialog.OK) {
-    			return KoboldVCMPlugin.getDefault().getPreferenceStore().getString(VCMPreferencePage.KOBOLD_VCM_USER_STR);
-    		}
-    		else {
-    		    // CANCEL
-    		    return null;
-    		}
-        }
-    	return "";
-    }
-	
 	private String localPathForAsset(AbstractAsset asset) {
 	
 		if(asset == null) {
@@ -328,7 +198,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
     public void add(AbstractAsset[] assets, IProgressMonitor progress) throws TeamException {
         try {
 			progress = KoboldPolicy.monitorFor(progress);
-			performVCMAction(assets, progress, scriptPath.toOSString().concat(ADD).concat(scriptExtension),
+			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.ADD).concat(scriptExtension),
 			                 null, ScriptDescriptor.VCM_ADD);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -342,7 +212,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
             		   String msg) throws TeamException {
         try {
 			progress = KoboldPolicy.monitorFor(progress);
-			performVCMAction(assets, progress, scriptPath.toOSString().concat(COMMIT).concat(scriptExtension),
+			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.COMMIT).concat(scriptExtension),
 			                 msg, ScriptDescriptor.VCM_COMMIT);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -356,11 +226,11 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
         try {
 			progress = KoboldPolicy.monitorFor(progress);
 			if (isPl) {
-    			performVCMAction(assets, progress, scriptPath.toOSString().concat(CHECKOUTPL).concat(scriptExtension),
+    			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.CHECKOUTPL).concat(scriptExtension),
     			                 tag, ScriptDescriptor.VCM_CHECKOUT);
 			}
 			else {
-	  			performVCMAction(assets, progress, scriptPath.toOSString().concat(CHECKOUT).concat(scriptExtension),
+	  			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.CHECKOUT).concat(scriptExtension),
     			                 tag, ScriptDescriptor.VCM_CHECKOUT);
 			}
 		} catch (Exception e) {
@@ -376,11 +246,11 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
         try {
 			progress = KoboldPolicy.monitorFor(progress);
 			if (isPl) {
-    			performVCMAction(assets, progress, scriptPath.toOSString().concat(IMPORTPL).concat(scriptExtension),
+    			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.IMPORTPL).concat(scriptExtension),
     			                 msg, ScriptDescriptor.VCM_IMPORT);
 			}
 			else {
-	  			performVCMAction(assets, progress, scriptPath.toOSString().concat(IMPORT).concat(scriptExtension),
+	  			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.IMPORT).concat(scriptExtension),
     			                 msg, ScriptDescriptor.VCM_IMPORT);
 			}
 		} catch (Exception e) {
@@ -394,7 +264,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
     public void update(AbstractAsset[] assets, IProgressMonitor progress, String tag) throws TeamException {
         try {
 			progress = KoboldPolicy.monitorFor(progress);
-			performVCMAction(assets, progress, scriptPath.toOSString().concat(UPDATE).concat(scriptExtension),
+			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(scriptExtension),
 			                 tag, ScriptDescriptor.VCM_UPDATE);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -407,7 +277,7 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
     public void remove(AbstractAsset[] assets, IProgressMonitor progress) throws TeamException {
         try {
 			progress = KoboldPolicy.monitorFor(progress);
-			performVCMAction(assets, progress, scriptPath.toOSString().concat(REMOVE).concat(scriptExtension),
+			performVCMAction(assets, progress, scriptPath.toOSString().concat(KoboldRepositoryHelper.REMOVE).concat(scriptExtension),
 			                 null, ScriptDescriptor.VCM_DELETE);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -421,6 +291,4 @@ public class KoboldRepositoryAccessOperations implements KoboldRepositoryOperati
         // TODO Auto-generated method stub
         
     }
-	   
-    // XXXXX
 }
