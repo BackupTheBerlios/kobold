@@ -35,11 +35,11 @@ import java.util.Map;
 
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.MetaNode;
+import kobold.client.plam.model.Release;
 import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.edges.EdgeContainer;
 import kobold.client.plam.model.edges.INode;
 import kobold.client.plam.model.productline.Component;
-import kobold.client.plam.model.productline.IProductlineNode;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 
@@ -66,8 +66,6 @@ public class ProductAlgorithm {
 
     Productline productline; // the productline, that is use to create a new
 
-    // product.
-
     EdgeContainer container;
 
     public ProductAlgorithm(Productline pl) {
@@ -84,7 +82,7 @@ public class ProductAlgorithm {
         return (NodeAttr) nodes.get(node);
     }
 
-    public void setUsed(IProductlineNode node) {
+    public void setUsed(AbstractAsset node) {
         // TODO
         get(node).setUse();        
         get(node).setUserChanged();
@@ -97,7 +95,7 @@ public class ProductAlgorithm {
      * 
      * @param node
      */
-    private void use(IProductlineNode node) {
+    private void use(AbstractAsset node) {
         NodeAttr attr = get(node);
         if(attr.isUse()){
             return;
@@ -113,16 +111,28 @@ public class ProductAlgorithm {
         // set the status of the parents also to USE
         // overwrite any other status. If the child is set to USE, then
         // the parent must also has the status USE.                
-        IProductlineNode parent =  (IProductlineNode) ((AbstractAsset)node).getParent();
+        AbstractAsset parent =   node.getParent();
         if (!(parent instanceof Productline) && ! get(parent).isUse()) {
             use(parent);
         } else if (attr.isUserChanged
-                && node.getType().equals(AbstractAsset.COMPONENT)) {
+                && (    node instanceof Variant 
+                     || node instanceof Release  ) ){
             // the brothers of this node has set to MUST_NOT_USE. The parent has
             // already set to
             //  USE at further time, so the parent donnot do set the brothers to
             // MUST_NOT_USE.
-            this.setUSEtoChildren((Variant) parent);
+            List brothers;
+            if (node instanceof Component){
+                brothers = ((Component) node.getParent()).getVariants();
+            }else {
+                brothers = ((Variant) node.getParent()).getReleases();
+            }
+            for(Iterator ite = brothers.iterator(); ite.hasNext(); ){
+                AbstractAsset asset = (AbstractAsset) ite.next();
+                if(asset != node){
+                    mustNotUse(asset);
+                }
+            }
         }
         // if(node.) {}
 
@@ -131,9 +141,9 @@ public class ProductAlgorithm {
         // or if only one of the child must set to USE and the User must
         // decide which child.
         if (node.getType() == AbstractAsset.VARIANT) {
-            // all children are need
-            for (Iterator ite = node.getChildren().iterator(); ite.hasNext();) {
-                IProductlineNode child = (IProductlineNode) ite.next();
+            // all components and one Release are needed.
+            for (Iterator ite = ((Variant)node).getComponents().iterator(); ite.hasNext();) {
+                AbstractAsset child = (AbstractAsset) ite.next();
                 NodeAttr childAttr = get(child);
                 if (!childAttr.isUse()) {
                     if (childAttr.isMustNotUse()) {
@@ -147,19 +157,32 @@ public class ProductAlgorithm {
             }
         }
 
+        
         // set children to USE
         setUSEtoChildren(node);
+        
+        
+        // actualize Nodes of incoming edges                
+        actualizeIncomingEdges(node, "oldtype");
+        
+        // Now Follow the edges.
 
-        // Now Follow  the edges.
-
-        // follow Edges and test, if target nodes, need/can change.
+          // follow Edges and test, if target nodes, need/can change.
         
           for (Iterator ite = container.getEdgesFrom(node).iterator(); ite.hasNext(); ){
               Edge edge = (Edge) ite.next();
               if (edge.getType().equals(Edge.INCLUDE) && (! get(edge.getTargetNode()).isUse()) ){
-                  //    setMetaNode(edge.getTargetNode(), node, );   
-              }
-              
+                      useMetaNode((AbstractAsset)edge.getTargetNode());
+                      if(! get(edge.getTargetNode()).isUse()){
+                          get(node).setWarning("Target node(s) of include edge are not used in product!");
+                      } 
+              }else if (   edge.getType().equals(Edge.EXCLUDE)         && 
+                     (! get(edge.getTargetNode()).isMustNotUse()) ){
+                  mustNotUseMeta(node);  
+                  if(get(edge.getTargetNode()).isMustNotUse()){
+                      get(node).setWarning("Target node(s) of exclude edge have all not to be used!");
+                  }
+              }              
           }
 
          
@@ -170,6 +193,15 @@ public class ProductAlgorithm {
         // [follow edgesFollowToStart to test del warings]
 
     }
+
+    /**
+     * @param node
+     */
+    private void actualizeIncomingEdges(AbstractAsset node, String oldState) {
+        
+        
+    }
+
 
     /**
      * sets rekursive metanodes to USE, if it possible.
@@ -184,11 +216,11 @@ public class ProductAlgorithm {
     /*
      * 
      */
-    private void useMetaNode(INode metaNode) {
+    private void useMetaNode(AbstractAsset metaNode) {
         if (! (metaNode instanceof MetaNode)){
             // found a Variant, Component or release.
             // now call the rigtht function
-            use((IProductlineNode) metaNode);
+            use(metaNode);
             return;
         }
         MetaNode meta = (MetaNode) metaNode;
@@ -209,7 +241,7 @@ public class ProductAlgorithm {
                     NodeAttr targetAttr = get(edge.getTargetNode());
                     if (edge.getType().equals(Edge.INCLUDE)){ 
                         if ( targetAttr.isOpen() ){                                                   
-                              useMetaNode(edge.getTargetNode());
+                              useMetaNode((AbstractAsset) edge.getTargetNode());
                         } else if(targetAttr.isMustNotUse() ){
                             metaAttr.setWarning("");
                             // warn
@@ -278,7 +310,7 @@ public class ProductAlgorithm {
         if(! (node instanceof MetaNode)){
             // // found Variant, Component or release;
             // use right method.
-            use((IProductlineNode)node);
+            use((AbstractAsset)node);
             return;
         }
         MetaNode meta = (MetaNode) node;        
@@ -289,18 +321,18 @@ public class ProductAlgorithm {
         boolean allChildrenUsed = true;        
         for(Iterator ite = container.getEdgesFrom(meta).iterator(); ite.hasNext();){
             Edge edge = (Edge) ite.next();
-            INode child = edge.getTargetNode();
+            AbstractAsset child = (AbstractAsset) edge.getTargetNode();
             NodeAttr childAttr = get(meta);
             if (edge.getType()== Edge.INCLUDE ){
                if(child instanceof MetaNode){
                   useMeta((MetaNode)child);
                }else { 
                   if(childAttr.isOpen()){
-                      use((IProductlineNode) child);
+                      use(child);
                   }
                }               
                 if (! childAttr.isUse()){
-                    nodeAttr.setToWorkOn(true);
+                    //nodeAttr.setToWorkOn(true);
                     allChildrenUsed = false;                    
                 }                              
             }else {
@@ -308,16 +340,15 @@ public class ProductAlgorithm {
             }           
         }
         if(allChildrenUsed){
-            nodeAttr.setUse();            
-        }else {
+            nodeAttr.setUse();
+        }else {            
             nodeAttr.setMustNotUse();            
         }
-        } else {
-//          at first gain information
-            List useList = new LinkedList();
-            List mustNotList = new LinkedList();
+        } else {// handel OR nodes
+            int useNodes =0;
+            int mustNotUseNodes =0;
             List openList = new LinkedList();                    
-            // handel OR nodes
+            
             // at first gain Information
             for(Iterator ite = container.getEdgesFrom(meta).iterator(); ite.hasNext();){
                 Edge edge = (Edge) ite.next();            
@@ -325,7 +356,7 @@ public class ProductAlgorithm {
                     INode child = edge.getTargetNode();
                     NodeAttr childAttr = get(meta);                 
                     if (childAttr.isUse()){                        
-                        useList.add(child);                    
+                        useNodes++;                    
                     }else if(childAttr.isOpen()){
                         openList.add(child);
                     }                    
@@ -333,12 +364,12 @@ public class ProductAlgorithm {
                     nodeAttr.addWarning("You must not mix edgetypes at one metaode"); 
                 }                
             }
-            if(useList.size() == 1 && openList.size() >0){                
+            if(useNodes == 1 && openList.size() >0){                
                   for (Iterator ite = openList.iterator(); ite.hasNext();){
                       mustNotUseMeta((INode) ite.next());
                   }
                   nodeAttr.setUse();
-            }else if (useList.size() == 0  && openList.size() == 1){
+            }else if (useNodes == 0  && openList.size() == 1){
                 useMeta((INode) openList);
                 nodeAttr.setUse();
             } else {
@@ -348,9 +379,51 @@ public class ProductAlgorithm {
     }
     
     
+    /*
+     * Follow edges and set targets to mustNotUse.
+     * if non Metanodes found, use(AbstractAsset) is call for theese nodes.
+     * This fuctionn is used to set the targets of exclude edges to MustNotUse.
+     * If on include edgegraphs a metanode and its targets should be set to MustNotUse
+     * this function ís also used  
+     * @param node
+     */
     private void mustNotUseMeta(INode node){
+        if( ! get(node).isOpen()) {
+           return; // parents can olny set status to open children.   
+        }
+       
+        // node can only set to mustNotUse, if all children have the status MustNotUse
+        boolean allChildrenAreMustNotUse = true;
+        for(Iterator ite = container.getEdgesFrom(node).iterator(); ite.hasNext();){
+            Edge edge = (Edge) ite.next();
+            if(get(edge.getStartNode()).isOpen()){
+                mustNotUseMeta(node);            
+                if(node instanceof MetaNode){
+                    mustNotUseMeta(edge.getTargetNode());                    
+                }else{                                   
+                     mustNotUse((AbstractAsset)edge.getTargetNode());
+                }
+            } else if(get(edge.getStartNode()).isUse()) {
+                allChildrenAreMustNotUse = false;
+            }            
+        }
+        
+        
+        if(allChildrenAreMustNotUse){
+            get(node).setMustNotUse();
+        }else {
+            get(node).setOpen();
+        }
+    }
+
+    /**
+     * @param node
+     */
+    private void mustNotUse(AbstractAsset node) {
+        // TODO Auto-generated method stub
         
     }
+
 
     /**
      * @param targetNode
@@ -366,11 +439,11 @@ public class ProductAlgorithm {
      * 
      * @param parent
      */
-    private void setUSEtoChildren(IProductlineNode parent) {
+    private void setUSEtoChildren(AbstractAsset parent) {
         if (parent instanceof Variant) {
-            // all children have to set to USE.
-            for (Iterator ite = parent.getChildren().iterator(); ite.hasNext();) {
-                IProductlineNode child = (IProductlineNode) ite.next();
+            // all components have to set to USE.
+            for (Iterator ite = ((Variant)parent).getComponents().iterator(); ite.hasNext();) {
+                AbstractAsset child = (AbstractAsset) ite.next();
                 if ((!get(child).isUse()) && (!get(child).isUserChanged())) {
                     use(child);
                 } else if ((!get(child).isUse())
@@ -378,30 +451,35 @@ public class ProductAlgorithm {
                     //warn
                 }
             }
-        } else if (parent instanceof Component) {
-
+        } else if (parent instanceof Component || parent instanceof Variant) {
+            // one and only one of the of  teh releases and of the variants of a node must set to USE;
+            List children;
+            if (parent instanceof Component ) {
+               children = ((Component) parent).getVariants();
+            } else {
+                children = ((Variant) parent).getReleases();
+            }
+            
             // at first gain information
             List useList = new LinkedList();
             List mustNotList = new LinkedList();
             List openList = new LinkedList();
-            for (Iterator ite = ((Component)parent).getVariants().iterator(); ite.hasNext();) {
-                IProductlineNode node = (IProductlineNode) ite.next();
+            for (Iterator ite = children.iterator(); ite.hasNext();) {
+                AbstractAsset node = (AbstractAsset) ite.next();
                 if (get(node).isUse()) {
                     useList.add(node);
-                } else if (get(node).isMustNotUse()) {
+                } else if (get(node).isOpen()) {
                     mustNotList.add(node);
-                } else {
-                    openList.add(node);
                 }
             }
 
             if (useList.size() > 1) {
                 // try to set some back.
+                // nodes that set from the user to USE cannot be changed, but the others can set to MUST_NOT_USE. 
                 for (Iterator ite = useList.listIterator(); ite.hasNext();) {
-                    IProductlineNode node = (IProductlineNode) ite.next();
+                    AbstractAsset node = (AbstractAsset) ite.next();
                     if (!get(node).isUserChanged()) {
                         useList.remove(node);
-                        mustNotList.add(node);
                         setMustNotUse(node);
                     }
                 }
@@ -410,9 +488,8 @@ public class ProductAlgorithm {
             if (useList.size() > 0 && openList.size() > 0) {
                 // set last open nodes to MUST_NOT_USE.
                 for (Iterator ite = openList.listIterator(); ite.hasNext();) {
-                    IProductlineNode node = (IProductlineNode) ite.next();
-                    setMustNotUse(node);
-                    mustNotList.add(node);
+                    AbstractAsset node = (AbstractAsset) ite.next();
+                    setMustNotUse(node);                    
                     openList.remove(node);
                 }
             } 
@@ -439,10 +516,10 @@ public class ProductAlgorithm {
      * @return
      */
     /*
-     * private List notNeeded(IProductlineNode n, List nodes) { // if this node
+     * private List notNeeded(AbstractAsset n, List nodes) { // if this node
      * or its children is set to USE from the // user the node is need. List
      * list = new LinkedList(); list.add(n); Iterator ite = list.listIterator();
-     * while (ite.hasNext()) { IProductlineNode node = (IProductlineNode)
+     * while (ite.hasNext()) { AbstractAsset node = (AbstractAsset)
      * ite.next(); if (get(node).isUse()) { if (get(node).isfromUserChanged()) {
      * return true; } else { list.add(node.getChildren());
      * list.add(container.getStartNodesFromEdgesTo(node, Edge.INCLUDE)); } } }
@@ -452,12 +529,12 @@ public class ProductAlgorithm {
      * @param parent
      * @return
      */
-    private boolean isAllowedToSetUSE(IProductlineNode node) {
+    private boolean isAllowedToSetUSE(AbstractAsset node) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    public void setMustNotUse(IProductlineNode node) {
+    public void setMustNotUse(AbstractAsset node) {
         listeners.firePropertyChange(AbstractAsset.ID_COMPOSE, null, STATE_OPEN);
         logger.debug(node + " has new state MUST_NOT_USE");
     }
