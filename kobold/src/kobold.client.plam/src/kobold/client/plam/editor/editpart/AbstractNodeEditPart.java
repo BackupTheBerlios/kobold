@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeEditPart.java,v 1.9 2004/07/07 10:34:29 vanto Exp $
+ * $Id: AbstractNodeEditPart.java,v 1.10 2004/07/22 16:42:23 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -33,6 +33,7 @@ import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.editor.policy.ComponentEditPolicy;
+import kobold.client.plam.editor.policy.ComposeEditPolicy;
 import kobold.client.plam.editor.policy.GraphicalNodeEditPolicy;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
 import kobold.client.plam.model.AbstractAsset;
@@ -71,6 +72,7 @@ public abstract class AbstractNodeEditPart extends AbstractGraphicalEditPart
 		//installEditPolicy(EditPolicy.CONTAINER_ROLE, new ContainerEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new XYLayoutEditPolicy());
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy());
+		installEditPolicy("composer", new ComposeEditPolicy());
 	}
 
 	/**

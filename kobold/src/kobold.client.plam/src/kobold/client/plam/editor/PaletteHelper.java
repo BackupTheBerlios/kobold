@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PaletteHelper.java,v 1.3 2004/07/01 11:27:25 vanto Exp $
+ * $Id: PaletteHelper.java,v 1.4 2004/07/22 16:42:23 vanto Exp $
  *
  */
 package kobold.client.plam.editor;
@@ -31,6 +31,7 @@ import java.util.List;
 
 import kobold.client.plam.KoboldPLAMPlugin;
 import kobold.client.plam.editor.model.KoboldAssetFactory;
+import kobold.client.plam.editor.tool.ProductComposerToolEntry;
 import kobold.client.plam.model.AbstractAsset;
 
 import org.eclipse.gef.palette.CreationToolEntry;
@@ -124,15 +125,18 @@ public class PaletteHelper
     		KoboldPLAMPlugin.getImageDescriptor("icons/kobold_persp.gif")
     	);
     	entries.add(combined);
+    	
+    	entries.add(new PaletteSeparator());
+    	entries.add(new ProductComposerToolEntry());
 
     	drawer.addAll(entries);
     	return drawer;
     }
     
     static PaletteRoot createPalette() {
-    	PaletteRoot logicPalette = new PaletteRoot();
-    	logicPalette.addAll(createCategories(logicPalette));
-    	return logicPalette;
+    	PaletteRoot palette = new PaletteRoot();
+    	palette.addAll(createCategories(palette));
+    	return palette;
     }
 
  
