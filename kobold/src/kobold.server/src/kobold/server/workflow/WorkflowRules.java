@@ -34,24 +34,27 @@ public class WorkflowRules {
 		
 		no1.addCondition(new ExprCondition("(msg.getWorkflowType().equals(\"Core Group Suggestion\")) && (msg.getStep() == 1)", new Declaration[] {dec1}));
 		no1.addParameterDeclaration(dec1);
-		no1.setConsequence(new BlockConsequence(""+
+		no1.setConsequence(new BlockConsequence(""+	
 			"kobold.common.data.WorkflowMessage answer = new kobold.common.data.WorkflowMessage(msg.getWorkflowType());"+
 			"answer.addParentId(msg.getId());"+	//add the actual parent as history
 			"answer.setSender(msg.getSender());"+	
 			//"answer.setReceiver(msg.getReceiver());"+
-			"answer.setSubject(\"Antrag auf Commit eines Coregroup Items\");"+
+			"answer.setSubject(\"Antrag auf Commit eines Coregroup Items\");" +
+			"answer.setStep(msg.getStep() + 1);"+
 			
-			"kobold.common.data.WorkflowItem[] controls = msg.getWorkflowControls();"+
-			
+		
 			"java.util.HashMap map = msg.getWorkflowData();" +
 			
 			"answer.setReceiver(map.get(\"recipient\"));" +
+			
 				
 			
 			"answer.setMessageText(\"Der Mitarbeiter \"+msg.getSender() + \" würde gerne " +
 					"ein Commit der Datei \" + map.get(\"file\") + \" unter \" + map.get(\"path\") + \" "+
 					"in die Coregroup machen. Bitte wählen Sie daher in " +
-					"untenstehenden Optionen.\");"+
+					"untenstehenden Optionen.\");" +
+					"" +
+			
 			
 			//creating necessary workflow items
 			//containing 2 radio buttons (forward, deny)
@@ -64,7 +67,7 @@ public class WorkflowRules {
 			"answer.putWorkflowData(\"file\", map.get(\"file\"));"+
 			"answer.putWorkflowData(\"path\", map.get(\"path\"));"+
 			"answer.addWorkflowControl(recip);" +
-			"answer.addWorkflowControl(cont);"+
+			"answer.addWorkflowControl(cont);" +
 			"kobold.server.controller.MessageManager.getInstance().sendMessage(null, answer);"));
 		
 
