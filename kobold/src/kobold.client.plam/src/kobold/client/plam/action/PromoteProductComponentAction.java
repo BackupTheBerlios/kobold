@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: PromoteProductComponentAction.java,v 1.2 2004/11/22 21:51:54 garbeam Exp $
+ * $Id: PromoteProductComponentAction.java,v 1.3 2005/02/06 19:36:25 martinplies Exp $
  *
  */
 package kobold.client.plam.action;
@@ -41,6 +41,7 @@ import kobold.client.plam.model.edges.Edge;
 import kobold.client.plam.model.product.Product;
 import kobold.client.plam.model.product.ProductComponent;
 import kobold.client.plam.model.product.RelatedComponent;
+import kobold.client.plam.model.product.SpecificComponent;
 import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
@@ -58,7 +59,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
-
+import org.apache.log4j.Logger;
 
 /**
  * @author Tammo
@@ -67,8 +68,13 @@ public class PromoteProductComponentAction implements IActionDelegate
 {
 
     private ProductComponent selection;
+    /**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger
+			.getLogger(RelatedComponent.class);
     
-    public void run(IAction action)
+    public void run(IAction action) 
     {
         Shell shell = Display.getDefault().getActiveShell();
         ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(shell, 
@@ -109,10 +115,22 @@ public class PromoteProductComponentAction implements IActionDelegate
             } else {
                 Release r = new Release("initial");
                 v.addRelease(r);
-                selection.getRoot().getProductline().getKoboldProject().addToVariant(v, selection);
+                Release release;
+                if (selection instanceof RelatedComponent){
+                	release = null; // 
+                	logger.error("You cannot promote a Related Component. The relase is in Productline.");
+                	return;
+                } else {
+                	// specifc Component
+                	// need a release, ... take head
+                	SpecificComponent sc = (SpecificComponent) selection; 
+                	release = sc.getHead();
+                }
+                
+                selection.getRoot().getProductline().getKoboldProject().addToVariant(v, release);
                 RelatedComponent rc = new RelatedComponent(v, r);
                 ((Product)selection.getRoot()).addProductComponent(rc);
-                
+                //release.
                 // remove edges
                 List edges = new ArrayList(selection.getRoot().getEdgeContainer().getEdges(selection));
                 Iterator it = edges.iterator();
@@ -123,6 +141,8 @@ public class PromoteProductComponentAction implements IActionDelegate
                 ((IProductComponentContainer)selection.getParent()).removeProductComponent(selection);
                 
                 // FIXME: recreate edges from productline?
+                
+                // TODO: add to release r the new FileRevisions !!! 
                 
             }
             
