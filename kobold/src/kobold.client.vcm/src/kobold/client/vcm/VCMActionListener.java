@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VCMActionListener.java,v 1.26 2004/11/17 11:57:54 garbeam Exp $
+ * $Id: VCMActionListener.java,v 1.27 2004/11/22 17:10:49 garbeam Exp $
  *
  */
 package kobold.client.vcm;
@@ -300,6 +300,7 @@ public class VCMActionListener implements IVCMActionListener
 			    runHooks(pl, connection, progress, ScriptDescriptor.VCM_COMMIT, true, true);
     			connection.open(progress, command);
     			connection.close();	
+			    updateRootAsset(pl, pl.getKoboldProject().getProject());
 			    runHooks(pl, connection, progress, ScriptDescriptor.VCM_COMMIT, false, true);
 			} catch (Exception e) {
 				logger.error("commitProductline(Productline)", e);
@@ -359,7 +360,7 @@ public class VCMActionListener implements IVCMActionListener
                     command[1] = p.getLocation().toOSString();
         			connection.open(progress, command);
         			connection.close();	
-        			
+    
         			// if that fails, don't care
     			}
 			}
@@ -369,6 +370,65 @@ public class VCMActionListener implements IVCMActionListener
 		}
     }
 
+    private void updateRootAsset(AbstractRootAsset asset, IProject p) {
+        IProgressMonitor progress = KoboldPolicy.monitorFor(null);
+		String userName = KoboldRepositoryHelper.getUserName();
+		String password = KoboldRepositoryHelper.getUserPassword();
+		ScriptServerConnection connection =
+		    ScriptServerConnection.getConnection(asset.getRepositoryDescriptor().getRoot());
+		if (connection != null) {
+		    /**
+		     * 	# $1 working directory
+				# $2 repo type
+				# $3 protocoal type
+				# $4 username
+				# $5 password
+				# $6 host
+				# $7 root
+				# $8 module
+				# $9 userdef
+		     */
+		    String localPath = p.getLocation().toOSString();
+    		String command[] = new String[10];
+            command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
+		    command[1] = localPath;
+		    command[2] = asset.getRepositoryDescriptor().getType();
+		    command[3] = asset.getRepositoryDescriptor().getProtocol();
+		    command[4] = userName;
+		    command[5] = password; 
+			command[6] = asset.getRepositoryDescriptor().getHost();
+			command[7] = asset.getRepositoryDescriptor().getRoot();
+			command[8] = asset.getRepositoryDescriptor().getPath();
+			command[9] = "";
+			for (int j = 0; j < command.length; j++) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("updateAsset(Asset, IProject)" + command[j]);
+				}
+				if (logger.isDebugEnabled()) {
+					logger.debug("updateAsset(Asset, IProject)");
+				}
+			}
+			try {
+			    // first we try update
+    			connection.open(progress, command);
+    			connection.close();	
+    			
+    			if (connection.getReturnValue() != 0) {
+    			    // update failed, let's try to checkout
+                    command[0] = KoboldRepositoryHelper.getScriptPath().toOSString().concat(KoboldRepositoryHelper.UPDATE).concat(KoboldRepositoryHelper.getScriptExtension());
+                    command[1] = p.getLocation().toOSString();
+        			connection.open(progress, command);
+        			connection.close();	
+        			
+        			// if that fails, don't care
+    			}
+			}
+			catch (Exception e) {
+				logger.error("updateAsset(Asset, IProject)", e);
+			}
+		}
+    }
+    
     /**
      * @see kobold.client.plam.listeners.IVCMActionListener#commitProduct(kobold.client.plam.model.product.Product)
      */
@@ -383,14 +443,11 @@ public class VCMActionListener implements IVCMActionListener
 			    runHooks(product, connection, progress, ScriptDescriptor.VCM_COMMIT, true, true);
     			connection.open(progress, command);
     			connection.close();	
+			    updateRootAsset(product, product.getProductline().getKoboldProject().getProject());
 			    runHooks(product, connection, progress, ScriptDescriptor.VCM_COMMIT, false, true);
-    			
 			}
 			catch (Exception e) {
-				logger
-						.error(
-								"commitProduct(kobold.client.plam.model.product.Product)",
-								e);
+				logger.error( "commitProduct(kobold.client.plam.model.product.Product)", e);
 			}
 		}
     }
