@@ -21,111 +21,47 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentFigure.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
+ * $Id: ComponentFigure.java,v 1.3 2004/05/14 02:19:15 vanto Exp $
  *
  */
 package kobold.client.plam.editor.figure;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.FreeformLayer;
-import org.eclipse.draw2d.FreeformLayout;
-import org.eclipse.draw2d.FreeformViewport;
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.MarginBorder;
-import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.RectangleFigure;
-import org.eclipse.draw2d.ScrollPane;
-import org.eclipse.draw2d.ToolbarLayout;
-import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Rectangle;
+
 
 /**
  * ComponentFigure
  * 
  * @author Tammo van Lessen
- * @version $Id: ComponentFigure.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
+ * @version $Id: ComponentFigure.java,v 1.3 2004/05/14 02:19:15 vanto Exp $
  */
-public class ComponentFigure extends RectangleFigure {
+public class ComponentFigure extends AbstractNodeFigure {
     
-    public static Color classColor = new Color(null, 255, 255, 206);
-    private IFigure pane;
-    private Label label;
-	private Label scriptLabel;
-	
-    public ComponentFigure(String name) 
+    public ComponentFigure() 
     {
-        ToolbarLayout layout = new ToolbarLayout();
-        setLayoutManager(layout);
-        setBorder(new MarginBorder(5));        
-        //setBorder(new LineBorder(ColorConstants.black, 1));
-        setBackgroundColor(classColor);
-        setOpaque(true);
-
-        Display d = Display.getCurrent();
-
-        Font classFont = JFaceResources.getHeaderFont(); //new Font(null, SWT."Arial, sans-serif", 12, SWT.BOLD);
-        label = new Label(name);
-        label.setFont(classFont);
-        label.setLabelAlignment(PositionConstants.CENTER);
-        add(label);
-
-		scriptLabel = new Label("SCRIPT");
-		scriptLabel.setFont(classFont);
-		scriptLabel.setLabelAlignment(PositionConstants.RIGHT);
-		add(scriptLabel);
-        
-/*        pane = new FreeformLayer();
-        //pane.setLayoutManager(new FreeformLayout());
-        pane.setBorder(new MarginBorder(5));
-        ToolbarLayout tl = new ToolbarLayout();
-        tl.setSpacing(5);
-        pane.setLayoutManager(tl);
-        ScrollPane scrollpane = new ScrollPane();
-        
-        scrollpane.setViewport(new FreeformViewport());
-        scrollpane.setContents(pane);
-        
-        add(scrollpane);*/
-
-		pane = new Figure();
-		pane.setBorder(new MarginBorder(5));
-		ToolbarLayout tl = new ToolbarLayout();
-		tl.setSpacing(5);
-		pane.setLayoutManager(tl);
-		add(pane);
-
-		//init1();
+		super();
+		setBackgroundColor(ColorConstants.tooltipBackground);
     }
 
-	public void init1() {
-		setBorder(new MarginBorder(5));
-		ScrollPane scrollpane = new ScrollPane();
-		pane = new FreeformLayer();
-		pane.setLayoutManager(new FreeformLayout());
-		//setLayoutManager(new StackLayout());
-		add(scrollpane);
-		scrollpane.setViewport(new FreeformViewport());
-		scrollpane.setContents(pane);
-
+	/**
+	 * @see org.eclipse.draw2d.Shape#fillShape(org.eclipse.draw2d.Graphics)
+	 */
+	protected void fillShape(Graphics graphics) {
+		graphics.fillRectangle(getBounds());
 		
-		setBackgroundColor(ColorConstants.listBackground);
-		setOpaque(true);
-	}
-	
-	public void setScript(boolean s)
-	{
-		scriptLabel.setVisible(s);
 	}
 
-	
-    /**
-     * @return
-     */
-    public IFigure getContentPane() {
-        return pane;
-    }
+	/**
+	 * @see org.eclipse.draw2d.Shape#outlineShape(org.eclipse.draw2d.Graphics)
+	 */
+	protected void outlineShape(Graphics graphics) {
+		Rectangle r = getBounds();
+		int x = r.x + lineWidth / 2;
+		int y = r.y + lineWidth / 2;
+		int w = r.width - lineWidth;
+		int h = r.height - lineWidth;
+		graphics.drawRectangle(x, y, w, h);
+	}
 }

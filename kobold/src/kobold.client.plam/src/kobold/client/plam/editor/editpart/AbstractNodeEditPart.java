@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AbstractNodeEditPart.java,v 1.1 2004/05/14 00:30:14 vanto Exp $
+ * $Id: AbstractNodeEditPart.java,v 1.2 2004/05/14 02:19:15 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -35,7 +35,6 @@ import kobold.client.plam.editor.policy.XYLayoutEditPolicy;
 import kobold.client.plam.model.pline.graph.AbstractNode;
 
 import org.eclipse.draw2d.ConnectionAnchor;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;

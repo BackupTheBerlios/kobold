@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ComponentEditPart.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
+ * $Id: ComponentEditPart.java,v 1.3 2004/05/14 02:19:15 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -29,7 +29,6 @@ package kobold.client.plam.editor.editpart;
 import java.util.List;
 
 import kobold.client.plam.editor.figure.ComponentFigure;
-import kobold.client.plam.model.pline.graph.AbstractNode;
 import kobold.client.plam.model.pline.graph.ComponentNode;
 import kobold.common.io.ScriptDescriptor;
 
@@ -39,7 +38,7 @@ import org.eclipse.draw2d.IFigure;
  * ComponentEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ComponentEditPart.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
+ * @version $Id: ComponentEditPart.java,v 1.3 2004/05/14 02:19:15 vanto Exp $
  */
 public class ComponentEditPart extends AbstractNodeEditPart {
 
@@ -49,12 +48,13 @@ public class ComponentEditPart extends AbstractNodeEditPart {
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
     protected IFigure createFigure() {
-        figure = new ComponentFigure(((ComponentNode)getModel()).getName());
-        figure.setSize(((AbstractNode)getModel()).getSize());
-		figure.setLocation(((AbstractNode)getModel()).getLocation());
+        figure = new ComponentFigure();
+        figure.setTitle(getNode().getName());
+        figure.setSize(getNode().getSize());
+		figure.setLocation(getNode().getLocation());
 
 		ScriptDescriptor sd = getNode().getScriptDescriptor();
-		figure.setScript(sd != null);
+		figure.showScriptLabel(sd != null);
 
         return figure;
     }

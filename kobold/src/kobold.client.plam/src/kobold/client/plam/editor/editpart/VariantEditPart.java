@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: VariantEditPart.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
+ * $Id: VariantEditPart.java,v 1.3 2004/05/14 02:19:15 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -29,7 +29,6 @@ package kobold.client.plam.editor.editpart;
 import java.util.List;
 
 import kobold.client.plam.editor.figure.VariantFigure;
-import kobold.client.plam.model.pline.graph.AbstractNode;
 import kobold.client.plam.model.pline.graph.VariantNode;
 import kobold.common.io.ScriptDescriptor;
 
@@ -39,7 +38,7 @@ import org.eclipse.draw2d.IFigure;
  * VariantEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: VariantEditPart.java,v 1.2 2004/05/14 00:30:14 vanto Exp $
+ * @version $Id: VariantEditPart.java,v 1.3 2004/05/14 02:19:15 vanto Exp $
  */
 public class VariantEditPart extends AbstractNodeEditPart {
 
@@ -49,12 +48,13 @@ public class VariantEditPart extends AbstractNodeEditPart {
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
     protected IFigure createFigure() {
-        figure = new VariantFigure(((AbstractNode)getModel()).getName());
-		figure.setSize(((AbstractNode)getModel()).getSize());
-		figure.setLocation(((AbstractNode)getModel()).getLocation());
-		
+        figure = new VariantFigure();
+		figure.setTitle(getNode().getName());
+		figure.setSize(getNode().getSize());
+		figure.setLocation(getNode().getLocation());
+
 		ScriptDescriptor sd = getNode().getScriptDescriptor();
-		figure.setScript(sd != null);
+		figure.showScriptLabel(sd != null);
     
         return figure;
     }
