@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.13 2004/08/04 13:07:04 rendgeor Exp $
+ * $Id: ModelStorage.java,v 1.14 2004/08/04 13:54:22 memyselfandi Exp $
  *
  */
 package kobold.client.plam.model;
@@ -255,7 +255,7 @@ public class ModelStorage
      * be calculated.
      * @param theAsset an abstract asset
      */
-    /**
+
     public static IPath getPathForAsset(AbstractAsset asset) {
         
         AbstractRootAsset root = asset.getRoot();
@@ -285,7 +285,7 @@ public class ModelStorage
         
         return new Path(root.getKoboldProject().getProject().getLocation()
                         + "" + IPath.SEPARATOR + thePath);
-    }**/
+    }
     
 	
 	

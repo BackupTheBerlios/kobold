@@ -26,6 +26,7 @@
 package kobold.client.vcm.popup.action;
 
 import kobold.client.plam.model.AbstractRootAsset;
+import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.plam.model.productline.Variant;
 import kobold.client.vcm.KoboldVCMPlugin;
@@ -61,6 +62,7 @@ public class ImportAction extends KoboldAction {
 			((Productline)testAssets[0]).getLocalPath();//serializeProductline("C:\\Temp",true);
 			//IFolder if1 = ((Productline)testAssets[0]).getKoboldProject().getPath();
 			//String ip = if1.getFullPath().toOSString();
+			ModelStorage.storeModel(((Productline)testAssets[0]));
 			RepositoryDescriptor rdsc = ((Productline)testAssets[0]).getRepositoryDescriptor();
 			boolean test = testAssets[0] instanceof AbstractRootAsset;
 			
