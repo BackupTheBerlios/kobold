@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: AssetConfigurationDialog.java,v 1.26 2004/08/31 17:50:40 neco Exp $
+ * $Id: AssetConfigurationDialog.java,v 1.27 2004/09/10 14:27:49 rendgeor Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -160,7 +160,10 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     		label.setText("Resource:");
     
     		resource = new Text(panel, SWT.BORDER | SWT.LEAD);
-    		resource.setEnabled(!asset.isResourceDefined());
+    		//disabled by default to set the resource automatically
+    		//resource.setEnabled(!asset.isResourceDefined());
+    		resource.setEnabled(false);
+    				
             gd = new GridData(GridData.GRAB_HORIZONTAL
     			| GridData.FILL_HORIZONTAL);
     		resource.setLayoutData(gd);
@@ -168,7 +171,10 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     		if (asset.getResource() != null) {
     		    resource.setText(asset.getResource());
     		} else {
-    		    resource.setText(asset.getName());
+    			//create a new resource name for the asset
+    			//1) erase all blanks and special chars
+    			//		2) test if resource name still exist
+    		    resource.setText(generateResourceName(asset.getName()));
     		}
 		}
 		
@@ -544,6 +550,12 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     {
         if (!name.getText().equals(asset.getName())) {
             asset.setName(name.getText());
+            
+            if (!asset.isResourceDefined())
+            {
+            	//resource name now generated automaically
+            	resource.setText(generateResourceName(name.getText()));
+            }
         }
 
         if (!description.getText().equals(asset.getDescription())) {
@@ -606,20 +618,81 @@ public class AssetConfigurationDialog extends TitleAreaDialog
     
     private boolean validatePage()
     {
-        String str = resource.getText();
-        if (str.length() == 0) {
-            setErrorMessage("Resource must not be empty - please choose an unique resource name.");
-            return false;
-        }
-        
-        str = name.getText();
+        //check the name
+    	String str = name.getText();
         if (str.length() == 0) {
             setMessage("Name should not be empty.",  IMessageProvider.WARNING);
             return false;
         }
         
+        //check the resource
+        str = resource.getText();
+        if (str.length() == 0) {
+            setErrorMessage("Resource must not be empty - please choose an unique resource name.");
+            return false;
+        }
+
+        
     	setErrorMessage(null);
 		setMessage(null);
         return true;
+    }
+    
+    /**
+     * Generated unique resource names
+     * @param name, the name of the resource
+     * @return : the generated resourceName
+     */
+    private String generateResourceName (String name)
+    {
+    	String resName = name;
+
+
+    	//convert all to lower case
+    	resName = resName.toLowerCase();
+    	
+    	//replace special chars
+    	//do a search for special chars
+    	for (int count=0; count <= (resName.length()-1); count++)
+    	{
+	    	char teil = resName.charAt(count);
+	    	boolean what = Character.isLetterOrDigit(teil);
+	    	if (!what)
+	    	{
+	    		what = Character.isWhitespace(teil);
+	    	}
+	    	if (!what)
+	    	{
+	    		resName = resName.substring(0,count).
+						  concat(resName.substring(count+1, resName.length()));
+	    	}
+	    	
+    	}
+    	//replace all white spaces
+    	resName = resName.replaceAll(" ","_");
+
+    	//get all children of the parent
+    	List assets = asset.getParent().getChildren();
+    	Iterator it = assets.listIterator();
+    	while (it.hasNext())
+    	{
+    		AbstractAsset asset = (AbstractAsset)it.next();
+    		if (asset.getResource() != null)
+			{
+        		//System.out.println ("HALLO.element: "+asset.getResource());
+    			if ((asset.getResource()).equals(resName))
+				{
+					//System.out.println ("HALLO.dupl: "+resName);
+    				//rename the resourceName
+    				resName = resName.concat("m");
+    				//do return
+    				return resName;
+				}
+			}
+    	}
+
+    	
+    	//returns the resourceName
+    	return resName; 
     }
 }
