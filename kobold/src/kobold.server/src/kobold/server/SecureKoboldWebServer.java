@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.49 2004/07/14 16:01:50 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.50 2004/07/17 13:02:20 neccaino Exp $
  *
  */
 package kobold.server;
@@ -274,9 +274,9 @@ public class SecureKoboldWebServer implements IKoboldServer,
 				invalidateMessage(uc, msg);
 			
 			}
-			/*******************************************************************************************
-			 * IKoboldServerAdministration Interface implementation.
-			 */
+			/*******************************************************************
+			 *      IKoboldServerAdministration Interface implementation.
+			 ******************************************************************/
             else if (methodName.equals("checkAdministrability")){
                 try{
                    // admin method so leave without noticing the WorkflowEngine
@@ -326,7 +326,8 @@ public class SecureKoboldWebServer implements IKoboldServer,
                 try{
                     // admin method so leave without noticing the WorkflowEngine
                     return unassignPle((String)arguments.elementAt(0),
-                                       (String)arguments.elementAt(1));
+                                       (String)arguments.elementAt(1),
+                                       (String)arguments.elementAt(2));
                 }
                 catch(Exception e){
                     logger.info("Exception during execute()", e);
@@ -632,14 +633,27 @@ public class SecureKoboldWebServer implements IKoboldServer,
 	 *         successful, IKoboldServerAdministration.RETURN_FAIL if an error
 	 *         occured while executing the method on the server. 
 	 */
-	public String unassignPle(String adminPassword, String nameOfProductline){
+	public String unassignPle(String adminPassword, 
+                              String nameOfProductline,
+                              String nameOfUser){
 		// 1.) check the password
 		if (!checkAdministrability(adminPassword).equals(RETURN_OK)){
 			return IKoboldServerAdministration.RETURN_FAIL;
 		}
 		
-		// 2.) unassign the ple
-        //TODO: s.o.
-		return IKoboldServerAdministration.RETURN_FAIL;
+        // 2.) get the user's server representation by its name 
+        ProductlineManager plm = ProductlineManager.getInstance();
+        UserManager um = UserManager.getInstance();
+        kobold.server.data.User suser = um.getUser(nameOfUser);
+        
+        // 3.) convert the user-object to its client-representation
+        User cuser = new User(suser.getUserName(), suser.getFullName());
+        
+        // 4.) unassign the user
+        plm.getProductline(nameOfProductline).removeMaintainer(cuser);
+        
+        //TODO: check error return from um and plm as soon as there will be one
+        
+		return IKoboldServerAdministration.RETURN_OK;
 	}
 }
