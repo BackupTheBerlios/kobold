@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageQueue.java,v 1.1 2004/05/15 01:24:17 garbeam Exp $
+ * $Id: MessageQueue.java,v 1.2 2004/05/18 18:38:07 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -40,7 +40,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-import kobold.common.data.KoboldMessage;
+import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.UserContext;
 
 /**
@@ -83,16 +83,20 @@ public class MessageQueue {
 	 * This method adds a new message to the queue.
 	 * @param koboldMessage the message to add.
 	 */
-	public void addMessage(KoboldMessage koboldMessage) {
+	public void addMessage(AbstractKoboldMessage koboldMessage) {
+		System.out.println(GlobalMessageContainer.getInstance());
+		System.out.println(koboldMessage);
 		GlobalMessageContainer.getInstance().addMessage(koboldMessage);
-		queue.add(-1, koboldMessage.getId());
+		//queue.add(-1, koboldMessage.getId());
+		// TODO anselm: Ans Ende einfügen? dann so!
+		queue.add(koboldMessage.getId());
 	}
 
 	/**
 	 * @return the oldest message in the queue, does not remove it! 
 	 */
-	public KoboldMessage getMessage() {
-		return (KoboldMessage) GlobalMessageContainer.getInstance().
+	public AbstractKoboldMessage getMessage() {
+		return (AbstractKoboldMessage) GlobalMessageContainer.getInstance().
 						getMessage((String)queue.get(queue.size() - 1));
 	}
 
@@ -100,7 +104,7 @@ public class MessageQueue {
 	 * Removes the given koboldMessage.
 	 * @param koboldMessage the message.
 	 */
-	public void removeMessage(KoboldMessage koboldMessage) {
+	public void removeMessage(AbstractKoboldMessage koboldMessage) {
 		queue.remove(koboldMessage.getId());
 	}
 	

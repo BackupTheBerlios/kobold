@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SessionManager.java,v 1.1 2004/05/15 01:24:17 garbeam Exp $
+ * $Id: SessionManager.java,v 1.2 2004/05/18 18:38:07 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -65,7 +65,7 @@ public class SessionManager {
 	 * @param userName the user name.
 	 * @param password the password for the session.
 	 */
-	public UserContext login(String userName, String password) {
+	public synchronized UserContext login(String userName, String password) {
 
 		IdManager idManager = IdManager.getInstance();
 		UserManager userManager = UserManager.getInstance();

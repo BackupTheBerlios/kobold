@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: GlobalMessageContainer.java,v 1.1 2004/05/15 01:24:17 garbeam Exp $
+ * $Id: GlobalMessageContainer.java,v 1.2 2004/05/18 18:38:07 vanto Exp $
  *
  */
 package kobold.server.controller;
@@ -42,7 +42,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-import kobold.common.data.KoboldMessage;
+import kobold.common.data.AbstractKoboldMessage;
 
 /**
  * @author garbeam
@@ -52,16 +52,16 @@ import kobold.common.data.KoboldMessage;
  */
 public class GlobalMessageContainer {
 	
-	private Map messages = null;
+	private Map messages = new HashMap();
 	private String messageStore = null;
 	private static GlobalMessageContainer instance = null;
-	private Log log = null;
+	private static final Log logger = LogFactory.getLog(GlobalMessageContainer.class);
 	
 	/**
 	 * @return instance of this Singleton.
 	 */
-	public static GlobalMessageContainer getInstance() {
-		if (instance != null) {
+	public synchronized static GlobalMessageContainer getInstance() {
+		if (instance == null) {
 			instance = new GlobalMessageContainer(
 					System.getProperty("kobold.server.messageStore"));
 		}
@@ -77,19 +77,21 @@ public class GlobalMessageContainer {
 		Document document = null;
 		
 		try {
-			document = reader.read(messageStore);
-			
 			Map newMessages = new HashMap();
-			List list = document.selectNodes( "/kobold-server/messages" );
-		    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-				Element element = (Element) iter.next();
-				KoboldMessage koboldMessage = new KoboldMessage(element);
-			    newMessages.put(koboldMessage.getId(), koboldMessage);
-		    }
+			
+			document = reader.read(messageStore);
+			if (document != null) {
+				List list = document.selectNodes( "/kobold-server/messages/message" );
+				for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+					Element element = (Element) iter.next();
+					AbstractKoboldMessage koboldMessage = AbstractKoboldMessage.createMessage(element);
+					newMessages.put(koboldMessage.getId(), koboldMessage);
+				}
+			}
 		    // don't care about old messages
 		    messages = newMessages;
 		} catch (DocumentException e) {
-				log.error(e);
+				logger.error("Could not open global message container", e);
 		}
 	}
 
@@ -101,7 +103,6 @@ public class GlobalMessageContainer {
 	private GlobalMessageContainer(String messageStore) {
 		this.messageStore = messageStore;
 		
-		LogFactory.getLog("kobold.server.controller.GlobalMessageContainer");
 		deserialize();			
 	}
 	
@@ -109,7 +110,7 @@ public class GlobalMessageContainer {
 	 * Adds a new KoboldMessage to the message container.
 	 * @param koboldMessage
 	 */
-	public void addMessage(KoboldMessage koboldMessage) {
+	public void addMessage(AbstractKoboldMessage koboldMessage) {
 		messages.put(koboldMessage.getId(), koboldMessage);
 		serialize();
 	}
@@ -118,8 +119,8 @@ public class GlobalMessageContainer {
 	 * @return the KoboldMessage by the given id.
 	 * @param id the id for the KoboldMessage.
 	 */
-	public KoboldMessage getMessage(String id) {
-		return (KoboldMessage)messages.get(id);
+	public AbstractKoboldMessage getMessage(String id) {
+		return (AbstractKoboldMessage)messages.get(id);
 	}
 	
 	/**
@@ -133,7 +134,7 @@ public class GlobalMessageContainer {
 		Element messages = root.addElement("messages");
 
 		for (Iterator it = this.messages.values().iterator(); it.hasNext();) {
-			KoboldMessage koboldMessage = (KoboldMessage) it.next();
+			AbstractKoboldMessage koboldMessage = (AbstractKoboldMessage) it.next();
 			messages.add(koboldMessage.serialize());
 		}
 
@@ -143,7 +144,7 @@ public class GlobalMessageContainer {
 			writer.write(document);
 			writer.close();
 		} catch (IOException e) {
-			log.error(e);
+			logger.error("Could not serialize global message container", e);
 		}
 	}
 }

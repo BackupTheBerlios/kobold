@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SecureKoboldWebServer.java,v 1.12 2004/05/17 22:34:39 garbeam Exp $
+ * $Id: SecureKoboldWebServer.java,v 1.13 2004/05/18 18:38:07 vanto Exp $
  *
  */
 package kobold.server;
@@ -31,7 +31,7 @@ import java.util.Vector;
 
 import kobold.common.controller.IKoboldServer;
 import kobold.common.controller.RPCMessageTransformer;
-import kobold.common.data.KoboldMessage;
+import kobold.common.data.AbstractKoboldMessage;
 import kobold.common.data.Product;
 import kobold.common.data.Productline;
 import kobold.common.data.Role;
@@ -94,10 +94,11 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	{
 		try {
 			if (methodName.equals("login")) {
-				return login((String)arguments.elementAt(0), (String)arguments.elementAt(1));
+				return RPCMessageTransformer.encode(login((String)arguments.elementAt(0), (String)arguments.elementAt(1)).serialize());
 			}
 			else if (methodName.equals("logout")) {
-				logout(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))));
+			    UserContext uc = new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+			    logout(uc);
 			}
 			else if (methodName.equals("getRoles")) {
 				return getRoles((UserContext)arguments.elementAt(0));
@@ -109,8 +110,9 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 						  (String)arguments.elementAt(3));
 			}
 			else if (methodName.equals("getProductline")) {
-				return getProductline(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-											  (String)arguments.elementAt(1));
+				UserContext uc = new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0)));
+			    return RPCMessageTransformer.encode(getProductline(uc,
+											  (String)arguments.elementAt(1)).serialize());
 			}
 			else if (methodName.equals("getProduct")) {
 				return getProduct(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
@@ -144,14 +146,14 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 			}
 			else if (methodName.equals("sendMessage")) {
 				sendMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-								 new KoboldMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
+								 AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
 			}
 			else if (methodName.equals("fetchMessage")) {
 				return fetchMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))));
 			}
 			else if (methodName.equals("invalidateMessage")) {
 				invalidateMessage(new UserContext(RPCMessageTransformer.decode((String)arguments.elementAt(0))),
-										new KoboldMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
+										AbstractKoboldMessage.createMessage(RPCMessageTransformer.decode((String)arguments.elementAt(1))));
 			}
 		} catch (Exception e) {
 			logger.info("Exception during execute()", e);
@@ -159,6 +161,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 		}
 		return "NO_RESULT";
 	}
+	
 
 	/**
 	 * Login handler.
@@ -346,7 +349,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * @param userContext the user context.
 	 * @param koboldMessage the message.
 	 */
-	public void sendMessage(UserContext userContext, KoboldMessage koboldMessage) {
+	public void sendMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
 		MessageManager.getInstance().sendMessage(userContext,
 																			koboldMessage);
 	}
@@ -358,7 +361,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * 
 	 * @param userContext the user context.
 	 */
-	public KoboldMessage fetchMessage(UserContext userContext) {
+	public AbstractKoboldMessage fetchMessage(UserContext userContext) {
 		return MessageManager.getInstance().fetchMessage(userContext);
 	}
 
@@ -369,7 +372,7 @@ public class SecureKoboldWebServer implements IKoboldServer, XmlRpcHandler {
 	 * @param userContext the user context.
 	 * @param koboldMessage the message.
 	 */
-	public void invalidateMessage(UserContext userContext, KoboldMessage koboldMessage) {
+	public void invalidateMessage(UserContext userContext, AbstractKoboldMessage koboldMessage) {
 		MessageManager.getInstance().invalidateMessage(userContext,
 																					koboldMessage);
 	}
