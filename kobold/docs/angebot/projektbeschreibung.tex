@@ -1,0 +1,587 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% StuPro A, Produktlinien (Kobold)
+%% Team Werkbold
+%% Angebot
+%% $Id: projektbeschreibung.tex,v 1.1 2004/01/28 18:10:49 garbeam Exp $
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Projekt}
+
+Das Projekt untergliedert sich in das Vorprojekt und das Hauptprojekt.
+In den folgenden Abschnitten wird auf die Einzelheiten der Projektdurchführung
+eingegangen.
+
+\section{Ziel}
+
+Ziel des Vorprojektes ist die Angebotserteilung durch den Auftraggeber zur
+Durchführung des Hauptprojektes.\par
+Ziel des Hauptprojektes ist die erfolgreiche Entwicklung und Auslieferung des
+Produktlinien-Management Systems \product.\par
+
+\section{Vorgehensmodell}
+
+Es wird ein evolutionäres Vorgehensmodell\footnote{Vgl. Literatur, u.a. J.
+Ludewig, Sammlung von Kapiteln zum Software Engineering} angewendet, das sich
+in mehrere Iterationen unterteilt. Jede Iteration entspricht dem
+Wasserfall-Vorgehensmodell. Das Vorgehensmodell ähnelt dem Spiralmodell nach
+B.W. Boehm.
+Durch die Anwendung dieses Vorgehensmodells ergeben sich folgende Vorteile:
+
+\begin{itemize}
+\item Der Umfang der iterativen Spezifikationen und Entwürfe ist wesentlich
+kleiner als bei einer Wasserfall-Gesamtentwicklung. Der inkrementelle Umfang
+resultiert in einer geringeren Fehleranfälligkeit und garantiert somit einen
+höheren Qualitätsstandard.
+\item Der Entwicklungsfortschritt kann somit vom Auftraggeber und vom
+Entwicklungsteam realistischer eingeschätzt werden, da regelmäßig (im
+Monatstakt)
+eine neue Auslieferung durchgeführt wird, die vom Auftraggeber abgenommen
+werden muss.
+\item Durch die Wahl der {\it J2SE} Technologie findet die Entwicklung
+garantiert nach modernen {\it Design Patterns}\footnote{Vgl. Literatur, Design
+Patterns, Erich Gamma} und objektorientierten Paradigmen statt. Im Gegensatz zu
+imperativen Technologien wird dadurch eine geringere Kopplung der
+Software-Komponenten und somit eine bessere Zerlegung des Systems erreicht.
+Eine derart leicht durchführbare Zerlegung des Systems nach funktionalen
+Bestandteilen ermöglicht besonders das evolutionäre Vorgehen.
+\item Es können neue oder geänderte Anforderungen in einer späteren Iteration
+wesentlich flexibler im Entwicklunsprozess berücksichtigt und realisiert
+werden.
+\end{itemize}
+
+Ein entscheidener Unterschied zu konventionellen Vorgehensmodellen ist der
+höhere Kommunikationsaufwand zwischen dem Auftraggeber und dem Entwicklerteam.
+Dieser höhere Kommunikationsaufwand zeichnet sich in jedem Fall positiv für den
+Auftraggeber aus, da Anforderungen schon aufgrund der Quantität der
+Kommunikation besser einfliessen werden.
+
+\section{Realisierung}
+
+\subsection{Vorprojekt}
+
+Im Vorprojekt wird das vorliegende Angebots-Dokument erstellt und in der
+2. Kalenderwoche 2004 eine Angebotspräsentation durchgeführt, die den
+\product Prototypen dem Auftraggeber präsentiert.
+
+\subsection{Hauptprojekt}
+
+Ausgehend vom evolutionären Vorgehensmodell wird das Hauptprojekt in mehrere
+Iterationen unterteilt. In der ersten Iteration
+wird ein solides Rahmensystem erstellt, das alle Basisfunktionalitäten vollständig
+implementiert. In den weiteren Iterationen, deren Anzahl in Absprache mit dem
+Auftraggeber variieren kann, jedoch nicht 4 Iterationen übersteigen sollte,
+werden alle weiteren Anforderungen, die im Rahmen dieses Angebotes beschrieben
+wurden, implementiert, bis das System dem Auftraggeber vollständig gefällt.\par
+Nach jeder Iteration werden dem Kunden alle entstandenen Dokumente und
+Resultate, wie im Abschnitt Lieferumfang angegeben, ausgeliefert.\par
+Der Auftraggeber kann anhand der in jeder Iteration ausgelieferten Resultate
+eine Priorisierung der noch offenen Anforderungen vornehmen, die in der
+Folge-Iteration implementiert werden sollen.\par
+Dem Auftraggeber werden nach jeder Iteration Vorschläge zur Realisierung der
+weiteren Anforderungen unterbreitet.\par
+Darüber hinaus kann der Auftraggeber vor jeder Iteration im Rahmen eines {\it
+Change-Request Verfahrens}\footnote{Mittels Verhandlung zwischen Auftraggeber
+und Projektleiter}
+neue Anforderungen an das Produkt priorisieren, die flexibel im 
+Entwicklungsprozess berücksichtigt werden.
+
+\subsubsection{Iteration I}
+
+In der ersten Iteration wird ein solides Rahmensystem erstellt, das bereits
+alle Basisfunktionalitäten in folgenden Komponenten realisiert, das man 
+klassisch als {\it ``Durchstich''} bezeichnet:
+
+\begin{itemize}
+\item Funktionsfähiger Server mit Stateful Event-Queue und Persistierung von
+Benutzern und Rollen (XML-RPC basiert)
+\item Funktionsfähiger Client mit folgenden Basiskomponenten:
+\begin{itemize}
+\item Arbeitsbereich Komponente (Eclipse-basiert)
+\item Repository Abstraction Layer
+\item GXL Import/Export Komponente
+\item Visualisierungskomponente (GEF-basiert)
+\item Metainformationskomponente
+\item Workflow Framework
+\end{itemize}
+\item Testframework mit Testfällen zu Basiskomponenten
+\end{itemize}
+
+Darüber hinaus werden in der ersten Iterationen folgende Dokumente erstellt:
+
+\begin{itemize}
+\item Spezifikation der Basiskomponenten
+\item Entwurf der Basiskomponenten
+\item Source- und Bytecode der Basiskomponenten
+\item Source- und Bytecode aller notwendigen Komponenten von Drittherstellern
+\item Entwickler Howtos zu Basiskomponenten
+\item Testfälle, Testplan und Testresultate zu Basiskomponenten
+\end{itemize}
+
+Der Arbeitsaufwand der ersten Iteration ist im Vergleich zu den
+Folge-Iterationen deutlich größer. Dies resultiert vor allem aus den hohen
+Qualitätsmerkmalen der verwendeten Basisfunktionalitäten, die von den
+Folge-Iterationen benötigt werden.
+
+\subsubsection{Folge-Iterationen}
+
+In den Folge-Iterationen werden in Kommunikation mit dem Auftraggeber nach
+einer Priorisierung alle noch offenen oder neue Anforderungen
+realisiert. U.a. folgende:
+
+\begin{itemize}
+\item Administrationstool für den Server (kommandozeilen-orientiert)
+\item Statusdarstellung des Servers (Web-basiert)
+\item Workflow Definition und Realisierung (Client-Server Kommunikation)
+\item Architektur-Verwaltungskomponente (Repository gekoppelt)
+\item usw.
+\end{itemize}
+
+Aufgrund des in jeder Iteration durchzuführenden Wasserfall-Vorgehensmodells
+werden auch in jeder Folge-Iteration folgende zugehörige Dokumente erstellt und
+ausgeliefert:
+
+\begin{itemize}
+\item Spezifikation der zu implementierenden Komponenten
+\item Entwurf der zu implementierenden Komponenten
+\item Source- und Bytecode der implementierten Komponenten
+\item Source- und Bytecode aller notwendigen Komponenten von Drittherstellern
+\item Entwickler-Howtos zu den implementierten Komponenten (sofern vorhanden)
+\item Testfälle, Testplan und Testresultate zu den implementierten Komponenten
+\end{itemize}
+
+\section {Zeitplan}
+Eine Zeitplanung im Voraus unterliegt einer gewissen Unsicherheit, da
+die Team- Zusammensetzung im Hauptprojekt und die daraus resultierende
+Terminsynchronisation noch nicht genau ermittelt werden kann. Deshalb
+wird der Zeitplanung im Rahmen dieses Angebotes eine kontinuierliche
+Vorgehensweise zugrundegelegt. Eine Verfeinerung der Zeitplanung wird
+nach der Anpassung des Projektplanes im Rahmen der Neuformierung im
+Hauptprojekt dem Auftraggeber zur Verfügung gestellt.\par
+Als Gesamtaufwand für die Projektdurchführung werden {\bf 500}
+Arbeitsstunden pro Team-Mitglied veranschlagt. Ausgehend von 9
+Team-Mitgliedern entspricht das {\bf 4500} Arbeitsstunden für das
+gesamte Projekt. In einer kontinuierlichen Vorgehensweise entspricht
+dies im Mittel {\bf 108} Arbeitsstunden pro Woche für das gesamte Team.
+\par
+Die folgenden Abschnitte enthalten die Aufwände in Arbeitsstunden der
+Arbeitspakete in den einzelnen Projektphasen bzw. Iterationen und ihre
+jeweils geplanten Fertigstellungstermine. Außerdem sind die Termine
+der externen Meilensteine mit aufgeführt.
+\par
+Aufwände für die Einarbeitung in Aufgabenstellungen werden nicht
+explizit dargestellt, sondern sind in den einzelnen Arbeitspaketen
+bereits erfasst.
+
+\subsection{Vorprojekt}
+\begin{tabular}{llrll}\\
+\bf ID & \bf Arbeitspaket & \bf Aufwand & \bf Termin & \bf Meilenstein \\ \hline
+1  & Angebot & 150 & 19.12.2003 & M1\\
+2  & Angebotspräsentation & 150 & KW2 & M2\\ \hline
+   & \bf Gesamt & \bf 300 & 8 Wochen &\\
+\end{tabular}
+
+Für das Hauptprojekt verbleiben abzüglich dieser Aufwände {\bf 4200}
+Arbeitsstunden.
+
+\subsection{Iteration I}
+
+\begin{tabular}{llrll}\\
+\bf ID & \bf Arbeitspaket & \bf Aufwand & \bf Termin & \bf Meilenstein \\ \hline
+3  & Neuformierung & 30 & KW4 & \\
+4  & Anpassung des Projektplans & 70 & KW5 & M3\\
+5  & Erstellung Spezifikation & 200 & KW7 & \\
+6  & Review Spezifikation & 50 & KW8 & \\
+7  & Korrektur Spezifikation & 20 & KW8 & \\
+8  & Auslieferung Spezifikation & & KW9 & M4\\
+9  & Erstellung Entwurf & 100 & KW9 & \\
+10 & Review Entwurf & 30 & KW10 & \\
+11 & Korrektur Entwurf & 30 & KW10 & \\
+12 & Auslieferung Entwurf & & KW10 & M5\\
+13 & Implementierung / Dokumentation & 300 & KW13 & M6\\
+14 & Test & 100 & KW14 & \\
+15 & Korrektur Implementierung & 70 & KW15 & \\
+16 & Auslieferung Rahmensystem & & KW15 (08.04.) & M7 \\ \hline
+   & \bf Gesamt & \bf 1000 & 10 Wochen &\\
+\end{tabular}
+
+Abzüglich dieser Aufwände verbleiben für Folge-Iterationen {\bf 3200}
+Arbeitsstunden.
+
+\subsection{Folge-Iterationen}
+
+Angestrebt werden im Rahmen dieses Angebotes maximal vier
+Folge-Iterationen, die sich wie folgt in den Zeitplan integrieren:
+
+\begin{tabular}{llrll}\\
+\bf ID & \bf Arbeitspaket & \bf Aufwand & \bf Termin & \bf Meilenstein \\ \hline
+17 & Erstellung Spezifikation & 150 & & \\
+18 & Review Spezifikation & 50 &  & \\
+19 & Korrektur Spezifikation & 20 &  & \\
+20 & Auslieferung Spezifikation & & & M\*\\
+21 & Erstellung Entwurf / Refactoring & 150 & & \\
+22 & Implementierung / Dokumentation & 250 & & \\
+23 & Test und Korrektur & 50 & & \\
+24 & Auslieferung des erweiterten Systems & 30 & & M\* \\ \hline
+   & \bf Gesamt & \bf 700 & 4-5 Wochen &\\
+\end{tabular}
+
+Die genauen Termine der Meilensteine in den Folge-Iterationen werden dem
+Auftraggeber im angepassten Projektplan nach der Neuformierung für das
+Hauptprojekt mitgeteilt.\par
+Der Gesamtaufwand für vier Folge-Iterationen umfasst also
+{\bf 2800} Arbeitsstunden.\par
+Werden pro Iteration vier bis fünf Wochen Arbeitsaufwand veranschlagt,
+so ergeben sich im Mittel für die einzelnen Team-Mitglieder in dieser Zeit
+etwa 15 Arbeitsstunden pro Woche. Dies ermöglicht die rechtzeitige
+Auslieferung des Endproduktes von \product am {\bf 13.08.2004}.\par
+In der folgenden Tabelle sind die Iterationen zeitlich nach
+Kalenderwochen eingegrenzt:
+
+\begin{tabular}{lll}
+\bf Iteration & \bf Beginn & \bf Ende \\ \hline
+Vorprojekt & 06.11.2003 & KW2\\
+Iteration I & KW4 (2004) & KW15 (08.04.2004)\\
+Iteration II & KW16 (2004) & KW20 (14.05.2004)\\
+Iteration III & KW21 (2004 & KW25 (18.06.2004)\\
+Iteration IV & KW26 (2004) & KW30 (23.07.2004)\\
+Iteration V & KW30 (2004) & KW33 (13.08.2004)\\
+\end{tabular}
+
+Im folgenden Diagramm ist der Zeitplan grafisch nach Aufwand
+veranschaulicht:
+
+\begin{center}
+\includegraphics[width=18cm]{zeitaufwand}
+\end{center}
+
+\subsection{Nachbesserungsphase}
+
+Für die Nachbesserungsphase werden abzüglich der Aufwände der
+dargestellten Folge-Iterationen {\bf 400} Arbeitsstunden als
+Puffer verwendet (das entspricht den 4 Wochen vom 13.08.2004 - 10.09.2004).
+Sollten
+vom Auftraggeber keine Nachbesserungswünsche gefordert werden, können
+neue Anforderungen für den Aufwand von {\bf 400} Arbeitsstunden
+beauftragt werden.
+
+\section{Meilensteine}
+
+Wie aus dem Zeitplan ersichtlich, ist das Projekt in mehrere Iterationen
+unterteilt, die sich wiederum in kleinere Phasen aufteilen. Phasen
+werden im Rahmen dieses Angebotes durch (externe) Meilensteine
+abgeschlossen. Meilensteine gelten erst als erreicht, wenn die für die
+jeweilige Phase geplanten Arbeitspakete zur vollständigen Zufriedenheit
+des Auftraggebers erfolgreich erstellt und ausgeliefert wurden.\par
+Erst nach dem erreichen eines Meilensteins wird die Folgephase
+begonnen.\par
+Folgende {\bf 15} Meilensteine werden in der Projektdurchführung
+verwirklicht:\par
+\begin{tabular}{lll}
+\bf Iteration & \bf Meilensteine \\ \hline
+Vorprojekt & M1 (Angebot), M2 (Angebotspräsentation)\\
+Iteration I & M3 (Projektplan), M4 (Spezifikation), M5 (Entwurf),\\
+            & M6 (Implementierung), M7 (Rahmensystem)\\
+Iteration II & M8 (Spezifikation), M9 (Verfeinertes System)\\
+Iteration III & M10 (Spezifikation), M11 (Verfeinertes System)\\
+Iteration IV & M12 (Spezifikation), M13 (Verfeinertes System)\\
+Iteration V & M14 (Spezifikation), M15 (Endprodukt)\\
+\end{tabular}
+
+Im Folgenden sind die genannten Meilensteine beschrieben:
+
+\subsection{M1: Angebot}
+
+{\bf Ergebnis:} Angebot\par
+Das vorliegende Dokument
+
+\subsection{M2: Angebotspräsentation}
+
+{\bf Ergebnis:} Präsentation des Angebotes und des Prototypen\par
+Als Abschluss des Vorprojektes wird dem Auftraggeber das vorliegende Angebot
+in Form einer Präsentation vorgestellt. Dabei wird auch
+der Prototyp zum Angebot präsentiert und ein Dokument zum Prototypen dem
+Auftraggeber zur Verfügung gestellt.
+
+\subsection{M3: Projektplan}
+
+{\bf Ergebnis:} Angepasster Projektplan\par
+Im Rahmen der Neuformierung im Hauptprojekt wird der Projektplan
+verfeinert und an die neue Team-Zusammensetzung angepasst.\par
+Grundsätzliche Änderungen am Vorgehensmodell o.ä. werden nicht
+angestrebt.\par
+Im Einzelnen enthält der Projektplan folgende Abschnitte:\par
+\begin{itemize}
+\item Zeitplan
+\item Dokumentationsrichtlinien
+\item QS-Richtlinien
+\item Genaue Daten zu den Meilensteinen
+\item Projektorganisation und Rollenverteilung
+\end{itemize}
+
+\subsection{M4: Spezifikation}
+
+{\bf Ergebnis:} Spezifikation des Rahmensystems\par
+Die Spezifikation des Rahmensystems dient als Grundlage zur Entwicklung
+aller Basisfunktionalitäten für \product.\par
+Im Einzelnen enthält die Spezifikation folgende Abschnitte:
+\begin{itemize}
+\item Funktionale Anforderungen an Basisfunktionalitäten 
+\item Use-Cases für Basisfunktionalitäten 
+\item Nicht-Funktionale Anforderungen an Basisfunktionalitäten
+\item Begriffslexikon bzgl. der Basisfunktionalitäten
+\end{itemize}
+Die Spezifikation wird im Rahmen eines Reviews in Zusammenarbeit mit dem
+Auftraggeber geprüft.
+
+\subsection{M5: Entwurf}
+
+{\bf Ergebnis:} UML-Entwurf des Rahmensystems\par
+Der Entwurf des Rahmensystems dient als Grundlage zur Implementierung.
+Er enthält kommentierte UML-Diagramme, die die Architektur von \product
+festlegen. Die Qualität dieses Entwurfes ist für die \product
+Entwicklung von entscheidender Bedeutung, da er durch die Festlegung der
+Basisfunktionalitäten alle weiteren Phasen und Iterationen maßgeblich
+beeinflusst. Deshalb wird der Entwurf im Rahmen eines Reviews in Zusammenarbeit
+mit dem Auftraggeber geprüft.
+
+
+\subsection{M6: Implementierung}
+
+{\bf Ergebnis: } Source- und Bytecode des Rahmensystems\par
+In der Implementierung wird aus dem Entwurfsgerüst Rahmencode erzeugt
+und darauf aufbauend die Basisfunktionalitäten implementiert (Client,
+Server, Testrahmen, etc.). Ziel ist ein lauffähiges Client-Server
+Rahmensystem, das schon ausgewählte Anforderungen an \product in
+implementierter Form enthält ({\it ``Durchstich''}).
+
+\subsection{M7: Rahmensystem}
+
+{\bf Ergebnis: } Lauffähiges und getestetes Rahmensystem\par
+Die Auslieferung des Rahmensystems stellt das Ende der Iteration I dar.
+Ziel ist es ein lauffähiges und zuverlässiges Rahmensystem zu erstellen,
+das bereits alle Basisfunktionalitäten enthält, die in den
+Folge-Iterationen zur Implementierung der priorisierten Anforderungen
+verwendet werden sollen. Es wird angestrebt, die Basisfunktionalitäten in
+den Folge-Iterationen nicht anpassen oder verändern zu müssen.\par
+Die Auslieferung des Rahmensystems enthält (wie unter Lieferumfang
+angegeben), neben dem Source- und Bytecode (inkl. notwendiger
+Komponenten von Drittanbietern) auch eine
+Installationsanleitung sowie alle Testfälle, den Testplan und die
+Testresultate. Anhand der Testresultate wird die Qualität des
+Rahmensystems unterstrichen.
+
+\subsection{M8, M10, M12, M14: Spezifikationen}
+
+{\bf Ergebnis:} Spezifikation von priorisierten Anforderungen\par
+In der jeweiligen Iterationen wird eine Spezifikation erstellt, die als
+Grundlage für die evolutionäre Verfeinerung und Vervollständigung des
+bis dahin erstellten Systems dient. Jede Spezifikation enthält folgende
+anforderungs-spezifischen Abschnitte:
+\begin{itemize}
+\item Funktionale Anforderungen
+\item Use-Cases
+\item Nicht-Funktionale Anforderungen (soweit notwenig)
+\item Begriffslexikon
+\end{itemize}
+Zur Endauslieferung wird eine Gesamt-Spezifikation ausgeliefert, die
+alle Teil-Spezifikationen enthält.\par
+Alle Spezifikationen in den jeweiligen Iterationen werden im Rahmen
+eines Reviews in Zusammenarbeit mit dem Auftraggeber geprüft.
+
+\subsection{M9, M11, M13, M15: Verfeinertes System}
+
+{\bf Ergebnis: } Lauffähiges und getestetes System\par
+Diese Meilensteine markieren das jeweilige Ende der zugehörigen
+Iteration. Ziel ist es, ein lauffähiges und zuverlässiges System zu
+liefern, das alle für die jeweilige Iteration priorisierten
+Anforderungen enthält. Darüber hinaus werden neben den zugehörigen Source-
+und Bytecodes (inkl. notwendiger Komponenten von Drittanbietern) alle
+relevanten Dokumente, Howtos, Testfälle, Testpläne und Testresultate
+ausgeliefert (Vgl. Lieferumfang), um die Qualität des jeweils ausgebauten
+Systems zu unterstreichen.\par
+In der letzten Iteration wird das vollständige System inkl. aller unter
+Lieferumfang genannten Dokumente und Software-Komponenten ausgeliefert.
+
+
+\section{Risiken}
+
+\subsection{Nicht-Erfüllen von Meilensteinen}
+Sollte ein Meilenstein nicht erfüllt werden können, also die
+erwarteten Ergebnisse nicht geliefert werden oder die erwartete Qualität
+nicht erreicht werden, muss der Projektplan, insbesondere der Zeitplan,
+entsprechend angepasst werden.\par
+Sollte das nicht möglich sein, da keine ausreichenden Pufferzeiten vorhanden
+sind, müssen die Anforderungen in Übereinkunft mit dem Auftraggeber
+reduziert werden.
+
+\subsection{Ausfall von Team-Mitgliedern}
+Sollten Teammitglieder unerwartet ausfallen, müssen die Anforderungen
+ggf. reduziert werden und die Aufgabenverteilung angepasst
+werden. Wenn dies nicht möglich ist, muss in Übereinkunft mit dem
+Auftraggeber eine andere Lösung gefunden werden.
+
+\section{Top-Down Kostenschätzung}
+
+Ausgehend vom vorgegebenen Aufwand von {\bf 500} Arbeitsstunden pro
+Team-Mitglied ergibt sich bei 9 Team-Mitgliedern ein Gesamtaufwand von
+{\bf 4500} Arbeitsstunden. Unter der Annahme, dass eine Arbeitsstunde
+{100 EUR} kostet, ergeben sich {\bf 450.000 EUR} Gesamtkosten zur Erstellung
+des \product Systems.\par
+Im Rahmen der Anforderungsanalyse und Angebotserstellung wurde eine Top-Down
+Kostenschätzung durchgeführt, die im Folgenden erläutert wird. Soweit
+wie möglich, wurde diese Top-Down Kostenschätzung durch eine Bottom-Up
+Kostenschätzung (aufgrund der bisher durchgeführten Zeiterfassung)
+gegengeprüft. Im Laufe des Projektes wird die Top-Down Kostenschätzung
+durch die permanente Aufwands- und Zeiterfassung ständig überprüft und
+ggf. korrigiert.\par
+
+\subsection{Grundlagen der Kostenschätzung}
+
+Die Schätzung nach dem Top-Down Ansatz beruht vorrangig
+auf Erfahrungswerten aus Industrie-Praktikas, dem Softwarepraktikum, dem
+Studienprojekt B (Automatisierung) sowie der Initiierung verschiedener
+umfangreicher OpenSource Projekte im C++ und J2SE-Umfeld.
+
+\subsection{Schätzung der Kosten}
+Der Schätzung wird der bereits erwähnte Gesamtaufwand von {\bf 4500}
+Arbeitsstunden zugrunde gelegt.\par
+
+\subsubsection{Vorprojekt}
+Dieser Gesamtaufwand wird in Vor- und Hauptprojekt aufgeteilt, wobei
+das Vorprojekt nach erfolgter Zeiterfassung (berücksichtigt bis 11.12.2003)
+auf {\bf 300} Arbeitsstunden geschätzt wird (inkl. Anforderungsanalyse,
+Angebotserstellung, Angebotspräsentation und Prototyp-Entwicklung).
+Damit beläuft sich der Gesamtkostenanteil des Vorprojektes auf
+{\bf 30.000 EUR}.\par
+
+\subsubsection{Hauptprojekt}
+Auf das Hauptprojekt entfallen demnach immernoch {\bf 4200}
+Arbeitsstunden, die einem Gesamtkostenanteil von {\bf 420.000 EUR}
+entsprechen. Durch die geeignete Zerlegung des Hauptprojektes in fünf
+Iterationen, von denen die erste Iteration aufgrund ihrer Fokussierung
+auf die Entwicklung der Basisfunktionalitäten die umfangreichste ist,
+ergeben sich folgende Schätzungen:\par
+\begin{itemize}
+\item Die Iteration I dauert {\bf 1000} Arbeitsstunden, dies entspricht
+einem Gesamtkostenanteil von {\bf 100.000 EUR}.
+\item Die Iterationen II - V dauern im Mittel jeweils {\bf 700}
+Arbeitsstunden, dies entspricht einem Gesamtkostenanteil von {\bf
+280.000 EUR}.
+\end{itemize}
+
+\subsubsection{Iteration I}
+Der größte Gesamtkostenanteil im Hauptprojekt entfällt demnach auf die
+Iteration I und setzt sich dort wie folgt zusammen (hier auf
+Erfahrungswerten beruhend):
+\begin{itemize}
+\item Erstellung/Anpassung des Projektplans inkl. Neuformierung des
+Teams dauert {\bf 100} Arbeitsstunden, dies entspricht einem
+Gesamtkostenanteil von {\bf 10.000 EUR}.
+\item Erstellung/Korrektur der Spezifikation dauert {\bf 270}
+Arbeitsstunden, dies entspricht {\bf 27.000 EUR}.
+\item Erstellung/Korrektur des Entwurfes dauert {\bf 160}
+Arbeitsstunden, dies entspricht {\bf 16.000 EUR}.
+\item Einarbeitung/Implementierung/Test der Basisfunktionalitäten dauert
+{\bf 470} Arbeitsstunden, dies entspricht {\bf 47.000 EUR}.
+\end{itemize}
+
+\subsubsection{Folge-Iterationen}
+
+Von der Iteration I ausgehend wird auf die Folge-Iterationen
+geschlossen.\par
+Die Folge-Iterationen zeichnen sich jedoch durch eine kürzere
+Spezifikation, einen kürzeren Entwurf und eine kürzere
+Implementierungsphase aus, da alle Anforderungen aufbauend auf
+Basisfunktionalitäten realisiert werden. Darüber hinaus ist es
+denkbar, dass die Entwurfsphase in einzelnen Iterationen ganz
+durch eine agile Refactoringphase ersetzt werden kann. Außerdem
+zeichnet sich in den Folge-Iterationen eine zunehmende Arbeitsroutine
+aus, da alle Team-Mitgliedern aufgrund stabiler Basisfunktionalitäten kaum
+oder nur noch geringfügige Einarbeitungsaufwände verursachen.\par
+Deshalb wird im Mittel in den Folge-Iterationen von {\bf 300}
+Arbeitsstunden weniger ausgegangen, so dass sich ein geschätzter Aufwand
+von {\bf 700} Arbeitsstunden ergibt, was jeweils einem
+Gesamtkostenanteil von {\bf 70.000 EUR} entspricht.\par
+
+\subsubsection{Nachbesserungsphase}
+Für die Nachbesserungsphase wurde ein Puffer von {\bf 400}
+Arbeitsstunden reserviert, der bei Bedarf auch für neue Anforderungen
+eingesetzt werden kann, sofern kein Nachbesserungsbedarf besteht, dies
+entspricht einem Gesamtkostenanteil von {\bf 40.000 EUR}. Anteilig
+entspricht dieser Anteil knapp {\bf 10 \%} des Gesamtaufwandes.
+
+\subsection{Schätzung der LOC}
+Beruhend auf Erfahrungswerten wird der die Anzahl der in der Iteration I
+erzeugten J2SE Source Code Zeilen auf {\bf 5 kLOC} geschätzt.\par
+Ausgehend von diesen geschätzten {\bf 5 kLOC} Source Code werden für die
+Folge-Iterationen jeweils {\bf 3,5 kLOC} Source Code geschätzt (lineare
+Kontinuität wird dabei vorrausgesetzt).\par
+Damit ergeben sich für das Endprodukt eine geschätzte Anzahl von
+{\bf 19 kLOC} J2SE Source Code. Dies entspricht {\bf 23,70 EUR}
+pro Zeile Code in Bezug zum Gesamtaufwand.\par
+Die {\bf 400} Arbeitsstunden für die Nachbesserungsphase
+stellen darüberhinaus einen Puffer dar, der {\bf 2 kLOC} entspricht.
+
+\section{Entwicklungsstandards}
+Zur Sicherung der Qualität werden die folgenden Richtlinien,
+Metriken und Testwerkzeuge verwendet.\par
+
+\subsection{GUI Guidelines}
+
+Die grafische Benutzungsoberfläche (GUI) des Clients wird nach den \emph{Eclipse
+User Interface Guidelines}\footnote{http://www.eclipse.org/articles/Article-UI-Guidelines/Contents.html}
+entwickelt.
+
+\subsection{Coding-Style-Guides}
+Jeder Java-Quellcode der im Rahmen dieses Projektes geschrieben wird unterliegt
+den \emph{Code Conventions for the Java Programming Language}\footnote{http://java.sun.com/docs/codeconv/index.html}
+Für Eclipse-spezifische Elemente gelten zudem die Regeln des Eclipse 
+Consortiums\footnote{http://dev.eclipse.org/conventions.html}.
+Die Einhaltung dieser Regeln wird mit den Tools PMD\footnote{http://pmd.sf.net} und
+Checkstyle\footnote{http://checkstyle.sf.net/} überprüft.
+
+\subsection{Configuration Management}
+Als Versionskontrolle wird CVS verwendet. Über das Repository werden
+Metriken mit dem Werkzeug statcvs-xml\footnote{http://statcvs-xml.berlios.de} erhoben.
+
+\subsection{Unit-Tests}
+
+Modultests werden unter zuhilfenahme des Testingframeworks JUnit\footnote{http://www.junit.org}
+für alle Nicht-GUI-Komponenten umfangreich durchgeführt.
+
+\subsection{Testüberdeckung}
+Die Testüberdeckung der Unit-Tests wird Werkzeugen wie Clover\footnote{http://www.thecortex.net/clover/}
+oder JCoverage\footnote{http://www.jcoverage.com/} gemessen.
+
+\subsection{Metriken}
+Über das Projekt werden Metriken über Kopplung und Zusammenhalt erhoben um Aussagen über die Qualität
+des Designs machen zu können. Dazu wird JDepend\footnote{http://www.clarkware.com/software/JDepend.html}
+verwendet.
+
+\subsubsection{Sammlung und Bereitstellung der Metriken}
+Zum Zusammenstellen eines umfangreichen Berichts inkl. der
+erhobenen Metriken über den aktuellen Projektstatus wird Maven\footnote{http://www.maven.org} verwendet.
+Die generierten Berichte werden auf der Projekthomepage veröffentlicht.
+
+%\footnotetext{http://java.sun.com/docs/codeconv/index.html}
+%\footnotetext{http://dev.eclipse.org/conventions.html}
+\section {Garantie, Nachbesserung, Neue Anforderungen}
+
+Der Kunde startet mit der Annahme dieses Angebotes das Hauptprojekt, das in
+der 4. Kalenderwoche 2004 beginnt und am {\bf 13. August 2004} durch die
+Endauslieferung des \product Endproduktes (siehe Lieferumfang) endet.
+\par
+Nach dieser Endauslieferung beginnt eine 4-wöchige Nachbesserungfrist,
+die bis zum {\bf 10. September 2004} andauert. Bis zum Ende dieser Frist
+werden neu entdeckte Fehler behoben, sofern Nachbesserungsaufwand
+besteht. Sollte kein oder nur geringfügiger Nachbesserungsbedarf
+bestehen können vom Auftraggeber auch neue Anforderungen an das Produkt
+gestellt werden, die im Rahmen des noch offenen Aufwands realisiert
+werden.\par
+Nach dem {\bf 10. September 2004} Termin bestehen keine weiteren Rechte,
+zusätzlich kann aber über eine weitergehende Garantie verhandelt werden.
+
+%%% Local Variables: 
+%%% TeX-master: "angebot"
+%%% End: 
+%%% vim:tw=79:

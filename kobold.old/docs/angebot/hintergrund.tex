@@ -1,0 +1,65 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% StuPro A, Produktlinien (Kobold)
+%% Team Werkbold
+%% Angebot
+%% $Id: hintergrund.tex,v 1.1 2004/01/28 18:10:49 garbeam Exp $
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Produkt}
+\section{Hintergrund der Produktlinienentwicklung}
+
+Schl"usselerfolgsfaktoren in der Softwaretechnik sind kurze
+Time-to-market Zyklen, hohe Produktqualit"at und niedrige Kosten. Das Erzielen
+dieser scheinbar unvereinbaren Ziele wird durch systematische
+Wiederverwendung w"ahrend der Entwicklung von Software m"oglich.\par
+
+% Die
+%Erfahrung hat gezeigt, dass systematische Wiederverwendung durch die
+%Einf"uhrung von produktlinienorientierter Software-Entwicklung gut
+%unterst"utzt werden kann.\par
+
+Kernpunkt des Produktlinienansatzes ist die systematische Erfassung
+von Unterschieden und Gemeinsamkeiten der verschiedenen Produkte und
+einer expliziten Abbildung dieser Aspekte in die
+Softwarearchitektur. Diese Grundidee hat Auswirkungen f"ur alle
+Schritte im Produktentwicklungsprozess und - idealerweise - auch
+dar"uber hinaus in der Produktplanung und -strategie.\par
+
+Um eine effiziente Produktlinienentwicklung in der Softwareentwicklung
+zu etablieren, ist es wichtig, dass diese Produktstrategie konsequent
+umgesetzt wird.\par
+
+Idealziel einer gut konfigurierten Produktlinie ist es, ein Produkt
+durch einfache Kombination von angepassten Core-Assets zu
+erstellen. Eine Produktlinie ist also ideal konfiguriert, wenn die
+Produktlinien-Architektur für alle möglichen Produkte hinreichend
+spezifiziert ist. Der Produkt\-linien-Ingenieur hat genau
+diese Aufgabe. Er bestimmt die Architektur in dem er Core-Assets
+definiert und deren Grundbeziehungen zueinander spezifiziert (Scoping
+und Domain-Engineering). Soll nun ein neues Produkt in die
+Produktlinie aufgenommen werden (Application Engineering), so muss es
+dieser Architektur folgen. Es werden dazu bereits existierende
+Varianten der Core-Assets mit neuen Varianten kombiniert und dem
+Produkt-Ingenieur übergeben, der die Verantwortung für das Produkt
+übernimmmt. Dieser hat dafür Sorge zu tragen, dass die Entwicklung an
+dem Produkt nicht die Architektur der Produktlinie verletzt.\par 
+
+In dieser Hierarchie ist es wichtig, dass bestimmte Vorgänge nach
+festen Regeln kommuniziert werden. Wenn z.B. in einem Produkt eine
+bereits existierende Variante eines Core-Assets verwendet wird, darf
+diese nicht von dem Produkt-Entwickler verändert werden. Veränderungen
+sind hier nur dem zuständigen Core-Asset-Entwickler gestattet. Dieser
+muss abwägen, ob die Veränderung sinnvoll ist, da er die
+Verantwortung für sein Modul, welches evtl. auch noch von anderen
+Produkten verwendet wird, hat. Lehnt er dies ab, so muss der
+Produkt-Ingenieur eine produktspezifische Variante dieses Core-Assets
+entwickeln lassen. Dieser Vorgang ist sehr komplex, da mehrere Personen
+mit ihren Entscheidungen daran beteiligt sind. Um eine Produktlinie
+konsequent durchsetzen zu können, müssen diese Arbeitsabläufe
+spezifiziert sein.\par
+
+Es bietet sich nun an, die Entwicklung von Produktlinien mit Werkzeugen zu
+unterstützen. Damit kann man sowohl das Configuration Managment
+vereinfachen, sowie die oben erwähnten Arbeitsabläufe modellieren und damit
+die Kommunikation und die Entwicklung erleichtern.
+

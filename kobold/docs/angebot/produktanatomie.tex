@@ -1,0 +1,169 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% StuPro A, Produktlinien (Kobold)
+%% Team Werkbold
+%% Angebot
+%% $Id: produktanatomie.tex,v 1.1 2004/01/28 18:10:49 garbeam Exp $
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Produktanatomie}
+
+In diesem Abschnitt wird ein grundlegender Überblick über \product vermittelt.
+Neben den grundlegenden Architekturentscheidungen wird auf die
+Benutzungsoberfläche von \product eingegangen.
+
+\subsection{Architekturentscheidungen}
+
+\product wird in Form einer {\it J2SE}\footnote{Java 2 Standard Edition,
+nähere Informationen unter: http://java.sun.com/j2se/}
+ basierten Client-Server Architektur realisiert.
+Die Aufgaben des Servers und Clients sowie die Kommunikation zwischen diesen
+beiden Komponenten werden in den folgenden Unterabschnitten näher beschrieben.
+
+\subsection{Server}
+Der Server wird als HTTP-basierter {\it XML-RPC Server}
+\footnote{Nähere Informationen: http://ws.apache.org/xmlrpc/}
+implementiert. Er stellt die Benutzerberechtigungen sowie Informationen über die
+Produktlinien und deren Produkte zentral den Clients zur Verfügung. Ausserdem ermöglicht
+der Server eine Client-zu-Client-Kommunikation über eine Nachrichten-Queue, welche
+in regelmässigen Abständen von den Clients abgefragt wird (Request/Response).
+Alle Informationen, die der Server bereitstellt sind persistent.\par
+Die Wartung des Servers wird durch ein kommandozeilen-orientiertes
+Administrationstool realisiert.
+
+\subsubsection{Berechtigungskonzept}
+
+Zur Realisierung des produktlinien\-übergreifenden Berechtigungskonzepts
+verwaltet der Server alle benutzer-, rollen-, produktlinien- und
+produkt-basierten Berechtigungen. Dabei kann ein Server produktlinien-übergreifend
+verwendet werden.\par
+Der Server bietet ein auf diesen Berechtigungen basierenden
+Authentifizierungsmechanismus an, der von allen Clients verwendet wird.
+
+\subsubsection{Persistierung}
+
+Die Persistierung aller für das Berechtigungskonzept notwendigen Daten wird
+durch eine abstrakte Persistenzschicht realisiert, die es ermöglicht, die
+Datenhaltung flexibel zu organisieren. Im Rahmen dieses Angebotes wird die
+Persistierung XML-basiert angeboten.
+
+\subsubsection{Nachrichten-Queue}
+
+Die vom Server angebotene Nachrichten-Queue ist zustandsbehaftet, d.h. nach einem
+Stromausfall oder anderen unvorhersehbaren Ereignissen ist die Nachrichten-Queue
+in der Regel ohne Datenverlust wiederherstellbar.\par
+Dadurch wird ein hoher Grad an Konsistenztreue und Zuverlässigkeit erreicht.
+
+\subsubsection{Web-basierte Statusinformationen}
+
+Es ist jederzeit für einen authentifizierten Systemadministrator möglich,
+den Status des Servers über einen Webbrowser abzufragen.
+
+\subsubsection{Administrationstool}
+
+Zur Administration des Servers wird ein kommandozeilen-orientiertes 
+Administrationstool angeboten, dass es ermöglicht, Produktlinien-Ingenieur-Accounts
+anzulegen bzw. zu entfernen, die Nachrichten-Queue zu
+leeren und den Server zu starten oder zu stoppen.
+
+\subsection{Client}
+
+Der Client wird als Plugin für die {\it Eclipse Platform}\footnote{Nähere Informationen: http://www.eclipse.org/}
+realisiert, das die rollenbasierte Visualisierung und Verwaltung von
+Produktlinienarchitekturen in Form von Graphen ermöglicht.\par
+Darüberhinaus dient der Client als Arbeitsumgebung für den Produktlinien- und
+Produktingenieur sowie für den Entwickler. Alle im Produktlinien-Management
+notwendigen Workflows können durch den Client angestoßen und entsprechend visualisiert
+werden.\par
+\newpage
+In der folgenden Grafik ist die grundlegende Architektur der {\it Eclipse
+Platform} dargestellt:\par
+
+\includegraphics[width=15cm]{sdk-arch}
+
+\subsubsection{Rollen}
+
+Der Client unterstützt alle im Produktlinien-Management geforderten Rollen.
+Dabei greift er auf das Berechtigungskonzept des Servers zu.\par
+Ein Produktlinien-Ingenieur kann neue Produkt-Ingenieure anlegen, neue Produkte
+erzeugen, Core Assets der Produkt Architektur hinzufügen, usw. Ebenso kann ein 
+Produkt-Ingenieur die Entwickler für sein Produkt definieren. Hierzu werden
+Server-Aufrufe ausgeführt.
+
+\subsubsection{Visualisierung}
+
+Der Client visualisiert Produktlinien- und Produkt-Architekturen als Graphen
+auf verschiedenen Abstraktionsebenen. Dabei stellt er alle Komponenten und deren
+Abhängigkeiten (must-use und must-not-use) dar.
+
+\subsubsection{Verwaltung}
+
+Der Client verwaltet Produktlinien- und Produkt-Architekturen, d.h. er
+ermöglicht die rollenbasierte Erstellung und Modifikation von
+Architekturen.\par
+Er greift dabei direkt durch eine Repository-Abstraktionsschicht auf
+Repositories zu und erstellt architektur-bezogene Metainformationen, um die
+Produktlinien- bzw. Produkt-Architektur zu verwalten.\par
+Die Metainformationen sind flexibel attributierbar. Im Rahmen dieses Angebotes
+werden die Metainformationen XML basiert dezentral in den Repository-Modulen
+persistiert.
+
+\subsubsection{Workflows/Arbeitsabläufe}
+
+Der Client unterstützt die Wahrung des definierten produktlinien-basierten
+Entwicklungsprozesses durch Konsistenzprüfungen, deren Ergebnisse er in festgelegten
+Intervallen dem Server meldet. Somit können in einer anderen Client-Instanz
+automatisch Workflows angestoßen werden, die eine Inkonsistenz beheben.\par
+Als konkretes Beispiel kann man sich hier ein Update eines Core Assets in der
+Produktlinien Architektur vorstellen, das der Client des Produktlinien-Ingenieurs
+an den Server schickt und anschließend von Clients betroffener
+Produkt-Ingenieure empfangen wird und einen Workflow anstößt. Im Rahmen dieses Angebots
+beschränken sich die Workflows auf automatisch ausgewählte Checklisten, die von
+dem Benutzer abgearbeitet werden müssen.
+
+\subsubsection{Dokumentationsgenerierung}
+Der Client kann anhand der Architekturdaten über Produktlinien und Produkte und deren
+Metadaten eine automatische Dokumentation generieren. Diese ist als HTML,
+RTF und PDF exportierbar und wird mit der Bibliothekt
+iText\footnote{http://www.lowagie.com/iText/} erzeugt.
+
+\subsubsection{Versionskontrolle}
+\product unterstützt verschiedene Versionskontrollsystem. Dabei stützt es sich auf die
+Abstraktionsschicht der Eclipse Plattform und arbeitet von Haus aus mit CVS zusammen.
+Eine Liste der von Drittanbietern verfügbaren Anbindungen an andere Versionkontrollsysteme
+findet sich unter http://www.eclipse.org/community/plugins.html\#TeamAdaptors
+
+\subsection{Kommunikation}
+
+Die Kommunikation zwischen Client und Server läuft über Remote-Procedure-Calls
+ab. Durch den XML-RPC Server können alle gängigen Datencontainer wie
+Hashtables, Vektoren, Arrays, usw. ausgetauscht werden.
+
+\subsection{Benutzungsoberfläche}
+
+\subsubsection{Server}
+
+Mit Ausnahme der Web-basierten Statusinformationsdarstellung, die ein
+Administrator im Browser sichtbar machen kann, hat der Server keine interaktive
+Benutzungsoberfläche.\par
+
+\subsubsection{Client}
+
+Auf dem folgenden Screenshot ist eine prototypische Darstellung des Clients zu
+erkennen. Er zeigt
+\begin{itemize}
+\item eine angedeutete Darstellung eines Architektur-Graphen
+\item eine Minimap des Architektur-Graphen
+\item eine Baumansicht der Produktlinie und deren Produkte (nach
+  Rollen grupiert)
+\item eine Liste der noch offenen Workflows
+\end{itemize}
+
+\includegraphics[width=15cm]{screenshot}
+
+
+
+
+%%% Local Variables: 
+%%% TeX-master: "angebot"
+%%% End: 
+%%% vim:tw=79:
