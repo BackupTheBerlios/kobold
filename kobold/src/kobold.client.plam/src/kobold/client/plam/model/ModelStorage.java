@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ModelStorage.java,v 1.3 2004/07/29 15:17:49 garbeam Exp $
+ * $Id: ModelStorage.java,v 1.4 2004/08/01 12:54:35 rendgeor Exp $
  *
  */
 package kobold.client.plam.model;
@@ -29,18 +29,24 @@ package kobold.client.plam.model;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 
 import kobold.client.plam.model.product.Product;
+import kobold.client.plam.model.productline.Component;
 import kobold.client.plam.model.productline.Productline;
 import kobold.common.io.RepositoryDescriptor;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
@@ -222,5 +228,130 @@ public class ModelStorage
         return new Path(root.getProject().getIProject().getLocation()
                         + File.separator + thePath);
     }
+    
+	/**
+	 * Serializes the productline and write it to a xml-file
+	 */
+	public void serializeProductline (Productline pl)
+	{
+		serializeProductline(pl,false);
+	}
+    
+    
+	/**
+	 * Serializes the productline, products and cas and write it to the xml-files
+	 */
+	public void serializeProductline (Productline pl, boolean serializeAll)
+	{
+		//creates the PL directories
+		createPlDirectory (pl);
+		
+		//creates a document
+		Document document = DocumentHelper.createDocument();
+		
+		//get the abstractAsset information
+		Element root = document.addElement("productlinemetainfo");
+		
+		//add the serialized element
+		root.add (pl.serialize (serializeAll));
+		
+		//write it to an xml-file
+			 XMLWriter writer;
+			try {
+				writer = new XMLWriter(new FileWriter (pl.getLocalPath().toOSString() /*+ File.separatorChar + getName() */ 
+													+ File.separatorChar + "PL" + File.separatorChar + ".productlinemetainfo.xml"));
+				writer.write(document);
+				writer.close();
+			} catch (IOException e) {
+				Log log = LogFactory.getLog("kobold: ModelStorage:Productline");
+				log.error(e);
+			}	
+	}
+	
+	private void createPlDirectory (Productline pl) {
+		//create directory for the PL
+		String name = pl.getLocalPath().toOSString() /*+ File.separatorChar + getName()*/;
+		File newDir = new File (name);
 
+		if (newDir.mkdir()==true)
+			System.out.println("Project Directory was created");
+			else
+			System.out.println("Project Directory already existed");
+
+		
+		newDir = new File (pl.getLocalPath().toOSString()/*+ File.separatorChar + getName() */+ File.separatorChar + "PL");
+		
+		if (newDir.mkdir()==true)
+			System.out.println("Project-PL Directory was created");
+			else
+			System.out.println("Project-PL Directory already existed");
+		
+		newDir = new File (pl.getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
+				+ "PRODUCTS");
+		if (newDir.mkdir()==true)
+			System.out.println("Project-PL-Product Directory was created");
+			else
+			System.out.println("Project-PL-Product Directory already existed");
+
+		newDir = new File (pl.getLocalPath().toOSString()/*+ File.separatorChar +getName() */+ File.separator 
+				+ "CAS");
+		if (newDir.mkdir()==true)
+			System.out.println("Project-PL-CAS Directory was created");
+			else
+			System.out.println("Project-PL-CAS Directory already existed");
+
+	}	
+	
+	public void serializeProduct (Product product)
+	{
+		//creates a document
+		Document document = DocumentHelper.createDocument();
+		
+		//get the abstractAsset information
+		Element root = document.addElement("productmetainfo");
+		
+		//add the serialized element
+		root.add (product.serialize ());
+
+		//write it to an xml-file
+			 XMLWriter writer;
+			try {
+				writer = new XMLWriter(new FileWriter(product.getLocalPath().toOSString()/*+ File.separatorChar + ((AbstractAsset)getParent()).getName() */
+													/*+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() */
+													+ File.separatorChar + ".productmetainfo.xml"));
+				writer.write(document);
+				writer.close();
+			} catch (IOException e) {
+				Log log = LogFactory.getLog("kobold....");
+				log.error(e);
+			}	
+	}
+
+	public void serializeComponent (Component component)
+	{
+		//creates a document
+		Document document = DocumentHelper.createDocument();
+		
+		//get the abstractAsset information
+		Element root = document.addElement("coreassetmetainfo");
+		
+		//add the serialized element
+		root.add (component.serialize ());
+		
+		//write it to an xml-file
+			 XMLWriter writer;
+			try {
+				writer = new XMLWriter(new FileWriter (component.getLocalPath().toOSString()/*+ File.separatorChar + ((AbstractAsset)getParent()).getName() */
+													/*+ File.separatorChar + "CAS" 
+													+ File.separatorChar + getName () */+ File.separatorChar 
+													+ ".coreassetmetainfo.xml"));
+				writer.write(document);
+				writer.close();
+			} catch (IOException e) {
+				Log log = LogFactory.getLog("kobold....");
+				log.error(e);
+			}	
+	}
+
+	
 }

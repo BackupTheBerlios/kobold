@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.8 2004/08/01 12:07:36 rendgeor Exp $
+ * $Id: Product.java,v 1.9 2004/08/01 12:54:35 rendgeor Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -114,30 +114,6 @@ public class Product extends AbstractRootAsset
 	}
 
 	
-	public void serializeProduct ()
-	{
-		//creates a document
-		Document document = DocumentHelper.createDocument();
-		
-		//get the abstractAsset information
-		Element root = document.addElement("productmetainfo");
-		
-		//add the serialized element
-		root.add (serialize ());
-
-		//write it to an xml-file
-			 XMLWriter writer;
-			try {
-				writer = new XMLWriter(new FileWriter(getLocalPath().toOSString()/*+ File.separatorChar + ((AbstractAsset)getParent()).getName() */
-													/*+ File.separatorChar + "PRODUCTS" + File.separatorChar + getName() */
-													+ File.separatorChar + ".productmetainfo.xml"));
-				writer.write(document);
-				writer.close();
-			} catch (IOException e) {
-				Log log = LogFactory.getLog("kobold....");
-				log.error(e);
-			}	
-	}
 
 	/**
 	 * Deserializes this product.

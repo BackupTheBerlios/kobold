@@ -25,6 +25,7 @@
 
 package kobold.client.vcm.popup.action;
 
+import kobold.client.plam.model.ModelStorage;
 import kobold.client.plam.model.productline.Productline;
 import kobold.client.vcm.communication.KoboldPolicy;
 import kobold.client.vcm.controller.KoboldRepositoryAccessOperations;
@@ -48,7 +49,9 @@ public class CheckoutAction extends KoboldAction {
 		KoboldRepositoryAccessOperations repoAccess = new KoboldRepositoryAccessOperations();
 		try
 		{
-			((Productline)testAssets[0]).serializeProductline(true);
+			ModelStorage ms = new ModelStorage();
+			ms.serializeProductline(((Productline)testAssets[0]), true);
+			//((Productline)testAssets[0]).serializeProductline(true);
 			repoAccess.checkout(testAssets,IResource.DEPTH_INFINITE,null);
 		}
 		catch (Exception e)
