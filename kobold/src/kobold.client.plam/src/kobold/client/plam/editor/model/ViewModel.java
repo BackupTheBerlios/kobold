@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ViewModel.java,v 1.6 2004/08/02 17:23:53 vanto Exp $
+ * $Id: ViewModel.java,v 1.7 2004/09/18 13:19:24 vanto Exp $
  *
  */
 package kobold.client.plam.editor.model;
@@ -106,7 +106,7 @@ public class ViewModel implements ISerializable
         element.addAttribute("x", ""+location.x);
         element.addAttribute("y", ""+location.y);
         element.addAttribute("h", ""+size.height);
-        element.addAttribute("w", ""+size.height);
+        element.addAttribute("w", ""+size.width);
         
         return element;
     }
