@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: WorkflowEngine.java,v 1.6 2004/06/23 13:28:31 garbeam Exp $
+ * $Id: WorkflowEngine.java,v 1.7 2004/06/25 18:32:52 bettina Exp $
  *
  */
 package kobold.server.workflow;
@@ -34,8 +34,10 @@ import java.util.*;
 
 
 /**
- * This class mediates between Kobold and drools. 
- * @author Bettina Druckenmueller
+ * This class mediates between Kobold and drools.
+ * Method applWorkflow implements the interface for WorkflowMessages
+ * Method applRPCSpy implements the interface for rules written by the user 
+ * @author Bettina
  */
 public class WorkflowEngine {
 
@@ -63,9 +65,8 @@ public class WorkflowEngine {
 	}
 	
 	/**
-	 * The interface that allows Kobold to create and work with the 
-	 * drools instance.
-	 * @return the current instance of drools
+	 * Gets the current Instance of WorkflowEngine
+	 * @return the current instance of the WorkflowEngine
 	 */
 	public static WorkflowEngine getInstance() {
 		if (theInstance == null) {
@@ -136,7 +137,6 @@ public class WorkflowEngine {
 		try {
 			memory.assertObject(obj);
 		} catch (FactException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -151,24 +151,6 @@ public class WorkflowEngine {
 		if (list.contains(obj)) {
 			list.remove(obj);
 		}
-		else {
-			
-		}
-	}
-
-	/**
-	 * Changes a workflowmessage object inside the workingmemory.
-	 * @param msg a workflowmessage object
-	 */
-	private void modifyObject(WorkflowMessage msg) {
-	}
-
-	/**
-	 * Used to refresh the rulebase whenever it's changed during
-	 * the runtime of drools. This method is especially for
-	 * testing purposes.  
-	 */
-	public void refreshRuleBase() {
 	}
 
 	/**
@@ -187,12 +169,8 @@ public class WorkflowEngine {
 		try {
 			memory.fireAllRules();
 		} catch (FactException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//if (!(msg.getReciever().equals(""))) {
-
-		//}
 		engine.retractObject(rpcSpy);
 	}
 	
@@ -212,13 +190,8 @@ public class WorkflowEngine {
 		try {
 			memory.fireAllRules();
 		} catch (FactException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//if (!(msg.getReciever().equals(""))) {
-
-		//}
 		engine.retractObject(msg);
 	}
-
 }
