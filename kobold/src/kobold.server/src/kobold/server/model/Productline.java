@@ -21,13 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Productline.java,v 1.1 2004/04/16 11:28:03 garbeam Exp $
+ * $Id: Productline.java,v 1.2 2004/04/18 14:04:40 garbeam Exp $
  *
  */
 
 package kobold.server.model;
 
-import java.lang.String;
+import kobold.common.data.PInfo;
+import kobold.common.data.PLInfo;
+import kobold.common.data.Role;
 
 /**
  * This class stores a productline's data on the server.
@@ -36,13 +38,13 @@ import java.lang.String;
  */
 public class Productline {
 
-    private Productlineinfo info;
+    private PLInfo info;
 
     /**
      * @return the productline's informations.
      * @see kobold.util.data.ProductlineInfo
      */
-    public ProductlineInfo getInfo() {
+    public PLInfo getInfo() {
         return null;
     }
 
@@ -50,7 +52,7 @@ public class Productline {
      * @return information of the given product
      * @see kobold.util.data.ProductInfo 
      */
-    public ProductInfo getProductInfo(String product) {
+    public PInfo getProductInfo(String product) {
         return null;
     }
 
@@ -65,13 +67,13 @@ public class Productline {
     /**
      * @see kobold.server.model.ProductlineAdmin.applyProductlineInfo(kobold.util.data.ProductlineInfo)
      */
-    public void applyProductlineInfo(Productlineinfo info) {
+    public void applyProductlineInfo(PLInfo info) {
     }
 
     /**
      * @see kobold.server.model.ProductlineAdmin.applyProductInfo(kobold.util.data.ProductInfo)
      */
-    public void applyProductInfo(ProductInfo info) {
+    public void applyProductInfo(PInfo info) {
     }
 
     /**

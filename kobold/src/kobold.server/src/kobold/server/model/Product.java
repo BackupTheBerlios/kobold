@@ -21,23 +21,26 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: Product.java,v 1.1 2004/04/16 11:28:03 garbeam Exp $
+ * $Id: Product.java,v 1.2 2004/04/18 14:04:40 garbeam Exp $
  *
  */
 
 package kobold.server.model;
+
+import kobold.common.data.PInfo;
+import kobold.common.data.Role;
 
 /**
  * This class stores a product's data on the server.
  */
 public class Product {
 
-    private ProductInfo info;
+    private PInfo info;
 
     /**
      * @see kobold.server.model.ProductlineAdmin.applyProductInfo(kobold.util.data.ProductInfo)
      */
-    public void applyProductInfo(ProductInfo info) {
+    public void applyProductInfo(PInfo info) {
     }
 
     /**
@@ -50,7 +53,7 @@ public class Product {
      * @return information about the product
      * @see kobold.util.data.ProductInfo 
      */
-    public ProductInfo getInfo() {
+    public PInfo getInfo() {
         return null;  
     }
 

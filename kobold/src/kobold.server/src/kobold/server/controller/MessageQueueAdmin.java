@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: MessageQueueAdmin.java,v 1.1 2004/04/16 11:28:03 garbeam Exp $
+ * $Id: MessageQueueAdmin.java,v 1.2 2004/04/18 14:04:40 garbeam Exp $
  *
  */
 
 package kobold.server.controller;
 
-import java.lang.String;
+import kobold.common.data.KoboldMessage;
+import kobold.common.data.MessageQueue;
 
 /**
  * This class admins the server-side message queues for all users.

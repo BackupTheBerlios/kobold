@@ -21,13 +21,19 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ServerInterface.java,v 1.1 2004/04/16 11:28:03 garbeam Exp $
+ * $Id: ServerInterface.java,v 1.2 2004/04/18 14:04:40 garbeam Exp $
  *
  */
 
 package kobold.server.controller;
 
-import java.lang.String;
+import java.util.List;
+
+import kobold.common.data.KoboldMessage;
+import kobold.common.data.PInfo;
+import kobold.common.data.PLInfo;
+import kobold.common.data.Role;
+import kobold.common.data.UserContext;
 
 /**
  * This class acts as an interface for Kobold-clients.
@@ -40,9 +46,9 @@ public interface ServerInterface {
      * A Kobold-Client has to call this method before making any
      * other requests.
      *
-     * @see kobold.util.data.LoginInfo
+     * @see kobold.common.data.UserContext
      */
-    public LoginInfo login(LoginInfo li);
+    public UserContext login(UserContext uc);
 
     /**
      * Called by Kobold-Clients to logout (the passed session-ID
@@ -76,12 +82,12 @@ public interface ServerInterface {
     /**
      * @see kobold.server.model.ProductlineAdmin.getProductlineInfo(java.lang.String)
      */
-    public ProductlineInfo getProductlineInfo(String sessionID, String pl);
+    public PLInfo getProductlineInfo(String sessionID, String pl);
 
     /**
      * @see kobold.server.model.ProductlineAdmin.getProductInfo(java.lang.String)
      */
-    public ProductInfo getProductInfo(String sessionID, String product);
+    public PInfo getProductInfo(String sessionID, String product);
 
     /**
      * @see kobold.server.model.ProductlineAdmin.addProduct(java.lang.String, java.lang.String)
@@ -91,7 +97,7 @@ public interface ServerInterface {
     /**
      * @see kobold.server.user.UserAdmin.getUserInfo(java.lang.String)
      */
-    public UserInfo getUserInfo(String sessionID, String username);
+    public UserContext getUserContext(String sessionID, String username);
 
     /**
      * @see kobold.server.model.ProductlineAdmin.addRole(kobold.util.data.Role)
@@ -102,17 +108,17 @@ public interface ServerInterface {
     /**
      * @see kobold.server.model.ProductlineAdmin.applyProductlineInfo(kobold.util.data.ProductlineInfo)
      */
-    public void applyProductlineInfo(String sessionID, ProductlineInfo pi);
+    public void applyPLInfo(String sessionID, PLInfo pi);
 
     /**
      * @see kobold.server.model.ProductlineAdmin.applyProductInfo(kobold.util.data.ProductInfo)
      */
-    public void applyProductInfo(String sessionID, ProductInfo pi);
+    public void applyProductInfo(String sessionID, PInfo pi);
 
     /**
      * @see kobold.server.user.UserAdmin.applyUserInfo(kobold.util.data.UserInfo)
      */
-    public void applyUserInfo(String sessionID, UserInfo ui);
+    public void applyUserInfo(String sessionID, UserContext uc);
 
     /**
      * @see kobold.server.model.ProductlineAdmin.removeProductline(java.lang.String)

@@ -21,14 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: UserAdmin.java,v 1.1 2004/04/16 11:28:03 garbeam Exp $
+ * $Id: UserAdmin.java,v 1.2 2004/04/18 14:04:40 garbeam Exp $
  *
  */
 
 
 package kobold.server.user;
 
-import java.lang.String;
+import kobold.common.data.Role;
+import kobold.common.data.UserContext;
 
 /**
  * This class stores user data on the server and provides authentification
@@ -51,13 +52,13 @@ public class UserAdmin {
      *
      * @param info userinfo that describes the new user info
      */
-    public void applyUserInfo(UserInfo info) {
+    public void applyUserInfo(UserContext uc) {
     }
 
     /**
      * @return the user's information
      */
-    public UserInfo getUserInfo(String user) {
+    public UserContext getUserInfo(String user) {
         return null;
     }
 

@@ -21,13 +21,17 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineAdmin.java,v 1.1 2004/04/16 11:28:03 garbeam Exp $
+ * $Id: ProductlineAdmin.java,v 1.2 2004/04/18 14:04:40 garbeam Exp $
  *
  */
 
 package kobold.server.model;
 
-import java.lang.String;
+import java.util.List;
+
+import kobold.common.data.PInfo;
+import kobold.common.data.PLInfo;
+import kobold.common.data.Role;
 
 /**
  * This class admins the model of productlines and products on the server.
@@ -67,14 +71,14 @@ public class ProductlineAdmin {
     /**
      * @return info to the passed productline
      */
-    public ProductlineInfo getProductlineInfo(String productline) {
+    public PLInfo getProductlineInfo(String productline) {
         return null;
     }
 
     /**
      * @return info to the passed product
      */
-    public ProductInfo getProductInfo(String product) {
+    public PInfo getProductInfo(String product) {
         return null;
     }
 
@@ -84,7 +88,7 @@ public class ProductlineAdmin {
      * 
      * @see ProductlineInfo
      */
-    public void applyProductlineInfo(Productlineinfo info) {
+    public void applyProductlineInfo(PLInfo info) {
     }
 
     /**
@@ -93,7 +97,7 @@ public class ProductlineAdmin {
      * 
      * @see ProductInfo
      */
-    public void applyProductInfo(ProductInfo info) {
+    public void applyProductInfo(PInfo info) {
     }
 
     /**
@@ -111,7 +115,7 @@ public class ProductlineAdmin {
     /**
      * @return a list containing all stored productlines' names 
      */
-    public list getProductlineList() {
+    public List getProductlineList() {
         return null;
     }
 

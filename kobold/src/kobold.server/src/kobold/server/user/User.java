@@ -21,12 +21,15 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: User.java,v 1.1 2004/04/16 11:28:03 garbeam Exp $
+ * $Id: User.java,v 1.2 2004/04/18 14:04:40 garbeam Exp $
  *
  */
 
 
 package kobold.server.user;
+
+import kobold.common.data.Role;
+import kobold.common.data.UserContext;
 
 /**
  * This class contains all information about a user that has to be stored
@@ -36,14 +39,14 @@ package kobold.server.user;
  */
 public class User {
 
-    private UserInfo info;
+    private UserContext context;
 
     /**
      *
      * Use to get the stored USerInfo
      * @return the stored UserInfo
      */
-    public UserInfo getInfo() {
+    public UserContext getUserContext() {
         return null;
     }
 
@@ -55,7 +58,7 @@ public class User {
      *
      * @param info the new UserInfo
      */
-    public void applyUserInfo(UserInfo info) {
+    public void applyUserContext(UserContext info) {
     }
 
     /**
