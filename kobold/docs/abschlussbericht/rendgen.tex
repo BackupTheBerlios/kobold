@@ -4,4 +4,105 @@
 
 \subsection{Tätigkeiten}
 
+Bei dem Studienprojekt Kobold handelt es sich um mein
+2.Studienprojekt. Durch die bisherigen Erfahrungen in Projekten und
+mein 1.Studienprojekt war mir das Vorgehen und der Ablauf innerhalb
+des Projektes schnell klar und so konnte ich mich auf die Inhalte
+konzentrieren.
+
+Das Vorprojekt begann mit der Analyse, geprägt durch die Vorstellung
+des Kunden und kleinere Analysegepräche direkt mit
+Mitarbeitern. Nachdem die ersten Fakten gesammelt waren sortierte
+unser Team die Fakten in Meetings und formte daraus erste
+Vorstellungen eines Rahmengerüstes. Zu dieser Zeit kamen auch erste
+Gedanken auf, nicht wie üblich Ada, sonder Java als
+Implemtierungssprache zu verwenden. Erfreulicherweise war der Kunde
+mit diesem Fakt einverstanden.
+Anhand der weiteren Gedanken wurde bald ein grober Entwurf erstellt,
+der dann zu dem Angebot führte. Das Angebot stellte einen guten
+Überblick über unsere Ideen dar, die als funktionale Anforderung
+einflossen. Auch, dass wir nach dem evolutionären Vorgensmodell
+vorgehen wollten, war damit festgelegt.
+
+Dadurch, dass unser Angebot angenommen wurde, vergrößerte sich unsere
+Gruppe um die Teilnehmer einer anderen Gruppe. Um die neuen Teilnehmer
+in unsere bisherigen Gedanken und Designentscheidungen einzuführen,
+sowie alle teilnehmer auf den gleichen Wissensstand zu bringen, wurden
+interne Schulungen & Seminare durchgeführt. Da einige Teilnehmer
+bisher nur Windows benutzt hatten, führte ich in einem Seminar in die
+Grundlagen von SSH, CVS inkl. Einbindung in Eclipse und die
+Berlios-Dienste ein. Somit sollte jeder Teilnehmer in der Lage sein
+aud die unter Versionkontrolle stehenden Dokumente und Quellcodes
+zuzugreifen und eigene Informationen in die mit maven generierte
+Webseite einzufügen. Da ich die Eclipse-Plattform noch nicht kannte,
+war meine Einarbeitungsaufwand in die verschiedenen Eclipse
+Eigenschaften und Einstellungsmöglichkeiten, sowie die interen
+komplexee Struktur des Frameworks aufwändig.
+
+Nach dieser Neuformierung ging es darum eine passende Spezifikation zu
+erstellen. Da aber auch zu diesem Zeitpunkt noch nicht alle
+auftretenden fälle abgeklart waren gab es oft Meetings bei denen die
+köpfe zum glühen gebracht wurden und ganz neue Sichtpunkt eingenommen
+werden mussten. In der Spezifikationsphase machte ich mir
+u.A. Gedanken über eine geeignete Metadaten-Struktur und spezifizierte
+diese. Die Metadaten sollten im XML-Format abgelegt werden und alle
+nötigen Information der PL, P und CAS beinhalten. Durch Verweise
+zwischen den Dateien musste ich meine Vorschläge anpassen.
+
+Da ich mich gut mit VCM-System auskenne, habe ich für den Entwurf das
+VCM-Wrapper Plug-In entworfen. Dieses ermöglicht alle möglichen
+Repository-Operationen als Team-Plugin. Dabei waren die groben
+Ablaufschritte zu spezifizieren, die vom Laden der Konfiguration vom
+Server bis zum letztendlichen auschecken, gingen. Außerdem mussten die
+verschiedenen repositoryoperation deklarier und die Rechteverwaltung
+der verschiedenen Rollen festgelegt werden.
+
+Während der Implementierungsphase hatte ich verschiedene Aufgaben. Am
+Anfang setzte ich die spezifierte Metadaten-Ablage um. Da selbst
+während der Implemetierung noch viele Dinge umgestellt wurden musste
+auch hier nachgezogen werden. Auch das Format änderte sich noch. Um
+die korrekte Speicherung zu verifizieren setzte ich J-Unit Testfälle
+ein. Dabei hatte ich auch die Erfahrung dass man nicht für alle
+komponenten J-Unit Testfälle einsetzten kann, bzw. diese zuerst
+kapseln muss.
+Daraufhin beschäftigte ich mich mit dem VCM-Wrapper. Ich schrieb
+Skripte für alle nötigen VCM-Aktionen. Um Dateien, die sowohl unter
+und nicht unter
+Versionskontrolle stehen zu erkennen und mit diesen umzugehen,
+entschieden wir uns für zusätzliche Perl-Skripte, die vom VCM-Plugin
+angestoßen, die lokale Dateistruktur parsen und dabei
+Statusinformationen ausgeben. Das Schreiben dieser Skripte und das
+Parsing innerhalb von Java inklusive dem Erzeugen von
+Dateideskriptoren zur Darstellung sowie zur weiteren Verarbeitung
+waren meine weiteren Aufgaben. Dabei arbeitete ich eng mit Patrick
+zusammen. Wir mussten beide dabei feststellen, dass es viele Probleme
+verursacht, wenn sich unbekannte Wechselwirkungen zwischen Abhängigen
+Komponenten andeuten.
+Im letzten Schritt der Implementierung wurde es nötig, dass der Kunde
+eine erste Auslieferungsversionen erhält. Aus diesem Grund erstellte ich
+eine komfortable Installations- und Distributionsroutine zur
+Generierung von Auslieferungs-ISO-Dateien, sowie zur Installation beim
+Kunden. Dabei mussten wir davon ausgehen, dass eine eigene Java, sowie
+Perl-Installation benötigt wird, sowie die nötigen Lib-Abhänigkeiten
+gelöst werden. Außerdem sollte Kobold, der Server 
+und das Administrationsprogramm ohne vorherigen Aufwand sofort
+benutzbar sein. Auch alle bisher entstandenen Dokument wurden dabei
+als PDF-Dateien erzeugt.
+In der Testphase, führten Necati und ich einen Konkurrenzprodukttest
+durch. Dabei fiel auf, dass deren Produkt aus einem anderen
+Benutzeraspekt designt wurde.
+
 \subsection{Beurteilung}
+Das Projekt hat meine Erfahrungen im Umgang innerhalb eines Teames
+erweitert. Unser verwendetes Entwicklungsmodell passte gut zu unserem
+Projekt, aber auch die Schattenseiten wurden deutlich.
+Die große Aufwand der anfänglichen Einarbeitung wurde auch von mir
+unterschätzt, was zu kleineren Problemen führte, da das komplexe
+Eclipse-Framework viele Fehlerquellen bereithält.
+Dank Patricks großer Starthilfe und der anderen Teilnehmer konnte ich
+jedoch schnell die Starthürden überwinden.
+Vielen Dank an das ganze Team und den sehr fähigen Projektleiter für
+eine gute Athmosphäre während des Projektes, die Offenheit und das
+Engagement die den Zusammenhalt der Gruppe ausmachen.
+Es ist schön wenn man Meetings in der Maschinenbaucafete abhalten kann
+und trotzdem den Sinn des Meetings nicht vergisst:-)
