@@ -21,34 +21,58 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponentEditPart.java,v 1.2 2004/08/06 10:50:58 vanto Exp $
+ * $Id: RelatedComponentFigure.java,v 1.1 2004/08/06 10:50:58 vanto Exp $
  *
  */
-package kobold.client.plam.editor.editpart;
+package kobold.client.plam.editor.figure;
 
 import kobold.client.plam.editor.KoboldColors;
 
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.RectangleFigure;
-
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * @author Tammo
  */
-public class RelatedComponentEditPart extends AbstractAssetEditPart
+public class RelatedComponentFigure extends AbstractNodeFigure
 {
+    protected Dimension corner = new Dimension(8, 8);
+    
+    /**
+     * @see kobold.client.plam.editor.figure.AbstractNodeFigure#getAssetColor()
+     */
+    protected Color getAssetColor()
+    {
+        return KoboldColors.orMeta;
+    }
 
     /**
-     * @see kobold.client.plam.editor.editpart.AbstractAssetEditPart#createNodeFigure()
+     * @see org.eclipse.draw2d.Shape#fillShape(org.eclipse.draw2d.Graphics)
      */
-    protected IFigure createNodeFigure()
+    protected void fillShape(Graphics graphics)
     {
-        RectangleFigure f = new RectangleFigure();
-        f.setBackgroundColor(KoboldColors.orMeta);
-        f.add(new Label("Related Component"));
-        return f;
-
+        graphics.fillRoundRectangle(getBounds(), corner.width, corner.height);
     }
+
+    /**
+     * @see org.eclipse.draw2d.Shape#outlineShape(org.eclipse.draw2d.Graphics)
+     */
+    protected void outlineShape(Graphics graphics)
+    {
+		Rectangle f = Rectangle.SINGLETON;
+		Rectangle r = getBounds();
+		f.x = r.x + lineWidth / 2;
+		f.y = r.y + lineWidth / 2;
+		f.width = r.width - lineWidth;
+		f.height = r.height - lineWidth;
+		graphics.drawRoundRectangle(f, corner.width, corner.height);
+    }
+
+	public void setCornerDimensions(Dimension d) {
+		corner.width = d.width;
+		corner.height = d.height;
+	}
 
 }

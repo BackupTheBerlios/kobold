@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: KoboldProject.java,v 1.11 2004/08/06 09:36:46 vanto Exp $
+ * $Id: KoboldProject.java,v 1.12 2004/08/06 10:50:58 vanto Exp $
  *
  */
 package kobold.client.plam;
@@ -460,7 +460,6 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
    		
    		
    		IFile vmFile = project.getFile(calcViewModelStorePath(root));
-   		System.err.println("S"+vmFile.getLocation().toOSString());
    		if (vmFile.exists()) {
    		    vmFile.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, monitor);
    		} else {
@@ -473,7 +472,6 @@ public class KoboldProject implements IProjectNature, IResourceChangeListener
     public ViewModelContainer restoreViewModelContainer(AbstractRootAsset root) 
     {
         IFile vmFile = project.getFile(calcViewModelLoadPath(root));
-        System.err.println("L"+vmFile.getLocation().toOSString());
         if (vmFile.exists()) {
             InputStream is;
             try {

@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: ProductlineEditPart.java,v 1.9 2004/07/23 22:27:11 vanto Exp $
+ * $Id: ProductlineEditPart.java,v 1.10 2004/08/06 10:50:58 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
@@ -31,16 +31,22 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import kobold.client.plam.editor.dialog.AssetConfigurationDialog;
 import kobold.client.plam.editor.model.IViewModelProvider;
 import kobold.client.plam.editor.model.ViewModel;
 import kobold.client.plam.editor.policy.ProductlineContainerEditPolicy;
 import kobold.client.plam.editor.policy.XYLayoutEditPolicyImpl;
+import kobold.client.plam.editor.tool.ProductComposer;
 import kobold.client.plam.model.AbstractAsset;
 import kobold.client.plam.model.AbstractRootAsset;
 import kobold.client.plam.model.IComponentContainer;
+import kobold.client.plam.model.product.Product;
 
+import org.eclipse.draw2d.ActionEvent;
+import org.eclipse.draw2d.ActionListener;
 import org.eclipse.draw2d.AutomaticRouter;
 import org.eclipse.draw2d.BendpointConnectionRouter;
+import org.eclipse.draw2d.Button;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.FanRouter;
@@ -61,13 +67,14 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.widgets.Shell;
 
 
 /**
  * ProductlineEditPart
  * 
  * @author Tammo van Lessen
- * @version $Id: ProductlineEditPart.java,v 1.9 2004/07/23 22:27:11 vanto Exp $
+ * @version $Id: ProductlineEditPart.java,v 1.10 2004/08/06 10:50:58 vanto Exp $
  */
 public class ProductlineEditPart extends AbstractGraphicalEditPart
         implements  PropertyChangeListener {
@@ -77,6 +84,8 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
     
     private Label plNameLabel;
     private Label plDescLabel;
+    private Button button;
+    private ProductComposer composer;
 
     /**
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
@@ -102,6 +111,26 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
 		plDescLabel.setFont(font);
 		plDescLabel.setForegroundColor(ColorConstants.gray);
         f.add(plDescLabel);
+        
+        button = new Button("Create Product");
+        button.setLocation(new Point(5,30));
+        button.setSize(100, 23);
+        button.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent event)
+            {
+                if (composer != null) {
+                    Product p = composer.createProduct();
+                    Shell shell = getViewer().getControl().getShell();
+                    AssetConfigurationDialog dlg = new AssetConfigurationDialog(shell, p);
+                    dlg.open();
+                }
+                
+            }
+            
+        });
+        f.add(button);
+        button.setVisible(false);
 
         return f;
     }
@@ -228,5 +257,11 @@ public class ProductlineEditPart extends AbstractGraphicalEditPart
             super.deactivate();
             getAsset().removePropertyChangeListener(this);
         }
+    }
+    
+    public void setComposer(ProductComposer comp) {
+        button.setVisible(comp != null);
+        button.invalidate();
+        this.composer = comp;
     }
 }

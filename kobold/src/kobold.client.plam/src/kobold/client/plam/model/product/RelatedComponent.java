@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: RelatedComponent.java,v 1.7 2004/08/06 01:30:02 vanto Exp $
+ * $Id: RelatedComponent.java,v 1.8 2004/08/06 10:50:58 vanto Exp $
  *
  */
 package kobold.client.plam.model.product;
@@ -48,7 +48,6 @@ public class RelatedComponent extends ProductComponent
 
 	private Variant  relatedVariant;
 	private Release plCompRelease;
-	private Release pCompRelease;
 	
 	/**
 	 * Basic constructor.
@@ -72,7 +71,6 @@ public class RelatedComponent extends ProductComponent
 		Element element = super.serialize();
 
 		element.addElement("ref").addAttribute("ref-id", plCompRelease.getId());
-		element.addElement("local").add(pCompRelease.serialize());
 		
 		return element;
 	}
@@ -86,7 +84,6 @@ public class RelatedComponent extends ProductComponent
 		super.deserialize(element);
 		String variantId = element.element("ref").attributeValue("ref-id");
 	    this.relatedVariant = (Variant) this.getRoot().getProductline().getAsset(variantId);
-		pCompRelease = new Release(element.element("local").element(AbstractAsset.RELEASE));
 	}
 
 	/**
@@ -118,7 +115,6 @@ public class RelatedComponent extends ProductComponent
 	public List getGXLChildren() {
 	    List children = new ArrayList();
 	    children.addAll(getProductComponents());
-	    children.add(pCompRelease);
 		return children;
 	}
 

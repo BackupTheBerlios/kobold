@@ -21,13 +21,14 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: SpecificComponentEditPart.java,v 1.1 2004/08/06 01:57:29 vanto Exp $
+ * $Id: SpecificComponentEditPart.java,v 1.2 2004/08/06 10:50:58 vanto Exp $
  *
  */
 package kobold.client.plam.editor.editpart;
 
+import kobold.client.plam.editor.figure.SpecificComponentFigure;
+
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.RectangleFigure;
 
 
 /**
@@ -35,13 +36,17 @@ import org.eclipse.draw2d.RectangleFigure;
  */
 public class SpecificComponentEditPart extends AbstractAssetEditPart
 {
-
+    private SpecificComponentFigure figure;
+    
     /**
      * @see kobold.client.plam.editor.editpart.AbstractAssetEditPart#createNodeFigure()
      */
     protected IFigure createNodeFigure()
     {
-        return new RectangleFigure();
+        figure = new SpecificComponentFigure();
+		figure.setTitle(getAsset().getName());
+    
+        return figure;
     }
 
 }

@@ -903,7 +903,12 @@ public class ProductComposer {
         listeners.removePropertyChangeListener(l);
     }
     
-    public Product generateProduct() {      
+    /**
+     * Creates, configures and adds a new project to the 
+     * product line.
+     * @return
+     */
+    public Product createProduct() {      
     	
     	Product product = new Product(productline);
         // create ProductComponments for used CoreAssets.    	
@@ -914,7 +919,8 @@ public class ProductComposer {
     	    }    	   
     	}
     	//TODO add edges
-
+    	product.setProject(productline.getKoboldProject());
+    	productline.addProduct(product);
     	return product;
     }
     
