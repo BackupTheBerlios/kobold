@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id: EditUserManager.java,v 1.1 2004/08/04 16:17:59 grosseml Exp $
+ * $Id: EditUserManager.java,v 1.2 2004/08/05 10:03:26 grosseml Exp $
  *
  */
 package kobold.client.plam.editor.dialog;
@@ -92,7 +92,7 @@ public class EditUserManager extends TitleAreaDialog
     
     private void createUserLists(final Composite parent) {
         
-		Composite panel = new Composite(parent, SWT.NONE);
+		final Composite panel = new Composite(parent, SWT.NONE);
 
 		GridLayout layout = new GridLayout(3, false);
 		layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
@@ -106,38 +106,41 @@ public class EditUserManager extends TitleAreaDialog
 		Label label = new Label(panel, SWT.NONE);
 		label.setText("All Users");
 		
-	    allUser = new List(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP 
-	            				  | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
-	    GridData gd = new GridData(GridData.GRAB_HORIZONTAL
-	            		| GridData.FILL_HORIZONTAL);
-	    gd.heightHint = 50;
-	    allUser.setLayoutData(gd);
-
-	    if (userPool != null) {
-	        for (Iterator iterator = userPool.values().iterator();
-	        	 iterator.hasNext(); )
-	        {
-	            allUser.add(((User)iterator.next()).getUsername());
-	        }
-	    }
 	    
 		Button newUser = new Button(panel, SWT.NONE);
 		newUser.setText("&Create new user");
 		newUser.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				UINewUser nU = new UINewUser(parent.getShell()); 
-					
+				UINewUser nU = new UINewUser(parent.getShell()); 					
 				nU.open();
+				refillList(panel);
 			}
 		});
 
-  
-     
+    }
+    
+    private void refillList(Composite panel){
+    	allUser.removeAll();
+	    allUser = new List(panel, SWT.BORDER | SWT.LEAD | SWT.WRAP 
+				  | SWT.MULTI | SWT.V_SCROLL | SWT.VERTICAL);
+	    GridData gd = new GridData(GridData.GRAB_HORIZONTAL
+	    			| GridData.FILL_HORIZONTAL);
+	    gd.heightHint = 50;
+	    allUser.setLayoutData(gd);
+
+	    if (userPool != null) {
+
+	    	for (Iterator iterator = userPool.values().iterator();
+	    		iterator.hasNext(); )
+	    	{
+	    		allUser.add(((User)iterator.next()).getUsername());
+	    	}
+	    }
     }
  
     protected void okPressed()
     {
-
+    	this.close();
     }
     
 }
