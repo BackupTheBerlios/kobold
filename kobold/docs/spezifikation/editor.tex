@@ -1,0 +1,225 @@
+\section{Architektureditor}
+
+\subsection{Produktlinien}
+
+\subsubsection{Core-Asset erstellen}
+\usecase{Produktlinienarchitektur geöffnet}
+{Über den Palette wird das Werkzeug ''Core-Asset'' ausgewählt
+  und durch einen Klick in den Editor-Bereich ein Core-Asset mit
+  fester Größe eingefügt. Mittels Klicken\&Ziehen kann zusätzlich die
+Größe des Core-Assets eingestellt werden. Core-Assets können nur auf
+der Top-Level-Ebene im Editor erstellt werden.}
+{Es wird ein Dialog angezeigt. In diesen werden die Metadaten für das
+  Core-Asset eingetragen.}
+{Nicht spezifiziert}
+{PLE}
+
+\subsubsection{Variante erstellen}
+\usecase{Produktlinienarchitektur geöffnet}
+{Über den Palette wird das Werkzeug ''Variant'' ausgewählt
+  und durch einen Klick in ein Core-Asset oder eine Komponente eine
+  Variante mit fester Größe eingefügt. Mittels Klicken\&Ziehen kann
+  zusätzlich die Größe der Variante eingestellt werden. Varianten
+  können nur in Core-Assets oder Komponenten erstellt werden.}
+{Es wird ein Dialog angezeigt. In diesen werden die Metadaten für die
+  Variante eingetragen.}
+{Nicht spezifiziert}
+{PLE}
+
+\subsubsection{Komponente erstellen}
+\usecase{Produktlinienarchitektur geöffnet}
+{Über den Palette wird das Werkzeug ''Component'' ausgewählt
+  und durch einen Klick in eine Variante dort mit fester Größe
+  eingefügt. Mittels Klicken\&Ziehen kann zusätzlich die
+Größe der Komponente eingestellt werden. Komponenten können nur in
+Varianten erstellt werden.}
+{Es wird ein Dialog angezeigt. In diesen werden die Metadaten für die
+  Komponente eingetragen.}
+{Nicht spezifiziert}
+{PLE}
+
+\subsubsection{Version erstellen}
+\usecase{Produktlinienarchitektur geöffnet}
+{Über den Palette wird das Werkzeug ''Version'' ausgewählt
+  und durch einen Klick in eine Variante dort mit fester Größe
+  eingefügt. Mittels Klicken\&Ziehen kann zusätzlich die 
+Größe der Version eingestellt werden. Versionen können in Varianten
+erstellt werden.}
+{Es wird ein Dialog angezeigt. In diesen werden die Metadaten für die
+  Version eingetragen. Dazu können für alle Dateien der Variante die
+  Revisionsnummern ausgewählt werden und so zu einer Version gebündelt
+werden.}
+{Nicht spezifiziert}
+{PLE}
+
+\subsubsection{Metaknoten erstellen}
+\usecase{Produktlinienarchitektur geöffnet}
+{Über die Palette wird das Werkzeug ''Metanode'' ausgewählt und durch
+  einen Klick in den Editor-Bereich ein Metaknoten eingefügt.}
+{Es öffnet sich ein Dialog. In diesem wird der Typ des Knoten
+  ausgewählt. Mögliche Typen sind ''AND'', ''OR'', ''XOR''.
+% mehr?
+}
+{nicht spezifiziert.}
+{PLE}
+
+\subsubsection{Core-Asset, Komponente, Variante, Version löschen}
+\usecase{Produktlinienarchitektur geöffnet, Element ausgewählt}
+{Über das Kontextmenu wird die Aktion ''Löschen''
+  ausgewählt. Alternativ kann auch die Taste ''Del'' bzw. ''Entf''
+  gedrückt werden.}
+{Es wird überprüft, ob das ausgewählte Element bereits in Produkten
+  verwendet wird. Ist dies der Fall, wird dem Benutzer ein Dialog
+  angezeigt, der ihn über diese Situation aufklärt und ihm die
+  Möglichkeit gibt, den Vorgang abzubrechen, das gewählte Element als
+  ''deprecated'' zu markieren oder wirklich zu löschen. Dazu wird es
+  auch aus allen Produkten entfernt. Dazu wird jeweils ein Workflow
+  ausgelöset. Wird das Element nicht verwendet,
+wird es aus der Architektur entfernt.}
+{Element bleibt in der Architektur.}
+{PLE}
+
+\subsection{Metaknoten löschen}
+\usecase{Produktlinienarchitektur geöffnet, Metaknoten ausgewählt}
+{Über das Kontextmenu wird die Aktion ''Löschen''
+  ausgewählt. Alternativ kann auch die Taste ''Del'' bzw. ''Entf''
+  gedrückt werden.}
+{Metaknoten wird gelöscht. %IT3 Workflow
+}
+{nicht spezifiziert.}
+{PLE}
+
+\subsubsection{Abhängigkeitskante erstellen (graphisch)}
+\usecase{Produktlinienarchitektur geöffnet}
+{Über die Palette wird das Werkzeug ''Dependency'' ausgewählt. Durch
+  einen Klick auf ein Blockelement wird der Startpunkt der Kante
+  ausgewählt. Der zweite Klick definiert das Zielelement.}
+{Die Kante wird eingefügt. Wenn die Kante eine Abhängigkeit von
+  Elementen auf unterschiedlichen Hierarchieebenen definiert, wird
+  zusätzlich eine synthetische Kante angezeigt.
+% IT3 Workflow senden - neue Anhängigkeit
+}
+{Es wird keine Kante hinzugefügt.}
+{PLE}
+
+\subsubsection{Unverträglichkeitskante erstellen (graphisch)}
+\usecase{Produktlinienarchitektur geöffnet}
+{Über die Palette wird das Werkzeug ''Exclude'' ausgewählt. Durch
+  einen Klick auf ein Blockelement wird der Startpunkt der Kante
+  ausgewählt. Der zweite Klick definiert das Zielelement.}
+{Die Kante wird eingefügt. Wenn die Kante eine Unverträglichkeit von
+  Elementen auf unterschiedlichen Hierarchieebenen definiert, wird
+  zusätzlich eine synthetische Kante angezeigt.
+% IT3 Workflow senden - neue Anhängigkeit
+}
+{Es wird keine Kante hinzugefügt.}
+{PLE}
+
+\subsubsection{Kante löschen}
+\usecase{Produktlinienarchitektur geöffnet, Kante ausgewählt}
+{Über das Kontextmenu wird die Aktion ''Löschen''
+  ausgewählt. Alternativ kann auch die Taste ''Del'' bzw. ''Entf''
+  gedrückt werden.}
+{Die Kante wird entfernt. %IT3 - Workflow senden
+}
+{Die Kante wird nicht entfernt.}
+{PLE}
+
+\subsubsection{Komponente als \emph{deprecated} markieren}
+\usecase{Produktlinienarchitektur geöffnet, Komponente ausgewählt}
+{Über das Kontextmenu wird die Aktion ''als deprecated markieren''
+  ausgewählt. Alternativ kann auch die Taste ''D'' gedrückt werden.}
+{Die Komponente wird als \emph{deprecated} markiert und mit einem
+  Fähnchen gekennzeichnet. %IT3 Workflow
+}
+{nicht spezifiziert.}
+{PLE}
+
+\subsubsection{Blockelemente verschieben}
+\usecase{Produktlinienarchitektur geöffnet}
+{Per Drag\&Drop können alle Blockelemente verschoben werden.}
+{Blockelement wird verschoben.}
+{nicht spezifiziert.}
+{PLE}
+
+\subsubsection{Größe von Blockelementen verändern}
+\usecase{Produktlinienarchitektur geöffnet, Blockelement ausgewählt}
+{Über die Ankerpunkte in der Blockmarkierung kann mittels
+  Klicken\&Ziehen die Größe des Blockelements geändert werden.}
+{Blockelement wird vergrößert/verkleinert.}
+{nicht spezifiziert.}
+{PLE}
+
+\subsubsection{Ansicht filtern}
+\nopagebreak
+\textbf{Vorbedingung}\\
+Produktlinienarchitektur geöffnet \\
+\textbf{Beschreibung}\\
+{Über die Toolbar stehen mehrere Filterfunktionen zur Verfügung. Dazu
+  gehören:
+\begin{itemize}
+  \item Abhängigkeitskanten anzeigen/verstecken
+  \item Unverträglichkeitskanten anzeigen/verstecken
+  \item Synthetische Kanten anzeigen/verstecken
+  \item als \emph{deprecated} markierte Komponenten anzeigen/verstecken
+\end{itemize}
+}
+\textbf{Interaktionen}\\
+PLE\\
+
+
+\subsection{Produkt}
+\subsubsection{Core-Asset hinzufügen}
+Hängt ab von UC Neues Produkt erstellen.
+
+\subsubsection{Produktspezifische Komponente hinzufügen}
+\usecase{Produktarchitektur geöffnet}
+{Über den Palette wird das Werkzeug ''custom component'' ausgewählt
+  und durch einen Klick in den Editor-Bereich eine neue produktspezifische
+  Komponente mit fester Größe eingefügt. Mittels Klicken\&Ziehen kann
+  zusätzlich die Größe der Komponente eingestellt werden.}
+{Es wird ein Dialog angezeigt. In diesen werden die Metadaten für die
+  Komponente eingetragen.}
+{Nicht spezifiziert}
+{PE}
+
+\subsubsection{Komponente entfernen}
+\usecase{Produktarchitektur geöffnet, Komponente ausgewählt}
+{Über das Kontextmenu wird die Aktion ''Löschen''
+  ausgewählt. Alternativ kann auch die Taste ''Del'' bzw. ''Entf''
+  gedrückt werden.}
+{Die Komponente wird entfernt.}
+{Die Komponente wird nicht entfernt.}
+{PE}
+
+\subsubsection{Ansicht filtern}
+\nopagebreak
+\textbf{Vorbedingung}\\
+Produktlinienarchitektur geöffnet \\
+\textbf{Beschreibung}\\
+{Über die Toolbar stehen mehrere Filterfunktionen zur Verfügung. Dazu
+  gehören:
+\begin{itemize}
+  \item Abhängigkeitskanten anzeigen/verstecken
+  \item Unverträglichkeitskanten anzeigen/verstecken
+  \item Synthetische Kanten anzeigen/verstecken
+  \item als \emph{deprecated} markierte Komponenten anzeigen/verstecken
+\end{itemize}
+}
+\textbf{Interaktionen}\\
+PE, P\\
+
+\subsubsection{Blockelemente verschieben}
+\usecase{Produktlinienarchitektur geöffnet}
+{Per Drag\&Drop können alle Blockelemente verschoben werden.}
+{Blockelement wird verschoben.}
+{nicht spezifiziert.}
+{PE, P}
+
+\subsubsection{Größe von Blockelementen verändern}
+\usecase{Produktlinienarchitektur geöffnet, Blockelement ausgewählt}
+{Über die Ankerpunkte in der Blockmarkierung kann mittels
+  Klicken\&Ziehen die Größe des Blockelements geändert werden.}
+{Blockelement wird vergrößert/verkleinert.}
+{nicht spezifiziert.}
+{PE, P}

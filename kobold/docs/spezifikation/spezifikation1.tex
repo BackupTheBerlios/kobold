@@ -2,17 +2,31 @@
 %% StuPro A, Produktlinien (Kobold)
 %% Team Werkbold
 %% Spezifikation I
-%% $Id: spezifikation1.tex,v 1.5 2004/06/09 05:26:38 martinplies Exp $
+%% $Id: spezifikation1.tex,v 1.6 2004/06/11 01:27:01 vanto Exp $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[a4paper,titlepage,12pt,ngerman]{scrbook}
 \usepackage{../common/header}
 \usepackage{supertabular}
 
-\RCSdef $Revision: 1.5 $
-\RCSdef $Date: 2004/06/09 05:26:38 $
+\RCSdef $Revision: 1.6 $
+\RCSdef $Date: 2004/06/11 01:27:01 $
 
 %\newcommand\version{Version \today \xspace}
 \newcommand\version{Version 1.0\xspace}
+
+\newcommand{\usecase}[5]{
+\nopagebreak
+\textbf{Vorbedingung}\\
+#1 \\
+\textbf{Beschreibung}\\
+#2 \\
+\textbf{Nachbedingung Erfolg}\\
+#3 \\
+\textbf{Nachbedingung Fehlschlag}\\
+#4 \\
+\textbf{Interaktionen}\\
+#5\\
+}
 
 \title {\huge \product\\[0.5cm]\large Spezifikation I \\[0.5cm] \version
   \\[1cm] \Large \company}
@@ -80,6 +94,7 @@
 \include{metadatenstruktur}
 \include{workflowusecases}
 \include{gxlexportusecase}
+\include{editor}
 %---------------------------
 %----------------------------
 \include{nichtfunktional}

@@ -89,7 +89,7 @@ daraufhin aktualisierten Views für den Benutzer.
 
 \subsection{Der Architektureditor}
 In diesem View wird die je nach aktiver Rolle relevante Ansicht
-auf die Architektur der Produktlinie angezeigt. Diese
+auf die Architektur der Produktlinie bzw. des Produkts angezeigt. Diese
 Architekturansicht wird durch die GEF-basierte
 Visualisierungsschicht des Architektureditors bereitgestellt,
 welche komplexe Darstellungs- und Interaktionsalgorithmen zur
@@ -105,12 +105,16 @@ enthalten folgende Architekturelemente:
 \begin{itemize}
 \item Komponenten
 \item Varianten
-\item Dateien
+\item Versionen
 \end{itemize}
+
+Die Dateiebene wird hier bewusst ausgeblendet. Um die Dateien einer
+Variante bzw. Version zu visualisieren wird unter dem graphischen
+Editor ein Dateibrowser angezeigt.
 
 Die Darstellung dieser Architekturelemente orientiert sich an
 der in \cite{paper} beschriebenen Visualisierung und steht
-endgültig am Ende der Iteration I fest. Rollenabhängig wird es auf
+endgültig am Ende der Iteration II fest. Rollenabhängig wird es auf
 der Architekturelement-Ebene eine farblich hervorgehobene
 Unterscheidung von Elementen geben, für die der aktuelle Benutzer
 nur Leserechte besitzt.
@@ -122,7 +126,7 @@ können und logische UND- bzw. ODER-Kompositionen von Beziehungen
 erlauben.\par Kanten werden in Form von Linien aus geraden
 Segmenten mit einem Pfeil dargestellt und können nach
 Beziehungstyp beliebig eingefärbt werden. Das genaue Aussehen wird
-durch die Implementierung am Ende der Iteration I festgelegt,
+durch die Implementierung am Ende der Iteration II festgelegt,
 orientiert sich jedoch an \cite{paper}.\par {\bf Metaknoten} werden
 als dreieckige Symbole dargestellt und mit UND- oder ODER-Symbolen 
 beschriftet .Der Knotentyp
@@ -145,8 +149,8 @@ zählen:
 über einen Einstellungsdialog
 \item Hinzufügen/Entfernen von Architekturelementen und Beziehungen
 \item Filtern von Architekturelementen und Beziehungen
-\item Aufklappen von Architekturelementen
-\item Detailansicht von Architekturelementen
+%\item Aufklappen von Architekturelementen
+%\item Detailansicht von Architekturelementen
 \end{itemize}
 
 Darüber hinaus können Unterschiede und Gemeinsamkeiten zwischen
